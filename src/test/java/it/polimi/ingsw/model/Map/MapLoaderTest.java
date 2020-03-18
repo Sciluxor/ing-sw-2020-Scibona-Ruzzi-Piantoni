@@ -24,7 +24,7 @@ class MapLoaderTest {
     //
 
     @Test
-    void mapLoadedContentCheck(){
+    public void mapLoadedContentCheck(){
 
         ArrayList<Square> squares = MapLoader.loadMap();
         assert (squares.get(3).getCanAccess().get(Directions.OVEST) == 3);
