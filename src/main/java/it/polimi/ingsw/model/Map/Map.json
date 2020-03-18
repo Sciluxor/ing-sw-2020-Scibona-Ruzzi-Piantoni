@@ -1,0 +1,228 @@
+[
+  {
+    "tile": 1,
+    "building": "GROUND",
+    "buildingLevel": 0,
+    "hasPlayer": false,
+    "player": null,
+    "worker": null,
+    "canAccess": [0,0,2,17,16,0,0,0]
+  },
+  {
+    "tile": 2,
+    "building": "GROUND",
+    "buildingLevel": 0,
+    "hasPlayer": false,
+    "player": null,
+    "worker": null,
+    "canAccess": [0,0,3,18,17,16,1,0]
+  },
+  {
+    "tile": 3,
+    "building": "GROUND",
+    "buildingLevel": 0,
+    "hasPlayer": false,
+    "player": null,
+    "worker": null,
+    "canAccess": [0,0,4,19,18,17,2,0]
+  },
+  {
+    "tile": 4,
+    "building": "GROUND",
+    "buildingLevel": 0,
+    "hasPlayer": false,
+    "player": null,
+    "worker": null,
+    "canAccess": [0,0,5,6,19,18,3,0]
+  },
+  {
+    "tile": 5,
+    "building": "GROUND",
+    "buildingLevel": 0,
+    "hasPlayer": false,
+    "player": null,
+    "worker": null,
+    "canAccess": [0,0,0,0,6,19,4,0]
+  },
+  {
+    "tile": 6,
+    "building": "GROUND",
+    "buildingLevel": 0,
+    "hasPlayer": false,
+    "player": null,
+    "worker": null,
+    "canAccess": [5,0,0,0,7,20,19,4]
+  },
+  {
+    "tile": 7,
+    "building": "GROUND",
+    "buildingLevel": 0,
+    "hasPlayer": false,
+    "player": null,
+    "worker": null,
+    "canAccess": [6,0,0,0,8,21,20,19]
+  },
+  {
+    "tile": 8,
+    "building": "GROUND",
+    "buildingLevel": 0,
+    "hasPlayer": false,
+    "player": null,
+    "worker": null,
+    "canAccess": [7,0,0,0,9,10,21,20]
+  },
+  {
+    "tile": 9,
+    "building": "GROUND",
+    "buildingLevel": 0,
+    "hasPlayer": false,
+    "player": null,
+    "worker": null,
+    "canAccess": [8,0,0,0,0,0,10,21]
+  },
+  {
+    "tile": 10,
+    "building": "GROUND",
+    "buildingLevel": 0,
+    "hasPlayer": false,
+    "player": null,
+    "worker": null,
+    "canAccess": [21,8,9,0,0,0,11,22]
+  },
+  {
+    "tile": 11,
+    "building": "GROUND",
+    "buildingLevel": 0,
+    "hasPlayer": false,
+    "player": null,
+    "worker": null,
+    "canAccess": [22,21,10,0,0,0,12,23]
+  },
+  {
+    "tile": 12,
+    "building": "GROUND",
+    "buildingLevel": 0,
+    "hasPlayer": false,
+    "player": null,
+    "worker": null,
+    "canAccess": [23,22,11,0,0,0,13,14]
+  },
+  {
+    "tile": 13,
+    "building": "GROUND",
+    "buildingLevel": 0,
+    "hasPlayer": false,
+    "player": null,
+    "worker": null,
+    "canAccess": [14,23,12,0,0,0,0,0]
+  },
+  {
+    "tile": 14,
+    "building": "GROUND",
+    "buildingLevel": 0,
+    "hasPlayer": false,
+    "player": null,
+    "worker": null,
+    "canAccess": [15,24,23,12,13,0,0,0]
+  },
+  {
+    "tile": 15,
+    "building": "GROUND",
+    "buildingLevel": 0,
+    "hasPlayer": false,
+    "player": null,
+    "worker": null,
+    "canAccess": [16,17,24,23,14,0,0,0]
+  },
+  {
+    "tile": 16,
+    "building": "GROUND",
+    "buildingLevel": 0,
+    "hasPlayer": false,
+    "player": null,
+    "worker": null,
+    "canAccess": [1,2,17,24,15,0,0,0]
+  },
+  {
+    "tile": 17,
+    "building": "GROUND",
+    "buildingLevel": 0,
+    "hasPlayer": false,
+    "player": null,
+    "worker": null,
+    "canAccess": [2,3,18,25,24,15,16,1]
+  },
+  {
+    "tile": 18,
+    "building": "GROUND",
+    "buildingLevel": 0,
+    "hasPlayer": false,
+    "player": null,
+    "worker": null,
+    "canAccess": [3,4,19,20,25,24,17,2]
+  },
+  {
+    "tile": 19,
+    "building": "GROUND",
+    "buildingLevel": 0,
+    "hasPlayer": false,
+    "player": null,
+    "worker": null,
+    "canAccess": [4,5,6,7,20,25,18,3]
+  },
+  {
+    "tile": 20,
+    "building": "GROUND",
+    "buildingLevel": 0,
+    "hasPlayer": false,
+    "player": null,
+    "worker": null,
+    "canAccess": [19,6,7,8,21,22,25,18]
+  },
+  {
+    "tile": 21,
+    "building": "GROUND",
+    "buildingLevel": 0,
+    "hasPlayer": false,
+    "player": null,
+    "worker": null,
+    "canAccess": [20,7,8,9,10,11,22,25]
+  },
+  {
+    "tile": 22,
+    "building": "GROUND",
+    "buildingLevel": 0,
+    "hasPlayer": false,
+    "player": null,
+    "worker": null,
+    "canAccess": [25,20,21,10,11,12,23,24]
+  },
+  {
+    "tile": 23,
+    "building": "GROUND",
+    "buildingLevel": 0,
+    "hasPlayer": false,
+    "player": null,
+    "worker": null,
+    "canAccess": [24,25,22,11,12,13,14,15]
+  },
+  {
+    "tile": 24,
+    "building": "GROUND",
+    "buildingLevel": 0,
+    "hasPlayer": false,
+    "player": null,
+    "worker": null,
+    "canAccess": [17,18,25,22,23,14,15,16]
+  },
+  {
+    "tile": 25,
+    "building": "GROUND",
+    "buildingLevel": 0,
+    "hasPlayer": false,
+    "player": null,
+    "worker": null,
+    "canAccess": [18,19,20,21,22,23,24,17]
+  }
+
+]
