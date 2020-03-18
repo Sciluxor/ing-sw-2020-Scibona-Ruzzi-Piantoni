@@ -7,13 +7,14 @@ import java.util.HashMap;
 
 public class Square {
 
+
     private Integer tile;
     private int buildingLevel;
     private Building building;
     private boolean hasPlayer;
     private Player player;
     private Worker worker;
-    private HashMap<Directions,Integer> canAccess = new HashMap<>();
+    private HashMap<Directions,Integer> canAccess;
 
     public Square(Integer tile, int buildingLevel, Building building, boolean hasPlayer,HashMap<Directions,Integer> canAccess) {
         this.tile = tile;
@@ -24,6 +25,9 @@ public class Square {
     }
 
 
+    public Integer getTile() {
+        return tile;
+    }
     public int getBuildingLevel() {
         return buildingLevel;
     }

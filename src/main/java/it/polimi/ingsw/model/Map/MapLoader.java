@@ -24,9 +24,6 @@ public class MapLoader {
         Building building;
         boolean hasPlayer;
         Integer[] canAccess;
-
-
-
     }
 
     public static ArrayList<Square> loadMap(){
