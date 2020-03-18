@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class MapLoaderTest {
+public class MapLoaderTest {
 
     //
     //test that the map load correctly
@@ -28,6 +28,7 @@ class MapLoaderTest {
 
         ArrayList<Square> squares = MapLoader.loadMap();
         assert (squares.get(3).getCanAccess().get(Directions.OVEST) == 3);
+
 
 
     }
