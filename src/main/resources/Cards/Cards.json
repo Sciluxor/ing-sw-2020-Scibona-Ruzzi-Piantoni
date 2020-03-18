@@ -1,0 +1,101 @@
+[
+  {
+    "name": "Apollo",
+    "description": "Your Move: Your worker may move into an opponent Worker's space by forcing their Worker to the space yours just vacated.",
+    "isPlayableIn3": true,
+    "type": "YOURMOVE",
+    "subType": "NORMAL"
+  },
+  {
+    "name": "Artemis",
+    "description": "Your Move: Your Worker may move one additional time, but not back to its initial space.",
+    "isPlayableIn3": true,
+    "type": "YOURMOVE",
+    "subType": "NORMAL"
+  },
+  {
+    "name": "Athena",
+    "description": "Opponent's Turn: If one of your Workers moved up on your last turn, opponent Workers cannot move up this turn.",
+    "isPlayableIn3": true,
+    "type": "YOURMOVE",
+    "subType": "NONPERMANENTCONSTRAINT"
+  },
+  {
+    "name": "Atlas",
+    "description": "Your Build: Your Worker may build a dome at any level.",
+    "isPlayableIn3": true,
+    "type": "YOURBUILD",
+    "subType": "NORMAL"
+  },
+  {
+    "name": "Demeter",
+    "description": "Your Build: Your Worker may build one additional time, but not on the same space.",
+    "isPlayableIn3": true,
+    "type": "YOURBUILD",
+    "subType": "NORMAL"
+  },
+  {
+    "name": "Hephaestus",
+    "description": "Your Build: Your Worker may build one additional block (not dome) on top of your first block.",
+    "isPlayableIn3": true,
+    "type": "YOURBUILD",
+    "subType": "NORMAL"
+  },
+  {
+    "name": "Minotaur",
+    "description": "Your Move: Your Worker may move into an opponent Worker's space, if their Worker can be forced one space straight backwards to an unoccupied space at any level.",
+    "isPlayableIn3": true,
+    "type": "YOURMOVE",
+    "subType": "NORMAL"
+  },
+  {
+    "name": "Pan",
+    "description": "Win Condition: You also win if your Worker moves down two or more levels.",
+    "isPlayableIn3": true,
+    "type": "VICTORY",
+    "subType": "NORMAL"
+  },
+  {
+    "name": "Prometheus",
+    "description": "Your Turn: If your Worker does not move up, it may build both before and after moving.",
+    "isPlayableIn3": true,
+    "type": "YOURTURN",
+    "subType": "NORMAL"
+  },
+  {
+    "name": "Chronus",
+    "description": "Win Condition: You also win when there are at least five Complete Towers on the board.",
+    "isPlayableIn3": false,
+    "type": "VICTORY",
+    "subType": "NORMAL"
+  },
+  {
+    "name": "Hera",
+    "description": "Opponent's Turn: An opponent cannot win by moving into a perimeter space.",
+    "isPlayableIn3": true,
+    "type": "YOURTURN",
+    "subType": "PERMANENTCONSTRAINT"
+  },
+  {
+    "name": "Hestia",
+    "description": "Your Build: Your Worker may build one additional time, but this cannot be on a perimeter space.",
+    "isPlayableIn3": true,
+    "type": "YOURBUILD",
+    "subType": "NORMAL"
+  },
+  {
+    "name": "Hypnus",
+    "description": "Start of Opponent's Turn: If one of your opponent's Workers is higher than all of their others, it cannot move.",
+    "isPlayableIn3": true,
+    "type": "YOURTURN",
+    "subType": "PERMANENTCONSTRAINT"
+  },
+  {
+    "name": "Zeus",
+    "description": "Your Build: Your Worker may build a block under itself.",
+    "isPlayableIn3": true,
+    "type": "YOURBUILD",
+    "subType": "NORMAL"
+  }
+
+]
