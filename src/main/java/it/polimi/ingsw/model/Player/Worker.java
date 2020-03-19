@@ -7,14 +7,14 @@ public class Worker {
     private WorkerName name;
     private Square boardPosition;
     private  Square previousBoardPosition;
-    private  Square previousBuilPosition;
+    private  Square previousBuildPosition;
 
-    public Worker(WorkerName name, Square boardPosition, Square previousBoardPosition, Square previousBuilPosition){
+    public Worker(WorkerName name, Square boardPosition, Square previousBoardPosition, Square previousBuildPosition){
 
         this.name = name;
         this.boardPosition = boardPosition;
         this.previousBoardPosition = previousBoardPosition;
-        this.previousBuilPosition = previousBuilPosition;
+        this.previousBuildPosition = previousBuildPosition;
     }
 
     public Square getBoardPosition() { return boardPosition;}
@@ -25,9 +25,9 @@ public class Worker {
 
     public void setPreviousBoardPosition(Square previousBoardPosition) { this.previousBoardPosition = previousBoardPosition;}
 
-    public Square getPreviousBuilPosition() { return previousBuilPosition;}
+    public Square getPreviousBuildPosition() { return previousBuildPosition;}
 
-    public void setPreviousBuilPosition(Square previousBuilPosition) { this.previousBuilPosition = previousBuilPosition;}
+    public void setPreviousBuildPosition(Square previousBuildPosition) { this.previousBuildPosition = previousBuildPosition;}
 
     public String getName() { return name.toString();}
 
