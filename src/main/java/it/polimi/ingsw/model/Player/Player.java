@@ -95,15 +95,15 @@ public class Player {
 
     public boolean checkIfLoose(){ return true;} //da implementare
 
-    public void findWorkerMove(GameMap gameMap){  } //da implementare
+    public void findWorkerMove(GameMap gameMap, Worker worker){ power.findWorkerMove(gameMap, worker);}
 
-    public void executeWorkerMove(GameMap gameMap, Directions direction){ } //da implementare
+    public void executeWorkerMove(GameMap gameMap, Directions direction, Player player){ power.executeWorkerMove(gameMap, direction, player);}
 
-    public void findPossibleBuild(GameMap gameMap){ } //da implementare
+    public void findPossibleBuild(GameMap gameMap, Worker worker){ power.findPossibleBuild(gameMap, worker);}
 
-    public void executeBuild(GameMap gameMap, Building building, Directions direction){ } //da implementare
+    public void executeBuild(GameMap gameMap, Building building, Directions direction){ power.executeBuild(gameMap, building, direction);}
 
-    public boolean checkVictory(){ return  currentWorker.hasWin();} //da implementare
+    public boolean checkVictory(GameMap gameMap, Worker worker){ return  power.checkVictory(gameMap, worker);}
 
 
 
