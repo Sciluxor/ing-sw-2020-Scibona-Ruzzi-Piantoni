@@ -25,7 +25,27 @@ public class Player {
         this.unmovedWorker = unmovedWorker;
     }
 
+    public Card getPower(){ return power;}
 
+    public void setPower(Card power){ this.power = power;}
+
+    public TurnStatus getTurnStatus() { return turnStatus;}
+
+    public void setTurnStatus(TurnStatus turnStatus) { this.turnStatus = turnStatus;}
+
+    public ArrayList<Card> getConstraint() { return constraint;}
+
+    public void setConstraint(ArrayList<Card> constraint) { this.constraint = constraint;}
+
+    public void removeConstraint(Card constraint){ this.constraint.remove(constraint);}
+
+    public void setCurrentWorker(Worker currentWorker) { this.currentWorker = currentWorker;}
+
+    public Worker getCurrentWorker() { return currentWorker;}
+
+    public void setUnmovedWorker(Worker unmovedWorker) { this.unmovedWorker = unmovedWorker;}
+
+    public Worker getUnmovedWorker() { return unmovedWorker;}
 
 
 }
