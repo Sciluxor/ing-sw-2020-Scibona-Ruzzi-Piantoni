@@ -81,7 +81,7 @@ return reachableSquares;
               if(squareTile != 0){
 
                   Square possibleBuild = gameMap.get(squareTile -1);
-                  if(possibleBuild.getBuilding() != Building.DOME){
+                  if(possibleBuild.getBuilding() != Building.DOME && !possibleBuild.isHasPlayer()){
 
                       buildableSquare.add(dir);
                   }
@@ -92,18 +92,26 @@ return reachableSquares;
     }
 
     //
-    //function that build in the position selected,with the building selected
+    //function that build in the position selected,with the type of building selected
     //
 
-    public void buildInSquare(Worker worker, Directions direction,Building building){
+    public boolean buildInSquare(Worker worker, Directions direction,Building building){
+            Square buildingSquare = gameMap.get(worker.getBoardPosition().getCanAccess().get(direction) -1);
+            if(building == Building.mapNext(buildingSquare.getBuilding())){
+                worker.setPreviousBuildPosition(buildingSquare);
+                buildingSquare.setBuilding(building);
+                buildingSquare.setBuildingLevel(buildingSquare.getBuildingLevel() +1);
 
+                return true;
+            }
 
-
-
-
-
+return false;
 
     }
+
+    //
+    //function that return the positions of both player's workers
+    //
 
     public ArrayList<Square> workersSquares(Player actualPlayer){
         ArrayList<Square> workerSquare = new ArrayList<>();
@@ -118,6 +126,10 @@ return reachableSquares;
     public ArrayList<Square> getGameMap(){ return gameMap;}
 
     public ArrayList<Player> getPlayersList(){ return playersList;}
+
+    //
+    //function that check if a square is in the perimeter
+    //
 
     public  boolean isInPerimeter(Integer tile){
 
