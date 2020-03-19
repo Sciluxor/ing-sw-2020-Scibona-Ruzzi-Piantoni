@@ -88,7 +88,19 @@ public class Card {
         return directionsArrayList;
     }
 
-    public ArrayList<Directions> checkIfCanMove(GameMap gameMap, Worker worker) {
+    public ArrayList<Directions> canMove(GameMap gameMap, Worker worker) {
         return null;
+    }
+    public boolean isValidVictory(){
+        return true;
+    }
+
+    public void assignConstraint(ArrayList<Player> players,Player currentPlayer){
+
+        for(Player player: players){
+            if(!player.equals(currentPlayer))
+                player.setConstraint(currentPlayer.getPower());
+        }
+
     }
 }

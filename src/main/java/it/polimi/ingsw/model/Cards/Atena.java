@@ -13,11 +13,10 @@ public class Atena extends Card {
         super(name, description, isPlayableIn3, type, subType);
     }
 
-    public void assignConstraint(ArrayList<Player> playerArrayList) {
 
-    }
 
+    @Override
     public ArrayList<Directions> eliminateInvalidMove(GameMap gameMap, ArrayList<Directions> directionsArrayList) {
-        return directionsArrayList;
+        return super.eliminateInvalidMove(gameMap, directionsArrayList);
     }
 }

@@ -1,7 +1,9 @@
 package it.polimi.ingsw.model.Cards;
 
 import it.polimi.ingsw.model.Map.Directions;
+import it.polimi.ingsw.model.Map.GameMap;
 import it.polimi.ingsw.model.Player.Player;
+import it.polimi.ingsw.model.Player.Worker;
 
 import java.util.ArrayList;
 
@@ -11,12 +13,13 @@ public class Hypnus extends Card {
         super(name, description, isPlayableIn3, type, subType);
     }
 
-    public ArrayList<Directions> checkIfCanMove() {
-        return null;
+    @Override
+    public ArrayList<Directions> canMove(GameMap gameMap, Worker worker) {
+        return super.canMove(gameMap, worker);
     }
 
-    public void assignPermanentConstraint(ArrayList<Player> playerArrayList) {
 
-    }
+
+
 
 }

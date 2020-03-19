@@ -85,7 +85,7 @@ public class Player {
                         if(card.eliminateInvalidMove(gameMap, direction).size() > 0) {
                             for(Card card2 : constraint)
                                 if(card2.getType().equals(CardType.YOURTURN) && !card2.getSubType().equals(CardSubType.NORMAL)) {
-                                    return card2.checkIfCanMove(gameMap, worker).size() > 0;
+                                    return card2.canMove(gameMap, worker).size() > 0;
                                 }return  false;
 
                         }return false;
