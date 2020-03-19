@@ -29,4 +29,9 @@ public class Worker {
 
     public void setPreviousBuilPosition(Square previousBuilPosition) { this.previousBuilPosition = previousBuilPosition;}
 
+    public String getName() { return name.toString();}
+
+    public boolean hasWin(){
+        return boardPosition.getBuildingLevel() == 3 && previousBoardPosition.getBuildingLevel() == 2;
+    }
 }
