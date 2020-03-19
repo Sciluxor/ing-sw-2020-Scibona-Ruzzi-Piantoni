@@ -56,6 +56,10 @@ public class Player {
 
     public Worker getUnmovedWorker() { return unmovedWorker;}
 
+    //
+    //function to find all the reachable square moving from a specific square
+    //
+
     public Worker getWorkerFromString(String worker){
         WorkerName name = WorkerName.parseInput(worker);
         for (Worker work : workers)
@@ -104,7 +108,7 @@ public class Player {
 
     public ArrayList<Directions> findPossibleBuild(GameMap gameMap, Worker worker){ return power.findPossibleBuild(gameMap, worker);}
 
-    public void executeBuild(GameMap gameMap, Building building, Directions direction){ power.executeBuild(gameMap, building, direction);}
+    public void executeBuild(GameMap gameMap, Building building, Directions direction, Player player){ power.executeBuild(gameMap, building, direction, player);}
 
     public boolean checkVictory(GameMap gameMap, Worker worker){ return  power.checkVictory(gameMap, worker);}
 
