@@ -50,7 +50,7 @@ public class Player {
 
     public Worker getUnmovedWorker() { return unmovedWorker;}
 
-    public void selectCurrentWorker(String worker){ } //da implementare
+    public void selectCurrentWorker(String worker){} //da implementare
 
     public boolean checkIfCanMove(GameMap gameMap, Worker worker){  return false;}  //da implementare
 
@@ -58,13 +58,13 @@ public class Player {
 
     public void findWorkerMove(GameMap gameMap){  } //da implementare
 
-    public void executeWorkerMove(GameMap gameMap, Directions direction){  } //da implementare
+    public void executeWorkerMove(GameMap gameMap, Directions direction){ } //da implementare
 
     public void findPossibleBuild(GameMap gameMap){ } //da implementare
 
     public void executeBuild(GameMap gameMap, Building building, Directions direction){ } //da implementare
 
-    public boolean checkVictory(){ return  true;} //da implementare
+    public boolean checkVictory(){ return  currentWorker.hasWin();} //da implementare
 
 
 
