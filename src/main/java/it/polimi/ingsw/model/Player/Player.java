@@ -6,7 +6,6 @@ import it.polimi.ingsw.model.Cards.CardType;
 import it.polimi.ingsw.model.Map.Building;
 import it.polimi.ingsw.model.Map.Directions;
 import it.polimi.ingsw.model.Map.GameMap;
-import it.polimi.ingsw.model.Map.Square;
 
 import java.util.ArrayList;
 
@@ -83,7 +82,6 @@ public class Player {
                             for(Card card2 : constraint)
                                 if(card2.getType().equals(CardType.YOURTURN) && !card2.getSubType().equals(CardSubType.NORMAL)) {
                                     return card2.checkIfCanMove(gameMap, worker) > 0;
-
                                 }return  false;
 
                         }return false;
@@ -93,9 +91,12 @@ public class Player {
         return false;
     }
 
-    public boolean checkIfLoose(){
-
-        return true;}
+    public boolean checkIfLoose(GameMap gameMap){
+        for (Worker work : workers){
+            checkIfCanMove(gameMap, work);
+        }
+        return true;
+    }
 
     public ArrayList<Directions> findWorkerMove(GameMap gameMap, Worker worker){ return power.findWorkerMove(gameMap, worker);}
 
