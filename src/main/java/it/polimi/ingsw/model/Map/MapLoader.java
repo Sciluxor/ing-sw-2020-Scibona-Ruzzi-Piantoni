@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
 
-import java.awt.*;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,7 +30,7 @@ public class MapLoader {
         SquareContainer[] containers;
 
         try{
-            String mapPath = "/Map/Map.json";
+            String mapPath = "/MapJson/Map.json";
             InputStreamReader gameMapInput = new InputStreamReader(MapLoader.class.getResourceAsStream(mapPath));
             JsonReader gameMapReader = new JsonReader(gameMapInput);
             containers = gsonMap.fromJson(gameMapReader,SquareContainer[].class);
