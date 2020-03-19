@@ -1,9 +1,12 @@
 package it.polimi.ingsw.model.Player;
 
 import it.polimi.ingsw.model.Cards.Card;
+import it.polimi.ingsw.model.Cards.CardSubType;
+import it.polimi.ingsw.model.Cards.CardType;
 import it.polimi.ingsw.model.Map.Building;
 import it.polimi.ingsw.model.Map.Directions;
 import it.polimi.ingsw.model.Map.GameMap;
+import it.polimi.ingsw.model.Map.Square;
 
 import java.util.ArrayList;
 
@@ -42,6 +45,10 @@ public class Player {
 
     public void removeConstraint(Card constraint){ this.constraint.remove(constraint);}
 
+    public ArrayList<Worker> getWorkers() { return workers;}
+
+    public void setWorkers(ArrayList<Worker> workers) { this.workers = workers;}
+
     public void setCurrentWorker(Worker currentWorker) { this.currentWorker = currentWorker;}
 
     public Worker getCurrentWorker() { return currentWorker;}
@@ -50,9 +57,41 @@ public class Player {
 
     public Worker getUnmovedWorker() { return unmovedWorker;}
 
-    public void selectCurrentWorker(WorkerName worker){} //da implementare
+    public Worker getWorkerFromString(String worker){
+        WorkerName name = WorkerName.parseInput(worker);
+        for (Worker work : workers)
+            if(work.getName().equals(name))
+                return work;
+        return null;
+    }
 
-    public boolean checkIfCanMove(GameMap gameMap, Worker worker){  return false;}  //da implementare
+    public boolean selectCurrentWorker(GameMap gameMap, String worker){
+        Worker worker1 = getWorkerFromString(worker);
+        if (!checkIfCanMove(gameMap, worker1)){
+            return false;
+        }
+        setCurrentWorker(worker1);
+        return true;
+    } //da implementare
+
+    public boolean checkIfCanMove(GameMap gameMap, Worker worker){
+        ArrayList<Directions> direction = gameMap.reachableSquares(worker);
+        if(direction.size() > 0){
+            for(Card card : constraint){
+                    if(card.getType().equals(CardType.YOURMOVE) && !card.getSubType().equals(CardSubType.NORMAL)){
+                        if(card.eliminateInvalidMove(direction) > 0) {
+                            for(Card card2 : constraint)
+                                if(card2.getType().equals(CardType.YOURTURN) && !card2.getSubType().equals(CardSubType.NORMAL)) {
+                                    return card2.checkIfCanMove(gameMap, worker) > 0;
+
+                                }return  false;
+
+                        }return false;
+                    } return false;
+            }return  false;
+        }
+        return false;
+    }
 
     public boolean checkIfLoose(){ return true;} //da implementare
 

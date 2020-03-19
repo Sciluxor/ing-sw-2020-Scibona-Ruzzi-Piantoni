@@ -45,9 +45,7 @@ public class Card {
         isPlayableIn3 = playableIn3;
     }
 
-    public CardType getType() {
-        return type;
-    }
+    public CardType getType() { return type;}
 
     public void setType(CardType type) {
         this.type = type;
