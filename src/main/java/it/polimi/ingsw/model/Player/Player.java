@@ -6,7 +6,6 @@ import it.polimi.ingsw.model.Cards.CardType;
 import it.polimi.ingsw.model.Map.Building;
 import it.polimi.ingsw.model.Map.Directions;
 import it.polimi.ingsw.model.Map.GameMap;
-import it.polimi.ingsw.model.Map.Square;
 
 import java.util.ArrayList;
 
