@@ -103,4 +103,14 @@ public class Card {
         }
 
     }
+
+    @Override
+    public String toString() {
+        String result = "Card Name -> " + name + "\nCard Description -> " + description;
+        if(isPlayableIn3)
+            result += "\nPlayable with 3 Player -> Yes\n";
+        else
+            result += "\nPlayable with 3 Player -> No\n";
+        return result;
+    }
 }

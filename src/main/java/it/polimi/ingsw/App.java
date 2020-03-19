@@ -1,6 +1,10 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.model.Cards.Card;
+import it.polimi.ingsw.model.Cards.CardLoader;
 import it.polimi.ingsw.model.Map.MapLoader;
+
+import java.util.HashMap;
 
 /**
  * Hello world!
