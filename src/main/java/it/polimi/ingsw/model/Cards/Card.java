@@ -84,4 +84,11 @@ public class Card {
         return worker.getBoardPosition().getBuildingLevel() == 3 && worker.getPreviousBoardPosition().getBuildingLevel() == 2;
     }
 
+    public ArrayList<Directions> eliminateInvalidMove(GameMap gameMap, ArrayList<Directions> directionsArrayList) {
+        return directionsArrayList;
+    }
+
+    public ArrayList<Directions> checkIfCanMove(GameMap gameMap, Worker worker) {
+        return null;
+    }
 }
