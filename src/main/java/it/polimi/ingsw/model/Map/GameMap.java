@@ -8,7 +8,10 @@ import java.util.HashMap;
 
 public class GameMap {
 
+
+
     private ArrayList<Square> gameMap;
+    private final Integer perimeterPosition = 16;
     private HashMap<Worker, Square> workersPosition;
     private ArrayList<Player> playersList;
 
@@ -82,23 +85,19 @@ return reachableSquares;
 
                       buildableSquare.add(dir);
                   }
-
               }
-
         }
 
-
-
-
         return buildableSquare;
-
     }
 
     //
     //function that build in the position selected,with the building selected
     //
 
-    public void buildInSquare(Worker worker, Directions direction){
+    public void buildInSquare(Worker worker, Directions direction,Building building){
+
+
 
 
 
@@ -107,16 +106,25 @@ return reachableSquares;
     }
 
     public ArrayList<Square> workersSquares(Player actualPlayer){
-        ArrayList<Square> workerSquare = new ArrayList<Square>;
+        ArrayList<Square> workerSquare = new ArrayList<>();
 
+        for(Worker worker : actualPlayer.getWorkers()){
+            workerSquare.add(worker.getBoardPosition());
 
+        }
         return workerSquare;
-
     }
 
     public ArrayList<Square> getGameMap(){ return gameMap;}
 
     public ArrayList<Player> getPlayersList(){ return playersList;}
 
-    public  boolean checkPerimeter(){ return false;} //da implementare
+    public  boolean isInPerimeter(Integer tile){
+
+        if(tile > perimeterPosition)
+                return true;
+
+        return false;
+
+    }
 }
