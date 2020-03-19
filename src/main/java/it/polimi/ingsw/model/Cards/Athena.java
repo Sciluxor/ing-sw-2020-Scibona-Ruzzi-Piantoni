@@ -7,9 +7,9 @@ import it.polimi.ingsw.model.Player.Player;
 
 import java.util.ArrayList;
 
-public class Atena extends Card {
+public class Athena extends Card {
 
-    public Atena(String name, String description, boolean isPlayableIn3, CardType type, CardSubType subType) {
+    public Athena(String name, String description, boolean isPlayableIn3, CardType type, CardSubType subType) {
         super(name, description, isPlayableIn3, type, subType);
     }
 
