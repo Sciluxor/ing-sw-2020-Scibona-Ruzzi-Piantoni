@@ -50,7 +50,7 @@ public class Player {
 
     public Worker getUnmovedWorker() { return unmovedWorker;}
 
-    public void selectCurrentWorker(String worker){} //da implementare
+    public void selectCurrentWorker(WorkerName worker){} //da implementare
 
     public boolean checkIfCanMove(GameMap gameMap, Worker worker){  return false;}  //da implementare
 

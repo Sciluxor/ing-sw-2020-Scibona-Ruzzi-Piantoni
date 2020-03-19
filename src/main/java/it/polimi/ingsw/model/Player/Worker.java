@@ -29,7 +29,7 @@ public class Worker {
 
     public void setPreviousBuildPosition(Square previousBuildPosition) { this.previousBuildPosition = previousBuildPosition;}
 
-    public String getName() { return name.toString();}
+    public WorkerName getName() { return name;}
 
     public boolean hasWin(){
         return boardPosition.getBuildingLevel() == 3 && previousBoardPosition.getBuildingLevel() == 2;
