@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MapLoaderTest {
 
+        //
         //test that the map load correctly
         //
         @Test

@@ -2,13 +2,8 @@ package it.polimi.ingsw.model.Cards;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
-import it.polimi.ingsw.model.Map.Building;
-import it.polimi.ingsw.model.Map.Directions;
-import it.polimi.ingsw.model.Map.MapLoader;
-import it.polimi.ingsw.model.Map.Square;
 
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CardLoader {
@@ -30,7 +25,7 @@ public class CardLoader {
 
     }
 
-    public static HashMap<String, Card> loadMap(){
+    public static HashMap<String, Card> loadCards(){
         Gson gsonCard = new Gson();
         CardLoader.CardContainer[] containers;
 
