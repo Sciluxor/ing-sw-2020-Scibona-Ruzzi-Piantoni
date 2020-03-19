@@ -28,6 +28,7 @@ public class Square {
     public Integer getTile() {
         return tile;
     }
+
     public int getBuildingLevel() {
         return buildingLevel;
     }
