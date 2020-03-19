@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model.Player;
 
 import it.polimi.ingsw.model.Cards.Card;
+import it.polimi.ingsw.model.Map.Building;
+import it.polimi.ingsw.model.Map.Directions;
 import it.polimi.ingsw.model.Map.GameMap;
 
 import java.util.ArrayList;
@@ -48,11 +50,23 @@ public class Player {
 
     public Worker getUnmovedWorker() { return unmovedWorker;}
 
-    public void selectCurrentWorker(String worker){ }
+    public void selectCurrentWorker(String worker){ } //da implementare
 
-    public boolean checkIfCanMove(GameMap gameMap){
-        return false;
-    }
+    public boolean checkIfCanMove(GameMap gameMap, Worker worker){  return false;}  //da implementare
+
+    public boolean checkIfLoose(){ return true;} //da implementare
+
+    public void findWorkerMove(GameMap gameMap){  } //da implementare
+
+    public void executeWorkerMove(GameMap gameMap, Directions direction){  } //da implementare
+
+    public void findPossibleBuild(GameMap gameMap){ } //da implementare
+
+    public void executeBuild(GameMap gameMap, Building building, Directions direction){ } //da implementare
+
+    public boolean checkVictory(){ return  true;} //da implementare
+
+
 
 
 }
