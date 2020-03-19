@@ -108,7 +108,7 @@ public class Player {
 
     public ArrayList<Directions> findPossibleBuild(GameMap gameMap, Worker worker){ return power.findPossibleBuild(gameMap, worker);}
 
-    public void executeBuild(GameMap gameMap, Building building, Directions direction, Player player){ power.executeBuild(gameMap, building, direction, player);}
+    public void executeBuild(GameMap gameMap, Building building, Directions direction){ power.executeBuild(gameMap, building, direction, this.currentWorker);}
 
     public boolean checkVictory(GameMap gameMap, Worker worker){ return  power.checkVictory(gameMap, worker);}
 
