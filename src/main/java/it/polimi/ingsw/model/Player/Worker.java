@@ -32,6 +32,7 @@ public class Worker {
     public String getName() { return name.toString();}
 
     public boolean hasWin(){
+
         return boardPosition.getBuildingLevel() == 3 && previousBoardPosition.getBuildingLevel() == 2;
     }
 }

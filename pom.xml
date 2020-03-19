@@ -162,7 +162,7 @@
               </archive>
               <finalName>client.jar</finalName>
               <descriptors>
-                <descriptor>maven-assemply-plugin/client-distribution.xml</descriptor>
+                <descriptor>maven-assembly-plugin/client-distribution.xml</descriptor>
               </descriptors>
             </configuration>
           </execution>
