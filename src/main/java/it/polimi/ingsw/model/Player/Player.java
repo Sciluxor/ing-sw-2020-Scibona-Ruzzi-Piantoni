@@ -35,7 +35,7 @@ public class Player {
 
     public ArrayList<Card> getConstraint() { return constraint;}
 
-    public void setConstraint(ArrayList<Card> constraint) { this.constraint = constraint;}
+    public void setConstraint(Card constraint) { this.constraint.add(constraint);}
 
     public void removeConstraint(Card constraint){ this.constraint.remove(constraint);}
 
