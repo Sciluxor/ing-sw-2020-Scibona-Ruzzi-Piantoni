@@ -1,7 +1,5 @@
 package it.polimi.ingsw.model.Map;
 
-import it.polimi.ingsw.model.Player.WorkerName;
-
 public enum Directions {
     NORD, NORD_EST, EST, SUD_EST, SUD, SUD_OVEST, OVEST, NORD_OVEST;
 
