@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.Player;
 
 import it.polimi.ingsw.model.Cards.Card;
+import it.polimi.ingsw.model.Map.GameMap;
 
 import java.util.ArrayList;
 
@@ -46,6 +47,12 @@ public class Player {
     public void setUnmovedWorker(Worker unmovedWorker) { this.unmovedWorker = unmovedWorker;}
 
     public Worker getUnmovedWorker() { return unmovedWorker;}
+
+    public void selectCurrentWorker(String worker){ }
+
+    public boolean checkIfCanMove(GameMap gameMap){
+        return false;
+    }
 
 
 }
