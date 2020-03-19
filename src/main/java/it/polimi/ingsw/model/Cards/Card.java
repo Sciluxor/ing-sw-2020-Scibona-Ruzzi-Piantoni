@@ -1,8 +1,13 @@
 package it.polimi.ingsw.model.Cards;
 
+import com.sun.javafx.scene.traversal.Direction;
 import it.polimi.ingsw.model.Map.Building;
 import it.polimi.ingsw.model.Map.Directions;
 import it.polimi.ingsw.model.Map.GameMap;
+import it.polimi.ingsw.model.Player.Player;
+import it.polimi.ingsw.model.Player.Worker;
+
+import java.util.ArrayList;
 
 public class Card {
 
@@ -59,14 +64,24 @@ public class Card {
         this.subType = subType;
     }
 
-    public void findWorkerMove(GameMap gameMap){}
+    public ArrayList<Directions> findWorkerMove(GameMap gameMap, Worker worker) {
+        return gameMap.reachableSquares(worker);
+    }
 
-    public void executeWorkerMove(GameMap gameMap, Directions directions){}
+    public void executeWorkerMove(GameMap gameMap, Directions directions, Player player) {
 
-    public void findPossibleBuild(GameMap gameMap){}
+    }
 
-    public void executeBuild(GameMap gameMap, Building building, Directions directions){}
+    public ArrayList<Directions> findPossibleBuild(GameMap gameMap, Worker worker) {
+        return gameMap.reachableSquares(worker);
+    }
 
-    public void checkVictory(){}
+    public void executeBuild(GameMap gameMap, Building building, Directions directions) {
+
+    }
+
+    public boolean checkVictory(GameMap gameMap, Worker worker) {
+        return worker.getBoardPosition().getBuildingLevel() == 3 && worker.getPreviousBoardPosition().getBuildingLevel() == 2;
+    }
 
 }
