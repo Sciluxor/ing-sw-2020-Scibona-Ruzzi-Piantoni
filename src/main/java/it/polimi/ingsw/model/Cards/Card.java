@@ -50,7 +50,9 @@ public class Card {
         isPlayableIn3 = playableIn3;
     }
 
-    public CardType getType() { return type;}
+    public CardType getType() {
+        return type;
+    }
 
     public void setType(CardType type) {
         this.type = type;
@@ -91,13 +93,13 @@ public class Card {
     public ArrayList<Directions> canMove(GameMap gameMap, Worker worker) {
         return null;
     }
-    public boolean isValidVictory(){
+    public boolean isValidVictory() {
         return true;
     }
 
-    public void assignConstraint(ArrayList<Player> players,Player currentPlayer){
+    public void assignConstraint(ArrayList<Player> playerArrayList,Player currentPlayer){
 
-        for(Player player: players){
+        for(Player player: playerArrayList){
             if(!player.equals(currentPlayer))
                 player.setConstraint(currentPlayer.getPower());
         }
