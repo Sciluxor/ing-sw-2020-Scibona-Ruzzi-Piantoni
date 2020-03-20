@@ -28,7 +28,7 @@ public class Player {
 
         workers.add(new Worker(WorkerName.WORKER1));
         workers.add(new Worker(WorkerName.WORKER2));
-        
+
 
         this.currentWorker = currentWorker;
         this.unmovedWorker = unmovedWorker;

@@ -23,7 +23,8 @@ class WorkerTest {
 
         Worker worker;
         ArrayList<Square> squares = MapLoader.loadMap();
-        worker = new Worker(WorkerName.WORKER1, squares.get(0), squares.get(1), squares.get(3));
+        worker = new Worker(WorkerName.WORKER1);
+        worker.setBoardPosition(squares.get(0));
         assert (worker.getBoardPosition() != null);
     }
 
@@ -51,7 +52,7 @@ class WorkerTest {
     void getName() {
         Worker worker;
         ArrayList<Square> squares = MapLoader.loadMap();
-       worker = new Worker(WorkerName.WORKER1, squares.get(1), squares.get(2), squares.get(3));
-        assert (worker.getName() != null);
+       worker = new Worker(WorkerName.WORKER1);
+        assert (worker.getName() == WorkerName.WORKER1);
     }
 }
