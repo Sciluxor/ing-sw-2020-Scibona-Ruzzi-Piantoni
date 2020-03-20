@@ -9,12 +9,9 @@ public class Worker {
     private  Square previousBoardPosition;
     private  Square previousBuildPosition;
 
-    public Worker(WorkerName name, Square boardPosition, Square previousBoardPosition, Square previousBuildPosition){
+    public Worker(WorkerName name){
 
         this.name = name;
-        this.boardPosition = boardPosition;
-        this.previousBoardPosition = previousBoardPosition;
-        this.previousBuildPosition = previousBuildPosition;
     }
 
     public Square getBoardPosition() { return boardPosition;}

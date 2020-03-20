@@ -25,7 +25,11 @@ public class Player {
         this.power = power;
         this.turnStatus = turnStatus;
         this.constraint = constraint;
-        this.workers = workers;
+
+        workers.add(new Worker(WorkerName.WORKER1));
+        workers.add(new Worker(WorkerName.WORKER2));
+        
+
         this.currentWorker = currentWorker;
         this.unmovedWorker = unmovedWorker;
     }
