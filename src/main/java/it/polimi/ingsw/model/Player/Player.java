@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Cards.Card;
 import it.polimi.ingsw.model.Cards.CardSubType;
 import it.polimi.ingsw.model.Cards.CardType;
+import it.polimi.ingsw.model.Cards.Response;
 import it.polimi.ingsw.model.Map.Building;
 import it.polimi.ingsw.model.Map.Directions;
 import it.polimi.ingsw.model.Map.GameMap;
@@ -108,11 +109,11 @@ public class Player {
 
     public ArrayList<Directions> findWorkerMove(GameMap gameMap, Worker worker){ return power.findWorkerMove(gameMap, worker);}
 
-    public void executeWorkerMove(GameMap gameMap, Directions direction, Player player){ power.executeWorkerMove(gameMap, direction, player);}
+    public Response executeWorkerMove(GameMap gameMap, Directions direction, Player player){ return power.executeWorkerMove(gameMap, direction, player);}
 
     public ArrayList<Directions> findPossibleBuild(GameMap gameMap, Worker worker){ return power.findPossibleBuild(gameMap, worker);}
 
-    public void executeBuild(GameMap gameMap, Building building, Directions direction){ power.executeBuild(gameMap, building, direction, this.currentWorker);}
+    public Response executeBuild(GameMap gameMap, Building building, Directions direction){ return power.executeBuild(gameMap, building, direction, this.currentWorker);}
 
     public boolean checkVictory(GameMap gameMap, Worker worker){ return  power.checkVictory(gameMap, worker);}
 

@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.Player.Worker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class GameMap {
 
@@ -13,12 +14,9 @@ public class GameMap {
     private ArrayList<Square> gameMap;
     private final Integer perimeterPosition = 16;
     private HashMap<Worker, Square> workersPosition;
-    private ArrayList<Player> playersList;
 
-    public GameMap(ArrayList<Square> gameMap, HashMap<Worker, Square> workersPosition, ArrayList<Player> playersList) {
-        this.gameMap = gameMap;
-        this.workersPosition = workersPosition;
-        this.playersList = playersList;
+    public GameMap() {
+        this.gameMap = MapLoader.loadMap();
     }
 
     //
@@ -29,7 +27,7 @@ public class GameMap {
           int level_position = worker.getBoardPosition().getBuildingLevel();
           HashMap<Directions,Integer> canAccess = worker.getBoardPosition().getCanAccess();
 
-          ArrayList<Directions> reachableSquares = new ArrayList<Directions>();
+          ArrayList<Directions> reachableSquares = new ArrayList<>();
 
           for(Directions dir: Directions.values()){
               int squareTile  =canAccess.get(dir);
@@ -71,7 +69,7 @@ return reachableSquares;
 
     public ArrayList<Directions> buildableSquare(Worker worker){
 
-        ArrayList<Directions> buildableSquare = new ArrayList<Directions>();
+        ArrayList<Directions> buildableSquare = new ArrayList<>();
         HashMap<Directions,Integer> canAccess = worker.getBoardPosition().getCanAccess();
 
         for(Directions dir: Directions.values()){
@@ -125,18 +123,12 @@ return false;
 
     public ArrayList<Square> getGameMap(){ return gameMap;}
 
-    public ArrayList<Player> getPlayersList(){ return playersList;}
 
     //
     //function that check if a square is in the perimeter
     //
 
     public  boolean isInPerimeter(Integer tile){
-
-        if(tile > perimeterPosition)
-                return true;
-
-        return false;
-
+        return tile > perimeterPosition;
     }
 }
