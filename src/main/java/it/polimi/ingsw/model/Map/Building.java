@@ -22,7 +22,7 @@ public enum Building {
                 return Building.DOME;
 
             default:
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException("wrong parameter");
         }
 
 

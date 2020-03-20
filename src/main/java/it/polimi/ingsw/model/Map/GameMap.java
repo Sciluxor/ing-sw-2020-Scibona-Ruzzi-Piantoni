@@ -12,7 +12,7 @@ public class GameMap {
 
 
     private ArrayList<Square> gameMap;
-    private final Integer perimeterPosition = 16;
+    private final Integer perimeterPosition = 16;    //gestire in maniera migliori con un parser di costanti
     private HashMap<Worker, Square> workersPosition;
 
     public GameMap() {
@@ -24,25 +24,22 @@ public class GameMap {
     //
 
     public ArrayList<Directions> reachableSquares(Worker worker){
+          if(worker == null)
+              throw new NullPointerException("null worker");
           int level_position = worker.getBoardPosition().getBuildingLevel();
           HashMap<Directions,Integer> canAccess = worker.getBoardPosition().getCanAccess();
-
           ArrayList<Directions> reachableSquares = new ArrayList<>();
 
           for(Directions dir: Directions.values()){
               int squareTile  =canAccess.get(dir);
-
-              if(squareTile != 0) { //rivedere questo if
-
+              if(squareTile > 0 && squareTile <= 25) { //rivedere questo if
                   Square possibleSquare = gameMap.get(squareTile- 1);
-                  if(!possibleSquare.isHasPlayer() && (possibleSquare.getBuildingLevel() == level_position || possibleSquare.getBuildingLevel() == level_position +1)
+                  if(!possibleSquare.hasPlayer() && (possibleSquare.getBuildingLevel() == level_position || possibleSquare.getBuildingLevel() == level_position +1)
                           && possibleSquare.getBuilding() != Building.DOME ){
                       reachableSquares.add(dir);
                   }
-
-
-
               }
+              else throw new IllegalArgumentException("problem with map Square");
           }
 
 return reachableSquares;
@@ -53,6 +50,8 @@ return reachableSquares;
     //
 
     public void moveWorkerTo(Player player, Directions direction){
+        if(player == null || direction == null)
+            throw new NullPointerException("null player or direction");
         Worker currentWorker = player.getCurrentWorker();
         currentWorker.setPreviousBoardPosition(currentWorker.getBoardPosition());
         currentWorker.getPreviousBoardPosition().setHasPlayer(false);
@@ -68,22 +67,20 @@ return reachableSquares;
     //
 
     public ArrayList<Directions> buildableSquare(Worker worker){
-
+        if(worker == null)
+            throw new NullPointerException("null worker");
         ArrayList<Directions> buildableSquare = new ArrayList<>();
         HashMap<Directions,Integer> canAccess = worker.getBoardPosition().getCanAccess();
 
         for(Directions dir: Directions.values()){
-
               int squareTile = canAccess.get(dir);
-
-              if(squareTile != 0){
-
+              if(squareTile > 0 && squareTile <= 25){
                   Square possibleBuild = gameMap.get(squareTile -1);
-                  if(possibleBuild.getBuilding() != Building.DOME && !possibleBuild.isHasPlayer()){
-
+                  if(!possibleBuild.getBuilding().equals(Building.DOME) && !possibleBuild.hasPlayer()){
                       buildableSquare.add(dir);
                   }
               }
+              else throw new IllegalArgumentException("problem with map square");
         }
 
         return buildableSquare;
@@ -94,8 +91,10 @@ return reachableSquares;
     //
 
     public boolean buildInSquare(Worker worker, Directions direction,Building building){
+        if(worker == null || direction == null || building == null)
+            throw new NullPointerException("null worker or building or direction");
             Square buildingSquare = gameMap.get(worker.getBoardPosition().getCanAccess().get(direction) -1);
-            if(building == Building.mapNext(buildingSquare.getBuilding())){
+            if(building.equals(Building.mapNext(buildingSquare.getBuilding()))){
                 worker.setPreviousBuildPosition(buildingSquare);
                 buildingSquare.setBuilding(building);
                 buildingSquare.setBuildingLevel(buildingSquare.getBuildingLevel() +1);

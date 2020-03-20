@@ -45,7 +45,7 @@ public class Square {
         this.building = building;
     }
 
-    public boolean isHasPlayer() {
+    public boolean hasPlayer() {
         return hasPlayer;
     }
 
