@@ -34,7 +34,7 @@ public class GameMap {
               int squareTile  =canAccess.get(dir);
               if(squareTile > 0 && squareTile <= 25) { //rivedere questo if
                   Square possibleSquare = gameMap.get(squareTile- 1);
-                  if(!possibleSquare.hasPlayer() && (possibleSquare.getBuildingLevel() == level_position || possibleSquare.getBuildingLevel() == level_position +1)
+                  if(!possibleSquare.hasPlayer() && (possibleSquare.getBuildingLevel() >= 0 && possibleSquare.getBuildingLevel() <= level_position +1)
                           && possibleSquare.getBuilding() != Building.DOME ){
                       reachableSquares.add(dir);
                   }
