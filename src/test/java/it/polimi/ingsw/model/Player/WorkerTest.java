@@ -6,6 +6,8 @@ import it.polimi.ingsw.model.Map.MapLoader;
 import it.polimi.ingsw.model.Map.Square;
 import it.polimi.ingsw.model.Player.Worker;
 import it.polimi.ingsw.model.Player.WorkerName;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -15,17 +17,25 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class WorkerTest {
 
+    Worker worker1,worker2;
+    ArrayList<Square> squares;
+
+    @BeforeEach
+    void setup(){
+        squares = MapLoader.loadMap();
+        worker1 = new Worker(WorkerName.WORKER1);
+        worker2 = new Worker(WorkerName.WORKER2);
+
+
+    }
 
 
 
     @Test
     void getBoardPosition() {
 
-        Worker worker;
-        ArrayList<Square> squares = MapLoader.loadMap();
-        worker = new Worker(WorkerName.WORKER1);
-        worker.setBoardPosition(squares.get(0));
-        assert (worker.getBoardPosition() != null);
+        worker1.setBoardPosition(squares.get(0));
+        assert (worker1.getBoardPosition() != null);
     }
 
     @Test
@@ -50,9 +60,8 @@ class WorkerTest {
 
     @Test
     void getName() {
-        Worker worker;
-        ArrayList<Square> squares = MapLoader.loadMap();
-       worker = new Worker(WorkerName.WORKER1);
-        assert (worker.getName() == WorkerName.WORKER1);
+
+        assert (worker1.getName() == WorkerName.WORKER1);
+        assert (worker2.getName() == WorkerName.WORKER2);
     }
 }

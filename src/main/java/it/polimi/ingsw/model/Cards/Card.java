@@ -68,16 +68,20 @@ public class Card {
         return gameMap.reachableSquares(worker);
     }
 
-    public void executeWorkerMove(GameMap gameMap, Directions directions, Player player) {
+    public Response executeWorkerMove(GameMap gameMap, Directions directions, Player player) {
         gameMap.moveWorkerTo(player, directions);
+        return  Response.MOVED;
     }
 
     public ArrayList<Directions> findPossibleBuild(GameMap gameMap, Worker worker) {
         return gameMap.reachableSquares(worker);
     }
 
-    public void executeBuild(GameMap gameMap, Building building, Directions directions, Worker worker) {
-        gameMap.buildInSquare(worker, directions, building);
+    public Response executeBuild(GameMap gameMap, Building building, Directions directions, Worker worker) {
+        if(gameMap.buildInSquare(worker, directions, building))
+            return Response.BUILD;
+        else
+            return Response.NOTBUILD;
     }
 
     public boolean checkVictory(GameMap gameMap, Worker worker) {
