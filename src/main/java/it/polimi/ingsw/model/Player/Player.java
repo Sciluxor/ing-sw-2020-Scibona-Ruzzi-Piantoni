@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.Map.Building;
 import it.polimi.ingsw.model.Map.Directions;
 import it.polimi.ingsw.model.Map.GameMap;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class Player {
@@ -86,18 +87,23 @@ public class Player {
         ArrayList<Directions> direction = findWorkerMove(gameMap, worker);
         if(direction.size() > 0){
             for(Card card : constraint){
-                    if(card.getType().equals(CardType.YOURMOVE) && !card.getSubType().equals(CardSubType.NORMAL)){
-                        if(card.eliminateInvalidMove(gameMap, direction).size() > 0) {
-                            for(Card card2 : constraint)
-                                if(card2.getType().equals(CardType.YOURTURN) && !card2.getSubType().equals(CardSubType.NORMAL)) {
-                                    return card2.canMove(gameMap, worker).size() > 0;
-                                }return  false;
-
-                        }return false;   //aggiustare i return
-                    } return false;
-            }return  false;
+                if (!checkConstraint(gameMap, worker, card, direction))
+                    return  false;
+            }
         }
-        return false;
+        else return false;
+
+        return true;
+    }
+
+    private boolean checkConstraint (GameMap gameMap, Worker worker, Card card, ArrayList<Directions> direction){
+        if(card.getType().equals(CardType.YOURMOVE) && !card.getSubType().equals(CardSubType.NORMAL)){
+            return card.eliminateInvalidMove(gameMap, direction).size() > 0;
+        }
+        else if(card.getType().equals(CardType.YOURTURN) && !card.getSubType().equals(CardSubType.NORMAL)) {
+            return card.canMove(gameMap, worker).size() > 0;
+        }
+        return  true;
     }
 
     public boolean checkIfLoose(GameMap gameMap){
