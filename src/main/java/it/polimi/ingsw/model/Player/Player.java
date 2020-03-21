@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.Map.Building;
 import it.polimi.ingsw.model.Map.Directions;
 import it.polimi.ingsw.model.Map.GameMap;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class Player {
@@ -20,20 +21,18 @@ public class Player {
     private Worker currentWorker;
     private Worker unmovedWorker;
 
-    public Player (String nickname, Card power, TurnStatus turnStatus, ArrayList<Card> constraint, ArrayList<Worker> workers, Worker currentWorker, Worker unmovedWorker){
+    public Player (String nickname, TurnStatus turnStatus){
 
+        workers = new ArrayList<>();
+        constraint = new ArrayList<>();
         this.nickname = nickname;
-        this.power = power;
         this.turnStatus = turnStatus;
-        this.constraint = constraint;
 
         workers.add(new Worker(WorkerName.WORKER1));
         workers.add(new Worker(WorkerName.WORKER2));
-
-
-        this.currentWorker = currentWorker;
-        this.unmovedWorker = unmovedWorker;
     }
+
+    public String getNickname() { return nickname;}
 
     public Card getPower(){ return power;}
 
@@ -51,7 +50,7 @@ public class Player {
 
     public ArrayList<Worker> getWorkers() { return workers;}
 
-    public void setWorkers(ArrayList<Worker> workers) { this.workers = workers;}
+    //public void setWorkers(ArrayList<Worker> workers) { this.workers = workers;}
 
     public void setCurrentWorker(Worker currentWorker) { this.currentWorker = currentWorker;}
 
@@ -65,12 +64,12 @@ public class Player {
     //function to find all the reachable square moving from a specific square
     //
 
-    public Worker getWorkerFromString(String worker){
+    public Worker getWorkerFromString (String worker){
         WorkerName name = WorkerName.parseInput(worker);
         for (Worker work : workers)
             if(work.getName().equals(name))
                 return work;
-        return null;
+        throw new IllegalArgumentException("Wrong name");
     }
 
     public boolean selectCurrentWorker(GameMap gameMap, String worker){
@@ -83,21 +82,28 @@ public class Player {
     }
 
     public boolean checkIfCanMove(GameMap gameMap, Worker worker){
+        if (gameMap == null || worker == null)
+            throw new NullPointerException("gameMap or worker == null");
         ArrayList<Directions> direction = findWorkerMove(gameMap, worker);
         if(direction.size() > 0){
             for(Card card : constraint){
-                    if(card.getType().equals(CardType.YOURMOVE) && !card.getSubType().equals(CardSubType.NORMAL)){
-                        if(card.eliminateInvalidMove(gameMap, direction).size() > 0) {
-                            for(Card card2 : constraint)
-                                if(card2.getType().equals(CardType.YOURTURN) && !card2.getSubType().equals(CardSubType.NORMAL)) {
-                                    return card2.canMove(gameMap, worker).size() > 0;
-                                }return  false;
-
-                        }return false;   //aggiustare i return
-                    } return false;
-            }return  false;
+                if (!checkConstraint(gameMap, worker, card, direction))
+                    return  false;
+            }
         }
-        return false;
+        else return false;
+
+        return true;
+    }
+
+    private boolean checkConstraint (GameMap gameMap, Worker worker, Card card, ArrayList<Directions> direction){
+        if(card.getType().equals(CardType.YOURMOVE) && !card.getSubType().equals(CardSubType.NORMAL)){
+            return card.eliminateInvalidMove(gameMap, direction).size() > 0;
+        }
+        else if(card.getType().equals(CardType.YOURTURN) && !card.getSubType().equals(CardSubType.NORMAL)) {
+            return card.canMove(gameMap, worker).size() > 0;
+        }
+        return  true;
     }
 
     public boolean checkIfLoose(GameMap gameMap){
