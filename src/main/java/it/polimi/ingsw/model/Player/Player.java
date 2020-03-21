@@ -36,27 +36,57 @@ public class Player {
 
     public Card getPower(){ return power;}
 
-    public void setPower(Card power){ this.power = power;}
+    public void setPower(Card power){
+        if (power == null)
+            throw new NullPointerException("gameMap or worker == null");
+
+        this.power = power;
+    }
 
     public TurnStatus getTurnStatus() { return turnStatus;}
 
-    public void setTurnStatus(TurnStatus turnStatus) { this.turnStatus = turnStatus;}
+    public void setTurnStatus(TurnStatus turnStatus) {
+        if (turnStatus == null)
+            throw new NullPointerException("turnStatus == null");
+
+        this.turnStatus = turnStatus;
+    }
 
     public ArrayList<Card> getConstraint() { return constraint;}
 
-    public void setConstraint(Card constraint) { this.constraint.add(constraint);}
+    public void setConstraint(Card constraint) {
+        if (constraint == null)
+            throw new NullPointerException("constraint == null");
 
-    public void removeConstraint(Card constraint){ this.constraint.remove(constraint);}
+        this.constraint.add(constraint);
+    }
+
+    public void removeConstraint(Card constraint){
+        if (constraint == null)
+            throw new NullPointerException("constraint == null");
+
+        this.constraint.remove(constraint);
+    }
 
     public ArrayList<Worker> getWorkers() { return workers;}
 
     //public void setWorkers(ArrayList<Worker> workers) { this.workers = workers;}
 
-    public void setCurrentWorker(Worker currentWorker) { this.currentWorker = currentWorker;}
+    public void setCurrentWorker(Worker currentWorker) {
+        if (currentWorker == null)
+            throw new NullPointerException("currentWorker == null");
+
+        this.currentWorker = currentWorker;
+    }
 
     public Worker getCurrentWorker() { return currentWorker;}
 
-    public void setUnmovedWorker(Worker unmovedWorker) { this.unmovedWorker = unmovedWorker;}
+    public void setUnmovedWorker(Worker unmovedWorker) {
+        if (unmovedWorker == null)
+            throw new NullPointerException("unmovedWorker == null");
+
+        this.unmovedWorker = unmovedWorker;
+    }
 
     public Worker getUnmovedWorker() { return unmovedWorker;}
 
@@ -65,6 +95,9 @@ public class Player {
     //
 
     public Worker getWorkerFromString (String worker){
+        if (worker == null)
+            throw new NullPointerException("worker == null");
+
         WorkerName name = WorkerName.parseInput(worker);
         for (Worker work : workers)
             if(work.getName().equals(name))
@@ -73,6 +106,9 @@ public class Player {
     }
 
     public boolean selectCurrentWorker(GameMap gameMap, String worker){
+        if (gameMap == null || worker == null)
+            throw new NullPointerException("gameMap or worker == null");
+
         Worker worker1 = getWorkerFromString(worker);
         if (!checkIfCanMove(gameMap, worker1)){
             return false;
@@ -84,6 +120,7 @@ public class Player {
     public boolean checkIfCanMove(GameMap gameMap, Worker worker){
         if (gameMap == null || worker == null)
             throw new NullPointerException("gameMap or worker == null");
+
         ArrayList<Directions> direction = findWorkerMove(gameMap, worker);
         if(direction.size() > 0){
             for(Card card : constraint){
@@ -107,6 +144,9 @@ public class Player {
     }
 
     public boolean checkIfLoose(GameMap gameMap){
+        if (gameMap == null)
+            throw new NullPointerException("gameMap or worker == null");
+
         for (Worker work : workers){
             checkIfCanMove(gameMap, work);
         }
@@ -119,9 +159,19 @@ public class Player {
 
     public ArrayList<Directions> findPossibleBuild(GameMap gameMap, Worker worker){ return power.findPossibleBuild(gameMap, worker);}
 
-    public Response executeBuild(GameMap gameMap, Building building, Directions direction){ return power.executeBuild(gameMap, building, direction, this.currentWorker);}
+    public Response executeBuild(GameMap gameMap, Building building, Directions direction){
+        if (gameMap == null || building == null || direction == null)
+            throw new NullPointerException("gameMap or building or direction == null");
 
-    public boolean checkVictory(GameMap gameMap, Worker worker){ return  power.checkVictory(gameMap, worker);}
+        return power.executeBuild(gameMap, building, direction, this.currentWorker);
+    }
+
+    public boolean checkVictory(GameMap gameMap, Worker worker){
+        if (gameMap == null || worker == null)
+            throw new NullPointerException("gameMap or worker == null");
+
+        return  power.checkVictory(gameMap, worker);
+    }
 
 
 
