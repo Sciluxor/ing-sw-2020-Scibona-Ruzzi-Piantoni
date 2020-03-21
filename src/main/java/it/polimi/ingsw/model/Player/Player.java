@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class Player {
 
-        private String nickname;
+    private String nickname;
     private Card power;
     private TurnStatus turnStatus;
     private ArrayList<Card> constraint;
@@ -50,7 +50,7 @@ public class Player {
 
     public ArrayList<Worker> getWorkers() { return workers;}
 
-    public void setWorkers(ArrayList<Worker> workers) { this.workers = workers;}
+    //public void setWorkers(ArrayList<Worker> workers) { this.workers = workers;}
 
     public void setCurrentWorker(Worker currentWorker) { this.currentWorker = currentWorker;}
 
@@ -64,12 +64,12 @@ public class Player {
     //function to find all the reachable square moving from a specific square
     //
 
-    public Worker getWorkerFromString(String worker){
+    public Worker getWorkerFromString (String worker){
         WorkerName name = WorkerName.parseInput(worker);
         for (Worker work : workers)
             if(work.getName().equals(name))
                 return work;
-        return null;
+        throw new IllegalArgumentException("Wrong name");
     }
 
     public boolean selectCurrentWorker(GameMap gameMap, String worker){
@@ -82,6 +82,8 @@ public class Player {
     }
 
     public boolean checkIfCanMove(GameMap gameMap, Worker worker){
+        if (gameMap == null || worker == null)
+            throw new NullPointerException("gameMap or worker == null");
         ArrayList<Directions> direction = findWorkerMove(gameMap, worker);
         if(direction.size() > 0){
             for(Card card : constraint){
