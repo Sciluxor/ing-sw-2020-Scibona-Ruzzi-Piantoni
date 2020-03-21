@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class Player {
 
-    private String nickname;
+        private String nickname;
     private Card power;
     private TurnStatus turnStatus;
     private ArrayList<Card> constraint;
@@ -21,20 +21,18 @@ public class Player {
     private Worker currentWorker;
     private Worker unmovedWorker;
 
-    public Player (String nickname, Card power, TurnStatus turnStatus, ArrayList<Card> constraint, ArrayList<Worker> workers, Worker currentWorker, Worker unmovedWorker){
+    public Player (String nickname, TurnStatus turnStatus){
 
+        workers = new ArrayList<>();
+        constraint = new ArrayList<>();
         this.nickname = nickname;
-        this.power = power;
         this.turnStatus = turnStatus;
-        this.constraint = constraint;
 
         workers.add(new Worker(WorkerName.WORKER1));
         workers.add(new Worker(WorkerName.WORKER2));
-
-
-        this.currentWorker = currentWorker;
-        this.unmovedWorker = unmovedWorker;
     }
+
+    public String getNickname() { return nickname;}
 
     public Card getPower(){ return power;}
 
