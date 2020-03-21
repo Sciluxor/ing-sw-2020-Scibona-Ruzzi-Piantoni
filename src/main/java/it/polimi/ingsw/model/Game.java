@@ -9,10 +9,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Game {
-    private static Integer numberOfPlayers;
-    private ArrayList<Player> players;
-    private HashMap<String, Card> deck;
-    private Player currentPlayer;
+    private  Integer numberOfPlayers;
+    private  ArrayList<Player> players;
+    private  HashMap<String, Card> deck;
+    private  Player currentPlayer;
     private GameMap gameMap;
     private boolean isGameStarted;
 
@@ -27,7 +27,7 @@ public class Game {
 
     }
 
-    public Game getSingleInstance(){
+    public static Game getSingleInstance(){
 
         if(gameInstance == null)
             gameInstance =  new Game();
@@ -37,12 +37,12 @@ public class Game {
 
     }
 
-    public static Integer getNumberOfPlayers() {
+    public  Integer getNumberOfPlayers() {
         return numberOfPlayers;
     }
 
-    public static void setNumberOfPlayers(Integer numberOfPlayers) {
-        Game.numberOfPlayers = numberOfPlayers;
+    public void  setNumberOfPlayers(Integer numberOfPlayers) {
+        this.numberOfPlayers = numberOfPlayers;
     }
 
     public ArrayList<Player> getPlayers() {

@@ -33,8 +33,10 @@ public class Square {
         return buildingLevel;
     }
 
-    public void setBuildingLevel(int buildingLevel) {
-        this.buildingLevel = buildingLevel;
+    public void addBuildingLevel() {
+        if(buildingLevel<=3)
+            this.buildingLevel += 1;
+        else throw new IllegalStateException("level 4 already reached");
     }
 
     public Building getBuilding() {
@@ -42,6 +44,8 @@ public class Square {
     }
 
     public void setBuilding(Building building) {
+        if(building == null)
+            throw new NullPointerException("null building");
         this.building = building;
     }
 
@@ -54,18 +58,26 @@ public class Square {
     }
 
     public Player getPlayer() {
+        if(!hasPlayer)
+            throw new IllegalStateException("no player present here");
         return player;
     }
 
     public void setPlayer(Player player) {
+        if(player == null)
+            throw new NullPointerException("player null");
         this.player = player;
     }
 
     public Worker getWorker() {
+        if(!hasPlayer)
+            throw new IllegalStateException("no worker present here");
         return worker;
     }
 
     public void setWorker(Worker worker) {
+        if(worker == null)
+            throw new NullPointerException("null worker");
         this.worker = worker;
     }
 

@@ -97,7 +97,7 @@ return reachableSquares;
             if(building.equals(Building.mapNext(buildingSquare.getBuilding()))){
                 worker.setPreviousBuildPosition(buildingSquare);
                 buildingSquare.setBuilding(building);
-                buildingSquare.setBuildingLevel(buildingSquare.getBuildingLevel() +1);
+                buildingSquare.addBuildingLevel();
 
                 return true;
             }

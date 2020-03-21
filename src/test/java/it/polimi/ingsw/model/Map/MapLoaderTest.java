@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.Map;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -12,7 +13,7 @@ class MapLoaderTest {
         //test that the map load correctly
         //
         @Test
-        public void loadMap(){
+        void loadMap(){
 
             MapLoader.loadMap();
 
@@ -24,13 +25,23 @@ class MapLoaderTest {
         //
 
         @Test
-        public void mapLoadedContentCheck(){
+        void mapLoadedContentCheck(){
 
             ArrayList<Square> squares = MapLoader.loadMap();
+            assertEquals(25, squares.size());
             assert (squares.get(3).getCanAccess().get(Directions.OVEST) == 3);
+            assertNotEquals(true, squares.get(6).hasPlayer());
+            assertEquals(0, squares.get(15).getBuildingLevel());
+            assertEquals(squares.get(24).getBuilding(),Building.GROUND);
+            assertEquals(1, (int) squares.get(0).getTile());
+            assertEquals(17, (int) squares.get(16).getTile());
 
 
 
         }
+
+
+
+
 
     }
