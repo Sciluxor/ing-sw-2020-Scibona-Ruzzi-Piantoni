@@ -32,9 +32,7 @@ public class Prometheus extends Card {
             return super.findWorkerMove(gameMap, worker);
         else
             return notUpMove(gameMap, worker);
-
     }
-
     public ArrayList<Directions> notUpMove(GameMap gameMap, Worker worker) {
         if (worker == null)
             throw new NullPointerException("null worker");
@@ -52,9 +50,7 @@ public class Prometheus extends Card {
                 }
             }
         }
-
         return reachableSquares;
-
     }
 
     @Override
@@ -85,13 +81,6 @@ public class Prometheus extends Card {
                 return Response.BUILD;
             }
             else return Response.NOTBUILD;
-
-
         }
-
-
-
     }
-
-
 }

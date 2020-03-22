@@ -106,16 +106,6 @@ public class Card {
         return true;
     }
 
-    public void assignConstraint(ArrayList<Player> playerArrayList, Player currentPlayer){
-        if(playerArrayList == null || currentPlayer == null)
-            throw new NullPointerException("null playerArrayList or currentPlayer");
-
-        for(Player player: playerArrayList){
-            if(!player.equals(currentPlayer))
-                player.setConstraint(currentPlayer.getPower());
-        }
-
-    }
 
     @Override
     public String toString() {

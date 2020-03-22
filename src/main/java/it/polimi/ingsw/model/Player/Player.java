@@ -204,6 +204,17 @@ public class Player {
     }
 
 
+    public void assignConstraint(ArrayList<Player> playerArrayList){
+        if(playerArrayList == null)
+            throw new NullPointerException("null playerArrayList");
+
+        for(Player player: playerArrayList){
+            if(!player.equals(this))
+                player.setConstraint(this.getPower());
+        }
+    }
+
+
 
 
 }
