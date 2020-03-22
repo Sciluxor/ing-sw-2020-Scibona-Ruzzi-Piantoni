@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.Map.GameMap;
 import it.polimi.ingsw.model.Player.Player;
 import it.polimi.ingsw.model.Player.Worker;
 
+import javax.print.DocFlavor;
 import java.util.ArrayList;
 
 public class Card {
@@ -44,6 +45,11 @@ public class Card {
 
     public CardSubType getSubType() {
         return subType;
+    }
+
+    public Response getFirstOperation(){
+        return Response.TOMOVE;
+
     }
 
     public ArrayList<Directions> findWorkerMove(GameMap gameMap, Worker worker) {

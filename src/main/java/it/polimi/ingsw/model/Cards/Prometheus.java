@@ -1,30 +1,97 @@
 package it.polimi.ingsw.model.Cards;
 
+import it.polimi.ingsw.model.Map.Building;
+import it.polimi.ingsw.model.Map.Directions;
+import it.polimi.ingsw.model.Map.GameMap;
+import it.polimi.ingsw.model.Map.Square;
+import it.polimi.ingsw.model.Player.Player;
+import it.polimi.ingsw.model.Player.Worker;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class Prometheus extends Card {
 
     private boolean hasBuiltBefore;
-    private boolean hasChooseBefore;
+    private boolean hasMoved;
 
     public Prometheus(String name, String description, boolean isPlayableIn3, CardType type, CardSubType subType) {
         super(name, description, isPlayableIn3, type, subType);
         hasBuiltBefore = false;
-        hasChooseBefore = false;
+        hasMoved = false;
     }
 
-    public boolean isHasBuiltBefore() {
-        return hasBuiltBefore;
+    @Override
+    public Response getFirstOperation() {
+        return Response.BUILDBEFORE;
     }
 
-    public void setHasBuiltBefore(boolean hasBuiltBefore) {
-        this.hasBuiltBefore = hasBuiltBefore;
+    @Override
+    public ArrayList<Directions> findWorkerMove(GameMap gameMap, Worker worker) {
+        if (!hasBuiltBefore)
+            return super.findWorkerMove(gameMap, worker);
+        else
+            return notUpMove(gameMap, worker);
+
     }
 
-    public boolean isHasChooseBefore() {
-        return hasChooseBefore;
+    public ArrayList<Directions> notUpMove(GameMap gameMap, Worker worker) {
+        if (worker == null)
+            throw new NullPointerException("null worker");
+        int level_position = worker.getBoardPosition().getBuildingLevel();
+        HashMap<Directions, Integer> canAccess = worker.getBoardPosition().getCanAccess();
+        ArrayList<Directions> reachableSquares = new ArrayList<>();
+
+        for (Directions dir : Directions.values()) {
+            int squareTile = canAccess.get(dir);
+            if (squareTile > 0 && squareTile <= 25) {
+                Square possibleSquare = gameMap.getGameMap().get(squareTile - 1);
+                if (!possibleSquare.hasPlayer() && (possibleSquare.getBuildingLevel() >= 0 && possibleSquare.getBuildingLevel() <= level_position && !worker.getBoardPosition().equals(possibleSquare))
+                        && possibleSquare.getBuilding() != Building.DOME) {
+                    reachableSquares.add(dir);
+                }
+            }
+        }
+
+        return reachableSquares;
+
     }
 
-    public void setHasChooseBefore(boolean hasChooseBefore) {
-        this.hasChooseBefore = hasChooseBefore;
+    @Override
+    public Response executeWorkerMove(GameMap gameMap, Directions directions, Player player) {
+        if (gameMap == null || player == null || directions == null)
+            throw new NullPointerException("null gameMap or player or direction");
+
+        gameMap.moveWorkerTo(player, directions);
+        hasMoved = true;
+        return Response.MOVED;
+
     }
+
+
+    @Override
+    public Response executeBuild(GameMap gameMap, Building building, Directions directions, Worker worker) {
+        if (!hasBuiltBefore && !hasMoved) {
+            if(gameMap.buildInSquare(worker, directions, building)){
+                hasBuiltBefore = true;
+                return Response.BUILDEDBEFORE;
+            }
+            else return Response.NOTBUILD;
+        }
+        else {
+            if(gameMap.buildInSquare(worker, directions, building)){
+                hasMoved = false;
+                hasBuiltBefore = false;
+                return Response.BUILD;
+            }
+            else return Response.NOTBUILD;
+
+
+        }
+
+
+
+    }
+
 
 }
