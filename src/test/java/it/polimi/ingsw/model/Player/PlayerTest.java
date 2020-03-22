@@ -172,10 +172,6 @@ class PlayerTest {
         assertEquals(player.getWorkers().get(1).getName(), WorkerName.WORKER2);
     }
 
-    /*@Test
-    void setWorkers() {
-    }*/
-
     @Test
     void setCurrentWorker() {
         assertNull(player.getCurrentWorker());

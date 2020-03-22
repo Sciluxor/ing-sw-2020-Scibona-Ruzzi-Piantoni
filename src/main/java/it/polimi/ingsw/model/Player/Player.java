@@ -38,7 +38,7 @@ public class Player {
 
     public void setPower(Card power){
         if (power == null)
-            throw new NullPointerException("gameMap or worker == null");
+            throw new NullPointerException("power == null");
 
         this.power = power;
     }
@@ -70,7 +70,6 @@ public class Player {
 
     public ArrayList<Worker> getWorkers() { return workers;}
 
-    //public void setWorkers(ArrayList<Worker> workers) { this.workers = workers;}
 
     public void setCurrentWorker(Worker currentWorker) {
         if (currentWorker == null)
@@ -91,7 +90,7 @@ public class Player {
     public Worker getUnmovedWorker() { return unmovedWorker;}
 
     //
-    //function to find all the reachable square moving from a specific square
+    //function to transform the string with the worker in the WorkerName enumeration
     //
 
     public Worker getWorkerFromString (String worker){
@@ -135,7 +134,7 @@ public class Player {
 
     private boolean checkConstraint (GameMap gameMap, Worker worker, Card card, ArrayList<Directions> direction){
         if(card.getType().equals(CardType.YOURMOVE) && !card.getSubType().equals(CardSubType.NORMAL)){
-            return card.eliminateInvalidMove(gameMap, direction).size() > 0;
+            return card.eliminateInvalidMove(gameMap, worker, direction).size() > 0;
         }
         else if(card.getType().equals(CardType.YOURTURN) && !card.getSubType().equals(CardSubType.NORMAL)) {
             return card.canMove(gameMap, worker).size() > 0;
