@@ -18,8 +18,8 @@ public class Minotaur extends Card {
 
     @Override
     public ArrayList<Directions> findWorkerMove(GameMap gameMap, Worker worker) {
-        if (worker == null)
-            throw new NullPointerException("null worker");
+        if (gameMap == null ||worker == null)
+            throw new NullPointerException("null gameMap or worker");
 
         int level_position = worker.getBoardPosition().getBuildingLevel();
         HashMap<Directions, Integer> canAccess = worker.getBoardPosition().getCanAccess();
@@ -47,8 +47,8 @@ public class Minotaur extends Card {
 
     @Override
     public Response executeWorkerMove(GameMap gameMap, Directions directions, Player player) {
-        if(player == null || directions == null)
-            throw new NullPointerException("null player or direction");
+        if(gameMap == null || player == null || directions == null)
+            throw new NullPointerException("null gameMap or player or direction");
 
         Worker currentWorker = player.getCurrentWorker();
         Square nextSquare = gameMap.getGameMap().get(currentWorker.getBoardPosition().getCanAccess().get(directions)-1);
@@ -66,8 +66,8 @@ public class Minotaur extends Card {
     }
 
     private boolean canPush(GameMap gameMap, Square possibleSquare, Directions directions) {
-        if(possibleSquare == null || directions == null)
-            throw new NullPointerException("null square or direction");
+        if(gameMap == null || possibleSquare == null || directions == null)
+            throw new NullPointerException("null gameMap or square or direction");
 
         int pushingTile = possibleSquare.getCanAccess().get(directions);
         Square pushingSquare = gameMap.getGameMap().get(pushingTile-1);
@@ -76,8 +76,8 @@ public class Minotaur extends Card {
     }
 
     public void push(GameMap gameMap, Square nextSquare, Directions directions) {
-        if(nextSquare == null || directions == null)
-            throw new NullPointerException("null square or direction");
+        if(gameMap == null || nextSquare == null || directions == null)
+            throw new NullPointerException("null gameMap or square or direction");
 
         Worker pushedWorker = nextSquare.getWorker();
 
