@@ -13,8 +13,8 @@ public class Chronus extends Card {
 
     @Override
     public Response checkVictory(GameMap gameMap, Worker worker) {
-        if(worker == null)
-            throw new NullPointerException("null worker");
+        if(gameMap == null || worker == null)
+            throw new NullPointerException("null gameMap or worker");
 
         if((worker.getBoardPosition().getBuildingLevel() == 3 && worker.getPreviousBoardPosition().getBuildingLevel() == 2) || countTower(gameMap))
             return Response.WIN;
@@ -22,6 +22,9 @@ public class Chronus extends Card {
     }
 
     public boolean countTower(GameMap gameMap) {
+        if(gameMap == null)
+            throw new NullPointerException("null gameMap");
+
         int counter = 0;
         for(Square x : gameMap.getGameMap()) {
             if (x.getBuilding().equals(Building.DOME) && x.getBuildingLevel() == 4)
