@@ -12,7 +12,7 @@ public class GameMap {
 
 
     private ArrayList<Square> gameMap;
-    private final Integer perimeterPosition = 16;    //gestire in maniera migliori con un parser di costanti
+    private final Integer PERIMETERPOSITION = 16;    //gestire in maniera migliori con un parser di costanti
     private HashMap<Worker, Square> workersPosition;
 
     public GameMap() {
@@ -39,7 +39,6 @@ public class GameMap {
                       reachableSquares.add(dir);
                   }
               }
-              else throw new IllegalArgumentException("problem with map Square");
           }
 
 return reachableSquares;
@@ -80,7 +79,6 @@ return reachableSquares;
                       buildableSquare.add(dir);
                   }
               }
-              else throw new IllegalArgumentException("problem with map square");
         }
 
         return buildableSquare;
@@ -111,6 +109,8 @@ return false;
     //
 
     public ArrayList<Square> workersSquares(Player actualPlayer){
+        if(actualPlayer == null)
+            throw new NullPointerException("player null");
         ArrayList<Square> workerSquare = new ArrayList<>();
 
         for(Worker worker : actualPlayer.getWorkers()){
@@ -128,6 +128,8 @@ return false;
     //
 
     public  boolean isInPerimeter(Integer tile){
-        return tile > perimeterPosition;
+        if(tile == null)
+         throw new NullPointerException("tile null");
+        return tile <= PERIMETERPOSITION;
     }
 }

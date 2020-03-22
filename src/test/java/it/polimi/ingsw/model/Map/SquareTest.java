@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model.Map;
 
-import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player.Player;
 import it.polimi.ingsw.model.Player.TurnStatus;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,8 +11,8 @@ class SquareTest {
 GameMap map;
     @BeforeEach
     void setup(){
-        Game game = Game.getSingleInstance();
-        map = game.getGameMap();
+
+        map = new GameMap();
 
     }
 
@@ -79,7 +78,7 @@ GameMap map;
     @Test
     void setHasPlayer() {
         map.getGameMap().get(17).setHasPlayer(true);
-        assertTrue(map.getGameMap().get(13).hasPlayer());
+        assertTrue(map.getGameMap().get(17).hasPlayer());
     }
 
     @Test
@@ -92,6 +91,7 @@ GameMap map;
     void setPlayer() {
         Player player1 = new Player("nome", TurnStatus.PREGAME);
         map.getGameMap().get(19).setPlayer(player1);
+        map.getGameMap().get(19).setHasPlayer(true);
         assertEquals(map.getGameMap().get(19).getPlayer(),player1);
 
         assertThrows(NullPointerException.class,() -> map.getGameMap().get(17).setPlayer(null));
@@ -107,6 +107,7 @@ GameMap map;
     void setWorker() {
         Player player1 = new Player("nome", TurnStatus.PREGAME);
         map.getGameMap().get(22).setWorker(player1.getWorkers().get(0));
+        map.getGameMap().get(22).setHasPlayer(true);
         assertEquals(map.getGameMap().get(22).getWorker(),player1.getWorkers().get(0));
 
         assertThrows(NullPointerException.class,() -> map.getGameMap().get(22).setWorker(null));
@@ -117,4 +118,14 @@ GameMap map;
 
        assertEquals(map.getGameMap().get(22).getCanAccess().get(Directions.OVEST),14);
     }
+    @Test
+    void setMovement(){
+        Player player1 = new Player("nome", TurnStatus.PREGAME);
+        map.getGameMap().get(21).setMovement(player1,player1.getWorkers().get(1));
+        assertTrue(map.getGameMap().get(21).hasPlayer());
+        assertEquals(map.getGameMap().get(21).getPlayer(),player1);
+        assertEquals(map.getGameMap().get(21).getWorker(),player1.getWorkers().get(1));
+
+    }
+
 }

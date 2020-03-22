@@ -85,5 +85,12 @@ public class Square {
         return canAccess;
     }
 
+    public void setMovement(Player player,Worker worker){
+        setHasPlayer(true);
+        setPlayer(player);
+        setWorker(worker);
+
+    }
+
 
 }

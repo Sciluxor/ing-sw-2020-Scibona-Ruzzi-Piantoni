@@ -17,7 +17,7 @@ public class MapLoader {
 
     }
 
-    private class SquareContainer{
+    private static class SquareContainer{
 
         Integer tile;
         int buildingLevel;
