@@ -66,8 +66,10 @@ public class Card {
             return Response.NOTBUILD;
     }
 
-    public boolean checkVictory(GameMap gameMap, Worker worker) {
-        return worker.getBoardPosition().getBuildingLevel() == 3 && worker.getPreviousBoardPosition().getBuildingLevel() == 2;
+    public Response checkVictory(GameMap gameMap, Worker worker) {
+        if(worker.getBoardPosition().getBuildingLevel() == 3 && worker.getPreviousBoardPosition().getBuildingLevel() == 2)
+            return Response.WIN;
+        return Response.NOTWIN;
     }
 
     public ArrayList<Directions> eliminateInvalidMove(GameMap gameMap,Worker worker, ArrayList<Directions> directionsArrayList) {
