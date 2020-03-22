@@ -80,11 +80,10 @@ public class Minotaur extends Card {
             throw new NullPointerException("null square or direction");
 
         Worker pushedWorker = nextSquare.getWorker();
-        Square pushedSquare = gameMap.getGameMap().get(pushedWorker.getBoardPosition().getCanAccess().get(directions)-1);
 
         pushedWorker.setPreviousBoardPosition(pushedWorker.getBoardPosition());
         pushedWorker.getPreviousBoardPosition().setHasPlayer(false);
-        pushedWorker.setBoardPosition( gameMap.getGameMap().get(pushedWorker.getBoardPosition().getCanAccess().get(directions) -1));
+        pushedWorker.setBoardPosition(gameMap.getGameMap().get(pushedWorker.getBoardPosition().getCanAccess().get(directions) -1));
         pushedWorker.getBoardPosition().setHasPlayer(true);
         pushedWorker.getBoardPosition().setPlayer(nextSquare.getPlayer());
         pushedWorker.getBoardPosition().setWorker(pushedWorker);
