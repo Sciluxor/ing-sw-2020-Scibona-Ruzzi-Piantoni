@@ -10,7 +10,6 @@ public class Worker {
     private  Square previousBuildPosition;
 
     public Worker(WorkerName name){
-
         this.name = name;
     }
 
@@ -35,7 +34,7 @@ public class Worker {
     public Square getPreviousBuildPosition() { return previousBuildPosition;}
 
     public void setPreviousBuildPosition(Square previousBuildPosition) {
-        if (boardPosition == null)
+        if (previousBuildPosition == null)
             throw new NullPointerException("boardPosition == null");
 
         this.previousBuildPosition = previousBuildPosition;
