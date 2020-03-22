@@ -32,9 +32,21 @@ public class Player {
         workers.add(new Worker(WorkerName.WORKER2));
     }
 
+    //
+    //function that return the nickname of the player
+    //
+
     public String getNickname() { return nickname;}
 
+    //
+    //function that return the power of the player
+    //
+
     public Card getPower(){ return power;}
+
+    //
+    //function that set the power of the player
+    //
 
     public void setPower(Card power){
         if (power == null)
@@ -42,6 +54,10 @@ public class Player {
 
         this.power = power;
     }
+
+    //
+    //function that return the TurnStatus of the player
+    //
 
     public TurnStatus getTurnStatus() { return turnStatus;}
 
@@ -137,7 +153,7 @@ public class Player {
             return card.eliminateInvalidMove(gameMap, worker, direction).size() > 0;
         }
         else if(card.getType().equals(CardType.YOURTURN) && !card.getSubType().equals(CardSubType.NORMAL)) {
-            return card.canMove(gameMap, worker).size() > 0;
+            return card.canMove(this, worker);
         }
         return  true;
     }
