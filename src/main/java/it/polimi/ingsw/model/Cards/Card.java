@@ -74,8 +74,8 @@ public class Card {
         return directionsArrayList;
     }
 
-    public ArrayList<Directions> canMove(GameMap gameMap, Worker worker) {
-        return null;
+    public boolean canMove(Player player, Worker worker) {
+        return true;
     }
     public boolean isValidVictory() {
         return true;

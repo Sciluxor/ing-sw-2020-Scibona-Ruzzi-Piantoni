@@ -20,7 +20,7 @@ public class Athena extends Card {
     public Response executeWorkerMove(GameMap gameMap, Directions directions, Player player) {
         gameMap.moveWorkerTo(player,directions);
 
-        if(player.getCurrentWorker().getPreviousBoardPosition().getBuildingLevel() == player.getCurrentWorker().getBoardPosition().getBuildingLevel()+1){
+        if(player.getCurrentWorker().getPreviousBoardPosition().getBuildingLevel() + 1 == player.getCurrentWorker().getBoardPosition().getBuildingLevel()){
             return Response.ASSIGNCONSTRAINT;
 
         }
@@ -39,7 +39,6 @@ public class Athena extends Card {
 
                  directionsArrayList.remove(dir);
              }
-
          }
 return directionsArrayList;
 
