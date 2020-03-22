@@ -14,12 +14,15 @@ public class Hypnus extends Card {
     }
 
     @Override
-    public ArrayList<Directions> canMove(GameMap gameMap, Worker worker) {
-        return super.canMove(gameMap, worker);
+    public boolean canMove(Player player, Worker worker ) {
+
+          for(Worker wor: player.getWorkers()) {
+              if (!wor.equals(worker)) {
+                  if(worker.getBoardPosition().getBuildingLevel() > wor.getBoardPosition().getBuildingLevel())
+                      return false;
+              }
+          }
+         return true;
     }
-
-
-
-
 
 }
