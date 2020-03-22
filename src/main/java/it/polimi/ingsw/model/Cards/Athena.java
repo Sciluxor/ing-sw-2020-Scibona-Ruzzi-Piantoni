@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.Cards;
 
-import it.polimi.ingsw.model.Game;
+
 import it.polimi.ingsw.model.Map.Directions;
 import it.polimi.ingsw.model.Map.GameMap;
 import it.polimi.ingsw.model.Map.Square;
@@ -32,15 +32,15 @@ public class Athena extends Card {
     public ArrayList<Directions> eliminateInvalidMove(GameMap gameMap,Worker worker, ArrayList<Directions> directionsArrayList) {
 
          Square currentSquare = worker.getBoardPosition();
-
+         ArrayList<Directions> newDirections = (ArrayList<Directions>) (directionsArrayList.clone());
          for(Directions dir: directionsArrayList){
              Square possibleSquare = gameMap.getGameMap().get(currentSquare.getCanAccess().get(dir)-1);
              if(possibleSquare.getBuildingLevel() == currentSquare.getBuildingLevel() +1){
 
-                 directionsArrayList.remove(dir);
+                 newDirections.remove(dir);
              }
          }
-return directionsArrayList;
+return newDirections;
 
     }
 }
