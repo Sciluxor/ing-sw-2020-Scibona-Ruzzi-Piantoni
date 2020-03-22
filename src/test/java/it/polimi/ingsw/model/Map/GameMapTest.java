@@ -71,6 +71,7 @@ class GameMapTest {
 
     }
 
+
     @Test
     void moveWorkerTo() {
         assertThrows(NullPointerException.class,() -> map.moveWorkerTo(null,Directions.NORD_OVEST));
@@ -84,6 +85,7 @@ class GameMapTest {
         assertEquals(player2.getCurrentWorker().getBoardPosition().getPlayer(),player2);
         assertEquals(player2.getCurrentWorker().getBoardPosition().getWorker(),player2.getCurrentWorker());
     }
+
 
     @Test
     void buildableSquare() {
@@ -129,6 +131,7 @@ class GameMapTest {
 
     }
 
+
     @Test
     void buildInSquare() {
         player2.setCurrentWorker(player2.getWorkers().get(0));
@@ -158,7 +161,6 @@ class GameMapTest {
         map.getGameMap().get(10).setBuilding(Building.LVL3);
 
 
-
         assertTrue(map.buildInSquare(player2.getCurrentWorker(),Directions.SUD,Building.DOME));
         assertEquals(player2.getCurrentWorker().getPreviousBuildPosition().getTile(),player2.getCurrentWorker().getBoardPosition().getCanAccess().get(Directions.SUD));
         assertEquals(player2.getCurrentWorker().getPreviousBuildPosition().getBuildingLevel(),4);
@@ -176,6 +178,7 @@ class GameMapTest {
         assertThrows(IllegalArgumentException.class,() -> map.buildInSquare(player2.getCurrentWorker(),Directions.EST,Building.LVL2));
 
     }
+
 
     @Test
     void workersSquares() {

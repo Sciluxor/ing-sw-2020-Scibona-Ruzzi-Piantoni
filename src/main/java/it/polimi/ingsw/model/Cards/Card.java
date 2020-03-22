@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model.Cards;
 
-import com.sun.javafx.scene.traversal.Direction;
 import it.polimi.ingsw.model.Map.Building;
 import it.polimi.ingsw.model.Map.Directions;
 import it.polimi.ingsw.model.Map.GameMap;
@@ -30,40 +29,21 @@ public class Card {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getDescription() {
         return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public boolean isPlayableIn3() {
         return isPlayableIn3;
     }
 
-    public void setPlayableIn3(boolean playableIn3) {
-        isPlayableIn3 = playableIn3;
-    }
-
     public CardType getType() {
         return type;
     }
 
-    public void setType(CardType type) {
-        this.type = type;
-    }
-
     public CardSubType getSubType() {
         return subType;
-    }
-
-    public void setSubType(CardSubType subType) {
-        this.subType = subType;
     }
 
     public ArrayList<Directions> findWorkerMove(GameMap gameMap, Worker worker) {
@@ -90,7 +70,7 @@ public class Card {
         return worker.getBoardPosition().getBuildingLevel() == 3 && worker.getPreviousBoardPosition().getBuildingLevel() == 2;
     }
 
-    public ArrayList<Directions> eliminateInvalidMove(GameMap gameMap, ArrayList<Directions> directionsArrayList) {
+    public ArrayList<Directions> eliminateInvalidMove(GameMap gameMap,Worker worker, ArrayList<Directions> directionsArrayList) {
         return directionsArrayList;
     }
 
