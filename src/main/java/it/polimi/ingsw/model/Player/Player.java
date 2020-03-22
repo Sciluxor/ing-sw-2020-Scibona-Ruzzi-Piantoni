@@ -160,7 +160,7 @@ public class Player {
 
     public boolean checkIfLoose(GameMap gameMap){
         if (gameMap == null)
-            throw new NullPointerException("gameMap or worker == null");
+            throw new NullPointerException("gameMap  == null");
 
         for (Worker work : workers){
             checkIfCanMove(gameMap, work);
@@ -168,11 +168,26 @@ public class Player {
         return true;
     }
 
-    public ArrayList<Directions> findWorkerMove(GameMap gameMap, Worker worker){ return power.findWorkerMove(gameMap, worker);}
+    public ArrayList<Directions> findWorkerMove(GameMap gameMap, Worker worker){
+        if (gameMap == null || worker == null)
+            throw new NullPointerException("gameMap or worker == null");
 
-    public Response executeWorkerMove(GameMap gameMap, Directions direction, Player player){ return power.executeWorkerMove(gameMap, direction, player);}
+        return power.findWorkerMove(gameMap, worker);
+    }
 
-    public ArrayList<Directions> findPossibleBuild(GameMap gameMap, Worker worker){ return power.findPossibleBuild(gameMap, worker);}
+    public Response executeWorkerMove(GameMap gameMap, Directions direction){
+        if (gameMap == null || direction == null)
+            throw new NullPointerException("gameMap or direction == null");
+
+        return power.executeWorkerMove(gameMap, direction, this);
+    }
+
+    public ArrayList<Directions> findPossibleBuild(GameMap gameMap, Worker worker){
+        if (gameMap == null || worker == null)
+            throw new NullPointerException("gameMap or worker == null");
+
+        return power.findPossibleBuild(gameMap, worker);
+    }
 
     public Response executeBuild(GameMap gameMap, Building building, Directions direction){
         if (gameMap == null || building == null || direction == null)
