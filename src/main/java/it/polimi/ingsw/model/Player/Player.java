@@ -196,7 +196,7 @@ public class Player {
         return power.executeBuild(gameMap, building, direction, this.currentWorker);
     }
 
-    public boolean checkVictory(GameMap gameMap, Worker worker){
+    public Response checkVictory(GameMap gameMap, Worker worker){
         if (gameMap == null || worker == null)
             throw new NullPointerException("gameMap or worker == null");
 
