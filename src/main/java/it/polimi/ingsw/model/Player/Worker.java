@@ -16,15 +16,30 @@ public class Worker {
 
     public Square getBoardPosition() { return boardPosition;}
 
-    public void setBoardPosition(Square boardPosition) { this.boardPosition = boardPosition;}
+    public void setBoardPosition(Square boardPosition) {
+        if (boardPosition == null)
+            throw new NullPointerException("boardPosition == null");
+
+        this.boardPosition = boardPosition;
+    }
 
     public Square getPreviousBoardPosition() { return previousBoardPosition;}
 
-    public void setPreviousBoardPosition(Square previousBoardPosition) { this.previousBoardPosition = previousBoardPosition;}
+    public void setPreviousBoardPosition(Square previousBoardPosition) {
+        if (previousBoardPosition == null)
+            throw new NullPointerException("previousBoardPosition == null");
+
+        this.previousBoardPosition = previousBoardPosition;
+    }
 
     public Square getPreviousBuildPosition() { return previousBuildPosition;}
 
-    public void setPreviousBuildPosition(Square previousBuildPosition) { this.previousBuildPosition = previousBuildPosition;}
+    public void setPreviousBuildPosition(Square previousBuildPosition) {
+        if (boardPosition == null)
+            throw new NullPointerException("boardPosition == null");
+
+        this.previousBuildPosition = previousBuildPosition;
+    }
 
     public WorkerName getName() { return name;}
 }

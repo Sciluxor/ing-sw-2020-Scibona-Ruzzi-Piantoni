@@ -15,8 +15,9 @@ public class Zeus extends Card {
     public ArrayList<Directions> findPossibleBuild(GameMap gameMap, Worker worker) {
         if(gameMap == null || worker == null)
             throw new NullPointerException("null gameMap or worker");
-
-        return gameMap.reachableSquares(worker);
+        ArrayList<Directions> direction = gameMap.reachableSquares(worker);
+        direction.add(Directions.CENTER);
+        return direction;
     }
 
 }
