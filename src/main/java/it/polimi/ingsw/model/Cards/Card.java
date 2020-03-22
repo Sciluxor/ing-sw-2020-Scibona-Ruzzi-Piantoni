@@ -94,13 +94,9 @@ public class Card {
         return directionsArrayList;
     }
 
-    public boolean canMove(Player player, Worker worker) {
-        if(player == null || worker == null)
-            throw new NullPointerException("null player or worker");
+    public boolean canMove(Player player, Worker worker) { return true; }
 
-        return true;
-    }
-    public boolean isValidVictory() {
+    public boolean isValidVictory(GameMap gameMap, Worker worker) {
         return true;
     }
 
