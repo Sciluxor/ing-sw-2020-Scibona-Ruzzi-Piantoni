@@ -32,7 +32,7 @@ public class Apollo extends Card {
 
         int wantToAccess = player.getCurrentWorker().getBoardPosition().getCanAccess().get(directions);
         if(gameMap.getGameMap().get(wantToAccess).hasPlayer())
-            swapWorker(player.getCurrentWorker(), gameMap.getGameMap().get(wantToAccess).getWorker());
+            swapWorker(player.getCurrentWorker().getBoardPosition(), gameMap.getGameMap().get(wantToAccess-1).getWorker().getBoardPosition());
         else
             gameMap.moveWorkerTo(player, directions);
 
@@ -58,10 +58,18 @@ public class Apollo extends Card {
         return reachableSquares;
     }
 
-    public void swapWorker(Worker worker1, Worker worker2) {
-        Square tempswap;
-        tempswap = worker1.getBoardPosition();
-        worker1.setBoardPosition(worker2.getBoardPosition());
-        worker2.setBoardPosition(tempswap);
+    public void swapWorker(Square square1, Square square2) {
+        Player playerTemp = square1.getPlayer();
+        Worker workerTemp = square1.getWorker();
+        square1.setWorker(square2.getWorker());
+        square1.getWorker().setPreviousBoardPosition(square2);
+        square1.getWorker().setBoardPosition(square1);
+        square1.setPlayer(square2.getPlayer());
+
+        square2.setWorker(workerTemp);
+        square2.getWorker().setPreviousBoardPosition(square1);
+        square2.getWorker().setBoardPosition(square2);
+        square2.setPlayer(playerTemp);
+
     }
 }

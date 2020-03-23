@@ -57,5 +57,6 @@ class ApolloTest {
         player1.executeWorkerMove(gameMap, Directions.EST);
         //assertEquals(player1.getCurrentWorker().getBoardPosition(), gameMap.getGameMap().get(21));
         //assertEquals(player2.getCurrentWorker().getBoardPosition(), gameMap.getGameMap().get(22));
+
     }
 }
