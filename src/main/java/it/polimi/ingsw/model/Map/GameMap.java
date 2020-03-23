@@ -92,7 +92,6 @@ return reachableSquares;
         if(worker == null || direction == null || building == null){
             throw new NullPointerException("null worker or building or direction");
         }
-
         Square buildingSquare = gameMap.get(worker.getBoardPosition().getCanAccess().get(direction) -1);
         if(building.equals(Building.mapNext(buildingSquare.getBuilding()))){
             worker.setPreviousBuildPosition(buildingSquare);

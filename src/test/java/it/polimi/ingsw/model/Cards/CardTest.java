@@ -47,7 +47,6 @@ class CardTest {
         gameMap.getGameMap().get(18).setMovement(player2,player2.getWorkers().get(1));
         player2.getWorkers().get(1).setBoardPosition(gameMap.getGameMap().get(18));
         directions = player.findWorkerMove(gameMap, player.getWorkers().get(0));
-
     }
 
     @Test
