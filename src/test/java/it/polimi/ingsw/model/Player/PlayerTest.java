@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
 
-    Player player = new Player("GoodPlayer", TurnStatus.PREGAME);
+    Player player;
     Card cardA, cardHy, cardHe;
     Worker worker1,worker2;
     GameMap gameMap;
@@ -25,6 +25,7 @@ class PlayerTest {
 
     @BeforeEach
     void setup(){
+        player = new Player("GoodPlayer", TurnStatus.PREGAME);
         cardA = CardLoader.loadCards().get("Athena");
         cardHy = CardLoader.loadCards().get("Hypnus");
         cardHe = CardLoader.loadCards().get("Hera");
@@ -300,5 +301,10 @@ class PlayerTest {
     void checkVictory() {
         assertThrows(NullPointerException.class , () -> player.checkVictory(null, worker1));
         assertThrows(NullPointerException.class , () -> player.checkVictory(gameMap, null));
+    }
+
+    @Test
+    void assignConstraint() {
+        assertThrows(NullPointerException.class , () -> player.assignConstraint(null));
     }
 }
