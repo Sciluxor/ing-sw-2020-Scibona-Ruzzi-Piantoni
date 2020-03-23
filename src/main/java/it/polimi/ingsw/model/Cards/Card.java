@@ -106,7 +106,6 @@ public class Card {
         return true;
     }
 
-
     @Override
     public String toString() {
         String result = "Card Name -> " + name + "\nCard Description -> " + description;

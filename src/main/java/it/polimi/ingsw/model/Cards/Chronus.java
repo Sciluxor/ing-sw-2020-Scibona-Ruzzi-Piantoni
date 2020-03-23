@@ -11,22 +11,7 @@ public class Chronus extends Card {
     public Chronus(String name, String description, boolean isPlayableIn3, CardType type, CardSubType subType) {
         super(name, description, isPlayableIn3, type, subType);
     }
-
-    @Override
-    public Response getFirstOperation() {
-        return Response.CHECKPREWIN;
-    }
-
-    @Override
-    public Response executeBuild(GameMap gameMap, Building building, Directions directions, Worker worker) {
-        if(gameMap == null || worker == null || building == null || directions == null)
-            throw new NullPointerException("null gameMap or worker or building or direction");
-
-        if(gameMap.buildInSquare(worker, directions, building))
-            return Response.CHECKBUILDWIN;
-        else
-            return Response.NOTBUILD;
-    }
+    
 
     @Override
     public Response checkVictory(GameMap gameMap, Worker worker) {
