@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.Player;
 
 import it.polimi.ingsw.model.Cards.Card;
 import it.polimi.ingsw.model.Cards.CardLoader;
+import it.polimi.ingsw.model.Cards.Response;
 import it.polimi.ingsw.model.Map.Building;
 import it.polimi.ingsw.model.Map.Directions;
 import it.polimi.ingsw.model.Map.GameMap;
@@ -14,25 +15,39 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
 
-    Player player;
-    Card cardA, cardHy, cardHe;
+    Player player, player1, player2;
+    Card cardA, cardAp, cardHy, cardHe;
     Worker worker1,worker2;
     GameMap gameMap;
-    ArrayList<Directions> directions;
-    ArrayList<Directions> directions2;
+    ArrayList<Directions> directions, directions2;
+    ArrayList<Player> players;
 
 
 
     @BeforeEach
     void setup(){
         player = new Player("GoodPlayer", TurnStatus.PREGAME);
+        player1 = new Player("uno", TurnStatus.PREGAME);
+        player2 = new Player("due", TurnStatus.PREGAME);
+        players = new ArrayList<>();
+        players.add(player);
+        players.add(player1);
+        players.add(player2);
         cardA = CardLoader.loadCards().get("Athena");
+        cardAp = CardLoader.loadCards().get("Apollo");
         cardHy = CardLoader.loadCards().get("Hypnus");
         cardHe = CardLoader.loadCards().get("Hera");
         worker1 = new Worker(WorkerName.WORKER1);
         worker2 = new Worker(WorkerName.WORKER2);
         gameMap = new GameMap();
-
+        gameMap.getGameMap().get(22).setMovement(player1,player1.getWorkers().get(0));
+        player1.getWorkers().get(0).setBoardPosition(gameMap.getGameMap().get(22));
+        gameMap.getGameMap().get(4).setMovement(player1,player1.getWorkers().get(1));
+        player1.getWorkers().get(1).setBoardPosition(gameMap.getGameMap().get(4));
+        gameMap.getGameMap().get(21).setMovement(player2,player2.getWorkers().get(0));
+        player2.getWorkers().get(0).setBoardPosition(gameMap.getGameMap().get(21));
+        gameMap.getGameMap().get(18).setMovement(player2,player2.getWorkers().get(1));
+        player2.getWorkers().get(1).setBoardPosition(gameMap.getGameMap().get(18));
     }
 
     @Test
@@ -226,25 +241,26 @@ class PlayerTest {
         assertThrows(NullPointerException.class , () -> player.selectCurrentWorker(null, "worker1"));
         assertThrows(NullPointerException.class , () -> player.selectCurrentWorker(gameMap, null));
 
+        player1.setPower(cardA);
+        player2.setPower(cardHy);
+        player1.setConstraint(cardHy);
+        player2.setConstraint(cardA);
+
+        player1.getWorkers().get(0).getBoardPosition().addBuildingLevel();
+        assertFalse(player1.selectCurrentWorker(gameMap, "worker1"));
+
     }
 
     @Test
     void checkIfCanMove() {
         assertThrows(NullPointerException.class , () -> player.selectCurrentWorker(null, "worker1"));
         assertThrows(NullPointerException.class , () -> player.selectCurrentWorker(gameMap, null));
-        gameMap = new GameMap();
-        Player player1 = new Player("uno", TurnStatus.PREGAME);
-        Player player2 = new Player("due", TurnStatus.PREGAME);
+
+
         player1.setPower(cardA);
         player2.setPower(cardHy);
-        gameMap.getGameMap().get(22).setMovement(player1,player1.getWorkers().get(0));
-        player1.getWorkers().get(0).setBoardPosition(gameMap.getGameMap().get(22));
-        gameMap.getGameMap().get(4).setMovement(player1,player1.getWorkers().get(1));
-        player1.getWorkers().get(1).setBoardPosition(gameMap.getGameMap().get(4));
-        gameMap.getGameMap().get(21).setMovement(player2,player2.getWorkers().get(0));
-        player2.getWorkers().get(0).setBoardPosition(gameMap.getGameMap().get(21));
-        gameMap.getGameMap().get(18).setMovement(player2,player2.getWorkers().get(1));
-        player2.getWorkers().get(1).setBoardPosition(gameMap.getGameMap().get(18));
+        assertTrue(player1.checkIfCanMove(gameMap, player1.getWorkers().get(0)));
+
         player1.setConstraint(cardHy);
         player2.setConstraint(cardA);
         assertTrue(player1.checkIfCanMove(gameMap, player1.getWorkers().get(0)));
@@ -265,11 +281,53 @@ class PlayerTest {
         directions = player2.findWorkerMove(gameMap, player2.getWorkers().get(0));
         directions2 = player2.getConstraint().get(0).eliminateInvalidMove(gameMap, player2.getWorkers().get(0), directions);
         assertEquals(directions2.size(), 6);
+
+        gameMap.getGameMap().get(8).setMovement(player2,player2.getWorkers().get(1));
+        player2.getWorkers().get(1).setBoardPosition(gameMap.getGameMap().get(8));
+        gameMap.getGameMap().get(9).addBuildingLevel();
+        gameMap.getGameMap().get(9).addBuildingLevel();
+        assertEquals(gameMap.getGameMap().get(9).getBuildingLevel(), 2);
+        gameMap.getGameMap().get(7).addBuildingLevel();
+        gameMap.getGameMap().get(7).addBuildingLevel();
+        assertEquals(gameMap.getGameMap().get(7).getBuildingLevel(), 2);
+        gameMap.getGameMap().get(20).addBuildingLevel();
+        gameMap.getGameMap().get(20).addBuildingLevel();
+        assertEquals(gameMap.getGameMap().get(7).getBuildingLevel(), 2);
+        assertFalse(player2.checkIfCanMove(gameMap, player2.getWorkers().get(1)));
+
     }
 
     @Test
     void checkIfLoose() {
+
         assertThrows(NullPointerException.class , () -> player.checkIfLoose(null));
+
+        player1.setPower(cardAp);
+        assertFalse(player1.checkIfLoose(gameMap));
+
+        gameMap.getGameMap().get(8).setMovement(player1,player1.getWorkers().get(1));
+        player1.getWorkers().get(1).setBoardPosition(gameMap.getGameMap().get(8));
+        gameMap.getGameMap().get(9).addBuildingLevel();
+        gameMap.getGameMap().get(9).addBuildingLevel();
+        assertEquals(gameMap.getGameMap().get(9).getBuildingLevel(), 2);
+        gameMap.getGameMap().get(7).addBuildingLevel();
+        gameMap.getGameMap().get(7).addBuildingLevel();
+        assertEquals(gameMap.getGameMap().get(7).getBuildingLevel(), 2);
+        gameMap.getGameMap().get(20).addBuildingLevel();
+        gameMap.getGameMap().get(20).addBuildingLevel();
+        assertEquals(gameMap.getGameMap().get(20).getBuildingLevel(), 2);
+        gameMap.getGameMap().get(0).setMovement(player1,player1.getWorkers().get(0));
+        player1.getWorkers().get(0).setBoardPosition(gameMap.getGameMap().get(0));
+        gameMap.getGameMap().get(1).addBuildingLevel();
+        gameMap.getGameMap().get(1).addBuildingLevel();
+        assertEquals(gameMap.getGameMap().get(1).getBuildingLevel(), 2);
+        gameMap.getGameMap().get(16).addBuildingLevel();
+        gameMap.getGameMap().get(16).addBuildingLevel();
+        assertEquals(gameMap.getGameMap().get(16).getBuildingLevel(), 2);
+        gameMap.getGameMap().get(15).addBuildingLevel();
+        gameMap.getGameMap().get(15).addBuildingLevel();
+        assertEquals(gameMap.getGameMap().get(15).getBuildingLevel(), 2);
+        assertTrue(player1.checkIfLoose(gameMap));
     }
 
     @Test
@@ -282,12 +340,19 @@ class PlayerTest {
     void executeWorkerMove() {
         assertThrows(NullPointerException.class , () -> player.executeWorkerMove(null, Directions.NORD));
         assertThrows(NullPointerException.class , () -> player.executeWorkerMove(gameMap, null));
+
+        player1.setPower(cardAp);
+        player1.selectCurrentWorker(gameMap, "worker1");
+        assertEquals(player1.executeWorkerMove(gameMap, Directions.NORD), cardAp.executeWorkerMove(gameMap, Directions.NORD, player1));
     }
 
     @Test
     void findPossibleBuild() {
         assertThrows(NullPointerException.class , () -> player.findPossibleBuild(null, worker1));
         assertThrows(NullPointerException.class , () -> player.findPossibleBuild(gameMap, null));
+
+        player1.setPower(cardAp);
+        assertEquals(player1.findPossibleBuild(gameMap, player1.getWorkers().get(0)), cardAp.findPossibleBuild(gameMap, player1.getWorkers().get(0)));
     }
 
     @Test
@@ -295,16 +360,52 @@ class PlayerTest {
         assertThrows(NullPointerException.class , () -> player.executeBuild(null, Building.DOME, Directions.OVEST));
         assertThrows(NullPointerException.class , () -> player.executeBuild(gameMap, null, Directions.OVEST));
         assertThrows(NullPointerException.class , () -> player.executeBuild(gameMap, Building.DOME, null));
+
+        player1.setPower(cardAp);
+        player1.selectCurrentWorker(gameMap, "worker1");
+        assertEquals(player1.executeBuild(gameMap, Building.LVL1, Directions.OVEST), Response.BUILD);
     }
 
     @Test
     void checkVictory() {
         assertThrows(NullPointerException.class , () -> player.checkVictory(null, worker1));
         assertThrows(NullPointerException.class , () -> player.checkVictory(gameMap, null));
+
+        player1.setPower(cardAp);
+        assertEquals(player1.checkVictory(gameMap, player1.getWorkers().get(0)), Response.NOTWIN);
     }
 
     @Test
     void assignConstraint() {
         assertThrows(NullPointerException.class , () -> player.assignConstraint(null));
+
+        player.setPower(cardA);
+        player1.setPower(cardHe);
+        player2.setPower(cardAp);
+
+        player.assignConstraint(players);
+        assertEquals(players.get(0).getConstraint().size(), 0);
+        assertEquals(players.get(1).getConstraint().size(), 1);
+        assertEquals(players.get(2).getConstraint().size(), 1);
+        assertEquals(players.get(1).getConstraint().get(0), cardA);
+        assertEquals(players.get(2).getConstraint().get(0), cardA);
+        player1.assignConstraint(players);
+        assertEquals(players.get(0).getConstraint().size(), 1);
+        assertEquals(players.get(1).getConstraint().size(), 1);
+        assertEquals(players.get(2).getConstraint().size(), 2);
+        assertEquals(players.get(0).getConstraint().get(0), cardHe);
+        assertEquals(players.get(1).getConstraint().get(0), cardA);
+        assertEquals(players.get(2).getConstraint().get(0), cardA);
+        assertEquals(players.get(2).getConstraint().get(1), cardHe);
+        player2.assignConstraint(players);
+        assertEquals(players.get(0).getConstraint().size(), 2);
+        assertEquals(players.get(1).getConstraint().size(), 2);
+        assertEquals(players.get(2).getConstraint().size(), 2);
+        assertEquals(players.get(0).getConstraint().get(0), cardHe);
+        assertEquals(players.get(0).getConstraint().get(1), cardAp);
+        assertEquals(players.get(1).getConstraint().get(0), cardA);
+        assertEquals(players.get(1).getConstraint().get(1), cardAp);
+        assertEquals(players.get(2).getConstraint().get(0), cardA);
+        assertEquals(players.get(2).getConstraint().get(1), cardHe);
     }
 }

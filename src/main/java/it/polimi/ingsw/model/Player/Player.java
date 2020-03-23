@@ -162,10 +162,8 @@ public class Player {
         if (gameMap == null)
             throw new NullPointerException("gameMap  == null");
 
-        for (Worker work : workers){
-            checkIfCanMove(gameMap, work);
-        }
-        return true;
+
+        return !checkIfCanMove(gameMap, workers.get(0)) && !checkIfCanMove(gameMap, workers.get(1));
     }
 
     public ArrayList<Directions> findWorkerMove(GameMap gameMap, Worker worker){

@@ -107,7 +107,11 @@ class CardTest {
     void executeWorkerMove() {
         assertThrows(NullPointerException.class , () -> cardA.executeWorkerMove(null, Directions.OVEST, player));
         assertThrows(NullPointerException.class , () -> cardA.executeWorkerMove(gameMap, null, player));
-        assertThrows(NullPointerException.class , () -> cardA.executeWorkerMove(gameMap, Directions.EST, null));
+        assertThrows(NullPointerException.class , () -> cardA.executeWorkerMove(null, null, player));
+        assertThrows(NullPointerException.class , () -> cardA.executeWorkerMove(gameMap, Directions.OVEST, null));
+        assertThrows(NullPointerException.class , () -> cardA.executeWorkerMove(null, Directions.OVEST, null));
+        assertThrows(NullPointerException.class , () -> cardA.executeWorkerMove(gameMap, null, null));
+        assertThrows(NullPointerException.class , () -> cardA.executeWorkerMove(null, null, null));
 
         player.setPower(cardDe);
         player.selectCurrentWorker(gameMap, "worker1");
@@ -119,6 +123,8 @@ class CardTest {
     void findPossibleBuild() {
         assertThrows(NullPointerException.class , () -> cardA.findPossibleBuild(null, worker1));
         assertThrows(NullPointerException.class , () -> cardA.findPossibleBuild(gameMap, null));
+
+        assertEquals(cardA.findPossibleBuild(gameMap, player.getWorkers().get(0)), gameMap.reachableSquares(player.getWorkers().get(0)));
     }
 
     @Test
@@ -131,6 +137,7 @@ class CardTest {
         player.setPower(cardCr);
 
         assertEquals(cardCr.executeBuild(gameMap, Building.LVL1, Directions.OVEST, player.getWorkers().get(0)), Response.BUILD);
+        assertEquals(cardCr.executeBuild(gameMap, Building.LVL3, Directions.OVEST, player.getWorkers().get(0)), Response.NOTBUILD);
     }
 
     @Test

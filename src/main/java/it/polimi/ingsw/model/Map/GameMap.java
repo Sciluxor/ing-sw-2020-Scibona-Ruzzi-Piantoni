@@ -88,19 +88,20 @@ return reachableSquares;
     //function that build in the position selected,with the type of building selected
     //
 
-    public boolean buildInSquare(Worker worker, Directions direction,Building building){
-        if(worker == null || direction == null || building == null)
+    public boolean buildInSquare(Worker worker, Directions direction, Building building){
+        if(worker == null || direction == null || building == null){
             throw new NullPointerException("null worker or building or direction");
-            Square buildingSquare = gameMap.get(worker.getBoardPosition().getCanAccess().get(direction) -1);
-            if(building.equals(Building.mapNext(buildingSquare.getBuilding()))){
-                worker.setPreviousBuildPosition(buildingSquare);
-                buildingSquare.setBuilding(building);
-                buildingSquare.addBuildingLevel();
+        }
 
-                return true;
-            }
+        Square buildingSquare = gameMap.get(worker.getBoardPosition().getCanAccess().get(direction) -1);
+        if(building.equals(Building.mapNext(buildingSquare.getBuilding()))){
+            worker.setPreviousBuildPosition(buildingSquare);
+            buildingSquare.setBuilding(building);
+            buildingSquare.addBuildingLevel();
 
-return false;
+            return true;
+        }
+        return false;
 
     }
 
