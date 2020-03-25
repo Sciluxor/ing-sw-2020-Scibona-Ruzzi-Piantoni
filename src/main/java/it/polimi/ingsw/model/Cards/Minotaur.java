@@ -58,7 +58,7 @@ public class Minotaur extends Card {
 
         currentWorker.setPreviousBoardPosition(currentWorker.getBoardPosition());
         currentWorker.getPreviousBoardPosition().setHasPlayer(false);
-        currentWorker.setBoardPosition( gameMap.getGameMap().get(currentWorker.getBoardPosition().getCanAccess().get(directions) -1));
+        currentWorker.setBoardPosition( gameMap.getGameMap().get(currentWorker.getBoardPosition().getCanAccess().get(directions) - 1));
         currentWorker.getBoardPosition().setHasPlayer(true);
         currentWorker.getBoardPosition().setPlayer(player);
         currentWorker.getBoardPosition().setWorker(currentWorker);
@@ -83,7 +83,7 @@ public class Minotaur extends Card {
 
         pushedWorker.setPreviousBoardPosition(pushedWorker.getBoardPosition());
         pushedWorker.getPreviousBoardPosition().setHasPlayer(false);
-        pushedWorker.setBoardPosition(gameMap.getGameMap().get(pushedWorker.getBoardPosition().getCanAccess().get(directions) -1));
+        pushedWorker.setBoardPosition(gameMap.getGameMap().get(pushedWorker.getBoardPosition().getCanAccess().get(directions) - 1));
         pushedWorker.getBoardPosition().setHasPlayer(true);
         pushedWorker.getBoardPosition().setPlayer(nextSquare.getPlayer());
         pushedWorker.getBoardPosition().setWorker(pushedWorker);
