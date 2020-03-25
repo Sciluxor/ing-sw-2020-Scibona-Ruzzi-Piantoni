@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ArtemisTest {
 
     Player player1, player2;
-    Artemis cardArte;
+    Card cardArte;
     Worker worker1,worker2;
     GameMap gameMap;
     ArrayList<Directions> directions;
@@ -25,7 +25,7 @@ class ArtemisTest {
     void setup(){
         player1 = new Player("GoodPlayer", TurnStatus.PREGAME);
         player2 = new Player("BadPlayer", TurnStatus.PREGAME);
-        cardArte = (Artemis) CardLoader.loadCards().get("Artemis");
+        cardArte = CardLoader.loadCards().get("Artemis");
 
         worker1 = new Worker(WorkerName.WORKER1);
         worker2 = new Worker(WorkerName.WORKER2);
@@ -48,14 +48,12 @@ class ArtemisTest {
         assertThrows(NullPointerException.class , () -> cardArte.findWorkerMove(null, worker1));
         assertThrows(NullPointerException.class , () -> cardArte.findWorkerMove(gameMap, null));
 
+        assertEquals(player1.getCurrentWorker().getBoardPosition(), gameMap.getGameMap().get(22));
+        assertEquals(cardArte.findWorkerMove(gameMap, player1.getWorkers().get(0)).size(), 7);
         assertEquals(cardArte.executeWorkerMove(gameMap, Directions.OVEST, player1), Response.NEWMOVE);
-        assertEquals(cardArte.findWorkerMove(gameMap, player1.getWorkers().get(0)), cardArte.notPreviousMove(gameMap, player1.getWorkers().get(0)));
-        assertEquals(cardArte.executeWorkerMove(gameMap, Directions.NORD, player1), Response.MOVED);
+        assertEquals(cardArte.findWorkerMove(gameMap, player1.getWorkers().get(0)).size(), 4);
+        assertEquals(player1.getCurrentWorker().getBoardPosition(), gameMap.getGameMap().get(13));
 
-    }
-
-    @Test
-    void notPreviousMove() {
 
     }
 
