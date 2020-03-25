@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.Cards.CardLoader;
 import it.polimi.ingsw.model.Cards.Response;
 import it.polimi.ingsw.model.Map.GameMap;
 import it.polimi.ingsw.model.Player.Player;
+import it.polimi.ingsw.network.server.ClientHandler;
 import it.polimi.ingsw.utils.Observable;
 import it.polimi.ingsw.view.Server.VirtualView;
 
@@ -23,15 +24,20 @@ public class Game extends Observable<Game> {
 
     private static Game gameInstance;
 
-    private Game() {
+    public Game(ArrayList<VirtualView> actualPlayers,int numberOfPlayers) {
 
         players = new ArrayList<>();
+        for(VirtualView view: actualPlayers){
+            players.add(view.getPlayer());
+        }
+        this.numberOfPlayers = numberOfPlayers;
         deck = CardLoader.loadCards();
         gameMap = new GameMap();
+        isGameStarted = true;
 
     }
 
-    public static Game getSingleInstance(){
+   /* public static Game getSingleInstance(){
 
         if(gameInstance == null)
             gameInstance =  new Game();
@@ -39,7 +45,7 @@ public class Game extends Observable<Game> {
         return gameInstance;
 
 
-    }
+    }*/
 
     public  Integer getNumberOfPlayers() {
         return numberOfPlayers;
@@ -92,6 +98,10 @@ public class Game extends Observable<Game> {
         this.gameStatus = newStatus;
         notify(this);
 
+    }
+
+    public Response getGameStatus(){
+        return this.gameStatus;
     }
 
 

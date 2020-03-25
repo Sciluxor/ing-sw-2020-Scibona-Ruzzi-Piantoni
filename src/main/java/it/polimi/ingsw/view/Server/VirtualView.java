@@ -19,13 +19,26 @@ public class VirtualView extends Observable<Message> implements Observer<Game> {
 
    }
 
+   public void onUpdatedInstance(Game instance){
+       switch (instance.getGameStatus()) {
+
+       }
+
+
+   }
+
+   public Player getPlayer(){
+       return player;
+
+   }
+
 
 
 
     @Override
     public void update(Game instance) {
 
-
+       onUpdatedInstance(instance);
 
     }
 }
