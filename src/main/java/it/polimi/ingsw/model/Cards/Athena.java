@@ -18,6 +18,9 @@ public class Athena extends Card {
 
     @Override
     public Response executeWorkerMove(GameMap gameMap, Directions directions, Player player) {
+        if(gameMap == null || directions == null || player == null)
+            throw new NullPointerException("null gameMap or directions or player");
+
         gameMap.moveWorkerTo(player,directions);
 
         if(player.getCurrentWorker().getPreviousBoardPosition().getBuildingLevel() + 1 == player.getCurrentWorker().getBoardPosition().getBuildingLevel()){
@@ -29,18 +32,18 @@ public class Athena extends Card {
     }
 
     @Override
-    public ArrayList<Directions> eliminateInvalidMove(GameMap gameMap,Worker worker, ArrayList<Directions> directionsArrayList) {
+    public ArrayList<Directions> eliminateInvalidMove(GameMap gameMap, Worker worker, ArrayList<Directions> directionsArrayList) {
 
          Square currentSquare = worker.getBoardPosition();
          ArrayList<Directions> newDirections = (ArrayList<Directions>) (directionsArrayList.clone());
          for(Directions dir: directionsArrayList){
-             Square possibleSquare = gameMap.getGameMap().get(currentSquare.getCanAccess().get(dir)-1);
-             if(possibleSquare.getBuildingLevel() == currentSquare.getBuildingLevel() +1){
+             Square possibleSquare = gameMap.getGameMap().get(currentSquare.getCanAccess().get(dir) - 1);
+             if(possibleSquare.getBuildingLevel() == currentSquare.getBuildingLevel() + 1){
 
                  newDirections.remove(dir);
              }
          }
-return newDirections;
+    return newDirections;
 
     }
 }

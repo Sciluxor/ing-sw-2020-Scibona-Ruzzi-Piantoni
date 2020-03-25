@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ApolloTest {
 
     Player player1, player2;
-    Card cardAp, cardAt;
+    Card cardApo, cardAthe;
     GameMap gameMap;
 
 
@@ -28,10 +28,10 @@ class ApolloTest {
     void setup(){
         player1 = new Player("uno", TurnStatus.PREGAME);
         player2 = new Player("due", TurnStatus.PREGAME);
-        cardAp = CardLoader.loadCards().get("Apollo");
-        cardAt = CardLoader.loadCards().get("Atlas");
-        player1.setPower(cardAp);
-        player2.setPower(cardAt);
+        cardApo = CardLoader.loadCards().get("Apollo");
+        cardAthe = CardLoader.loadCards().get("Athena");
+        player1.setPower(cardApo);
+        player2.setPower(cardAthe);
         gameMap = new GameMap();
         gameMap.getGameMap().get(22).setMovement(player1,player1.getWorkers().get(0));
         player1.getWorkers().get(0).setBoardPosition(gameMap.getGameMap().get(22));
@@ -45,12 +45,19 @@ class ApolloTest {
         player2.selectCurrentWorker(gameMap, "worker1");
     }
 
+    @Test
+    void findWorkerMove() {
+        assertThrows(NullPointerException.class , () -> cardApo.findWorkerMove(null, player1.getCurrentWorker()));
+        assertThrows(NullPointerException.class , () -> cardApo.findWorkerMove(gameMap, null));
 
-
+        assertEquals(cardApo.findWorkerMove(gameMap, player1.getCurrentWorker()).size(), 8);
+    }
 
     @Test
     void executeWorkerMove() {
-
+        assertThrows(NullPointerException.class , () -> cardApo.executeWorkerMove(null, Directions.NORD, player1));
+        assertThrows(NullPointerException.class , () -> cardApo.executeWorkerMove(gameMap, null, player1));
+        assertThrows(NullPointerException.class , () -> cardApo.executeWorkerMove(gameMap, Directions.NORD, null));
 
         assertEquals(player1.getCurrentWorker().getBoardPosition(), gameMap.getGameMap().get(22));
         assertEquals(player2.getCurrentWorker().getBoardPosition(), gameMap.getGameMap().get(21));
