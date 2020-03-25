@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.Cards;
 
+import it.polimi.ingsw.model.Map.Building;
 import it.polimi.ingsw.model.Map.Directions;
 import it.polimi.ingsw.model.Map.GameMap;
 import it.polimi.ingsw.model.Player.Player;
@@ -13,10 +14,10 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class HeraTest {
+class HestiaTest {
 
     Player player1, player2;
-    Card cardHera;
+    Card cardHest;
     Worker worker1,worker2;
     GameMap gameMap;
     ArrayList<Directions> directions;
@@ -25,8 +26,8 @@ class HeraTest {
     void setup(){
         player1 = new Player("GoodPlayer", TurnStatus.PREGAME);
         player2 = new Player("BadPlayer", TurnStatus.PREGAME);
-        cardHera = CardLoader.loadCards().get("Hera");
-        player1.setPower(cardHera);
+        cardHest = CardLoader.loadCards().get("Hestia");
+        player1.setPower(cardHest);
         worker1 = new Worker(WorkerName.WORKER1);
         worker2 = new Worker(WorkerName.WORKER2);
         gameMap = new GameMap();
@@ -43,12 +44,25 @@ class HeraTest {
     }
 
     @Test
-    void isValidVictory() {
-        assertThrows(NullPointerException.class , () -> cardHera.findPossibleBuild(null, player1.getCurrentWorker()));
-        assertThrows(NullPointerException.class , () -> cardHera.findPossibleBuild(gameMap, null));
+    void findPossibleBuild() {
+        assertThrows(NullPointerException.class , () -> cardHest.findPossibleBuild(null, worker1));
+        assertThrows(NullPointerException.class , () -> cardHest.findPossibleBuild(gameMap, null));
 
-        assertTrue(cardHera.isValidVictory(gameMap, player1.getCurrentWorker()));
-        player1.getCurrentWorker().setBoardPosition(gameMap.getGameMap().get(13));
-        assertFalse(cardHera.isValidVictory(gameMap, player1.getCurrentWorker()));
+        assertEquals(cardHest.findPossibleBuild(gameMap, player1.getCurrentWorker()).size(), 7);
+        cardHest.executeBuild(gameMap, Building.LVL1, Directions.NORD, player1.getCurrentWorker());
+        assertEquals(cardHest.findPossibleBuild(gameMap, player1.getCurrentWorker()).size(), 2);
+    }
+
+    @Test
+    void executeBuild() {
+        assertThrows(NullPointerException.class , () -> cardHest.executeBuild(null, Building.LVL1, Directions.OVEST, worker1));
+        assertThrows(NullPointerException.class , () -> cardHest.executeBuild(gameMap, null, Directions.OVEST, worker1));
+        assertThrows(NullPointerException.class , () -> cardHest.executeBuild(gameMap, Building.LVL1, null, worker1));
+        assertThrows(NullPointerException.class , () -> cardHest.executeBuild(gameMap, Building.LVL1, Directions.OVEST, null));
+
+        assertEquals(cardHest.executeBuild(gameMap, Building.LVL2, Directions.NORD, player1.getCurrentWorker()), Response.NOTBUILD);
+        assertEquals(cardHest.executeBuild(gameMap, Building.LVL1, Directions.NORD, player1.getCurrentWorker()), Response.NEWBUILD);
+        assertEquals(cardHest.executeBuild(gameMap, Building.LVL1, Directions.OVEST, player1.getCurrentWorker()), Response.BUILD);
+
     }
 }

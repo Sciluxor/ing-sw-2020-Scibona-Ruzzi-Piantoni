@@ -24,8 +24,8 @@ public class Chronus extends Card {
     }
 
     public boolean countTower(GameMap gameMap) {
-        if(gameMap == null)
-            throw new NullPointerException("null gameMap");
+        /*if(gameMap == null)
+            throw new NullPointerException("null gameMap");*/
 
         int counter = 0;
         for(Square x : gameMap.getGameMap()) {
