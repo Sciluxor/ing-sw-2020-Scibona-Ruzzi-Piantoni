@@ -1,5 +1,5 @@
 package it.polimi.ingsw.network.message;
 
 public enum MessageType {
-    START,NICK
+    START,NICK,CONFIG
 }

@@ -15,11 +15,21 @@ public class ClientHandler implements Runnable{
     private ObjectOutputStream objectOut;
     private Socket socket;
     private Server server;
+    private boolean isActive;
 
     public ClientHandler(Server server, Socket socket){
         this.socket = socket;
         this.server = server;
+        this.isActive = true;
 
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     public void sendMessage(Message msg){
@@ -39,17 +49,18 @@ public class ClientHandler implements Runnable{
                 this.objectOut = new ObjectOutputStream(socket.getOutputStream());
                 this.objectIn = new ObjectInputStream(socket.getInputStream());
                 server.firsLogin(this);
-                while(true) {
+                while(isActive()) {
                     Message input = (Message) objectIn.readObject();
 
-                    if (input.getContent().equalsIgnoreCase("end")) {
-                        break;
+                    if (input.getType() == MessageType.NICK) {
+
+
+                    }
+                    if(input.getType() == MessageType.CONFIG){
 
                     }
                     else {
-                        Message message = new Message(MessageType.START, MessageSubType.ERROR,"received " + input.getContent());
-                        objectOut.writeObject(message);
-                        objectOut.flush();
+                        server.onMessage(input);
                     }
 
                 }

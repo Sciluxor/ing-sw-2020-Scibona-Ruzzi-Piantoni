@@ -2,19 +2,23 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.Cards.Card;
 import it.polimi.ingsw.model.Cards.CardLoader;
+import it.polimi.ingsw.model.Cards.Response;
 import it.polimi.ingsw.model.Map.GameMap;
 import it.polimi.ingsw.model.Player.Player;
+import it.polimi.ingsw.utils.Observable;
+import it.polimi.ingsw.view.Server.VirtualView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Game {
+public class Game extends Observable<Game> {
     private  Integer numberOfPlayers;
     private  ArrayList<Player> players;
     private  HashMap<String, Card> deck;
     private  Player currentPlayer;
     private GameMap gameMap;
     private boolean isGameStarted;
+    private Response gameStatus;
 
 
     private static Game gameInstance;
@@ -82,6 +86,12 @@ public class Game {
 
     public void setGameStarted(boolean gameStarted) {
         isGameStarted = gameStarted;
+    }
+
+    public void setGameStatus(Response newStatus){
+        this.gameStatus = newStatus;
+        notify(this);
+
     }
 
 

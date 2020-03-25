@@ -39,6 +39,11 @@ public class Server {
         server.startSocketServer(server.getSocketPort());
     }
 
+    public void onMessage(Message msg){
+        Match actualMatch = lobby.getMatchfromName(msg.getSender());
+        actualMatch.sendMsgToVirtualView(msg);
+    }
+
     public void setSocketPort(int port){
         this.socketPort = port;
 
@@ -57,9 +62,10 @@ public class Server {
     }
 
     public void firsLogin(ClientHandler clientHandler){
-        clients.add(clientHandler);
-        clientHandler.sendMessage(new Message(MessageType.NICK, MessageSubType.REQUEST,"richiesta di nick"));
-
+        synchronized (clientsLock) {
+            clients.add(clientHandler);
+            clientHandler.sendMessage(new Message("God",MessageType.NICK, MessageSubType.REQUEST, "richiesta di nick"));
+        }
 
     }
 

@@ -17,7 +17,7 @@ public class Card {
     private CardType type;
     private CardSubType subType;
 
-    public Card (String name, String description, boolean isPlayableIn3, CardType type, CardSubType subType)
+    public Card(String name, String description, boolean isPlayableIn3, CardType type, CardSubType subType)
     {
         this.name = name;
         this.description = description;

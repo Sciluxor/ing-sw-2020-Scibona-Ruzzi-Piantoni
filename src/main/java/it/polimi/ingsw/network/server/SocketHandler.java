@@ -36,7 +36,7 @@ public class SocketHandler implements Runnable {
                 } catch (SocketException s) {
                     Logger.info("socket is closed");
                 } catch (IOException e) {
-                    Logger.info("problem woth connection");
+                    Logger.info("problem with connection");
                 }
             }
 
