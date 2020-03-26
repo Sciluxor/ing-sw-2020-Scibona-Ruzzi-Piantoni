@@ -1,6 +1,5 @@
 package it.polimi.ingsw.network.server;
 
-import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.utils.Logger;
 
@@ -12,6 +11,8 @@ import java.util.Scanner;
 public class Server {
 
     private final int MAXWAITTIME = 1;
+    private final int MINPLAYERLOBBY = 2;
+    private final int MAXPLAYERLOBBY = 3;
 
     private ArrayList<ClientHandler> clients = new ArrayList<>();
     private final Object clientsLock = new Object();
@@ -74,40 +75,33 @@ public class Server {
     public void setNick(Message message,ClientHandler connection){
         synchronized (clientsLock) {
             String nick = ((NickNameMessage) message).getNickName();
-            if (!lobby.setNickName(nick, connection))
+            if (!lobby.setNickName(nick, connection)){
                 connection.sendMessage(new Message("God",MessageType.NICK,MessageSubType.ERROR));
-            else if(lobby.isFirst()){
-                lobby.setFirst(false);
-                lobby.startNewWaitLobby(connection);
+            }
+           else {
+                clientsFromString.put(nick,connection);
                 connection.sendMessage(new NickNameMessage("God", MessageSubType.SETTED, nick));
                 connection.sendMessage(new Message("God",MessageType.NUMBERPLAYER,MessageSubType.REQUEST));
                 //startLobbyTimer();
             }
-           else {
-                connection.sendMessage(new NickNameMessage("God", MessageSubType.SETTED, nick));
-                handleNonFirstPlayerConnection(connection);
-
-            }
         }
     }
 
-    public void handleNonFirstPlayerConnection(ClientHandler connection){
-        lobby.insertPlayerInWaitLobby(connection);
-
+    public void handleFirstPlayerConnection(ClientHandler connection,int numberOfPlayers){
+        lobby.insertPlayerInWaitLobby(connection,numberOfPlayers);
 
     }
 
     public void handleLobbyNumber(Message message){
+        synchronized (clientsLock) {
+            int players =  ((PlayerNumberMessage) message).getPlayersNumber();
+            if ( players >= MINPLAYERLOBBY && players <= MAXPLAYERLOBBY) {
+                handleFirstPlayerConnection(getConnectionFromString(message.getSender()),players);
+            } else {
 
-        WaitLobby waitLobby = lobby.getWaitLobbyFromString(message.getSender());
-        waitLobby.setNumberOfPlayer(((PlayerNumberMessage) message).getPlayersNumber());
-        waitLobby.setNumberset(true);
-
-        lobby.handleSettedNumber(waitLobby);
-        lobby.handleFreeSpace(waitLobby);
-
-
-
+                getConnectionFromString(message.getSender()).sendMessage(new Message("God", MessageType.NUMBERPLAYER, MessageSubType.ERROR));
+            }
+        }
     }
 
     public ClientHandler getConnectionFromString(String nick){
@@ -120,16 +114,6 @@ public class Server {
 
 
     }
-
-    public void eliminateWaitLobby(){
-
-    }
-
-    public void reassignPlayers(){
-
-
-    }
-
 
 }
 

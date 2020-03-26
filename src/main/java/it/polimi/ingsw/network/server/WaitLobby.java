@@ -1,50 +1,35 @@
 package it.polimi.ingsw.network.server;
 
+import it.polimi.ingsw.network.client.Client;
+
 import java.util.ArrayList;
 
 public class WaitLobby {
 
-    private ClientHandler fisrtPlayer;
-    private boolean isNumberset;
-    private int numberOfPlayer;
-    private ArrayList<ClientHandler> otherPlayers = new ArrayList<>();
+    private int numberOfPlayers;
+    private ArrayList<ClientHandler> matchPlayers = new ArrayList<>();
 
-    public WaitLobby(ClientHandler fisrtPlayer) {
-        this.fisrtPlayer = fisrtPlayer;
-        isNumberset = false;
-        numberOfPlayer = 2;
+    public WaitLobby(ClientHandler fisrtPlayer,int numberOfPlayers) {
+        this.matchPlayers.add(fisrtPlayer);
+        this.numberOfPlayers = numberOfPlayers;
 
     }
 
-    public ClientHandler getFisrtPlayer() {
-        return fisrtPlayer;
+    public ArrayList<ClientHandler> getMatchPlayers() {
+        return matchPlayers;
     }
 
-    public void setFisrtPlayer(ClientHandler fisrtPlayer) {
-        this.fisrtPlayer = fisrtPlayer;
+    public void setMatchPlayers(ClientHandler matchPlayer) {
+        this.matchPlayers.add(matchPlayer);
     }
 
-    public boolean isNumberset() {
-        return isNumberset;
+    public int getNumberOfPlayers() {
+        return numberOfPlayers;
     }
 
-    public void setNumberset(boolean numberset) {
-        this.isNumberset = numberset;
+    public void setNumberOfPlayer(int numberOfPlayers) {
+        this.numberOfPlayers = numberOfPlayers;
     }
 
-    public int getNumberOfPlayer() {
-        return numberOfPlayer;
-    }
 
-    public void setNumberOfPlayer(int numberOfPlayer) {
-        this.numberOfPlayer = numberOfPlayer;
-    }
-
-    public ArrayList<ClientHandler> getOtherPlayers() {
-        return otherPlayers;
-    }
-
-    public void setOtherPlayers(ClientHandler otherPlayers) {
-        this.otherPlayers.add(otherPlayers);
-    }
 }

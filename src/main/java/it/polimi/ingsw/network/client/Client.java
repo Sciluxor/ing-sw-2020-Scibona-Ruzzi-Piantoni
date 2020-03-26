@@ -42,18 +42,30 @@ public class Client {
                 }
                 else if(output.getType().equals(MessageType.NICK) && output.getSubType().equals(MessageSubType.SETTED)){
                     nick = ((NickNameMessage) output) .getNickName();
-                    Logger.info("Nickname Selected, waiting for the other players and for the game to start\n");
+                    Logger.info("Nickname Selected.\n");
 
                 }
                 else if(output.getType().equals(MessageType.NUMBERPLAYER) && output.getSubType().equals(MessageSubType.REQUEST)){
-                    Logger.info("You are the first player,please insert the number of player for this match: ");
+                    Logger.info("Please choose your favourite modality(2/3 players) -> ");
                     int number = scanner.nextInt();
                     out.writeObject(new PlayerNumberMessage(nick,MessageSubType.ANSWER,number));
                     out.flush();
 
                 }
+                else if(output.getType().equals(MessageType.NUMBERPLAYER) && output.getSubType().equals(MessageSubType.ERROR)){
+                    Logger.info("You have inserted wrong parameters");
+                    Logger.info("Please choose your favourite modality(2/3 players) -> ");
+                    int number = scanner.nextInt();
+                    out.writeObject(new PlayerNumberMessage(nick,MessageSubType.ANSWER,number));
+                    out.flush();
+
+                }
+                else if(output.getType().equals(MessageType.WAITPLAYER) && output.getSubType().equals(MessageSubType.UPDATE)){
+                    Logger.info("You have been inserted in lobby,waiting for other players to join");
+
+                }
                 else if(output.getType().equals(MessageType.GAMESTART) && output.getSubType().equals(MessageSubType.UPDATE)){
-                    Logger.info("Match created your game is starting now, number of total player -> " + ((gameStartedMessage) output).getPlayersNumber()+"\n");
+                    Logger.info("\nMatch created your game is starting now, number of total player -> " + ((gameStartedMessage) output).getPlayersNumber()+"\n");
 
                 }
 
