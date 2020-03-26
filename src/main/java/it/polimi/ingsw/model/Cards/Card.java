@@ -93,7 +93,7 @@ public class Card {
         return Response.NOTWIN;
     }
 
-    public ArrayList<Directions> eliminateInvalidMove(GameMap gameMap,Worker worker, ArrayList<Directions> directionsArrayList) {
+    public ArrayList<Directions> eliminateInvalidMove(GameMap gameMap, Worker worker, ArrayList<Directions> directionsArrayList) {
         if(gameMap == null || worker == null || directionsArrayList == null)
             throw new NullPointerException("null gameMap or worker or directionsArrayList");
 
