@@ -58,7 +58,7 @@ public class Hephaestus extends Card {
                 if(building.equals(Building.DOME) || building.equals(Building.LVL3))
                     return Response.BUILD;
                 hasBuilt = true;
-                return Response.NEWBUILDSAMEPLACE;
+                return Response.NEWBUILD;
             }
             else
                 return Response.NOTBUILD;
