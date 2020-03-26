@@ -25,8 +25,8 @@ class CardTest {
 
     @BeforeEach
     void setup(){
-        player = new Player("GoodPlayer", TurnStatus.PREGAME);
-        player2 = new Player("BadPlayer", TurnStatus.PREGAME);
+        player = new Player("GoodPlayer");
+        player2 = new Player("BadPlayer");
         cardA = CardLoader.loadCards().get("Athena");
         cardAp = CardLoader.loadCards().get("Apollo");
         cardHy = CardLoader.loadCards().get("Hypnus");

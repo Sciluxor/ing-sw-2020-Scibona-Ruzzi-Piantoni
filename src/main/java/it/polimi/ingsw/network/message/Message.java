@@ -10,15 +10,13 @@ public class Message implements Serializable {
     private final MessageType type;
     private  final MessageSubType subType;
 
-    private String content;
 
 
 
- public Message(String sender,MessageType type,MessageSubType subType,String content){
+ public Message(String sender,MessageType type,MessageSubType subType){
      this.sender = sender;
      this.type = type;
      this.subType = subType;
-     this.content = content;
  }
     public String getSender(){
      return sender;
@@ -32,10 +30,6 @@ public class Message implements Serializable {
         return subType;
     }
 
-
-    public String getContent() {
-        return content;
-    }
 
 
 }

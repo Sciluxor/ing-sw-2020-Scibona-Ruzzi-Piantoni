@@ -21,13 +21,11 @@ public class Game extends Observable<Game> {
     private boolean isGameStarted;
     private Response gameStatus;
 
-
-    private static Game gameInstance;
-
     public Game(ArrayList<VirtualView> actualPlayers,int numberOfPlayers) {
 
         players = new ArrayList<>();
         for(VirtualView view: actualPlayers){
+            addObservers(view);
             players.add(view.getPlayer());
         }
         this.numberOfPlayers = numberOfPlayers;

@@ -21,12 +21,12 @@ public class Player {
     private Worker currentWorker;
     private Worker unmovedWorker;
 
-    public Player (String nickname, TurnStatus turnStatus){
+    public Player (String nickname){
 
         workers = new ArrayList<>();
         constraint = new ArrayList<>();
         this.nickname = nickname;
-        this.turnStatus = turnStatus;
+        this.turnStatus = TurnStatus.PREGAME;
 
         workers.add(new Worker(WorkerName.WORKER1));
         workers.add(new Worker(WorkerName.WORKER2));

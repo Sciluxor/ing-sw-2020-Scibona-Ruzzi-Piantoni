@@ -17,8 +17,8 @@ class GameMapTest {
     void setup(){
 
         map = new GameMap();
-        player1 = new Player("uno", TurnStatus.PREGAME);
-        player2 = new Player("due", TurnStatus.PREGAME);
+        player1 = new Player("uno");
+        player2 = new Player("due");
         map.getGameMap().get(22).setMovement(player1,player1.getWorkers().get(0));
         player1.getWorkers().get(0).setBoardPosition(map.getGameMap().get(22));
         map.getGameMap().get(4).setMovement(player1,player1.getWorkers().get(1));

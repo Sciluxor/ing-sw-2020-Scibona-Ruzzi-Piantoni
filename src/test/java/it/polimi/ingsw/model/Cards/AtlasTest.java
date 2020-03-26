@@ -24,8 +24,8 @@ class AtlasTest {
 
     @BeforeEach
     void setup(){
-        player1 = new Player("GoodPlayer", TurnStatus.PREGAME);
-        player2 = new Player("BadPlayer", TurnStatus.PREGAME);
+        player1 = new Player("GoodPlayer");
+        player2 = new Player("BadPlayer");
         cardAtlas = CardLoader.loadCards().get("Atlas");
         player1.setPower(cardAtlas);
         worker1 = new Worker(WorkerName.WORKER1);

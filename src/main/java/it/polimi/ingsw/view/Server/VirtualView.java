@@ -13,7 +13,13 @@ public class VirtualView extends Observable<Message> implements Observer<Game> {
     private Player player;
     private ClientHandler connection;
 
-   public void processMessageReceived(Message message){
+    public VirtualView(ClientHandler connection,String nickName) {
+        this.connection = connection;
+        this.player = new Player(nickName);
+
+    }
+
+    public void processMessageReceived(Message message){
 
        notify(message);
 

@@ -26,8 +26,8 @@ class ApolloTest {
 
     @BeforeEach
     void setup(){
-        player1 = new Player("uno", TurnStatus.PREGAME);
-        player2 = new Player("due", TurnStatus.PREGAME);
+        player1 = new Player("uno");
+        player2 = new Player("due");
         cardApo = CardLoader.loadCards().get("Apollo");
         cardAthe = CardLoader.loadCards().get("Athena");
         player1.setPower(cardApo);

@@ -2,11 +2,10 @@ package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.network.client.Client;
-import it.polimi.ingsw.network.message.Message;
-import it.polimi.ingsw.network.message.MessageSubType;
-import it.polimi.ingsw.network.message.MessageType;
+import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.utils.Logger;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -61,12 +60,26 @@ public class Server {
         }
     }
 
-    public void firsLogin(ClientHandler clientHandler){
+    public void firsLogin(ClientHandler connnection){
         synchronized (clientsLock) {
-            clients.add(clientHandler);
-            clientHandler.sendMessage(new Message("God",MessageType.NICK, MessageSubType.REQUEST, "richiesta di nick"));
+            clients.add(connnection);
+            connnection.sendMessage(new Message("God",MessageType.NICK,MessageSubType.REQUEST));
         }
 
+    }
+    public void setNick(Message message,ClientHandler connection){
+        synchronized (clientsLock) {
+            String nick = ((NickNameMessage) message).getNickName();
+            if (!lobby.setNickName(nick, connection))
+                connection.sendMessage(new Message("God",MessageType.NICK,MessageSubType.ERROR));
+            else if(lobby.isFirst()){
+                lobby.setFirst(false);
+                connection.sendMessage(new Message("God",MessageType.NUMBERPLAYER,MessageSubType.REQUEST));
+            }
+           else
+            connection.sendMessage(new NickNameMessage("God",MessageSubType.SETTED,nick));
+
+        }
     }
 
 

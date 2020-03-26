@@ -26,9 +26,9 @@ class PlayerTest {
 
     @BeforeEach
     void setup(){
-        player = new Player("GoodPlayer", TurnStatus.PREGAME);
-        player1 = new Player("uno", TurnStatus.PREGAME);
-        player2 = new Player("due", TurnStatus.PREGAME);
+        player = new Player("GoodPlayer");
+        player1 = new Player("uno");
+        player2 = new Player("due");
         players = new ArrayList<>();
         players.add(player);
         players.add(player1);

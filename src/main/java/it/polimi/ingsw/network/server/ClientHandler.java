@@ -3,6 +3,7 @@ package it.polimi.ingsw.network.server;
 import it.polimi.ingsw.network.message.Message;
 import it.polimi.ingsw.network.message.MessageSubType;
 import it.polimi.ingsw.network.message.MessageType;
+import it.polimi.ingsw.network.message.NickNameMessage;
 import it.polimi.ingsw.utils.Logger;
 
 import java.io.*;
@@ -50,13 +51,19 @@ public class ClientHandler implements Runnable{
                 this.objectIn = new ObjectInputStream(socket.getInputStream());
                 server.firsLogin(this);
                 while(isActive()) {
+                    Logger.info("here");
                     Message input = (Message) objectIn.readObject();
+                    Logger.info("here");
 
-                    if (input.getType() == MessageType.NICK) {
+                    if (input.getType() == MessageType.NICK && input.getSubType() == MessageSubType.ANSWER) {
+
+                        server.setNick(input,this);
+                        Logger.info("here");
+
 
 
                     }
-                    if(input.getType() == MessageType.CONFIG){
+                    else if(input.getType() == MessageType.CONFIG){
 
                     }
                     else {

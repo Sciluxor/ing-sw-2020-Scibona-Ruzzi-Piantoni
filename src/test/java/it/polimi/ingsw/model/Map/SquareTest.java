@@ -89,7 +89,7 @@ GameMap map;
 
     @Test
     void setPlayer() {
-        Player player1 = new Player("nome", TurnStatus.PREGAME);
+        Player player1 = new Player("nome");
         map.getGameMap().get(19).setPlayer(player1);
         map.getGameMap().get(19).setHasPlayer(true);
         assertEquals(map.getGameMap().get(19).getPlayer(),player1);
@@ -105,7 +105,7 @@ GameMap map;
 
     @Test
     void setWorker() {
-        Player player1 = new Player("nome", TurnStatus.PREGAME);
+        Player player1 = new Player("nome");
         map.getGameMap().get(22).setWorker(player1.getWorkers().get(0));
         map.getGameMap().get(22).setHasPlayer(true);
         assertEquals(map.getGameMap().get(22).getWorker(),player1.getWorkers().get(0));
@@ -120,7 +120,7 @@ GameMap map;
     }
     @Test
     void setMovement(){
-        Player player1 = new Player("nome", TurnStatus.PREGAME);
+        Player player1 = new Player("nome");
         map.getGameMap().get(21).setMovement(player1,player1.getWorkers().get(1));
         assertTrue(map.getGameMap().get(21).hasPlayer());
         assertEquals(map.getGameMap().get(21).getPlayer(),player1);

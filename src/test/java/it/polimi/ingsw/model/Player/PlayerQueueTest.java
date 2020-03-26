@@ -14,9 +14,9 @@ class PlayerQueueTest {
     @Test
     void changeTurn() {
         players = new ArrayList<>();
-        player1 = new Player("GoodPlayer", TurnStatus.PREGAME);
-        player2 = new Player("GoodPlayer", TurnStatus.PREGAME);
-        player3 = new Player("GoodPlayer", TurnStatus.PREGAME);
+        player1 = new Player("GoodPlayer");
+        player2 = new Player("GoodPlayer");
+        player3 = new Player("GoodPlayer");
         players.add(player1);
         players.add(player2);
         players.add(player3);
