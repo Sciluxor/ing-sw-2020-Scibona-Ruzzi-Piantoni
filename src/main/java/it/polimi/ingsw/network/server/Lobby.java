@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.network.message.Message;
+import it.polimi.ingsw.utils.Logger;
 import it.polimi.ingsw.view.Server.VirtualView;
 
 import java.util.ArrayList;
@@ -66,7 +67,8 @@ public class Lobby {
 
     public void insertPlayerInWaitLobby( ClientHandler connection) {
         for (WaitLobby wait : lobbies) {
-            if (wait.getOtherPlayers().size() < wait.getNumberOfPlayer()) {
+            if (wait.getOtherPlayers().size() < wait.getNumberOfPlayer()-1) {
+                Logger.info("here");
                 wait.setOtherPlayers(connection);
                 linkToWaitLobby.put(connection.getView().getPlayer().getNickname(), wait);
                 if (isNumberSet && wait.getOtherPlayers().size() == wait.getNumberOfPlayer() - 1) {
@@ -88,27 +90,57 @@ public class Lobby {
 
         eliminateWaitLobby(waitLobby);
         Match match = new Match(actualPlayers,waitLobby.getNumberOfPlayer());
+        createMaptoMatch(match,actualPlayers);
 
         for(VirtualView view:actualPlayers){
-            view.sendGamestartedMessage();
+            view.sendGamestartedMessage(actualPlayers.size());
         }
 
 
     }
 
+    public void handleSettedNumber(WaitLobby waitLobby){
+        if(waitLobby.getOtherPlayers().size() == waitLobby.getNumberOfPlayer() -1)
+            handleStartMatch(waitLobby);
+
+    }
+
+    public void createMaptoMatch(Match match,ArrayList<VirtualView> actualPlayers){
+        for(VirtualView view: actualPlayers){
+            linkToMatch.put(view.getPlayer().getNickname(),match);
+        }
+    }
+
+    public void handleFreeSpace(WaitLobby waitLobby){
+
+        if(waitLobby.getOtherPlayers().size() < waitLobby.getNumberOfPlayer() -1)
+            setFirst(false);
+
+    }
+
     public void eliminateWaitLobby(WaitLobby waitLobby){
-
-
+        lobbies.remove(waitLobby);
+        linkToWaitLobby.remove(waitLobby.getFisrtPlayer().getView().getPlayer().getNickname());
+        for(ClientHandler view: waitLobby.getOtherPlayers()) {
+            linkToWaitLobby.remove(view.getView().getPlayer().getNickname());
+        }
 
     }
 
     public void handleWaitLobbySpace(){
         boolean isFirst = true;
+        Logger.info(Integer.toString(lobbies.size()));
         for (WaitLobby wait : lobbies) {
-            if(!(wait.getOtherPlayers().size() == wait.getNumberOfPlayer()-1)){
+            Logger.info(Integer.toString(wait.getOtherPlayers().size()));
+            Logger.info(Integer.toString(wait.getNumberOfPlayer()));
+            if(wait.getOtherPlayers().size() < wait.getNumberOfPlayer()-1){
                 isFirst = false;
+                break;
             }
         }
+        if(isFirst)
+            Logger.info("true");
+        else Logger.info("false");
         setFirst(isFirst);
     }
 }

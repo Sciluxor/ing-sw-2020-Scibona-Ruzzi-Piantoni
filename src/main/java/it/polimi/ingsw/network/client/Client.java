@@ -52,6 +52,10 @@ public class Client {
                     out.flush();
 
                 }
+                else if(output.getType().equals(MessageType.GAMESTART) && output.getSubType().equals(MessageSubType.UPDATE)){
+                    Logger.info("Match created your game is starting now, number of total player -> " + ((gameStartedMessage) output).getPlayersNumber());
+
+                }
 
                 out.reset();
 

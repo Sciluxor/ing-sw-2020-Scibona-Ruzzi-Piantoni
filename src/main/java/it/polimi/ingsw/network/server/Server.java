@@ -1,11 +1,9 @@
 package it.polimi.ingsw.network.server;
 
-import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.utils.Logger;
 
-import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -81,6 +79,7 @@ public class Server {
             else if(lobby.isFirst()){
                 lobby.setFirst(false);
                 lobby.startNewWaitLobby(connection);
+                connection.sendMessage(new NickNameMessage("God", MessageSubType.SETTED, nick));
                 connection.sendMessage(new Message("God",MessageType.NUMBERPLAYER,MessageSubType.REQUEST));
                 //startLobbyTimer();
             }
@@ -100,6 +99,19 @@ public class Server {
 
     public void handleLobbyNumber(Message message){
 
+        WaitLobby waitLobby = lobby.getWaitLobbyFromString(message.getSender());
+        waitLobby.setNumberOfPlayer(((PlayerNumberMessage) message).getPlayersNumber());
+        waitLobby.setNumberset(true);
+
+        lobby.handleSettedNumber(waitLobby);
+        lobby.handleFreeSpace(waitLobby);
+
+
+
+    }
+
+    public ClientHandler getConnectionFromString(String nick){
+        return clientsFromString.get(nick);
 
     }
 

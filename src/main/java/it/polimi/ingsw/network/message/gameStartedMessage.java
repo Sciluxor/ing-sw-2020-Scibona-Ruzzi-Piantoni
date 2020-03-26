@@ -1,8 +1,14 @@
 package it.polimi.ingsw.network.message;
 
 public class gameStartedMessage extends Message {
-    public gameStartedMessage(String sender, MessageSubType subType) {
+    private int playersNumber;
+    public gameStartedMessage(String sender, MessageSubType subType, int playersNumber) {
         super(sender, MessageType.GAMESTART, subType);
+        this.playersNumber = playersNumber;
     }
 
+
+    public int getPlayersNumber(){
+        return playersNumber;
+    }
 }

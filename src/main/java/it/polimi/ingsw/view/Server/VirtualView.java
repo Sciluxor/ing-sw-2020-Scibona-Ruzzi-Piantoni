@@ -42,8 +42,8 @@ public class VirtualView extends Observable<Message> implements Observer<Game> {
 
    }
 
-   public void sendGamestartedMessage(){
-        connection.sendMessage(new gameStartedMessage("God", MessageSubType.UPDATE));
+   public void sendGamestartedMessage(int number){
+        connection.sendMessage(new gameStartedMessage("God", MessageSubType.UPDATE,number));
 
    }
 
