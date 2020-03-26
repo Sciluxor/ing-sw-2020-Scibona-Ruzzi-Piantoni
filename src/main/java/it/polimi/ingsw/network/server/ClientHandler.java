@@ -51,6 +51,17 @@ public class ClientHandler implements Runnable{
 
     }
 
+    public void closeConnection(){
+        //chiusura connesione
+        try{
+        objectIn.close();
+        objectOut.close();
+        socket.close();
+        }catch (IOException e){
+            Logger.info("problem in closing connection");
+        }
+    }
+
     @Override
     public void run() {
 
@@ -67,15 +78,15 @@ public class ClientHandler implements Runnable{
                     else if(input.getType() == MessageType.NUMBERPLAYER && input.getSubType() == MessageSubType.ANSWER){
                         server.handleLobbyNumber(input);
                     }
+                    else if(input.getType() == MessageType.DISCONNECTION && input.getSubType() == MessageSubType.REQUEST){
+                        server.handleClientDisconnectionBeforeStarting(input);
+                    }
                     else {
                         server.onMessage(input);
                     }
 
                 }
-                    //chiusura connesione
-                    objectIn.close();
-                    objectOut.close();
-                    socket.close();
+                closeConnection();
 
             }catch (IOException e){
                 Logger.info("problem with input output stream");

@@ -16,13 +16,11 @@ public class Server {
 
     private ArrayList<ClientHandler> clients = new ArrayList<>();
     private final Object clientsLock = new Object();
-    private HashMap<ClientHandler,Object> locker = new HashMap<>();
+    private HashMap<Match,Object> locker = new HashMap<>();
     private HashMap<String,ClientHandler> clientsFromString = new HashMap<>();
     private Lobby lobby = new Lobby();
     private Integer socketPort;
     //LobbyTimer timer = new LobbyTimer;
-
-
 
     private Server(){
 
@@ -100,6 +98,20 @@ public class Server {
             } else {
 
                 getConnectionFromString(message.getSender()).sendMessage(new Message("God", MessageType.NUMBERPLAYER, MessageSubType.ERROR));
+            }
+        }
+    }
+
+    public void handleClientDisconnectionBeforeStarting(Message message){
+        synchronized (clientsLock){
+            ClientHandler connection = getConnectionFromString(message.getSender());
+            if(connection.getView().isGameStarted())
+                connection.sendMessage(new Message("God",MessageType.DISCONNECTION,MessageSubType.ERROR));
+            else {
+                lobby.disconnectPlayer(connection,message.getSender());
+                clients.remove(connection);
+                connection.sendMessage(new Message("God",MessageType.DISCONNECTION,MessageSubType.SETTED));
+                connection.closeConnection();
             }
         }
     }

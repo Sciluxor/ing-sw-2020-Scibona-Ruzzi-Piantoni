@@ -9,8 +9,8 @@ public class WaitLobby {
     private int numberOfPlayers;
     private ArrayList<ClientHandler> matchPlayers = new ArrayList<>();
 
-    public WaitLobby(ClientHandler fisrtPlayer,int numberOfPlayers) {
-        this.matchPlayers.add(fisrtPlayer);
+    public WaitLobby(ClientHandler firstPlayer,int numberOfPlayers) {
+        this.matchPlayers.add(firstPlayer);
         this.numberOfPlayers = numberOfPlayers;
 
     }
@@ -19,8 +19,13 @@ public class WaitLobby {
         return matchPlayers;
     }
 
-    public void setMatchPlayers(ClientHandler matchPlayer) {
+    public void addMatchPlayer(ClientHandler matchPlayer) {
         this.matchPlayers.add(matchPlayer);
+    }
+
+    public void removePlayer(ClientHandler toRemovePlayer){
+        this.matchPlayers.remove(toRemovePlayer);
+
     }
 
     public int getNumberOfPlayers() {

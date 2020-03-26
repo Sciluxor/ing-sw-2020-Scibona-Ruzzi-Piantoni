@@ -8,14 +8,7 @@ import java.util.HashMap;
 
 public class CardLoader {
 
-
-    private CardLoader(){
-
-        throw new IllegalStateException("Impossible to instantiate MapLoader Class");
-
-    }
-
-    private class CardContainer{
+    private static class CardContainer{
 
         String name;
         String description;
@@ -70,7 +63,7 @@ public class CardLoader {
         deck.put(containers[i].name,new Hypnus(containers[i].name,containers[i].description,containers[i].isPlayableIn3,containers[i].type,containers[i].subType));
         i++;
         deck.put(containers[i].name,new Zeus(containers[i].name,containers[i].description,containers[i].isPlayableIn3,containers[i].type,containers[i].subType));
-        i++;
+        
 
 
         return deck;

@@ -16,11 +16,20 @@ import java.awt.*;
 public class VirtualView extends Observable<Message> implements Observer<Game> {
     private Player player;
     private ClientHandler connection;
+    private boolean isGameStarted = false;
 
     public VirtualView(ClientHandler connection,String nickName) {
         this.connection = connection;
         this.player = new Player(nickName);
 
+    }
+
+    public boolean isGameStarted() {
+        return isGameStarted;
+    }
+
+    public void setGameStarted(boolean gameStarted) {
+        isGameStarted = gameStarted;
     }
 
     public void processMessageReceived(Message message){
@@ -33,7 +42,6 @@ public class VirtualView extends Observable<Message> implements Observer<Game> {
        switch (instance.getGameStatus()) {
 
        }
-
 
    }
 

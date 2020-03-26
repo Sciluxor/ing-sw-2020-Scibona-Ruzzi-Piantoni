@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.server;
 
+import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.message.Message;
 import it.polimi.ingsw.network.message.MessageSubType;
 import it.polimi.ingsw.network.message.MessageType;
@@ -27,7 +28,7 @@ public class Lobby {
 
     }
 
-    public boolean setNickName(String nickName,ClientHandler connection){
+    public boolean setNickName(String nickName, ClientHandler connection){
         if(nickName.length()>MAX_LENGHT_NICK || nickName.length()< MIN_LENGHT_NICK){
             return false;
         }
@@ -56,7 +57,7 @@ public class Lobby {
     public void insertPlayerInWaitLobby( ClientHandler connection ,int numberOfplayers) {
         for (WaitLobby wait : lobbies) {
             if (wait.getMatchPlayers().size() < wait.getNumberOfPlayers() && wait.getNumberOfPlayers() == numberOfplayers) {
-                wait.setMatchPlayers(connection);
+                wait.addMatchPlayer(connection);
                 linkToWaitLobby.put(connection.getView().getPlayer().getNickname(), wait);
                 connection.sendMessage(new Message("God", MessageType.WAITPLAYER, MessageSubType.UPDATE));
                 if ((wait.getMatchPlayers().size() == wait.getNumberOfPlayers())) {
@@ -81,6 +82,7 @@ public class Lobby {
         createMaptoMatch(match,actualPlayers);
 
         for(VirtualView view:actualPlayers){
+            view.setGameStarted(true);
             view.sendGamestartedMessage(actualPlayers.size());
         }
     }
@@ -91,13 +93,20 @@ public class Lobby {
         }
     }
 
-
     public void eliminateWaitLobby(WaitLobby waitLobby){
         lobbies.remove(waitLobby);
 
         for(ClientHandler view: waitLobby.getMatchPlayers()) {
             linkToWaitLobby.remove(view.getView().getPlayer().getNickname());
         }
+    }
+
+    public void disconnectPlayer(ClientHandler connection,String nickName){
+        WaitLobby waitLobby = getWaitLobbyFromString(nickName);
+        waitLobby.removePlayer(connection);
+        linkToWaitLobby.remove(nickName);
+        lobbyPlayer.remove(connection.getView());
+
     }
 
 }
