@@ -84,8 +84,8 @@ public class Server {
                 //startLobbyTimer();
             }
            else {
-                handleNonFirstPlayerConnection(connection);
                 connection.sendMessage(new NickNameMessage("God", MessageSubType.SETTED, nick));
+                handleNonFirstPlayerConnection(connection);
 
             }
         }

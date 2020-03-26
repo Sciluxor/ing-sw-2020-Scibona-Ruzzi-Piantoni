@@ -29,7 +29,7 @@ public class WaitLobby {
     }
 
     public void setNumberset(boolean numberset) {
-        isNumberset = numberset;
+        this.isNumberset = numberset;
     }
 
     public int getNumberOfPlayer() {
