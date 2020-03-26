@@ -14,8 +14,7 @@ public class Pan extends Card {
         if(gameMap == null || worker == null)
             throw new NullPointerException("null gameMap or worker");
 
-        if((worker.getBoardPosition().getBuildingLevel() == 3 && worker.getPreviousBoardPosition().getBuildingLevel() == 2) ||
-                (worker.getPreviousBoardPosition().getBuildingLevel() - worker.getBoardPosition().getBuildingLevel() >= 2))
+        if((worker.getBoardPosition().getBuildingLevel() == 3 && worker.getPreviousBoardPosition().getBuildingLevel() == 2) || ((worker.getPreviousBoardPosition().getBuildingLevel() - worker.getBoardPosition().getBuildingLevel()) >= 2))
             return Response.WIN;
         return Response.NOTWIN;
     }
