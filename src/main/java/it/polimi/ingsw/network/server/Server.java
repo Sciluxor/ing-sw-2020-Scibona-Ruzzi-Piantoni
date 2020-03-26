@@ -12,12 +12,18 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class Server {
+
+    private final int MAXWAITTIME = 1;
+
     private ArrayList<ClientHandler> clients = new ArrayList<>();
     private final Object clientsLock = new Object();
     private HashMap<ClientHandler,Object> locker = new HashMap<>();
     private HashMap<String,ClientHandler> clientsFromString = new HashMap<>();
     private Lobby lobby = new Lobby();
     private Integer socketPort;
+    //LobbyTimer timer = new LobbyTimer;
+
+
 
     private Server(){
 
@@ -75,11 +81,29 @@ public class Server {
             else if(lobby.isFirst()){
                 lobby.setFirst(false);
                 connection.sendMessage(new Message("God",MessageType.NUMBERPLAYER,MessageSubType.REQUEST));
+                //startLobbyTimer();
             }
-           else
-            connection.sendMessage(new NickNameMessage("God",MessageSubType.SETTED,nick));
+           else {
+                //handleNonFirstPlayer(connection);
+                connection.sendMessage(new NickNameMessage("God", MessageSubType.SETTED, nick));
 
+            }
         }
+    }
+
+    public void startLobbyTimer(ClientHandler connection){
+       //timer.start(this::firstPlayerDisconnected(),MAXWAITTIME);
+
+
+    }
+
+    public void eliminateWaitLobby(){
+
+    }
+
+    public void reassignPlayers(){
+
+
     }
 
 

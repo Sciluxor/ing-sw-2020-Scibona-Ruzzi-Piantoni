@@ -24,8 +24,8 @@ class HephaestusTest {
 
     @BeforeEach
     void setup(){
-        player1 = new Player("GoodPlayer", TurnStatus.PREGAME);
-        player2 = new Player("BadPlayer", TurnStatus.PREGAME);
+        player1 = new Player("GoodPlayer");
+        player2 = new Player("BadPlayer");
         cardHeph = CardLoader.loadCards().get("Hephaestus");
         player1.setPower(cardHeph);
         worker1 = new Worker(WorkerName.WORKER1);

@@ -23,8 +23,8 @@ class HypnusTest {
 
     @BeforeEach
     void setup(){
-        player1 = new Player("GoodPlayer", TurnStatus.PREGAME);
-        player2 = new Player("BadPlayer", TurnStatus.PREGAME);
+        player1 = new Player("GoodPlayer");
+        player2 = new Player("BadPlayer");
         cardHypn = CardLoader.loadCards().get("Hypnus");
         player1.setPower(cardHypn);
         worker1 = new Worker(WorkerName.WORKER1);

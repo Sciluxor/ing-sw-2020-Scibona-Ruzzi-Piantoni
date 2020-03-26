@@ -63,7 +63,8 @@ public class ClientHandler implements Runnable{
 
 
                     }
-                    else if(input.getType() == MessageType.CONFIG){
+                    else if(input.getType() == MessageType.NUMBERPLAYER && input.getSubType() == MessageSubType.ANSWER){
+
 
                     }
                     else {

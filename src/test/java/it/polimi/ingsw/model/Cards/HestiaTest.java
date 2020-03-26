@@ -24,8 +24,8 @@ class HestiaTest {
 
     @BeforeEach
     void setup(){
-        player1 = new Player("GoodPlayer", TurnStatus.PREGAME);
-        player2 = new Player("BadPlayer", TurnStatus.PREGAME);
+        player1 = new Player("GoodPlayer");
+        player2 = new Player("BadPlayer");
         cardHest = CardLoader.loadCards().get("Hestia");
         player1.setPower(cardHest);
         worker1 = new Worker(WorkerName.WORKER1);
