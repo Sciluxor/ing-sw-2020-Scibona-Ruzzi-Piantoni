@@ -34,8 +34,8 @@ class MinotaurTest {
         gameMap = new GameMap();
         gameMap.getGameMap().get(22).setMovement(player1,player1.getWorkers().get(0));
         player1.getWorkers().get(0).setBoardPosition(gameMap.getGameMap().get(22));
-        gameMap.getGameMap().get(4).setMovement(player1,player1.getWorkers().get(1));
-        player1.getWorkers().get(1).setBoardPosition(gameMap.getGameMap().get(4));
+        gameMap.getGameMap().get(5).setMovement(player1,player1.getWorkers().get(1));
+        player1.getWorkers().get(1).setBoardPosition(gameMap.getGameMap().get(5));
         gameMap.getGameMap().get(21).setMovement(player2,player2.getWorkers().get(0));
         player2.getWorkers().get(0).setBoardPosition(gameMap.getGameMap().get(21));
         gameMap.getGameMap().get(18).setMovement(player2,player2.getWorkers().get(1));
@@ -50,7 +50,10 @@ class MinotaurTest {
         assertThrows(NullPointerException.class , () -> cardMino.findWorkerMove(null, worker1));
         assertThrows(NullPointerException.class , () -> cardMino.findWorkerMove(gameMap, null));
 
+        player2.selectCurrentWorker(gameMap, "worker2");
+
         assertEquals(cardMino.findWorkerMove(gameMap, player1.getCurrentWorker()).size(), 8);
+        assertEquals(cardMino.findWorkerMove(gameMap, player2.getWorkers().get(1)).size(), 7);
     }
 
     @Test

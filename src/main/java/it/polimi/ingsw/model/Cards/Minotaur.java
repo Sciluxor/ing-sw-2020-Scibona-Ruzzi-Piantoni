@@ -70,9 +70,11 @@ public class Minotaur extends Card {
             throw new NullPointerException("null gameMap or square or direction");
 
         int pushingTile = possibleSquare.getCanAccess().get(directions);
-        Square pushingSquare = gameMap.getGameMap().get(pushingTile-1);
-
-        return !pushingSquare.hasPlayer() && pushingSquare.getBuildingLevel() != 4 && pushingSquare.getTile() != 0;
+        if (pushingTile != 0){
+            Square pushingSquare = gameMap.getGameMap().get(pushingTile - 1);
+            return !pushingSquare.hasPlayer() && pushingSquare.getBuildingLevel() != 4;
+        }
+        return  false;
     }
 
     public void push(GameMap gameMap, Square actualSquare, Directions directions) {
