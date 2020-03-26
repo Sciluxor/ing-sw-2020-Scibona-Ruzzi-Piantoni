@@ -58,7 +58,7 @@ public class Minotaur extends Card {
 
         currentWorker.setPreviousBoardPosition(currentWorker.getBoardPosition());
         currentWorker.getPreviousBoardPosition().setHasPlayer(false);
-        currentWorker.setBoardPosition( gameMap.getGameMap().get(currentWorker.getBoardPosition().getCanAccess().get(directions) - 1));
+        currentWorker.setBoardPosition(nextSquare);
         currentWorker.getBoardPosition().setHasPlayer(true);
         currentWorker.getBoardPosition().setPlayer(player);
         currentWorker.getBoardPosition().setWorker(currentWorker);
@@ -75,17 +75,18 @@ public class Minotaur extends Card {
         return !pushingSquare.hasPlayer() && pushingSquare.getBuildingLevel() != 4 && pushingSquare.getTile() != 0;
     }
 
-    public void push(GameMap gameMap, Square nextSquare, Directions directions) {
-        if(gameMap == null || nextSquare == null || directions == null)
+    public void push(GameMap gameMap, Square actualSquare, Directions directions) {
+        if(gameMap == null || actualSquare == null || directions == null)
             throw new NullPointerException("null gameMap or square or direction");
 
-        Worker pushedWorker = nextSquare.getWorker();
+        Worker pushedWorker = actualSquare.getWorker();
+        Player pushedPlayer = pushedWorker.getBoardPosition().getPlayer();
 
-        pushedWorker.setPreviousBoardPosition(pushedWorker.getBoardPosition());
+        pushedWorker.setPreviousBoardPosition(actualSquare);
         pushedWorker.getPreviousBoardPosition().setHasPlayer(false);
-        pushedWorker.setBoardPosition(gameMap.getGameMap().get(pushedWorker.getBoardPosition().getCanAccess().get(directions) - 1));
+        pushedWorker.setBoardPosition(gameMap.getGameMap().get(pushedWorker.getBoardPosition().getCanAccess().get(directions)-1));
         pushedWorker.getBoardPosition().setHasPlayer(true);
-        pushedWorker.getBoardPosition().setPlayer(nextSquare.getPlayer());
+        pushedWorker.getBoardPosition().setPlayer(pushedPlayer);
         pushedWorker.getBoardPosition().setWorker(pushedWorker);
     }
 }

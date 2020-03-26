@@ -50,7 +50,7 @@ class HephaestusTest {
 
         assertEquals(cardHeph.findPossibleBuild(gameMap, player1.getCurrentWorker()).size(), 7);
         cardHeph.executeBuild(gameMap, Building.LVL1, Directions.NORD, player1.getCurrentWorker());
-        //assertEquals(cardDeme.findPossibleBuild(gameMap, player1.getCurrentWorker()).size(), 1);
+        assertEquals(cardHeph.findPossibleBuild(gameMap, player1.getCurrentWorker()).size(), 1);
 
     }
 

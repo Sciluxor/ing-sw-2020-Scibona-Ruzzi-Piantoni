@@ -62,9 +62,9 @@ class MinotaurTest {
         assertEquals(cardMino.executeWorkerMove(gameMap, Directions.NORD, player1), Response.MOVED);
         assertEquals(cardMino.executeWorkerMove(gameMap, Directions.SUD, player1), Response.MOVED);
         assertEquals(player1.getCurrentWorker().getBoardPosition(), gameMap.getGameMap().get(22));
-        //assertEquals(cardMino.executeWorkerMove(gameMap, Directions.EST, player1), Response.MOVED);
-        //assertEquals(player1.getCurrentWorker().getBoardPosition(), gameMap.getGameMap().get(21));
-        //assertEquals(player2.getCurrentWorker().getBoardPosition(), gameMap.getGameMap().get(22));
+        assertEquals(cardMino.executeWorkerMove(gameMap, Directions.EST, player1), Response.MOVED);
+        assertEquals(player1.getCurrentWorker().getBoardPosition(), gameMap.getGameMap().get(21));
+        assertEquals(player2.getCurrentWorker().getBoardPosition(), gameMap.getGameMap().get(20));
 
     }
 }
