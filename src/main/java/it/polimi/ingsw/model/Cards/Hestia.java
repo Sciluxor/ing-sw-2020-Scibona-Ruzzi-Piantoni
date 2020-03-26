@@ -55,8 +55,6 @@ public class Hestia extends Card {
 
         if(!hasBuilt) {
             if(gameMap.buildInSquare(worker, directions, building)) {
-                if(building.equals(Building.DOME))
-                    return Response.BUILD;
                 hasBuilt = true;
                 return Response.NEWBUILD;
             }
@@ -64,7 +62,7 @@ public class Hestia extends Card {
                 return Response.NOTBUILD;
         }
 
-        gameMap.buildInSquare(worker, directions, building);
+        gameMap.buildInSquare(worker, directions, building); //ricostruito e dovrebbe ritornare true xké ha ricostruito
         hasBuilt = false;
         return Response.BUILD;
     }

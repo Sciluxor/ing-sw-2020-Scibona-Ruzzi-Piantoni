@@ -23,7 +23,29 @@ public class Hephaestus extends Card {
         if(gameMap == null || worker == null)
             throw new NullPointerException("null gameMap or worker");
 
+        if(hasBuilt)
+            return buildOnTop(gameMap, worker);
+
         return gameMap.reachableSquares(worker);
+    }
+
+    public ArrayList<Directions> buildOnTop(GameMap gameMap, Worker worker) {
+        int level_position = worker.getBoardPosition().getBuildingLevel();
+        HashMap<Directions,Integer> canAccess = worker.getBoardPosition().getCanAccess();
+        ArrayList<Directions> reachableSquares = new ArrayList<>();
+
+        for(Directions dir: Directions.values()){
+            int squareTile = canAccess.get(dir);
+            if(squareTile > 0 && squareTile <= 25) { //rivedere questo if
+                Square possibleSquare = gameMap.getGameMap().get(squareTile- 1);
+                if(!possibleSquare.hasPlayer() && (possibleSquare.getBuildingLevel() >= 0 && possibleSquare.getBuildingLevel() <= level_position +1)
+                        && possibleSquare.getBuilding() != Building.DOME && possibleSquare.equals(worker.getPreviousBuildPosition())) {
+                    reachableSquares.add(dir);
+                }
+            }
+        }
+
+        return reachableSquares;
     }
 
     @Override
@@ -42,7 +64,7 @@ public class Hephaestus extends Card {
                 return Response.NOTBUILD;
         }
 
-        gameMap.buildInSquare(worker, directions, building);
+        gameMap.buildInSquare(worker, directions, building); //ricostruito e dovrebbe ritornare true xké ha ricostruito
         hasBuilt = false;
         return Response.BUILD;
     }

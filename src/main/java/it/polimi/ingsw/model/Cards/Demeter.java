@@ -62,7 +62,7 @@ public class Demeter extends Card {
                 return Response.NOTBUILD;
         }
 
-        gameMap.buildInSquare(worker, directions, building);
+        gameMap.buildInSquare(worker, directions, building); //ricostruito e dovrebbe ritornare true xké ha ricostruito
         hasBuilt = false;
         return Response.BUILD;
     }
