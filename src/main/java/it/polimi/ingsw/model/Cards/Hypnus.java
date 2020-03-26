@@ -15,6 +15,8 @@ public class Hypnus extends Card {
 
     @Override
     public boolean canMove(Player player, Worker worker ) {
+        if(player == null || worker == null)
+            throw new NullPointerException("null player or worker");
 
           for(Worker wor: player.getWorkers()) {
               if (!wor.equals(worker)) {

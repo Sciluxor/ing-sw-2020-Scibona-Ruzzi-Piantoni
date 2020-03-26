@@ -129,7 +129,8 @@ return reachableSquares;
 
     public  boolean isInPerimeter(Integer tile){
         if(tile == null)
-         throw new NullPointerException("tile null");
+            throw new NullPointerException("tile null");
+
         return tile <= PERIMETERPOSITION;
     }
 }
