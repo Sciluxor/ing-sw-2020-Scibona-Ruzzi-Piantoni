@@ -5,6 +5,7 @@ import it.polimi.ingsw.network.message.MessageSubType;
 import it.polimi.ingsw.network.message.MessageType;
 import it.polimi.ingsw.network.message.NickNameMessage;
 import it.polimi.ingsw.utils.Logger;
+import it.polimi.ingsw.view.Server.VirtualView;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -17,6 +18,7 @@ public class ClientHandler implements Runnable{
     private Socket socket;
     private Server server;
     private boolean isActive;
+    private VirtualView view;
 
     public ClientHandler(Server server, Socket socket){
         this.socket = socket;
@@ -31,6 +33,14 @@ public class ClientHandler implements Runnable{
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public VirtualView getView() {
+        return view;
+    }
+
+    public void setView(VirtualView view) {
+        this.view = view;
     }
 
     public void sendMessage(Message msg){
@@ -51,19 +61,15 @@ public class ClientHandler implements Runnable{
                 this.objectIn = new ObjectInputStream(socket.getInputStream());
                 server.firsLogin(this);
                 while(isActive()) {
-                    Logger.info("here");
                     Message input = (Message) objectIn.readObject();
-                    Logger.info("here");
 
                     if (input.getType() == MessageType.NICK && input.getSubType() == MessageSubType.ANSWER) {
-
                         server.setNick(input,this);
-                        Logger.info("here");
-
-
 
                     }
                     else if(input.getType() == MessageType.NUMBERPLAYER && input.getSubType() == MessageSubType.ANSWER){
+
+                        server.handleLobbyNumber(input);
 
 
                     }

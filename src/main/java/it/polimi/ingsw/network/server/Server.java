@@ -80,15 +80,27 @@ public class Server {
                 connection.sendMessage(new Message("God",MessageType.NICK,MessageSubType.ERROR));
             else if(lobby.isFirst()){
                 lobby.setFirst(false);
+                lobby.startNewWaitLobby(connection);
                 connection.sendMessage(new Message("God",MessageType.NUMBERPLAYER,MessageSubType.REQUEST));
                 //startLobbyTimer();
             }
            else {
-                //handleNonFirstPlayer(connection);
+                handleNonFirstPlayerConnection(connection);
                 connection.sendMessage(new NickNameMessage("God", MessageSubType.SETTED, nick));
 
             }
         }
+    }
+
+    public void handleNonFirstPlayerConnection(ClientHandler connection){
+        lobby.insertPlayerInWaitLobby(connection);
+
+
+    }
+
+    public void handleLobbyNumber(Message message){
+
+
     }
 
     public void startLobbyTimer(ClientHandler connection){

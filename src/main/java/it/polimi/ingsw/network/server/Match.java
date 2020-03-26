@@ -19,17 +19,13 @@ public class Match {
         this.actualPlayers = actualPlayers;
         this.numberOfPlayer = numberOfPlayer;
         this.game = new Game(actualPlayers,numberOfPlayer);
-
-
     }
 
     public void createViewMap(ArrayList<VirtualView> actualPlayers){
         HashMap<String, VirtualView> clients = new HashMap<>();
         for(VirtualView view:actualPlayers){
             clients.put(view.getPlayer().getNickname(),view);
-
         }
-
     }
 
     public void sendMsgToVirtualView(Message msg){
