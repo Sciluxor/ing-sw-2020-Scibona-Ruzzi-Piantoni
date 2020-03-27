@@ -8,6 +8,10 @@ import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
 
+//classe di prova solo per testare il server
+
+
+
 public class Client {
     private boolean isGameStarted = false;
     private String nick = "Default";
@@ -39,6 +43,7 @@ public class Client {
             Logger.info("Connection Established,waiting for server...");
             ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());
             ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream());
+            //client.closeClientForTimeAsynchronously(clientSocket);
             while(true){
                 Message output = (Message) in.readObject();
                 Scanner scanner = new Scanner(System.in);
@@ -106,6 +111,22 @@ public class Client {
         }
 
 
+        System.exit(1);
+
+    }
+
+    private void closeClientForTimeAsynchronously(Socket socket){
+        new Thread(() ->{
+            try {
+                while (!isGameStarted) {
+                    if (socket.getInetAddress().isReachable(10)) {
+                        System.exit(0);
+                    }
+                }
+            }catch (IOException e){
+
+            }
+        }).start();
 
     }
 

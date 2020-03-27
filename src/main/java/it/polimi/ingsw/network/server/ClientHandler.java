@@ -89,7 +89,7 @@ public class ClientHandler implements Runnable{
                 closeConnection();
 
             }catch (IOException e){
-                Logger.info("problem with input output stream");
+                Logger.info("player disconnected");
             }
             catch(ClassNotFoundException c){
                 Logger.info("problem with class");
