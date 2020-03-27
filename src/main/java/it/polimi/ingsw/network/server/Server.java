@@ -103,15 +103,22 @@ public class Server {
     }
 
     public void handleClientDisconnectionBeforeStarting(Message message){
-        synchronized (clientsLock){
+        synchronized (clientsLock) {
+
             ClientHandler connection = getConnectionFromString(message.getSender());
-            if(connection.getView().isGameStarted())
-                connection.sendMessage(new Message("God",MessageType.DISCONNECTION,MessageSubType.ERROR));
+            if (connection.getView().isGameStarted())
+                connection.sendMessage(new Message("God", MessageType.DISCONNECTION, MessageSubType.ERROR));
             else {
-                lobby.disconnectPlayer(connection,message.getSender());
-                clients.remove(connection);
-                connection.sendMessage(new Message("God",MessageType.DISCONNECTION,MessageSubType.SETTED));
-                connection.closeConnection();
+                if(message.getSubType() == MessageSubType.REQUEST){
+                    lobby.disconnectPlayer(connection, message.getSender());
+                    clients.remove(connection);
+                    connection.sendMessage(new Message("God", MessageType.DISCONNECTION, MessageSubType.SETTED));
+                    connection.closeConnection();
+                }
+                else {
+                    lobby.moveBackPlayer(connection,message.getSender());
+                    connection.sendMessage(new Message("God",MessageType.NUMBERPLAYER,MessageSubType.REQUEST));
+                }
             }
         }
     }

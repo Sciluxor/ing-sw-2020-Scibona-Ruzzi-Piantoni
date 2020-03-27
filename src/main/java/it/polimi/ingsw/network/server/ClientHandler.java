@@ -78,7 +78,7 @@ public class ClientHandler implements Runnable{
                     else if(input.getType() == MessageType.NUMBERPLAYER && input.getSubType() == MessageSubType.ANSWER){
                         server.handleLobbyNumber(input);
                     }
-                    else if(input.getType() == MessageType.DISCONNECTION && input.getSubType() == MessageSubType.REQUEST){
+                    else if(input.getType() == MessageType.DISCONNECTION){
                         server.handleClientDisconnectionBeforeStarting(input);
                     }
                     else {

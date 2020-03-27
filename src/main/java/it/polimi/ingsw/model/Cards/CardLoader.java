@@ -63,7 +63,7 @@ public class CardLoader {
         deck.put(containers[i].name,new Hypnus(containers[i].name,containers[i].description,containers[i].isPlayableIn3,containers[i].type,containers[i].subType));
         i++;
         deck.put(containers[i].name,new Zeus(containers[i].name,containers[i].description,containers[i].isPlayableIn3,containers[i].type,containers[i].subType));
-        
+
 
 
         return deck;

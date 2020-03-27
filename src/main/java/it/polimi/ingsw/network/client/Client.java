@@ -79,7 +79,7 @@ public class Client {
 
                 }
                 else if(output.getType().equals(MessageType.WAITPLAYER) && output.getSubType().equals(MessageSubType.UPDATE)){
-                    Logger.info("You have been inserted in lobby,waiting for other players to join,Type \"close\" to stop the server");
+                    Logger.info("You have been inserted in lobby,waiting for other players to join,Type \"close\" to stop the server,or \"back\" to go back to modality selection.");
                     client.closeClientIfRequestedAsynchronously(out);
 
                 }
@@ -112,12 +112,20 @@ public class Client {
     private void closeClientIfRequestedAsynchronously(ObjectOutputStream out) {
         new Thread(() -> {
             String input = "";
-            while (!isGameStarted && !input.equalsIgnoreCase("close")) {
+            while (!isGameStarted && (!input.equalsIgnoreCase("close") && !input.equalsIgnoreCase("back"))) {
                 input = new Scanner(System.in).nextLine();
             }
             if(input.equalsIgnoreCase("close") && !isGameStarted){
                 try {
                     out.writeObject(new Message(nick, MessageType.DISCONNECTION, MessageSubType.REQUEST));
+                    out.flush();
+                }catch (IOException e){
+                    Logger.info("Error in Disconnetting");
+                }
+            }
+            if(input.equalsIgnoreCase("back") && !isGameStarted){
+                try {
+                    out.writeObject(new Message(nick, MessageType.DISCONNECTION, MessageSubType.BACK));
                     out.flush();
                 }catch (IOException e){
                     Logger.info("Error in Disconnetting");

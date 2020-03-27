@@ -109,4 +109,11 @@ public class Lobby {
 
     }
 
+    public void moveBackPlayer(ClientHandler connection,String nickName){
+        WaitLobby waitLobby = getWaitLobbyFromString(nickName);
+        waitLobby.removePlayer(connection);
+        linkToWaitLobby.remove(nickName);
+
+    }
+
 }
