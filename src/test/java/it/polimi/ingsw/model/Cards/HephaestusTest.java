@@ -64,7 +64,7 @@ class HephaestusTest {
         assertEquals(cardHeph.executeBuild(gameMap, Building.LVL2, Directions.NORD, player1.getCurrentWorker()), Response.NOTBUILD);
         gameMap.getGameMap().get(13).setBuilding(Building.LVL2);
         assertEquals(cardHeph.executeBuild(gameMap, Building.LVL3, Directions.OVEST, player1.getCurrentWorker()), Response.BUILD);
-        assertEquals(cardHeph.executeBuild(gameMap, Building.LVL1, Directions.SUD_OVEST, player1.getCurrentWorker()), Response.NEWBUILDSAMEPLACE);
+        assertEquals(cardHeph.executeBuild(gameMap, Building.LVL1, Directions.SUD_OVEST, player1.getCurrentWorker()), Response.NEWBUILD);
         assertEquals(cardHeph.executeBuild(gameMap, Building.LVL2, Directions.NORD_EST, player1.getCurrentWorker()), Response.NOTBUILD);
         assertEquals(cardHeph.executeBuild(gameMap, Building.LVL1, Directions.SUD, player1.getCurrentWorker()), Response.BUILD);
 

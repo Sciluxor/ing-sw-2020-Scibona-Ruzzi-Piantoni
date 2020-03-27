@@ -1,9 +1,12 @@
 package it.polimi.ingsw.model.Cards;
 
+import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Map.Building;
 import it.polimi.ingsw.model.Map.Directions;
 import it.polimi.ingsw.model.Map.GameMap;
 import it.polimi.ingsw.model.Map.Square;
+import it.polimi.ingsw.model.Player.Player;
+import it.polimi.ingsw.model.Player.TurnStatus;
 import it.polimi.ingsw.model.Player.Worker;
 
 public class Chronus extends Card {
@@ -14,12 +17,14 @@ public class Chronus extends Card {
 
 
     @Override
-    public Response checkVictory(GameMap gameMap, Worker worker) {
-        if(gameMap == null || worker == null)
-            throw new NullPointerException("null gameMap or worker");
+    public Response checkVictory(GameMap gameMap, Player player) {
+        if(gameMap == null || player == null)
+            throw new NullPointerException("null gameMap or player");
 
-        if((worker.getBoardPosition().getBuildingLevel() == 3 && worker.getPreviousBoardPosition().getBuildingLevel() == 2) || countTower(gameMap))
-            return Response.WIN;
+        if(countTower(gameMap))
+            return Response.WINTOWERS;
+        if (!player.getTurnStatus().equals(TurnStatus.IDLE) && player.getCurrentWorker().getBoardPosition().getBuildingLevel() == 3 && player.getCurrentWorker().getPreviousBoardPosition().getBuildingLevel() == 2)
+            return  Response.WIN;
         return Response.NOTWIN;
     }
 

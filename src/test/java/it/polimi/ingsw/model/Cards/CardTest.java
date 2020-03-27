@@ -141,7 +141,7 @@ class CardTest {
 
     @Test
     void checkVictory() {
-        assertThrows(NullPointerException.class , () -> cardA.checkVictory(null, worker1));
+        assertThrows(NullPointerException.class , () -> cardA.checkVictory(null, player));
         assertThrows(NullPointerException.class , () -> cardA.checkVictory(gameMap, null));
 
         player.setPower(cardAp);
@@ -154,9 +154,9 @@ class CardTest {
         assertEquals(gameMap.getGameMap().get(23).getBuildingLevel(), 3);
         player.selectCurrentWorker(gameMap, "worker1");
         cardAp.executeWorkerMove(gameMap, Directions.NORD, player);
-        assertEquals(cardAp.checkVictory(gameMap, player.getCurrentWorker()), Response.WIN);
+        assertEquals(cardAp.checkVictory(gameMap, player), Response.WIN);
         cardAp.executeWorkerMove(gameMap, Directions.NORD, player);
-        assertEquals(cardAp.checkVictory(gameMap, player.getCurrentWorker()), Response.NOTWIN);
+        assertEquals(cardAp.checkVictory(gameMap, player), Response.NOTWIN);
 
 
 

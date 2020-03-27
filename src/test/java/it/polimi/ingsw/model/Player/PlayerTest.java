@@ -368,11 +368,11 @@ class PlayerTest {
 
     @Test
     void checkVictory() {
-        assertThrows(NullPointerException.class , () -> player.checkVictory(null, worker1));
-        assertThrows(NullPointerException.class , () -> player.checkVictory(gameMap, null));
+        assertThrows(NullPointerException.class , () -> player.checkVictory(null));
 
         player1.setPower(cardAp);
-        assertEquals(player1.checkVictory(gameMap, player1.getWorkers().get(0)), Response.NOTWIN);
+        player1.selectCurrentWorker(gameMap, "worker1");
+        assertEquals(player1.checkVictory(gameMap), Response.NOTWIN);
     }
 
     @Test

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.Cards;
 
 import it.polimi.ingsw.model.Map.GameMap;
+import it.polimi.ingsw.model.Player.Player;
 import it.polimi.ingsw.model.Player.Worker;
 
 public class Pan extends Card {
@@ -10,12 +11,12 @@ public class Pan extends Card {
     }
 
     @Override
-    public Response checkVictory(GameMap gameMap, Worker worker) {
-        if(gameMap == null || worker == null)
-            throw new NullPointerException("null gameMap or worker");
+    public Response checkVictory(GameMap gameMap, Player player) {
+        if(gameMap == null || player == null)
+            throw new NullPointerException("null gameMap or player");
 
-        if((worker.getBoardPosition().getBuildingLevel() == 3 && worker.getPreviousBoardPosition().getBuildingLevel() == 2) ||
-                ((worker.getPreviousBoardPosition().getBuildingLevel() - worker.getBoardPosition().getBuildingLevel()) >= 2))
+        if((player.getCurrentWorker().getBoardPosition().getBuildingLevel() == 3 && player.getCurrentWorker().getPreviousBoardPosition().getBuildingLevel() == 2) ||
+                ((player.getCurrentWorker().getPreviousBoardPosition().getBuildingLevel() - player.getCurrentWorker().getBoardPosition().getBuildingLevel()) >= 2))
             return Response.WIN;
         return Response.NOTWIN;
     }

@@ -84,11 +84,11 @@ public class Card {
             return Response.NOTBUILD;
     }
 
-    public Response checkVictory(GameMap gameMap, Worker worker) {
-        if(gameMap == null || worker == null)
-            throw new NullPointerException("null gameMap or worker");
+    public Response checkVictory(GameMap gameMap, Player player) {
+        if(gameMap == null || player == null)
+            throw new NullPointerException("null gameMap or player");
 
-        if(worker.getBoardPosition().getBuildingLevel() == 3 && worker.getPreviousBoardPosition().getBuildingLevel() == 2)
+        if(player.getCurrentWorker().getBoardPosition().getBuildingLevel() == 3 && player.getCurrentWorker().getPreviousBoardPosition().getBuildingLevel() == 2)
             return Response.WIN;
         return Response.NOTWIN;
     }

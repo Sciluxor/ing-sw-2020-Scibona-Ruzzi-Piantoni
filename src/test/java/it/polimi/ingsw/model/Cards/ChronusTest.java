@@ -58,16 +58,16 @@ class ChronusTest {
 
     @Test
     void checkVictory() {
-        assertThrows(NullPointerException.class , () -> cardChro.checkVictory(null, worker1));
+        assertThrows(NullPointerException.class , () -> cardChro.checkVictory(null, player1));
         assertThrows(NullPointerException.class , () -> cardChro.checkVictory(gameMap, null));
 
         assertEquals(player1.executeWorkerMove(gameMap, Directions.NORD), Response.MOVED);
-        assertEquals(cardChro.checkVictory(gameMap, player1.getCurrentWorker()), Response.NOTWIN);
+        assertEquals(cardChro.checkVictory(gameMap, player1), Response.NOTWIN);
         player1.getCurrentWorker().setBoardPosition(gameMap.getGameMap().get(14));
         assertEquals(player1.executeWorkerMove(gameMap, Directions.EST), Response.MOVED);
-        assertEquals(cardChro.checkVictory(gameMap, player1.getCurrentWorker()), Response.WIN);
+        assertEquals(cardChro.checkVictory(gameMap, player1), Response.WIN);
         assertEquals(player1.executeWorkerMove(gameMap, Directions.EST), Response.MOVED);
-        assertEquals(cardChro.checkVictory(gameMap, player1.getCurrentWorker()), Response.NOTWIN);
+        assertEquals(cardChro.checkVictory(gameMap, player1), Response.NOTWIN);
 
         gameMap.getGameMap().get(0).setBuilding(Building.LVL1);
         gameMap.getGameMap().get(0).addBuildingLevel();
@@ -102,7 +102,7 @@ class ChronusTest {
         gameMap.getGameMap().get(3).setBuilding(Building.DOME);
         gameMap.getGameMap().get(3).addBuildingLevel();
 
-        assertEquals(cardChro.checkVictory(gameMap, player1.getCurrentWorker()), Response.NOTWIN);
+        assertEquals(cardChro.checkVictory(gameMap, player1), Response.NOTWIN);
 
         gameMap.getGameMap().get(15).setBuilding(Building.LVL1);
         gameMap.getGameMap().get(15).addBuildingLevel();
@@ -113,7 +113,7 @@ class ChronusTest {
         gameMap.getGameMap().get(15).setBuilding(Building.DOME);
         gameMap.getGameMap().get(15).addBuildingLevel();
 
-        assertEquals(cardChro.checkVictory(gameMap, player1.getCurrentWorker()), Response.WIN);
+        assertEquals(cardChro.checkVictory(gameMap, player1), Response.WINTOWERS);
 
     }
 }

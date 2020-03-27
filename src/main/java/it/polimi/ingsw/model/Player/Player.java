@@ -194,11 +194,11 @@ public class Player {
         return power.executeBuild(gameMap, building, direction, this.currentWorker);
     }
 
-    public Response checkVictory(GameMap gameMap, Worker worker){
-        if (gameMap == null || worker == null)
-            throw new NullPointerException("gameMap or worker == null");
+    public Response checkVictory(GameMap gameMap){
+        if (gameMap == null)
+            throw new NullPointerException("gameMap == null");
 
-        return  power.checkVictory(gameMap, worker);
+        return  power.checkVictory(gameMap, this);
     }
 
 
