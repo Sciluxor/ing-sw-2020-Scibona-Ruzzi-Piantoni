@@ -1,6 +1,9 @@
 package it.polimi.ingsw.network.server;
 
+import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.message.Message;
+import it.polimi.ingsw.network.message.MessageSubType;
+import it.polimi.ingsw.network.message.MessageType;
 import it.polimi.ingsw.view.Server.VirtualView;
 
 import java.util.ArrayList;
@@ -10,8 +13,6 @@ public class Lobby {
 
     private final int MAX_LENGHT_NICK = 20;
     private final int MIN_LENGHT_NICK = 4;
-
-    private int NumberOfPlayer = 2;
 
     private ArrayList<Match> matches = new ArrayList<>();
     private HashMap<String,Match> linkToMatch = new HashMap<>();
@@ -27,15 +28,7 @@ public class Lobby {
 
     }
 
-    public boolean isFirst() {
-        return isFirst;
-    }
-
-    public void setFirst(boolean first) {
-        isFirst = first;
-    }
-
-    public boolean setNickName(String nickName,ClientHandler connection){
+    public boolean setNickName(String nickName, ClientHandler connection){
         if(nickName.length()>MAX_LENGHT_NICK || nickName.length()< MIN_LENGHT_NICK){
             return false;
         }
@@ -51,55 +44,47 @@ public class Lobby {
         return true;
     }
 
-    public void startNewWaitLobby(ClientHandler connection){
-        WaitLobby waitLobby = new WaitLobby(connection);
+    public void startNewWaitLobby(ClientHandler connection, int numberOfPlayers){
+        WaitLobby waitLobby = new WaitLobby(connection,numberOfPlayers);
         lobbies.add(waitLobby);
         linkToWaitLobby.put(connection.getView().getPlayer().getNickname(),waitLobby);
-
-
     }
 
     public WaitLobby getWaitLobbyFromString(String nickName){
         return linkToWaitLobby.get(nickName);
     }
 
-    public void insertPlayerInWaitLobby( ClientHandler connection) {
+    public void insertPlayerInWaitLobby( ClientHandler connection ,int numberOfplayers) {
         for (WaitLobby wait : lobbies) {
-            if (wait.getOtherPlayers().size() < wait.getNumberOfPlayer()-1) {
-                wait.setOtherPlayers(connection);
+            if (wait.getMatchPlayers().size() < wait.getNumberOfPlayers() && wait.getNumberOfPlayers() == numberOfplayers) {
+                wait.addMatchPlayer(connection);
                 linkToWaitLobby.put(connection.getView().getPlayer().getNickname(), wait);
-                if (wait.isNumberset() && (wait.getOtherPlayers().size() == wait.getNumberOfPlayer() - 1)) {
+                connection.sendMessage(new Message("God", MessageType.WAITPLAYER, MessageSubType.UPDATE));
+                if ((wait.getMatchPlayers().size() == wait.getNumberOfPlayers())) {
                         handleStartMatch(wait);
                 }
-                handleWaitLobbySpace();
-                break;
+                return;
             }
         }
+        startNewWaitLobby(connection,numberOfplayers);
+        connection.sendMessage(new Message("God", MessageType.WAITPLAYER, MessageSubType.UPDATE));
     }
 
     public void handleStartMatch(WaitLobby waitLobby){
         ArrayList<VirtualView> actualPlayers = new ArrayList<>();
-        actualPlayers.add(waitLobby.getFisrtPlayer().getView());
 
-        for (ClientHandler client: waitLobby.getOtherPlayers()){
+        for (ClientHandler client: waitLobby.getMatchPlayers()){
             actualPlayers.add(client.getView());
         }
 
         eliminateWaitLobby(waitLobby);
-        Match match = new Match(actualPlayers,waitLobby.getNumberOfPlayer());
+        Match match = new Match(actualPlayers,waitLobby.getNumberOfPlayers());
         createMaptoMatch(match,actualPlayers);
 
         for(VirtualView view:actualPlayers){
+            view.setGameStarted(true);
             view.sendGamestartedMessage(actualPlayers.size());
         }
-
-
-    }
-
-    public void handleSettedNumber(WaitLobby waitLobby){
-        if(waitLobby.getOtherPlayers().size() == waitLobby.getNumberOfPlayer() -1)
-            handleStartMatch(waitLobby);
-
     }
 
     public void createMaptoMatch(Match match,ArrayList<VirtualView> actualPlayers){
@@ -108,31 +93,27 @@ public class Lobby {
         }
     }
 
-    public void handleFreeSpace(WaitLobby waitLobby){
-
-        if(waitLobby.getOtherPlayers().size() < waitLobby.getNumberOfPlayer() -1)
-            setFirst(false);
-
-    }
-
     public void eliminateWaitLobby(WaitLobby waitLobby){
         lobbies.remove(waitLobby);
-        linkToWaitLobby.remove(waitLobby.getFisrtPlayer().getView().getPlayer().getNickname());
-        for(ClientHandler view: waitLobby.getOtherPlayers()) {
+
+        for(ClientHandler view: waitLobby.getMatchPlayers()) {
             linkToWaitLobby.remove(view.getView().getPlayer().getNickname());
         }
+    }
+
+    public void disconnectPlayer(ClientHandler connection,String nickName){
+        WaitLobby waitLobby = getWaitLobbyFromString(nickName);
+        waitLobby.removePlayer(connection);
+        linkToWaitLobby.remove(nickName);
+        lobbyPlayer.remove(connection.getView());
 
     }
 
-    public void handleWaitLobbySpace(){
-        boolean isFirst = true;
-        for (WaitLobby wait : lobbies) {
+    public void moveBackPlayer(ClientHandler connection,String nickName){
+        WaitLobby waitLobby = getWaitLobbyFromString(nickName);
+        waitLobby.removePlayer(connection);
+        linkToWaitLobby.remove(nickName);
 
-            if(wait.getOtherPlayers().size() < wait.getNumberOfPlayer()-1){
-                isFirst = false;
-                break;
-            }
-        }
-        setFirst(isFirst);
     }
+
 }

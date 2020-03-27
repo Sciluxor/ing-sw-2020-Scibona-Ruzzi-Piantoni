@@ -3,12 +3,10 @@ package it.polimi.ingsw.network.server;
 import it.polimi.ingsw.network.message.Message;
 import it.polimi.ingsw.network.message.MessageSubType;
 import it.polimi.ingsw.network.message.MessageType;
-import it.polimi.ingsw.network.message.NickNameMessage;
 import it.polimi.ingsw.utils.Logger;
 import it.polimi.ingsw.view.Server.VirtualView;
 
 import java.io.*;
-import java.net.ServerSocket;
 import java.net.Socket;
 
 public class ClientHandler implements Runnable{
@@ -53,6 +51,17 @@ public class ClientHandler implements Runnable{
 
     }
 
+    public void closeConnection(){
+        //chiusura connesione
+        try{
+        objectIn.close();
+        objectOut.close();
+        socket.close();
+        }catch (IOException e){
+            Logger.info("problem in closing connection");
+        }
+    }
+
     @Override
     public void run() {
 
@@ -65,28 +74,22 @@ public class ClientHandler implements Runnable{
 
                     if (input.getType() == MessageType.NICK && input.getSubType() == MessageSubType.ANSWER) {
                         server.setNick(input,this);
-
                     }
                     else if(input.getType() == MessageType.NUMBERPLAYER && input.getSubType() == MessageSubType.ANSWER){
-
-
                         server.handleLobbyNumber(input);
-
-
+                    }
+                    else if(input.getType() == MessageType.DISCONNECTION){
+                        server.handleClientDisconnectionBeforeStarting(input);
                     }
                     else {
                         server.onMessage(input);
                     }
 
                 }
-                    //chiusura connesione
-                    objectIn.close();
-                    objectOut.close();
-                    socket.close();
-
+                closeConnection();
 
             }catch (IOException e){
-                Logger.info("problem with input output stream");
+                Logger.info("player disconnected");
             }
             catch(ClassNotFoundException c){
                 Logger.info("problem with class");

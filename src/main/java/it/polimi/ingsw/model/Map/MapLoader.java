@@ -11,12 +11,6 @@ import java.util.HashMap;
 
 public class MapLoader {
 
-    private MapLoader(){
-
-        throw new IllegalStateException("Impossible to instantiate MapLoader Class");
-
-    }
-
     private static class SquareContainer{
 
         Integer tile;

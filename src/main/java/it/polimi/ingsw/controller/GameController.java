@@ -24,6 +24,7 @@ public class GameController implements Observer<Message> {
     public void processMessage(Message message){
 
 
+
     }
 
     public VirtualView getVirtualViewFromName(){

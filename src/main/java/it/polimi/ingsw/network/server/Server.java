@@ -1,27 +1,25 @@
 package it.polimi.ingsw.network.server;
 
-import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.message.*;
+import it.polimi.ingsw.utils.LobbyTimerTask;
 import it.polimi.ingsw.utils.Logger;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Scanner;
+import java.util.*;
 
 public class Server {
 
     private final int MAXWAITTIME = 1;
+    private final int MINPLAYERLOBBY = 2;
+    private final int MAXPLAYERLOBBY = 3;
 
     private ArrayList<ClientHandler> clients = new ArrayList<>();
     private final Object clientsLock = new Object();
-    private HashMap<ClientHandler,Object> locker = new HashMap<>();
+    private HashMap<Match,Object> locker = new HashMap<>();
     private HashMap<String,ClientHandler> clientsFromString = new HashMap<>();
     private Lobby lobby = new Lobby();
     private Integer socketPort;
-    //LobbyTimer timer = new LobbyTimer;
-
-
+    private HashMap<ClientHandler,Timer> timerFromString = new HashMap<>();
 
     private Server(){
 
@@ -67,6 +65,7 @@ public class Server {
     public void firsLogin(ClientHandler connnection){
         synchronized (clientsLock) {
             clients.add(connnection);
+            startLobbyTimer(connnection);
             connnection.sendMessage(new Message("God",MessageType.NICK,MessageSubType.REQUEST));
         }
 
@@ -74,62 +73,78 @@ public class Server {
     public void setNick(Message message,ClientHandler connection){
         synchronized (clientsLock) {
             String nick = ((NickNameMessage) message).getNickName();
-            if (!lobby.setNickName(nick, connection))
+            if (!lobby.setNickName(nick, connection)){
+                stopLobbyTimer(connection);
                 connection.sendMessage(new Message("God",MessageType.NICK,MessageSubType.ERROR));
-            else if(lobby.isFirst()){
-                lobby.setFirst(false);
-                lobby.startNewWaitLobby(connection);
-                connection.sendMessage(new NickNameMessage("God", MessageSubType.SETTED, nick));
-                connection.sendMessage(new Message("God",MessageType.NUMBERPLAYER,MessageSubType.REQUEST));
-                //startLobbyTimer();
+                startLobbyTimer(connection);
             }
            else {
+                stopLobbyTimer(connection);
+                clientsFromString.put(nick,connection);
                 connection.sendMessage(new NickNameMessage("God", MessageSubType.SETTED, nick));
-                handleNonFirstPlayerConnection(connection);
-
+                connection.sendMessage(new Message("God",MessageType.NUMBERPLAYER,MessageSubType.REQUEST));
+                startLobbyTimer(connection);
             }
         }
     }
 
-    public void handleNonFirstPlayerConnection(ClientHandler connection){
-        lobby.insertPlayerInWaitLobby(connection);
-
+    public void handleFirstPlayerConnection(ClientHandler connection,int numberOfPlayers){
+        lobby.insertPlayerInWaitLobby(connection,numberOfPlayers);
 
     }
 
     public void handleLobbyNumber(Message message){
+        synchronized (clientsLock) {
+            stopLobbyTimer(getConnectionFromString(message.getSender()));
+            int players =  ((PlayerNumberMessage) message).getPlayersNumber();
+            if ( players >= MINPLAYERLOBBY && players <= MAXPLAYERLOBBY) {
+                handleFirstPlayerConnection(getConnectionFromString(message.getSender()),players);
+            } else {
 
-        WaitLobby waitLobby = lobby.getWaitLobbyFromString(message.getSender());
-        waitLobby.setNumberOfPlayer(((PlayerNumberMessage) message).getPlayersNumber());
-        waitLobby.setNumberset(true);
-
-        lobby.handleSettedNumber(waitLobby);
-        lobby.handleFreeSpace(waitLobby);
-
-
-
+                getConnectionFromString(message.getSender()).sendMessage(new Message("God", MessageType.NUMBERPLAYER, MessageSubType.ERROR));
+                startLobbyTimer(getConnectionFromString(message.getSender()));
+            }
+        }
     }
+
+    public void handleClientDisconnectionBeforeStarting(Message message){
+        synchronized (clientsLock) {
+            ClientHandler connection = getConnectionFromString(message.getSender());
+            if (connection.getView().isGameStarted())
+                connection.sendMessage(new Message("God", MessageType.DISCONNECTION, MessageSubType.ERROR));
+            else {
+                if(message.getSubType() == MessageSubType.REQUEST){
+                    lobby.disconnectPlayer(connection, message.getSender());
+                    clients.remove(connection);
+                    connection.sendMessage(new Message("God", MessageType.DISCONNECTION, MessageSubType.SETTED));
+                    connection.closeConnection();
+                }
+                else {
+                    lobby.moveBackPlayer(connection,message.getSender());
+                    connection.sendMessage(new Message("God",MessageType.NUMBERPLAYER,MessageSubType.REQUEST));
+                    startLobbyTimer(connection);
+                }
+            }
+        }
+    }
+
 
     public ClientHandler getConnectionFromString(String nick){
         return clientsFromString.get(nick);
-
     }
 
     public void startLobbyTimer(ClientHandler connection){
-       //timer.start(this::firstPlayerDisconnected(),MAXWAITTIME);
-
-
+        Timer timer = new Timer();
+        timerFromString.put(connection,timer);
+        LobbyTimerTask task = new LobbyTimerTask(connection);
+        timerFromString.get(connection).schedule(task,10000);
     }
 
-    public void eliminateWaitLobby(){
+    public void stopLobbyTimer(ClientHandler connection){
+        timerFromString.get(connection).cancel();
+        timerFromString.remove(connection);
 
     }
-
-    public void reassignPlayers(){
-
-
-    }
-
 
 }
 
