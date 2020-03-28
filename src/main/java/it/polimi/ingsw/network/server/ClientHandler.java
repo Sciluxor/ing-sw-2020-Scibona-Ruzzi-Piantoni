@@ -82,7 +82,7 @@ public class ClientHandler implements Runnable{
                         server.handleClientDisconnectionBeforeStarting(input);
                     }
                     else {
-                        server.onMessage(input);
+                        server.onMessage(input); //runnarlo in un altro thread
                     }
 
                 }

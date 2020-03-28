@@ -17,6 +17,7 @@ public class LobbyTimerTask extends TimerTask {
 
     @Override
     public void run() {
+        connection.sendMessage(new Message("God",MessageType.DISCONNECTION,MessageSubType.TIMEENDED));
         connection.closeConnection();
     }
 }

@@ -116,4 +116,7 @@ public class Lobby {
 
     }
 
+   // cambiare il task e controllare che venga eliminato il player,vedere come gestire le riconnesioni;
+    // mettere un comando per fare riconnettere il player se perde la connesione o inattvità;
+
 }
