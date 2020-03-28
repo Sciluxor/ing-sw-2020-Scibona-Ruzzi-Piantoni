@@ -28,7 +28,19 @@ public class Match {
         }
     }
 
-    public void sendMsgToVirtualView(Message msg){
+    public void sendMsgToVirtualView(Message msg) {
+        for (VirtualView view : actualPlayers) {
+            if (view.getPlayer().getNickname().equals(msg.getSender())) {
+                view.processMessageReceived(msg);
+                break;
+            }
+        }
+    }
+
+    public void startGame(){
+
+        //manda messaggi per iniziare a scegliere le carte, bisogna inizializzare la queue dei giocatori tramite controller e game.
+        //vedere se per la queue basta la queue o serve deque?
 
 
     }

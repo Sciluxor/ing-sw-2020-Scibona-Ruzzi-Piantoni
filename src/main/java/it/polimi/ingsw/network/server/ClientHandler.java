@@ -45,6 +45,9 @@ public class ClientHandler implements Runnable{
 
         try {
             objectOut.writeObject(msg);
+            objectOut.flush();
+            objectOut.reset();
+
         }catch (IOException e){
             Logger.info("error in connection");
         }
@@ -82,7 +85,7 @@ public class ClientHandler implements Runnable{
                         server.handleClientDisconnectionBeforeStarting(input);
                     }
                     else {
-                        server.onMessage(input); //runnarlo in un altro thread
+                        server.onMessage(input); //runnarlo in un altro thread?
                     }
 
                 }

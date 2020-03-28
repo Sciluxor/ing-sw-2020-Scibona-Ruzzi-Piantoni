@@ -20,11 +20,10 @@ public class Lobby {
     private ArrayList<VirtualView> lobbyPlayer = new ArrayList<>();
     private ArrayList<WaitLobby> lobbies = new ArrayList<>();
 
-    private boolean isFirst = true;
 
     public Match getMatchfromName(String playerName){
 
-       return null;
+       return linkToMatch.get(playerName);
 
     }
 
@@ -78,13 +77,17 @@ public class Lobby {
         }
 
         eliminateWaitLobby(waitLobby);
-        Match match = new Match(actualPlayers,waitLobby.getNumberOfPlayers());
+        Match match = new Match(actualPlayers,waitLobby.getNumberOfPlayers()); //dividere questa applicazione in più parti
+        matches.add(match);
         createMaptoMatch(match,actualPlayers);
 
         for(VirtualView view:actualPlayers){
             view.setGameStarted(true);
             view.sendGamestartedMessage(actualPlayers.size());
         }
+
+        match.startGame();
+
     }
 
     public void createMaptoMatch(Match match,ArrayList<VirtualView> actualPlayers){

@@ -9,7 +9,7 @@ import java.util.*;
 
 public class Server {
 
-    private final int MAXWAITTIME = 1;
+    private final int MAXWAITTIME = 10000;
     private final int MINPLAYERLOBBY = 2;
     private final int MAXPLAYERLOBBY = 3;
 
@@ -137,7 +137,7 @@ public class Server {
         Timer timer = new Timer();
         timerFromString.put(connection,timer);
         LobbyTimerTask task = new LobbyTimerTask(connection);
-        timerFromString.get(connection).schedule(task,10000);
+        timerFromString.get(connection).schedule(task,MAXWAITTIME);
     }
 
     public void stopLobbyTimer(ClientHandler connection){

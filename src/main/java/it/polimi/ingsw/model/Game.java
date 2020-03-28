@@ -98,6 +98,14 @@ public class Game extends Observable<Game> {
 
     }
 
+    public void pickFirstPlayer(){
+
+    }
+
+    public void assignCard(){
+
+    }
+
     public Response getGameStatus(){
         return this.gameStatus;
     }
