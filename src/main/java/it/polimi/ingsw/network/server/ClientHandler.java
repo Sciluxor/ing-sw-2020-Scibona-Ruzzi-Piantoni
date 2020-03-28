@@ -15,22 +15,31 @@ public class ClientHandler implements Runnable{
     private ObjectOutputStream objectOut;
     private Socket socket;
     private Server server;
-    private boolean isActive;
+    private boolean isViewActive = false;
+    private boolean isConnectionActive;
     private VirtualView view;
 
     public ClientHandler(Server server, Socket socket){
         this.socket = socket;
         this.server = server;
-        this.isActive = true;
+        this.isConnectionActive = true;
 
     }
 
-    public boolean isActive() {
-        return isActive;
+    public boolean isConnectionActive() {
+        return isConnectionActive;
     }
 
-    public void setActive(boolean active) {
-        isActive = active;
+    public void setConnectionActive(boolean connectionActive) {
+        isConnectionActive = connectionActive;
+    }
+
+    public boolean isViewActive() {
+        return isViewActive;
+    }
+
+    public void setViewActive(boolean active) {
+        isViewActive = active;
     }
 
     public VirtualView getView() {
@@ -72,7 +81,7 @@ public class ClientHandler implements Runnable{
                 this.objectOut = new ObjectOutputStream(socket.getOutputStream());
                 this.objectIn = new ObjectInputStream(socket.getInputStream());
                 server.firsLogin(this);
-                while(isActive()) {
+                while(isConnectionActive()) {
                     Message input = (Message) objectIn.readObject();
 
                     if (input.getType() == MessageType.NICK && input.getSubType() == MessageSubType.ANSWER) {

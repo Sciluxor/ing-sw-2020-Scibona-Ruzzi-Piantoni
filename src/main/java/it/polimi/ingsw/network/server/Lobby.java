@@ -37,9 +37,10 @@ public class Lobby {
                     return false;
             }
         }
-        VirtualView newPlayerView = new VirtualView(connection,nickName);
+        VirtualView newPlayerView = new VirtualView(connection,nickName);  //fare altra funzione
         lobbyPlayer.add(newPlayerView);
         connection.setView(newPlayerView);
+        connection.setViewActive(true);
         return true;
     }
 
@@ -116,6 +117,11 @@ public class Lobby {
         WaitLobby waitLobby = getWaitLobbyFromString(nickName);
         waitLobby.removePlayer(connection);
         linkToWaitLobby.remove(nickName);
+
+    }
+
+    public void removeTimeEndedPlayer(ClientHandler connection){
+        lobbyPlayer.remove(connection.getView());
 
     }
 

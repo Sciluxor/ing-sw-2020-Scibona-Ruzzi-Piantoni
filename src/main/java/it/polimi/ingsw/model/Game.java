@@ -102,6 +102,10 @@ public class Game extends Observable<Game> {
 
     }
 
+    public void createQueue(){
+
+    }
+
     public void assignCard(){
 
     }

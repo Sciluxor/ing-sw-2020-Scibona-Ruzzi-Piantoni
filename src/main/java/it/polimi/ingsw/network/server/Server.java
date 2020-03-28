@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.server;
 
+import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.utils.LobbyTimerTask;
 import it.polimi.ingsw.utils.Logger;
@@ -128,6 +129,18 @@ public class Server {
         }
     }
 
+    public void handleTimeLobbyEnded(ClientHandler connection){
+        synchronized (clientsLock){
+            clients.remove(connection);
+
+            if(connection.isViewActive())
+               lobby.removeTimeEndedPlayer(connection);
+
+            connection.sendMessage(new Message("God",MessageType.DISCONNECTION,MessageSubType.TIMEENDED));
+            connection.closeConnection();
+
+        }
+    }
 
     public ClientHandler getConnectionFromString(String nick){
         return clientsFromString.get(nick);
@@ -136,7 +149,7 @@ public class Server {
     public void startLobbyTimer(ClientHandler connection){
         Timer timer = new Timer();
         timerFromString.put(connection,timer);
-        LobbyTimerTask task = new LobbyTimerTask(connection);
+        LobbyTimerTask task = new LobbyTimerTask(connection,this);
         timerFromString.get(connection).schedule(task,MAXWAITTIME);
     }
 

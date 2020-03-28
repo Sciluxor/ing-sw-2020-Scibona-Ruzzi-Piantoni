@@ -12,6 +12,8 @@ public class Match {
 
     private ArrayList<VirtualView> actualPlayers;
     private GameController controller;
+    private final Object matchLock = new Object();
+    private HashMap<String, VirtualView> matchClients;
     private Game game;
     private final int numberOfPlayer;
 
@@ -19,21 +21,25 @@ public class Match {
         this.actualPlayers = actualPlayers;
         this.numberOfPlayer = numberOfPlayer;
         this.game = new Game(actualPlayers,numberOfPlayer);
+        this.matchClients = createViewMap(actualPlayers);
     }
 
-    public void createViewMap(ArrayList<VirtualView> actualPlayers){
+    public HashMap<String, VirtualView> createViewMap(ArrayList<VirtualView> actualPlayers){
         HashMap<String, VirtualView> clients = new HashMap<>();
         for(VirtualView view:actualPlayers){
             clients.put(view.getPlayer().getNickname(),view);
         }
+        return clients;
+    }
+
+    public VirtualView getViewFromString(String nick){
+        return this.matchClients.get(nick);
+
     }
 
     public void sendMsgToVirtualView(Message msg) {
-        for (VirtualView view : actualPlayers) {
-            if (view.getPlayer().getNickname().equals(msg.getSender())) {
-                view.processMessageReceived(msg);
-                break;
-            }
+        synchronized (matchLock) {
+            getViewFromString(msg.getSender()).processMessageReceived(msg);
         }
     }
 

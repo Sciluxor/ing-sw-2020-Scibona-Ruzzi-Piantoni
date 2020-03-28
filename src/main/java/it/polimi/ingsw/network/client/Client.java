@@ -47,7 +47,7 @@ public class Client {
                 new Thread(()-> client.processMessage(client,output,out)).start();
             }
         }catch (IOException e){
-            Logger.info("App Disconnected");
+            return;
         }
         catch (ClassNotFoundException c){
             Logger.info("problem with class");
@@ -107,13 +107,12 @@ public class Client {
             else if (output.getType().equals(MessageType.DISCONNECTION) && output.getSubType().equals(MessageSubType.TIMEENDED)) {
                 Logger.info("\nYou were disconnected due to inactivity,closing Application...");
                 System.exit(1);
-
             }
 
             out.reset();
         }catch (IOException e){
-        Logger.info("App Disconnected");
-    }
+            Logger.info("App Disconnected");
+        }
 
 
     }
@@ -145,7 +144,4 @@ public class Client {
 
         }).start();
     }
-
-
-
 }

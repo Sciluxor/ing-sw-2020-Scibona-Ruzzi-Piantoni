@@ -7,11 +7,14 @@ import it.polimi.ingsw.view.Server.VirtualView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Timer;
 
 public class GameController implements Observer<Message> {
 
     private Game game;
     private HashMap<String, VirtualView> clients;
+    private Timer turnTimer ;
+    private Timer reconnesionTimer;
 
     public GameController(Game game, HashMap<String, VirtualView> clients, ArrayList<VirtualView> clientsVirtualview) {
         this.game = game;
@@ -30,6 +33,10 @@ public class GameController implements Observer<Message> {
     public VirtualView getVirtualViewFromName(){
 
         return null;
+
+    }
+
+    public void handleMatchBeginning(){
 
     }
 
