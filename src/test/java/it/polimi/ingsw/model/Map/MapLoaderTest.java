@@ -35,6 +35,8 @@ class MapLoaderTest {
             assertEquals(squares.get(24).getBuilding(),Building.GROUND);
             assertEquals(1, (int) squares.get(0).getTile());
             assertEquals(17, (int) squares.get(16).getTile());
+            assertEquals(squares.get(7).getCoordinates()[0],3);
+            assertEquals(squares.get(7).getCoordinates()[1],4);
 
 
 

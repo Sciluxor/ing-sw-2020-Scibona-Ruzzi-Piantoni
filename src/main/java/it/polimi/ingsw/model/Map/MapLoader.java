@@ -22,7 +22,7 @@ public class MapLoader {
         Building building;
         boolean hasPlayer;
         Integer[] canAccess;
-        Pair<Integer,Integer> coordinates;
+        Integer[] xy;
     }
 
     public static ArrayList<Square> loadMap(){
@@ -46,7 +46,7 @@ public class MapLoader {
         for(SquareContainer container: containers){
 
             HashMap<Directions,Integer> canAccess = createHashMapFromArray(container.canAccess);
-            squares.add(new Square(container.tile,container.buildingLevel,container.building,container.hasPlayer,canAccess,container.coordinates));
+            squares.add(new Square(container.tile,container.buildingLevel,container.building,container.hasPlayer,canAccess,container.xy));
 
         }
 

@@ -16,13 +16,13 @@ public class GameMap {
 
     private ArrayList<Square> gameMap;
     private HashMap<Worker, Square> workersPosition;
-    private HashMap<Pair<Integer,Integer>,Square> linkToCoordinates = new HashMap<>();
+    private Square [][]linkToCoordinates = new Square[25][25];
 
     public GameMap() {
         this.gameMap = MapLoader.loadMap();
         for(Square square: gameMap){
-            Pair pair = square.getCoordinates();
-            linkToCoordinates.put(pair,square);
+            Integer[] coordinates =  square.getCoordinates();
+            linkToCoordinates[coordinates[0]][coordinates[1]] = square;
         }
     }
 
@@ -30,8 +30,8 @@ public class GameMap {
     //Function to obtain the number of tile from coordinates
     //
 
-    public Square getTileFromCoordinates(Pair<Integer,Integer> pair){
-        return linkToCoordinates.get(pair);
+    public Square getTileFromCoordinates(Integer[] coordinates){
+        return linkToCoordinates[coordinates[0]][coordinates[1]];
     }
 
     //

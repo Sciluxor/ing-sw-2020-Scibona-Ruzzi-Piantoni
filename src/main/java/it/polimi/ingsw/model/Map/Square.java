@@ -5,12 +5,13 @@ import it.polimi.ingsw.model.Player.Worker;
 import javafx.util.Pair;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 
 public class Square {
 
 
     private Integer tile;
-    private Pair<Integer,Integer> coordinates;
+    private Integer[] coordinates;
     private int buildingLevel;
     private Building building;
     private boolean hasPlayer;
@@ -18,7 +19,7 @@ public class Square {
     private Worker worker;
     private HashMap<Directions,Integer> canAccess;
 
-    public Square(Integer tile, int buildingLevel, Building building, boolean hasPlayer,HashMap<Directions,Integer> canAccess,Pair<Integer,Integer> coordinates) {
+    public Square(Integer tile, int buildingLevel, Building building, boolean hasPlayer,HashMap<Directions,Integer> canAccess,Integer[] coordinates) {
         this.tile = tile;
         this.buildingLevel = buildingLevel;
         this.building = building;
@@ -52,7 +53,7 @@ public class Square {
         this.building = building;
     }
 
-    public Pair<Integer,Integer> getCoordinates() {
+    public Integer[] getCoordinates() {
         return coordinates;
     }
 

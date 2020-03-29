@@ -198,4 +198,12 @@ class GameMapTest {
         assertFalse(map.isInPerimeter(map.getGameMap().get(16).getTile()));
 
     }
+
+    @Test
+    void coordinates(){
+        Integer[] coordinates = {3,4};
+        assertEquals(map.getTileFromCoordinates(coordinates).getTile(),8);
+
+
+    }
 }
