@@ -7,6 +7,7 @@ import it.polimi.ingsw.network.message.Message;
 import it.polimi.ingsw.network.message.MessageSubType;
 import it.polimi.ingsw.network.message.gameStartedMessage;
 import it.polimi.ingsw.network.server.ClientHandler;
+import it.polimi.ingsw.utils.ConstantsContainer;
 import it.polimi.ingsw.utils.Observable;
 import it.polimi.ingsw.utils.Observer;
 
@@ -51,11 +52,9 @@ public class VirtualView extends Observable<Message> implements Observer<Game> {
    }
 
    public void sendGamestartedMessage(int number){
-        connection.sendMessage(new gameStartedMessage("God", MessageSubType.UPDATE,number));
+        connection.sendMessage(new gameStartedMessage(ConstantsContainer.SERVERNAME, MessageSubType.UPDATE,number));
 
    }
-
-
 
 
     @Override

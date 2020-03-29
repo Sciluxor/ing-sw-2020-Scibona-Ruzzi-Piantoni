@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.Map;
 
 import it.polimi.ingsw.model.Player.Player;
 import it.polimi.ingsw.model.Player.Worker;
+import it.polimi.ingsw.utils.ConstantsContainer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,7 +13,6 @@ public class GameMap {
 
 
     private ArrayList<Square> gameMap;
-    private final Integer PERIMETERPOSITION = 16;    //gestire in maniera migliori con un parser di costanti
     private HashMap<Worker, Square> workersPosition;
 
     public GameMap() {
@@ -131,6 +131,6 @@ return reachableSquares;
         if(tile == null)
             throw new NullPointerException("tile null");
 
-        return tile <= PERIMETERPOSITION;
+        return tile <= ConstantsContainer.PERIMETERPOSITION;
     }
 }

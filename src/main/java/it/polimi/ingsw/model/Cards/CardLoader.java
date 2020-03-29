@@ -8,6 +8,10 @@ import java.util.HashMap;
 
 public class CardLoader {
 
+    private CardLoader() {
+        throw new IllegalStateException("CardLoader class cannot be instantiated");
+    }
+
     private static class CardContainer{
 
         String name;

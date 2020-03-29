@@ -15,6 +15,7 @@ public class GameController implements Observer<Message> {
     private HashMap<String, VirtualView> clients;
     private Timer turnTimer ;
     private Timer reconnesionTimer;
+    private RoundController roundController;
 
     public GameController(Game game, HashMap<String, VirtualView> clients, ArrayList<VirtualView> clientsVirtualview) {
         this.game = game;
@@ -22,6 +23,7 @@ public class GameController implements Observer<Message> {
         for(VirtualView view: clientsVirtualview){
             view.addObservers(this);
         }
+        this.roundController = new RoundController();
     }
 
     public void processMessage(Message message){
@@ -44,13 +46,27 @@ public class GameController implements Observer<Message> {
 
     }
 
+    public void handleWorkerChoice(){
+
+    }
+
     public void handleEndTun(){
 
 
     }
 
+    //aggiungere metodi per la disconnesione dei player
+
+    public void sendToRoundController(Message message){
+
+
+    }
+
+
+
     @Override
     public void update(Message message) {
+
         processMessage(message);
     }
 

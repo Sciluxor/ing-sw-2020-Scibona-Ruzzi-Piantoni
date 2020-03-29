@@ -1,18 +1,15 @@
 package it.polimi.ingsw.network.server;
 
-import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.message.Message;
 import it.polimi.ingsw.network.message.MessageSubType;
 import it.polimi.ingsw.network.message.MessageType;
+import it.polimi.ingsw.utils.ConstantsContainer;
 import it.polimi.ingsw.view.Server.VirtualView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Lobby {
-
-    private final int MAX_LENGHT_NICK = 20;
-    private final int MIN_LENGHT_NICK = 4;
 
     private ArrayList<Match> matches = new ArrayList<>();
     private HashMap<String,Match> linkToMatch = new HashMap<>();
@@ -28,7 +25,7 @@ public class Lobby {
     }
 
     public boolean setNickName(String nickName, ClientHandler connection){
-        if(nickName.length()>MAX_LENGHT_NICK || nickName.length()< MIN_LENGHT_NICK){
+        if(nickName.length()> ConstantsContainer.MAX_LENGHT_NICK || nickName.length()< ConstantsContainer.MIN_LENGHT_NICK){
             return false;
         }
         else {
@@ -59,7 +56,7 @@ public class Lobby {
             if (wait.getMatchPlayers().size() < wait.getNumberOfPlayers() && wait.getNumberOfPlayers() == numberOfplayers) {
                 wait.addMatchPlayer(connection);
                 linkToWaitLobby.put(connection.getView().getPlayer().getNickname(), wait);
-                connection.sendMessage(new Message("God", MessageType.WAITPLAYER, MessageSubType.UPDATE));
+                connection.sendMessage(new Message(ConstantsContainer.SERVERNAME, MessageType.WAITPLAYER, MessageSubType.UPDATE));
                 if ((wait.getMatchPlayers().size() == wait.getNumberOfPlayers())) {
                         handleStartMatch(wait);
                 }
@@ -67,7 +64,7 @@ public class Lobby {
             }
         }
         startNewWaitLobby(connection,numberOfplayers);
-        connection.sendMessage(new Message("God", MessageType.WAITPLAYER, MessageSubType.UPDATE));
+        connection.sendMessage(new Message(ConstantsContainer.SERVERNAME, MessageType.WAITPLAYER, MessageSubType.UPDATE));
     }
 
     public void handleStartMatch(WaitLobby waitLobby){

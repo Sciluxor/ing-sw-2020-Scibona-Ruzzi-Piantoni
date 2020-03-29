@@ -10,6 +10,9 @@ import java.util.HashMap;
 
 
 public class MapLoader {
+    private MapLoader() {
+        throw new IllegalStateException("MapLoader class cannot be instantiated");
+    }
 
     private static class SquareContainer{
 

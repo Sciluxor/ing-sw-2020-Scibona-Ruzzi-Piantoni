@@ -1,7 +1,7 @@
 package it.polimi.ingsw.network.server;
 
-import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.message.*;
+import it.polimi.ingsw.utils.ConstantsContainer;
 import it.polimi.ingsw.utils.LobbyTimerTask;
 import it.polimi.ingsw.utils.Logger;
 
@@ -10,9 +10,6 @@ import java.util.*;
 
 public class Server {
 
-    private final int MAXWAITTIME = 10000;
-    private final int MINPLAYERLOBBY = 2;
-    private final int MAXPLAYERLOBBY = 3;
 
     private ArrayList<ClientHandler> clients = new ArrayList<>();
     private final Object clientsLock = new Object();
@@ -67,7 +64,7 @@ public class Server {
         synchronized (clientsLock) {
             clients.add(connnection);
             startLobbyTimer(connnection);
-            connnection.sendMessage(new Message("God",MessageType.NICK,MessageSubType.REQUEST));
+            connnection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.NICK,MessageSubType.REQUEST));
         }
 
     }
@@ -76,14 +73,14 @@ public class Server {
             String nick = ((NickNameMessage) message).getNickName();
             if (!lobby.setNickName(nick, connection)){
                 stopLobbyTimer(connection);
-                connection.sendMessage(new Message("God",MessageType.NICK,MessageSubType.ERROR));
+                connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.NICK,MessageSubType.ERROR));
                 startLobbyTimer(connection);
             }
            else {
                 stopLobbyTimer(connection);
                 clientsFromString.put(nick,connection);
-                connection.sendMessage(new NickNameMessage("God", MessageSubType.SETTED, nick));
-                connection.sendMessage(new Message("God",MessageType.NUMBERPLAYER,MessageSubType.REQUEST));
+                connection.sendMessage(new NickNameMessage(ConstantsContainer.SERVERNAME, MessageSubType.SETTED, nick));
+                connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.NUMBERPLAYER,MessageSubType.REQUEST));
                 startLobbyTimer(connection);
             }
         }
@@ -98,11 +95,11 @@ public class Server {
         synchronized (clientsLock) {
             stopLobbyTimer(getConnectionFromString(message.getSender()));
             int players =  ((PlayerNumberMessage) message).getPlayersNumber();
-            if ( players >= MINPLAYERLOBBY && players <= MAXPLAYERLOBBY) {
+            if ( players >= ConstantsContainer.MINPLAYERLOBBY && players <= ConstantsContainer.MAXPLAYERLOBBY) {
                 handleFirstPlayerConnection(getConnectionFromString(message.getSender()),players);
             } else {
 
-                getConnectionFromString(message.getSender()).sendMessage(new Message("God", MessageType.NUMBERPLAYER, MessageSubType.ERROR));
+                getConnectionFromString(message.getSender()).sendMessage(new Message(ConstantsContainer.SERVERNAME, MessageType.NUMBERPLAYER, MessageSubType.ERROR));
                 startLobbyTimer(getConnectionFromString(message.getSender()));
             }
         }
@@ -112,17 +109,17 @@ public class Server {
         synchronized (clientsLock) {
             ClientHandler connection = getConnectionFromString(message.getSender());
             if (connection.getView().isGameStarted())
-                connection.sendMessage(new Message("God", MessageType.DISCONNECTION, MessageSubType.ERROR));
+                connection.sendMessage(new Message(ConstantsContainer.SERVERNAME, MessageType.DISCONNECTION, MessageSubType.ERROR));
             else {
                 if(message.getSubType() == MessageSubType.REQUEST){
                     lobby.disconnectPlayer(connection, message.getSender());
                     clients.remove(connection);
-                    connection.sendMessage(new Message("God", MessageType.DISCONNECTION, MessageSubType.SETTED));
+                    connection.sendMessage(new Message(ConstantsContainer.SERVERNAME, MessageType.DISCONNECTION, MessageSubType.SETTED));
                     connection.closeConnection();
                 }
                 else {
                     lobby.moveBackPlayer(connection,message.getSender());
-                    connection.sendMessage(new Message("God",MessageType.NUMBERPLAYER,MessageSubType.REQUEST));
+                    connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.NUMBERPLAYER,MessageSubType.REQUEST));
                     startLobbyTimer(connection);
                 }
             }
@@ -136,7 +133,7 @@ public class Server {
             if(connection.isViewActive())
                lobby.removeTimeEndedPlayer(connection);
 
-            connection.sendMessage(new Message("God",MessageType.DISCONNECTION,MessageSubType.TIMEENDED));
+            connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.DISCONNECTION,MessageSubType.TIMEENDED));
             connection.closeConnection();
 
         }
@@ -150,7 +147,7 @@ public class Server {
         Timer timer = new Timer();
         timerFromString.put(connection,timer);
         LobbyTimerTask task = new LobbyTimerTask(connection,this);
-        timerFromString.get(connection).schedule(task,MAXWAITTIME);
+        timerFromString.get(connection).schedule(task, ConstantsContainer.MAXWAITTIME);
     }
 
     public void stopLobbyTimer(ClientHandler connection){
@@ -160,4 +157,4 @@ public class Server {
     }
 
 }
-
+//dividere le funzioni più grandi
