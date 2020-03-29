@@ -98,7 +98,7 @@ public class Game extends Observable<Game> {
 
     }
 
-    public void pickFirstPlayer(){
+    public void pickFirstPla(){
 
     }
 
