@@ -136,8 +136,12 @@ public class Game extends Observable<Game> {
         return new PlayerQueue(queue);
     }
 
-    public void assignCard(){
+    public boolean assignCard(String card) {
+        if(deck.get(card) == null)
+            return false;
 
+        currentPlayer.setPower(deck.get(card));
+        return true;
     }
 
     public Response getGameStatus(){
