@@ -33,6 +33,7 @@ public class Prometheus extends Card {
         else
             return notUpMove(gameMap, worker);
     }
+
     public ArrayList<Directions> notUpMove(GameMap gameMap, Worker worker) {
         if (worker == null)
             throw new NullPointerException("null worker");

@@ -14,7 +14,7 @@ public class GameController implements Observer<Message> {
     private Game game;
     private HashMap<String, VirtualView> clients;
     private Timer turnTimer ;
-    private Timer reconnesionTimer;
+    private Timer reconnectionTimer;
     private RoundController roundController;
 
     public GameController(Game game, HashMap<String, VirtualView> clients, ArrayList<VirtualView> clientsVirtualview) {
@@ -47,6 +47,11 @@ public class GameController implements Observer<Message> {
     }
 
     public void handleWorkerChoice(){
+
+    }
+
+    public void removeNonPermanentConstraint(){
+
 
     }
 
