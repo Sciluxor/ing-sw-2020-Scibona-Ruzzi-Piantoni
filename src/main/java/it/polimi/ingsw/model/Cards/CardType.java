@@ -1,5 +1,5 @@
 package it.polimi.ingsw.model.Cards;
 
 public enum CardType {
-    YOURMOVE, VICTORY, YOURBUILD, YOURTURN;
+    YOURMOVE, BUILDVICTORY, MOVEVICTORY, YOURBUILD, YOURTURN
 }

@@ -32,7 +32,7 @@ class CardLoaderTest {
         assertEquals(deck.get("Athena").getSubType(),CardSubType.NONPERMANENTCONSTRAINT);
         assertEquals(deck.get("Zeus").getDescription(),"Your Build: Your Worker may build a block under itself.");
         assertEquals(deck.get("Athena").getType(),CardType.YOURMOVE);
-        assertEquals(deck.get("Chronus").getType(),CardType.VICTORY);
+        assertEquals(deck.get("Chronus").getType(),CardType.BUILDVICTORY);
         assertEquals(deck.get("Atlas").getType(),CardType.YOURBUILD);
         assertEquals(deck.get("Hypnus").getType(),CardType.YOURTURN);
         assertEquals(deck.get("Prometheus").getType(),CardType.YOURTURN);

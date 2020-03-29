@@ -77,8 +77,8 @@ class CardTest {
     void getType() {
         assertEquals(cardA.getType(), CardType.YOURMOVE);
         assertEquals(cardHy.getType(), CardType.YOURTURN);
-        assertEquals(cardHe.getType(), CardType.YOURTURN);
-        assertEquals(cardCr.getType(), CardType.VICTORY);
+        assertEquals(cardHe.getType(), CardType.MOVEVICTORY);
+        assertEquals(cardCr.getType(), CardType.BUILDVICTORY);
         assertEquals(cardDe.getType(), CardType.YOURBUILD);
     }
 

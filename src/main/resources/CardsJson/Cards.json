@@ -52,7 +52,7 @@
     "name": "Pan",
     "description": "Win Condition: You also win if your Worker moves down two or more levels.",
     "isPlayableIn3": true,
-    "type": "VICTORY",
+    "type": "MOVEVICTORY",
     "subType": "NORMAL"
   },
   {
@@ -66,14 +66,14 @@
     "name": "Chronus",
     "description": "Win Condition: You also win when there are at least five Complete Towers on the board.",
     "isPlayableIn3": false,
-    "type": "VICTORY",
+    "type": "BUILDVICTORY",
     "subType": "NORMAL"
   },
   {
     "name": "Hera",
     "description": "Opponent's Turn: An opponent cannot win by moving into a perimeter space.",
     "isPlayableIn3": true,
-    "type": "YOURTURN",
+    "type": "MOVEVICTORY",
     "subType": "PERMANENTCONSTRAINT"
   },
   {
