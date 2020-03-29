@@ -4,175 +4,201 @@
     "building": "GROUND",
     "buildingLevel": 0,
     "hasPlayer": false,
-    "canAccess": [0,0,2,17,16,0,0,0,1]
+    "canAccess": [0,0,2,17,16,0,0,0,1],
+    "xy" : [0,0]
   },
   {
     "tile": 2,
     "building": "GROUND",
     "buildingLevel": 0,
     "hasPlayer": false,
-    "canAccess": [0,0,3,18,17,16,1,0,2]
+    "canAccess": [0,0,3,18,17,16,1,0,2],
+    "xy" : [0,1]
   },
   {
     "tile": 3,
     "building": "GROUND",
     "buildingLevel": 0,
     "hasPlayer": false,
-    "canAccess": [0,0,4,19,18,17,2,0,3]
+    "canAccess": [0,0,4,19,18,17,2,0,3],
+    "xy" : [0,2]
   },
   {
     "tile": 4,
     "building": "GROUND",
     "buildingLevel": 0,
     "hasPlayer": false,
-    "canAccess": [0,0,5,6,19,18,3,0,4]
+    "canAccess": [0,0,5,6,19,18,3,0,4],
+    "xy" : [0,3]
   },
   {
     "tile": 5,
     "building": "GROUND",
     "buildingLevel": 0,
     "hasPlayer": false,
-    "canAccess": [0,0,0,0,6,19,4,0,5]
+    "canAccess": [0,0,0,0,6,19,4,0,5],
+    "xy" : [0,4]
   },
   {
     "tile": 6,
     "building": "GROUND",
     "buildingLevel": 0,
     "hasPlayer": false,
-    "canAccess": [5,0,0,0,7,20,19,4,6]
+    "canAccess": [5,0,0,0,7,20,19,4,6],
+    "xy" : [1,4]
   },
   {
     "tile": 7,
     "building": "GROUND",
     "buildingLevel": 0,
     "hasPlayer": false,
-    "canAccess": [6,0,0,0,8,21,20,19,7]
+    "canAccess": [6,0,0,0,8,21,20,19,7],
+    "xy" : [2,4]
   },
   {
     "tile": 8,
     "building": "GROUND",
     "buildingLevel": 0,
     "hasPlayer": false,
-    "canAccess": [7,0,0,0,9,10,21,20,8]
+    "canAccess": [7,0,0,0,9,10,21,20,8],
+    "xy" : [3,4]
   },
   {
     "tile": 9,
     "building": "GROUND",
     "buildingLevel": 0,
     "hasPlayer": false,
-    "canAccess": [8,0,0,0,0,0,10,21,9]
+    "canAccess": [8,0,0,0,0,0,10,21,9],
+    "xy" : [4,4]
   },
   {
     "tile": 10,
     "building": "GROUND",
     "buildingLevel": 0,
     "hasPlayer": false,
-    "canAccess": [21,8,9,0,0,0,11,22,10]
+    "canAccess": [21,8,9,0,0,0,11,22,10],
+    "xy" : [4,3]
   },
   {
     "tile": 11,
     "building": "GROUND",
     "buildingLevel": 0,
     "hasPlayer": false,
-    "canAccess": [22,21,10,0,0,0,12,23,11]
+    "canAccess": [22,21,10,0,0,0,12,23,11],
+    "xy" : [4,2]
   },
   {
     "tile": 12,
     "building": "GROUND",
     "buildingLevel": 0,
     "hasPlayer": false,
-    "canAccess": [23,22,11,0,0,0,13,14,12]
+    "canAccess": [23,22,11,0,0,0,13,14,12],
+    "xy" : [4,1]
   },
   {
     "tile": 13,
     "building": "GROUND",
     "buildingLevel": 0,
     "hasPlayer": false,
-    "canAccess": [14,23,12,0,0,0,0,0,13]
+    "canAccess": [14,23,12,0,0,0,0,0,13],
+    "xy" : [4,0]
   },
   {
     "tile": 14,
     "building": "GROUND",
     "buildingLevel": 0,
     "hasPlayer": false,
-    "canAccess": [15,24,23,12,13,0,0,0,14]
+    "canAccess": [15,24,23,12,13,0,0,0,14],
+    "xy" : [3,0]
   },
   {
     "tile": 15,
     "building": "GROUND",
     "buildingLevel": 0,
     "hasPlayer": false,
-    "canAccess": [16,17,24,23,14,0,0,0,15]
+    "canAccess": [16,17,24,23,14,0,0,0,15],
+    "xy" : [2,0]
   },
   {
     "tile": 16,
     "building": "GROUND",
     "buildingLevel": 0,
     "hasPlayer": false,
-    "canAccess": [1,2,17,24,15,0,0,0,16]
+    "canAccess": [1,2,17,24,15,0,0,0,16],
+    "xy" : [1,0]
   },
   {
     "tile": 17,
     "building": "GROUND",
     "buildingLevel": 0,
     "hasPlayer": false,
-    "canAccess": [2,3,18,25,24,15,16,1,17]
+    "canAccess": [2,3,18,25,24,15,16,1,17],
+    "xy" : [1,1]
   },
   {
     "tile": 18,
     "building": "GROUND",
     "buildingLevel": 0,
     "hasPlayer": false,
-    "canAccess": [3,4,19,20,25,24,17,2,18]
+    "canAccess": [3,4,19,20,25,24,17,2,18],
+    "xy" : [1,2]
   },
   {
     "tile": 19,
     "building": "GROUND",
     "buildingLevel": 0,
     "hasPlayer": false,
-    "canAccess": [4,5,6,7,20,25,18,3,19]
+    "canAccess": [4,5,6,7,20,25,18,3,19],
+    "xy" : [1,3]
   },
   {
     "tile": 20,
     "building": "GROUND",
     "buildingLevel": 0,
     "hasPlayer": false,
-    "canAccess": [19,6,7,8,21,22,25,18,20]
+    "canAccess": [19,6,7,8,21,22,25,18,20],
+    "xy" : [2,3]
+
   },
   {
     "tile": 21,
     "building": "GROUND",
     "buildingLevel": 0,
     "hasPlayer": false,
-    "canAccess": [20,7,8,9,10,11,22,25,21]
+    "canAccess": [20,7,8,9,10,11,22,25,21],
+    "xy" : [3,3]
   },
   {
     "tile": 22,
     "building": "GROUND",
     "buildingLevel": 0,
     "hasPlayer": false,
-    "canAccess": [25,20,21,10,11,12,23,24,22]
+    "canAccess": [25,20,21,10,11,12,23,24,22],
+    "xy" : [3,2]
   },
   {
     "tile": 23,
     "building": "GROUND",
     "buildingLevel": 0,
     "hasPlayer": false,
-    "canAccess": [24,25,22,11,12,13,14,15,23]
+    "canAccess": [24,25,22,11,12,13,14,15,23],
+    "xy" : [3,1]
   },
   {
     "tile": 24,
     "building": "GROUND",
     "buildingLevel": 0,
     "hasPlayer": false,
-    "canAccess": [17,18,25,22,23,14,15,16,24]
+    "canAccess": [17,18,25,22,23,14,15,16,24],
+    "xy" : [2,1]
   },
   {
     "tile": 25,
     "building": "GROUND",
     "buildingLevel": 0,
     "hasPlayer": false,
-    "canAccess": [18,19,20,21,22,23,24,17,25]
+    "canAccess": [18,19,20,21,22,23,24,17,25],
+    "xy" : [2,2]
   }
 
 ]
