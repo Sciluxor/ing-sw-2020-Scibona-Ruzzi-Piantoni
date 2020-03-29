@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.Map;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
+import javafx.util.Pair;
 
 
 import java.io.InputStreamReader;
@@ -21,6 +22,7 @@ public class MapLoader {
         Building building;
         boolean hasPlayer;
         Integer[] canAccess;
+        Pair<Integer,Integer> coordinates;
     }
 
     public static ArrayList<Square> loadMap(){
@@ -44,7 +46,7 @@ public class MapLoader {
         for(SquareContainer container: containers){
 
             HashMap<Directions,Integer> canAccess = createHashMapFromArray(container.canAccess);
-            squares.add(new Square(container.tile,container.buildingLevel,container.building,container.hasPlayer,canAccess));
+            squares.add(new Square(container.tile,container.buildingLevel,container.building,container.hasPlayer,canAccess,container.coordinates));
 
         }
 

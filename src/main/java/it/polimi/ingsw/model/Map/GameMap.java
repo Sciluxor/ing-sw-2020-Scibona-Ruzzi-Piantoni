@@ -3,7 +3,9 @@ package it.polimi.ingsw.model.Map;
 import it.polimi.ingsw.model.Player.Player;
 import it.polimi.ingsw.model.Player.Worker;
 import it.polimi.ingsw.utils.ConstantsContainer;
+import javafx.util.Pair;
 
+import java.sql.SQLClientInfoException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,9 +16,22 @@ public class GameMap {
 
     private ArrayList<Square> gameMap;
     private HashMap<Worker, Square> workersPosition;
+    private HashMap<Pair<Integer,Integer>,Square> linkToCoordinates = new HashMap<>();
 
     public GameMap() {
         this.gameMap = MapLoader.loadMap();
+        for(Square square: gameMap){
+            Pair pair = square.getCoordinates();
+            linkToCoordinates.put(pair,square);
+        }
+    }
+
+    //
+    //Function to obtain the number of tile from coordinates
+    //
+
+    public Square getTileFromCoordinates(Pair<Integer,Integer> pair){
+        return linkToCoordinates.get(pair);
     }
 
     //
