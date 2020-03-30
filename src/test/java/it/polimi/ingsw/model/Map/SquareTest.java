@@ -8,19 +8,17 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SquareTest {
+
 GameMap map;
+
     @BeforeEach
     void setup(){
-
         map = new GameMap();
-
     }
 
     @Test
     void getTile() {
         assertEquals(map.getGameMap().get(14).getTile(),15);
-
-
     }
 
     @Test
@@ -40,17 +38,11 @@ GameMap map;
         assertEquals(map.getGameMap().get(9).getBuildingLevel(),4);
 
         assertThrows(IllegalStateException.class,() -> map.getGameMap().get(9).addBuildingLevel());
-
-
-
     }
 
     @Test
     void getBuilding() {
-
         assertEquals(map.getGameMap().get(9).getBuilding(),Building.GROUND);
-
-
     }
 
     @Test
@@ -65,14 +57,11 @@ GameMap map;
         assertEquals(map.getGameMap().get(23).getBuilding(),Building.LVL3);
 
         assertThrows(NullPointerException.class,() -> map.getGameMap().get(17).setBuilding(null));
-
-
     }
 
     @Test
     void hasPlayer() {
         assertFalse(map.getGameMap().get(13).hasPlayer());
-
     }
 
     @Test
@@ -84,7 +73,6 @@ GameMap map;
     @Test
     void getPlayer() {
         assertThrows(IllegalStateException.class,() -> map.getGameMap().get(17).getPlayer());
-
     }
 
     @Test
@@ -95,7 +83,6 @@ GameMap map;
         assertEquals(map.getGameMap().get(19).getPlayer(),player1);
 
         assertThrows(NullPointerException.class,() -> map.getGameMap().get(17).setPlayer(null));
-
     }
 
     @Test
@@ -115,7 +102,6 @@ GameMap map;
 
     @Test
     void getCanAccess() {
-
        assertEquals(map.getGameMap().get(22).getCanAccess().get(Directions.OVEST),14);
     }
     @Test
@@ -128,4 +114,9 @@ GameMap map;
 
     }
 
+    @Test
+    void getCoordinates() {
+        assertEquals(map.getGameMap().get(24).getCoordinates()[0], 2);
+        assertEquals(map.getGameMap().get(24).getCoordinates()[1], 2);
+    }
 }
