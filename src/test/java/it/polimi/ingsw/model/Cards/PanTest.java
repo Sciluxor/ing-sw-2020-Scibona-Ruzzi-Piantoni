@@ -18,7 +18,6 @@ class PanTest {
 
     Player player1, player2;
     Card cardPan;
-    Worker worker1,worker2;
     GameMap gameMap;
     ArrayList<Directions> directions;
 
@@ -28,8 +27,6 @@ class PanTest {
         player2 = new Player("BadPlayer");
         cardPan = CardLoader.loadCards().get("Pan");
         player1.setPower(cardPan);
-        worker1 = new Worker(WorkerName.WORKER1);
-        worker2 = new Worker(WorkerName.WORKER2);
         gameMap = new GameMap();
         gameMap.getGameMap().get(13).setMovement(player1, player1.getWorkers().get(0));
         player1.getWorkers().get(0).setBoardPosition(gameMap.getGameMap().get(13));

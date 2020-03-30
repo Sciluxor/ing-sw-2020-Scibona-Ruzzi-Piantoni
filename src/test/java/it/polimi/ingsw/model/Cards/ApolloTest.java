@@ -22,12 +22,10 @@ class ApolloTest {
     Card cardApo, cardAthe;
     GameMap gameMap;
 
-
-
     @BeforeEach
     void setup(){
-        player1 = new Player("uno");
-        player2 = new Player("due");
+        player1 = new Player("GoodPlayer");
+        player2 = new Player("BadPlayer");
         cardApo = CardLoader.loadCards().get("Apollo");
         cardAthe = CardLoader.loadCards().get("Athena");
         player1.setPower(cardApo);

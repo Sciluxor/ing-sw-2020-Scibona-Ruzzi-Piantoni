@@ -17,7 +17,6 @@ class HeraTest {
 
     Player player1, player2;
     Card cardHera;
-    Worker worker1,worker2;
     GameMap gameMap;
     ArrayList<Directions> directions;
 
@@ -27,8 +26,6 @@ class HeraTest {
         player2 = new Player("BadPlayer");
         cardHera = CardLoader.loadCards().get("Hera");
         player1.setPower(cardHera);
-        worker1 = new Worker(WorkerName.WORKER1);
-        worker2 = new Worker(WorkerName.WORKER2);
         gameMap = new GameMap();
         gameMap.getGameMap().get(22).setMovement(player1,player1.getWorkers().get(0));
         player1.getWorkers().get(0).setBoardPosition(gameMap.getGameMap().get(22));

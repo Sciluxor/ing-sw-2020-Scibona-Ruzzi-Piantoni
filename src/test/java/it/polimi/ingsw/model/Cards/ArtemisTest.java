@@ -17,9 +17,7 @@ class ArtemisTest {
 
     Player player1, player2;
     Card cardArte;
-    Worker worker1,worker2;
     GameMap gameMap;
-    ArrayList<Directions> directions;
 
     @BeforeEach
     void setup(){
@@ -27,8 +25,6 @@ class ArtemisTest {
         player2 = new Player("BadPlayer");
         cardArte = CardLoader.loadCards().get("Artemis");
         player1.setPower(cardArte);
-        worker1 = new Worker(WorkerName.WORKER1);
-        worker2 = new Worker(WorkerName.WORKER2);
         gameMap = new GameMap();
         gameMap.getGameMap().get(22).setMovement(player1,player1.getWorkers().get(0));
         player1.getWorkers().get(0).setBoardPosition(gameMap.getGameMap().get(22));
@@ -39,18 +35,17 @@ class ArtemisTest {
         gameMap.getGameMap().get(18).setMovement(player2,player2.getWorkers().get(1));
         player2.getWorkers().get(1).setBoardPosition(gameMap.getGameMap().get(18));
         player1.selectCurrentWorker(gameMap, "worker1");
-        directions = player1.findWorkerMove(gameMap, player1.getWorkers().get(0));
     }
 
     @Test
     void findWorkerMove() {
-        assertThrows(NullPointerException.class , () -> cardArte.findWorkerMove(null, worker1));
+        assertThrows(NullPointerException.class , () -> cardArte.findWorkerMove(null, player1.getWorkers().get(0)));
         assertThrows(NullPointerException.class , () -> cardArte.findWorkerMove(gameMap, null));
 
         assertEquals(player1.getCurrentWorker().getBoardPosition(), gameMap.getGameMap().get(22));
-        assertEquals(cardArte.findWorkerMove(gameMap, player1.getWorkers().get(0)).size(), 7);
+        assertEquals(cardArte.findWorkerMove(gameMap, player1.getCurrentWorker()).size(), 7);
         assertEquals(cardArte.executeWorkerMove(gameMap, Directions.OVEST, player1), Response.NEWMOVE);
-        assertEquals(cardArte.findWorkerMove(gameMap, player1.getWorkers().get(0)).size(), 4);
+        assertEquals(cardArte.findWorkerMove(gameMap, player1.getCurrentWorker()).size(), 4);
         assertEquals(player1.getCurrentWorker().getBoardPosition(), gameMap.getGameMap().get(13));
 
 

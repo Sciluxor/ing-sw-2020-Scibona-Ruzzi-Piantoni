@@ -45,9 +45,9 @@ class AtlasTest {
 
     @Test
     void executeBuild() {
-        assertThrows(NullPointerException.class , () -> cardAtlas.executeBuild(null, Building.LVL1, Directions.NORD, worker1));
-        assertThrows(NullPointerException.class , () -> cardAtlas.executeBuild(gameMap, null, Directions.NORD, worker1));
-        assertThrows(NullPointerException.class , () -> cardAtlas.executeBuild(gameMap, Building.LVL1, null, worker1));
+        assertThrows(NullPointerException.class , () -> cardAtlas.executeBuild(null, Building.LVL1, Directions.NORD, player1.getCurrentWorker()));
+        assertThrows(NullPointerException.class , () -> cardAtlas.executeBuild(gameMap, null, Directions.NORD, player1.getCurrentWorker()));
+        assertThrows(NullPointerException.class , () -> cardAtlas.executeBuild(gameMap, Building.LVL1, null, player1.getCurrentWorker()));
         assertThrows(NullPointerException.class , () -> cardAtlas.executeBuild(gameMap, Building.LVL1, Directions.NORD, null));
 
         assertEquals(cardAtlas.executeBuild(gameMap, Building.LVL1, Directions.NORD, player1.getCurrentWorker()), Response.BUILD);

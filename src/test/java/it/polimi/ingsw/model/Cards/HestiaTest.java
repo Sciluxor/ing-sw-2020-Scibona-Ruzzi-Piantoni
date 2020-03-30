@@ -18,7 +18,6 @@ class HestiaTest {
 
     Player player1, player2;
     Card cardHest;
-    Worker worker1,worker2;
     GameMap gameMap;
     ArrayList<Directions> directions;
 
@@ -28,8 +27,6 @@ class HestiaTest {
         player2 = new Player("BadPlayer");
         cardHest = CardLoader.loadCards().get("Hestia");
         player1.setPower(cardHest);
-        worker1 = new Worker(WorkerName.WORKER1);
-        worker2 = new Worker(WorkerName.WORKER2);
         gameMap = new GameMap();
         gameMap.getGameMap().get(22).setMovement(player1,player1.getWorkers().get(0));
         player1.getWorkers().get(0).setBoardPosition(gameMap.getGameMap().get(22));
@@ -45,7 +42,7 @@ class HestiaTest {
 
     @Test
     void findPossibleBuild() {
-        assertThrows(NullPointerException.class , () -> cardHest.findPossibleBuild(null, worker1));
+        assertThrows(NullPointerException.class , () -> cardHest.findPossibleBuild(null, player1.getCurrentWorker()));
         assertThrows(NullPointerException.class , () -> cardHest.findPossibleBuild(gameMap, null));
 
         assertEquals(cardHest.findPossibleBuild(gameMap, player1.getCurrentWorker()).size(), 7);
@@ -55,9 +52,9 @@ class HestiaTest {
 
     @Test
     void executeBuild() {
-        assertThrows(NullPointerException.class , () -> cardHest.executeBuild(null, Building.LVL1, Directions.OVEST, worker1));
-        assertThrows(NullPointerException.class , () -> cardHest.executeBuild(gameMap, null, Directions.OVEST, worker1));
-        assertThrows(NullPointerException.class , () -> cardHest.executeBuild(gameMap, Building.LVL1, null, worker1));
+        assertThrows(NullPointerException.class , () -> cardHest.executeBuild(null, Building.LVL1, Directions.OVEST, player1.getCurrentWorker()));
+        assertThrows(NullPointerException.class , () -> cardHest.executeBuild(gameMap, null, Directions.OVEST, player1.getCurrentWorker()));
+        assertThrows(NullPointerException.class , () -> cardHest.executeBuild(gameMap, Building.LVL1, null, player1.getCurrentWorker()));
         assertThrows(NullPointerException.class , () -> cardHest.executeBuild(gameMap, Building.LVL1, Directions.OVEST, null));
 
         assertEquals(cardHest.executeBuild(gameMap, Building.LVL2, Directions.NORD, player1.getCurrentWorker()), Response.NOTBUILD);

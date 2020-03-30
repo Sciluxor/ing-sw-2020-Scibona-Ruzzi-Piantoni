@@ -17,7 +17,6 @@ class HypnusTest {
 
     Player player1, player2;
     Card cardHypn;
-    Worker worker1,worker2;
     GameMap gameMap;
     ArrayList<Directions> directions;
 
@@ -27,8 +26,6 @@ class HypnusTest {
         player2 = new Player("BadPlayer");
         cardHypn = CardLoader.loadCards().get("Hypnus");
         player1.setPower(cardHypn);
-        worker1 = new Worker(WorkerName.WORKER1);
-        worker2 = new Worker(WorkerName.WORKER2);
         gameMap = new GameMap();
         gameMap.getGameMap().get(22).setMovement(player1,player1.getWorkers().get(0));
         player1.getWorkers().get(0).setBoardPosition(gameMap.getGameMap().get(22));
@@ -44,7 +41,7 @@ class HypnusTest {
 
     @Test
     void canMove() {
-        assertThrows(NullPointerException.class , () -> cardHypn.canMove(null, worker1));
+        assertThrows(NullPointerException.class , () -> cardHypn.canMove(null, player1.getCurrentWorker()));
         assertThrows(NullPointerException.class , () -> cardHypn.canMove(player1, null));
 
         assertTrue(cardHypn.canMove(player1, player1.getCurrentWorker()));

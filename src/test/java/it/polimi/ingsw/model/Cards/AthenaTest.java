@@ -17,7 +17,6 @@ class AthenaTest {
 
     Player player1, player2;
     Card cardAthe;
-    Worker worker1,worker2;
     GameMap gameMap;
     ArrayList<Directions> directions;
 
@@ -27,8 +26,6 @@ class AthenaTest {
         player2 = new Player("BadPlayer");
         cardAthe = CardLoader.loadCards().get("Athena");
         player1.setPower(cardAthe);
-        worker1 = new Worker(WorkerName.WORKER1);
-        worker2 = new Worker(WorkerName.WORKER2);
         gameMap = new GameMap();
         gameMap.getGameMap().get(22).setMovement(player1,player1.getWorkers().get(0));
         player1.getWorkers().get(0).setBoardPosition(gameMap.getGameMap().get(22));

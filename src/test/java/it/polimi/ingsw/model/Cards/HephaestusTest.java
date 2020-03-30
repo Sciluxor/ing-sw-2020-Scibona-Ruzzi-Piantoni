@@ -18,7 +18,6 @@ class HephaestusTest {
 
     Player player1, player2;
     Card cardHeph;
-    Worker worker1,worker2;
     GameMap gameMap;
     ArrayList<Directions> directions;
 
@@ -28,8 +27,6 @@ class HephaestusTest {
         player2 = new Player("BadPlayer");
         cardHeph = CardLoader.loadCards().get("Hephaestus");
         player1.setPower(cardHeph);
-        worker1 = new Worker(WorkerName.WORKER1);
-        worker2 = new Worker(WorkerName.WORKER2);
         gameMap = new GameMap();
         gameMap.getGameMap().get(22).setMovement(player1,player1.getWorkers().get(0));
         player1.getWorkers().get(0).setBoardPosition(gameMap.getGameMap().get(22));
@@ -45,7 +42,7 @@ class HephaestusTest {
 
     @Test
     void findPossibleBuild() {
-        assertThrows(NullPointerException.class , () -> cardHeph.findPossibleBuild(null, worker1));
+        assertThrows(NullPointerException.class , () -> cardHeph.findPossibleBuild(null, player1.getCurrentWorker()));
         assertThrows(NullPointerException.class , () -> cardHeph.findPossibleBuild(gameMap, null));
 
         assertEquals(cardHeph.findPossibleBuild(gameMap, player1.getCurrentWorker()).size(), 7);
@@ -56,9 +53,9 @@ class HephaestusTest {
 
     @Test
     void executeBuild() {
-        assertThrows(NullPointerException.class , () -> cardHeph.executeBuild(null, Building.LVL1, Directions.OVEST, worker1));
-        assertThrows(NullPointerException.class , () -> cardHeph.executeBuild(gameMap, null, Directions.OVEST, worker1));
-        assertThrows(NullPointerException.class , () -> cardHeph.executeBuild(gameMap, Building.LVL1, null, worker1));
+        assertThrows(NullPointerException.class , () -> cardHeph.executeBuild(null, Building.LVL1, Directions.OVEST, player1.getCurrentWorker()));
+        assertThrows(NullPointerException.class , () -> cardHeph.executeBuild(gameMap, null, Directions.OVEST, player1.getCurrentWorker()));
+        assertThrows(NullPointerException.class , () -> cardHeph.executeBuild(gameMap, Building.LVL1, null, player1.getCurrentWorker()));
         assertThrows(NullPointerException.class , () -> cardHeph.executeBuild(gameMap, Building.LVL1, Directions.OVEST, null));
 
         assertEquals(cardHeph.executeBuild(gameMap, Building.LVL2, Directions.NORD, player1.getCurrentWorker()), Response.NOTBUILD);

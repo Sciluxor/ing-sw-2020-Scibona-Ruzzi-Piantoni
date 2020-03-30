@@ -17,7 +17,6 @@ class ZeusTest {
 
     Player player1, player2;
     Card cardZeus;
-    Worker worker1,worker2;
     GameMap gameMap;
     ArrayList<Directions> directions;
 
@@ -27,8 +26,6 @@ class ZeusTest {
         player2 = new Player("BadPlayer");
         cardZeus = CardLoader.loadCards().get("Zeus");
         player1.setPower(cardZeus);
-        worker1 = new Worker(WorkerName.WORKER1);
-        worker2 = new Worker(WorkerName.WORKER2);
         gameMap = new GameMap();
         gameMap.getGameMap().get(22).setMovement(player1,player1.getWorkers().get(0));
         player1.getWorkers().get(0).setBoardPosition(gameMap.getGameMap().get(22));
@@ -44,7 +41,7 @@ class ZeusTest {
 
     @Test
     void findPossibleBuild() {
-        assertThrows(NullPointerException.class , () -> cardZeus.findPossibleBuild(null, worker1));
+        assertThrows(NullPointerException.class , () -> cardZeus.findPossibleBuild(null, player1.getCurrentWorker()));
         assertThrows(NullPointerException.class , () -> cardZeus.findPossibleBuild(gameMap, null));
 
         assertEquals(cardZeus.findPossibleBuild(gameMap, player1.getCurrentWorker()).size(), 8);

@@ -18,7 +18,6 @@ class DemeterTest {
 
     Player player1, player2;
     Card cardDeme;
-    Worker worker1,worker2;
     GameMap gameMap;
     ArrayList<Directions> directions;
 
@@ -28,8 +27,6 @@ class DemeterTest {
         player2 = new Player("BadPlayer");
         cardDeme = CardLoader.loadCards().get("Demeter");
         player1.setPower(cardDeme);
-        worker1 = new Worker(WorkerName.WORKER1);
-        worker2 = new Worker(WorkerName.WORKER2);
         gameMap = new GameMap();
         gameMap.getGameMap().get(22).setMovement(player1,player1.getWorkers().get(0));
         player1.getWorkers().get(0).setBoardPosition(gameMap.getGameMap().get(22));
@@ -45,7 +42,7 @@ class DemeterTest {
 
     @Test
     void findPossibleBuild() {
-        assertThrows(NullPointerException.class , () -> cardDeme.findPossibleBuild(null, worker1));
+        assertThrows(NullPointerException.class , () -> cardDeme.findPossibleBuild(null, player1.getCurrentWorker()));
         assertThrows(NullPointerException.class , () -> cardDeme.findPossibleBuild(gameMap, null));
 
         assertEquals(cardDeme.findPossibleBuild(gameMap, player1.getCurrentWorker()).size(), 7);
@@ -56,9 +53,9 @@ class DemeterTest {
 
     @Test
     void executeBuild() {
-        assertThrows(NullPointerException.class , () -> cardDeme.executeBuild(null, Building.LVL1, Directions.OVEST, worker1));
-        assertThrows(NullPointerException.class , () -> cardDeme.executeBuild(gameMap, null, Directions.OVEST, worker1));
-        assertThrows(NullPointerException.class , () -> cardDeme.executeBuild(gameMap, Building.LVL1, null, worker1));
+        assertThrows(NullPointerException.class , () -> cardDeme.executeBuild(null, Building.LVL1, Directions.OVEST, player1.getCurrentWorker()));
+        assertThrows(NullPointerException.class , () -> cardDeme.executeBuild(gameMap, null, Directions.OVEST, player1.getCurrentWorker()));
+        assertThrows(NullPointerException.class , () -> cardDeme.executeBuild(gameMap, Building.LVL1, null, player1.getCurrentWorker()));
         assertThrows(NullPointerException.class , () -> cardDeme.executeBuild(gameMap, Building.LVL1, Directions.OVEST, null));
 
         assertEquals(cardDeme.executeBuild(gameMap, Building.LVL2, Directions.NORD, player1.getCurrentWorker()), Response.NOTBUILD);

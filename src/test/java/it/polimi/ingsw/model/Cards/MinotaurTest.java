@@ -17,7 +17,6 @@ class MinotaurTest {
 
     Player player1, player2;
     Card cardMino, cardAtla;
-    Worker worker1,worker2;
     GameMap gameMap;
     ArrayList<Directions> directions;
 
@@ -29,8 +28,6 @@ class MinotaurTest {
         cardAtla = CardLoader.loadCards().get("Atlas");
         player1.setPower(cardMino);
         player2.setPower(cardAtla);
-        worker1 = new Worker(WorkerName.WORKER1);
-        worker2 = new Worker(WorkerName.WORKER2);
         gameMap = new GameMap();
         gameMap.getGameMap().get(22).setMovement(player1,player1.getWorkers().get(0));
         player1.getWorkers().get(0).setBoardPosition(gameMap.getGameMap().get(22));
@@ -47,7 +44,7 @@ class MinotaurTest {
 
     @Test
     void findWorkerMove() {
-        assertThrows(NullPointerException.class , () -> cardMino.findWorkerMove(null, worker1));
+        assertThrows(NullPointerException.class , () -> cardMino.findWorkerMove(null, player1.getCurrentWorker()));
         assertThrows(NullPointerException.class , () -> cardMino.findWorkerMove(gameMap, null));
 
         player2.selectCurrentWorker(gameMap, "worker2");
