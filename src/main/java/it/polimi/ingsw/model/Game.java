@@ -45,6 +45,9 @@ public class Game extends Observable<Game> {
     }
 
     public void  setNumberOfPlayers(Integer numberOfPlayers) {
+        if(numberOfPlayers == null)
+            throw new NullPointerException("null numberOfPlayers");
+
         this.numberOfPlayers = numberOfPlayers;
     }
 
@@ -72,6 +75,9 @@ public class Game extends Observable<Game> {
     }
 
     public void setCurrentPlayer(Player currentPlayer) {
+        if(currentPlayer == null)
+            throw new NullPointerException("null currentPlayer");
+
         this.currentPlayer = currentPlayer;
     }
 
@@ -83,14 +89,14 @@ public class Game extends Observable<Game> {
         return isGameStarted;
     }
 
-    public void setGameStarted(boolean gameStarted) {
-        isGameStarted = gameStarted;
-    }
+    public void setGameStarted(boolean gameStarted) { isGameStarted = gameStarted;}
 
     public void setGameStatus(Response newStatus){
+        if(newStatus == null)
+            throw new NullPointerException("null newStatus");
+
         this.gameStatus = newStatus;
         notify(this);
-
     }
 
     public void placeWorkersOnMap(Player player, int x1, int y1, int x2, int y2) {
@@ -103,21 +109,23 @@ public class Game extends Observable<Game> {
         Square square1 = gameMap.getTileFromCoordinates(tile1);
         Square square2 = gameMap.getTileFromCoordinates(tile2);
 
-        gameMap.getGameMap().get(square1.getTile()).setMovement(player, player.getWorkers().get(0));
+        this.gameMap.getGameMap().get(square1.getTile() - 1).setMovement(player, player.getWorkers().get(0));
         player.getWorkers().get(0).setBoardPosition(square1);
 
-        gameMap.getGameMap().get(square2.getTile()).setMovement(player, player.getWorkers().get(1));
+        this.gameMap.getGameMap().get(square2.getTile() - 1).setMovement(player, player.getWorkers().get(1));
         player.getWorkers().get(1).setBoardPosition(square2);
 
     }
 
     public Player pickChallenger() {
-        int Challenger = (int) ((Math.random()*(numberOfPlayers))-1);
+        int Challenger = (int) ((Math.random()*(numberOfPlayers)) - 1);
         return players.get(Challenger);
     }
 
 
     public PlayerQueue createQueue(String nickname) {
+        if(nickname == null)
+            throw new NullPointerException("null nickname");
 
         ArrayList<Player> queue = new ArrayList<>();
 
@@ -141,6 +149,9 @@ public class Game extends Observable<Game> {
     }
 
     public boolean assignCard(String card) {
+        if(card == null)
+            throw new NullPointerException("null card");
+
         if(!checkCardIntoDeck(card))
             return false;
 
