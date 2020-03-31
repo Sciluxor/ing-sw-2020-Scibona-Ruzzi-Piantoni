@@ -3,12 +3,11 @@ package it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Cards.Card;
 import it.polimi.ingsw.model.Cards.CardSubType;
 import it.polimi.ingsw.model.Cards.CardType;
-import it.polimi.ingsw.model.Cards.Response;
+import it.polimi.ingsw.model.Response;
 import it.polimi.ingsw.model.Map.Building;
 import it.polimi.ingsw.model.Map.Directions;
 import it.polimi.ingsw.model.Map.GameMap;
 
-import javax.swing.*;
 import java.util.ArrayList;
 
 public class Player {

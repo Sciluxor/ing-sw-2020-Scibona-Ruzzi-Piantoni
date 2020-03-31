@@ -2,7 +2,7 @@ package it.polimi.ingsw.model.Player;
 
 import it.polimi.ingsw.model.Cards.Card;
 import it.polimi.ingsw.model.Cards.CardLoader;
-import it.polimi.ingsw.model.Cards.Response;
+import it.polimi.ingsw.model.Response;
 import it.polimi.ingsw.model.Map.Building;
 import it.polimi.ingsw.model.Map.Directions;
 import it.polimi.ingsw.model.Map.GameMap;

@@ -5,9 +5,7 @@ import it.polimi.ingsw.model.Map.Directions;
 import it.polimi.ingsw.model.Map.GameMap;
 import it.polimi.ingsw.model.Map.Square;
 import it.polimi.ingsw.model.Player.Worker;
-
-import java.util.ArrayList;
-import java.util.HashMap;
+import it.polimi.ingsw.model.Response;
 
 public class Atlas extends Card {
     public Atlas(String name, String description, boolean isPlayableIn3, CardType type, CardSubType subType) {

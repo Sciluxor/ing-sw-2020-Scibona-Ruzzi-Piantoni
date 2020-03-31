@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.Map.Directions;
 import it.polimi.ingsw.model.Map.GameMap;
 import it.polimi.ingsw.model.Map.Square;
 import it.polimi.ingsw.model.Player.Worker;
+import it.polimi.ingsw.model.Response;
 
 import java.util.ArrayList;
 import java.util.HashMap;

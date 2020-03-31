@@ -2,18 +2,13 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.Cards.Card;
 import it.polimi.ingsw.model.Cards.CardLoader;
-import it.polimi.ingsw.model.Cards.Response;
 import it.polimi.ingsw.model.Map.GameMap;
 import it.polimi.ingsw.model.Map.Square;
 import it.polimi.ingsw.model.Player.Player;
 import it.polimi.ingsw.model.Player.PlayerQueue;
-import it.polimi.ingsw.model.Player.Worker;
-import it.polimi.ingsw.network.server.ClientHandler;
 import it.polimi.ingsw.utils.Observable;
 import it.polimi.ingsw.view.Server.VirtualView;
-import javafx.util.Pair;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -25,8 +20,9 @@ public class Game extends Observable<Response> {
     private GameMap gameMap;
     private boolean isGameStarted;
     private Response gameStatus;
+    private String gameID;
 
-    public Game(ArrayList<VirtualView> actualPlayers,int numberOfPlayers) {
+    public Game(ArrayList<VirtualView> actualPlayers,int numberOfPlayers, String gameID) {
 
         players = new ArrayList<>();
         for(VirtualView view: actualPlayers){
@@ -37,6 +33,7 @@ public class Game extends Observable<Response> {
         deck = CardLoader.loadCards();
         gameMap = new GameMap();
         isGameStarted = true;
+        this.gameID = gameID;
 
     }
 
@@ -144,9 +141,7 @@ public class Game extends Observable<Response> {
         return new PlayerQueue(queue);
     }
 
-    public boolean checkCardIntoDeck(String card) {
-        return deck.get(card) != null;
-    }
+    public boolean checkCardIntoDeck(String card) { return deck.get(card) != null;}
 
     public boolean assignCard(String card) {
         if(card == null)
@@ -159,8 +154,10 @@ public class Game extends Observable<Response> {
         return true;
     }
 
-    public Response getGameStatus(){
-        return this.gameStatus;
+    public Response getGameStatus(){ return this.gameStatus;}
+
+    public String getGameID() {
+        return gameID;
     }
 
 

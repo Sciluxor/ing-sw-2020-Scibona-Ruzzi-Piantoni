@@ -2,7 +2,7 @@ package it.polimi.ingsw.model.Cards;
 
 import it.polimi.ingsw.model.Map.GameMap;
 import it.polimi.ingsw.model.Player.Player;
-import it.polimi.ingsw.model.Player.Worker;
+import it.polimi.ingsw.model.Response;
 
 public class Pan extends Card {
 
