@@ -2,18 +2,13 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.Cards.Card;
 import it.polimi.ingsw.model.Cards.CardLoader;
-import it.polimi.ingsw.model.Cards.Response;
 import it.polimi.ingsw.model.Map.GameMap;
 import it.polimi.ingsw.model.Map.Square;
 import it.polimi.ingsw.model.Player.Player;
 import it.polimi.ingsw.model.Player.PlayerQueue;
-import it.polimi.ingsw.model.Player.Worker;
-import it.polimi.ingsw.network.server.ClientHandler;
 import it.polimi.ingsw.utils.Observable;
 import it.polimi.ingsw.view.Server.VirtualView;
-import javafx.util.Pair;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
 

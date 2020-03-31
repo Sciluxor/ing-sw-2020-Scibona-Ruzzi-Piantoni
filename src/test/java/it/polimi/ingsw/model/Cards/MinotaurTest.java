@@ -3,9 +3,7 @@ package it.polimi.ingsw.model.Cards;
 import it.polimi.ingsw.model.Map.Directions;
 import it.polimi.ingsw.model.Map.GameMap;
 import it.polimi.ingsw.model.Player.Player;
-import it.polimi.ingsw.model.Player.TurnStatus;
-import it.polimi.ingsw.model.Player.Worker;
-import it.polimi.ingsw.model.Player.WorkerName;
+import it.polimi.ingsw.model.Response;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

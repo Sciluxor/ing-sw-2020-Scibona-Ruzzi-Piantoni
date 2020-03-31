@@ -1,6 +1,6 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.model.Cards.Response;
+import it.polimi.ingsw.model.Response;
 import it.polimi.ingsw.network.message.Message;
 
 public class RoundController {

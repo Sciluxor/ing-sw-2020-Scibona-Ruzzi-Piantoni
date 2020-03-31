@@ -5,8 +5,8 @@ import it.polimi.ingsw.model.Map.Directions;
 import it.polimi.ingsw.model.Map.GameMap;
 import it.polimi.ingsw.model.Player.Player;
 import it.polimi.ingsw.model.Player.Worker;
+import it.polimi.ingsw.model.Response;
 
-import javax.print.DocFlavor;
 import java.util.ArrayList;
 
 public class Card {
