@@ -20,8 +20,9 @@ public class Game extends Observable<Game> {
     private GameMap gameMap;
     private boolean isGameStarted;
     private Response gameStatus;
+    private String gameID;
 
-    public Game(ArrayList<VirtualView> actualPlayers,int numberOfPlayers) {
+    public Game(ArrayList<VirtualView> actualPlayers,int numberOfPlayers, String gameID) {
 
         players = new ArrayList<>();
         for(VirtualView view: actualPlayers){
@@ -32,6 +33,7 @@ public class Game extends Observable<Game> {
         deck = CardLoader.loadCards();
         gameMap = new GameMap();
         isGameStarted = true;
+        this.gameID = gameID;
 
     }
 
@@ -156,6 +158,10 @@ public class Game extends Observable<Game> {
 
     public Response getGameStatus(){
         return this.gameStatus;
+    }
+
+    public String getGameID() {
+        return gameID;
     }
 
 
