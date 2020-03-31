@@ -43,14 +43,14 @@ class GameTest {
         players.add(player2);
         players.add(player3);
         deck = CardLoader.loadCards();
-        game = new Game(players, 3);
+        game = new Game(players, 3, "G01");
         gameMap = new GameMap();
     }
 
     @Test
     void getNumberOfPlayers() {
         assertEquals(game.getNumberOfPlayers(), 3);
-        game = new Game(players, 2);
+        game = new Game(players, 2, "G02");
         assertEquals(game.getNumberOfPlayers(), 2);
     }
 
@@ -218,5 +218,10 @@ class GameTest {
         assertNull(game.getGameStatus());
         game.setGameStatus(Response.BUILD);
         assertEquals(game.getGameStatus(), Response.BUILD);
+    }
+
+    @Test
+    void getGameID() {
+        assertEquals(game.getGameID(), "G01");
     }
 }

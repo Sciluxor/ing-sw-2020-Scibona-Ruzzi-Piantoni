@@ -141,9 +141,7 @@ public class Game extends Observable<Game> {
         return new PlayerQueue(queue);
     }
 
-    public boolean checkCardIntoDeck(String card) {
-        return deck.get(card) != null;
-    }
+    public boolean checkCardIntoDeck(String card) { return deck.get(card) != null;}
 
     public boolean assignCard(String card) {
         if(card == null)
@@ -156,9 +154,7 @@ public class Game extends Observable<Game> {
         return true;
     }
 
-    public Response getGameStatus(){
-        return this.gameStatus;
-    }
+    public Response getGameStatus(){ return this.gameStatus;}
 
     public String getGameID() {
         return gameID;
