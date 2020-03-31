@@ -8,6 +8,7 @@ import it.polimi.ingsw.view.Server.VirtualView;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Timer;
 
 public class ClientHandler implements Runnable{
 
@@ -18,6 +19,7 @@ public class ClientHandler implements Runnable{
     private boolean isViewActive = false;
     private boolean isConnectionActive;
     private VirtualView view;
+    private Timer lobbyTimer;
 
     public ClientHandler(Server server, Socket socket){
         this.socket = socket;
@@ -50,7 +52,7 @@ public class ClientHandler implements Runnable{
         this.view = view;
     }
 
-    public void sendMessage(Message msg){
+    public void sendMessage(Message msg){//fare un'altra funzione per mandare in asincrono i messaggi
 
         try {
             objectOut.writeObject(msg);
@@ -84,24 +86,21 @@ public class ClientHandler implements Runnable{
                 while(isConnectionActive()) {
                     Message input = (Message) objectIn.readObject();
 
-                    if (input.getType() == MessageType.NICK && input.getSubType() == MessageSubType.ANSWER) {
-                        server.setNick(input,this);
-                    }
-                    else if(input.getType() == MessageType.NUMBERPLAYER && input.getSubType() == MessageSubType.ANSWER){
-                        server.handleLobbyNumber(input);
+                    if (input.getType() == MessageType.CONFIG && input.getSubType() == MessageSubType.ANSWER) {
+                        server.InsertPlayerInGame(input,this);
                     }
                     else if(input.getType() == MessageType.DISCONNECTION){
                         server.handleClientDisconnectionBeforeStarting(input);
                     }
                     else {
-                        server.onMessage(input); //runnarlo in un altro thread?
+                        view.dispatchMessageToVirtualView(input); //runnarlo in un altro thread?
                     }
 
                 }
                 closeConnection();
 
             }catch (IOException e){
-                Logger.info("player disconnected");
+                Logger.info("player disconnected");//gestire la disconessione del player
             }
             catch(ClassNotFoundException c){
                 Logger.info("problem with class");

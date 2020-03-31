@@ -14,14 +14,17 @@ public class Match {
     private GameController controller;
     private final Object matchLock = new Object();
     private HashMap<String, VirtualView> matchClients;
-    private Game game;
     private final int numberOfPlayer;
 
     public Match(ArrayList<VirtualView> actualPlayers,int numberOfPlayer) {
         this.actualPlayers = actualPlayers;
         this.numberOfPlayer = numberOfPlayer;
-        this.game = new Game(actualPlayers,numberOfPlayer);
         this.matchClients = createViewMap(actualPlayers);
+        this.controller = new GameController();
+    }
+
+    public int getNumberOfPlayer() {
+        return numberOfPlayer;
     }
 
     public HashMap<String, VirtualView> createViewMap(ArrayList<VirtualView> actualPlayers){
@@ -38,9 +41,14 @@ public class Match {
     }
 
     public void sendMsgToVirtualView(Message msg) {
-        synchronized (matchLock) {
-            getViewFromString(msg.getSender()).processMessageReceived(msg);
-        }
+        getViewFromString(msg.getSender()).processMessageReceived(msg);
+    }
+
+    public void addPlayer(ClientHandler connection,String nickName){
+        VirtualView view = new VirtualView(connection,nickName);
+        view.addObservers(controller);
+        matchClients.put(view.getPlayer().getNickname(),view);
+
     }
 
     public void startGame(){

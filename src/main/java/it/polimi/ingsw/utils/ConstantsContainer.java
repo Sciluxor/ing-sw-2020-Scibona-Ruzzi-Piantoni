@@ -10,7 +10,7 @@ public class ConstantsContainer {
     public static final String SERVERNAME = "God";
 
     //Server
-    public static final int MAXWAITTIME = 10000;
+    public static final int MAXWAITTIME = 60000;
     public static final int MINPLAYERLOBBY = 2;
     public static final int MAXPLAYERLOBBY = 3;
 

@@ -1,6 +1,9 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.model.Cards.Response;
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.Player.Player;
+import it.polimi.ingsw.network.message.GameConfigMessage;
 import it.polimi.ingsw.network.message.Message;
 import it.polimi.ingsw.utils.Observer;
 import it.polimi.ingsw.view.Server.VirtualView;
@@ -26,11 +29,21 @@ public class GameController implements Observer<Message> {
         this.roundController = new RoundController();
     }
 
-    public void processMessage(Message message){
+    //
+    //methods for new player
+    //
 
-
+    public void handleNewPlayer(Message message){
+        ArrayList<Player> players = game.getPlayers();
+        for(Player player: players){
+            if(player.getNickname().equalsIgnoreCase(((GameConfigMessage) message).getNickName()));
+              game.setGameStatus(Response.NICKUSED);
+              return;
+        }
+        game.setGameStatus(Response.PLAYERADDED);
 
     }
+
 
     public VirtualView getVirtualViewFromName(){
 
@@ -63,6 +76,19 @@ public class GameController implements Observer<Message> {
     //aggiungere metodi per la disconnesione dei player
 
     public void sendToRoundController(Message message){
+
+
+    }
+
+
+
+
+    public void processMessage(Message message){
+
+        switch (message.getType()){
+            case CONFIG:
+                handleNewPlayer(message);
+        }
 
 
     }

@@ -13,9 +13,9 @@ public class Server {
 
     private ArrayList<ClientHandler> clients = new ArrayList<>();
     private final Object clientsLock = new Object();
+    private ArrayList<Match> lobby = new ArrayList<>();
     private HashMap<Match,Object> locker = new HashMap<>();
     private HashMap<String,ClientHandler> clientsFromString = new HashMap<>();
-    private Lobby lobby = new Lobby();
     private Integer socketPort;
     private HashMap<ClientHandler,Timer> timerFromString = new HashMap<>();
 
@@ -66,24 +66,50 @@ public class Server {
             startLobbyTimer(connnection);
             connnection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.NICK,MessageSubType.REQUEST));
         }
-
     }
-    public void setNick(Message message,ClientHandler connection){
-        synchronized (clientsLock) {
-            String nick = ((NickNameMessage) message).getNickName();
-            if (!lobby.setNickName(nick, connection)){
-                stopLobbyTimer(connection);
-                connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.NICK,MessageSubType.ERROR));
-                startLobbyTimer(connection);
-            }
-           else {
-                stopLobbyTimer(connection);
-                clientsFromString.put(nick,connection);
-                connection.sendMessage(new NickNameMessage(ConstantsContainer.SERVERNAME, MessageSubType.SETTED, nick));
-                connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.NUMBERPLAYER,MessageSubType.REQUEST));
-                startLobbyTimer(connection);
-            }
+
+    public boolean checkValidConfig(String nick,int numberOfPlayer,ClientHandler connection){
+        boolean isNickValid = true;
+        boolean isNumberOfPlayerValid =true;
+
+        if(nick.length()>ConstantsContainer.MAX_LENGHT_NICK || nick.length()<ConstantsContainer.MIN_LENGHT_NICK)
+            isNickValid = false;
+        if(numberOfPlayer > ConstantsContainer.MAXPLAYERLOBBY || numberOfPlayer < ConstantsContainer.MINPLAYERLOBBY)
+            isNumberOfPlayerValid = false;
+        if(!isNumberOfPlayerValid || isNickValid) {
+            connection.sendMessage(new GameConfigMessage(ConstantsContainer.SERVERNAME, MessageSubType.ERROR, nick, numberOfPlayer, isNickValid, false, isNumberOfPlayerValid));
+            return false;
         }
+
+        return true;
+    }
+
+    public void InsertPlayerInGame(Message message,ClientHandler connection){
+        synchronized (clientsLock) {
+            stopLobbyTimer(connection);
+            String nick = ((GameConfigMessage) message).getNickName();
+            int numberOfPlayer = ((GameConfigMessage) message).getNumberOfPlayer();
+
+            if(!checkValidConfig(nick,numberOfPlayer,connection))
+                return;
+
+            for(Match match: lobby){
+                if(match.getNumberOfPlayer() == numberOfPlayer){
+                    Match actualMacth = match;
+                    match.addPlayer(connection,nick);
+                    match.sendMsgToVirtualView(message);
+                    return;
+                }
+
+            }
+            newMatch();
+
+        }
+    }
+
+    public void newMatch(String nickName,int numberOfPlayer,ClientHandler connection){
+        lobby.add(new Match());
+
     }
 
     public void handleFirstPlayerConnection(ClientHandler connection,int numberOfPlayers){

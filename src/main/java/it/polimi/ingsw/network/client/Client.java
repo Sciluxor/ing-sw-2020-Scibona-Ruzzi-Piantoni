@@ -4,6 +4,7 @@ import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.utils.Logger;
 import java.io.*;
 import java.net.Socket;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 //classe di prova solo per testare il server
@@ -13,6 +14,7 @@ import java.util.Scanner;
 public class Client {
     private boolean isGameStarted = false;
     private String nick = "Default";
+    private boolean isYourTurn; // Per non fare mandare messaggi se non è il suo turno
 
     public boolean isGameStarted() {
         return isGameStarted;
@@ -66,29 +68,48 @@ public class Client {
             if (output.getType().equals(MessageType.NICK) && output.getSubType().equals(MessageSubType.REQUEST)) {
                 Logger.info("Please insert your NickName: ");
                 String nickname = scanner.nextLine();
-                out.writeObject(new NickNameMessage(client.getNick(), MessageSubType.ANSWER, nickname));
+                out.writeObject(new GameConfigMessage(client.getNick(), MessageSubType.ANSWER, nickname));
                 out.flush();
             } else if (output.getType().equals(MessageType.NICK) && output.getSubType().equals(MessageSubType.ERROR)) {
                 Logger.info("NickName already in use or with size problem");
                 Logger.info("Please insert another nickname: ");
                 String nickname = scanner.nextLine();
-                out.writeObject(new NickNameMessage(client.getNick(), MessageSubType.ANSWER, nickname));
+                out.writeObject(new GameConfigMessage(client.getNick(), MessageSubType.ANSWER, nickname));
                 out.flush();
 
             } else if (output.getType().equals(MessageType.NICK) && output.getSubType().equals(MessageSubType.SETTED)) {
-                client.setNick(((NickNameMessage) output).getNickName());
+                client.setNick(((GameConfigMessage) output).getNickName());
                 Logger.info("Nickname Selected.\n");
 
             } else if (output.getType().equals(MessageType.NUMBERPLAYER) && output.getSubType().equals(MessageSubType.REQUEST)) {
                 Logger.info("Please choose your favourite modality(2/3 players) -> ");
-                int number = scanner.nextInt();
+                int number;
+                while(true){
+                try {
+                    number = new Scanner(System.in).nextInt();
+                    break;
+                }catch (InputMismatchException e){
+                    Logger.info("invalid integer,please insert a number:");
+
+                }
+                }
+
                 out.writeObject(new PlayerNumberMessage(client.getNick(), MessageSubType.ANSWER, number));
                 out.flush();
 
             } else if (output.getType().equals(MessageType.NUMBERPLAYER) && output.getSubType().equals(MessageSubType.ERROR)) {
                 Logger.info("You have inserted wrong parameters");
                 Logger.info("Please choose your favourite modality(2/3 players) -> ");
-                int number = scanner.nextInt();
+                int number;
+                while(true){
+                    try {
+                        number = new Scanner(System.in).nextInt();
+                        break;
+                    }catch (InputMismatchException e){
+                        Logger.info("invalid integer,please insert a number:");
+
+                    }
+                }
                 out.writeObject(new PlayerNumberMessage(client.getNick(), MessageSubType.ANSWER, number));
                 out.flush();
 
@@ -122,7 +143,9 @@ public class Client {
     private void closeClientIfRequestedAsynchronously(ObjectOutputStream out) {
         new Thread(() -> {
             String input = "";
+            input = new Scanner(System.in).nextLine();
             while (!isGameStarted && (!input.equalsIgnoreCase("close") && !input.equalsIgnoreCase("back"))) {
+                Logger.info("Invalid Command,Please insert a correct command, or wait the game to start.");
                 input = new Scanner(System.in).nextLine();
             }
             if(input.equalsIgnoreCase("close") && !isGameStarted){

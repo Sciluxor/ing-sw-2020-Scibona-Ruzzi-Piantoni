@@ -17,7 +17,7 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Game extends Observable<Game> {
+public class Game extends Observable<Response> {
     private Integer numberOfPlayers;
     private ArrayList<Player> players;
     private HashMap<String, Card> deck;
