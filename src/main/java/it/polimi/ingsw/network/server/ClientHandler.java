@@ -95,7 +95,7 @@ public class ClientHandler implements Runnable{
 
     public void startLobbyTimer(){
         lobbyTimer = new Timer();
-        LobbyTimerTask task = new LobbyTimerTask(this);
+        LobbyTimerTask task = new LobbyTimerTask(this,userID);
         lobbyTimer.schedule(task, ConstantsContainer.MAXWAITTIME);
     }
 
@@ -120,7 +120,7 @@ public class ClientHandler implements Runnable{
                     }
                     else if (input.getType() == MessageType.CONFIG && input.getSubType() == MessageSubType.UPDATE) {
                         stopLobbyTimer();
-                        server.InsertPlayerInGame(input,this);
+                        dispatchMessageToVirtualView(input);
                     }
                     else {
                         dispatchMessageToVirtualView(input); //runnarlo in un altro thread?

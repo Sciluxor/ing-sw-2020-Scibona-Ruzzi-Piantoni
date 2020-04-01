@@ -79,7 +79,7 @@ public class Game extends Observable<Response> {
         return true;
     }
 
-    public void removePlayer(String nick){
+    public void removeSettedPlayer(String nick){
         for(Player player:settedPlayers){
             if(player.getNickname().equals(nick)){
                 settedPlayers.remove(player);
@@ -87,6 +87,9 @@ public class Game extends Observable<Response> {
             }
         }
 
+    }
+    public void removeConfigPlayer(){
+        configPlayer--;
     }
 
     public boolean newNickName(Player player){

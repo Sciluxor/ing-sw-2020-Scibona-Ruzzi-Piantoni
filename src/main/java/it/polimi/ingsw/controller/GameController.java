@@ -6,10 +6,13 @@ import it.polimi.ingsw.model.Response;
 import it.polimi.ingsw.network.message.GameConfigMessage;
 import it.polimi.ingsw.network.message.Message;
 import it.polimi.ingsw.network.message.MessageSubType;
+import it.polimi.ingsw.network.server.Match;
+import it.polimi.ingsw.utils.Logger;
 import it.polimi.ingsw.utils.Observer;
 import it.polimi.ingsw.view.Server.VirtualView;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Timer;
 
 public class GameController implements Observer<Message> {
@@ -32,12 +35,13 @@ public class GameController implements Observer<Message> {
     //methods for new player
     //
 
-    public void handleNewPlayer(Message message) {
+    public synchronized void  handleNewPlayer(Message message) {
         VirtualView view = ((GameConfigMessage) message).getView();
         view.setYourTurn(true);
         String nick = message.getNickName();
         if(!game.addPlayer(new Player(nick),view)){
               game.setGameStatus(Response.NICKUSED);
+              view.setYourTurn(false);
               return;
         }
         clients.put(nick,view);
@@ -47,12 +51,13 @@ public class GameController implements Observer<Message> {
 
     }
 
-    public void handleNewNickname(Message message){
+    public synchronized void handleNewNickname(Message message){
         String nick = message.getNickName();
         VirtualView view = getViewFromUserID(message.getSender());
         view.setYourTurn(true);
         if(!game.newNickName(new Player(nick))){
             game.setGameStatus(Response.NICKUSED);
+            view.setYourTurn(false);
             return;
         }
         clients.put(nick,view);
@@ -77,7 +82,7 @@ public class GameController implements Observer<Message> {
     }
 
 
-    public Game initializeGame(String gameID){
+    public synchronized Game initializeGame(String gameID){
 
         return new Game(numberOfPlayers,gameID);
     }
@@ -94,7 +99,7 @@ public class GameController implements Observer<Message> {
         return clients.get(nick);
     }
 
-    public boolean isFull(){
+    public synchronized boolean isFull(){
         return (game.getSettedPlayers().size()+game.getConfigPlayer()) == game.getNumberOfPlayers();
     }
 
@@ -105,21 +110,37 @@ public class GameController implements Observer<Message> {
         return game.getNumberOfPlayers();
     }
 
-    public void handleDisconntectionBeforeStart(Message message){
+    public synchronized void handleDisconntectionBeforeStart(Message message){
+        VirtualView view = clients.get(message.getSender());
+        if(message.getSubType().equals(MessageSubType.TIMEENDED)){
+            handleLobbyTimerEnded(message);
+            return;
+        }
         disconnectPlayer(message);
+        if(message.getSubType().equals(MessageSubType.BACK))
+            view.getConnection().startLobbyTimer();
+
         if(message.getSubType().equals(MessageSubType.REQUEST)) {
-            VirtualView view = clients.get(message.getSender());
+
             view.getConnection().closeConnection();
         }
-
-
     }
 
-    public void disconnectPlayer(Message message){
+    public synchronized void handleLobbyTimerEnded(Message message){
         VirtualView view = clients.get(message.getSender());
         view.getConnection().setViewActive(false);
         game.removeObserver(view);
-        game.removePlayer(message.getMessage());
+        game.removeConfigPlayer();
+        clients.remove(message.getSender());
+        view.getConnection().closeConnection();
+    }
+
+
+    public synchronized void disconnectPlayer(Message message){
+        VirtualView view = clients.get(message.getSender());
+        view.getConnection().setViewActive(false);
+        game.removeObserver(view);
+        game.removeSettedPlayer(message.getMessage());
         clients.remove(message.getMessage());
         clients.remove(message.getSender());
     }

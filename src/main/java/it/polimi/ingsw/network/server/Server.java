@@ -55,12 +55,6 @@ public class Server {
         }
     }
 
-    public void firsLogin(ClientHandler connnection){
-        synchronized (clientsLock) {
-            //startLobbyTimer(connnection);
-        }
-    }
-
     public boolean checkValidConfig(String nick,int numberOfPlayer,ClientHandler connection){
         boolean isNickValid = true;
         boolean isNumberOfPlayerValid =true;
@@ -78,7 +72,6 @@ public class Server {
 
     public void InsertPlayerInGame(Message message,ClientHandler connection){
         synchronized (clientsLock) {
-            //stopLobbyTimer(connection);
             String nick = message.getNickName();
             int numberOfPlayer = ((GameConfigMessage) message).getNumberOfPlayer();
 
@@ -93,13 +86,13 @@ public class Server {
                     return;
                 }
             }
-            Match match = newMatch(numberOfPlayer,connection);
+            Match match = newMatch(numberOfPlayer);
             match.addPlayer(connection,message,userID);
 
         }
     }
 
-    public Match newMatch(int numberOfPlayer,ClientHandler connection){
+    public Match newMatch(int numberOfPlayer){
         String gameID = ConstantsContainer.GAMEIDPREFIX + numGameID;
         numGameID++;
         Match match = new Match(numberOfPlayer,gameID);
