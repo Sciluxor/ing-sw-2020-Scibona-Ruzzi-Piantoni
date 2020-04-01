@@ -1,14 +1,10 @@
 package it.polimi.ingsw.network.client;
 
-import com.sun.jdi.VMDisconnectedException;
 import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.utils.ConstantsContainer;
 import it.polimi.ingsw.utils.Logger;
 import java.io.*;
-import java.net.ConnectException;
 import java.net.Socket;
-import java.net.UnknownHostException;
-import java.nio.file.LinkOption;
 import java.util.Scanner;
 
 //classe di prova solo per testare il server
@@ -18,7 +14,18 @@ import java.util.Scanner;
 public class Client {
     private boolean isGameStarted = false;
     private String nick = "Default";
+    private String userID = "Default";
     private Socket clientSocket;
+    private int numberOfPlayers;
+
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
 
     public boolean isGameStarted() {
         return isGameStarted;
@@ -61,27 +68,8 @@ public class Client {
         try {
             ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());
             ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream());
+            new Thread(()-> client.processNickAndNumber(out,client)).start();
 
-            //Get nickname and send it to Server
-            Logger.info("Please insert your NickName: ");
-            String nickname = scanner.nextLine();
-            while(nickname.length() < ConstantsContainer.MIN_LENGHT_NICK || nickname.length() > ConstantsContainer.MAX_LENGHT_NICK){
-                Logger.info("\nNickname must be shorter than 20 characters and longer than 4 characters. Please, reinsert nickname: ");
-                nickname = scanner.nextLine();
-            }
-            out.writeObject(new NickNameMessage(client.getNick(), MessageSubType.ANSWER, nickname));
-            out.flush();
-
-            //Get numberOfPlayers and send it to Server
-            Logger.info("\nPlease choose your favourite modality(2/3 players) -> ");
-            int number = scanner.nextInt();
-            while(number != 3 && number != 2){
-                Logger.info(("\nWrong modality selected. Modality must be with 2/3 players. Please, reinsert modality -> "));
-                number = scanner.nextInt();
-            }
-            out.writeObject(new PlayerNumberMessage(client.getNick(), MessageSubType.ANSWER, number));
-            out.flush();
-            
             //client.closeClientForTimeAsynchronously(clientSocket);
             while(true){  //runnare il process del message in parallelo
                 Message output = (Message) in.readObject();
@@ -99,29 +87,34 @@ public class Client {
 
     }
 
+
     public void processMessage(Client client,Message output, ObjectOutputStream out){
 
         try {
             Scanner scanner = new Scanner(System.in);
 
-            if (output.getType().equals(MessageType.NICK) && output.getSubType().equals(MessageSubType.ERROR)) {
+
+            if (output.getType().equals(MessageType.CONFIG) && output.getSubType().equals(MessageSubType.NICKUSED)) {
+                setUserID(output.getMessage());
                 Logger.info("NickName already in use. ");
                 Logger.info("Please insert another nickname: ");
                 String nickname = scanner.nextLine();
-                out.writeObject(new NickNameMessage(client.getNick(), MessageSubType.ANSWER, nickname));
+                while(nickname.length() < ConstantsContainer.MIN_LENGHT_NICK || nickname.length() > ConstantsContainer.MAX_LENGHT_NICK){
+                    Logger.info("\nNickname must be shorter than 20 characters and longer than 4 characters. Please, reinsert nickname: ");
+                    nickname = scanner.nextLine();
+                }
+                client.setNick(nickname);
+                out.writeObject(new GameConfigMessage(client.getUserID(),nickname,MessageSubType.UPDATE,numberOfPlayers ,false,false,false));
                 out.flush();
 
-            } else if (output.getType().equals(MessageType.NICK) && output.getSubType().equals(MessageSubType.SETTED)) {
-                client.setNick(((NickNameMessage) output).getNickName());
-                Logger.info("Nickname Selected.\n");
-
             } else if (output.getType().equals(MessageType.WAITPLAYER) && output.getSubType().equals(MessageSubType.UPDATE)) {
+                setUserID(output.getMessage());
                 Logger.info("\nYou have been inserted in match, waiting for other players to join. Type \"close\" to stop the server, or \"back\" to go back to modality selection.");
-                client.closeClientIfRequestedAsynchronously(out);
+                client.closeClientIfRequestedAsynchronously(out,client);
 
             } else if (output.getType().equals(MessageType.GAMESTART) && output.getSubType().equals(MessageSubType.UPDATE)) {
                 client.setGameStarted(true);
-                Logger.info("\nYour game is starting now. Number of total player -> " + ((gameStartedMessage) output).getPlayersNumber() + "\n" + "Your gameID is: " + ((gameStartedMessage)output).getGameID() + "\n");
+                Logger.info("\nYour game is starting now. Number of total player -> " + ((GameStartedMessage) output).getPlayersNumber() + "\n" + "Your gameID is: " + ((GameStartedMessage)output).getGameID() + "\n");
 
             } else if (output.getType().equals(MessageType.DISCONNECTION) && output.getSubType().equals(MessageSubType.SETTED)) {
                 Logger.info("\nDisconnetted from Server, closing Application...");
@@ -129,6 +122,7 @@ public class Client {
             }
             else if (output.getType().equals(MessageType.DISCONNECTION) && output.getSubType().equals(MessageSubType.TIMEENDED)) {
                 Logger.info("\nYou were disconnected due to inactivity, closing Application...");
+                client.clientSocket.close();
                 System.exit(1);
             }
             else if (output.getType().equals(MessageType.DISCONNECTION) && output.getSubType().equals(MessageSubType.CONNECTIONLOST)) {
@@ -139,7 +133,7 @@ public class Client {
                 String nickname = scanner.nextLine();
                 Logger.info(("\nNow insert your gameID: "));
                 String gameID = scanner.nextLine();
-                out.writeObject(new ReconnectionMessage(client.getNick(), MessageSubType.ANSWER, gameID, nickname));
+                //out.writeObject(new ReconnectionMessage(client.getNick(), MessageSubType.ANSWER, gameID, nickname));
                 out.flush();                                                                              
 
             }
@@ -153,8 +147,36 @@ public class Client {
     }
 
 
+    public void processNickAndNumber(ObjectOutputStream out,Client client){
 
-    private void closeClientIfRequestedAsynchronously(ObjectOutputStream out) {
+        try {
+            Logger.info("Please insert your NickName: ");
+            String nickname = new Scanner(System.in).nextLine();
+            while(nickname.length() < ConstantsContainer.MIN_LENGHT_NICK || nickname.length() > ConstantsContainer.MAX_LENGHT_NICK){
+                Logger.info("\nNickname must be shorter than 20 characters and longer than 4 characters. Please, reinsert nickname: ");
+                nickname = new Scanner(System.in).nextLine();
+            }
+            client.setNick(nickname);
+
+            //Get numberOfPlayers and send it to Server
+            Logger.info("\nPlease choose your favourite modality(2/3 players) -> ");
+            int number = new Scanner(System.in).nextInt();
+            while(number != 3 && number != 2){
+                Logger.info(("\nWrong modality selected. Modality must be with 2/3 players. Please, reinsert modality -> "));
+                number = new Scanner(System.in).nextInt();
+            }
+            client.numberOfPlayers = number;
+            out.writeObject(new GameConfigMessage(client.getUserID(),nickname,MessageSubType.ANSWER,number,false,false,false));
+            out.flush();
+            Logger.info("");
+        }catch (IOException e){
+            Logger.info("Error in Disconnetting");
+        }
+
+    }
+
+
+    private void closeClientIfRequestedAsynchronously(ObjectOutputStream out,Client client) {
         new Thread(() -> {
             String input = "";
             while (!isGameStarted && (!input.equalsIgnoreCase("close") && !input.equalsIgnoreCase("back"))) {
@@ -162,16 +184,21 @@ public class Client {
             }
             if(input.equalsIgnoreCase("close") && !isGameStarted){
                 try {
-                    out.writeObject(new Message(nick, MessageType.DISCONNECTION, MessageSubType.REQUEST));
+                    out.writeObject(new Message(nick, MessageType.DISCONNECTION, MessageSubType.REQUEST,client.nick));
                     out.flush();
+                    client.clientSocket.close();
+                    Logger.info("Closed connection");
+                    System.exit(0);
                 }catch (IOException e){
                     Logger.info("Error in Disconnetting");
                 }
             }
             if(input.equalsIgnoreCase("back") && !isGameStarted){
                 try {
-                    out.writeObject(new Message(nick, MessageType.DISCONNECTION, MessageSubType.BACK));
+                    out.writeObject(new Message(nick, MessageType.DISCONNECTION, MessageSubType.BACK,client.nick));
                     out.flush();
+
+                    processNickAndNumber(out,client);
                 }catch (IOException e){
                     Logger.info("Error in Disconnetting");
                 }

@@ -1,5 +1,8 @@
+/*
+
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.model.Cards.Card;
 import it.polimi.ingsw.model.Cards.CardLoader;
 import it.polimi.ingsw.model.Map.GameMap;
@@ -28,9 +31,10 @@ class GameTest {
 
     @BeforeEach
     void setup(){
-        player1 = new VirtualView(connection1, "uno");
-        player2 = new VirtualView(connection2, "due");
-        player3 = new VirtualView(connection3, "tre");
+        GameController controller = new GameController(3,"1")
+        player1 = new VirtualView(connection1, "uno",controller);
+        player2 = new VirtualView(connection2, "due",controller);
+        player3 = new VirtualView(connection3, "tre",controller);
         player4 = new Player("quattro");
         cardApollo = CardLoader.loadCards().get("Apollo");
         cardAthena = CardLoader.loadCards().get("Athena");
@@ -225,3 +229,4 @@ class GameTest {
         assertEquals(game.getGameID(), "G01");
     }
 }
+*/

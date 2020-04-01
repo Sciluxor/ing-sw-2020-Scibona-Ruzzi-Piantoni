@@ -7,16 +7,14 @@ import java.util.TimerTask;
 public class LobbyTimerTask extends TimerTask {
 
     private ClientHandler connection;
-    private Server server;
 
-    public LobbyTimerTask(ClientHandler connection, Server server) {
+    public LobbyTimerTask(ClientHandler connection) {
         this.connection = connection;
-        this.server = server;
     }
 
     @Override
     public void run() {
-        server.handleTimeLobbyEnded(connection);
+        connection.closeConnection();
 
     }
 }

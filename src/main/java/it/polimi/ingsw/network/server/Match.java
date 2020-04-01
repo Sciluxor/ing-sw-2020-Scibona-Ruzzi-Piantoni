@@ -2,7 +2,9 @@ package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.network.message.GameConfigMessage;
 import it.polimi.ingsw.network.message.Message;
+import it.polimi.ingsw.utils.Logger;
 import it.polimi.ingsw.view.Server.VirtualView;
 
 import java.util.ArrayList;
@@ -10,45 +12,40 @@ import java.util.HashMap;
 
 public class Match {
 
-    private ArrayList<VirtualView> actualPlayers;
+
     private GameController controller;
-    private final Object matchLock = new Object();
-    private HashMap<String, VirtualView> matchClients;
     private final int numberOfPlayer;
 
-    public Match(ArrayList<VirtualView> actualPlayers,int numberOfPlayer) {
-        this.actualPlayers = actualPlayers;
+    public Match(int numberOfPlayer,String gameID) {
         this.numberOfPlayer = numberOfPlayer;
-        this.matchClients = createViewMap(actualPlayers);
-        this.controller = new GameController();
+        this.controller = new GameController(numberOfPlayer,gameID);
     }
 
     public int getNumberOfPlayer() {
         return numberOfPlayer;
     }
 
-    public HashMap<String, VirtualView> createViewMap(ArrayList<VirtualView> actualPlayers){
-        HashMap<String, VirtualView> clients = new HashMap<>();
-        for(VirtualView view:actualPlayers){
-            clients.put(view.getPlayer().getNickname(),view);
-        }
-        return clients;
+
+
+    public void sendMsgToVirtualView(Message msg,VirtualView view) {
+        view.processMessageReceived(msg);
     }
 
-    public VirtualView getViewFromString(String nick){
-        return this.matchClients.get(nick);
-
-    }
-
-    public void sendMsgToVirtualView(Message msg) {
-        getViewFromString(msg.getSender()).processMessageReceived(msg);
-    }
-
-    public void addPlayer(ClientHandler connection,String nickName){
-        VirtualView view = new VirtualView(connection,nickName);
+    public void addPlayer(ClientHandler connection,Message message,String userID){
+        VirtualView view = new VirtualView(connection,controller);
+        ((GameConfigMessage) message).setView(view);
+        connection.setView(view);
+        connection.setViewActive(true);
         view.addObservers(controller);
-        matchClients.put(view.getPlayer().getNickname(),view);
+        connection.setUserID(userID);
+        controller.addUserID(view,userID);
+        sendMsgToVirtualView(message,view);
 
+    }
+
+    public boolean isFull()
+    {
+        return controller.isFull();
     }
 
     public void startGame(){

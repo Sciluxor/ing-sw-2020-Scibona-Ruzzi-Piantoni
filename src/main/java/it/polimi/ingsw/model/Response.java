@@ -8,6 +8,6 @@ public enum Response {
 
     //Response for game config
 
-    PLAYERADDED,NICKUSED
+    PLAYERADDED,NICKUSED,GAMESTARTED
 
 }

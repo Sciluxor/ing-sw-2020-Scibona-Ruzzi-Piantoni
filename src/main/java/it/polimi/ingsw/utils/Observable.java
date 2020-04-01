@@ -13,6 +13,10 @@ public class Observable<T> {
         observers.add(observer);
     }
 
+    public void removeObserver(Observer<T> observer){
+        observers.remove(observer);
+    }
+
     public void notify(T message){
         for(Observer<T> observer: observers){
             observer.update(message);

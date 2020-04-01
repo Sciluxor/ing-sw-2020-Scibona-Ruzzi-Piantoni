@@ -3,6 +3,8 @@ package it.polimi.ingsw.network.server;
 import it.polimi.ingsw.network.message.Message;
 import it.polimi.ingsw.network.message.MessageSubType;
 import it.polimi.ingsw.network.message.MessageType;
+import it.polimi.ingsw.utils.ConstantsContainer;
+import it.polimi.ingsw.utils.LobbyTimerTask;
 import it.polimi.ingsw.utils.Logger;
 import it.polimi.ingsw.view.Server.VirtualView;
 
@@ -21,11 +23,21 @@ public class ClientHandler implements Runnable{
     private VirtualView view;
     private Timer lobbyTimer;
 
+    private String userID ="default";
+
     public ClientHandler(Server server, Socket socket){
         this.socket = socket;
         this.server = server;
         this.isConnectionActive = true;
 
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
     public boolean isConnectionActive() {
@@ -68,12 +80,28 @@ public class ClientHandler implements Runnable{
     public void closeConnection(){
         //chiusura connesione
         try{
-        objectIn.close();
-        objectOut.close();
-        socket.close();
+            sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.DISCONNECTION,MessageSubType.TIMEENDED));
+            objectIn.close();
+            objectOut.close();
+            socket.close();
         }catch (IOException e){
             Logger.info("problem in closing connection");
         }
+    }
+
+    public void dispatchMessageToVirtualView(Message message){
+        view.processMessageReceived(message);
+    }
+
+    public void startLobbyTimer(){
+        lobbyTimer = new Timer();
+        LobbyTimerTask task = new LobbyTimerTask(this);
+        lobbyTimer.schedule(task, ConstantsContainer.MAXWAITTIME);
+    }
+
+    public void stopLobbyTimer(){
+        lobbyTimer.cancel();
+
     }
 
     @Override
@@ -82,18 +110,20 @@ public class ClientHandler implements Runnable{
             try {
                 this.objectOut = new ObjectOutputStream(socket.getOutputStream());
                 this.objectIn = new ObjectInputStream(socket.getInputStream());
-                server.firsLogin(this);
+                startLobbyTimer();
                 while(isConnectionActive()) {
                     Message input = (Message) objectIn.readObject();
 
                     if (input.getType() == MessageType.CONFIG && input.getSubType() == MessageSubType.ANSWER) {
+                        stopLobbyTimer();
                         server.InsertPlayerInGame(input,this);
                     }
-                    else if(input.getType() == MessageType.DISCONNECTION){
-                        server.handleClientDisconnectionBeforeStarting(input);
+                    else if (input.getType() == MessageType.CONFIG && input.getSubType() == MessageSubType.UPDATE) {
+                        stopLobbyTimer();
+                        server.InsertPlayerInGame(input,this);
                     }
                     else {
-                        view.dispatchMessageToVirtualView(input); //runnarlo in un altro thread?
+                        dispatchMessageToVirtualView(input); //runnarlo in un altro thread?
                     }
 
                 }
@@ -106,5 +136,7 @@ public class ClientHandler implements Runnable{
                 Logger.info("problem with class");
             }
         }
+
+
 
 }

@@ -6,15 +6,18 @@ import it.polimi.ingsw.model.Map.GameMap;
 import it.polimi.ingsw.model.Map.Square;
 import it.polimi.ingsw.model.Player.Player;
 import it.polimi.ingsw.model.Player.PlayerQueue;
+import it.polimi.ingsw.utils.Logger;
 import it.polimi.ingsw.utils.Observable;
 import it.polimi.ingsw.view.Server.VirtualView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 public class Game extends Observable<Response> {
     private Integer numberOfPlayers;
-    private ArrayList<Player> players;
+    private ArrayList<Player> settedPlayers;
+    private int configPlayer;
     private HashMap<String, Card> deck;
     private Player currentPlayer;
     private GameMap gameMap;
@@ -22,19 +25,15 @@ public class Game extends Observable<Response> {
     private Response gameStatus;
     private String gameID;
 
-    public Game(ArrayList<VirtualView> actualPlayers,int numberOfPlayers, String gameID) {
+    public Game(int numberOfPlayers, String gameID) {
 
-        players = new ArrayList<>();
-        for(VirtualView view: actualPlayers){
-            addObservers(view);
-            players.add(view.getPlayer());
-        }
+        settedPlayers = new ArrayList<>();
+        configPlayer = 0;
         this.numberOfPlayers = numberOfPlayers;
         deck = CardLoader.loadCards();
         gameMap = new GameMap();
-        isGameStarted = true;
+        isGameStarted = false;
         this.gameID = gameID;
-
     }
 
     public  Integer getNumberOfPlayers() {
@@ -49,18 +48,56 @@ public class Game extends Observable<Response> {
     }
 
     public ArrayList<Player> getPlayers() {
-        return players;
+        return settedPlayers;
     }
 
-    public void addPlayer(Player player){
+    public ArrayList<Player> getSettedPlayers() {
+        return settedPlayers;
+    }
+
+    public int getConfigPlayer() {
+        return configPlayer;
+    }
+
+    public boolean addPlayer(Player player, VirtualView actualView){
         if(isGameStarted)
             throw new IllegalStateException("game already started");  //cambiare questa eccezione
-        if(players.size() >= numberOfPlayers)
+        if(settedPlayers.size() >= numberOfPlayers)
             throw new IllegalStateException("too much player"); //cambiare questa eccezione
         if(player == null)
             throw new NullPointerException("null player");
-        players.add(player);
 
+        addObservers(actualView);
+
+        for(Player player1: settedPlayers){
+            if(player1.getNickname().equals(player.getNickname())){
+                configPlayer++;
+                return false;
+            }
+        }
+        settedPlayers.add(player);
+        return true;
+    }
+
+    public void removePlayer(String nick){
+        for(Player player:settedPlayers){
+            if(player.getNickname().equals(nick)){
+                settedPlayers.remove(player);
+                break;
+            }
+        }
+
+    }
+
+    public boolean newNickName(Player player){
+        for(Player player1: settedPlayers){
+            if(player1.getNickname().equals(player.getNickname())){
+                return false;
+            }
+        }
+        configPlayer--;
+        settedPlayers.add(player);
+        return true;
     }
 
     public HashMap<String, Card> getDeck() {
@@ -93,7 +130,7 @@ public class Game extends Observable<Response> {
             throw new NullPointerException("null newStatus");
 
         this.gameStatus = newStatus;
-        notify(this);
+        notify(gameStatus);
     }
 
     public void placeWorkersOnMap(Player player, int x1, int y1, int x2, int y2) {
@@ -116,7 +153,7 @@ public class Game extends Observable<Response> {
 
     public Player pickChallenger() {
         int Challenger = (int) ((Math.random()*(numberOfPlayers)) - 1);
-        return players.get(Challenger);
+        return settedPlayers.get(Challenger);
     }
 
 
@@ -126,13 +163,13 @@ public class Game extends Observable<Response> {
 
         ArrayList<Player> queue = new ArrayList<>();
 
-        for(Player player1: players) {
+        for(Player player1: settedPlayers) {
             if (player1.getNickname().equalsIgnoreCase(nickname)) {
                 queue.add(player1);
                 break;
             }
         }
-        for(Player player1: players) {
+        for(Player player1: settedPlayers) {
             if(!player1.getNickname().equalsIgnoreCase(nickname)) {
                 queue.add(player1);
             }
