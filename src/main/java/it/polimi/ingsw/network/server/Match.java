@@ -1,14 +1,10 @@
 package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.controller.GameController;
-import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.network.message.GameConfigMessage;
 import it.polimi.ingsw.network.message.Message;
-import it.polimi.ingsw.utils.Logger;
 import it.polimi.ingsw.view.Server.VirtualView;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Match {
 
@@ -48,12 +44,21 @@ public class Match {
         return controller.isFull();
     }
 
-    public void startGame(){
+    public boolean isStarted(){
+        return controller.isGameStarted();
+    }
 
-        //manda messaggi per iniziare a scegliere le carte, bisogna inizializzare la queue dei giocatori tramite controller e game.
-        //vedere se per la queue basta la queue o serve deque?
+    public boolean checkNick(Message message){
+
+        String nick = message.getNickName();
+        return controller.isFreeNick(nick);
 
 
     }
+
+    public boolean checkIfGameCanStart(){
+        return controller.checkIfGameCanStart();
+    }
+
 
 }

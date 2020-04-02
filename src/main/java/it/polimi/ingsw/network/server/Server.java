@@ -2,19 +2,17 @@ package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.utils.ConstantsContainer;
-import it.polimi.ingsw.utils.LobbyTimerTask;
 import it.polimi.ingsw.utils.Logger;
 
 import java.io.IOException;
 import java.util.*;
 
-public class Server {
+public class Server {//eliminare i match e fare un arraylist di Gamecontroller
 
     private final Object clientsLock = new Object();
     private ArrayList<Match> lobby = new ArrayList<>();
-    private HashMap<Match,Object> locker = new HashMap<>();
+    private ArrayList<Match> actualMatches = new ArrayList<>();
     private Integer socketPort;
-    private HashMap<ClientHandler,Timer> timerFromString = new HashMap<>();
     private int numGameID;
     private int numUserID;
 
@@ -70,8 +68,21 @@ public class Server {
         return true;
     }
 
-    public void InsertPlayerInGame(Message message,ClientHandler connection){
+    public void moveGameStarted(){
+        synchronized(clientsLock) {
+            for (Match match : lobby) {
+                if (match.isStarted()) {
+                    lobby.remove(match);
+                    actualMatches.add(match);
+                    break;
+                }
+            }
+        }
+    }
+
+    public void insertPlayerInGame(Message message,ClientHandler connection,boolean isFirstTime){
         synchronized (clientsLock) {
+            Logger.info(Integer.toString(lobby.size()));
             String nick = message.getNickName();
             int numberOfPlayer = ((GameConfigMessage) message).getNumberOfPlayer();
 
@@ -80,17 +91,32 @@ public class Server {
 
             String userID = ConstantsContainer.USERIDPREFIX + numUserID;
             numUserID ++;
-            for(Match match: lobby){
-                if(match.getNumberOfPlayer() == numberOfPlayer && !match.isFull()){
-                    match.addPlayer(connection, message,userID);
-                    return;
+            if(isFirstTime) {
+                for (Match match : lobby) {
+                    if (match.getNumberOfPlayer() == numberOfPlayer && !match.isFull()) {
+                        match.addPlayer(connection, message, userID);
+                        return;
+                    }
                 }
+            }
+            else
+            {
+                for (Match match : lobby) {
+                  if (match.getNumberOfPlayer() == numberOfPlayer && !match.isFull()) {
+                      if(match.checkNick(message)) {
+                          match.addPlayer(connection, message, userID);
+                          return;
+                      }
+                }
+            }
+
             }
             Match match = newMatch(numberOfPlayer);
             match.addPlayer(connection,message,userID);
 
         }
     }
+
 
     public Match newMatch(int numberOfPlayer){
         String gameID = ConstantsContainer.GAMEIDPREFIX + numGameID;

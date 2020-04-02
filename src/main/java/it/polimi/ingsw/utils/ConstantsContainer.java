@@ -13,6 +13,7 @@ public class ConstantsContainer {
     public static final int MAXWAITTIME = 20000;
     public static final int MINPLAYERLOBBY = 2;
     public static final int MAXPLAYERLOBBY = 3;
+    public static final int MAXTRYTOCHANGENICK = 2;
     public static final String GAMEIDPREFIX = "GID";
     public static final String USERIDPREFIX = "UID";
 

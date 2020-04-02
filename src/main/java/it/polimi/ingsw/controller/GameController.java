@@ -6,13 +6,12 @@ import it.polimi.ingsw.model.Response;
 import it.polimi.ingsw.network.message.GameConfigMessage;
 import it.polimi.ingsw.network.message.Message;
 import it.polimi.ingsw.network.message.MessageSubType;
-import it.polimi.ingsw.network.server.Match;
 import it.polimi.ingsw.utils.Logger;
 import it.polimi.ingsw.utils.Observer;
 import it.polimi.ingsw.view.Server.VirtualView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Timer;
 
 public class GameController implements Observer<Message> {
@@ -45,6 +44,7 @@ public class GameController implements Observer<Message> {
               return;
         }
         clients.put(nick,view);
+
         game.setGameStatus(Response.PLAYERADDED);
         view.setYourTurn(false);
         checkIfGameCanStart();
@@ -55,20 +55,23 @@ public class GameController implements Observer<Message> {
         String nick = message.getNickName();
         VirtualView view = getViewFromUserID(message.getSender());
         view.setYourTurn(true);
+
         if(!game.newNickName(new Player(nick))){
             game.setGameStatus(Response.NICKUSED);
             view.setYourTurn(false);
             return;
         }
+
         clients.put(nick,view);
         game.setGameStatus(Response.PLAYERADDED);
         view.setYourTurn(false);
         checkIfGameCanStart();
     }
 
-    public void checkIfGameCanStart(){
+    public boolean checkIfGameCanStart(){
         if(game.getSettedPlayers().size() == game.getNumberOfPlayers() && game.getConfigPlayer() == 0) {
             game.setGameStarted(true);
+
             for(VirtualView values :clients.values()){
              values.setYourTurn(true);
             }
@@ -78,7 +81,13 @@ public class GameController implements Observer<Message> {
             for(VirtualView values :clients.values()){
                 values.setYourTurn(false);
             }
+            return true;
         }
+        return false;
+    }
+
+    public synchronized boolean isGameStarted(){
+        return game.isGameStarted();
     }
 
 
@@ -87,7 +96,7 @@ public class GameController implements Observer<Message> {
         return new Game(numberOfPlayers,gameID);
     }
 
-    public void addUserID(VirtualView view,String userID){
+    public synchronized void addUserID(VirtualView view,String userID){
         clients.put(userID,view);
     }
 
@@ -103,20 +112,25 @@ public class GameController implements Observer<Message> {
         return (game.getSettedPlayers().size()+game.getConfigPlayer()) == game.getNumberOfPlayers();
     }
 
-    public String getgameID(){
+    public String getGameID(){
         return game.getGameID();
     }
     public int getNumberOfPlayers(){
         return game.getNumberOfPlayers();
     }
 
-    public synchronized void handleDisconntectionBeforeStart(Message message){
+    //
+    //methods for disconnection from the Game
+    //
+
+    public synchronized void handleDisconnectionBeforeStart(Message message){
         VirtualView view = clients.get(message.getSender());
         if(message.getSubType().equals(MessageSubType.TIMEENDED)){
             handleLobbyTimerEnded(message);
             return;
         }
         disconnectPlayer(message);
+
         if(message.getSubType().equals(MessageSubType.BACK))
             view.getConnection().startLobbyTimer();
 
@@ -140,10 +154,34 @@ public class GameController implements Observer<Message> {
         VirtualView view = clients.get(message.getSender());
         view.getConnection().setViewActive(false);
         game.removeObserver(view);
-        game.removeSettedPlayer(message.getMessage());
+        if(message.getSubType().equals(MessageSubType.NICKMAXTRY))
+            game.removeConfigPlayer();
+        else
+            game.removeSettedPlayer(message.getMessage());
         clients.remove(message.getMessage());
         clients.remove(message.getSender());
     }
+
+    public synchronized boolean isFreeNick(String nick){
+        ArrayList<Player> players = game.getPlayers();
+
+        for(Player player : players){
+            if(player.getNickname().equals(nick))
+                return false;
+        }
+
+        return true;
+    }
+
+    //
+    //methods for reconnection
+    //
+
+    //inserire metodi
+
+    //
+    //methods for Game handling
+    //
 
     public void handleMatchBeginning(){
 
@@ -167,7 +205,6 @@ public class GameController implements Observer<Message> {
 
     }
 
-    //aggiungere metodi per la disconnesione dei player
 
     public void sendToRoundController(Message message){
 
@@ -187,7 +224,7 @@ public class GameController implements Observer<Message> {
                     handleNewNickname(message);
                 break;
             case DISCONNECTION:
-                handleDisconntectionBeforeStart(message);
+                handleDisconnectionBeforeStart(message);
                 break;
             default:
         }

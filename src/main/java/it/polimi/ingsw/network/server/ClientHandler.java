@@ -22,6 +22,7 @@ public class ClientHandler implements Runnable{
     private boolean isConnectionActive;
     private VirtualView view;
     private Timer lobbyTimer;
+    private int newNickCounter;
 
     private String userID ="default";
 
@@ -29,6 +30,7 @@ public class ClientHandler implements Runnable{
         this.socket = socket;
         this.server = server;
         this.isConnectionActive = true;
+
 
     }
 
@@ -54,14 +56,6 @@ public class ClientHandler implements Runnable{
 
     public void setViewActive(boolean active) {
         isViewActive = active;
-    }
-
-    public VirtualView getView() {
-        return view;
-    }
-
-    public void setView(VirtualView view) {
-        this.view = view;
     }
 
     public void sendMessage(Message msg){//fare un'altra funzione per mandare in asincrono i messaggi
@@ -116,11 +110,24 @@ public class ClientHandler implements Runnable{
 
                     if (input.getType() == MessageType.CONFIG && input.getSubType() == MessageSubType.ANSWER) {
                         stopLobbyTimer();
-                        server.InsertPlayerInGame(input,this);
+                        this.newNickCounter = 0;
+                        server.insertPlayerInGame(input,this,true);
+                        server.moveGameStarted();
                     }
                     else if (input.getType() == MessageType.CONFIG && input.getSubType() == MessageSubType.UPDATE) {
                         stopLobbyTimer();
-                        dispatchMessageToVirtualView(input);
+                        newNickCounter++;
+                        if(newNickCounter > ConstantsContainer.MAXTRYTOCHANGENICK){
+                            input.setMessageSubType(MessageSubType.ANSWER);
+                            this.newNickCounter = 0;
+                            dispatchMessageToVirtualView(new Message(input.getSender(),MessageType.DISCONNECTION,MessageSubType.NICKMAXTRY));
+                            server.insertPlayerInGame(input,this,false);
+                        }
+                        else{
+                            dispatchMessageToVirtualView(input);
+                        }
+                        server.moveGameStarted();
+
                     }
                     else {
                         dispatchMessageToVirtualView(input); //runnarlo in un altro thread?

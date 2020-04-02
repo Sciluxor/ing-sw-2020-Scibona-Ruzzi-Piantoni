@@ -80,7 +80,7 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
    }
 
    public void handleStartGame(){
-       connection.sendMessage(new GameStartedMessage(ConstantsContainer.SERVERNAME,MessageSubType.UPDATE, controller.getNumberOfPlayers(), controller.getgameID()));
+       connection.sendMessage(new GameStartedMessage(ConstantsContainer.SERVERNAME,MessageSubType.UPDATE, controller.getNumberOfPlayers(), controller.getGameID()));
    }
 
 

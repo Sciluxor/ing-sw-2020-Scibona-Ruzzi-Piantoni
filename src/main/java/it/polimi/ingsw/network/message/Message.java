@@ -9,7 +9,7 @@ public class Message implements Serializable {
     private String nickName = "default";
 
     private final MessageType type;
-    private  final MessageSubType subType;
+    private  MessageSubType subType;
 
     private String message = "standard message";
 
@@ -31,6 +31,10 @@ public class Message implements Serializable {
      this.type = type;
      this.subType = subType;
      this.nickName = nickName;
+    }
+
+    public void setMessageSubType(MessageSubType subType){
+        this.subType = subType;
     }
     public String getSender(){
      return sender;
