@@ -3,6 +3,7 @@ package it.polimi.ingsw.network.server;
 import it.polimi.ingsw.network.message.Message;
 import it.polimi.ingsw.network.message.MessageSubType;
 import it.polimi.ingsw.network.message.MessageType;
+import it.polimi.ingsw.utils.ConfigLoader;
 import it.polimi.ingsw.utils.ConstantsContainer;
 import it.polimi.ingsw.utils.LobbyTimerTask;
 import it.polimi.ingsw.utils.Logger;
@@ -98,7 +99,7 @@ public class ClientHandler implements Runnable{
     public void startLobbyTimer(){
         lobbyTimer = new Timer();
         LobbyTimerTask task = new LobbyTimerTask(this,userID);
-        lobbyTimer.schedule(task, ConstantsContainer.MAXWAITTIME);
+        lobbyTimer.schedule(task, ConfigLoader.getLobbyTimer() * 1000);
     }
 
     public void stopLobbyTimer(){

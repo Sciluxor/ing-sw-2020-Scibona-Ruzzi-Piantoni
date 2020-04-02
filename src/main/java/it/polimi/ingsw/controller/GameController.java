@@ -124,10 +124,13 @@ public class GameController implements Observer<Message> {
             handleLobbyTimerEnded(message);
             return;
         }
-        disconnectPlayer(message);
+        if(message.getSubType().equals(MessageSubType.BACK)) //testare cosa succede se il back arriva mentre sta iniziando la partita, si deve gestire
+            if(!game.isGameStarted())
+                view.getConnection().startLobbyTimer();
+            else
+                return;
 
-        if(message.getSubType().equals(MessageSubType.BACK))
-            view.getConnection().startLobbyTimer();
+        disconnectPlayer(message);
 
         if(message.getSubType().equals(MessageSubType.REQUEST)) {
 
@@ -206,9 +209,6 @@ public class GameController implements Observer<Message> {
 
     }
 
-
-
-
     public void processMessage(Message message){
 
         switch (message.getType()){
@@ -226,8 +226,6 @@ public class GameController implements Observer<Message> {
 
 
     }
-
-
 
     @Override
     public void update(Message message) {

@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.network.message.*;
+import it.polimi.ingsw.utils.ConfigLoader;
 import it.polimi.ingsw.utils.ConstantsContainer;
 import it.polimi.ingsw.utils.Logger;
 import it.polimi.ingsw.view.Server.VirtualView;
@@ -28,13 +29,22 @@ public class Server {
     {
         Logger.info("Welcome to Santorini Server");
         Logger.info("Server is starting...");
-        Logger.info("Please choose a Port: ");
+        Logger.info("Please choose a Port (Default is 4700): ");
+
+        ConfigLoader.loadSetting();
 
         Scanner in = new Scanner(System.in);
-        int port = Integer.parseInt(in.next());
+        String port = in.nextLine();
+
+        int serverPort;
+
+        if(port.equals(""))
+            serverPort = ConfigLoader.getSocketPort();
+        else
+            serverPort = Integer.parseInt(port);
 
         Server server = new Server();
-        server.setSocketPort(port);
+        server.setSocketPort(serverPort);
         server.startSocketServer(server.getSocketPort());
     }
 
@@ -85,7 +95,6 @@ public class Server {
 
     public void insertPlayerInGame(Message message,ClientHandler connection,boolean isFirstTime){
         synchronized (clientsLock) {
-            Logger.info(Integer.toString(lobby.size()));
             String nick = message.getNickName();
             int numberOfPlayer = ((GameConfigMessage) message).getNumberOfPlayer();
 
