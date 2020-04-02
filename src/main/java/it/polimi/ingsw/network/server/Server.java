@@ -1,17 +1,20 @@
 package it.polimi.ingsw.network.server;
 
+import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.utils.ConstantsContainer;
 import it.polimi.ingsw.utils.Logger;
+import it.polimi.ingsw.view.Server.VirtualView;
 
 import java.io.IOException;
 import java.util.*;
 
-public class Server {//eliminare i match e fare un arraylist di Gamecontroller
+public class Server {
 
     private final Object clientsLock = new Object();
-    private ArrayList<Match> lobby = new ArrayList<>();
-    private ArrayList<Match> actualMatches = new ArrayList<>();
+    private ArrayList<GameController> lobby = new ArrayList<>();
+    private ArrayList<GameController> actualMatches = new ArrayList<>();
+    private HashMap<String, GameController> controllerFromGameID = new HashMap<>(); //implementare per riconnessione
     private Integer socketPort;
     private int numGameID;
     private int numUserID;
@@ -70,8 +73,8 @@ public class Server {//eliminare i match e fare un arraylist di Gamecontroller
 
     public void moveGameStarted(){
         synchronized(clientsLock) {
-            for (Match match : lobby) {
-                if (match.isStarted()) {
+            for (GameController match : lobby) {
+                if (isStarted(match)) {
                     lobby.remove(match);
                     actualMatches.add(match);
                     break;
@@ -92,36 +95,72 @@ public class Server {//eliminare i match e fare un arraylist di Gamecontroller
             String userID = ConstantsContainer.USERIDPREFIX + numUserID;
             numUserID ++;
             if(isFirstTime) {
-                for (Match match : lobby) {
-                    if (match.getNumberOfPlayer() == numberOfPlayer && !match.isFull()) {
-                        match.addPlayer(connection, message, userID);
+                for (GameController match : lobby) {
+                    if (getNumberOfPlayer(match) == numberOfPlayer && !isFull(match)) {
+                        addPlayer(match,connection, message, userID);
                         return;
                     }
                 }
             }
             else
             {
-                for (Match match : lobby) {
-                  if (match.getNumberOfPlayer() == numberOfPlayer && !match.isFull()) {
-                      if(match.checkNick(message)) {
-                          match.addPlayer(connection, message, userID);
+                for (GameController match : lobby) {
+                  if (getNumberOfPlayer(match) == numberOfPlayer && !isFull(match)) {
+                      if(checkNick(message,match)) {
+                          addPlayer(match,connection, message, userID);
                           return;
                       }
                 }
             }
 
             }
-            Match match = newMatch(numberOfPlayer);
-            match.addPlayer(connection,message,userID);
+            GameController match = newMatch(numberOfPlayer);
+            addPlayer(match,connection,message,userID);
 
         }
     }
 
+    public int getNumberOfPlayer(GameController controller) {
+        return controller.getNumberOfPlayers();
+    }
 
-    public Match newMatch(int numberOfPlayer){
+
+
+    public void sendMsgToVirtualView(Message msg, VirtualView view) {
+        view.processMessageReceived(msg);
+    }
+
+    public void addPlayer(GameController controller,ClientHandler connection,Message message,String userID){
+        VirtualView view = new VirtualView(connection,controller);
+        ((GameConfigMessage) message).setView(view);
+        connection.setView(view);
+        connection.setViewActive(true);
+        view.addObservers(controller);
+        connection.setUserID(userID);
+        controller.addUserID(view,userID);
+        sendMsgToVirtualView(message,view);
+
+    }
+
+    public boolean isFull(GameController controller)
+    {
+        return controller.isFull();
+    }
+
+    public boolean isStarted(GameController controller){
+        return controller.isGameStarted();
+    }
+
+    public boolean checkNick(Message message, GameController controller){
+        String nick = message.getNickName();
+        return controller.isFreeNick(nick);
+    }
+
+
+    public GameController newMatch(int numberOfPlayer){
         String gameID = ConstantsContainer.GAMEIDPREFIX + numGameID;
         numGameID++;
-        Match match = new Match(numberOfPlayer,gameID);
+        GameController match = new GameController(numberOfPlayer,gameID);
         lobby.add(match);
         return match;
 

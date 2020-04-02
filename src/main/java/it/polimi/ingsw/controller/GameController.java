@@ -6,7 +6,6 @@ import it.polimi.ingsw.model.Response;
 import it.polimi.ingsw.network.message.GameConfigMessage;
 import it.polimi.ingsw.network.message.Message;
 import it.polimi.ingsw.network.message.MessageSubType;
-import it.polimi.ingsw.utils.Logger;
 import it.polimi.ingsw.utils.Observer;
 import it.polimi.ingsw.view.Server.VirtualView;
 

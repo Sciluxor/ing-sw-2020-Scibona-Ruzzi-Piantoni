@@ -58,6 +58,14 @@ public class ClientHandler implements Runnable{
         isViewActive = active;
     }
 
+    public VirtualView getView() {
+        return view;
+    }
+
+    public void setView(VirtualView view) {
+        this.view = view;
+    }
+
     public void sendMessage(Message msg){//fare un'altra funzione per mandare in asincrono i messaggi
 
         try {
