@@ -14,7 +14,7 @@ public class Server {
     private final Object clientsLock = new Object();
     private ArrayList<GameController> lobby = new ArrayList<>();
     private ArrayList<GameController> actualMatches = new ArrayList<>();
-    private HashMap<String, GameController> controllerFromGameID = new HashMap<>(); //implementare per riconnessione
+    private HashMap<String, GameController> controllerFromGameID = new HashMap<>();
     private Integer socketPort;
     private int numGameID;
     private int numUserID;
@@ -124,7 +124,9 @@ public class Server {
         return controller.getNumberOfPlayers();
     }
 
-
+    public GameController getControllerFromGameID(String gameId){
+        return controllerFromGameID.get(gameId);
+    }
 
     public void sendMsgToVirtualView(Message msg, VirtualView view) {
         view.processMessageReceived(msg);
@@ -156,12 +158,12 @@ public class Server {
         return controller.isFreeNick(nick);
     }
 
-
     public GameController newMatch(int numberOfPlayer){
         String gameID = ConstantsContainer.GAMEIDPREFIX + numGameID;
         numGameID++;
         GameController match = new GameController(numberOfPlayer,gameID);
         lobby.add(match);
+        controllerFromGameID.put(gameID,match);
         return match;
 
     }}

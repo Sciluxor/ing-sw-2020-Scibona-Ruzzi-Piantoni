@@ -17,8 +17,6 @@ public class ConstantsContainer {
     public static final String GAMEIDPREFIX = "GID";
     public static final String USERIDPREFIX = "UID";
 
-
-
     //Lobby
     public static final int MAX_LENGHT_NICK = 20;
     public static final int MIN_LENGHT_NICK = 4;

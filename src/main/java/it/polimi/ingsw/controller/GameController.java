@@ -16,16 +16,14 @@ import java.util.Timer;
 public class GameController implements Observer<Message> {
 
     private Game game;
-    private int numberOfPlayers;
     private HashMap<String, VirtualView> clients;
     private Timer turnTimer ;
     private Timer reconnectionTimer;
     private RoundController roundController;
 
     public GameController(int numberOfPlayer,String gameID) {
-        this.numberOfPlayers = numberOfPlayer;
         this.roundController = new RoundController();
-        this.game = initializeGame(gameID);
+        this.game = initializeGame(numberOfPlayer,gameID);
         this.clients = new HashMap<>();
     }
 
@@ -67,7 +65,7 @@ public class GameController implements Observer<Message> {
         checkIfGameCanStart();
     }
 
-    public boolean checkIfGameCanStart(){
+    public void checkIfGameCanStart(){
         if(game.getSettedPlayers().size() == game.getNumberOfPlayers() && game.getConfigPlayer() == 0) {
             game.setGameStarted(true);
 
@@ -80,9 +78,7 @@ public class GameController implements Observer<Message> {
             for(VirtualView values :clients.values()){
                 values.setYourTurn(false);
             }
-            return true;
         }
-        return false;
     }
 
     public synchronized boolean isGameStarted(){
@@ -90,7 +86,7 @@ public class GameController implements Observer<Message> {
     }
 
 
-    public synchronized Game initializeGame(String gameID){
+    public synchronized Game initializeGame(int numberOfPlayers, String gameID){
 
         return new Game(numberOfPlayers,gameID);
     }
