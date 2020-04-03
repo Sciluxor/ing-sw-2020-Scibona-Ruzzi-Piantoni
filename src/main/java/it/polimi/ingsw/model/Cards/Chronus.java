@@ -20,7 +20,7 @@ public class Chronus extends Card {
             throw new NullPointerException("null gameMap or player");
 
         if(countTower(gameMap))
-            return Response.WINTOWERS;
+            return Response.BUILDWIN;
         if (!player.getTurnStatus().equals(TurnStatus.IDLE) && player.getCurrentWorker().getBoardPosition().getBuildingLevel() == 3 && player.getCurrentWorker().getPreviousBoardPosition().getBuildingLevel() == 2)
             return  Response.WIN;
         return Response.NOTWIN;

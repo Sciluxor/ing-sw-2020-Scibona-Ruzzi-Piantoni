@@ -165,6 +165,10 @@ public class Player {
         return !checkIfCanMove(gameMap, workers.get(0)) && !checkIfCanMove(gameMap, workers.get(1));
     }
 
+    public Response getFirstAction(){
+        return power.getFirstAction();
+    }
+
     public ArrayList<Directions> findWorkerMove(GameMap gameMap, Worker worker){
         if (gameMap == null || worker == null)
             throw new NullPointerException("gameMap or worker == null");

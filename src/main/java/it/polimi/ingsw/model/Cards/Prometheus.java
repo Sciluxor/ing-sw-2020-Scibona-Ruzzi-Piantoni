@@ -23,7 +23,7 @@ public class Prometheus extends Card {
     }
 
     @Override
-    public Response getFirstOperation() {
+    public Response getFirstAction() {
         return Response.BUILDBEFORE;
     }
 

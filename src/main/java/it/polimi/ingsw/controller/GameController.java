@@ -22,9 +22,9 @@ public class GameController implements Observer<Message> {
     private RoundController roundController;
 
     public GameController(int numberOfPlayer,String gameID) {
-        this.roundController = new RoundController();
         this.game = initializeGame(numberOfPlayer,gameID);
         this.clients = new HashMap<>();
+        this.roundController = new RoundController(game);
     }
 
     //
@@ -124,7 +124,7 @@ public class GameController implements Observer<Message> {
             handleLobbyTimerEnded(message);
             return;
         }
-        if(message.getSubType().equals(MessageSubType.BACK)) //testare cosa succede se il back arriva mentre sta iniziando la partita, si deve gestire
+        if(message.getSubType().equals(MessageSubType.BACK)) //testare cosa succede se il back o il close arriva mentre sta iniziando la partita, si deve gestire
             if(!game.isGameStarted())
                 view.getConnection().startLobbyTimer();
             else
@@ -195,17 +195,15 @@ public class GameController implements Observer<Message> {
 
     public void removeNonPermanentConstraint(){
 
-
     }
 
     public void handleEndTun(){
 
-
     }
-
 
     public void sendToRoundController(Message message){
 
+        roundController.processRoundEvent(message);
 
     }
 

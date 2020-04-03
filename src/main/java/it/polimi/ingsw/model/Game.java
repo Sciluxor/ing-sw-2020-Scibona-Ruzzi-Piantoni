@@ -25,6 +25,10 @@ public class Game extends Observable<Response> {
     private Response gameStatus;
     private String gameID;
 
+    private boolean hasWinner;
+    private Player winner;
+    //private colors =
+
     public Game(int numberOfPlayers, String gameID) {
 
         settedPlayers = new ArrayList<>();
@@ -33,6 +37,7 @@ public class Game extends Observable<Response> {
         deck = CardLoader.loadCards();
         gameMap = new GameMap();
         isGameStarted = false;
+        hasWinner = false;
         this.gameID = gameID;
     }
 
@@ -57,6 +62,22 @@ public class Game extends Observable<Response> {
 
     public int getConfigPlayer() {
         return configPlayer;
+    }
+
+    public boolean isHasWinner() {
+        return hasWinner;
+    }
+
+    public void setHasWinner(boolean hasWinner) {
+        this.hasWinner = hasWinner;
+    }
+
+    public Player getWinner() {
+        return winner;
+    }
+
+    public void setWinner(Player winner) {
+        this.winner = winner;
     }
 
     public boolean addPlayer(Player player, VirtualView actualView){

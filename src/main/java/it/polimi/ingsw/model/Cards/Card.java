@@ -7,9 +7,10 @@ import it.polimi.ingsw.model.Player.Player;
 import it.polimi.ingsw.model.Player.Worker;
 import it.polimi.ingsw.model.Response;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Card {
+public class Card implements Serializable {
 
     private String name;
     private String description;
@@ -47,7 +48,7 @@ public class Card {
         return subType;
     }
 
-    public Response getFirstOperation(){
+    public Response getFirstAction(){
         return Response.TOMOVE;
 
     }

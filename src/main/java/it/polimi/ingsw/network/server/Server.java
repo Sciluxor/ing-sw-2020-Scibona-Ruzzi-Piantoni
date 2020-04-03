@@ -23,8 +23,8 @@ public class Server {
     private Server(){
         numGameID = 0;
         numUserID = 0;
-
     }
+
     public static void main( String[] args )
     {
         Logger.info("Welcome to Santorini Server");

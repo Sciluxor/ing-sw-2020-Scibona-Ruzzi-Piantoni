@@ -4,10 +4,11 @@ import it.polimi.ingsw.model.Player.Player;
 import it.polimi.ingsw.model.Player.Worker;
 import javafx.util.Pair;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-public class Square {
+public class Square implements Serializable{
 
 
     private Integer tile;

@@ -16,7 +16,8 @@ public class GameMap {
 
     private ArrayList<Square> gameMap;
     private HashMap<Worker, Square> workersPosition;
-    private Square [][]linkToCoordinates = new Square[25][25];
+    private Square [][]linkToCoordinates = new Square[25][25]; // mettere come costanti
+    private ArrayList<Square> modifiedSquare = new ArrayList<>();
 
     public GameMap() {
         this.gameMap = MapLoader.loadMap();
@@ -47,7 +48,7 @@ public class GameMap {
 
           for(Directions dir: Directions.values()){
               int squareTile  =canAccess.get(dir);
-              if(squareTile > 0 && squareTile <= 25) { //rivedere questo if
+              if(squareTile > 0 && squareTile <= 25) { //mettere come costanti
                   Square possibleSquare = gameMap.get(squareTile- 1);
                   if(!possibleSquare.hasPlayer() && (possibleSquare.getBuildingLevel() >= 0 && possibleSquare.getBuildingLevel() <= level_position +1 && !worker.getBoardPosition().equals(possibleSquare) )
                           && possibleSquare.getBuilding() != Building.DOME ){
