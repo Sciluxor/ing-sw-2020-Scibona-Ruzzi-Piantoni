@@ -78,6 +78,7 @@ public class GameController implements Observer<Message> {
             for(VirtualView values :clients.values()){
                 values.setYourTurn(false);
             }
+            handleMatchBeginning();
         }
     }
 
@@ -181,33 +182,42 @@ public class GameController implements Observer<Message> {
     //methods for Game handling
     //
 
-    public void handleMatchBeginning(){
+    public synchronized void handleMatchBeginning(){
+        Player challenger = game.pickChallenger();
+        getViewFromNickName(challenger.getNickname()).setYourTurn(true);
+        game.setGameStatus(Response.CHALLENGERCHOICE);
+        //add also the choice of the first player that start the match
+    }
+
+    public void handleChallengerChoice(){
 
     }
 
-    public void handleTurnBeginning(){
+    public void handleTurnBeginning(){//to start timer
 
     }
 
-    public void handleWorkerChoice(){
 
+    public void handleEndTun(){//to stop timer
+         //begin the turn of the next player
     }
 
-    public void removeNonPermanentConstraint(){
-
-    }
-
-    public void handleEndTun(){
-
-    }
-
-    public void sendToRoundController(Message message){
+    public synchronized void sendToRoundController(Message message){
 
         roundController.processRoundEvent(message);
 
     }
 
+    public void startRoundTimer(){
+
+    }
+
+    public void stopRoundTimer(){
+
+    }
+
     public void processMessage(Message message){
+
 
         switch (message.getType()){
             case CONFIG:
@@ -219,8 +229,30 @@ public class GameController implements Observer<Message> {
             case DISCONNECTION:
                 handleDisconnectionBeforeStart(message);
                 break;
+            case ENDTURN:
+                //add method
+                break;
+            case CARDCHOICE:
+                //add method
+                break;
+            case FIRSTPLAYERCHOICE:
+                //add method
+                break;
+            case POWERCHOICE:
+                //add method
+                break;
+            case PLACEWORKERS:
+                //add method
+                break;
             default:
+                if(!getViewFromUserID(message.getSender()).isYourTurn()){
+                    //not your turn to check, throw illegal state exception
+                    return;
+                }
+                sendToRoundController(message);
+                break;
         }
+
 
 
     }
