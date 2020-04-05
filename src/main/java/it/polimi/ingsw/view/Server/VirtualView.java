@@ -20,7 +20,6 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
     public VirtualView(ClientHandler connection,GameController controller) {
         this.connection = connection;
         this.controller = controller;
-
     }
 
     public ClientHandler getConnection() {

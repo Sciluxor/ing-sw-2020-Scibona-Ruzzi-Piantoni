@@ -253,8 +253,6 @@ public class GameController implements Observer<Message> {
                 break;
         }
 
-
-
     }
 
     @Override

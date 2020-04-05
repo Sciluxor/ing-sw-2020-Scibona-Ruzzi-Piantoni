@@ -14,6 +14,7 @@ public class Player {
 
     private String nickname;
     private Card power;
+    private Color color;
     private TurnStatus turnStatus;
     private ArrayList<Card> constraint;
     private ArrayList<Worker> workers;
@@ -29,6 +30,14 @@ public class Player {
 
         workers.add(new Worker(WorkerName.WORKER1));
         workers.add(new Worker(WorkerName.WORKER2));
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
     }
 
     //

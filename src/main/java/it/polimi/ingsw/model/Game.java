@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.Cards.Card;
 import it.polimi.ingsw.model.Cards.CardLoader;
 import it.polimi.ingsw.model.Map.GameMap;
 import it.polimi.ingsw.model.Map.Square;
+import it.polimi.ingsw.model.Player.Color;
 import it.polimi.ingsw.model.Player.Player;
 import it.polimi.ingsw.model.Player.PlayerQueue;
 import it.polimi.ingsw.utils.Logger;
@@ -96,6 +97,7 @@ public class Game extends Observable<Response> {
                 return false;
             }
         }
+        player.setColor(Color.values()[settedPlayers.size()]);
         settedPlayers.add(player);
         return true;
     }
