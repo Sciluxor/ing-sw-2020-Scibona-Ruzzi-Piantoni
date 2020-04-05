@@ -31,8 +31,11 @@ public class Apollo extends Card {
             throw new NullPointerException("null gameMap or player or direction");
 
         int wantToAccess = player.getCurrentWorker().getBoardPosition().getCanAccess().get(directions);
-        if(gameMap.getGameMap().get(wantToAccess).hasPlayer())
+        if(gameMap.getGameMap().get(wantToAccess).hasPlayer()){
+            gameMap.addModifiedSquare(player.getCurrentWorker().getBoardPosition());
+            gameMap.addModifiedSquare(gameMap.getGameMap().get(wantToAccess- 1).getWorker().getBoardPosition());
             swapWorker(player.getCurrentWorker().getBoardPosition(), gameMap.getGameMap().get(wantToAccess- 1).getWorker().getBoardPosition());
+        }
         else
             gameMap.moveWorkerTo(player, directions);
 
@@ -61,6 +64,7 @@ public class Apollo extends Card {
     public void swapWorker(Square square1, Square square2) {
         Player playerTemp = square1.getPlayer();
         Worker workerTemp = square1.getWorker();
+
         square1.setWorker(square2.getWorker());
         square1.getWorker().setPreviousBoardPosition(square2);
         square1.getWorker().setBoardPosition(square1);

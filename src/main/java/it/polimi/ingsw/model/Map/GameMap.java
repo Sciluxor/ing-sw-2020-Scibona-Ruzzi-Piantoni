@@ -157,7 +157,7 @@ return reachableSquares;
     }
 
 
-    public void setModifiedSquare(Square square){
+    public void addModifiedSquare(Square square){
         this.modifiedSquare.add(square);
     }
 
