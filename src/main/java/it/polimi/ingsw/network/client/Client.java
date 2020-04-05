@@ -261,4 +261,20 @@ public class Client {
         }).start();
     }
 
+    public static void clearShell() {
+        try{
+            String os = System.getProperty("os.name").toLowerCase();
+            String command;
+            if(os.contains("win")) {
+                Runtime.getRuntime().exec("cls");
+            }
+            else {
+                Runtime.getRuntime().exec("clear");
+            }
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
