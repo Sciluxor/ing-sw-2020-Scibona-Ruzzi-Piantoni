@@ -155,4 +155,13 @@ return reachableSquares;
 
         return tile <= ConstantsContainer.PERIMETERPOSITION;
     }
+
+
+    public void setModifiedSquare(Square square){
+        this.modifiedSquare.add(square);
+    }
+
+    public ArrayList<Square> getModifiedSquare() {
+        return modifiedSquare;
+    }
 }
