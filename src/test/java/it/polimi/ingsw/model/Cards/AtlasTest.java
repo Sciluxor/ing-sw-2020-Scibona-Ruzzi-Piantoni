@@ -51,16 +51,25 @@ class AtlasTest {
         assertThrows(NullPointerException.class , () -> cardAtlas.executeBuild(gameMap, Building.LVL1, Directions.NORD, null));
 
         assertEquals(cardAtlas.executeBuild(gameMap, Building.LVL1, Directions.NORD, player1.getCurrentWorker()), Response.BUILD);
+        assertEquals(gameMap.getModifiedSquare().get(0), gameMap.getGameMap().get(23));
         assertEquals(cardAtlas.executeBuild(gameMap, Building.LVL2, Directions.OVEST, player1.getCurrentWorker()), Response.NOTBUILD);
         assertEquals(cardAtlas.executeBuild(gameMap, Building.LVL3, Directions.SUD_OVEST, player1.getCurrentWorker()), Response.NOTBUILD);
         assertEquals(cardAtlas.executeBuild(gameMap, Building.DOME, Directions.SUD, player1.getCurrentWorker()), Response.BUILD);
+        assertEquals(gameMap.getModifiedSquare().get(0), gameMap.getGameMap().get(11));
         assertEquals(cardAtlas.executeBuild(gameMap, Building.LVL1, Directions.OVEST, player1.getCurrentWorker()), Response.BUILD);
+        assertEquals(gameMap.getModifiedSquare().get(0), gameMap.getGameMap().get(13));
         assertEquals(cardAtlas.executeBuild(gameMap, Building.LVL1, Directions.SUD_OVEST, player1.getCurrentWorker()), Response.BUILD);
+        assertEquals(gameMap.getModifiedSquare().get(0), gameMap.getGameMap().get(12));
         assertEquals(cardAtlas.executeBuild(gameMap, Building.LVL2, Directions.OVEST, player1.getCurrentWorker()), Response.BUILD);
+        assertEquals(gameMap.getModifiedSquare().get(0), gameMap.getGameMap().get(13));
         assertEquals(cardAtlas.executeBuild(gameMap, Building.LVL2, Directions.SUD_OVEST, player1.getCurrentWorker()), Response.BUILD);
+        assertEquals(gameMap.getModifiedSquare().get(0), gameMap.getGameMap().get(12));
         assertEquals(cardAtlas.executeBuild(gameMap, Building.LVL3, Directions.OVEST, player1.getCurrentWorker()), Response.BUILD);
+        assertEquals(gameMap.getModifiedSquare().get(0), gameMap.getGameMap().get(13));
         assertEquals(cardAtlas.executeBuild(gameMap, Building.DOME, Directions.OVEST, player1.getCurrentWorker()), Response.BUILD);
+        assertEquals(gameMap.getModifiedSquare().get(0), gameMap.getGameMap().get(13));
         assertEquals(cardAtlas.executeBuild(gameMap, Building.DOME, Directions.SUD_OVEST, player1.getCurrentWorker()), Response.BUILD);
+        assertEquals(gameMap.getModifiedSquare().get(0), gameMap.getGameMap().get(12));
 
     }
 }

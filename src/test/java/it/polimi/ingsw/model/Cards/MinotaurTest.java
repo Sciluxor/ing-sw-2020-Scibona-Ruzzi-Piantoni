@@ -58,11 +58,19 @@ class MinotaurTest {
         assertThrows(NullPointerException.class , () -> cardMino.executeWorkerMove(gameMap, Directions.OVEST, null));
 
         assertEquals(cardMino.executeWorkerMove(gameMap, Directions.NORD, player1), Response.MOVED);
+        assertEquals(player1.getCurrentWorker().getBoardPosition(), gameMap.getGameMap().get(23));
+        assertEquals(gameMap.getModifiedSquare().get(0), gameMap.getGameMap().get(22));
+        assertEquals(gameMap.getModifiedSquare().get(1), gameMap.getGameMap().get(23));
         assertEquals(cardMino.executeWorkerMove(gameMap, Directions.SUD, player1), Response.MOVED);
         assertEquals(player1.getCurrentWorker().getBoardPosition(), gameMap.getGameMap().get(22));
+        assertEquals(gameMap.getModifiedSquare().get(0), gameMap.getGameMap().get(23));
+        assertEquals(gameMap.getModifiedSquare().get(1), gameMap.getGameMap().get(22));
         assertEquals(cardMino.executeWorkerMove(gameMap, Directions.EST, player1), Response.MOVED);
         assertEquals(player1.getCurrentWorker().getBoardPosition(), gameMap.getGameMap().get(21));
         assertEquals(player2.getCurrentWorker().getBoardPosition(), gameMap.getGameMap().get(20));
+        assertEquals(gameMap.getModifiedSquare().get(0), gameMap.getGameMap().get(22));
+        assertEquals(gameMap.getModifiedSquare().get(1), gameMap.getGameMap().get(21));
+        assertEquals(gameMap.getModifiedSquare().get(2), gameMap.getGameMap().get(20));
 
     }
 }
