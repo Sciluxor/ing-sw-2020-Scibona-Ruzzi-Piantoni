@@ -40,8 +40,8 @@ class PrometheusTest {
     }
 
     @Test
-    void getFirstOperation() {
-        assertEquals(cardPro.getFirstOperation(), Response.BUILDBEFORE);
+    void getFirstAction() {
+        assertEquals(cardPro.getFirstAction(), Response.BUILDBEFORE);
 
     }
 

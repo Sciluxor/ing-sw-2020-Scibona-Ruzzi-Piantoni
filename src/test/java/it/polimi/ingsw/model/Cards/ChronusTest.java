@@ -113,7 +113,7 @@ class ChronusTest {
         gameMap.getGameMap().get(15).setBuilding(Building.DOME);
         gameMap.getGameMap().get(15).addBuildingLevel();
 
-        assertEquals(cardChro.checkVictory(gameMap, player1), Response.WINTOWERS);
+        assertEquals(cardChro.checkVictory(gameMap, player1), Response.BUILDWIN);
 
     }
 }

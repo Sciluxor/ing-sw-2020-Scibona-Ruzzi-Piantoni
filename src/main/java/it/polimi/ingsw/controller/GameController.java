@@ -66,7 +66,7 @@ public class GameController implements Observer<Message> {
     }
 
     public void checkIfGameCanStart(){
-        if(game.getSettedPlayers().size() == game.getNumberOfPlayers() && game.getConfigPlayer() == 0) {
+        if(game.getPlayers().size() == game.getNumberOfPlayers() && game.getConfigPlayer() == 0) {
             game.setGameStarted(true);
 
             for(VirtualView values :clients.values()){
@@ -105,7 +105,7 @@ public class GameController implements Observer<Message> {
     }
 
     public synchronized boolean isFull(){
-        return (game.getSettedPlayers().size()+game.getConfigPlayer()) == game.getNumberOfPlayers();
+        return (game.getPlayers().size()+game.getConfigPlayer()) == game.getNumberOfPlayers();
     }
 
     public String getGameID(){

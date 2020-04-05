@@ -92,8 +92,8 @@ class CardTest {
     }
 
     @Test
-    void getFirstOperation() {
-        assertEquals(cardA.getFirstOperation(), Response.TOMOVE);
+    void getFirstAction() {
+        assertEquals(cardA.getFirstAction(), Response.TOMOVE);
     }
 
     @Test

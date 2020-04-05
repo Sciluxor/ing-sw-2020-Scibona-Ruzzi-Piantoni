@@ -105,7 +105,7 @@ public class RoundController {
     }
 
     public void handleConstraint() {
-        game.getCurrentPlayer().assignConstraint(game.getSettedPlayers());
+        game.getCurrentPlayer().assignConstraint(game.getPlayers());
         game.setGameStatus(Response.ASSIGNEDCONSTRAINT);
         mapNextAction(Response.ASSIGNEDCONSTRAINT);
 
@@ -154,7 +154,7 @@ public class RoundController {
     public void checkBuildVictory(){
         Response response = Response.NOTBUILDWIN;
 
-        for(Player player: game.getSettedPlayers()){
+        for(Player player: game.getPlayers()){
             if(player.getPower().getType().equals(CardType.BUILDVICTORY) && player.getPower().getSubType().equals(CardSubType.NORMAL)){
                 response = game.getCurrentPlayer().checkVictory(game.getGameMap());
                 if(response.equals(Response.BUILDWIN)) {
