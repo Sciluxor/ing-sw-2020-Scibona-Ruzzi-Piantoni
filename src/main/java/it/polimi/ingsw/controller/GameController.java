@@ -82,6 +82,15 @@ public class GameController implements Observer<Message> {
         }
     }
 
+    public synchronized ArrayList<Player> getActualPlayers(){
+
+        return game.getPlayers();
+    }
+
+    public synchronized Player getNewPlayer(){
+        return game.getPlayers().get(game.getPlayers().size() -1);
+    }
+
     public synchronized boolean isGameStarted(){
         return game.isGameStarted();
     }

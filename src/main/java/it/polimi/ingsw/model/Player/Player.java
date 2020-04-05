@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.Response;
 import it.polimi.ingsw.model.Map.Building;
 import it.polimi.ingsw.model.Map.Directions;
 import it.polimi.ingsw.model.Map.GameMap;
+import it.polimi.ingsw.utils.Logger;
 
 import java.util.ArrayList;
 
@@ -44,7 +45,10 @@ public class Player {
     //function that return the nickname of the player
     //
 
-    public String getNickname() { return nickname;}
+    public String getNickname() {
+        Logger.info("here8");
+        return nickname;
+    }
 
     //
     //function that return the power of the player

@@ -1,6 +1,8 @@
 package it.polimi.ingsw.network.client;
 
 import it.polimi.ingsw.network.message.*;
+import it.polimi.ingsw.utils.ConfigLoader;
+import it.polimi.ingsw.utils.ConsoleColor;
 import it.polimi.ingsw.utils.ConstantsContainer;
 import it.polimi.ingsw.utils.Logger;
 import java.io.*;
@@ -62,6 +64,7 @@ public class Client {
 
         Client client = new Client();
         Scanner scanner = new Scanner(System.in);
+        ConsoleColor.loadColor();
         client.setClientSocket(ip, port);
         Socket clientSocket = client.getClientSocket();
 
@@ -109,11 +112,31 @@ public class Client {
 
             } else if (output.getType().equals(MessageType.WAITPLAYER) && output.getSubType().equals(MessageSubType.UPDATE)) {
                 setUserID(output.getMessage());
+                System.out.println(System.getProperty("os.name"));
+                Logger.info("\nYou have been inserted in match, waiting for other players to join. Type \"close\" to stop the server, or \"back\" to go back to modality selection.");
+                Logger.info("\nActual Players:");
+                for(int i = 0; i < ((WaitPlayerMessage) output).getNickNames().size();i++){
+                    String color = ConsoleColor.getColor(((WaitPlayerMessage) output).getColors().get(i));
+                    String nickName = ((WaitPlayerMessage) output).getNickNames().get(i);
+                    System.out.println(color + nickName + ConsoleColor.RESET);
+
+                }
+                client.closeClientIfRequestedAsynchronously(out,client);
+
+            }
+            else if (output.getType().equals(MessageType.WAITPLAYER) && output.getSubType().equals(MessageSubType.NEWPLAYER)) {
+                setUserID(output.getMessage());
                 Logger.info("\nYou have been inserted in match, waiting for other players to join. Type \"close\" to stop the server, or \"back\" to go back to modality selection.");
                 client.closeClientIfRequestedAsynchronously(out,client);
 
-            } else if (output.getType().equals(MessageType.GAMESTART) && output.getSubType().equals(MessageSubType.UPDATE)) {
+            }else if (output.getType().equals(MessageType.GAMESTART) && output.getSubType().equals(MessageSubType.UPDATE)) {
                 client.setGameStarted(true);
+                try {
+                    Thread.currentThread().sleep(200);
+                }catch (InterruptedException inter){
+                    throw new InterruptedException("error in thread");
+                }
+
                 Logger.info("\nYour game is starting now. Number of total player -> " + ((GameStartedMessage) output).getPlayersNumber() + "\n" + "Your gameID is: " + ((GameStartedMessage)output).getGameID() + "\n");
 
             } else if (output.getType().equals(MessageType.DISCONNECTION) && output.getSubType().equals(MessageSubType.SETTED)) {
@@ -139,11 +162,16 @@ public class Client {
             }
 
             out.reset();
-        }catch (IOException e){
+        }catch (IOException | InterruptedException e){
             Logger.info("\nApp Disconnected");
         }
 
 
+    }
+
+    public static void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
 
 
