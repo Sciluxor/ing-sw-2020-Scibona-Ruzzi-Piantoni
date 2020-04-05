@@ -1,4 +1,4 @@
-/*
+
 
 package it.polimi.ingsw.model;
 
@@ -6,6 +6,7 @@ import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.model.Cards.Card;
 import it.polimi.ingsw.model.Cards.CardLoader;
 import it.polimi.ingsw.model.Map.GameMap;
+import it.polimi.ingsw.model.Player.Color;
 import it.polimi.ingsw.model.Player.Player;
 import it.polimi.ingsw.model.Player.PlayerQueue;
 import it.polimi.ingsw.network.server.ClientHandler;
@@ -22,8 +23,8 @@ class GameTest {
 
     ArrayList<VirtualView> players;
     ClientHandler connection1, connection2, connection3;
-    VirtualView player1, player2, player3;
-    Player player4, player5, player6;
+    VirtualView viewPlayer1, viewPlayer2, viewPlayer3, viewPlayer4;
+    Player player1, player2, player3, player4, player5, player6;
     Card cardApollo, cardAthena, cardAtlas;
     Game game;
     HashMap<String, Card> deck;
@@ -31,30 +32,31 @@ class GameTest {
 
     @BeforeEach
     void setup(){
-        GameController controller = new GameController(3,"1")
-        player1 = new VirtualView(connection1, "uno",controller);
-        player2 = new VirtualView(connection2, "due",controller);
-        player3 = new VirtualView(connection3, "tre",controller);
+        GameController controller = new GameController(3,"1");
+        viewPlayer1 = new VirtualView(connection1, controller);
+        viewPlayer2 = new VirtualView(connection2, controller);
+        viewPlayer3 = new VirtualView(connection3, controller);
+        viewPlayer4 = new VirtualView(connection3, controller);
+        player1 = new Player("uno");
+        player2 = new Player("due");
+        player3 = new Player("tre");
         player4 = new Player("quattro");
         cardApollo = CardLoader.loadCards().get("Apollo");
         cardAthena = CardLoader.loadCards().get("Athena");
         cardAtlas = CardLoader.loadCards().get("Atlas");
-        player1.getPlayer().setPower(cardApollo);
-        player2.getPlayer().setPower(cardAthena);
-        player3.getPlayer().setPower(cardAtlas);
+        player1.setPower(cardApollo);
+        player2.setPower(cardAthena);
+        player3.setPower(cardAtlas);
         players = new ArrayList<>();
-        players.add(player1);
-        players.add(player2);
-        players.add(player3);
         deck = CardLoader.loadCards();
-        game = new Game(players, 3, "G01");
+        game = new Game(3, "G01");
         gameMap = new GameMap();
     }
 
     @Test
     void getNumberOfPlayers() {
         assertEquals(game.getNumberOfPlayers(), 3);
-        game = new Game(players, 2, "G02");
+        game = new Game(2, "G02");
         assertEquals(game.getNumberOfPlayers(), 2);
     }
 
@@ -69,34 +71,124 @@ class GameTest {
 
     @Test
     void getPlayers() {
+        assertEquals(game.getPlayers().size(), 0);
+        game.addPlayer(player1, viewPlayer1);
+        game.addPlayer(player2, viewPlayer2);
+        game.addPlayer(player3, viewPlayer3);
         assertEquals(game.getPlayers().size(), 3);
-        assertEquals(game.getPlayers().get(0), player1.getPlayer());
-        assertEquals(game.getPlayers().get(1), player2.getPlayer());
-        assertEquals(game.getPlayers().get(2), player3.getPlayer());
+        assertEquals(game.getPlayers().get(0), player1);
+        assertEquals(game.getPlayers().get(1), player2);
+        assertEquals(game.getPlayers().get(2), player3);
+    }
+
+    @Test
+    void getConfigPlayer() {
+        assertEquals(game.getConfigPlayer(), 0);
+        game.addPlayer(player1, viewPlayer1);
+        game.addPlayer(player1, viewPlayer1);
+        assertEquals(game.getConfigPlayer(), 1);
+        game.addPlayer(player1, viewPlayer1);
+        assertEquals(game.getConfigPlayer(), 2);
+    }
+
+    @Test
+    void isHasWinner() {
+        assertFalse(game.isHasWinner());
+        game.setHasWinner(true);
+        assertTrue(game.isHasWinner());
+    }
+
+    @Test
+    void setHasWinner() {
+        assertFalse(game.isHasWinner());
+        game.setHasWinner(true);
+        assertTrue(game.isHasWinner());
+    }
+
+    @Test
+    void getWinner() {
+        assertNull(game.getWinner());
+        game.setWinner(player4);
+        assertEquals(game.getWinner(), player4);
+    }
+
+    @Test
+    void setWinner() {
+        assertNull(game.getWinner());
+        game.setWinner(player4);
+        assertEquals(game.getWinner(), player4);
     }
 
     @Test
     void addPlayer() {
+        assertThrows(NullPointerException.class , () -> game.setNumberOfPlayers(null));
+        game.addPlayer(player1, viewPlayer1);
+        assertEquals(game.getPlayers().size(), 1);
+        assertEquals(game.getPlayers().get(0), player1);
+        assertFalse(game.addPlayer(player1, viewPlayer1));
+        game.removeConfigPlayer();
+        game.addPlayer(player2, viewPlayer2);
+        game.addPlayer(player3, viewPlayer3);
+        assertEquals(game.getPlayers().size(), 3);
+        assertEquals(game.getPlayers().get(2), player3);
+        assertEquals(game.getPlayers().get(0).getColor(), Color.PURPLE);
+        assertEquals(game.getPlayers().get(1).getColor(), Color.WHITE);
+        assertEquals(game.getPlayers().get(2).getColor(), Color.BLUE);
         try{
-            game.addPlayer(player4);
-            fail("Should throws IllegalStateException");
-        }
-        catch (IllegalStateException ex){
-            assertEquals("game already started", ex.getMessage());
-        }
-        game.setGameStarted(false);
-        try{
-            game.addPlayer(player4);
+            game.addPlayer(player4, viewPlayer4);
             fail("Should throws IllegalStateException");
         }
         catch (IllegalStateException ex){
             assertEquals("too much player", ex.getMessage());
         }
-        game.setNumberOfPlayers(4);
-        assertThrows(NullPointerException.class , () -> game.setNumberOfPlayers(null));
-        game.addPlayer(player4);
-        assertEquals(game.getPlayers().size(), 4);
-        assertEquals(game.getPlayers().get(3), player4);
+        game.setGameStarted(true);
+        try{
+            game.addPlayer(player4, viewPlayer4);
+            fail("Should throws IllegalStateException");
+        }
+        catch (IllegalStateException ex){
+            assertEquals("game already started", ex.getMessage());
+        }
+    }
+
+    @Test
+    void removeSettedPlayer() {
+        game.addPlayer(player1, viewPlayer1);
+        assertEquals(game.getPlayers().size(), 1);
+        assertEquals(game.getPlayers().get(0), player1);
+        game.addPlayer(player2, viewPlayer2);
+        game.addPlayer(player3, viewPlayer3);
+        game.removeSettedPlayer("due");
+        assertEquals(game.getPlayers().size(), 2);
+        assertEquals(game.getPlayers().get(0), player1);
+        assertEquals(game.getPlayers().get(1), player3);
+
+    }
+
+    @Test
+    void removeConfigPlayer() {
+        assertEquals(game.getConfigPlayer(), 0);
+        game.addPlayer(player1, viewPlayer1);
+        assertFalse(game.addPlayer(player1, viewPlayer1));
+        assertEquals(game.getConfigPlayer(), 1);
+        game.removeConfigPlayer();
+        assertEquals(game.getConfigPlayer(), 0);
+    }
+
+    @Test
+    void newNickName() {
+        game.addPlayer(player1, viewPlayer1);
+        game.addPlayer(player2, viewPlayer2);
+        assertEquals(game.getPlayers().size(), 2);
+        assertEquals(game.getPlayers().get(0), player1);
+        assertEquals(game.getPlayers().get(1), player2);
+        assertFalse(game.addPlayer(player2, viewPlayer2));
+        assertEquals(game.getConfigPlayer(), 1);
+        assertTrue(game.newNickName(player3));
+        assertEquals(game.getConfigPlayer(), 0);
+        assertEquals(game.getPlayers().size(), 3);
+        assertEquals(game.getPlayers().get(2), player3);
+
     }
 
     @Test
@@ -126,16 +218,16 @@ class GameTest {
 
     @Test
     void isGameStarted() {
-        assertTrue(game.isGameStarted());
-        game.setGameStarted(false);
         assertFalse(game.isGameStarted());
+        game.setGameStarted(true);
+        assertTrue(game.isGameStarted());
     }
 
     @Test
     void setGameStarted() {
-        assertTrue(game.isGameStarted());
-        game.setGameStarted(false);
         assertFalse(game.isGameStarted());
+        game.setGameStarted(true);
+        assertTrue(game.isGameStarted());
     }
 
     @Test
@@ -162,6 +254,9 @@ class GameTest {
 
     @Test
     void pickChallenger() {
+        game.addPlayer(player1, viewPlayer1);
+        game.addPlayer(player2, viewPlayer2);
+        game.addPlayer(player3, viewPlayer3);
         player5 = game.pickChallenger();
         assertNotNull(player5);
         int value = 0;
@@ -180,6 +275,9 @@ class GameTest {
     @Test
     void createQueue() {
         assertThrows(NullPointerException.class , () -> game.createQueue(null));
+        game.addPlayer(player1, viewPlayer1);
+        game.addPlayer(player2, viewPlayer2);
+        game.addPlayer(player3, viewPlayer3);
         PlayerQueue queue = game.createQueue("due");
         assertEquals(queue.size(), 3);
         assertEquals(queue.peekFirst(), game.getPlayers().get(1));
@@ -211,6 +309,9 @@ class GameTest {
     @Test
     void assignCard() {
         assertThrows(NullPointerException.class , () -> game.assignCard(null));
+        game.addPlayer(player1, viewPlayer1);
+        game.addPlayer(player2, viewPlayer2);
+        game.addPlayer(player3, viewPlayer3);
         assertFalse(game.assignCard("sbagliata"));
         game.setCurrentPlayer(game.getPlayers().get(0));
         assertFalse(game.assignCard("sbagliata"));
@@ -228,5 +329,5 @@ class GameTest {
     void getGameID() {
         assertEquals(game.getGameID(), "G01");
     }
+
 }
-*/

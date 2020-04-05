@@ -57,10 +57,6 @@ public class Game extends Observable<Response> {
         return settedPlayers;
     }
 
-    public ArrayList<Player> getSettedPlayers() {
-        return settedPlayers;
-    }
-
     public int getConfigPlayer() {
         return configPlayer;
     }
@@ -84,7 +80,7 @@ public class Game extends Observable<Response> {
     public boolean addPlayer(Player player, VirtualView actualView){
         if(isGameStarted)
             throw new IllegalStateException("game already started");  //cambiare questa eccezione
-        if(settedPlayers.size() >= numberOfPlayers)
+        if(settedPlayers.size() + configPlayer >= numberOfPlayers)
             throw new IllegalStateException("too much player"); //cambiare questa eccezione
         if(player == null)
             throw new NullPointerException("null player");
