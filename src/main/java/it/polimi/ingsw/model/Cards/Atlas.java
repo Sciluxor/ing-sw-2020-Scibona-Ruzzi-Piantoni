@@ -21,6 +21,8 @@ public class Atlas extends Card {
             worker.setPreviousBuildPosition(buildingSquare);
             buildingSquare.setBuilding(building);
             buildingSquare.addBuildingLevel();
+            gameMap.clearModifiedSquare();
+            gameMap.addModifiedSquare(buildingSquare);
             return Response.BUILD;
         }
         return Response.NOTBUILD;

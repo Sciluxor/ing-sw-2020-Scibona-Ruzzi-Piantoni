@@ -67,7 +67,7 @@ return reachableSquares;
     public void moveWorkerTo(Player player, Directions direction){
         if(player == null || direction == null)
             throw new NullPointerException("null player or direction");
-        modifiedSquare.clear();
+        clearModifiedSquare();
         Worker currentWorker = player.getCurrentWorker();
         currentWorker.setPreviousBoardPosition(currentWorker.getBoardPosition());
         modifiedSquare.add(currentWorker.getBoardPosition());
@@ -112,12 +112,13 @@ return reachableSquares;
         if(worker == null || direction == null || building == null){
             throw new NullPointerException("null worker or building or direction");
         }
-        modifiedSquare.clear();
+        clearModifiedSquare();
         Square buildingSquare = gameMap.get(worker.getBoardPosition().getCanAccess().get(direction) - 1);
         if(building.equals(Building.mapNext(buildingSquare.getBuilding()))){
             worker.setPreviousBuildPosition(buildingSquare);
             buildingSquare.setBuilding(building);
             buildingSquare.addBuildingLevel();
+            clearModifiedSquare();
             modifiedSquare.add(buildingSquare);
 
             return true;
@@ -163,5 +164,9 @@ return reachableSquares;
 
     public ArrayList<Square> getModifiedSquare() {
         return modifiedSquare;
+    }
+
+    public void clearModifiedSquare(){
+        this.modifiedSquare.clear();
     }
 }

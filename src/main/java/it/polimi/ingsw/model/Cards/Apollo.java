@@ -32,6 +32,7 @@ public class Apollo extends Card {
 
         int wantToAccess = player.getCurrentWorker().getBoardPosition().getCanAccess().get(directions);
         if(gameMap.getGameMap().get(wantToAccess).hasPlayer()){
+            gameMap.clearModifiedSquare();
             gameMap.addModifiedSquare(player.getCurrentWorker().getBoardPosition());
             gameMap.addModifiedSquare(gameMap.getGameMap().get(wantToAccess- 1).getWorker().getBoardPosition());
             swapWorker(player.getCurrentWorker().getBoardPosition(), gameMap.getGameMap().get(wantToAccess- 1).getWorker().getBoardPosition());
