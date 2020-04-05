@@ -31,7 +31,7 @@ public class GameController implements Observer<Message> {
     //methods for new player
     //
 
-    public synchronized void  handleNewPlayer(Message message) {
+    public synchronized void handleNewPlayer(Message message) {
         VirtualView view = ((GameConfigMessage) message).getView();
         view.setYourTurn(true);
         String nick = message.getNickName();
