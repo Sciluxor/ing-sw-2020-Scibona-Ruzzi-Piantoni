@@ -46,7 +46,7 @@ public class GameMap {
               int squareTile  =canAccess.get(dir);
               if(squareTile > 0 && squareTile <= 25) { //mettere come costanti
                   Square possibleSquare = gameMap.get(squareTile- 1);
-                  if(!possibleSquare.hasPlayer() && (possibleSquare.getBuildingLevel() >= 0 && possibleSquare.getBuildingLevel() <= level_position +1 && !worker.getBoardPosition().equals(possibleSquare) )
+                  if(!possibleSquare.hasPlayer() && (possibleSquare.getBuildingLevel() >= 0 && possibleSquare.getBuildingLevel() <= level_position + 1 && !worker.getBoardPosition().equals(possibleSquare) )
                           && possibleSquare.getBuilding() != Building.DOME ){
                       reachableSquares.add(dir);
                   }
@@ -63,13 +63,17 @@ return reachableSquares;
     public void moveWorkerTo(Player player, Directions direction){
         if(player == null || direction == null)
             throw new NullPointerException("null player or direction");
+        clearModifiedSquare();
         Worker currentWorker = player.getCurrentWorker();
         currentWorker.setPreviousBoardPosition(currentWorker.getBoardPosition());
+        modifiedSquare.add(currentWorker.getBoardPosition());
         currentWorker.getPreviousBoardPosition().setHasPlayer(false);
-        currentWorker.setBoardPosition( gameMap.get(currentWorker.getBoardPosition().getCanAccess().get(direction) -1));
+        currentWorker.setBoardPosition( gameMap.get(currentWorker.getBoardPosition().getCanAccess().get(direction) - 1));
         currentWorker.getBoardPosition().setHasPlayer(true);
         currentWorker.getBoardPosition().setPlayer(player);
         currentWorker.getBoardPosition().setWorker(currentWorker);
+        modifiedSquare.add(currentWorker.getBoardPosition());
+
 
     }
 
@@ -86,7 +90,7 @@ return reachableSquares;
         for(Directions dir: Directions.values()){
               int squareTile = canAccess.get(dir);
               if(squareTile > 0 && squareTile <= 25){
-                  Square possibleBuild = gameMap.get(squareTile -1);
+                  Square possibleBuild = gameMap.get(squareTile - 1);
                   if(!possibleBuild.getBuilding().equals(Building.DOME) && !possibleBuild.hasPlayer() && !worker.getBoardPosition().equals(possibleBuild)){
                       buildableSquare.add(dir);
                   }
@@ -104,11 +108,14 @@ return reachableSquares;
         if(worker == null || direction == null || building == null){
             throw new NullPointerException("null worker or building or direction");
         }
-        Square buildingSquare = gameMap.get(worker.getBoardPosition().getCanAccess().get(direction) -1);
+        clearModifiedSquare();
+        Square buildingSquare = gameMap.get(worker.getBoardPosition().getCanAccess().get(direction) - 1);
         if(building.equals(Building.mapNext(buildingSquare.getBuilding()))){
             worker.setPreviousBuildPosition(buildingSquare);
             buildingSquare.setBuilding(building);
             buildingSquare.addBuildingLevel();
+            clearModifiedSquare();
+            modifiedSquare.add(buildingSquare);
 
             return true;
         }
@@ -144,5 +151,18 @@ return reachableSquares;
             throw new NullPointerException("tile null");
 
         return tile <= ConstantsContainer.PERIMETERPOSITION;
+    }
+
+
+    public void addModifiedSquare(Square square){
+        this.modifiedSquare.add(square);
+    }
+
+    public ArrayList<Square> getModifiedSquare() {
+        return modifiedSquare;
+    }
+
+    public void clearModifiedSquare(){
+        this.modifiedSquare.clear();
     }
 }

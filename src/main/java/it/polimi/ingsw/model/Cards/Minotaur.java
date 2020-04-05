@@ -51,11 +51,19 @@ public class Minotaur extends Card {
         if(gameMap == null || player == null || directions == null)
             throw new NullPointerException("null gameMap or player or direction");
 
+        boolean pushed = false;
         Worker currentWorker = player.getCurrentWorker();
         Square nextSquare = gameMap.getGameMap().get(currentWorker.getBoardPosition().getCanAccess().get(directions) - 1);
+        gameMap.clearModifiedSquare();
 
-        if(nextSquare.hasPlayer())
+        if(nextSquare.hasPlayer()){
             push(gameMap, nextSquare, directions);
+            pushed = true;
+        }
+        if (pushed)
+            gameMap.getModifiedSquare().add(0, currentWorker.getBoardPosition());
+        else
+            gameMap.addModifiedSquare(currentWorker.getBoardPosition());
 
         currentWorker.setPreviousBoardPosition(currentWorker.getBoardPosition());
         currentWorker.getPreviousBoardPosition().setHasPlayer(false);
@@ -63,6 +71,12 @@ public class Minotaur extends Card {
         currentWorker.getBoardPosition().setHasPlayer(true);
         currentWorker.getBoardPosition().setPlayer(player);
         currentWorker.getBoardPosition().setWorker(currentWorker);
+
+        if (pushed)
+            gameMap.getModifiedSquare().add(1, nextSquare);
+        else
+            gameMap.addModifiedSquare(nextSquare);
+
         return Response.MOVED;
     }
 
@@ -85,12 +99,14 @@ public class Minotaur extends Card {
         Worker pushedWorker = actualSquare.getWorker();
         Player pushedPlayer = pushedWorker.getBoardPosition().getPlayer();
 
+
         pushedWorker.setPreviousBoardPosition(actualSquare);
         pushedWorker.getPreviousBoardPosition().setHasPlayer(false);
         pushedWorker.setBoardPosition(gameMap.getGameMap().get(pushedWorker.getBoardPosition().getCanAccess().get(directions) - 1));
         pushedWorker.getBoardPosition().setHasPlayer(true);
         pushedWorker.getBoardPosition().setPlayer(pushedPlayer);
         pushedWorker.getBoardPosition().setWorker(pushedWorker);
+        gameMap.addModifiedSquare(pushedWorker.getBoardPosition());
     }
 }
 
