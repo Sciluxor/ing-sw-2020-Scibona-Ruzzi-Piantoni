@@ -266,7 +266,7 @@ public class Client {
             String os = System.getProperty("os.name").toLowerCase();
             String command;
             if(os.contains("win")) {
-                Runtime.getRuntime().exec("cls");
+                Runtime.getRuntime().exec("cmd /c clc");
             }
             else {
                 Runtime.getRuntime().exec("clear");

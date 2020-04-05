@@ -73,8 +73,6 @@ return reachableSquares;
         currentWorker.getBoardPosition().setPlayer(player);
         currentWorker.getBoardPosition().setWorker(currentWorker);
         modifiedSquare.add(currentWorker.getBoardPosition());
-
-
     }
 
     //
