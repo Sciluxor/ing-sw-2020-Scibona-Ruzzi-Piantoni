@@ -112,7 +112,8 @@ public class Client {
 
             } else if (output.getType().equals(MessageType.WAITPLAYER) && output.getSubType().equals(MessageSubType.UPDATE)) {
                 setUserID(output.getMessage());
-                System.out.println(System.getProperty("os.name"));
+                clearShell();
+
                 Logger.info("\nYou have been inserted in match, waiting for other players to join. Type \"close\" to stop the server, or \"back\" to go back to modality selection.");
                 Logger.info("\nActual Players:");
                 for(int i = 0; i < ((WaitPlayerMessage) output).getNickNames().size();i++){
@@ -233,6 +234,22 @@ public class Client {
             }
 
         }).start();
+    }
+
+    public static void clearShell() {
+        try{
+            String os = System.getProperty("os.name").toLowerCase();
+            String command;
+            if(os.contains("win")) {
+                Runtime.getRuntime().exec("cls");
+            }
+            else {
+                Runtime.getRuntime().exec("clear");
+            }
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
