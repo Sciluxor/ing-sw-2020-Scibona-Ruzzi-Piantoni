@@ -1,13 +1,17 @@
 package it.polimi.ingsw.view.Server;
 
 import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.model.Player.Color;
+import it.polimi.ingsw.model.Player.Player;
 import it.polimi.ingsw.model.Response;
 import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.network.server.ClientHandler;
 import it.polimi.ingsw.utils.ConstantsContainer;
+import it.polimi.ingsw.utils.Logger;
 import it.polimi.ingsw.utils.Observable;
 import it.polimi.ingsw.utils.Observer;
 
+import java.awt.event.WindowFocusListener;
 
 
 public class VirtualView extends Observable<Message> implements Observer<Response> {
@@ -49,7 +53,7 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
    public void onUpdatedStatus(Response status){
        switch (status) {
            case PLAYERADDED:
-               handlePlayerAdded();
+               handleYourPlayerAdded();
                break;
            case NICKUSED:
                handleNickUsed();
@@ -63,14 +67,21 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
 
    public void onUpdatedInstance(Response status){
         switch (status){
+            case PLAYERADDED:
+                handleNewPlayerAdded();
+                break;
 
             default:
         }
    }
 
-   public void handlePlayerAdded(){
-        connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.WAITPLAYER,MessageSubType.UPDATE,connection.getUserID()));
+    //
+    // methods for the turn of player
+    //
 
+   public void handleYourPlayerAdded(){
+        WaitPlayerMessage message = new WaitPlayerMessage(ConstantsContainer.SERVERNAME,MessageSubType.UPDATE,connection.getUserID());
+        connection.sendMessage(buildWaitLobbyMessage(message));
    }
 
    public void handleNickUsed(){
@@ -81,6 +92,26 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
    public void handleStartGame(){
        connection.sendMessage(new GameStartedMessage(ConstantsContainer.SERVERNAME,MessageSubType.UPDATE, controller.getNumberOfPlayers(), controller.getGameID()));
    }
+
+   public Message buildWaitLobbyMessage(WaitPlayerMessage message){
+       for(Player player: controller.getActualPlayers()){
+           message.addColor(player.getColor());
+           message.addNickName(player.getNickname());
+
+       }
+       return message;
+
+   }
+
+    //
+    //methods for the idle turn of the player
+    //
+
+    public void handleNewPlayerAdded(){
+        WaitPlayerMessage message =  new WaitPlayerMessage(ConstantsContainer.SERVERNAME,MessageSubType.NEWPLAYER,connection.getUserID());
+        connection.sendMessage(buildWaitLobbyMessage(message));
+    }
+
 
 
 

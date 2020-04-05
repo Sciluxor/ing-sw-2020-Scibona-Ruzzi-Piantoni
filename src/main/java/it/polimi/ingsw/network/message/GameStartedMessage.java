@@ -4,6 +4,8 @@ public class GameStartedMessage extends Message {
     private int playersNumber;
     private String gameID;
 
+
+
     public GameStartedMessage(String sender, MessageSubType subType, int playersNumber, String gameID) {
         super(sender, MessageType.GAMESTART, subType);
         this.playersNumber = playersNumber;
@@ -18,4 +20,6 @@ public class GameStartedMessage extends Message {
     public String getGameID() {
         return gameID;
     }
+
+
 }

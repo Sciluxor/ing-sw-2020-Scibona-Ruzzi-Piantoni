@@ -7,13 +7,11 @@ import it.polimi.ingsw.model.Map.Square;
 import it.polimi.ingsw.model.Player.Color;
 import it.polimi.ingsw.model.Player.Player;
 import it.polimi.ingsw.model.Player.PlayerQueue;
-import it.polimi.ingsw.utils.Logger;
 import it.polimi.ingsw.utils.Observable;
 import it.polimi.ingsw.view.Server.VirtualView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 
 public class Game extends Observable<Response> {
     private Integer numberOfPlayers;
@@ -28,7 +26,6 @@ public class Game extends Observable<Response> {
 
     private boolean hasWinner;
     private Player winner;
-    //private colors =
 
     public Game(int numberOfPlayers, String gameID) {
 

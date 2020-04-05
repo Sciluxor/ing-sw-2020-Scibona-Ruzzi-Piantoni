@@ -3,12 +3,8 @@ package it.polimi.ingsw.model.Map;
 import it.polimi.ingsw.model.Player.Player;
 import it.polimi.ingsw.model.Player.Worker;
 import it.polimi.ingsw.utils.ConstantsContainer;
-import javafx.util.Pair;
-
-import java.sql.SQLClientInfoException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class GameMap {
 
