@@ -14,6 +14,6 @@ public enum Response {
 
     //Response for game config
 
-    PLAYERADDED,NICKUSED,GAMESTARTED
+    PLAYERADDED,NICKUSED,GAMESTARTED,REMOVEDPLAYER
 
 }

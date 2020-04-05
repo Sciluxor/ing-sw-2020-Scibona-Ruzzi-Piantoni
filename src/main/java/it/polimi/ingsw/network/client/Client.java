@@ -20,6 +20,8 @@ public class Client {
     private Socket clientSocket;
     private int numberOfPlayers;
 
+    private PrintStream printer = new PrintStream(System.out);
+
 
     public String getUserID() {
         return userID;
@@ -112,7 +114,7 @@ public class Client {
 
             } else if (output.getType().equals(MessageType.WAITPLAYER) && output.getSubType().equals(MessageSubType.UPDATE)) {
                 setUserID(output.getMessage());
-                System.out.println(System.getProperty("os.name"));
+                clearScreen2();
                 Logger.info("\nYou have been inserted in match, waiting for other players to join. Type \"close\" to stop the server, or \"back\" to go back to modality selection.");
                 Logger.info("\nActual Players:");
                 for(int i = 0; i < ((WaitPlayerMessage) output).getNickNames().size();i++){
@@ -126,13 +128,32 @@ public class Client {
             }
             else if (output.getType().equals(MessageType.WAITPLAYER) && output.getSubType().equals(MessageSubType.NEWPLAYER)) {
                 setUserID(output.getMessage());
+                clearScreen2();
                 Logger.info("\nYou have been inserted in match, waiting for other players to join. Type \"close\" to stop the server, or \"back\" to go back to modality selection.");
-                client.closeClientIfRequestedAsynchronously(out,client);
+                Logger.info("\nActual Players:");
+                for(int i = 0; i < ((WaitPlayerMessage) output).getNickNames().size();i++){
+                    String color = ConsoleColor.getColor(((WaitPlayerMessage) output).getColors().get(i));
+                    String nickName = ((WaitPlayerMessage) output).getNickNames().get(i);
+                    System.out.println(color + nickName + ConsoleColor.RESET);
+
+                }
+
+            }else if (output.getType().equals(MessageType.WAITPLAYER) && output.getSubType().equals(MessageSubType.REMOVEDPLAYER)) {
+                setUserID(output.getMessage());
+                clearScreen2();
+                Logger.info("\nYou have been inserted in match, waiting for other players to join. Type \"close\" to stop the server, or \"back\" to go back to modality selection.");
+                Logger.info("\nActual Players:");
+                for(int i = 0; i < ((WaitPlayerMessage) output).getNickNames().size();i++){
+                    String color = ConsoleColor.getColor(((WaitPlayerMessage) output).getColors().get(i));
+                    String nickName = ((WaitPlayerMessage) output).getNickNames().get(i);
+                    System.out.println(color + nickName + ConsoleColor.RESET);
+
+                }
 
             }else if (output.getType().equals(MessageType.GAMESTART) && output.getSubType().equals(MessageSubType.UPDATE)) {
                 client.setGameStarted(true);
                 try {
-                    Thread.currentThread().sleep(200);
+                    Thread.sleep(200);
                 }catch (InterruptedException inter){
                     throw new InterruptedException("error in thread");
                 }
@@ -169,9 +190,14 @@ public class Client {
 
     }
 
-    public static void clearScreen() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
+    public static void clearScreen() throws IOException {
+        Runtime.getRuntime().exec("clear");
+    }
+
+    public static void clearScreen2(){
+        for(int i = 0;i <30;i++)
+            Logger.info("\n");
+
     }
 
 

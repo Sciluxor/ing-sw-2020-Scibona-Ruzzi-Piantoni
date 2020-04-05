@@ -158,16 +158,20 @@ public class GameController implements Observer<Message> {
     }
 
 
-    public synchronized void disconnectPlayer(Message message){
+    public synchronized void disconnectPlayer(Message message) {
         VirtualView view = clients.get(message.getSender());
         view.getConnection().setViewActive(false);
         game.removeObserver(view);
-        if(message.getSubType().equals(MessageSubType.NICKMAXTRY))
-            game.removeConfigPlayer();
-        else
-            game.removeSettedPlayer(message.getMessage());
         clients.remove(message.getMessage());
         clients.remove(message.getSender());
+
+        if (message.getSubType().equals(MessageSubType.NICKMAXTRY))
+            game.removeConfigPlayer();
+
+        else {
+            game.removeSettedPlayer(message.getMessage());
+            game.setGameStatus(Response.REMOVEDPLAYER);
+        }
     }
 
     public synchronized boolean isFreeNick(String nick){

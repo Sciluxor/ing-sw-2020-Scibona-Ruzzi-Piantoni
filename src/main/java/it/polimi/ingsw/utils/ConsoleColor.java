@@ -7,6 +7,8 @@ import java.util.HashMap;
 
 public class ConsoleColor {
 
+
+    public final static String CLEARCONSOLE = "\033[H\033[2J";
     public final static String RESET = "\033[0m";
     public final static String PURPLE = "\033[0;35m";
     public final static String WHITE = "\033[0;37m";

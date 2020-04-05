@@ -70,6 +70,9 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
             case PLAYERADDED:
                 handleNewPlayerAdded();
                 break;
+            case REMOVEDPLAYER:
+                handleRemovedPlayer();
+                break;
 
             default:
         }
@@ -109,6 +112,10 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
 
     public void handleNewPlayerAdded(){
         WaitPlayerMessage message =  new WaitPlayerMessage(ConstantsContainer.SERVERNAME,MessageSubType.NEWPLAYER,connection.getUserID());
+        connection.sendMessage(buildWaitLobbyMessage(message));
+    }
+    public void handleRemovedPlayer(){
+        WaitPlayerMessage message =  new WaitPlayerMessage(ConstantsContainer.SERVERNAME,MessageSubType.REMOVEDPLAYER,connection.getUserID());
         connection.sendMessage(buildWaitLobbyMessage(message));
     }
 
