@@ -180,7 +180,7 @@ public class Client {
                 //out.writeObject(new ReconnectionMessage(client.getNick(), MessageSubType.ANSWER, gameID, nickname));
                 out.flush();                                                                              
 
-            }
+            }else{}
 
             out.reset();
         }catch (IOException | InterruptedException e){

@@ -11,6 +11,7 @@ import it.polimi.ingsw.utils.Observable;
 import it.polimi.ingsw.view.Server.VirtualView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class Game extends Observable<Response> {
@@ -24,6 +25,8 @@ public class Game extends Observable<Response> {
     private Response gameStatus;
     private String gameID;
 
+    private ArrayList<Color> availableColors;
+
     private boolean hasWinner;
     private Player winner;
 
@@ -36,7 +39,9 @@ public class Game extends Observable<Response> {
         gameMap = new GameMap();
         isGameStarted = false;
         hasWinner = false;
+        availableColors = new ArrayList<>();
         this.gameID = gameID;
+        availableColors.addAll(Arrays.asList(Color.values()));
     }
 
     public  Integer getNumberOfPlayers() {
@@ -90,7 +95,8 @@ public class Game extends Observable<Response> {
                 return false;
             }
         }
-        player.setColor(Color.values()[settedPlayers.size()]);
+        player.setColor(availableColors.get(0));
+        availableColors.remove(0);
         settedPlayers.add(player);
         return true;
     }
@@ -99,6 +105,7 @@ public class Game extends Observable<Response> {
         for(Player player:settedPlayers){
             if(player.getNickname().equals(nick)){
                 settedPlayers.remove(player);
+                availableColors.add(player.getColor());
                 break;
             }
         }
@@ -115,6 +122,8 @@ public class Game extends Observable<Response> {
             }
         }
         configPlayer--;
+        player.setColor(availableColors.get(0));
+        availableColors.remove(0);
         settedPlayers.add(player);
         return true;
     }

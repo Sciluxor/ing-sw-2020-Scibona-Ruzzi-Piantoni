@@ -6,6 +6,8 @@ import it.polimi.ingsw.model.Response;
 import it.polimi.ingsw.network.message.GameConfigMessage;
 import it.polimi.ingsw.network.message.Message;
 import it.polimi.ingsw.network.message.MessageSubType;
+import it.polimi.ingsw.utils.LobbyTimerTask;
+import it.polimi.ingsw.utils.Logger;
 import it.polimi.ingsw.utils.Observer;
 import it.polimi.ingsw.view.Server.VirtualView;
 
@@ -58,6 +60,7 @@ public class GameController implements Observer<Message> {
             view.setYourTurn(false);
             return;
         }
+
 
         clients.put(nick,view);
         game.setGameStatus(Response.PLAYERADDED);
@@ -172,6 +175,7 @@ public class GameController implements Observer<Message> {
             game.removeSettedPlayer(message.getMessage());
             game.setGameStatus(Response.REMOVEDPLAYER);
         }
+
     }
 
     public synchronized boolean isFreeNick(String nick){

@@ -46,7 +46,6 @@ public class Player {
     //
 
     public String getNickname() {
-        Logger.info("here8");
         return nickname;
     }
 
