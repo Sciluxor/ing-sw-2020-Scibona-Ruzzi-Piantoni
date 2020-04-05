@@ -51,6 +51,20 @@ class PlayerTest {
     }
 
     @Test
+    void getColor() {
+        assertNull (player.getColor());
+        player.setColor(Color.BLUE);
+        assertEquals(player.getColor(), Color.BLUE);
+    }
+
+    @Test
+    void setColor() {
+        assertNull (player.getColor());
+        player.setColor(Color.BLUE);
+        assertEquals(player.getColor(), Color.BLUE);
+    }
+
+    @Test
     void getNickname() {
         assertEquals (player.getNickname(), "GoodPlayer");
     }
@@ -328,6 +342,12 @@ class PlayerTest {
         gameMap.getGameMap().get(15).addBuildingLevel();
         assertEquals(gameMap.getGameMap().get(15).getBuildingLevel(), 2);
         assertTrue(player1.checkIfLoose(gameMap));
+    }
+
+    @Test
+    void getFirstAction() {
+        player.setPower(cardAp);
+        assertEquals(player.getFirstAction(), Response.TOMOVE);
     }
 
     @Test
