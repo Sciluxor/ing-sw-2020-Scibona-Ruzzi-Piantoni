@@ -6,7 +6,7 @@ import it.polimi.ingsw.network.message.WaitPlayerMessage;
 import java.util.HashMap;
 
 public class ConsoleColor {
-
+//implementare meglio con un Json
 
     public final static String CLEARCONSOLE = "\033[H\033[2J";
     public final static String RESET = "\033[0m";

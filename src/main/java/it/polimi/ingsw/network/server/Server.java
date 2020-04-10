@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.utils.ConfigLoader;
 import it.polimi.ingsw.utils.ConstantsContainer;
+import it.polimi.ingsw.utils.FlowStatutsLoader;
 import it.polimi.ingsw.utils.Logger;
 import it.polimi.ingsw.view.Server.VirtualView;
 
@@ -32,6 +33,7 @@ public class Server {
         Logger.info("Please choose a Port (Default is 4700): ");
 
         ConfigLoader.loadSetting();
+        FlowStatutsLoader.loadFlow();
 
         Scanner in = new Scanner(System.in);
         String port = in.nextLine();
@@ -41,7 +43,7 @@ public class Server {
         if(port.equals(""))
             serverPort = ConfigLoader.getSocketPort();
         else
-            serverPort = Integer.parseInt(port);
+            serverPort = Integer.parseInt(port);  //gestire input sbagliati
 
         Server server = new Server();
         server.setSocketPort(serverPort);
@@ -141,7 +143,7 @@ public class Server {
         view.processMessageReceived(msg);
     }
 
-    public void addPlayer(GameController controller,ClientHandler connection,Message message,String userID){
+    public void addPlayer(GameController controller,ClientHandler connection,Message message,String userID){ //aggiungere sincronizzazione?
         VirtualView view = new VirtualView(connection,controller);
         ((GameConfigMessage) message).setView(view);
         connection.setView(view);

@@ -1,0 +1,34 @@
+[
+  {
+    "type": "NEWMOVE",
+    "next": ["BUILDWORKER","MOVEWORKER"]
+  },
+  {
+    "type": "NEWBUILD",
+    "next": ["BUILDWORKER","ENDTURN"]
+  },
+  {
+    "type": "BUILDBEFORE",
+    "next": ["BUILDWORKER","MOVEWORKER"]
+  },
+  {
+    "type": "BUILDEDBEFORE",
+    "next": ["MOVEWORKER"]
+  },
+  {
+    "type": "MOVED",
+    "next": ["BUILDWORKER"]
+  },
+  {
+    "type": "ASSIGNEDCONSTRAINT",
+    "next": ["BUILDWORKER"]
+  },
+  {
+    "type": "ENDTURN",
+    "next": ["ENDTURN"]
+  },
+  {
+    "type": "TOMOVE",
+    "next": ["MOVEWORKER"]
+  }
+]

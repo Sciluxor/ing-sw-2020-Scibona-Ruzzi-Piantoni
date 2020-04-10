@@ -1,17 +1,14 @@
 package it.polimi.ingsw.view.Server;
 
 import it.polimi.ingsw.controller.GameController;
-import it.polimi.ingsw.model.Player.Color;
 import it.polimi.ingsw.model.Player.Player;
 import it.polimi.ingsw.model.Response;
 import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.network.server.ClientHandler;
 import it.polimi.ingsw.utils.ConstantsContainer;
-import it.polimi.ingsw.utils.Logger;
 import it.polimi.ingsw.utils.Observable;
 import it.polimi.ingsw.utils.Observer;
 
-import java.awt.event.WindowFocusListener;
 
 
 public class VirtualView extends Observable<Message> implements Observer<Response> {
@@ -100,7 +97,6 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
        for(Player player: controller.getActualPlayers()){
            message.addColor(player.getColor());
            message.addNickName(player.getNickname());
-           Logger.info(player.getNickname());
 
        }
        return message;
@@ -119,8 +115,6 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
         WaitPlayerMessage message =  new WaitPlayerMessage(ConstantsContainer.SERVERNAME,MessageSubType.REMOVEDPLAYER,connection.getUserID());
         connection.sendMessage(buildWaitLobbyMessage(message));
     }
-
-
 
 
     @Override

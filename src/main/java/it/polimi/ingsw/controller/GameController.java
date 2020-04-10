@@ -1,13 +1,12 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.model.Cards.Card;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player.Player;
 import it.polimi.ingsw.model.Response;
 import it.polimi.ingsw.network.message.GameConfigMessage;
 import it.polimi.ingsw.network.message.Message;
 import it.polimi.ingsw.network.message.MessageSubType;
-import it.polimi.ingsw.utils.LobbyTimerTask;
-import it.polimi.ingsw.utils.Logger;
 import it.polimi.ingsw.utils.Observer;
 import it.polimi.ingsw.view.Server.VirtualView;
 
@@ -141,7 +140,7 @@ public class GameController implements Observer<Message> {
             if(!game.isGameStarted())
                 view.getConnection().startLobbyTimer();
             else
-                return;
+                return; //far terminare il game
 
         disconnectPlayer(message);
 
@@ -206,18 +205,57 @@ public class GameController implements Observer<Message> {
         //add also the choice of the first player that start the match
     }
 
-    public void handleChallengerChoice(){
+    public synchronized void handleChallengerChoice(Message message){
+        ArrayList<String> cards = ((ChallengerChoiceMessage) message).getCards();
+        String firstPlayer = ((ChallengerChoiceMessage) message).getFirstPlayer();
+        for(String cardName : cards){
+            if(game.getCardFromDeck(cardName) == null){
+                game.setGameStatus(Response.CHALLENGERCHOICEERROR);
+                return;
+            }
+        }
+
+        //assegnare i permanent constraint
+        if(checkFirstPlayerChoice(firstPlayer)){
+            game.setGameCards(cards);
+            game.createQueue(firstPlayer);
+            game.setCurrentPlayer();
+            setupForCardChoice();
+
+        }
+        else{
+
+        }
+
+
 
     }
 
+    public boolean checkCardChoice(){
+
+    }
+
+    public boolean checkFirstPlayerChoice(String firstPlayer){
+        for(Player player : game.getPlayers()){
+            if(player.getNickname().equals(firstPlayer)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public synchronized void handleCardChoice(Message message){
+        //controllare se sono state scelte tutte le carte, in quel caso iniziare il turno del primo player
+    }
     public void handleTurnBeginning(){//to start timer
-
+            //controllare se si può muovere;
     }
 
 
-    public void handleEndTun(){//to stop timer
+    public void handleEndTun(Message message){//to stop timer
          //begin the turn of the next player
     }
+    //funzione per controllare che si può muoverer
 
     public synchronized void sendToRoundController(Message message){
 
@@ -247,23 +285,20 @@ public class GameController implements Observer<Message> {
                 handleDisconnectionBeforeStart(message);
                 break;
             case ENDTURN:
-                //add method
+                handleEndTun(message);
                 break;
-            case CARDCHOICE:
-                //add method
-                break;
-            case FIRSTPLAYERCHOICE:
-                //add method
+            case CHALLENGERCHOICE:
+                handleChallengerChoice(message);
                 break;
             case POWERCHOICE:
-                //add method
+                //add method da spostare nel round controller
                 break;
             case PLACEWORKERS:
-                //add method
+                //add method da spostare nel round controller
                 break;
             default:
                 if(!getViewFromUserID(message.getSender()).isYourTurn()){
-                    //not your turn to check, throw illegal state exception
+                    //not your turn to check, throw illegal state exception spostare nei posti giusti
                     return;
                 }
                 sendToRoundController(message);

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.network.client;
 
 import it.polimi.ingsw.network.message.*;
-import it.polimi.ingsw.utils.ConfigLoader;
 import it.polimi.ingsw.utils.ConsoleColor;
 import it.polimi.ingsw.utils.ConstantsContainer;
 import it.polimi.ingsw.utils.Logger;
