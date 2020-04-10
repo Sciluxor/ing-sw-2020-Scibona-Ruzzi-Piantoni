@@ -51,6 +51,20 @@ class PlayerTest {
     }
 
     @Test
+    void hasPlacedWorkers() {
+        assertFalse(player.hasPlacedWorkers());
+        player.setHasPlacedWorkers(true);
+        assertTrue(player.hasPlacedWorkers());
+    }
+
+    @Test
+    void setHasPlacedWorkers() {
+        assertFalse(player.hasPlacedWorkers());
+        player.setHasPlacedWorkers(true);
+        assertTrue(player.hasPlacedWorkers());
+    }
+
+    @Test
     void getColor() {
         assertNull (player.getColor());
         player.setColor(Color.BLUE);
