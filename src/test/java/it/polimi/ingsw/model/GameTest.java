@@ -25,7 +25,7 @@ class GameTest {
     ClientHandler connection1, connection2, connection3;
     VirtualView viewPlayer1, viewPlayer2, viewPlayer3, viewPlayer4;
     Player player1, player2, player3, player4, player5, player6;
-    Card cardApollo, cardAthena, cardAtlas;
+    Card cardApollo, cardAthena, cardAtlas, cardHera, cardHypnus;
     Game game;
     HashMap<String, Card> deck;
     GameMap gameMap;
@@ -44,6 +44,8 @@ class GameTest {
         cardApollo = CardLoader.loadCards().get("Apollo");
         cardAthena = CardLoader.loadCards().get("Athena");
         cardAtlas = CardLoader.loadCards().get("Atlas");
+        cardHera = CardLoader.loadCards().get("Hera");
+        cardHypnus = CardLoader.loadCards().get("Hypnus");
         player1.setPower(cardApollo);
         player2.setPower(cardAthena);
         player3.setPower(cardAtlas);
@@ -280,25 +282,25 @@ class GameTest {
         game.addPlayer(player1, viewPlayer1);
         game.addPlayer(player2, viewPlayer2);
         game.addPlayer(player3, viewPlayer3);
-       /* game.createQueue("due");
-        assertEquals(game..size(), 3);
-        assertEquals(queue.peekFirst(), game.getPlayers().get(1));
-        queue.changeTurn();
-        assertEquals(queue.peekFirst(), game.getPlayers().get(0));
-        queue.changeTurn();
-        assertEquals(queue.peekFirst(), game.getPlayers().get(2));
-        queue.changeTurn();
-        assertEquals(queue.peekFirst(), game.getPlayers().get(1));
-        queue.changeTurn();
-        assertEquals(queue.peekFirst(), game.getPlayers().get(0));
-        queue.changeTurn();
-        assertEquals(queue.peekFirst(), game.getPlayers().get(2));
-        queue.changeTurn();
-        assertEquals(queue.peekLast(), game.getPlayers().get(2));
-        queue.changeTurn();
-        assertEquals(queue.peekLast(), game.getPlayers().get(1));
-        queue.changeTurn();
-        assertEquals(queue.peekLast(), game.getPlayers().get(0));*/
+        game.createQueue("due");
+        game.peekPlayer();
+        assertEquals(game.getCurrentPlayer(), game.getPlayers().get(1));
+        game.peekPlayer();
+        assertEquals(game.getCurrentPlayer(), game.getPlayers().get(0));
+        game.peekPlayer();
+        assertEquals(game.getCurrentPlayer(), game.getPlayers().get(2));
+        game.peekPlayer();
+        assertEquals(game.getCurrentPlayer(), game.getPlayers().get(1));
+        game.peekPlayer();
+        assertEquals(game.getCurrentPlayer(), game.getPlayers().get(0));
+        game.peekPlayer();
+        assertEquals(game.getCurrentPlayer(), game.getPlayers().get(2));
+        game.peekPlayer();
+        assertEquals(game.getCurrentPlayer(), game.getPlayers().get(1));
+        game.peekPlayer();
+        assertEquals(game.getCurrentPlayer(), game.getPlayers().get(0));
+        game.peekPlayer();
+        assertEquals(game.getCurrentPlayer(), game.getPlayers().get(2));
     }
 
     @Test
@@ -332,4 +334,119 @@ class GameTest {
         assertEquals(game.getGameID(), "G01");
     }
 
+    @Test
+    void getAvailableCards() {
+        ArrayList<String> cardstring = new ArrayList<>();
+        cardstring.add("Apollo");
+        cardstring.add("Atlas");
+        assertNull(game.getAvailableCards());
+        game.setAvailableCards(cardstring);
+        assertEquals(game.getAvailableCards().get(0), "Apollo");
+    }
+
+    @Test
+    void setAvailableCards() {
+        ArrayList<String> cardstring = new ArrayList<>();
+        cardstring.add("Apollo");
+        cardstring.add("Atlas");
+        game.setAvailableCards(cardstring);
+        assertEquals(game.getAvailableCards().size(), 2);
+        assertEquals(game.getAvailableCards().get(0), "Apollo");
+        assertEquals(game.getAvailableCards().get(1), "Atlas");
+    }
+
+    @Test
+    void removeCard() {
+        ArrayList<String> cardstring = new ArrayList<>();
+        cardstring.add("Apollo");
+        cardstring.add("Atlas");
+        game.setAvailableCards(cardstring);
+        assertEquals(game.getAvailableCards().size(), 2);
+        game.removeCard("Apollo");
+        assertEquals(game.getAvailableCards().size(), 1);
+        assertEquals(game.getAvailableCards().get(0), "Atlas");
+
+    }
+
+    @Test
+    void getCardFromAvailableCards() {
+        ArrayList<String> cardstring = new ArrayList<>();
+        cardstring.add("Apollo");
+        cardstring.add("Atlas");
+        cardstring.add("Pan");
+        game.setAvailableCards(cardstring);
+        assertEquals(game.getCardFromAvailableCards("Apollo"), "Apollo");
+        assertEquals(game.getCardFromAvailableCards("Atlas"), "Atlas");
+        assertEquals(game.getCardFromAvailableCards("Pan"), "Pan");
+        assertNull(game.getCardFromAvailableCards("Chronus"));
+        assertNull(game.getCardFromAvailableCards(""));
+        assertNull(game.getCardFromAvailableCards("Nonesiste"));
+    }
+
+    @Test
+    void getCardFromDeck() {
+        assertEquals(game.getCardFromDeck("Apollo").getName(), "Apollo");
+        assertNull(game.getCardFromDeck("Bhu"));
+    }
+
+    @Test
+    void peekPlayer() {
+        game.addPlayer(player1, viewPlayer1);
+        game.addPlayer(player2, viewPlayer2);
+        game.addPlayer(player3, viewPlayer3);
+        game.createQueue("due");
+        game.peekPlayer();
+        assertEquals(game.getCurrentPlayer(), game.getPlayers().get(1));
+        game.peekPlayer();
+        assertEquals(game.getCurrentPlayer(), game.getPlayers().get(0));
+        game.peekPlayer();
+        assertEquals(game.getCurrentPlayer(), game.getPlayers().get(2));
+        game.peekPlayer();
+        assertEquals(game.getCurrentPlayer(), game.getPlayers().get(1));
+        game.peekPlayer();
+        assertEquals(game.getCurrentPlayer(), game.getPlayers().get(0));
+        game.peekPlayer();
+        assertEquals(game.getCurrentPlayer(), game.getPlayers().get(2));
+        game.peekPlayer();
+        assertEquals(game.getCurrentPlayer(), game.getPlayers().get(1));
+        game.peekPlayer();
+        assertEquals(game.getCurrentPlayer(), game.getPlayers().get(0));
+        game.peekPlayer();
+        assertEquals(game.getCurrentPlayer(), game.getPlayers().get(2));
+    }
+
+    @Test
+    void allWorkersPlaced() {
+        Integer[] tile1 = {0, 0};
+        Integer[] tile2 = {1, 1};
+        Integer[] tile3 = {2, 2};
+        Integer[] tile4 = {3, 3};
+        Integer[] tile5 = {4, 4};
+        Integer[] tile6 = {2, 4};
+        game.addPlayer(player1, viewPlayer1);
+        game.addPlayer(player2, viewPlayer2);
+        game.addPlayer(player3, viewPlayer3);
+        game.setCurrentPlayer(player1);
+        game.placeWorkersOnMap(tile1, tile2);
+        game.setCurrentPlayer(player2);
+        game.placeWorkersOnMap(tile3, tile4);
+        assertFalse(game.allWorkersPlaced());
+        game.setCurrentPlayer(player3);
+        game.placeWorkersOnMap(tile5, tile6);
+        assertTrue(game.allWorkersPlaced());
+    }
+
+    @Test
+    void assignPermanentConstraint() {
+        player1.setPower(cardHera);
+        game.addPlayer(player1, viewPlayer1);
+        game.addPlayer(player2, viewPlayer2);
+        game.addPlayer(player3, viewPlayer3);
+        game.assignPermanentConstraint();
+        assertEquals(player1.getConstraint().size(), 0);
+        assertEquals(player2.getConstraint().size(), 1);
+        assertEquals(player2.getConstraint().get(0).getName(), "Hera");
+        assertEquals(player3.getConstraint().size(), 1);
+        assertEquals(player3.getConstraint().get(0).getName(), "Hera");
+    }
 }
