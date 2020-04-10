@@ -2,20 +2,19 @@ package it.polimi.ingsw.network.message;
 
 import it.polimi.ingsw.model.Map.Directions;
 import it.polimi.ingsw.model.Map.Square;
-
-import java.sql.Array;
+import it.polimi.ingsw.model.Response;
 import java.util.ArrayList;
 
 public class MoveWorkerMessage extends Message{
 
     private Directions direction;
     private ArrayList<Square> modifiedSquare;
-    private boolean hasWin;
+    private Response winResponse;
 
-    public MoveWorkerMessage(String sender, String nickName, MessageSubType subType,Directions direction,boolean hasWin,ArrayList<Square> squares) {
+    public MoveWorkerMessage(String sender, String nickName, MessageSubType subType,Directions direction,Response winResponse,ArrayList<Square> squares) {
         super(sender, nickName, MessageType.MOVEWORKER, subType);
         this.direction = direction;
-        this.hasWin = hasWin;
+        this.winResponse = winResponse;
         this.modifiedSquare = squares;
     }
 
@@ -27,7 +26,7 @@ public class MoveWorkerMessage extends Message{
         return modifiedSquare;
     }
 
-    public boolean hasWin() {
-        return hasWin;
+    public Response getWinResponse() {
+        return winResponse;
     }
 }

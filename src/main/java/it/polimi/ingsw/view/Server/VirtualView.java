@@ -116,6 +116,10 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
         connection.sendMessage(buildWaitLobbyMessage(message));
     }
 
+    public void handleNotYourTurn(){
+        connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.NOTYOURTURN,MessageSubType.ERROR));
+    }
+
 
     @Override
     public void update(Response status) {

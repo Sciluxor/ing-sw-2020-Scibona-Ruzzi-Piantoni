@@ -16,6 +16,10 @@
     "next": ["MOVEWORKER"]
   },
   {
+    "type": "STARTTURN",
+    "next": ["WORKERCHOICE"]
+  },
+  {
     "type": "MOVED",
     "next": ["BUILDWORKER"]
   },
@@ -30,5 +34,28 @@
   {
     "type": "TOMOVE",
     "next": ["MOVEWORKER"]
-  }
+  },
+  {
+    "type": "CHALLENGERCHOICE",
+    "next": ["CHALLENGERCHOICE"]
+  },
+  {
+    "type": "CHALLENGERCHOICEDONE",
+    "next": ["ENDTURN"]
+  },
+  {
+  "type": "CARDCHOICE",
+  "next": ["CHOOSECARD"]
+ },
+  {
+    "type": "CARDCHOICEDONE",
+    "next": ["ENDTURN"]
+  },
+  {
+  "type": "PLACEWORKER",
+  "next": ["PLACEWORKERS"]
+ },{
+  "type": "PLACEWORKERDONE",
+  "next": ["ENDTURN"]
+}
 ]

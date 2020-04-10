@@ -1,17 +1,17 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.model.Cards.Card;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player.Player;
 import it.polimi.ingsw.model.Response;
-import it.polimi.ingsw.network.message.GameConfigMessage;
-import it.polimi.ingsw.network.message.Message;
-import it.polimi.ingsw.network.message.MessageSubType;
+import it.polimi.ingsw.network.message.*;
+import it.polimi.ingsw.utils.FlowStatutsLoader;
+import it.polimi.ingsw.utils.Logger;
 import it.polimi.ingsw.utils.Observer;
 import it.polimi.ingsw.view.Server.VirtualView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Timer;
 
 public class GameController implements Observer<Message> {
@@ -122,6 +122,7 @@ public class GameController implements Observer<Message> {
     public String getGameID(){
         return game.getGameID();
     }
+
     public int getNumberOfPlayers(){
         return game.getNumberOfPlayers();
     }
@@ -195,73 +196,95 @@ public class GameController implements Observer<Message> {
     //inserire metodi
 
     //
-    //methods for Game handling
+    //methods for Game beginning handling
     //
 
     public synchronized void handleMatchBeginning(){
         Player challenger = game.pickChallenger();
         getViewFromNickName(challenger.getNickname()).setYourTurn(true);
         game.setGameStatus(Response.CHALLENGERCHOICE);
-        //add also the choice of the first player that start the match
     }
 
-    public synchronized void handleChallengerChoice(Message message){
-        ArrayList<String> cards = ((ChallengerChoiceMessage) message).getCards();
-        String firstPlayer = ((ChallengerChoiceMessage) message).getFirstPlayer();
-        for(String cardName : cards){
-            if(game.getCardFromDeck(cardName) == null){
-                game.setGameStatus(Response.CHALLENGERCHOICEERROR);
-                return;
+    public synchronized void changeTurnPlayer(Message message){
+        getViewFromNickName(message.getNickName()).setYourTurn(false);
+        game.peekPlayer();
+        getViewFromNickName(game.getCurrentPlayer().getNickname()).setYourTurn(true);
+    }
+
+
+
+    //
+    //methods for ending the current turn and starting the next turn
+    //
+
+
+    public synchronized void handleTurnBeginning() {//to start timer
+        if (game.getCurrentPlayer().checkIfLoose(game.getGameMap())) {
+              game.setGameStatus(Response.STARTTURN);
+        } else {
+            stopRoundTimer();
+            eliminatePlayer();
+
+            //controllare se la partita può continuare o se è finita
+        }
+    }
+
+    public synchronized void eliminatePlayer(){
+
+    }
+
+
+    public synchronized void handleEndTun(Message message){
+        stopRoundTimer();
+        if(FlowStatutsLoader.isRightMessage(game.getGameStatus(),message.getType())) {
+
+            changeTurnPlayer(message);
+            startRoundTimer();
+
+            switch (game.getGameStatus()) {
+                case CHALLENGERCHOICEDONE:
+                    game.setGameStatus(Response.CARDCHOICE);
+                    break;
+                case CARDCHOICEDONE:
+                    if (game.getAvailableCards().size() == 0) {
+                        game.assignPermanentConstraint();
+                        game.setGameStatus(Response.PLACEWORKERS);
+                    } else {
+                        game.setGameStatus(Response.CARDCHOICE);
+                    }
+                    break;
+                case PLACEWORKERSDONE:
+                    if(game.allWorkersPlaced()){
+                        game.setGameStatus(Response.STARTTURN);
+                    }
+                    else{
+                        game.setGameStatus(Response.PLACEWORKERS);
+                    }
+                    break;
+                default:
+                    changeTurnPlayer(message);
+                    handleTurnBeginning();
             }
         }
-
-        //assegnare i permanent constraint
-        if(checkFirstPlayerChoice(firstPlayer)){
-            game.setGameCards(cards);
-            game.createQueue(firstPlayer);
-            game.setCurrentPlayer();
-            setupForCardChoice();
-
+        else {
+            game.setGameStatus(Response.STATUSERROR);
         }
-        else{
-
-        }
-
-
-
-    }
-
-    public boolean checkCardChoice(){
-
-    }
-
-    public boolean checkFirstPlayerChoice(String firstPlayer){
-        for(Player player : game.getPlayers()){
-            if(player.getNickname().equals(firstPlayer)){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public synchronized void handleCardChoice(Message message){
-        //controllare se sono state scelte tutte le carte, in quel caso iniziare il turno del primo player
-    }
-    public void handleTurnBeginning(){//to start timer
-            //controllare se si può muovere;
     }
 
 
-    public void handleEndTun(Message message){//to stop timer
-         //begin the turn of the next player
-    }
-    //funzione per controllare che si può muoverer
+    //
+    //method to send the messagge to the round controller
+    //
 
     public synchronized void sendToRoundController(Message message){
 
         roundController.processRoundEvent(message);
 
     }
+
+    //
+    //methods to start and stop the timer of the turn, and to handle the timer disconnection
+    //
 
     public void startRoundTimer(){
 
@@ -271,46 +294,49 @@ public class GameController implements Observer<Message> {
 
     }
 
-    public void processMessage(Message message){
+    //
+    //method to dispatch the new messagge to the right place
+    //
 
+    public synchronized void processMessage(Message message){
 
-        switch (message.getType()){
+        switch (message.getType()) {
             case CONFIG:
-                if(message.getSubType().equals(MessageSubType.ANSWER))
+                if (message.getSubType().equals(MessageSubType.ANSWER))
                     handleNewPlayer(message);
-                else if(message.getSubType().equals(MessageSubType.UPDATE))
+                else if (message.getSubType().equals(MessageSubType.UPDATE))
                     handleNewNickname(message);
                 break;
             case DISCONNECTION:
                 handleDisconnectionBeforeStart(message);
                 break;
             case ENDTURN:
-                handleEndTun(message);
-                break;
-            case CHALLENGERCHOICE:
-                handleChallengerChoice(message);
-                break;
-            case POWERCHOICE:
-                //add method da spostare nel round controller
-                break;
-            case PLACEWORKERS:
-                //add method da spostare nel round controller
-                break;
+                if(!getViewFromUserID(message.getSender()).isYourTurn()){
+                    getViewFromUserID(message.getSender()).handleNotYourTurn();
+                    //throw new IllegalStateException("not the turn of player: " + message.getNickName());
+                }else {
+                    handleEndTun(message);
+                    break;
+                }
             default:
                 if(!getViewFromUserID(message.getSender()).isYourTurn()){
-                    //not your turn to check, throw illegal state exception spostare nei posti giusti
-                    return;
+                    getViewFromUserID(message.getSender()).handleNotYourTurn(); //decidere come gestire questa eccezione e aggiungere al logger l'errore
+                    //throw new IllegalStateException("not the turn of player: " + message.getNickName());
+                }else {
+                    sendToRoundController(message);
+                    break;
                 }
-                sendToRoundController(message);
-                break;
         }
-
     }
 
     @Override
-    public void update(Message message) {
+    public synchronized void update(Message message) {
 
-        processMessage(message);
+        try{
+            processMessage(message);
+        }catch (IllegalStateException ill){
+            Logger.info(ill.getMessage());
+        }
     }
 
 

@@ -6,44 +6,52 @@ import it.polimi.ingsw.model.Cards.CardType;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Map.Building;
 import it.polimi.ingsw.model.Map.Directions;
+import it.polimi.ingsw.model.Map.Square;
 import it.polimi.ingsw.model.Player.Player;
 import it.polimi.ingsw.model.Response;
-import it.polimi.ingsw.network.message.BuildWorkerMessage;
-import it.polimi.ingsw.network.message.Message;
-import it.polimi.ingsw.network.message.MoveWorkerMessage;
-import it.polimi.ingsw.network.message.WorkersPositionMessage;
+import it.polimi.ingsw.network.message.*;
+import it.polimi.ingsw.utils.FlowStatutsLoader;
 
 import java.util.ArrayList;
 
 public class RoundController {
 
     private Game game;
-    private int errorCounter;
 
     public RoundController(Game game){
 
         this.game = game;
-        this.errorCounter = 0;
     }
 
     public void processRoundEvent(Message message){
 
-        if(isNotRightStatus(message)){
-            new Error();
-        }
+        if(FlowStatutsLoader.isRightMessage(game.getGameStatus(),message.getType())) {
 
-        switch (message.getType()){
-            case MOVEWORKER:
-                handleMovement(message);
-                break;
-            case WORKERCHOICE:
-                handleFirstAction();
-                break;
-            case BUILDWORKER:
-                handleBuilding(message);
-                break;
-            default:
-                throw new IllegalStateException("no Action");
+            switch (message.getType()) {
+                case CHALLENGERCHOICE:
+                    handleChallengerChoice(message);
+                    break;
+                case CHOOSECARD:
+                    handleCardChoice(message);
+                    break;
+                case PLACEWORKERS:
+                    handleWorkerPositioning(message);
+                    break;
+                case WORKERCHOICE:
+                    handleWorkerChoice(message);
+                    break;
+                case MOVEWORKER:
+                    handleMovement(message);
+                    break;
+                case BUILDWORKER:
+                    handleBuilding(message);
+                    break;
+                default:
+                    throw new IllegalStateException("no Action");
+            }
+        }
+        else{
+            game.setGameStatus(Response.STATUSERROR);
         }
     }
 
@@ -61,35 +69,111 @@ public class RoundController {
         }
     }
 
-    public boolean isNotRightStatus(Message message){
+    //
+    //methods for challenger choice handling
+    //
 
-        //check in the json if is the right status
+    public synchronized void handleChallengerChoice(Message message){
+        if(FlowStatutsLoader.isRightMessage(game.getGameStatus(),message.getType())) {
+            ArrayList<String> cards = ((ChallengerChoiceMessage) message).getCards();
+            String firstPlayer = ((ChallengerChoiceMessage) message).getFirstPlayer();
+
+
+            if (checkCardsChoice(cards) && checkFirstPlayerChoice(firstPlayer)) {
+                game.setAvailableCards(cards);
+                game.createQueue(firstPlayer);
+                game.setGameStatus(Response.CHALLENGERCHOICEDONE);
+            } else {
+                game.setGameStatus(Response.CHALLENGERCHOICEERROR);
+            }
+        }
+        else{
+            game.setGameStatus(Response.STATUSERROR);
+        }
+
+    }
+
+    public boolean checkCardsChoice(ArrayList<String> cards){
+        for(String cardName : cards){
+            if(game.getCardFromDeck(cardName) == null){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean checkFirstPlayerChoice(String firstPlayer){
+        for(Player player : game.getPlayers()){
+            if(player.getNickname().equals(firstPlayer)){
+                return true;
+            }
+        }
         return false;
     }
 
+    //
+    //methods for the card choice of each player
+    //
 
-
-    public void handleRoundBeginning(){
-       //forse non serve questo metodo
-
+    public synchronized void handleCardChoice(Message message) {
+        if(FlowStatutsLoader.isRightMessage(game.getGameStatus(),message.getType())) {
+            String cardName = message.getMessage();
+            if (game.getCardFromAvailableCards(cardName) == null)
+                game.setGameStatus(Response.CARDCHOICEERROR);
+            else {
+                game.removeCard(cardName);
+                game.getCurrentPlayer().setPower(game.getCardFromDeck(cardName));
+                game.setGameStatus(Response.CARDCHOICEDONE);
+            }
+        }
+        else {
+            game.setGameStatus(Response.STATUSERROR);
+        }
     }
+
+    //
+    //methods for the workers positioning of each player
+    //
 
     public void handleWorkerPositioning(Message message){
-        //check if the square is free
+        if(FlowStatutsLoader.isRightMessage(game.getGameStatus(),message.getType())) {
+            Integer[] tile1 = ((PlaceWorkersMessage) message).getTile1();
+            Integer[] tile2 = ((PlaceWorkersMessage) message).getTile2();
 
-        game.setGameStatus(Response.ENDTURN);
+            if(game.placeWorkersOnMap(tile1,tile2)){
+                game.setGameStatus(Response.PLACEWORKERSDONE);
+            }
+            else{
+                game.setGameStatus(Response.PLACEWORKERSERROR);
+            }
+        }
+        else{
+            game.setGameStatus(Response.STATUSERROR);
+        }
 
     }
+
+    //
+    //methods for the workers to use in the turn
+    //
+
     public void handleWorkerChoice(Message message){
 
-        if(game.getCurrentPlayer().checkIfCanMove(game.getCurrentPlayer().getWorkerFromString(((gwgew)messege).getWorker)){
+        if(game.getCurrentPlayer().checkIfCanMove(game.getGameMap(),game.getCurrentPlayer().getWorkerFromString(message.getMessage()))){
             handleFirstAction();
+        }
+        else{
+            game.setGameStatus(Response.STARTURNERROR);
         }
     }
 
     public void handleFirstAction(){
         game.setGameStatus(game.getCurrentPlayer().getFirstAction());
     }
+
+    //
+    //methods for the movement of the worker
+    //
 
     public void handleMovement(Message message) {
         ArrayList<Directions> possibleMoveSquare = game.getCurrentPlayer().findWorkerMove(game.getGameMap(), game.getCurrentPlayer().getCurrentWorker());
@@ -109,14 +193,14 @@ public class RoundController {
             }
         }
 
-        if(!checkRightSquares(message)) {
-            game.setGameStatus(Response.WINMISMATCH);  //vedere se si deve cambiare Response,se qualcuno ha vinto si invia il messaggio e si cambia la schermata
+        if(!checkRightSquares(((MoveWorkerMessage)message).getModifiedSquare())) {
+            game.setGameStatus(Response.NOTMOVED);  //vedere se si deve cambiare Response,se qualcuno ha vinto si invia il messaggio e si cambia la schermata
             return;
         }
 
         if (!response.equals(Response.NOTMOVED))
-            if(!checkMoveVictory(message));
-                game.setGameStatus(Response.NOTMOVED);  //vedere che response usare
+            if(!checkMoveVictory(message))
+                game.setGameStatus(Response.MOVEWINMISMATCH);  //vedere che response usare
 
         if(!game.hasWinner()) {
             game.setGameStatus(response);
@@ -141,8 +225,7 @@ public class RoundController {
             }
         }
 
-        if(!response.equals(((WorkersPositionMessage)message).getWinResponse())){ // devo bloccare l'handle move
-            Error;
+        if(!response.equals(((MoveWorkerMessage)message).getWinResponse())){
             return false;
         }
 
@@ -155,6 +238,10 @@ public class RoundController {
         return true;
 
     }
+
+    //
+    //methods for the building of the worker
+    //
 
 
     public void handleBuilding(Message message){
@@ -170,16 +257,17 @@ public class RoundController {
 
         }
 
-        if(!checkRightSquares(message)) {
-            game.setGameStatus(Response.NOTBUILD);  //vedere se si deve cambiare
+        if(!checkRightSquares(((BuildWorkerMessage)message).getModifiedSquare())) {
+            game.setGameStatus(Response.NOTBUILD);
             return;
         }
 
-        //vedere come gestore il mismatch delle build victory
+
 
         if (!response.equals(Response.NOTBUILD) && !response.equals(Response.NOTBUILDPLACE))
-            checkBuildVictory(message);
-
+            if(!checkBuildVictory(message))
+                game.setGameStatus(Response.BUILDWINMISMATCH);  //vedere come gestire le build win.è diverso se lui vince ma in realtà non ha vinto, oppure se vince un altro ma per lui
+                                                                //non ha vinto nessuno, trattare in maniera diversa
         if(!game.hasWinner()) {
             game.setGameStatus(response);
             mapNextAction(response);
@@ -202,14 +290,20 @@ public class RoundController {
         }
 
         if(!response.equals(((BuildWorkerMessage)message).getWinResponse())){
-            Error; // gestire in maniera diversa
+            return false;
         }
 
         if(response.equals(Response.NOTWIN))
             response = Response.NOTBUILDWIN;
 
         game.setGameStatus(response);
+
+        return true;
     }
+
+    //
+    //methods for the end of the turn of the worker
+    //
 
     public void removeNonPermanentConstraint(){
         ArrayList<Card> nonPermanentConstraint = new ArrayList<>();
@@ -229,8 +323,21 @@ public class RoundController {
         game.setGameStatus(Response.ENDTURN);
     }
 
-    public boolean checkRightSquares(Message message){
-        return false;hihih
+    //
+    //method to check if client has changed the right squares
+    //
+
+    public boolean checkRightSquares(ArrayList<Square> clientModifiedSquares){
+        ArrayList<Square> realModifiedSquares = game.getGameMap().getModifiedSquare();
+
+        if(realModifiedSquares.size() != clientModifiedSquares.size())
+            return false;
+        for(int i = 0; i < realModifiedSquares.size();i++){
+            if(!clientModifiedSquares.get(i).equals(realModifiedSquares.get(i)))
+                return false;
+        }
+
+        return true;
     }
 
 

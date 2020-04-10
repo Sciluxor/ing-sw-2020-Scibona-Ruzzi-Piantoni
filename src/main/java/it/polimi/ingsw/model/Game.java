@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.Cards.Card;
 import it.polimi.ingsw.model.Cards.CardLoader;
+import it.polimi.ingsw.model.Cards.CardSubType;
 import it.polimi.ingsw.model.Map.GameMap;
 import it.polimi.ingsw.model.Map.Square;
 import it.polimi.ingsw.model.Player.Color;
@@ -25,6 +26,8 @@ public class Game extends Observable<Response> {
     private Response gameStatus;
     private String gameID;
     private ArrayList<Color> availableColors;
+    private ArrayList<String> availableCards;
+    private PlayerQueue playerQueue;
 
     private boolean hasWinner;
     private Player winner;
@@ -43,6 +46,18 @@ public class Game extends Observable<Response> {
         availableColors.addAll(Arrays.asList(Color.values()));
     }
 
+    public ArrayList<String> getAvailableCards() {
+        return availableCards;
+    }
+
+    public void setAvailableCards(ArrayList<String> cardNames) {
+        availableCards = cardNames;
+    }
+
+    public void removeCard(String toRemoveCard){
+        availableCards.remove(toRemoveCard);
+    }
+
     public  Integer getNumberOfPlayers() {
         return numberOfPlayers;
     }
@@ -53,6 +68,17 @@ public class Game extends Observable<Response> {
 
         this.numberOfPlayers = numberOfPlayers;
     }
+
+    public String getCardFromAvailableCards(String card) {
+        for(String possibileCard : availableCards){
+            if(possibileCard.equals(card))
+                return possibileCard;
+        }
+
+        return null;
+
+    }
+
 
     public ArrayList<Player> getPlayers() {
         return settedPlayers;
@@ -78,7 +104,7 @@ public class Game extends Observable<Response> {
         this.winner = winner;
     }
 
-    public void getCardFromDeck(String cardName){
+    public Card getCardFromDeck(String cardName){
         return deck.get(cardName);
     }
 
@@ -146,6 +172,11 @@ public class Game extends Observable<Response> {
         this.currentPlayer = currentPlayer;
     }
 
+    public void peekPlayer(){
+        setCurrentPlayer(playerQueue.peekFirst());
+        playerQueue.changeTurn();
+    }
+
     public GameMap getGameMap() {
         return gameMap;
     }
@@ -164,22 +195,31 @@ public class Game extends Observable<Response> {
         notify(gameStatus);
     }
 
-    public void placeWorkersOnMap(Player player, int x1, int y1, int x2, int y2) {
-        if(player == null)
-            throw new NullPointerException("null player");
-
-        Integer[] tile1 = {x1, y1};
-        Integer[] tile2 = {x2, y2};
+    public boolean placeWorkersOnMap(Integer[] tile1,Integer[] tile2) {
 
         Square square1 = gameMap.getTileFromCoordinates(tile1);
         Square square2 = gameMap.getTileFromCoordinates(tile2);
 
-        this.gameMap.getGameMap().get(square1.getTile() - 1).setMovement(player, player.getWorkers().get(0));
-        player.getWorkers().get(0).setBoardPosition(square1);
+        if(square1.hasPlayer() || square2.hasPlayer())
+            return false;
 
-        this.gameMap.getGameMap().get(square2.getTile() - 1).setMovement(player, player.getWorkers().get(1));
-        player.getWorkers().get(1).setBoardPosition(square2);
+        this.gameMap.getGameMap().get(square1.getTile() - 1).setMovement(currentPlayer, currentPlayer.getWorkers().get(0));
+        currentPlayer.getWorkers().get(0).setBoardPosition(square1);
+        this.gameMap.getGameMap().get(square2.getTile() - 1).setMovement(currentPlayer, currentPlayer.getWorkers().get(1));
+        currentPlayer.getWorkers().get(1).setBoardPosition(square2);
 
+        currentPlayer.setHasPlacedWorkers(true);
+
+        return true;
+
+    }
+
+    public boolean allWorkersPlaced(){
+        for(Player player : settedPlayers){
+            if(!player.hasPlacedWorkers())
+                return false;
+        }
+        return true;
     }
 
     public Player pickChallenger() {
@@ -188,7 +228,7 @@ public class Game extends Observable<Response> {
     }
 
 
-    public PlayerQueue createQueue(String nickname) {
+    public void createQueue(String nickname) {
         if(nickname == null)
             throw new NullPointerException("null nickname");
 
@@ -206,7 +246,7 @@ public class Game extends Observable<Response> {
             }
         }
 
-        return new PlayerQueue(queue);
+        this.playerQueue = new PlayerQueue(queue);
     }
 
     public boolean checkCardIntoDeck(String card) { return deck.get(card) != null;}
@@ -226,6 +266,15 @@ public class Game extends Observable<Response> {
 
     public String getGameID() {
         return gameID;
+    }
+
+    public void assignPermanentConstraint(){
+        for(Player player : settedPlayers){
+            if(player.getPower().getSubType().equals(CardSubType.PERMANENTCONSTRAINT)){
+                player.assignConstraint(getPlayers());
+            }
+        }
+
     }
 
 

@@ -21,6 +21,7 @@ public class Player {
     private ArrayList<Worker> workers;
     private Worker currentWorker;
     private Worker unmovedWorker;
+    private boolean hasPlacedWorkers;
 
     public Player (String nickname){
 
@@ -31,6 +32,15 @@ public class Player {
 
         workers.add(new Worker(WorkerName.WORKER1));
         workers.add(new Worker(WorkerName.WORKER2));
+        hasPlacedWorkers = false;
+    }
+
+    public boolean hasPlacedWorkers() {
+        return hasPlacedWorkers;
+    }
+
+    public void setHasPlacedWorkers(boolean hasPlacedWorkers) {
+        this.hasPlacedWorkers = hasPlacedWorkers;
     }
 
     public Color getColor() {

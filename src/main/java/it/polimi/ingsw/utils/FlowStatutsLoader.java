@@ -7,6 +7,7 @@ import it.polimi.ingsw.network.message.MessageType;
 
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class FlowStatutsLoader {
@@ -50,17 +51,21 @@ public class FlowStatutsLoader {
 
         private static ArrayList<MessageType> createArrayListFromArray(MessageType[] types) {
 
-            ArrayList<MessageType> arrayList = new ArrayList<>();
-            for(int i = 0; i< types.length;i++){
-                arrayList.add(types[i]);
-
-            }
-
-            return arrayList;
+            return new ArrayList<>(Arrays.asList(types));
         }
 
         private static ArrayList<MessageType> getNextMessageFromStatus(Response status){
             return nextMessageFromStatus.get(status);
+        }
+
+        public static boolean isRightMessage(Response status, MessageType type){
+            ArrayList<MessageType> possibleType = getNextMessageFromStatus(status);
+            for(MessageType messageType: possibleType){
+                if(type.equals(messageType)){
+                    return true;
+                }
+            }
+            return false;
         }
 
 }
