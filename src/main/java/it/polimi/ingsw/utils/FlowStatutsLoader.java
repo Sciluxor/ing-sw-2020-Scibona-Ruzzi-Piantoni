@@ -16,7 +16,7 @@ public class FlowStatutsLoader {
             throw new IllegalStateException("FLowStatusLoader class cannot be instantiated");
         }
 
-        private static HashMap<Response,ArrayList<MessageType>> nextMessageFromStatus;
+        private static HashMap<Response,ArrayList<MessageType>> nextMessageFromStatus = new HashMap<>();
 
         private static class FlowContainer{
             Response type;
@@ -28,7 +28,7 @@ public class FlowStatutsLoader {
             FlowContainer[] containers;
 
             try{
-                String flowPath = "PossibleMoves.json";
+                String flowPath = "/PossibleMoves.json";
                 InputStreamReader flowInput = new InputStreamReader(FlowStatutsLoader.class.getResourceAsStream(flowPath));
                 JsonReader flowReader = new JsonReader(flowInput);
                 containers = gsonFlow.fromJson(flowReader,FlowContainer[].class);
@@ -41,7 +41,6 @@ public class FlowStatutsLoader {
 
 
             for(FlowContainer container: containers){
-
                 ArrayList<MessageType> arrayList = createArrayListFromArray(container.next);
                 nextMessageFromStatus.put(container.type,arrayList);
 

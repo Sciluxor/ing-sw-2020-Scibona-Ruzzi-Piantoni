@@ -52,10 +52,10 @@
     "next": ["ENDTURN"]
   },
   {
-  "type": "PLACEWORKER",
+  "type": "PLACEWORKERS",
   "next": ["PLACEWORKERS"]
  },{
-  "type": "PLACEWORKERDONE",
+  "type": "PLACEWORKERSDONE",
   "next": ["ENDTURN"]
 }
 ]

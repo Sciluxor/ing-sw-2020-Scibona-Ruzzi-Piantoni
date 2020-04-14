@@ -203,7 +203,7 @@ public class RoundController {
                 game.setGameStatus(Response.MOVEWINMISMATCH);  //vedere che response usare
 
         if(!game.hasWinner()) {
-            game.setGameStatus(response);
+            game.setGameStatus(response);  //forse si può gestire qui
             mapNextAction(response);
         }
     }
@@ -230,7 +230,7 @@ public class RoundController {
         }
 
         if(response.equals(Response.WIN)) {
-            game.setWinner(game.getCurrentPlayer());
+            game.setWinner(game.getCurrentPlayer());  // se c'è una vittoria bisogna settare prima la mossa e poi la vittoria per notificare in ordine
             game.setHasWinner(true);
         }
 

@@ -18,6 +18,7 @@ public class Client {
     private String userID = "Default";
     private Socket clientSocket;
     private int numberOfPlayers;
+    private Thread mainThread;
 
     private PrintStream printer = new PrintStream(System.out);
 
@@ -72,12 +73,25 @@ public class Client {
         try {
             ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());
             ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream());
-            new Thread(()-> client.processNickAndNumber(out,client)).start();
+            client.mainThread = new Thread(()-> {
+                client.processNickAndNumber(out,client);
+
+            });
+
+            client.mainThread.start();
+            new Thread(()-> {
+                try {
+                    client.simultaneousePrint();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }).start();
 
             //client.closeClientForTimeAsynchronously(clientSocket);
             while(true){  //runnare il process del message in parallelo
                 Message output = (Message) in.readObject();
                 new Thread(()-> client.processMessage(client,output,out)).start();
+
             }
         }catch (IOException e) {
             //clientSocket.close();
@@ -88,6 +102,19 @@ public class Client {
 
         //clientSocket.close();
         System.exit(1);
+
+    }
+
+    private void simultaneousePrint() throws InterruptedException {
+
+        try {
+            Thread.sleep(10000);
+        }catch (InterruptedException inter){
+            throw new InterruptedException("error in thread");
+        }
+        //mainThread.interrupt();
+        clearScreen2();
+        Logger.info("ciao");
 
     }
 

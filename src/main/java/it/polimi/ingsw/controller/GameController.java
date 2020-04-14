@@ -11,7 +11,6 @@ import it.polimi.ingsw.view.Server.VirtualView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Timer;
 
 public class GameController implements Observer<Message> {
