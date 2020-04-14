@@ -202,16 +202,22 @@ public class RoundController {
             if(!checkMoveVictory(message))
                 game.setGameStatus(Response.MOVEWINMISMATCH);  //vedere che response usare
 
-        if(!game.hasWinner()) {
-            game.setGameStatus(response);  //forse si può gestire qui
+        game.setGameStatus(response);
+
+        if(game.hasWinner()){
+            game.setGameStatus(Response.WIN);
+        }
+        else{
+            game.setGameStatus(response);
             mapNextAction(response);
         }
     }
 
     public void handleConstraint() {
         game.getCurrentPlayer().assignConstraint(game.getPlayers());
-        game.setGameStatus(Response.ASSIGNEDCONSTRAINT);
-        mapNextAction(Response.ASSIGNEDCONSTRAINT);
+        Response response = Response.ASSIGNEDCONSTRAINT;
+        game.setGameStatus(response);
+        mapNextAction(response);
 
     }
 
@@ -234,7 +240,7 @@ public class RoundController {
             game.setHasWinner(true);
         }
 
-        game.setGameStatus(response);
+
         return true;
 
     }
@@ -262,13 +268,17 @@ public class RoundController {
             return;
         }
 
-
-
         if (!response.equals(Response.NOTBUILD) && !response.equals(Response.NOTBUILDPLACE))
             if(!checkBuildVictory(message))
                 game.setGameStatus(Response.BUILDWINMISMATCH);  //vedere come gestire le build win.è diverso se lui vince ma in realtà non ha vinto, oppure se vince un altro ma per lui
                                                                 //non ha vinto nessuno, trattare in maniera diversa
-        if(!game.hasWinner()) {
+
+        game.setGameStatus(response);
+
+        if(game.hasWinner()){
+            game.setGameStatus(Response.WIN);
+        }
+        else{
             game.setGameStatus(response);
             mapNextAction(response);
         }
@@ -289,16 +299,10 @@ public class RoundController {
             }
         }
 
-        if(!response.equals(((BuildWorkerMessage)message).getWinResponse())){
-            return false;
-        }
-
         if(response.equals(Response.NOTWIN))
             response = Response.NOTBUILDWIN;
 
-        game.setGameStatus(response);
-
-        return true;
+        return response.equals(((BuildWorkerMessage) message).getWinResponse());
     }
 
     //

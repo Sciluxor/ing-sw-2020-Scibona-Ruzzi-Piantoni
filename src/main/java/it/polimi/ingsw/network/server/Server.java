@@ -33,7 +33,7 @@ public class Server {
         Logger.info("Please choose a Port (Default is 4700): ");
 
         ConfigLoader.loadSetting();
-        FlowStatutsLoader.loadFlow();
+        FlowStatutsLoader.loadFlow();  //aggiungere anche i controlli per gli errori
 
         Scanner in = new Scanner(System.in);
         String port = in.nextLine();
