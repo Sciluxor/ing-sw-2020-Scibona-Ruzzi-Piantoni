@@ -7,4 +7,6 @@ public class Logger {
 
     }
 
+    //aggiungere funzione per gli errori
+
 }
