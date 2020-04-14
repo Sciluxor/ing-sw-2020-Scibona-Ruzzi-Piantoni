@@ -79,13 +79,13 @@ public class Client {
             });
 
             client.mainThread.start();
-            new Thread(()-> {
+            /*new Thread(()-> {
                 try {
                     client.simultaneousePrint();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-            }).start();
+            }).start();*/
 
             //client.closeClientForTimeAsynchronously(clientSocket);
             while(true){  //runnare il process del message in parallelo

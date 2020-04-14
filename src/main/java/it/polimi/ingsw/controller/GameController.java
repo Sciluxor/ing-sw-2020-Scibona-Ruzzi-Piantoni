@@ -88,6 +88,10 @@ public class GameController implements Observer<Message> {
         return game.getPlayers();
     }
 
+    public synchronized Player getCurrentPlayer(){
+        return game.getCurrentPlayer();
+    }
+
     public synchronized Player getNewPlayer(){
         return game.getPlayers().get(game.getPlayers().size() -1);
     }

@@ -58,6 +58,17 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
            case GAMESTARTED:
                handleStartGame();
                break;
+           case PLACEWORKERSERROR:
+           case STATUSERROR:
+           case CARDCHOICEERROR:
+           case CHALLENGERCHOICEERROR:
+           case STARTURNERROR:
+               handleClientError();
+               break;
+           case CHALLENGERCHOICE:
+               //aggoingere metodo
+               break;
+           default:
        }
 
    }
@@ -70,7 +81,9 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
             case REMOVEDPLAYER:
                 handleRemovedPlayer();
                 break;
-
+            case CHALLENGERCHOICE:
+                handleChallengerChoice();
+                break;
             default:
         }
    }
@@ -103,6 +116,10 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
 
    }
 
+   public void handleClientError(){
+        //connection.sendMessage(new Message());
+   }
+
     //
     //methods for the idle turn of the player
     //
@@ -120,6 +137,15 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
         connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.NOTYOURTURN,MessageSubType.ERROR));
     }
 
+    //
+    //methods for both
+    //
+
+    public void handleChallengerChoice(){
+        connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.CHALLENGERCHOICE,MessageSubType.REQUEST,controller.getCurrentPlayer().getNickname()));
+    }
+    //getNickname manca la maiuscola
+
 
     @Override
     public void update(Response status) {
@@ -128,3 +154,4 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
       else onUpdatedInstance(status);
     }
 }
+//creare un'interfaccia comune per virtualView e view del client

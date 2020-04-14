@@ -17,6 +17,8 @@ public class Server {
     private ArrayList<GameController> lobby = new ArrayList<>();
     private ArrayList<GameController> actualMatches = new ArrayList<>();
     private HashMap<String, GameController> controllerFromGameID = new HashMap<>();
+    private SocketHandler socketHandler;
+    private ArrayList<ClientHandler> connections = new ArrayList<>();
     private Integer socketPort;
     private int numGameID;
     private int numUserID;
@@ -62,12 +64,19 @@ public class Server {
 
     public void startSocketServer(int port){
         try {
-            SocketHandler socketHandler = new SocketHandler(port,this);
+            this.socketHandler = new SocketHandler(port,this);
+            closeServerIfRequested();
         }catch (IOException e){
             Logger.info("Impossible to start the Server");
         }
     }
 
+    public void stopServer(){
+        for(ClientHandler connection: connections){
+            connection.closeConnection();
+        }
+        //vedere cosa vare per chiudere tutte le connessioni
+    }
     public boolean checkValidConfig(String nick,int numberOfPlayer,ClientHandler connection){
         boolean isNickValid = true;
         boolean isNumberOfPlayerValid =true;
@@ -106,6 +115,7 @@ public class Server {
             String userID = ConstantsContainer.USERIDPREFIX + numUserID;
             numUserID ++;
             if(isFirstTime) {
+                connections.add(connection);
                 for (GameController match : lobby) {
                     if (getNumberOfPlayer(match) == numberOfPlayer && !isFull(match)) {
                         addPlayer(match,connection, message, userID);
@@ -177,4 +187,21 @@ public class Server {
         controllerFromGameID.put(gameID,match);
         return match;
 
-    }}
+    }
+
+    public void closeServerIfRequested(){
+        new Thread(() -> {
+            String input = "";
+            while (!input.equalsIgnoreCase("close")) {
+                System.out.println("Type \"close\" to stop the server.");  //aggiustare la stampa
+                input = new Scanner(System.in).nextLine();
+            }
+
+            stopServer();
+
+            if (socketHandler != null)
+                socketHandler.close();
+            System.exit(0);
+        }).start();
+    }
+    }
