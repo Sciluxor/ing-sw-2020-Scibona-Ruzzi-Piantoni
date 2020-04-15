@@ -297,6 +297,10 @@ public class GameController implements Observer<Message> {
 
     }
 
+    public synchronized void removePlayerFromGame(){
+
+    }
+
     //
     //method to dispatch the new messagge to the right place
     //

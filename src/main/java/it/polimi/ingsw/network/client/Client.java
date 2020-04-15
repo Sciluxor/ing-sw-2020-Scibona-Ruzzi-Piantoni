@@ -8,12 +8,9 @@ import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
 
-//classe di prova solo per testare il server
-
-
 
 public class Client {
-    private boolean isGameStarted = false;
+    private boolean isGameStarted = false; //variabili da spostare
     private String nick = "Default";
     private String userID = "Default";
     private Socket clientSocket;
@@ -61,14 +58,33 @@ public class Client {
     }
 
     public static void main(String[] args ) throws IOException {
-        String ip ="127.0.0.1";
+        String ip ="127.0.0.1";  // mettere in json da caricare come default
         int port = 4700;
+        String startView = "";
 
-        Client client = new Client();
-        Scanner scanner = new Scanner(System.in);
-        ConsoleColor.loadColor();
-        client.setClientSocket(ip, port);
-        Socket clientSocket = client.getClientSocket();
+        if(args.length == 1 && (args[0].equalsIgnoreCase("gui") || args[0].equalsIgnoreCase("cli"))){
+            startView = args[0];
+        }
+        else{
+                //startView = funzione per chiedere se cli o gui
+        }
+
+        //la connessione viene chiesta nella gui o nella cli
+
+        if(startView.equalsIgnoreCase("gui")) {
+            //funziona per far partire la gui
+        }
+        else {
+            //new Cli.startCli();
+        }
+
+        //Client client = new Client();
+
+        //ConsoleColor.loadColor();
+        //client.setClientSocket(ip, port);
+        //Socket clientSocket = client.getClientSocket();
+
+        /*
 
         try {
             ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());
@@ -79,13 +95,13 @@ public class Client {
             });
 
             client.mainThread.start();
-            /*new Thread(()-> {
+            new Thread(()-> {
                 try {
                     client.simultaneousePrint();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-            }).start();*/
+            }).start();
 
             //client.closeClientForTimeAsynchronously(clientSocket);
             while(true){  //runnare il process del message in parallelo
@@ -99,7 +115,7 @@ public class Client {
         }catch (ClassNotFoundException e){
             Logger.info("problem with class");
         }
-
+*/
         //clientSocket.close();
         System.exit(1);
 

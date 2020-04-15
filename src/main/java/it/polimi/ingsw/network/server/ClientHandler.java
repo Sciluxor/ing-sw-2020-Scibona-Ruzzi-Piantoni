@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.server;
 
+import it.polimi.ingsw.network.ConnectionInterface;
 import it.polimi.ingsw.network.message.Message;
 import it.polimi.ingsw.network.message.MessageSubType;
 import it.polimi.ingsw.network.message.MessageType;
@@ -13,7 +14,7 @@ import java.io.*;
 import java.net.Socket;
 import java.util.Timer;
 
-public class ClientHandler implements Runnable{
+public class ClientHandler implements Runnable, ConnectionInterface {
 
     private ObjectInputStream objectIn;
     private ObjectOutputStream objectOut;
@@ -80,6 +81,18 @@ public class ClientHandler implements Runnable{
 
     }
 
+    public Message receiveMessage() throws IOException, ClassNotFoundException {
+        try{
+            return (Message) objectIn.readObject();
+        }
+        catch (IOException e){
+            throw new IOException();
+        }
+        catch (ClassNotFoundException c){
+            throw new ClassNotFoundException();
+        }
+    }
+
     public void closeConnection(){
         //chiusura connesione
         try{
@@ -115,7 +128,7 @@ public class ClientHandler implements Runnable{
                 this.objectIn = new ObjectInputStream(socket.getInputStream());
                 startLobbyTimer();
                 while(isConnectionActive()) {
-                    Message input = (Message) objectIn.readObject();
+                    Message input = receiveMessage();
 
                     if (input.getType() == MessageType.CONFIG && input.getSubType() == MessageSubType.ANSWER) {
                         stopLobbyTimer();
@@ -152,7 +165,4 @@ public class ClientHandler implements Runnable{
                 Logger.info("problem with class");
             }
         }
-
-
-
 }
