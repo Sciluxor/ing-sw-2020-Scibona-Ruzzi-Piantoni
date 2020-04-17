@@ -172,7 +172,7 @@ public class Game extends Observable<Response> {
         this.currentPlayer = currentPlayer;
     }
 
-    public void peekPlayer(){
+    public void pickPlayer(){
         setCurrentPlayer(playerQueue.peekFirst());
         playerQueue.changeTurn();
     }
@@ -212,6 +212,14 @@ public class Game extends Observable<Response> {
 
         return true;
 
+    }
+
+    public void removePlayerLose(){
+        Player toRemovePlayer = currentPlayer;
+        settedPlayers.remove(toRemovePlayer);
+        playerQueue.remove(toRemovePlayer);
+        pickPlayer();
+        gameMap.removeWorkersOfPlayer(toRemovePlayer); //implementare questa funzione
     }
 
     public boolean allWorkersPlaced(){

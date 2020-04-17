@@ -163,4 +163,8 @@ return reachableSquares;
     public void clearModifiedSquare(){
         this.modifiedSquare.clear();
     }
+
+    public void removeWorkersOfPlayer(Player player){
+
+    }
 }

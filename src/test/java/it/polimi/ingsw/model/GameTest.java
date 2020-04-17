@@ -283,23 +283,23 @@ class GameTest {
         game.addPlayer(player2, viewPlayer2);
         game.addPlayer(player3, viewPlayer3);
         game.createQueue("due");
-        game.peekPlayer();
+        game.pickPlayer();
         assertEquals(game.getCurrentPlayer(), game.getPlayers().get(1));
-        game.peekPlayer();
+        game.pickPlayer();
         assertEquals(game.getCurrentPlayer(), game.getPlayers().get(0));
-        game.peekPlayer();
+        game.pickPlayer();
         assertEquals(game.getCurrentPlayer(), game.getPlayers().get(2));
-        game.peekPlayer();
+        game.pickPlayer();
         assertEquals(game.getCurrentPlayer(), game.getPlayers().get(1));
-        game.peekPlayer();
+        game.pickPlayer();
         assertEquals(game.getCurrentPlayer(), game.getPlayers().get(0));
-        game.peekPlayer();
+        game.pickPlayer();
         assertEquals(game.getCurrentPlayer(), game.getPlayers().get(2));
-        game.peekPlayer();
+        game.pickPlayer();
         assertEquals(game.getCurrentPlayer(), game.getPlayers().get(1));
-        game.peekPlayer();
+        game.pickPlayer();
         assertEquals(game.getCurrentPlayer(), game.getPlayers().get(0));
-        game.peekPlayer();
+        game.pickPlayer();
         assertEquals(game.getCurrentPlayer(), game.getPlayers().get(2));
     }
 
@@ -390,28 +390,28 @@ class GameTest {
     }
 
     @Test
-    void peekPlayer() {
+    void pickPlayer() {
         game.addPlayer(player1, viewPlayer1);
         game.addPlayer(player2, viewPlayer2);
         game.addPlayer(player3, viewPlayer3);
         game.createQueue("due");
-        game.peekPlayer();
+        game.pickPlayer();
         assertEquals(game.getCurrentPlayer(), game.getPlayers().get(1));
-        game.peekPlayer();
+        game.pickPlayer();
         assertEquals(game.getCurrentPlayer(), game.getPlayers().get(0));
-        game.peekPlayer();
+        game.pickPlayer();
         assertEquals(game.getCurrentPlayer(), game.getPlayers().get(2));
-        game.peekPlayer();
+        game.pickPlayer();
         assertEquals(game.getCurrentPlayer(), game.getPlayers().get(1));
-        game.peekPlayer();
+        game.pickPlayer();
         assertEquals(game.getCurrentPlayer(), game.getPlayers().get(0));
-        game.peekPlayer();
+        game.pickPlayer();
         assertEquals(game.getCurrentPlayer(), game.getPlayers().get(2));
-        game.peekPlayer();
+        game.pickPlayer();
         assertEquals(game.getCurrentPlayer(), game.getPlayers().get(1));
-        game.peekPlayer();
+        game.pickPlayer();
         assertEquals(game.getCurrentPlayer(), game.getPlayers().get(0));
-        game.peekPlayer();
+        game.pickPlayer();
         assertEquals(game.getCurrentPlayer(), game.getPlayers().get(2));
     }
 

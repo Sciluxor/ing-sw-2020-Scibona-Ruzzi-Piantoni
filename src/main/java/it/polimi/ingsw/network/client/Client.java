@@ -78,13 +78,13 @@ public class Client {
             //new Cli.startCli();
         }
 
-        //Client client = new Client();
+        Client client = new Client();
 
-        //ConsoleColor.loadColor();
-        //client.setClientSocket(ip, port);
-        //Socket clientSocket = client.getClientSocket();
+        ConsoleColor.loadColor();
+        client.setClientSocket(ip, port);
+        Socket clientSocket = client.getClientSocket();
 
-        /*
+
 
         try {
             ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());
@@ -115,7 +115,7 @@ public class Client {
         }catch (ClassNotFoundException e){
             Logger.info("problem with class");
         }
-*/
+
         //clientSocket.close();
         System.exit(1);
 

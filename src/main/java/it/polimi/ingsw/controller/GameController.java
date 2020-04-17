@@ -4,9 +4,7 @@ import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player.Player;
 import it.polimi.ingsw.model.Response;
 import it.polimi.ingsw.network.message.*;
-import it.polimi.ingsw.utils.FlowStatutsLoader;
-import it.polimi.ingsw.utils.Logger;
-import it.polimi.ingsw.utils.Observer;
+import it.polimi.ingsw.utils.*;
 import it.polimi.ingsw.view.Server.VirtualView;
 
 import java.util.ArrayList;
@@ -18,7 +16,7 @@ public class GameController implements Observer<Message> {
     private Game game;
     private HashMap<String, VirtualView> clients;
     private Timer turnTimer ;
-    private Timer reconnectionTimer;
+    //private Timer reconnectionTimer;
     private RoundController roundController;
 
     public GameController(int numberOfPlayer,String gameID) {
@@ -143,8 +141,9 @@ public class GameController implements Observer<Message> {
         if(message.getSubType().equals(MessageSubType.BACK)) //testare cosa succede se il back o il close arriva mentre sta iniziando la partita, si deve gestire
             if(!game.isGameStarted())
                 view.getConnection().startLobbyTimer();
-            else
-                return; //far terminare il game
+            else{
+                handleBackError(message);
+            }
 
         disconnectPlayer(message);
 
@@ -154,6 +153,10 @@ public class GameController implements Observer<Message> {
         }
     }
 
+    public synchronized void handleBackError(Message message){ // finire questo
+        //fare terminare il game
+    }
+
     public synchronized void handleLobbyTimerEnded(Message message){
         VirtualView view = clients.get(message.getSender());
         view.getConnection().setViewActive(false);
@@ -161,6 +164,49 @@ public class GameController implements Observer<Message> {
         game.removeConfigPlayer();
         clients.remove(message.getSender());
         view.getConnection().closeConnection();
+    }
+
+    public synchronized void handleTurnLobbyEnded(){
+        VirtualView view = clients.get(getCurrentPlayer().getNickname());
+        game.removeObserver(view);
+        clients.remove(getCurrentPlayer().getNickname());
+        view.getConnection().setViewActive(false);
+        view.getConnection().closeConnection();
+
+        game.removePlayerLose();
+
+        VirtualView newView = clients.get(getCurrentPlayer().getNickname());
+        newView.setYourTurn(true);
+
+        game.setGameStatus(Response.PLAYERTIMERENDED);
+
+        checkIfStillCorrectGame();
+
+    }
+
+    public synchronized void eliminatePlayer(){
+        VirtualView view = clients.get(getCurrentPlayer().getNickname());
+        view.getConnection().setViewActive(false);
+        view.setYourTurn(false);
+        game.removePlayerLose();//bisogna rimuovere i worker dalla board
+        VirtualView newView = clients.get(getCurrentPlayer().getNickname());
+        newView.setYourTurn(true);
+        game.setGameStatus(Response.PLAYERLOSE);
+        checkIfStillCorrectGame();
+
+    }
+
+    public synchronized void checkIfStillCorrectGame(){
+        int numberOfPlayer = game.getPlayers().size();
+        if( numberOfPlayer >= ConstantsContainer.MINPLAYERLOBBY && numberOfPlayer <= game.getNumberOfPlayers()){
+            startRoundTimer();
+            handleTurnBeginning();
+        }
+        else{
+            game.setWinner(getCurrentPlayer());
+            game.setHasWinner(true);
+            game.setGameStatus(Response.WINLASTREMAINING);// forse non serve
+        }
     }
 
 
@@ -210,11 +256,9 @@ public class GameController implements Observer<Message> {
 
     public synchronized void changeTurnPlayer(Message message){
         getViewFromNickName(message.getNickName()).setYourTurn(false);
-        game.peekPlayer();
+        game.pickPlayer();
         getViewFromNickName(game.getCurrentPlayer().getNickname()).setYourTurn(true);
     }
-
-
 
     //
     //methods for ending the current turn and starting the next turn
@@ -228,14 +272,9 @@ public class GameController implements Observer<Message> {
             stopRoundTimer();
             eliminatePlayer();
 
-            //controllare se la partita può continuare o se è finita
+
         }
     }
-
-    public synchronized void eliminatePlayer(){
-
-    }
-
 
     public synchronized void handleEndTun(Message message){
         stopRoundTimer();
@@ -265,7 +304,6 @@ public class GameController implements Observer<Message> {
                     }
                     break;
                 default:
-                    changeTurnPlayer(message);
                     handleTurnBeginning();
             }
         }
@@ -290,16 +328,15 @@ public class GameController implements Observer<Message> {
     //
 
     public void startRoundTimer(){
-
+      turnTimer = new Timer();
+      TurnTimerTask task = new TurnTimerTask(this);
+      turnTimer.schedule(task, ConfigLoader.getTurnTimer()*1000);
     }
 
     public void stopRoundTimer(){
-
+        turnTimer.cancel();
     }
 
-    public synchronized void removePlayerFromGame(){
-
-    }
 
     //
     //method to dispatch the new messagge to the right place

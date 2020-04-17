@@ -71,12 +71,38 @@ public class Server {
         }
     }
 
-    public void stopServer(){
-        for(ClientHandler connection: connections){
-            connection.closeConnection();
+    public void stopServer() {
+        synchronized (clientsLock) {
+            ArrayList<ClientHandler> toRemove = new ArrayList<>();
+
+            for (ClientHandler connection : connections) {
+                connection.closeConnectionFromServer();
+                toRemove.add(connection);
+            }
+
+            for(ClientHandler connection: toRemove){
+                removeFromConnections(connection);
+            }
+
+            try {
+                Thread.sleep(200);
+            }catch (InterruptedException inter){
+                Logger.info("SERVER ERROR");
+            }
+
+
+            Logger.info("Server Shutted Down.");
+            System.exit(0);
         }
-        //vedere cosa vare per chiudere tutte le connessioni
+        //vedere cosa fare per chiudere tutte le connessioni
     }
+
+    public void removeFromConnections(ClientHandler connection){
+         synchronized (clientsLock) {
+             connections.remove(connection);
+         }
+    }
+
     public boolean checkValidConfig(String nick,int numberOfPlayer,ClientHandler connection){
         boolean isNickValid = true;
         boolean isNumberOfPlayerValid =true;
@@ -102,6 +128,10 @@ public class Server {
                 }
             }
         }
+    }
+
+    public void disconnectedPlayer(){
+
     }
 
     public void insertPlayerInGame(Message message,ClientHandler connection,boolean isFirstTime){
@@ -193,6 +223,11 @@ public class Server {
         new Thread(() -> {
             String input = "";
             while (!input.equalsIgnoreCase("close")) {
+                try {
+                    Thread.sleep(200);
+                }catch (InterruptedException inter){
+                    Logger.info("SERVER ERROR");
+                }
                 System.out.println("Type \"close\" to stop the server.");  //aggiustare la stampa
                 input = new Scanner(System.in).nextLine();
             }

@@ -68,6 +68,9 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
            case CHALLENGERCHOICE:
                //aggoingere metodo
                break;
+           case PLAYERLOSE:
+               //handleYourPlayerLose(); //finire questi
+               break;
            default:
        }
 
@@ -83,6 +86,9 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
                 break;
             case CHALLENGERCHOICE:
                 handleChallengerChoice();
+                break;
+            case PLAYERLOSE:
+               // handleOtherPlayerLoose();
                 break;
             default:
         }

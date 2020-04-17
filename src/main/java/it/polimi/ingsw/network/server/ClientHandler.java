@@ -95,14 +95,24 @@ public class ClientHandler implements Runnable, ConnectionInterface {
 
     public void closeConnection(){
         //chiusura connesione
+        sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.DISCONNECTION,MessageSubType.TIMEENDED));
+        server.removeFromConnections(this);
+        close();
+    }
+
+    public void close(){
         try{
-            sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.DISCONNECTION,MessageSubType.TIMEENDED));
             objectIn.close();
             objectOut.close();
             socket.close();
         }catch (IOException e){
             Logger.info("problem in closing connection");
         }
+    }
+
+    public void closeConnectionFromServer(){
+        sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.DISCONNECTION,MessageSubType.SERVERSTOPPED));
+        close();
     }
 
     public void dispatchMessageToVirtualView(Message message){
@@ -149,7 +159,10 @@ public class ClientHandler implements Runnable, ConnectionInterface {
                             dispatchMessageToVirtualView(input);
                         }
                         server.moveGameStarted();
-
+                    }
+                    else if((input.getType() == MessageType.DISCONNECTION && input.getSubType() == MessageSubType.EXITGAME)){ //completare questo
+                        //confermare la ricezione del messaggio
+                        //terminare la partita
                     }
                     else {
                         dispatchMessageToVirtualView(input); //runnarlo in un altro thread?
@@ -159,6 +172,7 @@ public class ClientHandler implements Runnable, ConnectionInterface {
                 closeConnection();
 
             }catch (IOException e){
+                //terminare la partita se la partita è gia iniziata
                 Logger.info("player disconnected");//gestire la disconessione del player
             }
             catch(ClassNotFoundException c){
