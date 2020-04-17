@@ -9,7 +9,7 @@
   },
   {
     "type": "BUILDBEFORE",
-    "next": ["BUILDWORKER","MOVEWORKER"]
+    "next": ["BUILDWORKER","MOVEWORKER","WORKERCHOICE"]
   },
   {
     "type": "BUILDEDBEFORE",
@@ -33,7 +33,7 @@
   },
   {
     "type": "TOMOVE",
-    "next": ["MOVEWORKER"]
+    "next": ["MOVEWORKER","WORKERCHOICE"]
   },
   {
     "type": "CHALLENGERCHOICE",

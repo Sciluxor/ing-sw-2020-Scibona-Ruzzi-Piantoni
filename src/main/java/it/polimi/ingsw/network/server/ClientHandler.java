@@ -165,4 +165,6 @@ public class ClientHandler implements Runnable, ConnectionInterface {
                 Logger.info("problem with class");
             }
         }
+
+        //aggiungere una funziona per pingare il client, se non risponde eliminarlo e far terminare la partita.
 }
