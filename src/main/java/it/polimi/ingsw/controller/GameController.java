@@ -253,7 +253,7 @@ public class GameController implements Observer<Message> {
         clients.remove(message.getMessage());
         clients.remove(message.getSender());
 
-        if (message.getSubType().equals(MessageSubType.NICKMAXTRY) || view.getConnection().getNickName().equalsIgnoreCase("def")) { //mettere come costante
+        if (message.getSubType().equals(MessageSubType.NICKMAXTRY) || view.getConnection().getNickName().equalsIgnoreCase(ConstantsContainer.NICKDEF)) {
             game.removeConfigPlayer();
         }
         else {

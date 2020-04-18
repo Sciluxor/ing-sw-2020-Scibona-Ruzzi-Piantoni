@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.Map.GameMap;
 import it.polimi.ingsw.model.Player.Player;
 import it.polimi.ingsw.model.Player.Worker;
 import it.polimi.ingsw.model.Response;
+import it.polimi.ingsw.utils.ConstantsContainer;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -89,7 +90,8 @@ public class Card implements Serializable {
         if(gameMap == null || player == null)
             throw new NullPointerException("null gameMap or player");
 
-        if(player.getCurrentWorker().getBoardPosition().getBuildingLevel() == 3 && player.getCurrentWorker().getPreviousBoardPosition().getBuildingLevel() == 2)
+        if(player.getCurrentWorker().getBoardPosition().getBuildingLevel() == ConstantsContainer.WINNINGLEVEL
+                && player.getCurrentWorker().getPreviousBoardPosition().getBuildingLevel() == ConstantsContainer.WINNINGLEVEL -1)
             return Response.WIN;
         return Response.NOTWIN;
     }

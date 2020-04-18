@@ -26,8 +26,8 @@ public class ClientHandler implements Runnable, ConnectionInterface {
     private Timer lobbyTimer;
     private int newNickCounter;
 
-    private String userID ="default";
-    private String nickName = "def";
+    private String userID = ConstantsContainer.USERDIDDEF;
+    private String nickName = ConstantsContainer.NICKDEF;
 
     public ClientHandler(Server server, Socket socket){
         this.socket = socket;
@@ -77,7 +77,7 @@ public class ClientHandler implements Runnable, ConnectionInterface {
         this.view = view;
     }
 
-    public void sendMessage(Message msg){//fare un'altra funzione per mandare in asincrono i messaggi
+    public void sendMessage(Message msg){                                  //fare un'altra funzione per mandare in asincrono i messaggi
 
         try {
             objectOut.writeObject(msg);
@@ -179,10 +179,12 @@ public class ClientHandler implements Runnable, ConnectionInterface {
                         server.moveGameStarted();
                     }
                     else if((input.getType() == MessageType.DISCONNECTION && input.getSubType() == MessageSubType.REQUEST)){
-                        server.stopGame(userID,this,input);
-                        //completare questo
-                        //confermare la ricezione del messaggio
-                        //terminare la partita
+                        server.handleDisconnection(userID,this,input);
+                                                                                                                   //completare questo
+                                                                                                             //confermare la ricezione del messaggio, è giò fatto
+                        //due casi diversi se si disconette prima di aver iniziato la partita o dopo aver iniziato la partita, nel primo si deve chiudere l'app
+                        //nel secondo si deve richiedere se si vuole iniziare una nuova parita
+                                                                                                                  //terminare la partita
                     }
                     else {
                         dispatchMessageToVirtualView(input); //runnarlo in un altro thread?
@@ -193,7 +195,7 @@ public class ClientHandler implements Runnable, ConnectionInterface {
 
             }catch (IOException e){
                 isConnectionActive = false;
-                server.stopGame(userID,this,new Message(userID,nickName,MessageType.DISCONNECTION,MessageSubType.ERROR));
+                server.handleDisconnection(userID,this,new Message(userID,nickName,MessageType.DISCONNECTION,MessageSubType.ERROR));
                 Logger.info("player disconnected");
             }
             catch(ClassNotFoundException c){

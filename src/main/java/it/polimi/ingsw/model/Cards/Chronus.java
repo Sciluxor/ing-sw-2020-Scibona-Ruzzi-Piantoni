@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.Map.Square;
 import it.polimi.ingsw.model.Player.Player;
 import it.polimi.ingsw.model.Player.TurnStatus;
 import it.polimi.ingsw.model.Response;
+import it.polimi.ingsw.utils.ConstantsContainer;
 
 public class Chronus extends Card {
 
@@ -21,7 +22,8 @@ public class Chronus extends Card {
 
         if(countTower(gameMap))
             return Response.BUILDWIN;
-        if (!player.getTurnStatus().equals(TurnStatus.IDLE) && player.getCurrentWorker().getBoardPosition().getBuildingLevel() == 3 && player.getCurrentWorker().getPreviousBoardPosition().getBuildingLevel() == 2)
+        if (!player.getTurnStatus().equals(TurnStatus.IDLE) && player.getCurrentWorker().getBoardPosition().getBuildingLevel() == ConstantsContainer.WINNINGLEVEL
+                && player.getCurrentWorker().getPreviousBoardPosition().getBuildingLevel() == (ConstantsContainer.WINNINGLEVEL -1) )
             return  Response.WIN;
         return Response.NOTWIN;
     }
@@ -32,9 +34,9 @@ public class Chronus extends Card {
 
         int counter = 0;
         for(Square x : gameMap.getGameMap()) {
-            if (x.getBuilding().equals(Building.DOME) && x.getBuildingLevel() == 4)
+            if (x.getBuilding().equals(Building.DOME) && x.getBuildingLevel() == ConstantsContainer.MAXBUILDINGLEVEL)
                 counter++;
-            if(counter == 5)
+            if(counter == ConstantsContainer.CHRONUSTOWERWIN)
                 return true;
         }
         return false;

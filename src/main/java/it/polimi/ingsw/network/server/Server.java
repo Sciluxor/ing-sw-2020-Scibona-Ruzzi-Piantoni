@@ -232,9 +232,9 @@ public class Server {
 
     }
 
-    public void stopGame(String userID,ClientHandler connection,Message message) {
+    public void handleDisconnection(String userID,ClientHandler connection,Message message) {
         synchronized (clientsLock) {
-            if (userID.equalsIgnoreCase("default")) { //costant
+            if (userID.equalsIgnoreCase(ConstantsContainer.USERDIDDEF)) {
                 connection.closeAfterDisconnection();
             } else {
                 GameController controller = getControllerFromUserID(userID);

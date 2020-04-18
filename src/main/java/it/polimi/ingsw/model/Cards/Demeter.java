@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.Map.GameMap;
 import it.polimi.ingsw.model.Map.Square;
 import it.polimi.ingsw.model.Player.Worker;
 import it.polimi.ingsw.model.Response;
+import it.polimi.ingsw.utils.ConstantsContainer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,7 +38,7 @@ public class Demeter extends Card {
 
         for(Directions dir: Directions.values()){
             int squareTile = canAccess.get(dir);
-            if(squareTile > 0 && squareTile <= 25) { //rivedere questo if
+            if(squareTile > ConstantsContainer.MINMAPPOSITION && squareTile <= ConstantsContainer.MAXMAPPOSITION) { //rivedere questo if
                 Square possibleSquare = gameMap.getGameMap().get(squareTile- 1);
                 if(!possibleSquare.hasPlayer() && (possibleSquare.getBuildingLevel() >= 0 && possibleSquare.getBuildingLevel() <= level_position +1)
                         && possibleSquare.getBuilding() != Building.DOME && !(possibleSquare.equals(worker.getPreviousBuildPosition()))) {
