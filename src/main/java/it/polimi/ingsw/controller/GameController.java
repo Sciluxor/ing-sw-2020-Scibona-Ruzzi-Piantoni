@@ -149,9 +149,8 @@ public class GameController implements Observer<Message> {
             else{
                 handleBackError(message);
             }
-
-                                                                 //bisognerebbe rimuovere l'userd id dal server, senzs dead lock
-        disconnectPlayer(message);
+                                                              //bisognerebbe rimuovere l'userd id dal server, senzs dead lock,da spostare tutto nel server
+        disconnectPlayerBeforeGameStart(message);
 
     }
 
@@ -166,14 +165,14 @@ public class GameController implements Observer<Message> {
             VirtualView playerView = removeViewFromGame(player.getNickname());
             if(playerView.getConnection().isConnectionActive()) {
                 game.removeSettedPlayer(player.getNickname());
-                closeConnectionAfterDisconnection(playerView);  // se è una request non si deve chiudere la connessione. aggiungere questo caso
+                closeConnectionAfterDisconnection(playerView);
             }
         }
 
         game.setGameStatus(Response.GAMESTOPPED);
 
         for(Player player :getActualPlayers()){
-            game.removeObserver(getViewFromNickName(player.getNickname()));  //non si deve chiudere la connection
+            game.removeObserver(getViewFromNickName(player.getNickname()));
         }
 
     }
@@ -247,14 +246,14 @@ public class GameController implements Observer<Message> {
     }
 
 
-    public synchronized void disconnectPlayer(Message message) {
+    public synchronized void disconnectPlayerBeforeGameStart(Message message) {
         VirtualView view = clients.get(message.getSender());
         view.getConnection().setViewActive(false);
         game.removeObserver(view);
         clients.remove(message.getMessage());
         clients.remove(message.getSender());
 
-        if (message.getSubType().equals(MessageSubType.NICKMAXTRY)) {
+        if (message.getSubType().equals(MessageSubType.NICKMAXTRY) || view.getConnection().getNickName().equalsIgnoreCase("def")) { //mettere come costante
             game.removeConfigPlayer();
         }
         else {

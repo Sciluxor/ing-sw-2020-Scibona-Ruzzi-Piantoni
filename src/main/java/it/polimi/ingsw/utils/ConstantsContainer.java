@@ -22,5 +22,7 @@ public class ConstantsContainer {
 
     //Map
     public static final Integer PERIMETERPOSITION = 16;
+    public static final Integer MINMAPPOSITION = 0;
+    public static final Integer MAXMAPPOSITION = 25;
 
 }

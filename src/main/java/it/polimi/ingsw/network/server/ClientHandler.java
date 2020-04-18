@@ -103,7 +103,6 @@ public class ClientHandler implements Runnable, ConnectionInterface {
     }
 
     public void closeConnection(){
-        //chiusura connesione
         sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.DISCONNECTION,MessageSubType.TIMEENDED));
         server.removeFromConnections(this);
         close();
@@ -194,9 +193,8 @@ public class ClientHandler implements Runnable, ConnectionInterface {
 
             }catch (IOException e){
                 isConnectionActive = false;
-                //controllo per userID false
-                server.stopGame(userID,this,new Message(userID,nickName,MessageType.DISCONNECTION,MessageSubType.ERROR)); //non bisogna chiudere la connesione ai player rimasti, si richiede se vogliono iniziare una nuovs psrtita
-                Logger.info("player disconnected");//gestire la disconessione del player
+                server.stopGame(userID,this,new Message(userID,nickName,MessageType.DISCONNECTION,MessageSubType.ERROR));
+                Logger.info("player disconnected");
             }
             catch(ClassNotFoundException c){
                 Logger.info("problem with class");

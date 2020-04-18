@@ -175,7 +175,6 @@ public class Server {
             numUserID ++;
             GameController match = newMatch(numberOfPlayer);
             addPlayer(match,connection,message,userID);
-            Logger.info(userID);
             controllerFromUserID.put(userID,match);
 
         }
@@ -233,29 +232,30 @@ public class Server {
 
     }
 
-    public void stopGame(String userID,ClientHandler connection,Message message){
+    public void stopGame(String userID,ClientHandler connection,Message message) {
         synchronized (clientsLock) {
-            GameController controller = getControllerFromUserID(userID);
-            if (controller.isGameStarted()) {                             //mettere il caso di disconnection request se il game è già iniziato
-                //controller.stopStartedGame(); all'inizio o alla fine?
-                actualMatches.remove(controller);
+            if (userID.equalsIgnoreCase("default")) { //costant
+                connection.closeAfterDisconnection();
+            } else {
+                GameController controller = getControllerFromUserID(userID);
+                if (controller.isGameStarted()) {                             //mettere il caso di disconnection request se il game è già iniziato
+                    //controller.stopStartedGame(); all'inizio o alla fine?
+                    actualMatches.remove(controller);
 
-                for (Player player : controller.getActualPlayers()) {
-                    controllerFromUserID.remove(controller.getUserIDFromPlayer(player));                  //come faccio?
+                    for (Player player : controller.getActualPlayers()) {
+                        controllerFromUserID.remove(controller.getUserIDFromPlayer(player));
+                    }
+                    controllerFromGameID.remove(controller.getGameID());
+                    controller.stopStartedGame();
+                } else {
+                    controllerFromUserID.remove(userID);
+                    controller.disconnectPlayerBeforeGameStart(new Message(userID, MessageType.DISCONNECTION, MessageSubType.ERROR, message.getNickName()));
+                    if (message.getSubType().equals(MessageSubType.REQUEST)){
+                        connection.closeConnection();}
+                    else connection.closeAfterDisconnection();
                 }
-
-                controllerFromGameID.remove(controller.getGameID());
-                controller.stopStartedGame();
-            } else {//se la partita non è ancora iniziata basta rimuovere il player dalla lobby, come settedPlayer o come configPlayer, ma bisogna inviare un messaggio
-                controllerFromUserID.remove(userID);
-                controller.disconnectPlayer(new Message(userID,MessageType.DISCONNECTION,MessageSubType.ERROR,message.getNickName())); //aggiungere se non hanno nickName
-                if(message.getSubType().equals(MessageSubType.REQUEST))
-                    connection.closeConnection();
-                else connection.closeAfterDisconnection();
             }
-
         }
-
     }
 
     public void closeServerIfRequested(){

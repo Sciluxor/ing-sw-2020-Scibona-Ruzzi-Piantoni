@@ -12,7 +12,7 @@ public class GameMap {
 
     private ArrayList<Square> gameMap;
     private HashMap<Worker, Square> workersPosition;           //forse non serve
-    private Square [][]linkToCoordinates = new Square[25][25]; // mettere come costanti
+    private Square [][]linkToCoordinates = new Square[ConstantsContainer.MAXMAPPOSITION][ConstantsContainer.MAXMAPPOSITION]; // mettere come costanti
     private ArrayList<Square> modifiedSquare = new ArrayList<>();
 
     public GameMap() {
@@ -44,7 +44,7 @@ public class GameMap {
 
           for(Directions dir: Directions.values()){
               int squareTile  =canAccess.get(dir);
-              if(squareTile > 0 && squareTile <= 25) {                                              //mettere come costanti
+              if(squareTile > ConstantsContainer.MINMAPPOSITION && squareTile <= ConstantsContainer.MAXMAPPOSITION) {                                              //mettere come costanti
                   Square possibleSquare = gameMap.get(squareTile- 1);
                   if(!possibleSquare.hasPlayer() && (possibleSquare.getBuildingLevel() >= 0 && possibleSquare.getBuildingLevel() <= level_position + 1 && !worker.getBoardPosition().equals(possibleSquare) )
                           && possibleSquare.getBuilding() != Building.DOME ){
@@ -87,7 +87,7 @@ return reachableSquares;
 
         for(Directions dir: Directions.values()){
               int squareTile = canAccess.get(dir);
-              if(squareTile > 0 && squareTile <= 25){  //mettere come costanti
+              if(squareTile > ConstantsContainer.MINMAPPOSITION && squareTile <= ConstantsContainer.MAXMAPPOSITION){  //mettere come costanti
                   Square possibleBuild = gameMap.get(squareTile - 1);
                   if(!possibleBuild.getBuilding().equals(Building.DOME) && !possibleBuild.hasPlayer() && !worker.getBoardPosition().equals(possibleBuild)){
                       buildableSquare.add(dir);
