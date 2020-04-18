@@ -27,6 +27,7 @@ public class ClientHandler implements Runnable, ConnectionInterface {
     private int newNickCounter;
 
     private String userID ="default";
+    private String nickName = "def";
 
     public ClientHandler(Server server, Socket socket){
         this.socket = socket;
@@ -34,6 +35,14 @@ public class ClientHandler implements Runnable, ConnectionInterface {
         this.isConnectionActive = true;
 
 
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 
     public String getUserID() {
@@ -110,6 +119,16 @@ public class ClientHandler implements Runnable, ConnectionInterface {
         }
     }
 
+    public void closeAfterDisconnection()
+    {
+        server.removeFromConnections(this);
+        try{
+            socket.close();
+        }catch (IOException e){
+            Logger.info("problem in closing connection");
+        }
+    }
+
     public void closeConnectionFromServer(){
         sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.DISCONNECTION,MessageSubType.SERVERSTOPPED));
         close();
@@ -160,7 +179,9 @@ public class ClientHandler implements Runnable, ConnectionInterface {
                         }
                         server.moveGameStarted();
                     }
-                    else if((input.getType() == MessageType.DISCONNECTION && input.getSubType() == MessageSubType.EXITGAME)){ //completare questo
+                    else if((input.getType() == MessageType.DISCONNECTION && input.getSubType() == MessageSubType.REQUEST)){
+                        server.stopGame(userID,this,input);
+                        //completare questo
                         //confermare la ricezione del messaggio
                         //terminare la partita
                     }
@@ -172,7 +193,9 @@ public class ClientHandler implements Runnable, ConnectionInterface {
                 closeConnection();
 
             }catch (IOException e){
-                //terminare la partita se la partita è gia iniziata
+                isConnectionActive = false;
+                //controllo per userID false
+                server.stopGame(userID,this,new Message(userID,nickName,MessageType.DISCONNECTION,MessageSubType.ERROR)); //non bisogna chiudere la connesione ai player rimasti, si richiede se vogliono iniziare una nuovs psrtita
                 Logger.info("player disconnected");//gestire la disconessione del player
             }
             catch(ClassNotFoundException c){

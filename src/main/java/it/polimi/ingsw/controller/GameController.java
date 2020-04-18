@@ -34,15 +34,11 @@ public class GameController implements Observer<Message> {
         view.setYourTurn(true);
         String nick = message.getNickName();
         if(!game.addPlayer(new Player(nick),view)){
-              game.setGameStatus(Response.NICKUSED);
-              view.setYourTurn(false);
+              nickUsed(view);
               return;
         }
-        clients.put(nick,view);
 
-        game.setGameStatus(Response.PLAYERADDED);
-        view.setYourTurn(false);
-        checkIfGameCanStart();
+        addPlayer(view,nick);
 
     }
 
@@ -52,16 +48,25 @@ public class GameController implements Observer<Message> {
         view.setYourTurn(true);
 
         if(!game.newNickName(new Player(nick))){
-            game.setGameStatus(Response.NICKUSED);
-            view.setYourTurn(false);
+            nickUsed(view);
             return;
         }
 
+        addPlayer(view,nick);
 
+    }
+
+    public synchronized void addPlayer(VirtualView view, String nick){
         clients.put(nick,view);
         game.setGameStatus(Response.PLAYERADDED);
+        view.getConnection().setNickName(nick);
         view.setYourTurn(false);
         checkIfGameCanStart();
+    }
+
+    public synchronized void nickUsed(VirtualView view){
+        game.setGameStatus(Response.NICKUSED);
+        view.setYourTurn(false);
     }
 
     public void checkIfGameCanStart(){
@@ -145,16 +150,36 @@ public class GameController implements Observer<Message> {
                 handleBackError(message);
             }
 
+                                                                 //bisognerebbe rimuovere l'userd id dal server, senzs dead lock
         disconnectPlayer(message);
 
-        if(message.getSubType().equals(MessageSubType.REQUEST)) {
-
-            view.getConnection().closeConnection();
-        }
     }
 
     public synchronized void handleBackError(Message message){                 // finire questo
         //fare terminare il game
+        stopStartedGame();
+    }
+
+    public synchronized void stopStartedGame(){
+
+        for(Player player :getActualPlayers()){
+            VirtualView playerView = removeViewFromGame(player.getNickname());
+            if(playerView.getConnection().isConnectionActive()) {
+                game.removeSettedPlayer(player.getNickname());
+                closeConnectionAfterDisconnection(playerView);  // se è una request non si deve chiudere la connessione. aggiungere questo caso
+            }
+        }
+
+        game.setGameStatus(Response.GAMESTOPPED);
+
+        for(Player player :getActualPlayers()){
+            game.removeObserver(getViewFromNickName(player.getNickname()));  //non si deve chiudere la connection
+        }
+
+    }
+
+    public synchronized String  getUserIDFromPlayer(Player player){
+        return getViewFromNickName(player.getNickname()).getConnection().getUserID();
     }
 
     public synchronized void handleLobbyTimerEnded(Message message){
@@ -165,8 +190,13 @@ public class GameController implements Observer<Message> {
         closeConnection(view);
     }
 
+    public synchronized void closeConnectionAfterDisconnection(VirtualView view){
+        game.removeObserver(view);
+        view.getConnection().closeAfterDisconnection();
+    }
+
     public synchronized void handleTurnLobbyEnded(){
-        VirtualView view = removeViewFromGame();
+        VirtualView view = removeViewFromGame(getCurrentPlayer().getNickname());
         closeConnection(view);
         removePlayerFromBoard();
 
@@ -176,7 +206,7 @@ public class GameController implements Observer<Message> {
     }
 
     public synchronized void eliminatePlayer(){
-        removeViewFromGame();
+        removeViewFromGame(getCurrentPlayer().getNickname());
         removePlayerFromBoard();
 
         game.setGameStatus(Response.PLAYERLOSE);
@@ -189,8 +219,8 @@ public class GameController implements Observer<Message> {
         view.getConnection().closeConnection();
     }
 
-    public synchronized VirtualView removeViewFromGame(){
-        VirtualView view = clients.get(getCurrentPlayer().getNickname());
+    public synchronized VirtualView removeViewFromGame(String nickName){
+        VirtualView view = clients.get(nickName);
         clients.remove(getCurrentPlayer().getNickname());
         view.getConnection().setViewActive(false);
         view.setYourTurn(false);
@@ -224,9 +254,9 @@ public class GameController implements Observer<Message> {
         clients.remove(message.getMessage());
         clients.remove(message.getSender());
 
-        if (message.getSubType().equals(MessageSubType.NICKMAXTRY))
+        if (message.getSubType().equals(MessageSubType.NICKMAXTRY)) {
             game.removeConfigPlayer();
-
+        }
         else {
             game.removeSettedPlayer(message.getMessage());
             game.setGameStatus(Response.REMOVEDPLAYER);

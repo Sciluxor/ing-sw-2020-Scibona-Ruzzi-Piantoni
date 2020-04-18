@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.model.Player.Player;
 import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.utils.ConfigLoader;
 import it.polimi.ingsw.utils.ConstantsContainer;
@@ -17,6 +18,7 @@ public class Server {
     private ArrayList<GameController> lobby = new ArrayList<>();
     private ArrayList<GameController> actualMatches = new ArrayList<>();
     private HashMap<String, GameController> controllerFromGameID = new HashMap<>();
+    private HashMap<String, GameController> controllerFromUserID = new HashMap<>();
     private SocketHandler socketHandler;
     private ArrayList<ClientHandler> connections = new ArrayList<>();
     private Integer socketPort;
@@ -142,13 +144,15 @@ public class Server {
             if(!checkValidConfig(nick,numberOfPlayer,connection))
                 return;
 
-            String userID = ConstantsContainer.USERIDPREFIX + numUserID;
-            numUserID ++;
+
             if(isFirstTime) {
                 connections.add(connection);
                 for (GameController match : lobby) {
                     if (getNumberOfPlayer(match) == numberOfPlayer && !isFull(match)) {
+                        String userID = ConstantsContainer.USERIDPREFIX + numUserID;
+                        numUserID ++;
                         addPlayer(match,connection, message, userID);
+                        controllerFromUserID.put(userID,match);
                         return;
                     }
                 }
@@ -158,15 +162,21 @@ public class Server {
                 for (GameController match : lobby) {
                   if (getNumberOfPlayer(match) == numberOfPlayer && !isFull(match)) {
                       if(checkNick(message,match)) {
-                          addPlayer(match,connection, message, userID);
+                          addPlayer(match,connection, message,message.getSender());
+                          controllerFromUserID.remove(message.getSender());
+                          controllerFromUserID.put(message.getSender(),match);
                           return;
                       }
                 }
             }
 
             }
+            String userID = ConstantsContainer.USERIDPREFIX + numUserID;
+            numUserID ++;
             GameController match = newMatch(numberOfPlayer);
             addPlayer(match,connection,message,userID);
+            Logger.info(userID);
+            controllerFromUserID.put(userID,match);
 
         }
     }
@@ -177,6 +187,10 @@ public class Server {
 
     public GameController getControllerFromGameID(String gameId){
         return controllerFromGameID.get(gameId);
+    }
+
+    public GameController getControllerFromUserID(String userID){
+        return controllerFromUserID.get(userID);
     }
 
     public void sendMsgToVirtualView(Message msg, VirtualView view) {
@@ -216,6 +230,31 @@ public class Server {
         lobby.add(match);
         controllerFromGameID.put(gameID,match);
         return match;
+
+    }
+
+    public void stopGame(String userID,ClientHandler connection,Message message){
+        synchronized (clientsLock) {
+            GameController controller = getControllerFromUserID(userID);
+            if (controller.isGameStarted()) {                             //mettere il caso di disconnection request se il game è già iniziato
+                //controller.stopStartedGame(); all'inizio o alla fine?
+                actualMatches.remove(controller);
+
+                for (Player player : controller.getActualPlayers()) {
+                    controllerFromUserID.remove(controller.getUserIDFromPlayer(player));                  //come faccio?
+                }
+
+                controllerFromGameID.remove(controller.getGameID());
+                controller.stopStartedGame();
+            } else {//se la partita non è ancora iniziata basta rimuovere il player dalla lobby, come settedPlayer o come configPlayer, ma bisogna inviare un messaggio
+                controllerFromUserID.remove(userID);
+                controller.disconnectPlayer(new Message(userID,MessageType.DISCONNECTION,MessageSubType.ERROR,message.getNickName())); //aggiungere se non hanno nickName
+                if(message.getSubType().equals(MessageSubType.REQUEST))
+                    connection.closeConnection();
+                else connection.closeAfterDisconnection();
+            }
+
+        }
 
     }
 

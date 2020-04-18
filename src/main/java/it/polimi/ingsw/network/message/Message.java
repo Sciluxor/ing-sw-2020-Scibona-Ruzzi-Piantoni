@@ -6,7 +6,7 @@ public class Message implements Serializable {
     private  static final long serialVersion = -1L;
 
     private String sender;
-    private String nickName = "default";
+    private String nickName = "def";
 
     private final MessageType type;
     private  MessageSubType subType;
