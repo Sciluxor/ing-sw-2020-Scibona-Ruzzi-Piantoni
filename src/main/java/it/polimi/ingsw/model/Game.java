@@ -110,9 +110,9 @@ public class Game extends Observable<Response> {
 
     public boolean addPlayer(Player player, VirtualView actualView){
         if(isGameStarted)
-            throw new IllegalStateException("game already started");  //cambiare questa eccezione
+            throw new IllegalStateException("game already started");
         if(settedPlayers.size() + configPlayer >= numberOfPlayers)
-            throw new IllegalStateException("too much player"); //cambiare questa eccezione
+            throw new IllegalStateException("too much player");
         if(player == null)
             throw new NullPointerException("null player");
 
@@ -218,8 +218,8 @@ public class Game extends Observable<Response> {
         Player toRemovePlayer = currentPlayer;
         settedPlayers.remove(toRemovePlayer);
         playerQueue.remove(toRemovePlayer);
-        pickPlayer();
-        gameMap.removeWorkersOfPlayer(toRemovePlayer); //implementare questa funzione
+        gameMap.removeWorkersOfPlayer(toRemovePlayer);
+        pickPlayer(); //implementare questa funzione
     }
 
     public boolean allWorkersPlaced(){

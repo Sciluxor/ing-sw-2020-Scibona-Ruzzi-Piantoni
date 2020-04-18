@@ -11,7 +11,7 @@ public class GameMap {
 
 
     private ArrayList<Square> gameMap;
-    private HashMap<Worker, Square> workersPosition;
+    private HashMap<Worker, Square> workersPosition;           //forse non serve
     private Square [][]linkToCoordinates = new Square[25][25]; // mettere come costanti
     private ArrayList<Square> modifiedSquare = new ArrayList<>();
 
@@ -44,7 +44,7 @@ public class GameMap {
 
           for(Directions dir: Directions.values()){
               int squareTile  =canAccess.get(dir);
-              if(squareTile > 0 && squareTile <= 25) { //mettere come costanti
+              if(squareTile > 0 && squareTile <= 25) {                                              //mettere come costanti
                   Square possibleSquare = gameMap.get(squareTile- 1);
                   if(!possibleSquare.hasPlayer() && (possibleSquare.getBuildingLevel() >= 0 && possibleSquare.getBuildingLevel() <= level_position + 1 && !worker.getBoardPosition().equals(possibleSquare) )
                           && possibleSquare.getBuilding() != Building.DOME ){
@@ -87,7 +87,7 @@ return reachableSquares;
 
         for(Directions dir: Directions.values()){
               int squareTile = canAccess.get(dir);
-              if(squareTile > 0 && squareTile <= 25){
+              if(squareTile > 0 && squareTile <= 25){  //mettere come costanti
                   Square possibleBuild = gameMap.get(squareTile - 1);
                   if(!possibleBuild.getBuilding().equals(Building.DOME) && !possibleBuild.hasPlayer() && !worker.getBoardPosition().equals(possibleBuild)){
                       buildableSquare.add(dir);
@@ -125,7 +125,7 @@ return reachableSquares;
     //function that return the positions of both player's workers
     //
 
-    public ArrayList<Square> workersSquares(Player actualPlayer){
+    public ArrayList<Square> getWorkersSquares(Player actualPlayer){
         if(actualPlayer == null)
             throw new NullPointerException("player null");
         ArrayList<Square> workerSquare = new ArrayList<>();
@@ -165,6 +165,19 @@ return reachableSquares;
     }
 
     public void removeWorkersOfPlayer(Player player){
+
+        ArrayList<Square> workerSquares = getWorkersSquares(player);
+
+        clearModifiedSquare();
+
+        for(Square square: workerSquares){
+            addModifiedSquare(square);
+            remove(square);
+        }
+    }
+
+    public void remove(Square square){
+        square.setHasPlayer(false);
 
     }
 }

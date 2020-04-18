@@ -153,47 +153,54 @@ public class GameController implements Observer<Message> {
         }
     }
 
-    public synchronized void handleBackError(Message message){ // finire questo
+    public synchronized void handleBackError(Message message){                 // finire questo
         //fare terminare il game
     }
 
     public synchronized void handleLobbyTimerEnded(Message message){
         VirtualView view = clients.get(message.getSender());
         view.getConnection().setViewActive(false);
-        game.removeObserver(view);
         game.removeConfigPlayer();
         clients.remove(message.getSender());
-        view.getConnection().closeConnection();
+        closeConnection(view);
     }
 
     public synchronized void handleTurnLobbyEnded(){
-        VirtualView view = clients.get(getCurrentPlayer().getNickname());
-        game.removeObserver(view);
-        clients.remove(getCurrentPlayer().getNickname());
-        view.getConnection().setViewActive(false);
-        view.getConnection().closeConnection();
-
-        game.removePlayerLose();
-
-        VirtualView newView = clients.get(getCurrentPlayer().getNickname());
-        newView.setYourTurn(true);
+        VirtualView view = removeViewFromGame();
+        closeConnection(view);
+        removePlayerFromBoard();
 
         game.setGameStatus(Response.PLAYERTIMERENDED);
-
         checkIfStillCorrectGame();
 
     }
 
     public synchronized void eliminatePlayer(){
-        VirtualView view = clients.get(getCurrentPlayer().getNickname());
-        view.getConnection().setViewActive(false);
-        view.setYourTurn(false);
-        game.removePlayerLose();//bisogna rimuovere i worker dalla board
-        VirtualView newView = clients.get(getCurrentPlayer().getNickname());
-        newView.setYourTurn(true);
+        removeViewFromGame();
+        removePlayerFromBoard();
+
         game.setGameStatus(Response.PLAYERLOSE);
         checkIfStillCorrectGame();
 
+    }
+
+    public synchronized void closeConnection(VirtualView view){
+        game.removeObserver(view);
+        view.getConnection().closeConnection();
+    }
+
+    public synchronized VirtualView removeViewFromGame(){
+        VirtualView view = clients.get(getCurrentPlayer().getNickname());
+        clients.remove(getCurrentPlayer().getNickname());
+        view.getConnection().setViewActive(false);
+        view.setYourTurn(false);
+        return view;
+    }
+
+    public synchronized void removePlayerFromBoard(){
+        game.removePlayerLose();
+        VirtualView newView = clients.get(getCurrentPlayer().getNickname());
+        newView.setYourTurn(true);
     }
 
     public synchronized void checkIfStillCorrectGame(){
@@ -205,7 +212,7 @@ public class GameController implements Observer<Message> {
         else{
             game.setWinner(getCurrentPlayer());
             game.setHasWinner(true);
-            game.setGameStatus(Response.WINLASTREMAINING);// forse non serve
+            game.setGameStatus(Response.WIN);
         }
     }
 

@@ -189,10 +189,10 @@ class GameMapTest {
 
     @Test
     void workersSquares() {
-        assertThrows(NullPointerException.class,() -> map.workersSquares(null));
+        assertThrows(NullPointerException.class,() -> map.getWorkersSquares(null));
 
-        assertEquals(map.workersSquares(player1).get(0),player1.getWorkers().get(0).getBoardPosition());
-        assertEquals(map.workersSquares(player1).get(1),player1.getWorkers().get(1).getBoardPosition());
+        assertEquals(map.getWorkersSquares(player1).get(0),player1.getWorkers().get(0).getBoardPosition());
+        assertEquals(map.getWorkersSquares(player1).get(1),player1.getWorkers().get(1).getBoardPosition());
 
     }
 

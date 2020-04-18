@@ -123,7 +123,7 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
    }
 
    public void handleClientError(){
-        //connection.sendMessage(new Message());
+                                    //connection.sendMessage(new Message());
    }
 
     //

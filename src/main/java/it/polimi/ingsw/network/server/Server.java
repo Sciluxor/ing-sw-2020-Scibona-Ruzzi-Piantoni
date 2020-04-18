@@ -130,7 +130,7 @@ public class Server {
         }
     }
 
-    public void disconnectedPlayer(){
+    public void onDisconnectedPlayer(){
 
     }
 

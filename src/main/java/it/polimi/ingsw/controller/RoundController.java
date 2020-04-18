@@ -194,7 +194,7 @@ public class RoundController {
         }
 
         if(!checkRightSquares(((MoveWorkerMessage)message).getModifiedSquare())) {
-            game.setGameStatus(Response.NOTMOVED);  //vedere se si deve cambiare Response,se qualcuno ha vinto si invia il messaggio e si cambia la schermata
+            game.setGameStatus(Response.NOTMOVED);  //come faccio a tornare indietro? ormai ho già modificato, magari mettere una response diversa
             return;
         }
 
