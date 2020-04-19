@@ -249,10 +249,25 @@ public class Server {
                     controller.stopStartedGame();
                 } else {
                     controllerFromUserID.remove(userID);
-                    controller.disconnectPlayerBeforeGameStart(new Message(userID, MessageType.DISCONNECTION, MessageSubType.ERROR, message.getNickName()));
                     if (message.getSubType().equals(MessageSubType.REQUEST)){
-                        connection.closeConnection();}
-                    else connection.closeAfterDisconnection();
+                        connection.closeConnection();
+                    }
+                    else if(message.getSubType().equals(MessageSubType.BACK)){
+                        connection.setUserID(ConstantsContainer.USERDIDDEF);
+                        connection.startLobbyTimer();
+                    }
+                    else if((message.getSubType().equals(MessageSubType.TIMEENDED))){
+                        controller.handleLobbyTimerEnded(message);
+                        return;
+                    }
+                    else if((message.getSubType().equals(MessageSubType.NICKMAXTRY))){
+
+                    }
+                    else {
+                            connection.closeAfterDisconnection();
+                        }
+                    controller.disconnectPlayerBeforeGameStart(message);
+
                 }
             }
         }

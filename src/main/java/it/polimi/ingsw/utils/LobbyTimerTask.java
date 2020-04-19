@@ -11,18 +11,22 @@ public class LobbyTimerTask extends TimerTask {
 
     private ClientHandler connection;
     private String userID;
+    private Server server;
+    private String nickName;
 
-    public LobbyTimerTask(ClientHandler connection,String userID) {
+    public LobbyTimerTask(Server server,ClientHandler connection,String userID,String nickName) {
         this.connection = connection;
         this.userID = userID;
+        this.server = server;
+        this.nickName = nickName;
     }
 
     @Override
     public void run() {
         if(connection.isViewActive())
-        connection.dispatchMessageToVirtualView(new Message(userID, MessageType.DISCONNECTION, MessageSubType.TIMEENDED));
-
-        connection.closeConnection();
+            server.handleDisconnection(userID,connection,new Message(userID,nickName, MessageType.DISCONNECTION, MessageSubType.TIMEENDED));
+        else
+            connection.closeConnection();
 
     }
 }

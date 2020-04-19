@@ -95,13 +95,14 @@ public class Client {
             });
 
             client.mainThread.start();
+            /*
             new Thread(()-> {
                 try {
                     client.simultaneousePrint();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-            }).start();
+            }).start();*/
 
             //client.closeClientForTimeAsynchronously(clientSocket);
             while(true){  //runnare il process del message in parallelo
@@ -280,7 +281,7 @@ public class Client {
             }
             if(input.equalsIgnoreCase("close") && !isGameStarted){
                 try {
-                    out.writeObject(new Message(nick, MessageType.DISCONNECTION, MessageSubType.REQUEST,client.nick));
+                    out.writeObject(new Message(userID,nick, MessageType.DISCONNECTION, MessageSubType.REQUEST));
                     out.flush();
                     client.clientSocket.close();
                     Logger.info("Closed connection");
@@ -291,7 +292,7 @@ public class Client {
             }
             if(input.equalsIgnoreCase("back") && !isGameStarted){
                 try {
-                    out.writeObject(new Message(nick, MessageType.DISCONNECTION, MessageSubType.BACK,client.nick));
+                    out.writeObject(new Message(userID,nick, MessageType.DISCONNECTION, MessageSubType.BACK));
                     out.flush();
 
                     processNickAndNumber(out,client);

@@ -139,7 +139,7 @@ public class ClientHandler implements Runnable, ConnectionInterface {
 
     public void startLobbyTimer(){
         lobbyTimer = new Timer();
-        LobbyTimerTask task = new LobbyTimerTask(this,userID);
+        LobbyTimerTask task = new LobbyTimerTask(server,this,userID,nickName);
         lobbyTimer.schedule(task, ConfigLoader.getLobbyTimer() * 1000);
     }
 
@@ -170,7 +170,7 @@ public class ClientHandler implements Runnable, ConnectionInterface {
                         if(newNickCounter > ConstantsContainer.MAXTRYTOCHANGENICK){
                             input.setMessageSubType(MessageSubType.ANSWER);
                             this.newNickCounter = 0;
-                            dispatchMessageToVirtualView(new Message(input.getSender(),MessageType.DISCONNECTION,MessageSubType.NICKMAXTRY));
+                            server.handleDisconnection(userID,this,new Message(input.getSender(),input.getNickName(),MessageType.DISCONNECTION,MessageSubType.NICKMAXTRY)); //si deve cambiare
                             server.insertPlayerInGame(input,this,false);
                         }
                         else{
@@ -178,7 +178,7 @@ public class ClientHandler implements Runnable, ConnectionInterface {
                         }
                         server.moveGameStarted();
                     }
-                    else if((input.getType() == MessageType.DISCONNECTION && input.getSubType() == MessageSubType.REQUEST)){
+                    else if((input.getType() == MessageType.DISCONNECTION)){
                         server.handleDisconnection(userID,this,input);
                                                                                                                    //completare questo
                                                                                                              //confermare la ricezione del messaggio, è giò fatto

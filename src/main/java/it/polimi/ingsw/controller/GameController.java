@@ -46,6 +46,7 @@ public class GameController implements Observer<Message> {
         String nick = message.getNickName();
         VirtualView view = getViewFromUserID(message.getSender());
         view.setYourTurn(true);
+        game.addObservers(view);
 
         if(!game.newNickName(new Player(nick))){
             nickUsed(view);
@@ -66,6 +67,7 @@ public class GameController implements Observer<Message> {
 
     public synchronized void nickUsed(VirtualView view){
         game.setGameStatus(Response.NICKUSED);
+        game.removeObserver(view);
         view.setYourTurn(false);
     }
 
@@ -136,28 +138,6 @@ public class GameController implements Observer<Message> {
     //
     //methods for disconnection from the Game
     //
-
-    public synchronized void handleDisconnectionBeforeStart(Message message){
-        VirtualView view = clients.get(message.getSender());
-        if(message.getSubType().equals(MessageSubType.TIMEENDED)){
-            handleLobbyTimerEnded(message);
-            return;
-        }
-        if(message.getSubType().equals(MessageSubType.BACK)) //testare cosa succede se il back o il close arriva mentre sta iniziando la partita, si deve gestire
-            if(!game.isGameStarted())
-                view.getConnection().startLobbyTimer();
-            else{
-                handleBackError(message);
-            }
-                                                              //bisognerebbe rimuovere l'userd id dal server, senzs dead lock,da spostare tutto nel server
-        disconnectPlayerBeforeGameStart(message);
-
-    }
-
-    public synchronized void handleBackError(Message message){                 // finire questo
-        //fare terminare il game
-        stopStartedGame();
-    }
 
     public synchronized void stopStartedGame(){
 
@@ -249,15 +229,16 @@ public class GameController implements Observer<Message> {
     public synchronized void disconnectPlayerBeforeGameStart(Message message) {
         VirtualView view = clients.get(message.getSender());
         view.getConnection().setViewActive(false);
+        view.setYourTurn(false);
         game.removeObserver(view);
-        clients.remove(message.getMessage());
+        clients.remove(message.getNickName());
         clients.remove(message.getSender());
 
         if (message.getSubType().equals(MessageSubType.NICKMAXTRY) || view.getConnection().getNickName().equalsIgnoreCase(ConstantsContainer.NICKDEF)) {
             game.removeConfigPlayer();
         }
         else {
-            game.removeSettedPlayer(message.getMessage());
+            game.removeSettedPlayer(message.getNickName());
             game.setGameStatus(Response.REMOVEDPLAYER);
         }
 
@@ -349,6 +330,7 @@ public class GameController implements Observer<Message> {
     }
 
 
+
     //
     //method to send the messagge to the round controller
     //
@@ -386,9 +368,6 @@ public class GameController implements Observer<Message> {
                     handleNewPlayer(message);
                 else if (message.getSubType().equals(MessageSubType.UPDATE))
                     handleNewNickname(message);
-                break;
-            case DISCONNECTION:
-                handleDisconnectionBeforeStart(message);
                 break;
             case ENDTURN:
                 if(!getViewFromUserID(message.getSender()).isYourTurn()){

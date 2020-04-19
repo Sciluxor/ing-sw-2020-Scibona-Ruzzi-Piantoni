@@ -1,5 +1,5 @@
 {
   "socketPort" : "4700",
-  "lobbyTimer": 20,
+  "lobbyTimer": 15,
   "turnTimer": 300
 }
