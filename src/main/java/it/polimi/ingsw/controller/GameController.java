@@ -390,7 +390,7 @@ public class GameController implements Observer<Message> {
 
     @Override
     public synchronized void update(Message message) {
-
+        Logger.info(getGameID());
         try{
             processMessage(message);
         }catch (IllegalStateException ill){

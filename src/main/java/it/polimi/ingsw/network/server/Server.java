@@ -239,7 +239,7 @@ public class Server {
             } else {
                 GameController controller = getControllerFromUserID(userID);
                 if (controller.isGameStarted()) {                             //mettere il caso di disconnection request se il game è già iniziato
-                    //controller.stopStartedGame(); all'inizio o alla fine?
+                    //controller.stopStartedGame();                             all'inizio o alla fine?
                     actualMatches.remove(controller);
 
                     for (Player player : controller.getActualPlayers()) {
@@ -254,6 +254,7 @@ public class Server {
                     }
                     else if(message.getSubType().equals(MessageSubType.BACK)){
                         connection.setUserID(ConstantsContainer.USERDIDDEF);
+                        connection.getView().removeObserver(controller);
                         connection.startLobbyTimer();
                     }
                     else if((message.getSubType().equals(MessageSubType.TIMEENDED))){
@@ -261,7 +262,7 @@ public class Server {
                         return;
                     }
                     else if((message.getSubType().equals(MessageSubType.NICKMAXTRY))){
-
+                        connection.getView().removeObserver(controller);
                     }
                     else {
                             connection.closeAfterDisconnection();
