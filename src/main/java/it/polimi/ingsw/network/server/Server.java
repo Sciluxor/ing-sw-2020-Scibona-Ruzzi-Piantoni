@@ -96,7 +96,7 @@ public class Server {
             Logger.info("Server Shutted Down.");
             System.exit(0);
         }
-        //vedere cosa fare per chiudere tutte le connessioni
+                                                               //vedere cosa fare per chiudere tutte le connessioni, bisogna inviare un mesaaggio.
     }
 
     public void removeFromConnections(ClientHandler connection){
@@ -130,10 +130,6 @@ public class Server {
                 }
             }
         }
-    }
-
-    public void onDisconnectedPlayer(){
-
     }
 
     public void insertPlayerInGame(Message message,ClientHandler connection,boolean isFirstTime){
@@ -235,7 +231,10 @@ public class Server {
     public void handleDisconnection(String userID,ClientHandler connection,Message message) {
         synchronized (clientsLock) {
             if (userID.equalsIgnoreCase(ConstantsContainer.USERDIDDEF)) {
-                connection.closeAfterDisconnection();
+                if(connection.isConnectionActive())
+                    connection.closeConnection();
+                else
+                    connection.closeAfterDisconnection();
             } else {
                 GameController controller = getControllerFromUserID(userID);
                 if (controller.isGameStarted()) {                             //mettere il caso di disconnection request se il game è già iniziato
@@ -253,13 +252,12 @@ public class Server {
                         connection.closeConnection();
                     }
                     else if(message.getSubType().equals(MessageSubType.BACK)){
-                        connection.setUserID(ConstantsContainer.USERDIDDEF);
+                        controller.resetPlayer(connection.getView());
                         connection.getView().removeObserver(controller);
-                        connection.startLobbyTimer();
                     }
                     else if((message.getSubType().equals(MessageSubType.TIMEENDED))){
                         controller.handleLobbyTimerEnded(message);
-                        return;
+                        return;                                                            //serve fare questo retunr? forse meglio switch per tutti questi if
                     }
                     else if((message.getSubType().equals(MessageSubType.NICKMAXTRY))){
                         connection.getView().removeObserver(controller);

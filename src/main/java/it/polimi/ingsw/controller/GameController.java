@@ -141,9 +141,11 @@ public class GameController implements Observer<Message> {
 
     public synchronized void stopStartedGame(){
 
-        for(Player player :getActualPlayers()){
+        for(Player player : getActualPlayers()){
             VirtualView playerView = removeViewFromGame(player.getNickname());
+            resetPlayer(playerView);
             if(playerView.getConnection().isConnectionActive()) {
+                playerView.getConnection().stopLobbyTimer();
                 game.removeSettedPlayer(player.getNickname());
                 closeConnectionAfterDisconnection(playerView);
             }
@@ -155,6 +157,12 @@ public class GameController implements Observer<Message> {
             game.removeObserver(getViewFromNickName(player.getNickname()));
         }
 
+    }
+
+    public synchronized void resetPlayer(VirtualView playerView){
+        playerView.getConnection().setUserID(ConstantsContainer.USERDIDDEF);
+        playerView.getConnection().setNickName(ConstantsContainer.NICKDEF);
+        playerView.getConnection().startLobbyTimer();
     }
 
     public synchronized String  getUserIDFromPlayer(Player player){
@@ -230,9 +238,11 @@ public class GameController implements Observer<Message> {
         VirtualView view = clients.get(message.getSender());
         view.getConnection().setViewActive(false);
         view.setYourTurn(false);
+
         game.removeObserver(view);
         clients.remove(message.getNickName());
         clients.remove(message.getSender());
+
 
         if (message.getSubType().equals(MessageSubType.NICKMAXTRY) || view.getConnection().getNickName().equalsIgnoreCase(ConstantsContainer.NICKDEF)) {
             game.removeConfigPlayer();
@@ -390,7 +400,6 @@ public class GameController implements Observer<Message> {
 
     @Override
     public synchronized void update(Message message) {
-        Logger.info(getGameID());
         try{
             processMessage(message);
         }catch (IllegalStateException ill){

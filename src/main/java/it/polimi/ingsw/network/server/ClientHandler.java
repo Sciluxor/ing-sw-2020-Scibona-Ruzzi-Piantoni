@@ -103,7 +103,7 @@ public class ClientHandler implements Runnable, ConnectionInterface {
     }
 
     public void closeConnection(){
-        sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.DISCONNECTION,MessageSubType.TIMEENDED));
+        sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.DISCONNECTION,MessageSubType.TIMEENDED));  //vederer come differenziere i messaggi
         server.removeFromConnections(this);
         close();
     }
@@ -203,5 +203,5 @@ public class ClientHandler implements Runnable, ConnectionInterface {
             }
         }
 
-        //aggiungere una funziona per pingare il client, se non risponde eliminarlo e far terminare la partita.
+        //aggiungere una funziona per pingare il client, se non risponde eliminarlo e far terminare la partita. forse nel server
 }

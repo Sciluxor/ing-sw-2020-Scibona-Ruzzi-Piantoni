@@ -23,10 +23,7 @@ public class LobbyTimerTask extends TimerTask {
 
     @Override
     public void run() {
-        if(connection.isViewActive())
             server.handleDisconnection(userID,connection,new Message(userID,nickName, MessageType.DISCONNECTION, MessageSubType.TIMEENDED));
-        else
-            connection.closeConnection();
 
     }
 }
