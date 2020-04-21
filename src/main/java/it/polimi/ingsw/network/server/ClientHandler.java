@@ -198,6 +198,7 @@ public class ClientHandler implements Runnable, ConnectionInterface {
                 }
 
             }catch (IOException e){
+                stopLobbyTimer();
                 isConnectionActive = false;         //sfruttare questo per chiudere la connection, e inviare o no il messaggio.
                 server.handleDisconnection(userID,this,new Message(userID,nickName,MessageType.DISCONNECTION,MessageSubType.ERROR));
             }

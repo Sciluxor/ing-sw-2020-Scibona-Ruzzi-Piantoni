@@ -225,7 +225,6 @@ public class Server {
     public void handleDisconnection(String userID,ClientHandler connection,Message message) {      //spezzare questa in tre funzioni
         synchronized (clientsLock) {
             if (!userID.equalsIgnoreCase(ConstantsContainer.USERDIDDEF)) {
-
                 GameController controller = getControllerFromUserID(userID);
                 if (controller.isGameStarted()) {                             //mettere il caso di disconnection request se il game è già iniziato
                              handleDisconnectionDuringGame(controller);
@@ -244,7 +243,6 @@ public class Server {
 
         if ((message.getSubType().equals(MessageSubType.TIMEENDED))) {
             controller.handleLobbyTimerEnded(message);
-            return;                                                            //serve fare questo retunr? forse meglio switch per tutti questi if
         } else {
                 controller.disconnectPlayerBeforeGameStart(message);
                 if (message.getSubType().equals(MessageSubType.BACK)) {
