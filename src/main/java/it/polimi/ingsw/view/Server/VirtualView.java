@@ -150,7 +150,7 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
     //
 
     public void handleChallengerChoice(){
-        connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.CHALLENGERCHOICE,MessageSubType.REQUEST,controller.getCurrentPlayer().getNickname()));
+        //connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.CHALLENGERCHOICE,MessageSubType.REQUEST,controller.getCurrentPlayer().getNickname()));
     }
     //getNickname manca la maiuscola
 

@@ -85,7 +85,7 @@ public class GameController implements Observer<Message> {
                 values.setYourTurn(false);
             }
 
-            //handleMatchBeginning();
+            handleMatchBeginning();
         }
     }
 
