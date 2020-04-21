@@ -22,13 +22,13 @@ public class Login extends JPanel{
         JButton confirm = new JButton("Confirm");
         nickname = new JTextField(20);
         JTextField numberPlayers = new JTextField(20);
-        JLabel santoriniLabel = new JLabel("Santorini");
-        JLabel nicknameLabel = new JLabel("Nickname");
-        JLabel numberPlayersLabel = new JLabel("Number of Players");
         double ratio = (screen.getWidth()/screen.getHeight());
 
-        JLabel cover = ImageHandler.setImage("resources/background_login.png", 100, 100, frameSize.width, frameSize.height);
+        JLabel cover = ImageHandler.setImage("src/main/resources/Graphics/background_login.png", 100, 100, frameSize.width, frameSize.height);
         JLabel sfondo = new JLabel(cover.getIcon());
+        JLabel santoriniLabel = ImageHandler.setImage("src/main/resources/Graphics/Text/Santorini_HD.png", 100, 100, frameSize.width, frameSize.height);
+        JLabel nicknameLabel = ImageHandler.setImage("src/main/resources/Graphics/Text/nickname.png", 100, 100, frameSize.width, frameSize.height);
+        JLabel numberPlayersLabel = ImageHandler.setImage("src/main/resources/Graphics/Text/number_of_players.png", 100, 100, frameSize.width, frameSize.height);
 
         JButton back = new JButton();
         back.setIcon(sfondo.getIcon());

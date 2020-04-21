@@ -62,20 +62,20 @@ public class ChallengerChoiseCards extends JPanel{
             //button.setBorderPainted(false);
         }
 
-        JLabel lapollo = ImageHandler.setImage("resources/gods/apollo.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel lartemis = ImageHandler.setImage("resources/gods/artemis.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel lathena = ImageHandler.setImage("resources/gods/athena.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel latlas = ImageHandler.setImage("resources/gods/atlas.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel lchronus = ImageHandler.setImage("resources/gods/chronus.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel ldemeter = ImageHandler.setImage("resources/gods/demeter.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel lhepha = ImageHandler.setImage("resources/gods/hephaestus.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel lhera = ImageHandler.setImage("resources/gods/hera.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel lhestia = ImageHandler.setImage("resources/gods/hestia.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel lhypnus = ImageHandler.setImage("resources/gods/hypnus.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel lmino = ImageHandler.setImage("resources/gods/minotaur.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel lpan = ImageHandler.setImage("resources/gods/pan.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel lprome = ImageHandler.setImage("resources/gods/prometheus.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel lzeus = ImageHandler.setImage("resources/gods/zeus.png", 100, 100, cardSize.width, cardSize.height);
+        JLabel lapollo = ImageHandler.setImage("src/main/resources/Graphics/gods/apollo.png", 100, 100, cardSize.width, cardSize.height);
+        JLabel lartemis = ImageHandler.setImage("src/main/resources/Graphics/gods/artemis.png", 100, 100, cardSize.width, cardSize.height);
+        JLabel lathena = ImageHandler.setImage("src/main/resources/Graphics/gods/athena.png", 100, 100, cardSize.width, cardSize.height);
+        JLabel latlas = ImageHandler.setImage("src/main/resources/Graphics/gods/atlas.png", 100, 100, cardSize.width, cardSize.height);
+        JLabel lchronus = ImageHandler.setImage("src/main/resources/Graphics/gods/chronus.png", 100, 100, cardSize.width, cardSize.height);
+        JLabel ldemeter = ImageHandler.setImage("src/main/resources/Graphics/gods/demeter.png", 100, 100, cardSize.width, cardSize.height);
+        JLabel lhepha = ImageHandler.setImage("src/main/resources/Graphics/gods/hephaestus.png", 100, 100, cardSize.width, cardSize.height);
+        JLabel lhera = ImageHandler.setImage("src/main/resources/Graphics/gods/hera.png", 100, 100, cardSize.width, cardSize.height);
+        JLabel lhestia = ImageHandler.setImage("src/main/resources/Graphics/gods/hestia.png", 100, 100, cardSize.width, cardSize.height);
+        JLabel lhypnus = ImageHandler.setImage("src/main/resources/Graphics/gods/hypnus.png", 100, 100, cardSize.width, cardSize.height);
+        JLabel lmino = ImageHandler.setImage("src/main/resources/Graphics/gods/minotaur.png", 100, 100, cardSize.width, cardSize.height);
+        JLabel lpan = ImageHandler.setImage("src/main/resources/Graphics/gods/pan.png", 100, 100, cardSize.width, cardSize.height);
+        JLabel lprome = ImageHandler.setImage("src/main/resources/Graphics/gods/prometheus.png", 100, 100, cardSize.width, cardSize.height);
+        JLabel lzeus = ImageHandler.setImage("src/main/resources/Graphics/gods/zeus.png", 100, 100, cardSize.width, cardSize.height);
 
         apollo.setIcon(lapollo.getIcon());
         artemis.setIcon(lartemis.getIcon());

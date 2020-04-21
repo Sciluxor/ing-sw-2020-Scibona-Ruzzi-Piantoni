@@ -12,7 +12,7 @@ import static javax.imageio.ImageIO.read;
 public class ImageHandler {
     public static JLabel setImage(String s, double xMod, double yMod, int width, int height) throws IOException {
 
-        //s =s.replaceFirst("resources", "");
+        //s =s.replaceFirst("src/main/java/resources/Graphics", "");
         File file = new File(s);
         FileInputStream f = new FileInputStream(file);
         BufferedImage image = ImageIO.read( f );
@@ -42,7 +42,7 @@ public class ImageHandler {
 
         //BufferedImage image = ImageIO.read(new File(s));
 
-        s =s.replaceFirst("resources", "");
+        s =s.replaceFirst("Graphics", "");
         BufferedImage image = read( ImageHandler.class.getResourceAsStream(s) );
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();

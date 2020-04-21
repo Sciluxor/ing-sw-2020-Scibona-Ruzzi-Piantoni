@@ -66,13 +66,13 @@ public class Board extends Observable {
         buttonSize.setSize(sideSize.width * 20/100, sideSize.width * 20/100);
         scrollSize.setSize(sideSize.getWidth() * 14/100 , sideSize.getHeight() * 28/100);
 
-        JLabel cover = ImageHandler.setImage("resources/board3.png", 100, 100, width, height);
+        JLabel cover = ImageHandler.setImage("src/main/resources/Graphics/board3.png", 100, 100, width, height);
         sfondo = new JLabel(cover.getIcon());
 
-        JLabel cover1 = ImageHandler.setImage("resources/panel_chat.png", 100, 100, sideSize.width, sideSize.height);
+        JLabel cover1 = ImageHandler.setImage("src/main/resources/Graphics/panel_chat.png", 100, 100, sideSize.width, sideSize.height);
         sfondo2 = new JLabel(cover1.getIcon());
 
-        JLabel cover2 = ImageHandler.setImage("resources/background.png", 100, 100, frameSize.width * 40/100, frameSize.height * 40/100);
+        JLabel cover2 = ImageHandler.setImage("src/main/resources/Graphics/background.png", 100, 100, frameSize.width * 40/100, frameSize.height * 40/100);
         background = new JLabel(cover2.getIcon());
 
         felixSmall = new Font("Felix Titling", Font.PLAIN, (int) (13 * screen.getHeight() / 1080));
@@ -80,38 +80,38 @@ public class Board extends Observable {
         felixBold = new Font("Felix Titling", Font.BOLD, (int) (25 * screen.getHeight() / 1080));
 
 
-        worker_cyan = ImageHandler.setImage("resources/worker_cyan.png", 100, 100, height * 13/100, height * 13/100);
-        worker_white = ImageHandler.setImage("resources/worker_white.png", 100, 100, height * 13/100, height * 13/100);
-        worker_purple = ImageHandler.setImage("resources/worker_purple.png", 100, 100, height * 13/100, height * 13/100);
-        lvl1 = ImageHandler.setImage("resources/lvl1.png", 85, 85, height * 13/100, height * 13/100);
-        lvl2 = ImageHandler.setImage("resources/lvl2.png", 85, 85, height * 13/100, height * 13/100);
-        lvl3 = ImageHandler.setImage("resources/lvl3.png", 85, 85, height * 13/100, height * 13/100);
-        lvl1_building = ImageHandler.setImage("resources/lvl1_building.png", 100, 100, frameSize.width * 5/100, frameSize.width * 5/100);
-        lvl2_building = ImageHandler.setImage("resources/lvl2_building.png", 100, 100, frameSize.width * 5/100, frameSize.width * 5/100);
-        lvl3_building = ImageHandler.setImage("resources/lvl3_building.png", 100, 100, frameSize.width * 5/100, frameSize.width * 5/100);
-        dome_building = ImageHandler.setImage("resources/dome_building.png", 100, 100, frameSize.width * 5/100, frameSize.width * 5/100);
-        lvl1_cyan = ImageHandler.setImage("resources/lvl1_cyan.png", 85, 85, height * 13/100, height * 13/100);
-        lvl2_cyan = ImageHandler.setImage("resources/lvl2_cyan.png", 85, 85, height * 13/100, height * 13/100);
-        lvl3_cyan = ImageHandler.setImage("resources/lvl3_cyan.png", 85, 85, height * 13/100, height * 13/100);
-        lvl1_purple = ImageHandler.setImage("resources/lvl1_purple.png", 85, 85, height * 13/100, height * 13/100);
-        lvl2_purple = ImageHandler.setImage("resources/lvl2_purple.png", 85, 85, height * 13/100, height * 13/100);
-        lvl3_purple = ImageHandler.setImage("resources/lvl3_purple.png", 85, 85, height * 13/100, height * 13/100);
-        lvl1_white = ImageHandler.setImage("resources/lvl1_white.png", 85, 85, height * 13/100, height * 13/100);
-        lvl2_white = ImageHandler.setImage("resources/lvl2_white.png", 85, 85, height * 13/100, height * 13/100);
-        lvl3_white = ImageHandler.setImage("resources/lvl3_white.png", 85, 85, height * 13/100, height * 13/100);
-        lvl1_dome = ImageHandler.setImage("resources/lvl1_dome.png", 85, 85, height * 13/100, height * 13/100);
-        lvl2_dome = ImageHandler.setImage("resources/lvl2_dome.png", 85, 85, height * 13/100, height * 13/100);
-        lvl3_dome = ImageHandler.setImage("resources/lvl3_dome.png", 85, 85, height * 13/100, height * 13/100);
-        dome = ImageHandler.setImage("resources/dome.png", 85, 85, frameSize.width * 5/100, frameSize.width * 5/100);
-        exit = ImageHandler.setImage("resources/exit.png", 75, 75, sideSize.width * 12/100, sideSize.width * 12/100);
-        button_build = ImageHandler.setImage("resources/button_build.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
-        button_move = ImageHandler.setImage("resources/button_move.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
-        button_power = ImageHandler.setImage("resources/button_power.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
-        button_chat = ImageHandler.setImage("resources/button_chat.png", 100, 100, frameSize.width * 7/100, frameSize.height * 7/100);
-        button_build_press = ImageHandler.setImage("resources/button_build_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
-        button_move_press = ImageHandler.setImage("resources/button_move_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
-        button_power_press = ImageHandler.setImage("resources/button_power_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
-        button_chat_press = ImageHandler.setImage("resources/button_chat_press.png", 100, 100, frameSize.width * 7/100, frameSize.height * 7/100);
+        worker_cyan = ImageHandler.setImage("src/main/resources/Graphics/worker_cyan.png", 100, 100, height * 13/100, height * 13/100);
+        worker_white = ImageHandler.setImage("src/main/resources/Graphics/worker_white.png", 100, 100, height * 13/100, height * 13/100);
+        worker_purple = ImageHandler.setImage("src/main/resources/Graphics/worker_purple.png", 100, 100, height * 13/100, height * 13/100);
+        lvl1 = ImageHandler.setImage("src/main/resources/Graphics/lvl1.png", 85, 85, height * 13/100, height * 13/100);
+        lvl2 = ImageHandler.setImage("src/main/resources/Graphics/lvl2.png", 85, 85, height * 13/100, height * 13/100);
+        lvl3 = ImageHandler.setImage("src/main/resources/Graphics/lvl3.png", 85, 85, height * 13/100, height * 13/100);
+        lvl1_building = ImageHandler.setImage("src/main/resources/Graphics/lvl1_building.png", 100, 100, frameSize.width * 5/100, frameSize.width * 5/100);
+        lvl2_building = ImageHandler.setImage("src/main/resources/Graphics/lvl2_building.png", 100, 100, frameSize.width * 5/100, frameSize.width * 5/100);
+        lvl3_building = ImageHandler.setImage("src/main/resources/Graphics/lvl3_building.png", 100, 100, frameSize.width * 5/100, frameSize.width * 5/100);
+        dome_building = ImageHandler.setImage("src/main/resources/Graphics/dome_building.png", 100, 100, frameSize.width * 5/100, frameSize.width * 5/100);
+        lvl1_cyan = ImageHandler.setImage("src/main/resources/Graphics/lvl1_cyan.png", 85, 85, height * 13/100, height * 13/100);
+        lvl2_cyan = ImageHandler.setImage("src/main/resources/Graphics/lvl2_cyan.png", 85, 85, height * 13/100, height * 13/100);
+        lvl3_cyan = ImageHandler.setImage("src/main/resources/Graphics/lvl3_cyan.png", 85, 85, height * 13/100, height * 13/100);
+        lvl1_purple = ImageHandler.setImage("src/main/resources/Graphics/lvl1_purple.png", 85, 85, height * 13/100, height * 13/100);
+        lvl2_purple = ImageHandler.setImage("src/main/resources/Graphics/lvl2_purple.png", 85, 85, height * 13/100, height * 13/100);
+        lvl3_purple = ImageHandler.setImage("src/main/resources/Graphics/lvl3_purple.png", 85, 85, height * 13/100, height * 13/100);
+        lvl1_white = ImageHandler.setImage("src/main/resources/Graphics/lvl1_white.png", 85, 85, height * 13/100, height * 13/100);
+        lvl2_white = ImageHandler.setImage("src/main/resources/Graphics/lvl2_white.png", 85, 85, height * 13/100, height * 13/100);
+        lvl3_white = ImageHandler.setImage("src/main/resources/Graphics/lvl3_white.png", 85, 85, height * 13/100, height * 13/100);
+        lvl1_dome = ImageHandler.setImage("src/main/resources/Graphics/lvl1_dome.png", 85, 85, height * 13/100, height * 13/100);
+        lvl2_dome = ImageHandler.setImage("src/main/resources/Graphics/lvl2_dome.png", 85, 85, height * 13/100, height * 13/100);
+        lvl3_dome = ImageHandler.setImage("src/main/resources/Graphics/lvl3_dome.png", 85, 85, height * 13/100, height * 13/100);
+        dome = ImageHandler.setImage("src/main/resources/Graphics/dome.png", 85, 85, frameSize.width * 5/100, frameSize.width * 5/100);
+        exit = ImageHandler.setImage("src/main/resources/Graphics/exit.png", 75, 75, sideSize.width * 12/100, sideSize.width * 12/100);
+        button_build = ImageHandler.setImage("src/main/resources/Graphics/button_build.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
+        button_move = ImageHandler.setImage("src/main/resources/Graphics/button_move.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
+        button_power = ImageHandler.setImage("src/main/resources/Graphics/button_power.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
+        button_chat = ImageHandler.setImage("src/main/resources/Graphics/button_chat.png", 100, 100, frameSize.width * 7/100, frameSize.height * 7/100);
+        button_build_press = ImageHandler.setImage("src/main/resources/Graphics/button_build_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
+        button_move_press = ImageHandler.setImage("src/main/resources/Graphics/button_move_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
+        button_power_press = ImageHandler.setImage("src/main/resources/Graphics/button_power_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
+        button_chat_press = ImageHandler.setImage("src/main/resources/Graphics/button_chat_press.png", 100, 100, frameSize.width * 7/100, frameSize.height * 7/100);
 
 
         framePower = new JInternalFrame("frameChat", false, false, false, false);

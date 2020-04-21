@@ -53,8 +53,7 @@ public class Gui extends ClientGameController {
 
 
 
-        layer.setPreferredSize(d);
-        layer.setVisible(true);
+
         frame.setPreferredSize(d);
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
