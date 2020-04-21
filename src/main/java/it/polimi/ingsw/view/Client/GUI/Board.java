@@ -66,7 +66,7 @@ public class Board extends Observable {
         buttonSize.setSize(sideSize.width * 20/100, sideSize.width * 20/100);
         scrollSize.setSize(sideSize.getWidth() * 14/100 , sideSize.getHeight() * 28/100);
 
-        JLabel cover = ImageHandler.setImage("src/main/resources/Graphics/board3.png", 100, 100, width, height);
+        JLabel cover = ImageHandler.setImage("src/main/resources/Graphics/board.png", 100, 100, width, height);
         sfondo = new JLabel(cover.getIcon());
 
         JLabel cover1 = ImageHandler.setImage("src/main/resources/Graphics/panel_chat.png", 100, 100, sideSize.width, sideSize.height);
