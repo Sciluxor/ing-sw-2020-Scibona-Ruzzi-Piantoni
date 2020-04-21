@@ -23,7 +23,7 @@ public class Client {
         System.out.println("Inserire in numero (2/3) di giocatori: ");
         setNumberOfPlayers(input.nextInt());
 
-        //lobby = new Lobby();
+        //lobby = new LobbyGui();
         //lobby.waitingLobby();
         //this.clientColor = lobby.setColor();
     }

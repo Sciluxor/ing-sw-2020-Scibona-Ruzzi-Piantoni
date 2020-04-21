@@ -18,7 +18,7 @@ public class ConstantsContainer {
     public static final String USERDIDDEF = "default";
     public static final String NICKDEF = "def";
 
-    //Lobby
+    //LobbyGui
     public static final int MAX_LENGHT_NICK = 20;
     public static final int MIN_LENGHT_NICK = 4;
 

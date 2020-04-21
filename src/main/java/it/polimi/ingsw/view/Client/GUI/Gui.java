@@ -38,7 +38,7 @@ public class Gui extends ClientGameController {
         frame = new JFrame("Santorini");
 
         login = new Login(screenSize, d);                                                                   //schermata 0
-        lobby = new Lobby(screenSize, d, 2, 3, players);                                    //schermata 1
+        lobby = new LobbyGui(screenSize, d, 2, 3, players);                                    //schermata 1
         challengerChoiseCards2 = new ChallengerChoiseCards(screenSize, d, 2);                 //schermata 2
         challengerChoiseCards3 = new ChallengerChoiseCards(screenSize, d, 3);                 //schermata 3
         waitChallenger = new WaitChallenger(screenSize, d);                                                 //schermata 4
