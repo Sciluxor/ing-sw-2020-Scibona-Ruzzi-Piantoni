@@ -2,10 +2,6 @@ package it.polimi.ingsw.view.Client.GUI;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.IOException;
 
 public class Login extends JPanel{
@@ -55,7 +51,7 @@ public class Login extends JPanel{
 
         numberPlayers.setBounds( (frameSize.width * 40/100), (int) (frameSize.height * 56.5/100), frameSize.width * 20/100,frameSize.height * 3/100);
         add(numberPlayers);
-        numberPlayersLabel.setBounds(frameSize.width * 19/100, (int) (frameSize.height * 55.5/100), frameSize.width * 20/100,frameSize.height * 5/100);
+        numberPlayersLabel.setBounds((int) (frameSize.width * 19.5/100), (int) (frameSize.height * 55.5/100), frameSize.width * 20/100,frameSize.height * 5/100);
         add(numberPlayersLabel);
 
         add(back);

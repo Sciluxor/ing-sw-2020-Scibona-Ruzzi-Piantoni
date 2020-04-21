@@ -26,7 +26,7 @@ public class ChooseCard extends  JPanel{
         Dimension cardSize = new Dimension();
         cardSize.setSize(screen.getWidth() * 7/100, screen.getHeight() * 14/100);
 
-        JLabel choose = new JLabel("Choose your God power");
+        JLabel choose = ImageHandler.setImage("src/main/resources/Graphics/Texts/choose_your_god.png", 100, 100, frameSize.width * 30/100, frameSize.height * 10/100);
         JLabel choise = new JLabel("This is your God Power");
         JLabel wait = new JLabel("Waiting for other players choise");
         JButton confirm = new JButton();
@@ -36,7 +36,7 @@ public class ChooseCard extends  JPanel{
 
         if(numberOfPanel == 3 || numberOfPanel == 2) {
 
-            choose.setBounds(frameSize.width * 50/100 - 75, frameSize.height * 20/100 - 50, 150, 100);
+            choose.setBounds(frameSize.width * 35/100, frameSize.height * 10/100, frameSize.width * 30/100, frameSize.height * 10/100);
             add(choose);
 
             confirm.setBounds((int) (frameSize.width * 43.5/100), (int) (frameSize.height * 79.5/100), (int) (frameSize.width * 13/100), (int) (frameSize.height * 5/100));

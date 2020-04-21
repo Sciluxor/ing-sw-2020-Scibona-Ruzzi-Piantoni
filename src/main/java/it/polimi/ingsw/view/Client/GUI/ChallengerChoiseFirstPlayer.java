@@ -1,5 +1,7 @@
 package it.polimi.ingsw.view.Client.GUI;
 
+import it.polimi.ingsw.model.Player.Player;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
@@ -8,37 +10,43 @@ import java.util.ArrayList;
 public class ChallengerChoiseFirstPlayer extends JPanel{
     Dimension frameSize = new Dimension();
 
-    public ChallengerChoiseFirstPlayer(Dimension screen, Dimension frame, Integer numberOfPlayer, ArrayList<String> players) throws IOException {
+    public ChallengerChoiseFirstPlayer(Dimension screen, Dimension frame, Integer numberOfPlayer, ArrayList<Player> players, JLabel background) throws IOException {
 
         frameSize.setSize(frame);
         setPreferredSize(frameSize);
         setLayout(null);
 
-        JLabel cover = ImageHandler.setImage("src/main/resources/Graphics/background_panels.png", 100, 100, frameSize.width, frameSize.height);
-        JLabel sfondo = new JLabel(cover.getIcon());
+
         JButton back = new JButton();
-        back.setIcon(sfondo.getIcon());
+        back.setIcon(background.getIcon());
         back.setBounds(0, 0, frameSize.width, frameSize.height);
         back.setOpaque(false);
         back.setContentAreaFilled(false);
         back.setBorderPainted(false);
 
-        JLabel label = new JLabel("Choose the first player");
-        JButton player1 = new JButton(players.get(1));
-        JButton player2;
 
-        label.setBounds(frameSize.width * 50/100 - 70, frameSize.height * 35/100 - 50, 140, 100);
-        add(label);
 
-        player1.setBounds(frameSize.width * 50/100 - (screen.width * 11/100)/2, frameSize.height * 50/100 - 50, screen.width * 10/100, screen.height * 3/100);
+        JButton player1 = new JButton(players.get(0).getNickname());
+        JButton player2 = new JButton(players.get(1).getNickname());
+        JButton player3;
+
+        JLabel choose = ImageHandler.setImage("src/main/resources/Graphics/Texts/choose_the_first_player.png", 100, 100, frameSize.width * 40/100, frameSize.height * 10/100);
+        choose.setBounds(frameSize.width * 30/100, frameSize.height * 10/100, frameSize.width * 40/100, frameSize.height * 10/100);
+        add(choose);
+
+        player1.setBounds(frameSize.width * 35/100, frameSize.height * 38/100, frameSize.width * 30/100, frameSize.height * 5/100);
         add(player1);
         player1.addActionListener(new Gui.ChangePanel());
 
+        player2.setBounds(frameSize.width * 35/100, frameSize.height * 45/100, frameSize.width * 30/100, frameSize.height * 5/100);
+        add(player2);
+        player2.addActionListener(new Gui.ChangePanel());
+
         if (numberOfPlayer == 3){
-            player2 = new JButton(players.get(2));
-            player2.setBounds(frameSize.width * 50/100 - (screen.width * 11/100)/2, frameSize.height * 55/100 - 50, screen.width * 10/100, screen.height * 3/100);
-            add(player2);
-            player2.addActionListener(new Gui.ChangePanel());
+            player3 = new JButton(players.get(2).getNickname());
+            player3.setBounds(frameSize.width * 35/100, frameSize.height * 52/100, frameSize.width * 30/100, frameSize.height * 5/100);
+            add(player3);
+            player3.addActionListener(new Gui.ChangePanel());
         }
         add(back);
 

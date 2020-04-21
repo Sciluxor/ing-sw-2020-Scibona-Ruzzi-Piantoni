@@ -1,6 +1,9 @@
 package it.polimi.ingsw.view.Client.GUI;
 
 import it.polimi.ingsw.controller.ClientGameController;
+import it.polimi.ingsw.model.Player.Color;
+import it.polimi.ingsw.model.Player.Player;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -20,7 +23,7 @@ public class Gui extends ClientGameController {
     static JLabel lconfirm_press;
     static int panelInUse = 0;
 
-    static ArrayList<String> players;
+    static ArrayList<Player> players;
 
     private void show() throws IOException {
 
@@ -33,26 +36,36 @@ public class Gui extends ClientGameController {
         d = new Dimension();
         d.setSize(width * 95/100, height * 95/100);
         players = new ArrayList<>();
-        players.add("Alessandro");
-        players.add("Edoardo");
-        players.add("Luigi");
+        Player ale = new Player("Alessandro");
+        Player edo = new Player("Edoardo");
+        Player lui = new Player("Luigi");
+        ale.setColor(Color.BLUE);
+        edo.setColor(Color.WHITE);
+        lui.setColor(Color.PURPLE);
+        players.add(ale);
+        players.add(edo);
+        players.add(lui);
+
         frame = new JFrame("Santorini");
         lconfirm = ImageHandler.setImage("src/main/resources/Graphics/button_confirm.png", 100, 100, (int) (d.width * 13/100), (int) (d.height * 5/100));
         lconfirm_press = ImageHandler.setImage("src/main/resources/Graphics/button_confirm_press.png", 100, 100, (int) (d.width * 13/100), (int) (d.height * 5/100));
 
-        login = new Login(d);                                                                   //schermata 0
-        lobby = new LobbyGui(screenSize, d, 2, 3, players);                                    //schermata 1
-        challengerChoiseCards2 = new ChallengerChoiseCards(screenSize, d, 2);                 //schermata 2
-        challengerChoiseCards3 = new ChallengerChoiseCards(screenSize, d, 3);                 //schermata 3
-        waitChallenger = new WaitChallenger(screenSize, d);                                                 //schermata 4
-        challengerChoiseFirst2 = new ChallengerChoiseFirstPlayer(screenSize, d, 2, players);  //schermata 5
-        challengerChoiseFirst3 = new ChallengerChoiseFirstPlayer(screenSize, d, 3, players);  //schermata 6
-        chooseCard3 = new ChooseCard(screenSize, d, 3);                                        //schermata 7
-        chooseCard2 = new ChooseCard(screenSize, d, 2);                                        //schermata 8
-        chooseCard1 = new ChooseCard(screenSize, d, 1);                                        //schermata 9
-        chooseCard0 = new ChooseCard(screenSize, d, 0);                                        //schermata 10
-        //board2 = new Board(screenSize, d, 2, players, "GID01");                        //schermata 11
-        //board3 = new Board(screenSize, d, 3, players, "GID01");                        //schermata 12
+        JLabel cover = ImageHandler.setImage("src/main/resources/Graphics/background_panels.png", 100, 100, d.width, d.height);
+        JLabel background_panel = new JLabel(cover.getIcon());
+
+        login = new Login(d);                                                                                                   //schermata 0 sistemata
+        lobby = new LobbyGui(screenSize, d, 2, 3, players);                                           //schermata 1
+        challengerChoiseCards2 = new ChallengerChoiseCards(d, 2, background_panel);                              //schermata 2 sistemata
+        challengerChoiseCards3 = new ChallengerChoiseCards(d, 3, background_panel);                              //schermata 3 sistemata
+        waitChallenger = new WaitChallenger(screenSize, d);                                                                    //schermata 4
+        challengerChoiseFirst2 = new ChallengerChoiseFirstPlayer(screenSize, d, 2, players, background_panel);  //schermata 5 sistemata
+        challengerChoiseFirst3 = new ChallengerChoiseFirstPlayer(screenSize, d, 3, players, background_panel);  //schermata 6 sistemata
+        chooseCard3 = new ChooseCard(screenSize, d, 3);                                                         //schermata 7
+        chooseCard2 = new ChooseCard(screenSize, d, 2);                                                         //schermata 8
+        chooseCard1 = new ChooseCard(screenSize, d, 1);                                                         //schermata 9
+        chooseCard0 = new ChooseCard(screenSize, d, 0);                                                         //schermata 10
+        //board2 = new Board(screenSize, d, 2, players, "GID01");                                                               //schermata 11
+        //board3 = new Board(screenSize, d, 3, players, "GID01");                                                               //schermata 12
 
 
 

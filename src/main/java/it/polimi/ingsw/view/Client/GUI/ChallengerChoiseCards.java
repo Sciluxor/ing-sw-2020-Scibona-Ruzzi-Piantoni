@@ -2,8 +2,6 @@ package it.polimi.ingsw.view.Client.GUI;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -11,17 +9,17 @@ public class ChallengerChoiseCards extends JPanel{
 
     Dimension frameSize = new Dimension(), cardSize = new Dimension();
 
-    public ChallengerChoiseCards(Dimension screen, Dimension frame, Integer numberOfPlayer) throws IOException {
+    public ChallengerChoiseCards(Dimension frame, Integer numberOfPlayer, JLabel background) throws IOException {
 
         frameSize.setSize(frame);
         final int xconst =  (int) (frameSize.width * 9/100);
-        final int yconst = (int) frameSize.height * 21/100;
+        final int yconst = (int) frameSize.height * 24/100;
         int x = xconst;
         int y = yconst;
         int count = 0;
 
 
-        cardSize.setSize(screen.getWidth() * 9/100, screen.getHeight() * 22/100);
+        cardSize.setSize((int) (frameSize.getWidth() * 9/100), (int) (frameSize.getHeight() * 23.15/100)); //(9, 22)
         setPreferredSize(frameSize);
         setLayout(null);
 
@@ -93,19 +91,24 @@ public class ChallengerChoiseCards extends JPanel{
         prome.setIcon(lprome.getIcon());
         zeus.setIcon(lzeus.getIcon());
 
-        JLabel cover = ImageHandler.setImage("src/main/resources/Graphics/background_panels.png", 100, 100, frameSize.width, frameSize.height);
-        JLabel sfondo = new JLabel(cover.getIcon());
+
         JButton back = new JButton();
-        back.setIcon(sfondo.getIcon());
+        back.setIcon(background.getIcon());
         back.setBounds(0, 0, frameSize.width, frameSize.height);
         back.setOpaque(false);
         back.setContentAreaFilled(false);
         back.setBorderPainted(false);
 
-
-        JLabel choise = new JLabel("Choose 3 Gods");
-        choise.setBounds(frameSize.width * 50/100 - 50, frameSize.height * 10/100, 100, 100);
-        add(choise);
+        if (numberOfPlayer == 2){
+            JLabel choise = ImageHandler.setImage("src/main/resources/Graphics/Texts/choose_2_gods.png", 100, 100, frameSize.width * 30/100, frameSize.height * 10/100);
+            choise.setBounds(frameSize.width * 35/100, frameSize.height * 10/100, frameSize.width * 30/100, frameSize.height * 10/100);
+            add(choise);
+        }
+        else{
+            JLabel choise = ImageHandler.setImage("src/main/resources/Graphics/Texts/choose_3_gods.png", 100, 100, frameSize.width * 30/100, frameSize.height * 10/100);
+            choise.setBounds(frameSize.width * 35/100, frameSize.height * 10/100, frameSize.width * 30/100, frameSize.height * 10/100);
+            add(choise);
+        }
 
         JButton confirm = new JButton();
         confirm.setBounds((int) (frameSize.width * 43.5/100), (int) (frameSize.height * 79.5/100), (int) (frameSize.width * 13/100), (int) (frameSize.height * 5/100));
@@ -121,7 +124,13 @@ public class ChallengerChoiseCards extends JPanel{
         for (JButton button : buttons){
 
             if(numberOfPlayer == 2){
-                if(count < 7){
+                if(count == 0){
+                    button.setBounds(x, y, cardSize.width, cardSize.height);
+                    this.add(button);
+                    count++;
+                }
+
+                else if(count < 7){
                     x = x + frameSize.width * 12/100;
                     button.setBounds(x, y, cardSize.width, cardSize.height);
                     this.add(button);
@@ -130,7 +139,7 @@ public class ChallengerChoiseCards extends JPanel{
                 else{
                     if (y == yconst){
 
-                        x = xconst;
+                        x = - frameSize.width * 3/100;
                         y = frameSize.height * 49/100;
                     }
                     x = x + frameSize.width * 12/100;

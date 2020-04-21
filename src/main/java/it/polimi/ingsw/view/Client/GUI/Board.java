@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.Client.GUI;
 
+import it.polimi.ingsw.model.Player.Player;
 import it.polimi.ingsw.utils.Observable;
 
 import javax.swing.*;
@@ -10,7 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Board extends Observable {
-    ArrayList<String> allPlayer = new ArrayList<>();
+    ArrayList<Player> allPlayer = new ArrayList<>();
     JFrame f;
     JDesktopPane desktopPane;
     JInternalFrame frameChat;
@@ -45,13 +46,13 @@ public class Board extends Observable {
     private boolean chatOpen = false;
     Font felixSmall, felixNormal, felixBold;
 
-    public void show(Dimension screen, Integer numberOfPlayer, final ArrayList<String> players, String gameId) throws IOException {
+    public void show(Dimension screen, Integer numberOfPlayer, final ArrayList<Player> players, String gameId) throws IOException {
 
         f = new JFrame();
 
-        nicknameLabel.setText("Nickname: " + players.get(0));
+        nicknameLabel.setText("Nickname: " + players.get(0).getNickname());
         gID.setText("GameID: " + gameId);
-        opponent1.setText(players.get(1));
+        opponent1.setText(players.get(1).getNickname());
         allPlayer = players;
 
         double ratio= (screen.getWidth()/screen.getHeight());
@@ -171,7 +172,7 @@ public class Board extends Observable {
         desktopPane.add(opponent1);
         opponent1.addMouseListener(new SeePower());
         if (numberOfPlayer == 3){
-            JButton opponent2 = new JButton(players.get(2));
+            JButton opponent2 = new JButton(players.get(2).getNickname());
             opponent2.setBounds((frameSize.width * 4/100), (frameSize.height * 34/100), frameSize.width * 10/100, frameSize.height * 4/100);
             opponent2.setFont(felixNormal);
             opponent2.setHorizontalAlignment(SwingConstants.LEFT);
@@ -733,7 +734,7 @@ public class Board extends Observable {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (!field.getText().equals("")) {
-                chat.append(allPlayer.get(0) + ": " + field.getText().toLowerCase() + "\n");
+                chat.append(allPlayer.get(0).getNickname() + ": " + field.getText().toLowerCase() + "\n");
                 chat.setCaretPosition(chat.getDocument().getLength());
                 field.setText("");
             }

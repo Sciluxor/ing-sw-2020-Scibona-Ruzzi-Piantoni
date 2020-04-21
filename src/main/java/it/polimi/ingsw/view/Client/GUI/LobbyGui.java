@@ -1,5 +1,7 @@
 package it.polimi.ingsw.view.Client.GUI;
 
+import it.polimi.ingsw.model.Player.Player;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
@@ -8,7 +10,7 @@ import java.util.ArrayList;
 public class LobbyGui extends JPanel{
     Dimension frameSize = new Dimension();
 
-    public LobbyGui(Dimension screen, Dimension frame, Integer actualPlayer, Integer numberOfPlayer, ArrayList<String> players) throws IOException {
+    public LobbyGui(Dimension screen, Dimension frame, Integer actualPlayer, Integer numberOfPlayer, ArrayList<Player> players) throws IOException {
 
         frameSize.setSize(frame);
         setPreferredSize(frameSize);
@@ -37,8 +39,8 @@ public class LobbyGui extends JPanel{
         textArea.setBounds(frameSize.width*50/100 - 75, frameSize.height*50/100 - 25, 150,50);
         add(textArea);
 
-        for (String player : players){
-            textArea.append(player + "\n");
+        for (Player player : players){
+            textArea.append(player.getNickname() + "\n");
         }
         add(back);
     }
