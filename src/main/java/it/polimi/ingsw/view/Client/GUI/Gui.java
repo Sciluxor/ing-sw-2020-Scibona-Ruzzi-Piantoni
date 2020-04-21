@@ -61,18 +61,18 @@ public class Gui extends ClientGameController {
         background_panel = new JLabel(cover.getIcon());
 
         login = new Login(d);                                                                                                   //schermata 0 sistemata
-        lobby = new LobbyGui(d, 2, numberOfPlayers, players, background_panel);                                     //schermata 1 sistemata
+        lobby = new LobbyGui(d, 2, numberOfPlayers, players);                                                       //schermata 1  sistemata
         //challengerChoiseCards2 = new ChallengerChoiseCards(d, numberOfPlayers, background_panel);                              //schermata 2 sistemata
-        challengerChoiseCards3 = new ChallengerChoiseCards(d, numberOfPlayers, background_panel);                              //schermata 3 sistemata
-        waitChallenger = new WaitChallenger(d);                                                  //schermata 4
+        //challengerChoiseCards3 = new ChallengerChoiseCards(d, numberOfPlayers, background_panel);                              //schermata 3 sistemata
+        waitChallenger = new WaitChallenger(d);                                                                                 //schermata 4 sistemata
         //challengerChoiseFirst2 = new ChallengerChoiseFirstPlayer(d, numberOfPlayers, players, background_panel);              //schermata 5 sistemata
         //challengerChoiseFirst3 = new ChallengerChoiseFirstPlayer(d, numberOfPlayers, players, background_panel);              //schermata 6 sistemata
-        chooseCard3 = new ChooseCard(screenSize, d, 3, background_panel);                                         //schermata 7
-        chooseCard2 = new ChooseCard(screenSize, d, 2, background_panel);                                         //schermata 8
-        chooseCard1 = new ChooseCard(screenSize, d, 1, background_panel);                                         //schermata 9
-        chooseCard0 = new ChooseCard(screenSize, d, 0, background_panel);                                         //schermata 10
-        //board2 = new Board(screenSize, d, 2, players, "GID01");                                                               //schermata 11
-        //board3 = new Board(screenSize, d, 3, players, "GID01");                                                               //schermata 12
+        chooseCard3 = new ChooseCard(screenSize, d, 3);                                                             //schermata 7
+        chooseCard2 = new ChooseCard(screenSize, d, 2);                                                             //schermata 8
+        chooseCard1 = new ChooseCard(screenSize, d, 1);                                                             //schermata 9
+        chooseCard0 = new ChooseCard(screenSize, d, 0);                                                             //schermata 10
+        //board2 = new Board(screenSize, d, 2, players, "GID01");                                                                   //schermata 11
+        //board3 = new Board(screenSize, d, 3, players, "GID01");                                                                   //schermata 12
 
 
 
@@ -80,7 +80,7 @@ public class Gui extends ClientGameController {
         frame.setPreferredSize(d);
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        frame.add(waitChallenger);
+        frame.add(chooseCard0);
 
         SwingUtilities.updateComponentTreeUI(frame);
         frame.pack();
@@ -95,13 +95,13 @@ public class Gui extends ClientGameController {
         switch (panel){
             case 0:
                 frame.remove(login);
-                challengerChoiseCards = new ChallengerChoiseCards(d, numberOfPlayers, background_panel);
+                challengerChoiseCards = new ChallengerChoiseCards(d, numberOfPlayers);
                 frame.add(challengerChoiseCards);
                 panelInUse = 1;
                 break;
             case 1:
                 frame.remove(challengerChoiseCards);
-                challengerChoiseFirst = new ChallengerChoiseFirstPlayer(d, numberOfPlayers, players, background_panel);
+                challengerChoiseFirst = new ChallengerChoiseFirstPlayer(d, numberOfPlayers, players);
                 frame.add(challengerChoiseFirst);
                 panelInUse = 2;
                 break;

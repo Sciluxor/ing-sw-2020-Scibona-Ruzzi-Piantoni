@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import static it.polimi.ingsw.view.Client.GUI.Gui.BackgroundButton;
 import static it.polimi.ingsw.view.Client.GUI.Gui.ConfirmButtonCreate;
 
@@ -12,7 +11,7 @@ public class ChallengerChoiseCards extends JPanel{
 
     Dimension frameSize = new Dimension(), cardSize = new Dimension();
 
-    public ChallengerChoiseCards(Dimension frame, Integer numberOfPlayer, JLabel background) throws IOException {
+    public ChallengerChoiseCards(Dimension frame, Integer numberOfPlayer) throws IOException {
 
         frameSize.setSize(frame);
         final int xconst =  (int) (frameSize.width * 9/100);

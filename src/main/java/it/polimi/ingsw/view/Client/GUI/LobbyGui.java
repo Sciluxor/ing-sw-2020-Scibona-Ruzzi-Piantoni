@@ -17,7 +17,7 @@ import static it.polimi.ingsw.view.Client.GUI.Gui.BackgroundButton;
 public class LobbyGui extends JPanel{
     Dimension frameSize = new Dimension();
 
-    public LobbyGui(Dimension frame, Integer actualPlayer, Integer numberOfPlayer, ArrayList<Player> players, JLabel background) throws IOException {
+    public LobbyGui(Dimension frame, Integer actualPlayer, Integer numberOfPlayer, ArrayList<Player> players) throws IOException {
 
         frameSize.setSize(frame);
         setPreferredSize(frameSize);
