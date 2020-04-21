@@ -10,7 +10,7 @@ public class Cli extends ClientGameController {
     private static Color colorPrinter = Color.ANSI_RED;
     private String keyboard;
     private SantoriniMap map = new SantoriniMap();
-    static Cella[][] cella = new Cella[5][5];
+    //static Square[][] squares = new Square[5][5];
 
 
     public Cli() {
