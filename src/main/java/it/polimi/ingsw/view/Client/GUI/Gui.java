@@ -61,10 +61,10 @@ public class Gui extends ClientGameController {
         background_panel = new JLabel(cover.getIcon());
 
         login = new Login(d);                                                                                                   //schermata 0 sistemata
-        lobby = new LobbyGui(d, 2, numberOfPlayers, players, background_panel);                         //schermata 1
+        lobby = new LobbyGui(d, 2, numberOfPlayers, players, background_panel);                                     //schermata 1 sistemata
         //challengerChoiseCards2 = new ChallengerChoiseCards(d, numberOfPlayers, background_panel);                              //schermata 2 sistemata
         challengerChoiseCards3 = new ChallengerChoiseCards(d, numberOfPlayers, background_panel);                              //schermata 3 sistemata
-        waitChallenger = new WaitChallenger(screenSize, d, background_panel);                                                  //schermata 4
+        waitChallenger = new WaitChallenger(d);                                                  //schermata 4
         //challengerChoiseFirst2 = new ChallengerChoiseFirstPlayer(d, numberOfPlayers, players, background_panel);              //schermata 5 sistemata
         //challengerChoiseFirst3 = new ChallengerChoiseFirstPlayer(d, numberOfPlayers, players, background_panel);              //schermata 6 sistemata
         chooseCard3 = new ChooseCard(screenSize, d, 3, background_panel);                                         //schermata 7
@@ -80,7 +80,7 @@ public class Gui extends ClientGameController {
         frame.setPreferredSize(d);
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        frame.add(lobby);
+        frame.add(waitChallenger);
 
         SwingUtilities.updateComponentTreeUI(frame);
         frame.pack();
