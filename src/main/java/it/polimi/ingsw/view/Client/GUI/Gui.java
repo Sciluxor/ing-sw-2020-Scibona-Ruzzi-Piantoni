@@ -24,7 +24,9 @@ public class Gui extends ClientGameController {
     static JLabel background_panel;
     static int panelInUse = 0;
     private static int numberOfPlayers = 2;
-
+    static Font felixSmall;
+    static Font felixNormal;
+    static Font felixBold;
     static ArrayList<Player> players;
 
     private void show() throws IOException {
@@ -47,6 +49,9 @@ public class Gui extends ClientGameController {
         //players.add(ale);
         players.add(edo);
         players.add(lui);
+        felixSmall = new Font("Felix Titling", Font.PLAIN, (int) (13 * screenSize.getHeight() / 1080));
+        felixNormal = new Font("Felix Titling", Font.PLAIN, (int) (20 * screenSize.getHeight() / 1080));
+        felixBold = new Font("Felix Titling", Font.BOLD, (int) (25 * screenSize.getHeight() / 1080));
 
         frame = new JFrame("Santorini");
         lconfirm = ImageHandler.setImage("src/main/resources/Graphics/button_confirm.png", 100, 100, (int) (d.width * 13/100), (int) (d.height * 5/100));
@@ -56,7 +61,7 @@ public class Gui extends ClientGameController {
         background_panel = new JLabel(cover.getIcon());
 
         login = new Login(d);                                                                                                   //schermata 0 sistemata
-        lobby = new LobbyGui(screenSize, d, 2, numberOfPlayers, players, background_panel);                         //schermata 1
+        lobby = new LobbyGui(d, 2, numberOfPlayers, players, background_panel);                         //schermata 1
         //challengerChoiseCards2 = new ChallengerChoiseCards(d, numberOfPlayers, background_panel);                              //schermata 2 sistemata
         challengerChoiseCards3 = new ChallengerChoiseCards(d, numberOfPlayers, background_panel);                              //schermata 3 sistemata
         waitChallenger = new WaitChallenger(screenSize, d, background_panel);                                                  //schermata 4
@@ -75,7 +80,7 @@ public class Gui extends ClientGameController {
         frame.setPreferredSize(d);
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        frame.add(login);
+        frame.add(lobby);
 
         SwingUtilities.updateComponentTreeUI(frame);
         frame.pack();
