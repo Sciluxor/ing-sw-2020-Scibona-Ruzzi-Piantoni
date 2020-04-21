@@ -16,7 +16,8 @@ public class Gui extends ClientGameController {
     static JPanel login = null, lobby = null, challengerChoiseCards2 = null, challengerChoiseCards3 = null, waitChallenger = null,
             challengerChoiseFirst2 = null, challengerChoiseFirst3 = null, chooseCard3 = null, chooseCard2 = null, chooseCard1 = null,
             chooseCard0 = null;
-    static JLayer layer;
+    static JLabel lconfirm;
+    static JLabel lconfirm_press;
     static int panelInUse = 0;
 
     static ArrayList<String> players;
@@ -36,8 +37,10 @@ public class Gui extends ClientGameController {
         players.add("Edoardo");
         players.add("Luigi");
         frame = new JFrame("Santorini");
+        lconfirm = ImageHandler.setImage("src/main/resources/Graphics/button_confirm.png", 100, 100, (int) (d.width * 13/100), (int) (d.height * 5/100));
+        lconfirm_press = ImageHandler.setImage("src/main/resources/Graphics/button_confirm_press.png", 100, 100, (int) (d.width * 13/100), (int) (d.height * 5/100));
 
-        login = new Login(screenSize, d);                                                                   //schermata 0
+        login = new Login(d);                                                                   //schermata 0
         lobby = new LobbyGui(screenSize, d, 2, 3, players);                                    //schermata 1
         challengerChoiseCards2 = new ChallengerChoiseCards(screenSize, d, 2);                 //schermata 2
         challengerChoiseCards3 = new ChallengerChoiseCards(screenSize, d, 3);                 //schermata 3
@@ -173,6 +176,30 @@ public class Gui extends ClientGameController {
 
         }
 
+    }
+
+    public static class ConfirmButtonPress implements MouseListener {
+
+        @Override
+        public void mouseClicked(MouseEvent e) {}
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            JButton c = (JButton)e.getSource();
+            c.setIcon(lconfirm_press.getIcon());
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            JButton c = (JButton)e.getSource();
+            c.setIcon(lconfirm.getIcon());
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {}
+
+        @Override
+        public void mouseExited(MouseEvent e) {}
     }
 
 }

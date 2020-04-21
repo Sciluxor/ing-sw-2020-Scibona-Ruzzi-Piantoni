@@ -2,26 +2,12 @@ package it.polimi.ingsw.view.Client.GUI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class ChallengerChoiseCards extends JPanel{
-    private JButton apollo = new JButton(),
-            artemis = new JButton(),
-            athena = new JButton(),
-            atlas = new JButton(),
-            chronus = new JButton(),
-            demeter = new JButton(),
-            hepha = new JButton(),
-            hera = new JButton(),
-            hestia = new JButton(),
-            hypnus = new JButton(),
-            mino = new JButton(),
-            pan = new JButton(),
-            prome = new JButton(),
-            zeus = new JButton(),
-            confirm = new JButton("Confirm");
-
 
     Dimension frameSize = new Dimension(), cardSize = new Dimension();
 
@@ -40,19 +26,33 @@ public class ChallengerChoiseCards extends JPanel{
         setLayout(null);
 
         ArrayList<JButton> buttons = new ArrayList<>();
+        JButton apollo = new JButton();
         buttons.add(apollo);
+        JButton artemis = new JButton();
         buttons.add(artemis);
+        JButton athena = new JButton();
         buttons.add(athena);
+        JButton atlas = new JButton();
         buttons.add(atlas);
+        JButton chronus = new JButton();
         buttons.add(chronus);
+        JButton demeter = new JButton();
         buttons.add(demeter);
+        JButton hepha = new JButton();
         buttons.add(hepha);
+        JButton hera = new JButton();
         buttons.add(hera);
+        JButton hestia = new JButton();
         buttons.add(hestia);
+        JButton hypnus = new JButton();
         buttons.add(hypnus);
+        JButton mino = new JButton();
         buttons.add(mino);
+        JButton pan = new JButton();
         buttons.add(pan);
+        JButton prome = new JButton();
         buttons.add(prome);
+        JButton zeus = new JButton();
         buttons.add(zeus);
 
         for (JButton button : buttons){
@@ -61,6 +61,7 @@ public class ChallengerChoiseCards extends JPanel{
             button.setFocusPainted(false);
             //button.setBorderPainted(false);
         }
+
 
         JLabel lapollo = ImageHandler.setImage("src/main/resources/Graphics/gods/apollo.png", 100, 100, cardSize.width, cardSize.height);
         JLabel lartemis = ImageHandler.setImage("src/main/resources/Graphics/gods/artemis.png", 100, 100, cardSize.width, cardSize.height);
@@ -106,7 +107,14 @@ public class ChallengerChoiseCards extends JPanel{
         choise.setBounds(frameSize.width * 50/100 - 50, frameSize.height * 10/100, 100, 100);
         add(choise);
 
-        confirm.setBounds(frameSize.width * 50/100 - (screen.width * 10/100)/2, frameSize.height * 82/100 - 50, screen.width * 10/100, screen.height * 3/100);
+        JButton confirm = new JButton();
+        confirm.setBounds((int) (frameSize.width * 43.5/100), (int) (frameSize.height * 79.5/100), (int) (frameSize.width * 13/100), (int) (frameSize.height * 5/100));
+        confirm.setOpaque(false);
+        confirm.setContentAreaFilled(false);
+        confirm.setFocusPainted(false);
+        confirm.setBorderPainted(false);
+        confirm.setIcon(Gui.lconfirm.getIcon());
+        confirm.addMouseListener(new Gui.ConfirmButtonPress());
         add(confirm);
         confirm.addActionListener(new Gui.ChangePanel());
 
@@ -157,7 +165,5 @@ public class ChallengerChoiseCards extends JPanel{
         }
 
         add(back);
-
     }
-
 }

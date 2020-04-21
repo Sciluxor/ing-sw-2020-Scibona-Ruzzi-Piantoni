@@ -29,7 +29,7 @@ public class ChooseCard extends  JPanel{
         JLabel choose = new JLabel("Choose your God power");
         JLabel choise = new JLabel("This is your God Power");
         JLabel wait = new JLabel("Waiting for other players choise");
-        JButton confirm = new JButton("Confirm");
+        JButton confirm = new JButton();
         JButton button1 = new JButton("First");
         JButton button2 = new JButton("Second");
         JButton button3 = new JButton("Third");
@@ -39,7 +39,13 @@ public class ChooseCard extends  JPanel{
             choose.setBounds(frameSize.width * 50/100 - 75, frameSize.height * 20/100 - 50, 150, 100);
             add(choose);
 
-            confirm.setBounds(frameSize.width * 50/100 - (screen.width * 10/100) / 2, frameSize.height * 82/100 - 50, screen.width * 10/100, screen.height * 3/100);
+            confirm.setBounds((int) (frameSize.width * 43.5/100), (int) (frameSize.height * 79.5/100), (int) (frameSize.width * 13/100), (int) (frameSize.height * 5/100));
+            confirm.setOpaque(false);
+            confirm.setContentAreaFilled(false);
+            confirm.setFocusPainted(false);
+            confirm.setBorderPainted(false);
+            confirm.setIcon(Gui.lconfirm.getIcon());
+            confirm.addMouseListener(new Gui.ConfirmButtonPress());
             add(confirm);
             confirm.addActionListener(new Gui.ChangePanel());
 
