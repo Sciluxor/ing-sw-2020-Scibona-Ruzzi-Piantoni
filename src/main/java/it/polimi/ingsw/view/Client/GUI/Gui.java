@@ -195,6 +195,23 @@ public class Gui extends ClientGameController {
 
     }
 
+    public static JButton ConfirmButtonCreate() throws IOException {
+        JButton confirm = new JButton();
+        lconfirm = ImageHandler.setImage("src/main/resources/Graphics/button_confirm.png", 100, 100, (int) (d.getWidth() * 13/100), (int) (d.getHeight() * 5/100));
+        lconfirm_press = ImageHandler.setImage("src/main/resources/Graphics/button_confirm_press.png", 100, 100, (int) (d.getWidth() * 13/100), (int) (d.getHeight() * 5/100));
+
+        confirm.setBounds((int) (d.getWidth() * 43.5/100), (int) (d.getHeight() * 79.5/100), (int) (d.getWidth() * 13/100), (int) (d.getHeight() * 5/100));
+        confirm.setOpaque(false);
+        confirm.setContentAreaFilled(false);
+        confirm.setFocusPainted(false);
+        confirm.setBorderPainted(false);
+        confirm.setIcon(Gui.lconfirm.getIcon());
+        //confirm.setVisible(true);
+        confirm.addMouseListener(new Gui.ConfirmButtonPress());
+        confirm.addActionListener(new Gui.ChangePanel());
+        return confirm;
+    }
+
     public static class ConfirmButtonPress implements MouseListener {
 
         @Override
@@ -217,6 +234,16 @@ public class Gui extends ClientGameController {
 
         @Override
         public void mouseExited(MouseEvent e) {}
+    }
+
+    public static JButton BackgroundButton() throws IOException {
+        JButton back = new JButton();
+        back.setIcon(background_panel.getIcon());
+        back.setBounds(0, 0, d.width, d.height);
+        back.setOpaque(false);
+        back.setContentAreaFilled(false);
+        back.setBorderPainted(false);
+        return back;
     }
 
 
