@@ -12,7 +12,7 @@ import static it.polimi.ingsw.view.Client.GUI.Gui.BackgroundButton;
 public class ChallengerChoiseFirstPlayer extends JPanel{
     Dimension frameSize = new Dimension();
 
-    public ChallengerChoiseFirstPlayer(Dimension frame, Integer numberOfPlayer, ArrayList<Player> players, JLabel background) throws IOException {
+    public ChallengerChoiseFirstPlayer(Dimension frame, Integer numberOfPlayer, ArrayList<Player> players) throws IOException {
 
         frameSize.setSize(frame);
         setPreferredSize(frameSize);
