@@ -32,7 +32,7 @@ public class CardLoader {
             JsonReader gameCardsReader = new JsonReader(gameCardsInput);
             containers = gsonCard.fromJson(gameCardsReader, CardLoader.CardContainer[].class);
 
-        }catch (Throwable e){
+        }catch (Exception e){
 
             throw new IllegalStateException("impossible to charge Cards");
 

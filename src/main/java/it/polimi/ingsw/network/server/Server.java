@@ -67,6 +67,7 @@ public class Server {
     public void startSocketServer(int port){
         try {
             this.socketHandler = new SocketHandler(port,this);
+            Logger.info("Server is listening on port: "+ port);
             closeServerIfRequested();
         }catch (IOException e){
             Logger.info("Impossible to start the Server");
@@ -85,13 +86,6 @@ public class Server {
             for(ClientHandler connection: toRemove){
                 removeFromConnections(connection);
             }
-
-            try {
-                Thread.sleep(200);
-            }catch (InterruptedException inter){
-                Logger.info("SERVER ERROR");
-            }
-
 
             Logger.info("Server Shutted Down.");
             System.exit(0);
@@ -282,12 +276,7 @@ public class Server {
         new Thread(() -> {
             String input = "";
             while (!input.equalsIgnoreCase("close")) {
-                try {
-                    Thread.sleep(200);
-                }catch (InterruptedException inter){
-                    Logger.info("SERVER ERROR");
-                }
-                System.out.println("Type \"close\" to stop the server.");  //aggiustare la stampa
+                Logger.info("Type \"close\" to stop the server.");
                 input = new Scanner(System.in).nextLine();
             }
 

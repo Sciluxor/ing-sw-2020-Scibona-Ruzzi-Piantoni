@@ -14,7 +14,7 @@ public class ConsoleColor {
     public final static String WHITE = "\033[0;37m";
     public final static String BLUE = "\033[0;34m";
 
-    public static HashMap<Color,String> colorString;
+    private static HashMap<Color,String> colorString;
 
     public static void loadColor(){
         colorString = new HashMap<>();

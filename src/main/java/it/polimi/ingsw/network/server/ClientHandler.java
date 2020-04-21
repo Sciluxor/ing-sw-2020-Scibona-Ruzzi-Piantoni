@@ -140,7 +140,7 @@ public class ClientHandler implements Runnable, ConnectionInterface {
     public void startLobbyTimer(){
         lobbyTimer = new Timer();
         LobbyTimerTask task = new LobbyTimerTask(server,this,userID,nickName);
-        lobbyTimer.schedule(task, ConfigLoader.getLobbyTimer() * 1000);
+        lobbyTimer.schedule(task, (long) ConfigLoader.getLobbyTimer() * 1000);
     }
 
     public void stopLobbyTimer(){
@@ -205,7 +205,6 @@ public class ClientHandler implements Runnable, ConnectionInterface {
                 Logger.info("problem with class");
             }
             finally {
-                Logger.info("mannaggia");
                 if(isConnectionActive)
                     closeConnection();
                 else

@@ -32,7 +32,7 @@ public class Demeter extends Card {
     }
 
     public ArrayList<Directions> notPreviousBuild(GameMap gameMap, Worker worker) {
-        int level_position = worker.getBoardPosition().getBuildingLevel();
+        int levelPosition = worker.getBoardPosition().getBuildingLevel();
         HashMap<Directions,Integer> canAccess = worker.getBoardPosition().getCanAccess();
         ArrayList<Directions> reachableSquares = new ArrayList<>();
 
@@ -40,7 +40,7 @@ public class Demeter extends Card {
             int squareTile = canAccess.get(dir);
             if(squareTile > ConstantsContainer.MINMAPPOSITION && squareTile <= ConstantsContainer.MAXMAPPOSITION) { //rivedere questo if
                 Square possibleSquare = gameMap.getGameMap().get(squareTile- 1);
-                if(!possibleSquare.hasPlayer() && (possibleSquare.getBuildingLevel() >= 0 && possibleSquare.getBuildingLevel() <= level_position +1)
+                if(!possibleSquare.hasPlayer() && (possibleSquare.getBuildingLevel() >= 0 && possibleSquare.getBuildingLevel() <= levelPosition +1)
                         && possibleSquare.getBuilding() != Building.DOME && !(possibleSquare.equals(worker.getPreviousBuildPosition()))) {
                     reachableSquares.add(dir);
                 }

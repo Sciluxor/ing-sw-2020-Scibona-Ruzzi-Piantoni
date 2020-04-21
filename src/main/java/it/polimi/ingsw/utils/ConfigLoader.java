@@ -41,7 +41,7 @@ public class ConfigLoader {
             JsonReader serverConfigReader = new JsonReader(serverConfigInput);
             container = gsonServer.fromJson(serverConfigReader, ConfigLoader.configContainer.class);
 
-        }catch (Throwable e){
+        }catch (Exception e){
 
             throw new IllegalStateException("impossible to charge Cards");
 

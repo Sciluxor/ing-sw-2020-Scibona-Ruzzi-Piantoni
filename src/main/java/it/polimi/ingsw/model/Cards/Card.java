@@ -73,7 +73,7 @@ public class Card implements Serializable {
         if(gameMap == null || worker == null)
             throw new NullPointerException("null gameMap or worker");
 
-        return gameMap.reachableSquares(worker);
+        return gameMap.buildableSquare(worker);
     }
 
     public Response executeBuild(GameMap gameMap, Building building, Directions directions, Worker worker) {

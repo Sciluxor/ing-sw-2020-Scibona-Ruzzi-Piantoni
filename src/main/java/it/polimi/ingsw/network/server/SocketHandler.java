@@ -28,7 +28,6 @@ public class SocketHandler extends Thread implements Closeable {
 
     @Override
     public void run() {
-        Logger.info("Server is listening on port: "+ port);
         ExecutorService executor = Executors.newCachedThreadPool();
 
             while(isActive) {

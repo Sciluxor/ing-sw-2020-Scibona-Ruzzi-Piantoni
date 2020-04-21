@@ -96,6 +96,6 @@ class WorkerTest {
 
     @Test
     void getName() {
-        assert (worker1.getName() == WorkerName.WORKER1);
+        assertEquals ( WorkerName.WORKER1,worker1.getName());
     }
 }

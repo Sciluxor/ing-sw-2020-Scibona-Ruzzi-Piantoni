@@ -9,16 +9,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class CardLoaderTest {
 
     //
-    //test that the map load correctly
-    //
-    @Test
-    void loadCards(){
-
-        CardLoader.loadCards();
-
-    }
-
-    //
     //test that the function read the json file correctly and that the deck is created in the correct way
     //
     @Test
