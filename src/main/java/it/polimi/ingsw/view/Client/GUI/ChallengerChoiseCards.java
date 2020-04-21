@@ -92,6 +92,15 @@ public class ChallengerChoiseCards extends JPanel{
         prome.setIcon(lprome.getIcon());
         zeus.setIcon(lzeus.getIcon());
 
+        JLabel cover = ImageHandler.setImage("src/main/resources/Graphics/background_panels.png", 100, 100, frameSize.width, frameSize.height);
+        JLabel sfondo = new JLabel(cover.getIcon());
+        JButton back = new JButton();
+        back.setIcon(sfondo.getIcon());
+        back.setBounds(0, 0, frameSize.width, frameSize.height);
+        back.setOpaque(false);
+        back.setContentAreaFilled(false);
+        back.setBorderPainted(false);
+
 
         JLabel choise = new JLabel("Choose 3 Gods");
         choise.setBounds(frameSize.width * 50/100 - 50, frameSize.height * 10/100, 100, 100);
@@ -147,5 +156,8 @@ public class ChallengerChoiseCards extends JPanel{
             }
         }
 
+        add(back);
+
     }
+
 }

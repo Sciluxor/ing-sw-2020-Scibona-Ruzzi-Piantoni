@@ -2,16 +2,26 @@ package it.polimi.ingsw.view.Client.GUI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class ChallengerChoiseFirstPlayer extends JPanel{
     Dimension frameSize = new Dimension();
 
-    public ChallengerChoiseFirstPlayer(Dimension screen, Dimension frame, Integer numberOfPlayer, ArrayList<String> players) {
+    public ChallengerChoiseFirstPlayer(Dimension screen, Dimension frame, Integer numberOfPlayer, ArrayList<String> players) throws IOException {
 
         frameSize.setSize(frame);
         setPreferredSize(frameSize);
         setLayout(null);
+
+        JLabel cover = ImageHandler.setImage("src/main/resources/Graphics/background_panels.png", 100, 100, frameSize.width, frameSize.height);
+        JLabel sfondo = new JLabel(cover.getIcon());
+        JButton back = new JButton();
+        back.setIcon(sfondo.getIcon());
+        back.setBounds(0, 0, frameSize.width, frameSize.height);
+        back.setOpaque(false);
+        back.setContentAreaFilled(false);
+        back.setBorderPainted(false);
 
         JLabel label = new JLabel("Choose the first player");
         JButton player1 = new JButton(players.get(1));
@@ -30,6 +40,7 @@ public class ChallengerChoiseFirstPlayer extends JPanel{
             add(player2);
             player2.addActionListener(new Gui.ChangePanel());
         }
+        add(back);
 
     }
 }

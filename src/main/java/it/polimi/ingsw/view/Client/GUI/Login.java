@@ -26,9 +26,9 @@ public class Login extends JPanel{
 
         JLabel cover = ImageHandler.setImage("src/main/resources/Graphics/background_login.png", 100, 100, frameSize.width, frameSize.height);
         JLabel sfondo = new JLabel(cover.getIcon());
-        JLabel santoriniLabel = ImageHandler.setImage("src/main/resources/Graphics/Texts/Santorini_HD.png", 100, 100, frameSize.width, frameSize.height);
-        JLabel nicknameLabel = ImageHandler.setImage("src/main/resources/Graphics/Texts/nickname.png", 100, 100, frameSize.width, frameSize.height);
-        JLabel numberPlayersLabel = ImageHandler.setImage("src/main/resources/Graphics/Texts/number_of_players.png", 100, 100, frameSize.width, frameSize.height);
+        JLabel santoriniLabel = ImageHandler.setImage("src/main/resources/Graphics/Texts/Santorini_HD.png", 100, 100, screen.width * 10/100,screen.height*10/100);
+        JLabel nicknameLabel = ImageHandler.setImage("src/main/resources/Graphics/Texts/nickname.png", 100, 100, screen.width * 12/100,screen.height * 3/100);
+        JLabel numberPlayersLabel = ImageHandler.setImage("src/main/resources/Graphics/Texts/number_of_players.png", 100, 100, screen.width * 12/100,screen.height * 3/100);
 
         JButton back = new JButton();
         back.setIcon(sfondo.getIcon());
@@ -50,12 +50,12 @@ public class Login extends JPanel{
 
         nickname.setBounds(frameSize.width * 47/100 - (screen.width * 6/100)/2, frameSize.height * 45/100 - (screen.height * 6/100)/2, screen.width * 12/100,screen.height * 3/100);
         add(nickname);
-        nicknameLabel.setBounds(frameSize.width * 37/100 - (screen.width * 6/100)/2, frameSize.height * 45/100 - (screen.height * 6/100)/2, screen.width * 12/100,screen.height * 3/100);
+        nicknameLabel.setBounds(frameSize.width * 10/100, frameSize.height * 10/100, screen.width * 12/100,screen.height * 3/100);
         add(nicknameLabel);
 
         numberPlayers.setBounds(frameSize.width * 47/100 - (screen.width * 6/100)/2, frameSize.height * 55/100 - (screen.height * 6/100)/2, screen.width * 12/100,screen.height * 3/100);
         add(numberPlayers);
-        numberPlayersLabel.setBounds(frameSize.width * 37/100 - (screen.width * 6/100)/2, frameSize.height * 55/100 - (screen.height * 6/100)/2, screen.width * 12/100,screen.height * 3/100);
+        numberPlayersLabel.setBounds(frameSize.width * 15/100, frameSize.height * 15/100, screen.width * 12/100,screen.height * 3/100);
         add(numberPlayersLabel);
 
         add(back);
