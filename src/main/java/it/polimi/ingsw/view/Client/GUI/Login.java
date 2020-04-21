@@ -2,11 +2,18 @@ package it.polimi.ingsw.view.Client.GUI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
+
+import static it.polimi.ingsw.view.Client.GUI.Gui.setNamePlayer;
+import static it.polimi.ingsw.view.Client.GUI.Gui.setNumberOfPlayers;
 
 public class Login extends JPanel{
 
     Dimension frameSize = new Dimension();
+    static JTextField nickname;
+    static JTextField numberPlayers;
 
     public Login(Dimension frame) throws IOException {
 
@@ -15,8 +22,8 @@ public class Login extends JPanel{
         setLayout(null);
 
         JButton confirm = new JButton();
-        JTextField nickname = new JTextField(20);
-        JTextField numberPlayers = new JTextField(20);
+        nickname = new JTextField(20);
+        numberPlayers = new JTextField(20);
 
         JLabel cover = ImageHandler.setImage("src/main/resources/Graphics/background_login.png", 100, 100, frameSize.width, frameSize.height);
         JLabel sfondo = new JLabel(cover.getIcon());
@@ -56,5 +63,19 @@ public class Login extends JPanel{
 
         add(back);
         confirm.addActionListener(new Gui.ChangePanel());
+        confirm.addActionListener(new Send());
+    }
+
+    private class Send implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (!nickname.getText().equals("")){
+                setNamePlayer(nickname.getText());
+            }
+
+            if (!numberPlayers.getText().equals("")) {
+                setNumberOfPlayers((Integer.parseInt(numberPlayers.getText())));
+            }
+        }
     }
 }

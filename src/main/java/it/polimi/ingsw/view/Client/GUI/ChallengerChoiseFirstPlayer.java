@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class ChallengerChoiseFirstPlayer extends JPanel{
     Dimension frameSize = new Dimension();
 
-    public ChallengerChoiseFirstPlayer(Dimension screen, Dimension frame, Integer numberOfPlayer, ArrayList<Player> players, JLabel background) throws IOException {
+    public ChallengerChoiseFirstPlayer(Dimension frame, Integer numberOfPlayer, ArrayList<Player> players, JLabel background) throws IOException {
 
         frameSize.setSize(frame);
         setPreferredSize(frameSize);

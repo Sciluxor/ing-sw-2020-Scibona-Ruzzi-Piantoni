@@ -14,14 +14,16 @@ import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 public class Gui extends ClientGameController {
     JFrame f = new JFrame();
-    static Dimension boardSize, d ,screenSize;
+    static Dimension d ,screenSize;
     static JFrame frame;
-    static JPanel login = null, lobby = null, challengerChoiseCards2 = null, challengerChoiseCards3 = null, waitChallenger = null,
-            challengerChoiseFirst2 = null, challengerChoiseFirst3 = null, chooseCard3 = null, chooseCard2 = null, chooseCard1 = null,
+    static JPanel login = null, lobby = null, challengerChoiseCards = null, challengerChoiseCards3 = null, waitChallenger = null,
+            challengerChoiseFirst = null, challengerChoiseFirst3 = null, chooseCard3 = null, chooseCard2 = null, chooseCard1 = null,
             chooseCard0 = null;
     static JLabel lconfirm;
     static JLabel lconfirm_press;
+    static JLabel background_panel;
     static int panelInUse = 0;
+    private static int numberOfPlayers = 2;
 
     static ArrayList<Player> players;
 
@@ -42,7 +44,7 @@ public class Gui extends ClientGameController {
         ale.setColor(Color.BLUE);
         edo.setColor(Color.WHITE);
         lui.setColor(Color.PURPLE);
-        players.add(ale);
+        //players.add(ale);
         players.add(edo);
         players.add(lui);
 
@@ -51,19 +53,19 @@ public class Gui extends ClientGameController {
         lconfirm_press = ImageHandler.setImage("src/main/resources/Graphics/button_confirm_press.png", 100, 100, (int) (d.width * 13/100), (int) (d.height * 5/100));
 
         JLabel cover = ImageHandler.setImage("src/main/resources/Graphics/background_panels.png", 100, 100, d.width, d.height);
-        JLabel background_panel = new JLabel(cover.getIcon());
+        background_panel = new JLabel(cover.getIcon());
 
         login = new Login(d);                                                                                                   //schermata 0 sistemata
-        lobby = new LobbyGui(screenSize, d, 2, 3, players);                                           //schermata 1
-        challengerChoiseCards2 = new ChallengerChoiseCards(d, 2, background_panel);                              //schermata 2 sistemata
-        challengerChoiseCards3 = new ChallengerChoiseCards(d, 3, background_panel);                              //schermata 3 sistemata
-        waitChallenger = new WaitChallenger(screenSize, d);                                                                    //schermata 4
-        challengerChoiseFirst2 = new ChallengerChoiseFirstPlayer(screenSize, d, 2, players, background_panel);  //schermata 5 sistemata
-        challengerChoiseFirst3 = new ChallengerChoiseFirstPlayer(screenSize, d, 3, players, background_panel);  //schermata 6 sistemata
-        chooseCard3 = new ChooseCard(screenSize, d, 3);                                                         //schermata 7
-        chooseCard2 = new ChooseCard(screenSize, d, 2);                                                         //schermata 8
-        chooseCard1 = new ChooseCard(screenSize, d, 1);                                                         //schermata 9
-        chooseCard0 = new ChooseCard(screenSize, d, 0);                                                         //schermata 10
+        lobby = new LobbyGui(screenSize, d, 2, numberOfPlayers, players, background_panel);                         //schermata 1
+        //challengerChoiseCards2 = new ChallengerChoiseCards(d, numberOfPlayers, background_panel);                              //schermata 2 sistemata
+        challengerChoiseCards3 = new ChallengerChoiseCards(d, numberOfPlayers, background_panel);                              //schermata 3 sistemata
+        waitChallenger = new WaitChallenger(screenSize, d, background_panel);                                                  //schermata 4
+        //challengerChoiseFirst2 = new ChallengerChoiseFirstPlayer(d, numberOfPlayers, players, background_panel);              //schermata 5 sistemata
+        //challengerChoiseFirst3 = new ChallengerChoiseFirstPlayer(d, numberOfPlayers, players, background_panel);              //schermata 6 sistemata
+        chooseCard3 = new ChooseCard(screenSize, d, 3, background_panel);                                         //schermata 7
+        chooseCard2 = new ChooseCard(screenSize, d, 2, background_panel);                                         //schermata 8
+        chooseCard1 = new ChooseCard(screenSize, d, 1, background_panel);                                         //schermata 9
+        chooseCard0 = new ChooseCard(screenSize, d, 0, background_panel);                                         //schermata 10
         //board2 = new Board(screenSize, d, 2, players, "GID01");                                                               //schermata 11
         //board3 = new Board(screenSize, d, 3, players, "GID01");                                                               //schermata 12
 
@@ -88,17 +90,19 @@ public class Gui extends ClientGameController {
         switch (panel){
             case 0:
                 frame.remove(login);
-                frame.add(challengerChoiseCards3);
+                challengerChoiseCards = new ChallengerChoiseCards(d, numberOfPlayers, background_panel);
+                frame.add(challengerChoiseCards);
                 panelInUse = 1;
                 break;
             case 1:
-                frame.remove(challengerChoiseCards3);
-                frame.add(challengerChoiseFirst3);
+                frame.remove(challengerChoiseCards);
+                challengerChoiseFirst = new ChallengerChoiseFirstPlayer(d, numberOfPlayers, players, background_panel);
+                frame.add(challengerChoiseFirst);
                 panelInUse = 2;
                 break;
 
             case 2:
-                frame.remove(challengerChoiseFirst3);
+                frame.remove(challengerChoiseFirst);
                 frame.add(chooseCard3);
                 panelInUse = 3;
                 break;
@@ -106,7 +110,7 @@ public class Gui extends ClientGameController {
             case 3:
                 frame.dispose();
                 Board board = new Board();
-                board.show(screenSize, 3, players, "GID01");
+                board.show(screenSize, numberOfPlayers, players, "GID01");
                 panelInUse = 4;
                 break;
 
@@ -214,5 +218,20 @@ public class Gui extends ClientGameController {
         @Override
         public void mouseExited(MouseEvent e) {}
     }
+
+
+    public static void setNumberOfPlayers(int numberOfPlayers) {
+        Gui.numberOfPlayers = numberOfPlayers;
+    }
+
+    public static void setNamePlayer(String name) {
+        players.add(0, new Player(name));
+        players.get(0).setColor(Color.BLUE);
+        System.out.println(players.get(0).getNickname());
+        System.out.println(players.get(1).getNickname());
+        System.out.println(players.get(2).getNickname());
+    }
+
+
 
 }
