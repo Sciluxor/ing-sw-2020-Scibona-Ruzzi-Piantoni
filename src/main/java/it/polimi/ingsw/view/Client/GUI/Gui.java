@@ -67,10 +67,10 @@ public class Gui extends ClientGameController {
         waitChallenger = new WaitChallenger(d);                                                                                 //schermata 4 sistemata
         //challengerChoiseFirst2 = new ChallengerChoiseFirstPlayer(d, numberOfPlayers, players, background_panel);              //schermata 5 sistemata
         //challengerChoiseFirst3 = new ChallengerChoiseFirstPlayer(d, numberOfPlayers, players, background_panel);              //schermata 6 sistemata
-        chooseCard3 = new ChooseCard(screenSize, d, 3);                                                             //schermata 7
-        chooseCard2 = new ChooseCard(screenSize, d, 2);                                                             //schermata 8
-        chooseCard1 = new ChooseCard(screenSize, d, 1);                                                             //schermata 9
-        chooseCard0 = new ChooseCard(screenSize, d, 0);                                                             //schermata 10
+        chooseCard3 = new ChooseCard(screenSize, d, 3);                                                             //schermata 7 sistemata
+        chooseCard2 = new ChooseCard(screenSize, d, 2);                                                             //schermata 8 sistemata
+        chooseCard1 = new ChooseCard(screenSize, d, 1);                                                             //schermata 9 sistemata
+        chooseCard0 = new ChooseCard(screenSize, d, 0);                                                             //schermata 10 sistemata
         //board2 = new Board(screenSize, d, 2, players, "GID01");                                                                   //schermata 11
         //board3 = new Board(screenSize, d, 3, players, "GID01");                                                                   //schermata 12
 
@@ -80,7 +80,7 @@ public class Gui extends ClientGameController {
         frame.setPreferredSize(d);
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        frame.add(chooseCard0);
+        frame.add(login);
 
         SwingUtilities.updateComponentTreeUI(frame);
         frame.pack();
