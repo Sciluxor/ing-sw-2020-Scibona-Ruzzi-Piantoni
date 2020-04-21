@@ -84,7 +84,8 @@ public class GameController implements Observer<Message> {
             for(VirtualView values :clients.values()){
                 values.setYourTurn(false);
             }
-            handleMatchBeginning();
+
+            //handleMatchBeginning();
         }
     }
 
@@ -141,20 +142,16 @@ public class GameController implements Observer<Message> {
 
     public synchronized void stopStartedGame(){
 
-        for(Player player : getActualPlayers()){
-            VirtualView playerView = removeViewFromGame(player.getNickname());
-            resetPlayer(playerView);
-            if(playerView.getConnection().isConnectionActive()) {
-                playerView.getConnection().stopLobbyTimer();
-                game.removeSettedPlayer(player.getNickname());
-                closeConnectionAfterDisconnection(playerView);
-            }
-        }
-
         game.setGameStatus(Response.GAMESTOPPED);
 
         for(Player player :getActualPlayers()){
+            VirtualView playerView = removeViewFromGame(player.getNickname());
+            resetPlayer(playerView);
             game.removeObserver(getViewFromNickName(player.getNickname()));
+
+            if(playerView.getConnection().isConnectionActive()) {
+                playerView.getConnection().stopLobbyTimer();
+            }
         }
 
     }
@@ -163,6 +160,7 @@ public class GameController implements Observer<Message> {
         playerView.getConnection().setUserID(ConstantsContainer.USERDIDDEF);
         playerView.getConnection().setNickName(ConstantsContainer.NICKDEF);
         playerView.getConnection().startLobbyTimer();
+        playerView.getConnection().setViewActive(false);
     }
 
     public synchronized String  getUserIDFromPlayer(Player player){
@@ -174,17 +172,12 @@ public class GameController implements Observer<Message> {
         view.getConnection().setViewActive(false);
         game.removeConfigPlayer();
         clients.remove(message.getSender());
-        closeConnection(view);
-    }
-
-    public synchronized void closeConnectionAfterDisconnection(VirtualView view){
         game.removeObserver(view);
-        view.getConnection().closeAfterDisconnection();
     }
 
     public synchronized void handleTurnLobbyEnded(){
         VirtualView view = removeViewFromGame(getCurrentPlayer().getNickname());
-        closeConnection(view);
+        game.removeObserver(view);
         removePlayerFromBoard();
 
         game.setGameStatus(Response.PLAYERTIMERENDED);
@@ -199,11 +192,6 @@ public class GameController implements Observer<Message> {
         game.setGameStatus(Response.PLAYERLOSE);
         checkIfStillCorrectGame();
 
-    }
-
-    public synchronized void closeConnection(VirtualView view){
-        game.removeObserver(view);
-        view.getConnection().closeConnection();
     }
 
     public synchronized VirtualView removeViewFromGame(String nickName){

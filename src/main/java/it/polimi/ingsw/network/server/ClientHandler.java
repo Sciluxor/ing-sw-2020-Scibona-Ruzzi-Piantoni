@@ -180,7 +180,12 @@ public class ClientHandler implements Runnable, ConnectionInterface {
                     }
                     else if((input.getType() == MessageType.DISCONNECTION)){
                         server.handleDisconnection(userID,this,input);
-                                                                                                                   //completare questo
+
+                        if(!input.getSubType().equals(MessageSubType.BACK))
+                            break;
+
+
+                        //completare questo
                                                                                                              //confermare la ricezione del messaggio, è giò fatto
                         //due casi diversi se si disconette prima di aver iniziato la partita o dopo aver iniziato la partita, nel primo si deve chiudere l'app
                         //nel secondo si deve richiedere se si vuole iniziare una nuova parita
@@ -191,15 +196,21 @@ public class ClientHandler implements Runnable, ConnectionInterface {
                     }
 
                 }
-                closeConnection();
 
             }catch (IOException e){
-                isConnectionActive = false;
+                isConnectionActive = false;         //sfruttare questo per chiudere la connection, e inviare o no il messaggio.
                 server.handleDisconnection(userID,this,new Message(userID,nickName,MessageType.DISCONNECTION,MessageSubType.ERROR));
-                Logger.info("player disconnected");
             }
             catch(ClassNotFoundException c){
                 Logger.info("problem with class");
+            }
+            finally {
+                Logger.info("mannaggia");
+                if(isConnectionActive)
+                    closeConnection();
+                else
+                    closeAfterDisconnection();
+                Logger.info("player disconnected");
             }
         }
 

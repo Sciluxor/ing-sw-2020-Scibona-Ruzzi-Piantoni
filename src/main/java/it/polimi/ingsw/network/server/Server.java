@@ -228,47 +228,53 @@ public class Server {
 
     }
 
-    public void handleDisconnection(String userID,ClientHandler connection,Message message) {
+    public void handleDisconnection(String userID,ClientHandler connection,Message message) {      //spezzare questa in tre funzioni
         synchronized (clientsLock) {
-            if (userID.equalsIgnoreCase(ConstantsContainer.USERDIDDEF)) {
-                if(connection.isConnectionActive())
-                    connection.closeConnection();
-                else
-                    connection.closeAfterDisconnection();
-            } else {
+            if (!userID.equalsIgnoreCase(ConstantsContainer.USERDIDDEF)) {
+
                 GameController controller = getControllerFromUserID(userID);
                 if (controller.isGameStarted()) {                             //mettere il caso di disconnection request se il game è già iniziato
-                    //controller.stopStartedGame();                             all'inizio o alla fine?
-                    actualMatches.remove(controller);
+                             handleDisconnectionDuringGame(controller);
 
-                    for (Player player : controller.getActualPlayers()) {
-                        controllerFromUserID.remove(controller.getUserIDFromPlayer(player));
-                    }
-                    controllerFromGameID.remove(controller.getGameID());
-                    controller.stopStartedGame();
                 } else {
-                    controllerFromUserID.remove(userID);
-                    if (message.getSubType().equals(MessageSubType.REQUEST)){
-                        connection.closeConnection();
-                    }
-                    else if(message.getSubType().equals(MessageSubType.BACK)){
-                        controller.resetPlayer(connection.getView());
-                        connection.getView().removeObserver(controller);
-                    }
-                    else if((message.getSubType().equals(MessageSubType.TIMEENDED))){
-                        controller.handleLobbyTimerEnded(message);
-                        return;                                                            //serve fare questo retunr? forse meglio switch per tutti questi if
-                    }
-                    else if((message.getSubType().equals(MessageSubType.NICKMAXTRY))){
-                        connection.getView().removeObserver(controller);
-                    }
-                    else {
-                            connection.closeAfterDisconnection();
-                        }
-                    controller.disconnectPlayerBeforeGameStart(message);
+                      handleDisconnectionBeforeGame(controller,userID,connection,message);
 
                 }
             }
+        }
+    }
+
+    public synchronized void handleDisconnectionBeforeGame(GameController controller,String userID,ClientHandler connection,Message message){
+    synchronized (clientsLock) {
+        controllerFromUserID.remove(userID);
+
+        if ((message.getSubType().equals(MessageSubType.TIMEENDED))) {
+            controller.handleLobbyTimerEnded(message);
+            return;                                                            //serve fare questo retunr? forse meglio switch per tutti questi if
+        } else {
+                controller.disconnectPlayerBeforeGameStart(message);
+                if (message.getSubType().equals(MessageSubType.BACK)) {
+                    controller.resetPlayer(connection.getView());
+                    connection.getView().removeObserver(controller);
+                }
+                else if ((message.getSubType().equals(MessageSubType.NICKMAXTRY))) {
+                    connection.getView().removeObserver(controller);
+                }
+
+        }
+    }
+    }
+
+    public synchronized void  handleDisconnectionDuringGame(GameController controller){
+        //controller.stopStartedGame();
+        synchronized (clientsLock) {
+            actualMatches.remove(controller);
+
+            for (Player player : controller.getActualPlayers()) {
+                controllerFromUserID.remove(controller.getUserIDFromPlayer(player));
+            }
+            controllerFromGameID.remove(controller.getGameID());
+            controller.stopStartedGame();
         }
     }
 

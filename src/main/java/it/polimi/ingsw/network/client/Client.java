@@ -251,7 +251,7 @@ public class Client {
             String nickname = new Scanner(System.in).nextLine();
             while(nickname.length() < ConstantsContainer.MIN_LENGHT_NICK || nickname.length() > ConstantsContainer.MAX_LENGHT_NICK){
                 Logger.info("\nNickname must be shorter than 20 characters and longer than 4 characters. Please, reinsert nickname: ");
-                nickname = new Scanner(System.in).nextLine();
+                nickname = new Scanner(System.in).nextLine();   //  nick con lo spazio finale li considera uguali
             }
             client.setNick(nickname);
 
