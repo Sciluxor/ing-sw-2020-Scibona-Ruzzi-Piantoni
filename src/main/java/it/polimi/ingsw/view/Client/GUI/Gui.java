@@ -11,7 +11,6 @@ import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 public class Gui extends ClientGameController {
     JFrame f = new JFrame();
-    static JLabel santoriniLabel, sfondo;
     static Dimension boardSize, d ,screenSize;
     static JFrame frame;
     static JPanel login = null, lobby = null, challengerChoiseCards2 = null, challengerChoiseCards3 = null, waitChallenger = null,
@@ -54,9 +53,6 @@ public class Gui extends ClientGameController {
 
 
 
-
-        santoriniLabel = new JLabel("scegli altri God");
-        santoriniLabel.setBounds(100, 100, 100, 100);
         layer.setPreferredSize(d);
         layer.setVisible(true);
         frame.setPreferredSize(d);
@@ -117,7 +113,7 @@ public class Gui extends ClientGameController {
 
 
 
-    public static void main(String[] args) { //avvio
+    public void avvio() { //avvio
         SwingUtilities.invokeLater(() -> {
             try {
                 Gui gui = new Gui();
