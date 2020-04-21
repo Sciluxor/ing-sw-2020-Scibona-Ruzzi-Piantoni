@@ -26,9 +26,9 @@ public class Login extends JPanel{
 
         JLabel cover = ImageHandler.setImage("src/main/resources/Graphics/background_login.png", 100, 100, frameSize.width, frameSize.height);
         JLabel sfondo = new JLabel(cover.getIcon());
-        JLabel santoriniLabel = ImageHandler.setImage("src/main/resources/Graphics/Text/Santorini_HD.png", 100, 100, frameSize.width, frameSize.height);
-        JLabel nicknameLabel = ImageHandler.setImage("src/main/resources/Graphics/Text/nickname.png", 100, 100, frameSize.width, frameSize.height);
-        JLabel numberPlayersLabel = ImageHandler.setImage("src/main/resources/Graphics/Text/number_of_players.png", 100, 100, frameSize.width, frameSize.height);
+        JLabel santoriniLabel = ImageHandler.setImage("src/main/resources/Graphics/Texts/Santorini_HD.png", 100, 100, frameSize.width, frameSize.height);
+        JLabel nicknameLabel = ImageHandler.setImage("src/main/resources/Graphics/Texts/nickname.png", 100, 100, frameSize.width, frameSize.height);
+        JLabel numberPlayersLabel = ImageHandler.setImage("src/main/resources/Graphics/Texts/number_of_players.png", 100, 100, frameSize.width, frameSize.height);
 
         JButton back = new JButton();
         back.setIcon(sfondo.getIcon());
