@@ -1,9 +1,8 @@
 package it.polimi.ingsw.view.Client.CLI;
 
-import it.polimi.ingsw.controller.ClientGameController;
 import java.util.Scanner;
 
-public class Cli extends ClientGameController {
+public class Welcome {
 
     private Color colorServer;
     private Color colorClient;
@@ -13,7 +12,7 @@ public class Cli extends ClientGameController {
     static Cella[][] cella = new Cella[5][5];
 
 
-    public Cli() {
+    public Welcome() {
         this.colorServer = Color.ANSI_BLUE;
         this.colorClient = Color.ANSI_RED;
         this.keyboard = null;
@@ -159,5 +158,4 @@ public class Cli extends ClientGameController {
                 "  \\  /\\  /  |--  |    |    |   | | \\/ | |--       |    |   |    |---|  /--\\  | \\ |   |   |   | |___| | | \\ | |     |   _|_   |\n" +
                 "   \\/  \\/   |___ |___ |___ |___| |    | |___      |    |___|     ___| /    \\ |  \\|   |   |___| |  \\  | |  \\| |      |_______|\n" + this.colorPrinter.RESET);
     }
-
 }
