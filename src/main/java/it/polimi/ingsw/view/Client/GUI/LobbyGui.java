@@ -7,6 +7,8 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static it.polimi.ingsw.view.Client.GUI.Gui.BackgroundButton;
+
 public class LobbyGui extends JPanel{
     Dimension frameSize = new Dimension();
 
@@ -15,13 +17,6 @@ public class LobbyGui extends JPanel{
         frameSize.setSize(frame);
         setPreferredSize(frameSize);
         setLayout(null);
-
-        JButton back = new JButton();
-        back.setIcon(background.getIcon());
-        back.setBounds(0, 0, frameSize.width, frameSize.height);
-        back.setOpaque(false);
-        back.setContentAreaFilled(false);
-        back.setBorderPainted(false);
 
         JLabel wait = new JLabel("Waiting others players");
         JLabel number = new JLabel(actualPlayer + " of " + numberOfPlayer);
@@ -40,6 +35,7 @@ public class LobbyGui extends JPanel{
         for (Player player : players){
             textArea.append(player.getNickname() + "\n");
         }
+        JButton back = BackgroundButton();
         add(back);
     }
 }

@@ -6,8 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-import static it.polimi.ingsw.view.Client.GUI.Gui.setNamePlayer;
-import static it.polimi.ingsw.view.Client.GUI.Gui.setNumberOfPlayers;
+import static it.polimi.ingsw.view.Client.GUI.Gui.*;
 
 public class Login extends JPanel{
 
@@ -21,7 +20,6 @@ public class Login extends JPanel{
         setPreferredSize(frameSize);
         setLayout(null);
 
-        JButton confirm = new JButton();
         nickname = new JTextField(20);
         numberPlayers = new JTextField(20);
 
@@ -42,13 +40,8 @@ public class Login extends JPanel{
         santoriniLabel.setBounds(frameSize.width * 35/100 , frameSize.height * 7/100, frameSize.width * 30/100,frameSize.height*20/100);
         add(santoriniLabel);
 
-        confirm.setBounds((int) (frameSize.width * 43.5/100), (int) (frameSize.height * 79.5/100), (int) (frameSize.width * 13/100), (int) (frameSize.height * 5/100));
-        confirm.setOpaque(false);
-        confirm.setContentAreaFilled(false);
-        confirm.setFocusPainted(false);
-        confirm.setBorderPainted(false);
-        confirm.setIcon(Gui.lconfirm.getIcon());
-        confirm.addMouseListener(new Gui.ConfirmButtonPress());
+
+        JButton confirm = ConfirmButtonCreate();
         add(confirm);
 
         nickname.setBounds((int) (frameSize.width * 40/100), (int) (frameSize.height * 46.5/100), frameSize.width * 20/100,frameSize.height * 3/100);
@@ -62,7 +55,6 @@ public class Login extends JPanel{
         add(numberPlayersLabel);
 
         add(back);
-        confirm.addActionListener(new Gui.ChangePanel());
         confirm.addActionListener(new Send());
     }
 

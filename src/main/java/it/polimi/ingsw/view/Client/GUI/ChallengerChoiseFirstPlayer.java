@@ -7,6 +7,8 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static it.polimi.ingsw.view.Client.GUI.Gui.BackgroundButton;
+
 public class ChallengerChoiseFirstPlayer extends JPanel{
     Dimension frameSize = new Dimension();
 
@@ -15,16 +17,6 @@ public class ChallengerChoiseFirstPlayer extends JPanel{
         frameSize.setSize(frame);
         setPreferredSize(frameSize);
         setLayout(null);
-
-
-        JButton back = new JButton();
-        back.setIcon(background.getIcon());
-        back.setBounds(0, 0, frameSize.width, frameSize.height);
-        back.setOpaque(false);
-        back.setContentAreaFilled(false);
-        back.setBorderPainted(false);
-
-
 
         JButton player1 = new JButton(players.get(0).getNickname());
         JButton player2 = new JButton(players.get(1).getNickname());
@@ -48,6 +40,7 @@ public class ChallengerChoiseFirstPlayer extends JPanel{
             add(player3);
             player3.addActionListener(new Gui.ChangePanel());
         }
+        JButton back = BackgroundButton();
         add(back);
 
     }

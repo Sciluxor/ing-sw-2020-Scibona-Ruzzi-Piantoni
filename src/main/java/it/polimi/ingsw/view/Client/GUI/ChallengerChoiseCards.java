@@ -5,6 +5,9 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static it.polimi.ingsw.view.Client.GUI.Gui.BackgroundButton;
+import static it.polimi.ingsw.view.Client.GUI.Gui.ConfirmButtonCreate;
+
 public class ChallengerChoiseCards extends JPanel{
 
     Dimension frameSize = new Dimension(), cardSize = new Dimension();
@@ -91,14 +94,6 @@ public class ChallengerChoiseCards extends JPanel{
         prome.setIcon(lprome.getIcon());
         zeus.setIcon(lzeus.getIcon());
 
-
-        JButton back = new JButton();
-        back.setIcon(background.getIcon());
-        back.setBounds(0, 0, frameSize.width, frameSize.height);
-        back.setOpaque(false);
-        back.setContentAreaFilled(false);
-        back.setBorderPainted(false);
-
         if (numberOfPlayer == 2){
             JLabel choise = ImageHandler.setImage("src/main/resources/Graphics/Texts/choose_2_gods.png", 100, 100, frameSize.width * 30/100, frameSize.height * 10/100);
             choise.setBounds(frameSize.width * 35/100, frameSize.height * 10/100, frameSize.width * 30/100, frameSize.height * 10/100);
@@ -110,16 +105,9 @@ public class ChallengerChoiseCards extends JPanel{
             add(choise);
         }
 
-        JButton confirm = new JButton();
-        confirm.setBounds((int) (frameSize.width * 43.5/100), (int) (frameSize.height * 79.5/100), (int) (frameSize.width * 13/100), (int) (frameSize.height * 5/100));
-        confirm.setOpaque(false);
-        confirm.setContentAreaFilled(false);
-        confirm.setFocusPainted(false);
-        confirm.setBorderPainted(false);
-        confirm.setIcon(Gui.lconfirm.getIcon());
-        confirm.addMouseListener(new Gui.ConfirmButtonPress());
+        JButton confirm = ConfirmButtonCreate();
         add(confirm);
-        confirm.addActionListener(new Gui.ChangePanel());
+
 
         for (JButton button : buttons){
 
@@ -173,6 +161,7 @@ public class ChallengerChoiseCards extends JPanel{
             }
         }
 
+        JButton back = BackgroundButton();
         add(back);
     }
 }
