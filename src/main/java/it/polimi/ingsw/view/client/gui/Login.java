@@ -11,8 +11,8 @@ import static it.polimi.ingsw.view.client.gui.Gui.*;
 public class Login extends JPanel{
 
     Dimension frameSize = new Dimension();
-    static JTextField nickname;
-    static JTextField numberPlayers;
+    JTextField nickname;
+    JTextField numberPlayers;
 
     public Login(Dimension frame) throws IOException {
 
