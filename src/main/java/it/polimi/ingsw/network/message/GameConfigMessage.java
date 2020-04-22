@@ -1,6 +1,5 @@
 package it.polimi.ingsw.network.message;
 
-import it.polimi.ingsw.network.server.Server;
 import it.polimi.ingsw.view.Server.VirtualView;
 
 public class GameConfigMessage extends Message {
