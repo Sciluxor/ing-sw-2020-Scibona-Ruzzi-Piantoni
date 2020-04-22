@@ -3,7 +3,7 @@ package it.polimi.ingsw.view.client.gui;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-import static it.polimi.ingsw.view.client.gui.Gui.BackgroundButton;
+import static it.polimi.ingsw.view.client.gui.Gui.backgroundButton;
 
 public class WaitChallenger extends JPanel{
 
@@ -20,7 +20,7 @@ public class WaitChallenger extends JPanel{
         label.setBounds(frameSize.width * 30/100, frameSize.height * 5/100, frameSize.width * 40/100, frameSize.height * 20/100);
         add(label);
 
-        JButton back = BackgroundButton();
+        JButton back = backgroundButton();
         add(back);
     }
 }

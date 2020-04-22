@@ -11,7 +11,7 @@ import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
-import static it.polimi.ingsw.view.client.gui.Gui.BackgroundButton;
+import static it.polimi.ingsw.view.client.gui.Gui.backgroundButton;
 
 public class LobbyGui extends JPanel{
     Dimension frameSize = new Dimension();
@@ -58,7 +58,7 @@ public class LobbyGui extends JPanel{
                 Logger.info("InsertString Failed");
             }
         }
-        JButton back = BackgroundButton();
+        JButton back = backgroundButton();
         add(back);
     }
 }

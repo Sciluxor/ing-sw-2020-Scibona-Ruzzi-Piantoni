@@ -4,8 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
-import static it.polimi.ingsw.view.client.gui.Gui.BackgroundButton;
-import static it.polimi.ingsw.view.client.gui.Gui.ConfirmButtonCreate;
+
+import static it.polimi.ingsw.view.client.gui.Gui.*;
 
 public class ChallengerChoiseCards extends JPanel{
 
@@ -104,7 +104,7 @@ public class ChallengerChoiseCards extends JPanel{
             add(choise);
         }
 
-        JButton confirm = ConfirmButtonCreate();
+        JButton confirm = confirmButtonCreate();
         add(confirm);
 
 
@@ -160,7 +160,7 @@ public class ChallengerChoiseCards extends JPanel{
             }
         }
 
-        JButton back = BackgroundButton();
+        JButton back = backgroundButton();
         add(back);
     }
 }

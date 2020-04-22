@@ -82,7 +82,6 @@ public class Board extends Observable {
     Font felixSmall;
     Font felixNormal;
     Font felixBold;
-    final String FELIX = "Felix Titling";
     final  String PALETTE = "JInternalFrame.isPalette";
 
     public void show(Dimension screen, Integer numberOfPlayer, final ArrayList<Player> players, String gameId) throws IOException {
@@ -115,9 +114,9 @@ public class Board extends Observable {
         JLabel cover2 = ImageHandler.setImage("src/main/resources/Graphics/background.png", 100, 100, frameSize.width * 40/100, frameSize.height * 40/100);
         background = new JLabel(cover2.getIcon());
 
-        felixSmall = new Font(FELIX, Font.PLAIN, (int) (13 * screen.getHeight() / 1080));
-        felixNormal = new Font(FELIX, Font.PLAIN, (int) (20 * screen.getHeight() / 1080));
-        felixBold = new Font(FELIX, Font.BOLD, (int) (25 * screen.getHeight() / 1080));
+        felixSmall = new Font(Gui.FELIX, Font.PLAIN, (int) (13 * screen.getHeight() / 1080));
+        felixNormal = new Font(Gui.FELIX, Font.PLAIN, (int) (20 * screen.getHeight() / 1080));
+        felixBold = new Font(Gui.FELIX, Font.BOLD, (int) (25 * screen.getHeight() / 1080));
 
 
         workerCyan = ImageHandler.setImage("src/main/resources/Graphics/worker_cyan.png", 100, 100, height * 13/100, height * 13/100);
@@ -189,19 +188,19 @@ public class Board extends Observable {
 
 
 
-        nicknameLabel.setBounds((frameSize.width * 3/100), (frameSize.height * 16/100), frameSize.width * 20/100, frameSize.width * 5/100);
+        nicknameLabel.setBounds((frameSize.width * 4/100), (frameSize.height * 2/100), frameSize.width * 20/100, frameSize.width * 5/100);
         nicknameLabel.setFont(felixNormal);
         desktopPane.add(nicknameLabel);
 
-        gID.setBounds((frameSize.width * 3/100), (frameSize.height * 21/100), frameSize.width * 20/100, frameSize.width * 5/100);
+        gID.setBounds((frameSize.width * 4/100), (frameSize.height * 4/100), frameSize.width * 20/100, frameSize.width * 5/100);
         gID.setFont(felixNormal);
         desktopPane.add(gID);
 
-        opponents.setBounds((frameSize.width * 3/100), (frameSize.height * 25/100), frameSize.width * 20/100, frameSize.width * 5/100);
+        opponents.setBounds((frameSize.width * 3/100), (frameSize.height * 55/100), frameSize.width * 20/100, frameSize.width * 5/100);
         opponents.setFont(felixNormal);
         desktopPane.add(opponents);
 
-        opponent1.setBounds((frameSize.width * 4/100), (frameSize.height * 31/100), frameSize.width * 10/100, frameSize.height * 4/100);
+        opponent1.setBounds((frameSize.width * 4/100), (frameSize.height * 61/100), frameSize.width * 10/100, frameSize.height * 4/100);
         opponent1.setFont(felixNormal);
         opponent1.setHorizontalAlignment(SwingConstants.LEFT);
         opponent1.setOpaque(false);
@@ -212,7 +211,7 @@ public class Board extends Observable {
         opponent1.addMouseListener(new SeePower());
         if (numberOfPlayer == 3){
             JButton opponent2 = new JButton(players.get(2).getNickname());
-            opponent2.setBounds((frameSize.width * 4/100), (frameSize.height * 34/100), frameSize.width * 10/100, frameSize.height * 4/100);
+            opponent2.setBounds((frameSize.width * 4/100), (frameSize.height * 64/100), frameSize.width * 10/100, frameSize.height * 4/100);
             opponent2.setFont(felixNormal);
             opponent2.setHorizontalAlignment(SwingConstants.LEFT);
             opponent2.setOpaque(false);
