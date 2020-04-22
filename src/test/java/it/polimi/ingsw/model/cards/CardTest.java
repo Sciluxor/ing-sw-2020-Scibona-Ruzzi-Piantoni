@@ -51,17 +51,17 @@ class CardTest {
 
     @Test
     void getName() {
-        assertEquals (cardA.getName(), "Athena");
-        assertEquals (cardHy.getName(), "Hypnus");
-        assertEquals (cardHe.getName(), "Hera");
-        assertEquals (cardCr.getName(), "Chronus");
-        assertEquals (cardDe.getName(), "Demeter");
+        assertEquals ("Athena",cardA.getName());
+        assertEquals ("Hypnus",cardHy.getName());
+        assertEquals ("Hera",cardHe.getName());
+        assertEquals ("Chronus",cardCr.getName());
+        assertEquals ("Demeter",cardDe.getName());
     }
 
     @Test
     void getDescription() {
-        assertEquals (cardA.getDescription(), "Opponent's Turn: If one of your Workers moved up on your last turn, opponent Workers cannot move up this turn.");
-        assertEquals (cardCr.getDescription(), "Win Condition: You also win when there are at least five Complete Towers on the board.");
+        assertEquals ("Opponent's Turn: If one of your Workers moved up on your last turn, opponent Workers cannot move up this turn.",cardA.getDescription());
+        assertEquals ("Win Condition: You also win when there are at least five Complete Towers on the board.",cardCr.getDescription());
     }
 
     @Test
@@ -75,25 +75,25 @@ class CardTest {
 
     @Test
     void getType() {
-        assertEquals(cardA.getType(), CardType.YOURMOVE);
-        assertEquals(cardHy.getType(), CardType.YOURTURN);
-        assertEquals(cardHe.getType(), CardType.MOVEVICTORY);
-        assertEquals(cardCr.getType(), CardType.BUILDVICTORY);
-        assertEquals(cardDe.getType(), CardType.YOURBUILD);
+        assertEquals(CardType.YOURMOVE,cardA.getType());
+        assertEquals(CardType.YOURTURN,cardHy.getType());
+        assertEquals(CardType.MOVEVICTORY,cardHe.getType());
+        assertEquals(CardType.BUILDVICTORY,cardCr.getType());
+        assertEquals(CardType.YOURBUILD,cardDe.getType());
     }
 
     @Test
     void getSubType() {
-        assertEquals(cardA.getSubType(), CardSubType.NONPERMANENTCONSTRAINT);
-        assertEquals(cardHy.getSubType(), CardSubType.PERMANENTCONSTRAINT);
-        assertEquals(cardHe.getSubType(), CardSubType.PERMANENTCONSTRAINT);
-        assertEquals(cardCr.getSubType(), CardSubType.NORMAL);
-        assertEquals(cardDe.getSubType(), CardSubType.NORMAL);
+        assertEquals(CardSubType.NONPERMANENTCONSTRAINT,cardA.getSubType());
+        assertEquals(CardSubType.PERMANENTCONSTRAINT,cardHy.getSubType());
+        assertEquals(CardSubType.PERMANENTCONSTRAINT,cardHe.getSubType());
+        assertEquals(CardSubType.NORMAL,cardCr.getSubType());
+        assertEquals(CardSubType.NORMAL,cardDe.getSubType());
     }
 
     @Test
     void getFirstAction() {
-        assertEquals(cardA.getFirstAction(), Response.TOMOVE);
+        assertEquals(Response.TOMOVE,cardA.getFirstAction());
     }
 
     @Test
@@ -115,7 +115,7 @@ class CardTest {
         player.setPower(cardDe);
         player.selectCurrentWorker(gameMap, "worker1");
 
-        assertEquals(cardDe.executeWorkerMove(gameMap, Directions.OVEST, player), Response.MOVED);
+        assertEquals(Response.MOVED,cardDe.executeWorkerMove(gameMap, Directions.OVEST, player));
     }
 
     @Test
@@ -135,8 +135,8 @@ class CardTest {
 
         player.setPower(cardCr);
 
-        assertEquals(cardCr.executeBuild(gameMap, Building.LVL1, Directions.OVEST, player.getWorkers().get(0)), Response.BUILD);
-        assertEquals(cardCr.executeBuild(gameMap, Building.LVL3, Directions.OVEST, player.getWorkers().get(0)), Response.NOTBUILD);
+        assertEquals(Response.BUILD,cardCr.executeBuild(gameMap, Building.LVL1, Directions.OVEST, player.getWorkers().get(0)));
+        assertEquals(Response.NOTBUILD,cardCr.executeBuild(gameMap, Building.LVL3, Directions.OVEST, player.getWorkers().get(0)));
     }
 
     @Test
@@ -147,16 +147,16 @@ class CardTest {
         player.setPower(cardAp);
         gameMap.getGameMap().get(22).addBuildingLevel();
         gameMap.getGameMap().get(22).addBuildingLevel();
-        assertEquals(gameMap.getGameMap().get(22).getBuildingLevel(), 2);
+        assertEquals(2,gameMap.getGameMap().get(22).getBuildingLevel());
         gameMap.getGameMap().get(23).addBuildingLevel();
         gameMap.getGameMap().get(23).addBuildingLevel();
         gameMap.getGameMap().get(23).addBuildingLevel();
-        assertEquals(gameMap.getGameMap().get(23).getBuildingLevel(), 3);
+        assertEquals(3,gameMap.getGameMap().get(23).getBuildingLevel());
         player.selectCurrentWorker(gameMap, "worker1");
         cardAp.executeWorkerMove(gameMap, Directions.NORD, player);
-        assertEquals(cardAp.checkVictory(gameMap, player), Response.WIN);
+        assertEquals(Response.WIN,cardAp.checkVictory(gameMap, player));
         cardAp.executeWorkerMove(gameMap, Directions.NORD, player);
-        assertEquals(cardAp.checkVictory(gameMap, player), Response.NOTWIN);
+        assertEquals(Response.NOTWIN,cardAp.checkVictory(gameMap, player));
 
 
 

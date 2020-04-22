@@ -55,14 +55,14 @@ class PanTest {
         assertThrows(NullPointerException.class , () -> cardPan.checkVictory(null, player1));
         assertThrows(NullPointerException.class , () -> cardPan.checkVictory(gameMap, null));
 
-        assertEquals(player1.executeWorkerMove(gameMap, Directions.NORD), Response.MOVED);
-        assertEquals(cardPan.checkVictory(gameMap, player1), Response.NOTWIN);
+        assertEquals(Response.MOVED,player1.executeWorkerMove(gameMap, Directions.NORD));
+        assertEquals(Response.NOTWIN,cardPan.checkVictory(gameMap, player1));
         player1.getCurrentWorker().setBoardPosition(gameMap.getGameMap().get(14));
-        assertEquals(player1.executeWorkerMove(gameMap, Directions.EST), Response.MOVED);
-        assertEquals(cardPan.checkVictory(gameMap, player1), Response.WIN);
-        assertEquals(player1.executeWorkerMove(gameMap, Directions.OVEST), Response.MOVED);
-        assertEquals(cardPan.checkVictory(gameMap, player1), Response.NOTWIN);
-        assertEquals(player1.executeWorkerMove(gameMap, Directions.SUD), Response.MOVED);
-        assertEquals(cardPan.checkVictory(gameMap, player1), Response.WIN);
+        assertEquals(Response.MOVED,player1.executeWorkerMove(gameMap, Directions.EST));
+        assertEquals(Response.WIN,cardPan.checkVictory(gameMap, player1));
+        assertEquals( Response.MOVED,player1.executeWorkerMove(gameMap, Directions.OVEST));
+        assertEquals(Response.NOTWIN,cardPan.checkVictory(gameMap, player1));
+        assertEquals(Response.MOVED,player1.executeWorkerMove(gameMap, Directions.SUD));
+        assertEquals(Response.WIN,cardPan.checkVictory(gameMap, player1));
     }
 }

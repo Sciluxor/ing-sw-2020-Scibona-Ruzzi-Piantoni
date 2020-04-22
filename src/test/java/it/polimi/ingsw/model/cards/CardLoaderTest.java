@@ -16,16 +16,16 @@ class CardLoaderTest {
 
         HashMap<String,Card> deck = CardLoader.loadCards();
         assertFalse(deck.get("Chronus").isPlayableIn3());
-        assertEquals(deck.get("Apollo").getName(),"Apollo");
-        assertEquals(deck.get("Hypnus").getSubType(),CardSubType.PERMANENTCONSTRAINT);
-        assertEquals(deck.get("Artemis").getSubType(),CardSubType.NORMAL);
-        assertEquals(deck.get("Athena").getSubType(),CardSubType.NONPERMANENTCONSTRAINT);
-        assertEquals(deck.get("Zeus").getDescription(),"Your Build: Your Worker may build a block under itself.");
-        assertEquals(deck.get("Athena").getType(),CardType.YOURMOVE);
-        assertEquals(deck.get("Chronus").getType(),CardType.BUILDVICTORY);
-        assertEquals(deck.get("Atlas").getType(),CardType.YOURBUILD);
-        assertEquals(deck.get("Hypnus").getType(),CardType.YOURTURN);
-        assertEquals(deck.get("Prometheus").getType(),CardType.YOURTURN);
+        assertEquals("Apollo",deck.get("Apollo").getName());
+        assertEquals(CardSubType.PERMANENTCONSTRAINT,deck.get("Hypnus").getSubType());
+        assertEquals(CardSubType.NORMAL,deck.get("Artemis").getSubType());
+        assertEquals(CardSubType.NONPERMANENTCONSTRAINT,deck.get("Athena").getSubType());
+        assertEquals("Your Build: Your Worker may build a block under itself.",deck.get("Zeus").getDescription());
+        assertEquals(CardType.YOURMOVE,deck.get("Athena").getType());
+        assertEquals(CardType.BUILDVICTORY,deck.get("Chronus").getType());
+        assertEquals(CardType.YOURBUILD,deck.get("Atlas").getType());
+        assertEquals(CardType.YOURTURN,deck.get("Hypnus").getType());
+        assertEquals(CardType.YOURTURN,deck.get("Prometheus").getType());
 
 
 

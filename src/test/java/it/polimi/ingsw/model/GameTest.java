@@ -56,27 +56,27 @@ class GameTest {
 
     @Test
     void getNumberOfPlayers() {
-        assertEquals(game.getNumberOfPlayers(), 3);
+        assertEquals(3,game.getNumberOfPlayers());
         game = new Game(2, "G02");
-        assertEquals(game.getNumberOfPlayers(), 2);
+        assertEquals(2,game.getNumberOfPlayers());
     }
 
     @Test
     void setNumberOfPlayers() {
         assertThrows(NullPointerException.class , () -> game.setNumberOfPlayers(null));
-        assertEquals(game.getNumberOfPlayers(), 3);
+        assertEquals(3,game.getNumberOfPlayers());
         game.setNumberOfPlayers(2);
-        assertEquals(game.getNumberOfPlayers(), 2);
+        assertEquals(2,game.getNumberOfPlayers());
     }
 
 
     @Test
     void getPlayers() {
-        assertEquals(game.getPlayers().size(), 0);
+        assertEquals(0,game.getPlayers().size());
         game.addPlayer(player1, viewPlayer1);
         game.addPlayer(player2, viewPlayer2);
         game.addPlayer(player3, viewPlayer3);
-        assertEquals(game.getPlayers().size(), 3);
+        assertEquals(3,game.getPlayers().size());
         assertEquals(game.getPlayers().get(0), player1);
         assertEquals(game.getPlayers().get(1), player2);
         assertEquals(game.getPlayers().get(2), player3);
@@ -84,12 +84,12 @@ class GameTest {
 
     @Test
     void getConfigPlayer() {
-        assertEquals(game.getConfigPlayer(), 0);
+        assertEquals(0,game.getConfigPlayer());
         game.addPlayer(player1, viewPlayer1);
         game.addPlayer(player1, viewPlayer1);
-        assertEquals(game.getConfigPlayer(), 1);
+        assertEquals(1,game.getConfigPlayer());
         game.addPlayer(player1, viewPlayer1);
-        assertEquals(game.getConfigPlayer(), 2);
+        assertEquals(2,game.getConfigPlayer());
     }
 
     @Test
@@ -124,17 +124,17 @@ class GameTest {
     void addPlayer() {
         assertThrows(NullPointerException.class , () -> game.setNumberOfPlayers(null));
         game.addPlayer(player1, viewPlayer1);
-        assertEquals(game.getPlayers().size(), 1);
+        assertEquals(1,game.getPlayers().size());
         assertEquals(game.getPlayers().get(0), player1);
         assertFalse(game.addPlayer(player1, viewPlayer1));
         game.removeConfigPlayer();
         game.addPlayer(player2, viewPlayer2);
         game.addPlayer(player3, viewPlayer3);
-        assertEquals(game.getPlayers().size(), 3);
+        assertEquals(3,game.getPlayers().size());
         assertEquals(game.getPlayers().get(2), player3);
-        assertEquals(game.getPlayers().get(0).getColor(), Color.PURPLE);
-        assertEquals(game.getPlayers().get(1).getColor(), Color.WHITE);
-        assertEquals(game.getPlayers().get(2).getColor(), Color.BLUE);
+        assertEquals(Color.PURPLE,game.getPlayers().get(0).getColor());
+        assertEquals( Color.WHITE, game.getPlayers().get(1).getColor());
+        assertEquals( Color.BLUE, game.getPlayers().get(2).getColor());
         try{
             game.addPlayer(player4, viewPlayer4);
             fail("Should throws IllegalStateException");
@@ -155,12 +155,12 @@ class GameTest {
     @Test
     void removeSettedPlayer() {
         game.addPlayer(player1, viewPlayer1);
-        assertEquals(game.getPlayers().size(), 1);
+        assertEquals(1,game.getPlayers().size());
         assertEquals(game.getPlayers().get(0), player1);
         game.addPlayer(player2, viewPlayer2);
         game.addPlayer(player3, viewPlayer3);
         game.removeSettedPlayer("due");
-        assertEquals(game.getPlayers().size(), 2);
+        assertEquals(2,game.getPlayers().size());
         assertEquals(game.getPlayers().get(0), player1);
         assertEquals(game.getPlayers().get(1), player3);
 
@@ -168,26 +168,26 @@ class GameTest {
 
     @Test
     void removeConfigPlayer() {
-        assertEquals(game.getConfigPlayer(), 0);
+        assertEquals(0,game.getConfigPlayer());
         game.addPlayer(player1, viewPlayer1);
         assertFalse(game.addPlayer(player1, viewPlayer1));
-        assertEquals(game.getConfigPlayer(), 1);
+        assertEquals(1,game.getConfigPlayer());
         game.removeConfigPlayer();
-        assertEquals(game.getConfigPlayer(), 0);
+        assertEquals(0,game.getConfigPlayer());
     }
 
     @Test
     void newNickName() {
         game.addPlayer(player1, viewPlayer1);
         game.addPlayer(player2, viewPlayer2);
-        assertEquals(game.getPlayers().size(), 2);
+        assertEquals(2,game.getPlayers().size());
         assertEquals(game.getPlayers().get(0), player1);
         assertEquals(game.getPlayers().get(1), player2);
         assertFalse(game.addPlayer(player2, viewPlayer2));
-        assertEquals(game.getConfigPlayer(), 1);
+        assertEquals(1,game.getConfigPlayer());
         assertTrue(game.newNickName(player3));
-        assertEquals(game.getConfigPlayer(), 0);
-        assertEquals(game.getPlayers().size(), 3);
+        assertEquals(0,game.getConfigPlayer());
+        assertEquals(3,game.getPlayers().size());
         assertEquals(game.getPlayers().get(2), player3);
 
     }
@@ -236,7 +236,7 @@ class GameTest {
         assertThrows(NullPointerException.class , () -> game.setGameStatus(null));
         assertNull(game.getGameStatus());
         game.setGameStatus(Response.BUILD);
-        assertEquals(game.getGameStatus(), Response.BUILD);
+        assertEquals(Response.BUILD,game.getGameStatus());
     }
 
     @Test
@@ -325,12 +325,12 @@ class GameTest {
     void getGameStatus() {
         assertNull(game.getGameStatus());
         game.setGameStatus(Response.BUILD);
-        assertEquals(game.getGameStatus(), Response.BUILD);
+        assertEquals(Response.BUILD,game.getGameStatus());
     }
 
     @Test
     void getGameID() {
-        assertEquals(game.getGameID(), "G01");
+        assertEquals("G01",game.getGameID());
     }
 
     @Test
@@ -340,7 +340,7 @@ class GameTest {
         cardstring.add("Atlas");
         assertNull(game.getAvailableCards());
         game.setAvailableCards(cardstring);
-        assertEquals(game.getAvailableCards().get(0), "Apollo");
+        assertEquals("Apollo",game.getAvailableCards().get(0));
     }
 
     @Test
@@ -349,9 +349,9 @@ class GameTest {
         cardstring.add("Apollo");
         cardstring.add("Atlas");
         game.setAvailableCards(cardstring);
-        assertEquals(game.getAvailableCards().size(), 2);
-        assertEquals(game.getAvailableCards().get(0), "Apollo");
-        assertEquals(game.getAvailableCards().get(1), "Atlas");
+        assertEquals(2,game.getAvailableCards().size());
+        assertEquals("Apollo",game.getAvailableCards().get(0));
+        assertEquals("Atlas",game.getAvailableCards().get(1));
     }
 
     @Test
@@ -360,10 +360,10 @@ class GameTest {
         cardstring.add("Apollo");
         cardstring.add("Atlas");
         game.setAvailableCards(cardstring);
-        assertEquals(game.getAvailableCards().size(), 2);
+        assertEquals(2,game.getAvailableCards().size());
         game.removeCard("Apollo");
-        assertEquals(game.getAvailableCards().size(), 1);
-        assertEquals(game.getAvailableCards().get(0), "Atlas");
+        assertEquals(1,game.getAvailableCards().size());
+        assertEquals("Atlas",game.getAvailableCards().get(0));
 
     }
 
@@ -374,9 +374,9 @@ class GameTest {
         cardstring.add("Atlas");
         cardstring.add("Pan");
         game.setAvailableCards(cardstring);
-        assertEquals(game.getCardFromAvailableCards("Apollo"), "Apollo");
-        assertEquals(game.getCardFromAvailableCards("Atlas"), "Atlas");
-        assertEquals(game.getCardFromAvailableCards("Pan"), "Pan");
+        assertEquals("Apollo",game.getCardFromAvailableCards("Apollo"));
+        assertEquals("Atlas",game.getCardFromAvailableCards("Atlas"));
+        assertEquals("Pan",game.getCardFromAvailableCards("Pan"));
         assertNull(game.getCardFromAvailableCards("Chronus"));
         assertNull(game.getCardFromAvailableCards(""));
         assertNull(game.getCardFromAvailableCards("Nonesiste"));
@@ -384,7 +384,7 @@ class GameTest {
 
     @Test
     void getCardFromDeck() {
-        assertEquals(game.getCardFromDeck("Apollo").getName(), "Apollo");
+        assertEquals("Apollo",game.getCardFromDeck("Apollo").getName());
         assertNull(game.getCardFromDeck("Bhu"));
     }
 
@@ -442,10 +442,10 @@ class GameTest {
         game.addPlayer(player2, viewPlayer2);
         game.addPlayer(player3, viewPlayer3);
         game.assignPermanentConstraint();
-        assertEquals(player1.getConstraint().size(), 0);
-        assertEquals(player2.getConstraint().size(), 1);
-        assertEquals(player2.getConstraint().get(0).getName(), "Hera");
-        assertEquals(player3.getConstraint().size(), 1);
-        assertEquals(player3.getConstraint().get(0).getName(), "Hera");
+        assertEquals(0,player1.getConstraint().size());
+        assertEquals(1,player2.getConstraint().size());
+        assertEquals("Hera",player2.getConstraint().get(0).getName());
+        assertEquals(1,player3.getConstraint().size());
+        assertEquals("Hera",player3.getConstraint().get(0).getName());
     }
 }

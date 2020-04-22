@@ -68,95 +68,95 @@ class PlayerTest {
     void getColor() {
         assertNull (player.getColor());
         player.setColor(Color.BLUE);
-        assertEquals(player.getColor(), Color.BLUE);
+        assertEquals(Color.BLUE,player.getColor());
     }
 
     @Test
     void setColor() {
         assertNull (player.getColor());
         player.setColor(Color.BLUE);
-        assertEquals(player.getColor(), Color.BLUE);
+        assertEquals(Color.BLUE,player.getColor());
     }
 
     @Test
     void getNickname() {
-        assertEquals (player.getNickname(), "GoodPlayer");
+        assertEquals ("GoodPlayer",player.getNickname());
     }
 
     @Test
     void getPower() {
         assertNull (player.getPower());
         player.setPower(cardA);
-        assertEquals (player.getPower().getName(), "Athena");
+        assertEquals ("Athena",player.getPower().getName());
         player.setPower(cardHe);
         player.setPower(cardHy);
-        assertEquals (player.getPower().getName(), "Hypnus");
+        assertEquals ("Hypnus",player.getPower().getName());
     }
 
     @Test
     void setPower() {
         assertNull (player.getPower());
         player.setPower(cardA);
-        assertEquals (player.getPower().getName(), "Athena");
+        assertEquals ("Athena",player.getPower().getName());
         player.setPower(cardHy);
         player.setPower(cardHe);
         player.setPower(cardHe);
-        assertEquals (player.getPower().getName(), "Hera");
+        assertEquals ("Hera",player.getPower().getName());
         player.setPower(cardA);
         player.setPower(cardHe);
         player.setPower(cardHy);
-        assertEquals (player.getPower().getName(), "Hypnus");
+        assertEquals ("Hypnus",player.getPower().getName());
         player.setPower(cardA);
-        assertEquals (player.getPower().getName(), "Athena");
+        assertEquals ("Athena",player.getPower().getName());
 
         assertThrows(NullPointerException.class , () -> player.setPower(null));
     }
 
     @Test
     void getTurnStatus() {
-        assertEquals (player.getTurnStatus(), TurnStatus.PREGAME);
+        assertEquals (TurnStatus.PREGAME,player.getTurnStatus());
         player.setTurnStatus(TurnStatus.GAMEENDED);
-        assertEquals (player.getTurnStatus(), TurnStatus.GAMEENDED);
+        assertEquals (TurnStatus.GAMEENDED,player.getTurnStatus());
         player.setTurnStatus(TurnStatus.WORKERSELECTION);
         player.setTurnStatus(TurnStatus.WORKERTURN);
         player.setTurnStatus(TurnStatus.IDLE);
         player.setTurnStatus(TurnStatus.WORKERSELECTION);
         player.setTurnStatus(TurnStatus.IDLE);
-        assertEquals (player.getTurnStatus(), TurnStatus.IDLE);
+        assertEquals (TurnStatus.IDLE,player.getTurnStatus());
         player.setTurnStatus(TurnStatus.ENDTURN);
         player.setTurnStatus(TurnStatus.WORKERSELECTION);
         player.setTurnStatus(TurnStatus.WORKERSELECTION);
-        assertEquals (player.getTurnStatus(), TurnStatus.WORKERSELECTION);
+        assertEquals (TurnStatus.WORKERSELECTION,player.getTurnStatus());
     }
 
     @Test
     void setTurnStatus() {
-        assertEquals (player.getTurnStatus(), TurnStatus.PREGAME);
+        assertEquals (TurnStatus.PREGAME,player.getTurnStatus());
         player.setTurnStatus(TurnStatus.CHECKIFLOSE);
-        assertEquals (player.getTurnStatus(), TurnStatus.CHECKIFLOSE);
+        assertEquals (TurnStatus.CHECKIFLOSE,player.getTurnStatus());
         player.setTurnStatus(TurnStatus.ENDTURN);
-        assertEquals (player.getTurnStatus(), TurnStatus.ENDTURN);
+        assertEquals (TurnStatus.ENDTURN,player.getTurnStatus());
         player.setTurnStatus(TurnStatus.GAMEENDED);
-        assertEquals (player.getTurnStatus(), TurnStatus.GAMEENDED);
+        assertEquals (TurnStatus.GAMEENDED,player.getTurnStatus());
         player.setTurnStatus(TurnStatus.IDLE);
-        assertEquals (player.getTurnStatus(), TurnStatus.IDLE);
+        assertEquals (TurnStatus.IDLE,player.getTurnStatus());
         player.setTurnStatus(TurnStatus.PREGAME);
-        assertEquals (player.getTurnStatus(), TurnStatus.PREGAME);
+        assertEquals (TurnStatus.PREGAME,player.getTurnStatus());
         player.setTurnStatus(TurnStatus.WORKERSELECTION);
-        assertEquals (player.getTurnStatus(), TurnStatus.WORKERSELECTION);
+        assertEquals (TurnStatus.WORKERSELECTION,player.getTurnStatus());
         player.setTurnStatus(TurnStatus.WORKERTURN);
-        assertEquals (player.getTurnStatus(), TurnStatus.WORKERTURN);
+        assertEquals (TurnStatus.WORKERTURN,player.getTurnStatus());
 
         assertThrows(NullPointerException.class , () -> player.setTurnStatus(null));
     }
 
     @Test
     void getConstraint() {
-        assertEquals (player.getConstraint().size(), 0);
+        assertEquals (0,player.getConstraint().size());
         player.setConstraint(cardA);
         player.setConstraint(cardHy);
         player.setConstraint(cardHe);
-        assertEquals (player.getConstraint().size(), 3);
+        assertEquals (3,player.getConstraint().size());
         assertEquals(player.getConstraint().get(0), cardA);
         assertEquals(player.getConstraint().get(1), cardHy);
         assertEquals(player.getConstraint().get(2), cardHe);
@@ -164,12 +164,12 @@ class PlayerTest {
 
     @Test
     void setConstraint() {
-        assertEquals (player.getConstraint().size(), 0);
+        assertEquals (0,player.getConstraint().size());
         player.setConstraint(cardA);
         player.setConstraint(cardHe);
         player.setConstraint(cardHy);
         assertNotNull (player.getConstraint());
-        assertEquals (player.getConstraint().size(), 3);
+        assertEquals (3,player.getConstraint().size());
         assertEquals(player.getConstraint().get(0), cardA);
         assertEquals(player.getConstraint().get(2), cardHy);
         assertEquals(player.getConstraint().get(1), cardHe);
@@ -179,32 +179,32 @@ class PlayerTest {
 
     @Test
     void removeConstraint() {
-        assertEquals (player.getConstraint().size(), 0);
+        assertEquals (0,player.getConstraint().size());
         player.setConstraint(cardA);
         player.setConstraint(cardHy);
         player.setConstraint(cardHe);
-        assertEquals (player.getConstraint().size(), 3);
+        assertEquals (3,player.getConstraint().size());
         assertEquals(player.getConstraint().get(0), cardA);
         assertEquals(player.getConstraint().get(1), cardHy);
         assertEquals(player.getConstraint().get(2), cardHe);
         player.removeConstraint(cardA);
-        assertEquals (player.getConstraint().size(), 2);
+        assertEquals (2,player.getConstraint().size());
         assertEquals(player.getConstraint().get(0), cardHy);
         assertEquals(player.getConstraint().get(1), cardHe);
         player.removeConstraint(cardHe);
-        assertEquals (player.getConstraint().size(), 1);
+        assertEquals (1,player.getConstraint().size());
         assertEquals(player.getConstraint().get(0), cardHy);
         player.removeConstraint(cardHy);
-        assertEquals (player.getConstraint().size(), 0);
+        assertEquals (0,player.getConstraint().size());
 
         assertThrows(NullPointerException.class , () -> player.removeConstraint(null));
     }
 
     @Test
     void getWorkers() {
-        assertEquals (player.getWorkers().size(), 2);
-        assertEquals(player.getWorkers().get(0).getName(), WorkerName.WORKER1);
-        assertEquals(player.getWorkers().get(1).getName(), WorkerName.WORKER2);
+        assertEquals (2,player.getWorkers().size());
+        assertEquals(WorkerName.WORKER1,player.getWorkers().get(0).getName());
+        assertEquals(WorkerName.WORKER2,player.getWorkers().get(1).getName());
     }
 
     @Test
@@ -304,23 +304,23 @@ class PlayerTest {
         assertTrue(player1.checkIfCanMove(gameMap, player1.getWorkers().get(0)));
         assertTrue(player1.checkIfCanMove(gameMap, player1.getWorkers().get(1)));
 
-        assertEquals(player2.findWorkerMove(gameMap, player2.getWorkers().get(0)).size(), 7);
+        assertEquals(7,player2.findWorkerMove(gameMap, player2.getWorkers().get(0)).size());
         gameMap.getGameMap().get(10).addBuildingLevel();
         directions = player2.findWorkerMove(gameMap, player2.getWorkers().get(0));
         directions2 = player2.getConstraint().get(0).eliminateInvalidMove(gameMap, player2.getWorkers().get(0), directions);
-        assertEquals(directions2.size(), 6);
+        assertEquals(6,directions2.size());
 
         gameMap.getGameMap().get(8).setMovement(player2,player2.getWorkers().get(1));
         player2.getWorkers().get(1).setBoardPosition(gameMap.getGameMap().get(8));
         gameMap.getGameMap().get(9).addBuildingLevel();
         gameMap.getGameMap().get(9).addBuildingLevel();
-        assertEquals(gameMap.getGameMap().get(9).getBuildingLevel(), 2);
+        assertEquals(2,gameMap.getGameMap().get(9).getBuildingLevel());
         gameMap.getGameMap().get(7).addBuildingLevel();
         gameMap.getGameMap().get(7).addBuildingLevel();
-        assertEquals(gameMap.getGameMap().get(7).getBuildingLevel(), 2);
+        assertEquals(2,gameMap.getGameMap().get(7).getBuildingLevel());
         gameMap.getGameMap().get(20).addBuildingLevel();
         gameMap.getGameMap().get(20).addBuildingLevel();
-        assertEquals(gameMap.getGameMap().get(7).getBuildingLevel(), 2);
+        assertEquals(2,gameMap.getGameMap().get(7).getBuildingLevel());
         assertFalse(player2.checkIfCanMove(gameMap, player2.getWorkers().get(1)));
 
     }
@@ -337,31 +337,31 @@ class PlayerTest {
         player1.getWorkers().get(1).setBoardPosition(gameMap.getGameMap().get(8));
         gameMap.getGameMap().get(9).addBuildingLevel();
         gameMap.getGameMap().get(9).addBuildingLevel();
-        assertEquals(gameMap.getGameMap().get(9).getBuildingLevel(), 2);
+        assertEquals(2,gameMap.getGameMap().get(9).getBuildingLevel());
         gameMap.getGameMap().get(7).addBuildingLevel();
         gameMap.getGameMap().get(7).addBuildingLevel();
-        assertEquals(gameMap.getGameMap().get(7).getBuildingLevel(), 2);
+        assertEquals(2,gameMap.getGameMap().get(7).getBuildingLevel());
         gameMap.getGameMap().get(20).addBuildingLevel();
         gameMap.getGameMap().get(20).addBuildingLevel();
-        assertEquals(gameMap.getGameMap().get(20).getBuildingLevel(), 2);
+        assertEquals(2,gameMap.getGameMap().get(20).getBuildingLevel());
         gameMap.getGameMap().get(0).setMovement(player1,player1.getWorkers().get(0));
         player1.getWorkers().get(0).setBoardPosition(gameMap.getGameMap().get(0));
         gameMap.getGameMap().get(1).addBuildingLevel();
         gameMap.getGameMap().get(1).addBuildingLevel();
-        assertEquals(gameMap.getGameMap().get(1).getBuildingLevel(), 2);
+        assertEquals(2,gameMap.getGameMap().get(1).getBuildingLevel());
         gameMap.getGameMap().get(16).addBuildingLevel();
         gameMap.getGameMap().get(16).addBuildingLevel();
-        assertEquals(gameMap.getGameMap().get(16).getBuildingLevel(), 2);
+        assertEquals(2,gameMap.getGameMap().get(16).getBuildingLevel());
         gameMap.getGameMap().get(15).addBuildingLevel();
         gameMap.getGameMap().get(15).addBuildingLevel();
-        assertEquals(gameMap.getGameMap().get(15).getBuildingLevel(), 2);
+        assertEquals(2,gameMap.getGameMap().get(15).getBuildingLevel());
         assertTrue(player1.checkIfLoose(gameMap));
     }
 
     @Test
     void getFirstAction() {
         player.setPower(cardAp);
-        assertEquals(player.getFirstAction(), Response.TOMOVE);
+        assertEquals(Response.TOMOVE,player.getFirstAction());
     }
 
     @Test
@@ -397,7 +397,7 @@ class PlayerTest {
 
         player1.setPower(cardAp);
         player1.selectCurrentWorker(gameMap, "worker1");
-        assertEquals(player1.executeBuild(gameMap, Building.LVL1, Directions.OVEST), Response.BUILD);
+        assertEquals(Response.BUILD,player1.executeBuild(gameMap, Building.LVL1, Directions.OVEST));
     }
 
     @Test
@@ -406,7 +406,7 @@ class PlayerTest {
 
         player1.setPower(cardAp);
         player1.selectCurrentWorker(gameMap, "worker1");
-        assertEquals(player1.checkVictory(gameMap), Response.NOTWIN);
+        assertEquals( Response.NOTWIN,player1.checkVictory(gameMap));
     }
 
     @Test
@@ -418,23 +418,23 @@ class PlayerTest {
         player2.setPower(cardAp);
 
         player.assignConstraint(players);
-        assertEquals(players.get(0).getConstraint().size(), 0);
-        assertEquals(players.get(1).getConstraint().size(), 1);
-        assertEquals(players.get(2).getConstraint().size(), 1);
+        assertEquals(0,players.get(0).getConstraint().size());
+        assertEquals(1,players.get(1).getConstraint().size());
+        assertEquals(1,players.get(2).getConstraint().size());
         assertEquals(players.get(1).getConstraint().get(0), cardA);
         assertEquals(players.get(2).getConstraint().get(0), cardA);
         player1.assignConstraint(players);
-        assertEquals(players.get(0).getConstraint().size(), 1);
-        assertEquals(players.get(1).getConstraint().size(), 1);
-        assertEquals(players.get(2).getConstraint().size(), 2);
+        assertEquals(1,players.get(0).getConstraint().size());
+        assertEquals(1,players.get(1).getConstraint().size());
+        assertEquals(2,players.get(2).getConstraint().size());
         assertEquals(players.get(0).getConstraint().get(0), cardHe);
         assertEquals(players.get(1).getConstraint().get(0), cardA);
         assertEquals(players.get(2).getConstraint().get(0), cardA);
         assertEquals(players.get(2).getConstraint().get(1), cardHe);
         player2.assignConstraint(players);
-        assertEquals(players.get(0).getConstraint().size(), 2);
-        assertEquals(players.get(1).getConstraint().size(), 2);
-        assertEquals(players.get(2).getConstraint().size(), 2);
+        assertEquals(2,players.get(0).getConstraint().size());
+        assertEquals(2,players.get(1).getConstraint().size());
+        assertEquals(2,players.get(2).getConstraint().size());
         assertEquals(players.get(0).getConstraint().get(0), cardHe);
         assertEquals(players.get(0).getConstraint().get(1), cardAp);
         assertEquals(players.get(1).getConstraint().get(0), cardA);

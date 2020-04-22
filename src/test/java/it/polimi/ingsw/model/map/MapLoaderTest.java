@@ -20,11 +20,11 @@ class MapLoaderTest {
             assert (squares.get(3).getCanAccess().get(Directions.OVEST) == 3);
             assertNotEquals(true, squares.get(6).hasPlayer());
             assertEquals(0, squares.get(15).getBuildingLevel());
-            assertEquals(squares.get(24).getBuilding(),Building.GROUND);
+            assertEquals(Building.GROUND,squares.get(24).getBuilding());
             assertEquals(1, (int) squares.get(0).getTile());
             assertEquals(17, (int) squares.get(16).getTile());
-            assertEquals(squares.get(7).getCoordinates()[0],3);
-            assertEquals(squares.get(7).getCoordinates()[1],4);
+            assertEquals(3,squares.get(7).getCoordinates()[0]);
+            assertEquals(4,squares.get(7).getCoordinates()[1]);
 
 
 

@@ -40,7 +40,7 @@ class ApolloTest {
         assertThrows(NullPointerException.class , () -> cardApo.findWorkerMove(null, player1.getCurrentWorker()));
         assertThrows(NullPointerException.class , () -> cardApo.findWorkerMove(gameMap, null));
 
-        assertEquals(cardApo.findWorkerMove(gameMap, player1.getCurrentWorker()).size(), 8);
+        assertEquals(8,cardApo.findWorkerMove(gameMap, player1.getCurrentWorker()).size());
     }
 
     @Test
@@ -49,12 +49,12 @@ class ApolloTest {
         assertThrows(NullPointerException.class , () -> cardApo.executeWorkerMove(gameMap, null, player1));
         assertThrows(NullPointerException.class , () -> cardApo.executeWorkerMove(gameMap, Directions.NORD, null));
 
-        assertEquals(player1.getCurrentWorker().getBoardPosition(), gameMap.getGameMap().get(22));
-        assertEquals(player2.getCurrentWorker().getBoardPosition(), gameMap.getGameMap().get(21));
+        assertEquals(gameMap.getGameMap().get(22),player1.getCurrentWorker().getBoardPosition());
+        assertEquals(gameMap.getGameMap().get(21),player2.getCurrentWorker().getBoardPosition());
         player1.executeWorkerMove(gameMap, Directions.EST);
-        assertEquals(player1.getCurrentWorker().getBoardPosition(), gameMap.getGameMap().get(21));
-        assertEquals(player2.getCurrentWorker().getBoardPosition(), gameMap.getGameMap().get(22));
-        assertEquals(gameMap.getModifiedSquare().get(0),gameMap.getGameMap().get(22));
-        assertEquals(gameMap.getModifiedSquare().get(1),gameMap.getGameMap().get(21));
+        assertEquals(gameMap.getGameMap().get(21),player1.getCurrentWorker().getBoardPosition());
+        assertEquals(gameMap.getGameMap().get(22),player2.getCurrentWorker().getBoardPosition());
+        assertEquals(gameMap.getGameMap().get(22),gameMap.getModifiedSquare().get(0));
+        assertEquals(gameMap.getGameMap().get(21),gameMap.getModifiedSquare().get(1));
     }
 }

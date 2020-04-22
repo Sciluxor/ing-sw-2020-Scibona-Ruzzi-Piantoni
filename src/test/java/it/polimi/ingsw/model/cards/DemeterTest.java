@@ -43,9 +43,9 @@ class DemeterTest {
         assertThrows(NullPointerException.class , () -> cardDeme.findPossibleBuild(null, player1.getCurrentWorker()));
         assertThrows(NullPointerException.class , () -> cardDeme.findPossibleBuild(gameMap, null));
 
-        assertEquals(cardDeme.findPossibleBuild(gameMap, player1.getCurrentWorker()).size(), 7);
+        assertEquals(7,cardDeme.findPossibleBuild(gameMap, player1.getCurrentWorker()).size());
         cardDeme.executeBuild(gameMap, Building.LVL1, Directions.NORD, player1.getCurrentWorker());
-        assertEquals(cardDeme.findPossibleBuild(gameMap, player1.getCurrentWorker()).size(), 6);
+        assertEquals(6,cardDeme.findPossibleBuild(gameMap, player1.getCurrentWorker()).size());
 
     }
 
@@ -56,9 +56,9 @@ class DemeterTest {
         assertThrows(NullPointerException.class , () -> cardDeme.executeBuild(gameMap, Building.LVL1, null, player1.getCurrentWorker()));
         assertThrows(NullPointerException.class , () -> cardDeme.executeBuild(gameMap, Building.LVL1, Directions.OVEST, null));
 
-        assertEquals(cardDeme.executeBuild(gameMap, Building.LVL2, Directions.NORD, player1.getCurrentWorker()), Response.NOTBUILD);
-        assertEquals(cardDeme.executeBuild(gameMap, Building.LVL1, Directions.NORD, player1.getCurrentWorker()), Response.NEWBUILD);
-        assertEquals(cardDeme.executeBuild(gameMap, Building.LVL2, Directions.NORD_EST, player1.getCurrentWorker()), Response.NOTBUILD);
-        assertEquals(cardDeme.executeBuild(gameMap, Building.LVL1, Directions.OVEST, player1.getCurrentWorker()), Response.BUILD);
+        assertEquals(Response.NOTBUILD,cardDeme.executeBuild(gameMap, Building.LVL2, Directions.NORD, player1.getCurrentWorker()));
+        assertEquals(Response.NEWBUILD,cardDeme.executeBuild(gameMap, Building.LVL1, Directions.NORD, player1.getCurrentWorker()));
+        assertEquals(Response.NOTBUILD,cardDeme.executeBuild(gameMap, Building.LVL2, Directions.NORD_EST, player1.getCurrentWorker()));
+        assertEquals(Response.BUILD,cardDeme.executeBuild(gameMap, Building.LVL1, Directions.OVEST, player1.getCurrentWorker()));
     }
 }

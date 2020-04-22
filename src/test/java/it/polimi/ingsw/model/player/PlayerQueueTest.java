@@ -20,12 +20,12 @@ class PlayerQueueTest {
         players.add(player1);
         players.add(player2);
         players.add(player3);
-        assertEquals(players.size(), 3);
+        assertEquals(3,players.size());
         assertEquals(players.get(0), player1);
         assertEquals(players.get(1), player2);
         assertEquals(players.get(2), player3);
         PlayerQueue queue = new PlayerQueue(players);
-        assertEquals(queue.size(), 3);
+        assertEquals(3,queue.size());
         assertEquals(queue.peek(), player1);
         queue.changeTurn();
         assertEquals(queue.peek(), player2);

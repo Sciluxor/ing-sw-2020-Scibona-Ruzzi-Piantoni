@@ -34,17 +34,18 @@ public class Athena extends Card {
 
     @Override
     public ArrayList<Directions> eliminateInvalidMove(GameMap gameMap, Worker worker, ArrayList<Directions> directionsArrayList) {
+        Square currentSquare = worker.getBoardPosition();
+        ArrayList<Directions> toRemoveDirections = new ArrayList<>();
+        for (Directions dir : directionsArrayList) {
+            Square possibleSquare = gameMap.getGameMap().get(currentSquare.getCanAccess().get(dir) - 1);
+            if (possibleSquare.getBuildingLevel() == currentSquare.getBuildingLevel() + 1) {
+                toRemoveDirections.add(dir);
+            }
+        }
+        for (Directions dir : toRemoveDirections) {
+            directionsArrayList.remove(dir);
+        }
 
-         Square currentSquare = worker.getBoardPosition();
-         ArrayList<Directions> newDirections = (ArrayList<Directions>) (directionsArrayList.clone());
-         for(Directions dir: directionsArrayList){
-             Square possibleSquare = gameMap.getGameMap().get(currentSquare.getCanAccess().get(dir) - 1);
-             if(possibleSquare.getBuildingLevel() == currentSquare.getBuildingLevel() + 1){
-
-                 newDirections.remove(dir);
-             }
-         }
-    return newDirections;
-
+        return directionsArrayList;
     }
 }

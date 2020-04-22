@@ -43,9 +43,9 @@ class HestiaTest {
         assertThrows(NullPointerException.class , () -> cardHest.findPossibleBuild(null, player1.getCurrentWorker()));
         assertThrows(NullPointerException.class , () -> cardHest.findPossibleBuild(gameMap, null));
 
-        assertEquals(cardHest.findPossibleBuild(gameMap, player1.getCurrentWorker()).size(), 7);
+        assertEquals(7,cardHest.findPossibleBuild(gameMap, player1.getCurrentWorker()).size());
         cardHest.executeBuild(gameMap, Building.LVL1, Directions.NORD, player1.getCurrentWorker());
-        assertEquals(cardHest.findPossibleBuild(gameMap, player1.getCurrentWorker()).size(), 2);
+        assertEquals(2,cardHest.findPossibleBuild(gameMap, player1.getCurrentWorker()).size());
     }
 
     @Test
@@ -55,10 +55,10 @@ class HestiaTest {
         assertThrows(NullPointerException.class , () -> cardHest.executeBuild(gameMap, Building.LVL1, null, player1.getCurrentWorker()));
         assertThrows(NullPointerException.class , () -> cardHest.executeBuild(gameMap, Building.LVL1, Directions.OVEST, null));
 
-        assertEquals(cardHest.executeBuild(gameMap, Building.LVL2, Directions.NORD, player1.getCurrentWorker()), Response.NOTBUILD);
-        assertEquals(cardHest.executeBuild(gameMap, Building.LVL1, Directions.NORD, player1.getCurrentWorker()), Response.NEWBUILD);
-        assertEquals(cardHest.executeBuild(gameMap, Building.LVL2, Directions.NORD_EST, player1.getCurrentWorker()), Response.NOTBUILD);
-        assertEquals(cardHest.executeBuild(gameMap, Building.LVL1, Directions.OVEST, player1.getCurrentWorker()), Response.BUILD);
+        assertEquals(Response.NOTBUILD,cardHest.executeBuild(gameMap, Building.LVL2, Directions.NORD, player1.getCurrentWorker()));
+        assertEquals(Response.NEWBUILD,cardHest.executeBuild(gameMap, Building.LVL1, Directions.NORD, player1.getCurrentWorker()));
+        assertEquals(Response.NOTBUILD,cardHest.executeBuild(gameMap, Building.LVL2, Directions.NORD_EST, player1.getCurrentWorker()));
+        assertEquals(Response.BUILD,cardHest.executeBuild(gameMap, Building.LVL1, Directions.OVEST, player1.getCurrentWorker()));
 
     }
 }
