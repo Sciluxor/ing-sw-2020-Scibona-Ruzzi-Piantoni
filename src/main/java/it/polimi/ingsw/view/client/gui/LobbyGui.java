@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.client.gui;
 
 import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.utils.Logger;
 
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
@@ -10,7 +11,6 @@ import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import static it.polimi.ingsw.view.client.gui.Gui.BackgroundButton;
 
 public class LobbyGui extends JPanel{
@@ -54,7 +54,9 @@ public class LobbyGui extends JPanel{
             }
             try{
                 doc.insertString(doc.getLength(), player.getNickname() + "\n \n", blue);
-            }catch (BadLocationException e){}
+            }catch (BadLocationException e){
+                Logger.info("InsertString Failed");
+            }
         }
         JButton back = BackgroundButton();
         add(back);
