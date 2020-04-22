@@ -8,7 +8,7 @@ import it.polimi.ingsw.utils.ConfigLoader;
 import it.polimi.ingsw.utils.ConstantsContainer;
 import it.polimi.ingsw.utils.LobbyTimerTask;
 import it.polimi.ingsw.utils.Logger;
-import it.polimi.ingsw.view.Server.VirtualView;
+import it.polimi.ingsw.view.server.VirtualView;
 
 import java.io.*;
 import java.net.Socket;

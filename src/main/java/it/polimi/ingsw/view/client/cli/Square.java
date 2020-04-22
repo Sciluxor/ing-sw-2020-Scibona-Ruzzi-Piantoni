@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.Client.CLI;
+package it.polimi.ingsw.view.client.cli;
 
 public class Square {
 

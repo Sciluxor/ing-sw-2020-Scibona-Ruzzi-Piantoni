@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.Client.GUI;
+package it.polimi.ingsw.view.client.gui;
 
 import it.polimi.ingsw.model.Player.Player;
 
@@ -7,7 +7,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static it.polimi.ingsw.view.Client.GUI.Gui.BackgroundButton;
+import static it.polimi.ingsw.view.client.gui.Gui.BackgroundButton;
 
 public class ChallengerChoiseFirstPlayer extends JPanel{
     Dimension frameSize = new Dimension();

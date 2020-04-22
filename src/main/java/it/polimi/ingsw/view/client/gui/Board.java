@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.Client.GUI;
+package it.polimi.ingsw.view.client.gui;
 
 import it.polimi.ingsw.model.Player.Player;
 import it.polimi.ingsw.utils.Observable;

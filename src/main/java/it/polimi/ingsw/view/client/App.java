@@ -1,8 +1,7 @@
-package it.polimi.ingsw.view.Client;
+package it.polimi.ingsw.view.client;
 
-import it.polimi.ingsw.view.Client.CLI.Cli;
-import it.polimi.ingsw.view.Client.CLI.Welcome;
-import it.polimi.ingsw.view.Client.GUI.Gui;
+import it.polimi.ingsw.view.client.cli.Cli;
+import it.polimi.ingsw.view.client.gui.Gui;
 import java.util.Scanner;
 
 public class App {

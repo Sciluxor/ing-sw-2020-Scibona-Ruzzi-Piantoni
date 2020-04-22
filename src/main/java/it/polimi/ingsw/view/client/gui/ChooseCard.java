@@ -1,11 +1,11 @@
-package it.polimi.ingsw.view.Client.GUI;
+package it.polimi.ingsw.view.client.gui;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
-import static it.polimi.ingsw.view.Client.GUI.Gui.BackgroundButton;
-import static it.polimi.ingsw.view.Client.GUI.Gui.ConfirmButtonCreate;
+import static it.polimi.ingsw.view.client.gui.Gui.BackgroundButton;
+import static it.polimi.ingsw.view.client.gui.Gui.ConfirmButtonCreate;
 
 public class ChooseCard extends  JPanel{
     Dimension frameSize = new Dimension();

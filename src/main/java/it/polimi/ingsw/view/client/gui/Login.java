@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.Client.GUI;
+package it.polimi.ingsw.view.client.gui;
 
 import javax.swing.*;
 import java.awt.*;
@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-import static it.polimi.ingsw.view.Client.GUI.Gui.*;
+import static it.polimi.ingsw.view.client.gui.Gui.*;
 
 public class Login extends JPanel{
 

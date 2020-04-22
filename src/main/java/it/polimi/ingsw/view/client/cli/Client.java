@@ -1,6 +1,5 @@
-package it.polimi.ingsw.view.Client.CLI;
+package it.polimi.ingsw.view.client.cli;
 
-import java.util.Random;
 import java.util.Scanner;
 
 public class Client {

@@ -9,7 +9,7 @@ import it.polimi.ingsw.model.Player.Color;
 import it.polimi.ingsw.model.Player.Player;
 import it.polimi.ingsw.model.Player.PlayerQueue;
 import it.polimi.ingsw.utils.Observable;
-import it.polimi.ingsw.view.Server.VirtualView;
+import it.polimi.ingsw.view.server.VirtualView;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -8,9 +8,8 @@ import it.polimi.ingsw.model.Cards.CardLoader;
 import it.polimi.ingsw.model.Map.GameMap;
 import it.polimi.ingsw.model.Player.Color;
 import it.polimi.ingsw.model.Player.Player;
-import it.polimi.ingsw.model.Player.PlayerQueue;
 import it.polimi.ingsw.network.server.ClientHandler;
-import it.polimi.ingsw.view.Server.VirtualView;
+import it.polimi.ingsw.view.server.VirtualView;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

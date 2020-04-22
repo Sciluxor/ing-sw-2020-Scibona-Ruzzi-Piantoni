@@ -1,7 +1,6 @@
-package it.polimi.ingsw.view.Client.CLI;
+package it.polimi.ingsw.view.client.cli;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Lobby {
 

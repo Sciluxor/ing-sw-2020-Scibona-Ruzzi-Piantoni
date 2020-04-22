@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.Player.Player;
 import it.polimi.ingsw.model.Response;
 import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.utils.*;
-import it.polimi.ingsw.view.Server.VirtualView;
+import it.polimi.ingsw.view.server.VirtualView;
 
 import java.util.ArrayList;
 import java.util.HashMap;

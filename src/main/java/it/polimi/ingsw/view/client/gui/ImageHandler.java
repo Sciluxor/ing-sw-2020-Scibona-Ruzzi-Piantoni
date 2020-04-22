@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.Client.GUI;
+package it.polimi.ingsw.view.client.gui;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

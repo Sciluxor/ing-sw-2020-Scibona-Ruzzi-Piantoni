@@ -1,18 +1,19 @@
-package it.polimi.ingsw.view.Client.CLI;
+package it.polimi.ingsw.view.client.cli;
 
+import it.polimi.ingsw.controller.ClientGameController;
 import java.util.Scanner;
 
-public class Welcome {
+public class Cli extends ClientGameController {
 
     private Color colorServer;
     private Color colorClient;
     private static Color colorPrinter = Color.ANSI_RED;
     private String keyboard;
     private SantoriniMap map = new SantoriniMap();
-    //static Cella[][] cella = new Cella[5][5];
+    //static Square[][] squares = new Square[5][5];
 
 
-    public Welcome() {
+    public Cli() {
         this.colorServer = Color.ANSI_BLUE;
         this.colorClient = Color.ANSI_RED;
         this.keyboard = null;
@@ -158,4 +159,5 @@ public class Welcome {
                 "  \\  /\\  /  |--  |    |    |   | | \\/ | |--       |    |   |    |---|  /--\\  | \\ |   |   |   | |___| | | \\ | |     |   _|_   |\n" +
                 "   \\/  \\/   |___ |___ |___ |___| |    | |___      |    |___|     ___| /    \\ |  \\|   |   |___| |  \\  | |  \\| |      |_______|\n" + this.colorPrinter.RESET);
     }
+
 }

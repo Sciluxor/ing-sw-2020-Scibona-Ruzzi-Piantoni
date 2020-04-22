@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.Server;
+package it.polimi.ingsw.view.server;
 
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.model.Player.Player;
@@ -6,11 +6,8 @@ import it.polimi.ingsw.model.Response;
 import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.network.server.ClientHandler;
 import it.polimi.ingsw.utils.ConstantsContainer;
-import it.polimi.ingsw.utils.Logger;
 import it.polimi.ingsw.utils.Observable;
 import it.polimi.ingsw.utils.Observer;
-
-import java.util.LinkedList;
 
 
 public class VirtualView extends Observable<Message> implements Observer<Response> {
