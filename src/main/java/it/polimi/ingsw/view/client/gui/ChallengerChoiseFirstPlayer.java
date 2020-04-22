@@ -7,7 +7,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static it.polimi.ingsw.view.client.gui.Gui.BackgroundButton;
+import static it.polimi.ingsw.view.client.gui.Gui.backgroundButton;
 
 public class ChallengerChoiseFirstPlayer extends JPanel{
     Dimension frameSize = new Dimension();
@@ -40,7 +40,7 @@ public class ChallengerChoiseFirstPlayer extends JPanel{
             add(player3);
             player3.addActionListener(new Gui.ChangePanel());
         }
-        JButton back = BackgroundButton();
+        JButton back = backgroundButton();
         add(back);
 
     }

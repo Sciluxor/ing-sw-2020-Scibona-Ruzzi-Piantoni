@@ -2,7 +2,6 @@ package it.polimi.ingsw.view.client.gui;
 
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.utils.Observable;
-
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 import java.awt.*;
@@ -15,7 +14,7 @@ public class Board extends Observable {
     JFrame f;
     JDesktopPane desktopPane;
     JInternalFrame frameChat;
-    static JInternalFrame framePower;
+    JInternalFrame framePower;
     JScrollPane scrollPane;
     JButton buttonLv1 = new JButton();
     JButton buttonLv2 = new JButton();
@@ -28,30 +27,62 @@ public class Board extends Observable {
     JButton buttonExit = new JButton();
     JButton sfondoFrame = new JButton();
     JButton sfondoFramePower = new JButton();
+    JButton opponent1 = new JButton();
+    JTextArea chat = new JTextArea();
+    JTextField field = new JTextField();
     private final JButton[] mapButtons = new JButton[25];
     int[] mapButtonslvl = new int[25];
     boolean[] mapButtonsPlayer = new boolean[25];
+    static JLabel playerpower = new JLabel();
     JLabel nicknameLabel = new JLabel();
     JLabel gID = new JLabel();
     JLabel sfondo;
     JLabel sfondo2;
     JLabel background;
     JLabel opponents = new JLabel("Opponents:");
-    static JLabel playerpower = new JLabel();
-    JButton opponent1 = new JButton();
-    JTextArea chat = new JTextArea();
-    JTextField field = new JTextField();
+    JLabel workerCyan;
+    JLabel workerWhite;
+    JLabel workerPurple;
+    JLabel lvl1;
+    JLabel lvl2;
+    JLabel lvl3;
+    JLabel lvl1Building;
+    JLabel lvl2Building;
+    JLabel lvl3Building;
+    JLabel domeBuilding;
+    JLabel lvl1Cyan;
+    JLabel lvl2Cyan;
+    JLabel lvl3Cyan;
+    JLabel lvl1Purple;
+    JLabel lvl2Purple;
+    JLabel lvl3Purple;
+    JLabel lvl1White;
+    JLabel lvl2White;
+    JLabel lvl3White;
+    JLabel lvl1Dome;
+    JLabel lvl2Dome;
+    JLabel lvl3Dome;
+    JLabel dome;
+    JLabel exit;
+    JLabel lButtonMove;
+    JLabel lButtonBuild;
+    JLabel lButtonMovePress;
+    JLabel lButtonBuildPress;
+    JLabel button_power;
+    JLabel button_power_press;
+    JLabel button_chat;
+    JLabel button_chat_press;
+    private boolean chatOpen = false;
     Dimension frameSize = new Dimension();
     Dimension boardSize = new Dimension();
     Dimension bottomSize = new Dimension();
     Dimension sideSize = new Dimension();
     Dimension buttonSize = new Dimension();
     Dimension scrollSize = new Dimension();
-    JLabel workerCyan, workerWhite, workerPurple, lvl1, lvl2, lvl3, lvl1Building, lvl2Building, lvl3Building, domeBuilding, lvl1Cyan, lvl2Cyan, lvl3Cyan, lvl1Purple, lvl2Purple, lvl3Purple,
-            lvl1White, lvl2White, lvl3White, lvl1Dome, lvl2Dome, lvl3Dome, dome, exit, lButtonMove, lButtonBuild, lButtonMovePress, lButtonBuildPress,
-            button_power, button_power_press, button_chat, button_chat_press;
-    private boolean chatOpen = false;
-    Font felixSmall, felixNormal, felixBold;
+    Font felixSmall;
+    Font felixNormal;
+    Font felixBold;
+    final  String PALETTE = "JInternalFrame.isPalette";
 
     public void show(Dimension screen, Integer numberOfPlayer, final ArrayList<Player> players, String gameId) throws IOException {
 
@@ -83,9 +114,9 @@ public class Board extends Observable {
         JLabel cover2 = ImageHandler.setImage("src/main/resources/Graphics/background.png", 100, 100, frameSize.width * 40/100, frameSize.height * 40/100);
         background = new JLabel(cover2.getIcon());
 
-        felixSmall = new Font("Felix Titling", Font.PLAIN, (int) (13 * screen.getHeight() / 1080));
-        felixNormal = new Font("Felix Titling", Font.PLAIN, (int) (20 * screen.getHeight() / 1080));
-        felixBold = new Font("Felix Titling", Font.BOLD, (int) (25 * screen.getHeight() / 1080));
+        felixSmall = new Font(Gui.FELIX, Font.PLAIN, (int) (13 * screen.getHeight() / 1080));
+        felixNormal = new Font(Gui.FELIX, Font.PLAIN, (int) (20 * screen.getHeight() / 1080));
+        felixBold = new Font(Gui.FELIX, Font.BOLD, (int) (25 * screen.getHeight() / 1080));
 
 
         workerCyan = ImageHandler.setImage("src/main/resources/Graphics/worker_cyan.png", 100, 100, height * 13/100, height * 13/100);
@@ -123,11 +154,11 @@ public class Board extends Observable {
 
 
         framePower = new JInternalFrame("frameChat", false, false, false, false);
-        framePower.putClientProperty("JInternalFrame.isPalette", Boolean.TRUE);
+        framePower.putClientProperty(PALETTE, Boolean.TRUE);
         framePower.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
         framePower.setOpaque(false);
         framePower.setBounds(frameSize.width * 50/100 - frameSize.width * 20/100, frameSize.height * 50/100 - frameSize.height * 20/100, frameSize.width * 40/100, frameSize.height * 40/100);
-        framePower.putClientProperty("JInternalFrame.isPalette", Boolean.TRUE);
+        framePower.putClientProperty(PALETTE, Boolean.TRUE);
         framePower.setBorder(null);
         BasicInternalFrameUI bi = (BasicInternalFrameUI)framePower.getUI();
         bi.setNorthPane(null);
@@ -135,12 +166,12 @@ public class Board extends Observable {
 
 
         frameChat = new JInternalFrame("frameChat", false, false, false, false);
-        frameChat.putClientProperty("JInternalFrame.isPalette", Boolean.TRUE);
+        frameChat.putClientProperty(PALETTE, Boolean.TRUE);
         frameChat.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
         frameChat.setPreferredSize(sideSize);
         frameChat.setOpaque(false);
         frameChat.setBounds(frameSize.width * 73/100, -20, sideSize.width, sideSize.height);
-        frameChat.putClientProperty("JInternalFrame.isPalette", Boolean.TRUE);
+        frameChat.putClientProperty(PALETTE, Boolean.TRUE);
         frameChat.setBorder(null);
         BasicInternalFrameUI bii = (BasicInternalFrameUI)frameChat.getUI();
         bii.setNorthPane(null);
@@ -157,21 +188,21 @@ public class Board extends Observable {
 
 
 
-        nicknameLabel.setBounds((frameSize.width * 3/100), (frameSize.height * 16/100), frameSize.width * 20/100, frameSize.width * 5/100);
+        nicknameLabel.setBounds((frameSize.width * 4/100), (frameSize.height * 2/100), frameSize.width * 20/100, frameSize.width * 5/100);
         nicknameLabel.setFont(felixNormal);
         desktopPane.add(nicknameLabel);
 
-        gID.setBounds((frameSize.width * 3/100), (frameSize.height * 21/100), frameSize.width * 20/100, frameSize.width * 5/100);
+        gID.setBounds((frameSize.width * 4/100), (frameSize.height * 4/100), frameSize.width * 20/100, frameSize.width * 5/100);
         gID.setFont(felixNormal);
         desktopPane.add(gID);
 
-        opponents.setBounds((frameSize.width * 3/100), (frameSize.height * 25/100), frameSize.width * 20/100, frameSize.width * 5/100);
+        opponents.setBounds((frameSize.width * 3/100), (frameSize.height * 55/100), frameSize.width * 20/100, frameSize.width * 5/100);
         opponents.setFont(felixNormal);
         desktopPane.add(opponents);
 
-        opponent1.setBounds((frameSize.width * 4/100), (frameSize.height * 31/100), frameSize.width * 10/100, frameSize.height * 4/100);
+        opponent1.setBounds((frameSize.width * 4/100), (frameSize.height * 61/100), frameSize.width * 10/100, frameSize.height * 4/100);
         opponent1.setFont(felixNormal);
-        opponent1.setHorizontalAlignment(JTextField.LEFT);
+        opponent1.setHorizontalAlignment(SwingConstants.LEFT);
         opponent1.setOpaque(false);
         opponent1.setContentAreaFilled(false);
         opponent1.setFocusPainted(false);
@@ -180,7 +211,7 @@ public class Board extends Observable {
         opponent1.addMouseListener(new SeePower());
         if (numberOfPlayer == 3){
             JButton opponent2 = new JButton(players.get(2).getNickname());
-            opponent2.setBounds((frameSize.width * 4/100), (frameSize.height * 34/100), frameSize.width * 10/100, frameSize.height * 4/100);
+            opponent2.setBounds((frameSize.width * 4/100), (frameSize.height * 64/100), frameSize.width * 10/100, frameSize.height * 4/100);
             opponent2.setFont(felixNormal);
             opponent2.setHorizontalAlignment(SwingConstants.LEFT);
             opponent2.setOpaque(false);
@@ -194,7 +225,6 @@ public class Board extends Observable {
         chat.setBounds(frameChat.getWidth() * 14/100 , frameChat.getHeight() * 28/100, frameChat.getWidth() * 63/100, frameChat.getHeight() * 38/100);
         chat.setEditable(false);
         chat.setBackground(new Color(232, 222, 208));
-        //chat.setForeground(new Color(232, 222, 208));
         chat.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         chat.setFont(felixSmall);
         chat.setLineWrap(true);
@@ -203,7 +233,7 @@ public class Board extends Observable {
         scrollPane = new JScrollPane(chat);
         scrollPane.setPreferredSize(scrollSize);
         scrollPane.setBounds(frameChat.getWidth() * 14/100 , frameChat.getHeight() * 28/100, frameChat.getWidth() * 63/100, frameChat.getHeight() * 38/100);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         frameChat.add(scrollPane);
 
         field.setBounds(frameChat.getWidth() * 14/100, frameChat.getHeight() * 66/100, frameChat.getWidth() * 63/100, frameChat.getHeight() * 4/100);
@@ -774,7 +804,7 @@ public class Board extends Observable {
         }
     }
 
-    private void RemoveBuildLvl() {
+    private void removeBuildLvl() {
         for (int y = 0; y < buttonLv1.getActionListeners().length; y++){
             if (buttonLv1.getActionListeners()[y].getClass().equals(BuildLvl1.class))
                 buttonLv1.addActionListener(new BuildLvl1());
@@ -823,8 +853,8 @@ public class Board extends Observable {
                 }
 
             }
-            RemoveBuild();
-            RemoveBuildLvl();
+            removeBuild();
+            removeBuildLvl();
         }
     }
 
@@ -854,8 +884,8 @@ public class Board extends Observable {
                 }
 
             }
-            RemoveBuild();
-            RemoveBuildLvl();
+            removeBuild();
+            removeBuildLvl();
         }
     }
 
@@ -885,8 +915,8 @@ public class Board extends Observable {
                 }
 
             }
-            RemoveBuild();
-            RemoveBuildLvl();
+            removeBuild();
+            removeBuildLvl();
         }
     }
 
@@ -916,12 +946,12 @@ public class Board extends Observable {
                 }
 
             }
-            RemoveBuild();
-            RemoveBuildLvl();
+            removeBuild();
+            removeBuildLvl();
         }
     }
 
-    private void RemoveBuild() {
+    private void removeBuild() {
         for (int x = 0; x < 25; x++){
             for (int y = 0; y < mapButtons[x].getActionListeners().length; y++){
                 if (mapButtons[x].getActionListeners()[y].getClass().equals(BuildLvl1.class)  || mapButtons[x].getActionListeners()[y].getClass().equals(BuildLvl2.class) ||
@@ -972,6 +1002,7 @@ public class Board extends Observable {
                             mapButtons[x].setIcon(lvl3.getIcon());
                             mapButtonsPlayer[x] = false;
                             break;
+                        default:
                     }
                 }
                 if (mapButtons[x] == c){
@@ -994,33 +1025,34 @@ public class Board extends Observable {
                             c.setIcon(lvl3Cyan.getIcon());
                             mapButtonsPlayer[x] = true;
                             break;
+                        default:
                     }
                 }
             }
-            RemoveMove();
+            removeMove();
             buttonBuild.setEnabled(true);
         }
-    }
-
-    private void RemoveMove() {
-        for (int x = 0; x < 25; x++){
-            for (int y = 0; y < mapButtons[x].getActionListeners().length; y++){
-                if (mapButtons[x].getActionListeners()[y].getClass().equals(Move.class))
-                    mapButtons[x].removeActionListener(mapButtons[x].getActionListeners()[y]);
+        private void removeMove() {
+            for (int x = 0; x < 25; x++){
+                for (int y = 0; y < mapButtons[x].getActionListeners().length; y++){
+                    if (mapButtons[x].getActionListeners()[y].getClass().equals(Move.class))
+                        mapButtons[x].removeActionListener(mapButtons[x].getActionListeners()[y]);
+                }
             }
         }
     }
+
 
     private static class ColorBorder implements MouseListener {
 
         @Override
-        public void mouseClicked(MouseEvent e) {}
+        public void mouseClicked(MouseEvent e) {/*override unnecessary*/}
 
         @Override
-        public void mousePressed(MouseEvent e) {}
+        public void mousePressed(MouseEvent e) {/*override unnecessary*/}
 
         @Override
-        public void mouseReleased(MouseEvent e) {}
+        public void mouseReleased(MouseEvent e) {/*override unnecessary*/}
 
         @Override
         public void mouseEntered(MouseEvent e) {
@@ -1039,7 +1071,7 @@ public class Board extends Observable {
     private class ButtonPress implements MouseListener {
 
         @Override
-        public void mouseClicked(MouseEvent e) {}
+        public void mouseClicked(MouseEvent e) {/*override unnecessary*/}
 
         @Override
         public void mousePressed(MouseEvent e) {
@@ -1075,28 +1107,28 @@ public class Board extends Observable {
         }
 
         @Override
-        public void mouseEntered(MouseEvent e) {}
+        public void mouseEntered(MouseEvent e) {/*override unnecessary*/}
 
         @Override
-        public void mouseExited(MouseEvent e) {}
+        public void mouseExited(MouseEvent e) {/*override unnecessary*/}
     }
 
 
-    private static class SeePower implements MouseListener {
+    private class SeePower implements MouseListener {
         @Override
-        public void mouseClicked(MouseEvent e) {}
+        public void mouseClicked(MouseEvent e) {/*override unnecessary*/}
 
         @Override
-        public void mousePressed(MouseEvent e) {}
+        public void mousePressed(MouseEvent e) {/*override unnecessary*/}
 
         @Override
-        public void mouseReleased(MouseEvent e) {}
+        public void mouseReleased(MouseEvent e) {/*override unnecessary*/}
 
         @Override
         public void mouseEntered(MouseEvent e) {
             JButton c = (JButton)e.getSource();
             playerpower.setText("Ecco il potere di " + c.getText());
-            playerpower.setHorizontalTextPosition(JTextField.CENTER);
+            playerpower.setHorizontalTextPosition(SwingConstants.CENTER);
             playerpower.setBounds((framePower.getWidth() * 50/100 - 150), (framePower.getHeight() * 50/100) - 50, 300, 100);
             framePower.setVisible(true);
         }

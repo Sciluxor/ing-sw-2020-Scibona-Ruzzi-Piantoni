@@ -11,8 +11,8 @@ import static it.polimi.ingsw.view.client.gui.Gui.*;
 public class Login extends JPanel{
 
     Dimension frameSize = new Dimension();
-    static JTextField nickname;
-    static JTextField numberPlayers;
+    JTextField nickname;
+    JTextField numberPlayers;
 
     public Login(Dimension frame) throws IOException {
 
@@ -41,7 +41,7 @@ public class Login extends JPanel{
         add(santoriniLabel);
 
 
-        JButton confirm = ConfirmButtonCreate();
+        JButton confirm = confirmButtonCreate();
         add(confirm);
 
         nickname.setBounds((int) (frameSize.width * 40/100), (int) (frameSize.height * 46.5/100), frameSize.width * 20/100,frameSize.height * 3/100);

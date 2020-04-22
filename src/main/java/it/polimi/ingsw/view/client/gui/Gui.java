@@ -13,27 +13,33 @@ import java.util.ArrayList;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 public class Gui extends ClientGameController {
-    JFrame f = new JFrame();
-    static Dimension d ,screenSize;
+    static Dimension d ;
+    static Dimension screenSize;
     static JFrame frame;
-    static JPanel login = null, lobby = null, challengerChoiseCards = null, challengerChoiseCards3 = null, waitChallenger = null,
-            challengerChoiseFirst = null, challengerChoiseFirst3 = null, chooseCard3 = null, chooseCard2 = null, chooseCard1 = null,
-            chooseCard0 = null;
-    static JLabel lconfirm;
-    static JLabel lconfirm_press;
-    static JLabel background_panel;
+    static JPanel login = null;
+    static JPanel lobby = null;
+    static JPanel challengerChoiseCards = null;
+    static JPanel waitChallenger = null;
+    static JPanel challengerChoiseFirst = null;
+    static JPanel chooseCard3 = null;
+    static JPanel chooseCard2 = null;
+    static JPanel chooseCard1 = null;
+    static JPanel chooseCard0 = null;
+    static JLabel lconfirm = null;
+    static JLabel lconfirmPress = null;
+    static JLabel backgroundPanel = null;
     static int panelInUse = 0;
     private static int numberOfPlayers = 2;
     static Font felixSmall;
     static Font felixNormal;
     static Font felixBold;
+    final static String FELIX = "Felix Titling";
     static ArrayList<Player> players;
 
     private void show() throws IOException {
 
 
         screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        double ratio = (screenSize.getWidth()/screenSize.getHeight());
         int width = (int)(screenSize.getWidth());
         int height = (int)(screenSize.getHeight());
 
@@ -49,16 +55,16 @@ public class Gui extends ClientGameController {
         //players.add(ale);
         players.add(edo);
         players.add(lui);
-        felixSmall = new Font("Felix Titling", Font.PLAIN, (int) (13 * screenSize.getHeight() / 1080));
-        felixNormal = new Font("Felix Titling", Font.PLAIN, (int) (20 * screenSize.getHeight() / 1080));
-        felixBold = new Font("Felix Titling", Font.BOLD, (int) (25 * screenSize.getHeight() / 1080));
+        felixSmall = new Font(FELIX, Font.PLAIN, (int) (13 * screenSize.getHeight() / 1080));
+        felixNormal = new Font(FELIX, Font.PLAIN, (int) (20 * screenSize.getHeight() / 1080));
+        felixBold = new Font(FELIX, Font.BOLD, (int) (25 * screenSize.getHeight() / 1080));
 
         frame = new JFrame("Santorini");
         lconfirm = ImageHandler.setImage("src/main/resources/Graphics/button_confirm.png", 100, 100, (int) (d.width * 13/100), (int) (d.height * 5/100));
-        lconfirm_press = ImageHandler.setImage("src/main/resources/Graphics/button_confirm_press.png", 100, 100, (int) (d.width * 13/100), (int) (d.height * 5/100));
+        lconfirmPress = ImageHandler.setImage("src/main/resources/Graphics/button_confirm_press.png", 100, 100, (int) (d.width * 13/100), (int) (d.height * 5/100));
 
         JLabel cover = ImageHandler.setImage("src/main/resources/Graphics/background_panels.png", 100, 100, d.width, d.height);
-        background_panel = new JLabel(cover.getIcon());
+        backgroundPanel = new JLabel(cover.getIcon());
 
         login = new Login(d);                                                                                                   //schermata 0 sistemata
         lobby = new LobbyGui(d, 2, numberOfPlayers, players);                                                       //schermata 1  sistemata
@@ -91,7 +97,7 @@ public class Gui extends ClientGameController {
     }
 
 
-    public static void PanelManager(int panel) throws IOException {
+    public static void panelManager(int panel) throws IOException {
         switch (panel){
             case 0:
                 frame.remove(login);
@@ -126,8 +132,7 @@ public class Gui extends ClientGameController {
                 //frame.add(board2);
                 panelInUse = 5;
                 break;
-
-
+            default:
         }
         if (panelInUse != 4){
             frame.repaint();
@@ -157,7 +162,7 @@ public class Gui extends ClientGameController {
             switch (panelInUse){
                 case 0:
                     try {
-                        PanelManager(0);
+                        panelManager(0);
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
@@ -165,7 +170,7 @@ public class Gui extends ClientGameController {
 
                 case 1:
                     try {
-                        PanelManager(1);
+                        panelManager(1);
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
@@ -173,7 +178,7 @@ public class Gui extends ClientGameController {
 
                 case 2:
                     try {
-                        PanelManager(2);
+                        panelManager(2);
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
@@ -181,7 +186,7 @@ public class Gui extends ClientGameController {
 
                 case 3:
                     try {
-                        PanelManager(3);
+                        panelManager(3);
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
@@ -189,21 +194,22 @@ public class Gui extends ClientGameController {
 
                 case 4:
                     try {
-                        PanelManager(4);
+                        panelManager(4);
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
                     break;
+                default:
             }
 
         }
 
     }
 
-    public static JButton ConfirmButtonCreate() throws IOException {
+    public static JButton confirmButtonCreate() throws IOException {
         JButton confirm = new JButton();
         lconfirm = ImageHandler.setImage("src/main/resources/Graphics/button_confirm.png", 100, 100, (int) (d.getWidth() * 13/100), (int) (d.getHeight() * 5/100));
-        lconfirm_press = ImageHandler.setImage("src/main/resources/Graphics/button_confirm_press.png", 100, 100, (int) (d.getWidth() * 13/100), (int) (d.getHeight() * 5/100));
+        lconfirmPress = ImageHandler.setImage("src/main/resources/Graphics/button_confirm_press.png", 100, 100, (int) (d.getWidth() * 13/100), (int) (d.getHeight() * 5/100));
 
         confirm.setBounds((int) (d.getWidth() * 43.5/100), (int) (d.getHeight() * 79.5/100), (int) (d.getWidth() * 13/100), (int) (d.getHeight() * 5/100));
         confirm.setOpaque(false);
@@ -212,7 +218,7 @@ public class Gui extends ClientGameController {
         confirm.setBorderPainted(false);
         confirm.setIcon(Gui.lconfirm.getIcon());
         //confirm.setVisible(true);
-        confirm.addMouseListener(new Gui.ConfirmButtonPress());
+        confirm.addMouseListener(new ConfirmButtonPress());
         confirm.addActionListener(new Gui.ChangePanel());
         return confirm;
     }
@@ -220,12 +226,12 @@ public class Gui extends ClientGameController {
     public static class ConfirmButtonPress implements MouseListener {
 
         @Override
-        public void mouseClicked(MouseEvent e) {}
+        public void mouseClicked(MouseEvent e) {/*override unnecessary*/}
 
         @Override
         public void mousePressed(MouseEvent e) {
             JButton c = (JButton)e.getSource();
-            c.setIcon(lconfirm_press.getIcon());
+            c.setIcon(lconfirmPress.getIcon());
         }
 
         @Override
@@ -235,15 +241,15 @@ public class Gui extends ClientGameController {
         }
 
         @Override
-        public void mouseEntered(MouseEvent e) {}
+        public void mouseEntered(MouseEvent e) {/*override unnecessary*/}
 
         @Override
-        public void mouseExited(MouseEvent e) {}
+        public void mouseExited(MouseEvent e) {/*override unnecessary*/}
     }
 
-    public static JButton BackgroundButton() throws IOException {
+    public static JButton backgroundButton(){
         JButton back = new JButton();
-        back.setIcon(background_panel.getIcon());
+        back.setIcon(backgroundPanel.getIcon());
         back.setBounds(0, 0, d.width, d.height);
         back.setOpaque(false);
         back.setContentAreaFilled(false);
@@ -259,9 +265,6 @@ public class Gui extends ClientGameController {
     public static void setNamePlayer(String name) {
         players.add(0, new Player(name));
         players.get(0).setColor(Color.BLUE);
-        System.out.println(players.get(0).getNickname());
-        System.out.println(players.get(1).getNickname());
-        System.out.println(players.get(2).getNickname());
     }
 
 
