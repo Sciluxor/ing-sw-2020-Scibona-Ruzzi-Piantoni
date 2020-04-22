@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Welcome {
 
-    private Color colorServer;
+    /*private Color colorServer;
     private Color colorClient;
     private static Color colorPrinter = Color.ANSI_RED;
     private String keyboard;
@@ -94,7 +94,7 @@ public class Welcome {
         System.out.println("-\n");
     }*/
 
-    public boolean correctInput(String keyboard) {
+    /*public boolean correctInput(String keyboard) {
         return keyboard.equals("1") || keyboard.equals("2");
     }
 
@@ -157,5 +157,5 @@ public class Welcome {
                 " \\   \\/   / |    |    |    |   | |\\  /| |         |    |   |    |       /\\   |\\  |   |   |   | |   | | |\\  | |     ___________\n" +
                 "  \\  /\\  /  |--  |    |    |   | | \\/ | |--       |    |   |    |---|  /--\\  | \\ |   |   |   | |___| | | \\ | |     |   _|_   |\n" +
                 "   \\/  \\/   |___ |___ |___ |___| |    | |___      |    |___|     ___| /    \\ |  \\|   |   |___| |  \\  | |  \\| |      |_______|\n" + this.colorPrinter.RESET);
-    }
+    }*/
 }
