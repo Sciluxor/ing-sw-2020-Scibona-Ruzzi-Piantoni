@@ -105,7 +105,7 @@ public class Client {
             }).start();*/
 
             //client.closeClientForTimeAsynchronously(clientSocket);
-            while(true){  //runnare il process del message in parallelo
+            while(Thread.currentThread().isAlive()){  //runnare il process del message in parallelo
                 Message output = (Message) in.readObject();
                 new Thread(()-> client.processMessage(client,output,out)).start();
 
@@ -304,20 +304,5 @@ public class Client {
         }).start();
     }
 
-    public static void clearShell() {
-        try{
-            String os = System.getProperty("os.name").toLowerCase();
-            String command;
-            if(os.contains("win")) {
-                Runtime.getRuntime().exec("cmd /c clc");
-            }
-            else {
-                Runtime.getRuntime().exec("clear");
-            }
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-        }
-    }
 
 }

@@ -35,7 +35,7 @@ public class MapLoader {
             JsonReader gameMapReader = new JsonReader(gameMapInput);
             containers = gsonMap.fromJson(gameMapReader,SquareContainer[].class);
 
-        }catch (Throwable e){
+        }catch (Exception e){
 
             throw new IllegalStateException("impossible to charge Squares");
 

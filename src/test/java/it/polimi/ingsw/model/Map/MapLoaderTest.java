@@ -10,17 +10,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class MapLoaderTest {
 
         //
-        //test that the map load correctly
-        //
-        @Test
-        void loadMap(){
-
-            MapLoader.loadMap();
-
-
-        }
-
-        //
         //test that the function for hashmap work well, and that the other variable are read correctly
         //
 

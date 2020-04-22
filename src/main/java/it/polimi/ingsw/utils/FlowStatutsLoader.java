@@ -33,7 +33,7 @@ public class FlowStatutsLoader {
                 JsonReader flowReader = new JsonReader(flowInput);
                 containers = gsonFlow.fromJson(flowReader,FlowContainer[].class);
 
-            }catch (Throwable e){
+            }catch (Exception e){
 
                 throw new IllegalStateException("impossible to charge Flow");
 

@@ -16,7 +16,6 @@ public class GameController implements Observer<Message> {
     private Game game;
     private HashMap<String, VirtualView> clients;
     private Timer turnTimer ;
-    //private Timer reconnectionTimer;
     private RoundController roundController;
 
     public GameController(int numberOfPlayer,String gameID) {
@@ -85,7 +84,7 @@ public class GameController implements Observer<Message> {
                 values.setYourTurn(false);
             }
 
-            //handleMatchBeginning();
+            handleMatchBeginning();
         }
     }
 
@@ -303,7 +302,7 @@ public class GameController implements Observer<Message> {
                     game.setGameStatus(Response.CARDCHOICE);
                     break;
                 case CARDCHOICEDONE:
-                    if (game.getAvailableCards().size() == 0) {
+                    if (game.getAvailableCards().isEmpty()) {
                         game.assignPermanentConstraint();
                         game.setGameStatus(Response.PLACEWORKERS);
                     } else {
@@ -346,7 +345,7 @@ public class GameController implements Observer<Message> {
     public void startRoundTimer(){
       turnTimer = new Timer();
       TurnTimerTask task = new TurnTimerTask(this);
-      turnTimer.schedule(task, ConfigLoader.getTurnTimer()*1000);
+      turnTimer.schedule(task, (long) ConfigLoader.getTurnTimer()*1000);
     }
 
     public void stopRoundTimer(){
@@ -370,15 +369,14 @@ public class GameController implements Observer<Message> {
             case ENDTURN:
                 if(!getViewFromUserID(message.getSender()).isYourTurn()){
                     getViewFromUserID(message.getSender()).handleNotYourTurn();
-                    //throw new IllegalStateException("not the turn of player: " + message.getNickName());
                 }else {
                     handleEndTun(message);
                     break;
                 }
+                break;
             default:
                 if(!getViewFromUserID(message.getSender()).isYourTurn()){
                     getViewFromUserID(message.getSender()).handleNotYourTurn(); //decidere come gestire questa eccezione e aggiungere al logger l'errore
-                    //throw new IllegalStateException("not the turn of player: " + message.getNickName());
                 }else {
                     sendToRoundController(message);
                     break;

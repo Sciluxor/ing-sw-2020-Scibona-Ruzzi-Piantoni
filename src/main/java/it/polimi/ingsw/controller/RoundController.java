@@ -198,8 +198,7 @@ public class RoundController {
             return;
         }
 
-        if (!response.equals(Response.NOTMOVED))
-            if(!checkMoveVictory(message))
+        if (!response.equals(Response.NOTMOVED) && (!checkMoveVictory(message)))
                 game.setGameStatus(Response.MOVEWINMISMATCH);  //vedere che response usare
 
         game.setGameStatus(response);
@@ -268,9 +267,8 @@ public class RoundController {
             return;
         }
 
-        if (!response.equals(Response.NOTBUILD) && !response.equals(Response.NOTBUILDPLACE))
-            if(!checkBuildVictory(message))
-                game.setGameStatus(Response.BUILDWINMISMATCH);  //vedere come gestire le build win.è diverso se lui vince ma in realtà non ha vinto, oppure se vince un altro ma per lui
+        if (!response.equals(Response.NOTBUILD) && !response.equals(Response.NOTBUILDPLACE) && (!checkBuildVictory(message)))
+             game.setGameStatus(Response.BUILDWINMISMATCH);  //vedere come gestire le build win.è diverso se lui vince ma in realtà non ha vinto, oppure se vince un altro ma per lui
                                                                 //non ha vinto nessuno, trattare in maniera diversa
 
         game.setGameStatus(response);
