@@ -23,16 +23,41 @@ public class LobbyGui extends JPanel{
         setLayout(null);
 
         JLabel wait = ImageHandler.setImage("src/main/resources/Graphics/Texts/waiting_others_players.png", 100, 100, frameSize.width * 30/100, frameSize.height * 10/100);
-        JLabel number = new JLabel(actualPlayer + " of " + numberOfPlayer);
+        JLabel actualNumber;
+        JLabel number;
+        JLabel of = ImageHandler.setImage("src/main/resources/Graphics/Texts/of.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
         JTextPane textPane = new JTextPane();
         StyledDocument doc = textPane.getStyledDocument();
+
+        if (actualPlayer == 1){
+            actualNumber = ImageHandler.setImage("src/main/resources/Graphics/Texts/1.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
+        }
+        else if (actualPlayer == 2){
+            actualNumber = ImageHandler.setImage("src/main/resources/Graphics/Texts/2.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
+        }
+        else{
+            actualNumber = ImageHandler.setImage("src/main/resources/Graphics/Texts/3.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
+        }
+
+        if (numberOfPlayer == 2){
+            number = ImageHandler.setImage("src/main/resources/Graphics/Texts/2.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
+        }
+        else {
+            number = ImageHandler.setImage("src/main/resources/Graphics/Texts/3.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
+        }
+
 
         wait.setBounds(frameSize.width * 35/100, frameSize.height * 10/100, frameSize.width * 30/100, frameSize.height * 10/100);
         add(wait);
 
-        number.setBounds(frameSize.width * 47/100, frameSize.height * 17/100, frameSize.width * 20/100, frameSize.height * 10/100);
-        number.setFont(Gui.felixBold);
+        actualNumber.setBounds(frameSize.width * 42/100, frameSize.height * 20/100, frameSize.width * 5/100, frameSize.height * 5/100);
+        add(actualNumber);
+        of.setBounds(frameSize.width * 47/100, frameSize.height * 20/100, frameSize.width * 5/100, frameSize.height * 5/100);
+        of.setFont(Gui.felixBold);
+        add(of);
+        number.setBounds(frameSize.width * 52/100, frameSize.height * 20/100, frameSize.width * 5/100, frameSize.height * 5/100);
         add(number);
+
 
         textPane.setBounds((int) (frameSize.width * 30/100), frameSize.height * 45/100, frameSize.width * 40/100, frameSize.height * 20/100);
         textPane.setOpaque(false);

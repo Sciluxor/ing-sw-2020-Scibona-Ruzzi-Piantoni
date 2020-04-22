@@ -30,6 +30,7 @@ public class Gui extends ClientGameController {
     static JLabel backgroundPanel = null;
     static int panelInUse = 0;
     private static int numberOfPlayers = 2;
+    private static int actualPlayers = 1;
     static Font felixSmall;
     static Font felixNormal;
     static Font felixBold;
@@ -67,7 +68,7 @@ public class Gui extends ClientGameController {
         backgroundPanel = new JLabel(cover.getIcon());
 
         login = new Login(d);                                                                                                   //schermata 0 sistemata
-        lobby = new LobbyGui(d, 2, numberOfPlayers, players);                                                       //schermata 1  sistemata
+        lobby = new LobbyGui(d, actualPlayers, numberOfPlayers, players);                                                       //schermata 1  sistemata
         //challengerChoiseCards2 = new ChallengerChoiseCards(d, numberOfPlayers, background_panel);                              //schermata 2 sistemata
         //challengerChoiseCards3 = new ChallengerChoiseCards(d, numberOfPlayers, background_panel);                              //schermata 3 sistemata
         waitChallenger = new WaitChallenger(d);                                                                                 //schermata 4 sistemata
