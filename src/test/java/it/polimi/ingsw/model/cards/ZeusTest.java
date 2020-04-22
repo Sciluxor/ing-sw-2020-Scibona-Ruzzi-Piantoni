@@ -41,7 +41,7 @@ class ZeusTest {
         assertThrows(NullPointerException.class , () -> cardZeus.findPossibleBuild(null, player1.getCurrentWorker()));
         assertThrows(NullPointerException.class , () -> cardZeus.findPossibleBuild(gameMap, null));
 
-        assertEquals(cardZeus.findPossibleBuild(gameMap, player1.getCurrentWorker()).size(), 8);
-        assertEquals(cardZeus.findPossibleBuild(gameMap, player1.getCurrentWorker()).get(7), Directions.CENTER);
+        assertEquals(8,cardZeus.findPossibleBuild(gameMap, player1.getCurrentWorker()).size());
+        assertEquals(Directions.CENTER,cardZeus.findPossibleBuild(gameMap, player1.getCurrentWorker()).get(7));
     }
 }

@@ -39,9 +39,9 @@ class ArtemisTest {
         assertThrows(NullPointerException.class , () -> cardArte.findWorkerMove(gameMap, null));
 
         assertEquals(player1.getCurrentWorker().getBoardPosition(), gameMap.getGameMap().get(22));
-        assertEquals(cardArte.findWorkerMove(gameMap, player1.getCurrentWorker()).size(), 7);
-        assertEquals(cardArte.executeWorkerMove(gameMap, Directions.OVEST, player1), Response.NEWMOVE);
-        assertEquals(cardArte.findWorkerMove(gameMap, player1.getCurrentWorker()).size(), 4);
+        assertEquals(7,cardArte.findWorkerMove(gameMap, player1.getCurrentWorker()).size());
+        assertEquals(Response.NEWMOVE,cardArte.executeWorkerMove(gameMap, Directions.OVEST, player1));
+        assertEquals(4,cardArte.findWorkerMove(gameMap, player1.getCurrentWorker()).size());
         assertEquals(player1.getCurrentWorker().getBoardPosition(), gameMap.getGameMap().get(13));
 
 
@@ -53,7 +53,7 @@ class ArtemisTest {
         assertThrows(NullPointerException.class , () -> cardArte.executeWorkerMove(gameMap, null, player1));
         assertThrows(NullPointerException.class , () -> cardArte.executeWorkerMove(gameMap, Directions.OVEST, null));
 
-        assertEquals(cardArte.executeWorkerMove(gameMap, Directions.OVEST, player1), Response.NEWMOVE);
-        assertEquals(cardArte.executeWorkerMove(gameMap, Directions.NORD, player1), Response.MOVED);
+        assertEquals(Response.NEWMOVE,cardArte.executeWorkerMove(gameMap, Directions.OVEST, player1));
+        assertEquals(Response.MOVED,cardArte.executeWorkerMove(gameMap, Directions.NORD, player1));
     }
 }

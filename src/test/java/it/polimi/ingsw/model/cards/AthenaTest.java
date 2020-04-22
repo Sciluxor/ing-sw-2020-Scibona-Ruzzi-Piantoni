@@ -44,15 +44,15 @@ class AthenaTest {
         assertThrows(NullPointerException.class , () -> cardAthe.executeWorkerMove(gameMap, null, player1));
         assertThrows(NullPointerException.class , () -> cardAthe.executeWorkerMove(gameMap, Directions.NORD, null));
 
-        assertEquals(gameMap.getGameMap().get(23).getBuildingLevel(), 1);
-        assertEquals(cardAthe.executeWorkerMove(gameMap, Directions.OVEST, player1), Response.MOVED);
-        assertEquals(cardAthe.executeWorkerMove(gameMap, Directions.NORD_EST, player1), Response.ASSIGNCONSTRAINT);
+        assertEquals(1,gameMap.getGameMap().get(23).getBuildingLevel());
+        assertEquals(Response.MOVED,cardAthe.executeWorkerMove(gameMap, Directions.OVEST, player1));
+        assertEquals(Response.ASSIGNCONSTRAINT,cardAthe.executeWorkerMove(gameMap, Directions.NORD_EST, player1));
 
     }
 
     @Test
     void eliminateInvalidMove() {
-        assertEquals(directions.size(), 7);
-        assertEquals(cardAthe.eliminateInvalidMove(gameMap, player1.getCurrentWorker(), directions).size(), 6);
+        assertEquals(7,directions.size());
+        assertEquals(6,cardAthe.eliminateInvalidMove(gameMap, player1.getCurrentWorker(), directions).size());
     }
 }

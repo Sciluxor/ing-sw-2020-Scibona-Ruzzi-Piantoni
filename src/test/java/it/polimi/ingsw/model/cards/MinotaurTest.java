@@ -47,8 +47,8 @@ class MinotaurTest {
 
         player2.selectCurrentWorker(gameMap, "worker2");
 
-        assertEquals(cardMino.findWorkerMove(gameMap, player1.getCurrentWorker()).size(), 8);
-        assertEquals(cardMino.findWorkerMove(gameMap, player2.getWorkers().get(1)).size(), 7);
+        assertEquals(8,cardMino.findWorkerMove(gameMap, player1.getCurrentWorker()).size());
+        assertEquals(7,cardMino.findWorkerMove(gameMap, player2.getWorkers().get(1)).size());
     }
 
     @Test
@@ -57,15 +57,15 @@ class MinotaurTest {
         assertThrows(NullPointerException.class , () -> cardMino.executeWorkerMove(gameMap, null, player1));
         assertThrows(NullPointerException.class , () -> cardMino.executeWorkerMove(gameMap, Directions.OVEST, null));
 
-        assertEquals(cardMino.executeWorkerMove(gameMap, Directions.NORD, player1), Response.MOVED);
+        assertEquals(Response.MOVED,cardMino.executeWorkerMove(gameMap, Directions.NORD, player1));
         assertEquals(player1.getCurrentWorker().getBoardPosition(), gameMap.getGameMap().get(23));
         assertEquals(gameMap.getModifiedSquare().get(0), gameMap.getGameMap().get(22));
         assertEquals(gameMap.getModifiedSquare().get(1), gameMap.getGameMap().get(23));
-        assertEquals(cardMino.executeWorkerMove(gameMap, Directions.SUD, player1), Response.MOVED);
+        assertEquals(Response.MOVED,cardMino.executeWorkerMove(gameMap, Directions.SUD, player1));
         assertEquals(player1.getCurrentWorker().getBoardPosition(), gameMap.getGameMap().get(22));
         assertEquals(gameMap.getModifiedSquare().get(0), gameMap.getGameMap().get(23));
         assertEquals(gameMap.getModifiedSquare().get(1), gameMap.getGameMap().get(22));
-        assertEquals(cardMino.executeWorkerMove(gameMap, Directions.EST, player1), Response.MOVED);
+        assertEquals(Response.MOVED,cardMino.executeWorkerMove(gameMap, Directions.EST, player1));
         assertEquals(player1.getCurrentWorker().getBoardPosition(), gameMap.getGameMap().get(21));
         assertEquals(player2.getCurrentWorker().getBoardPosition(), gameMap.getGameMap().get(20));
         assertEquals(gameMap.getModifiedSquare().get(0), gameMap.getGameMap().get(22));

@@ -38,7 +38,7 @@ class GameMapTest {
 
         ArrayList<Directions> directions = map.reachableSquares(player1.getWorkers().get(1));
         assertEquals(1, directions.size());
-        assertEquals(directions.get(0),Directions.OVEST);
+        assertEquals(Directions.OVEST,directions.get(0));
 
         assertThrows(NullPointerException.class,() -> map.reachableSquares(null));
 
@@ -64,9 +64,9 @@ class GameMapTest {
         directions = map.reachableSquares(player2.getWorkers().get(0));
         assertEquals(3, directions.size());
 
-        assertEquals(directions.get(0),Directions.SUD);
-        assertEquals(directions.get(1),Directions.SUD_OVEST);
-        assertEquals(directions.get(2),Directions.NORD_OVEST);
+        assertEquals(Directions.SUD,directions.get(0));
+        assertEquals(Directions.SUD_OVEST,directions.get(1));
+        assertEquals(Directions.NORD_OVEST,directions.get(2));
 
     }
 
@@ -99,8 +99,8 @@ class GameMapTest {
 
         ArrayList<Directions> directions = map.buildableSquare(player1.getWorkers().get(1));
         assertEquals(2, directions.size());
-        assertEquals(directions.get(0),Directions.SUD);
-        assertEquals(directions.get(1),Directions.OVEST);
+        assertEquals(Directions.SUD,directions.get(0));
+        assertEquals(Directions.OVEST,directions.get(1));
 
         map.getGameMap().get(21).addBuildingLevel();
         map.getGameMap().get(21).addBuildingLevel();
@@ -124,9 +124,9 @@ class GameMapTest {
         directions = map.buildableSquare(player2.getWorkers().get(0));
         assertEquals(3, directions.size());
 
-        assertEquals(directions.get(0),Directions.SUD);
-        assertEquals(directions.get(1),Directions.SUD_OVEST);
-        assertEquals(directions.get(2),Directions.NORD_OVEST);
+        assertEquals(Directions.SUD,directions.get(0));
+        assertEquals(Directions.SUD_OVEST,directions.get(1));
+        assertEquals(Directions.NORD_OVEST,directions.get(2));
 
 
 
@@ -164,12 +164,12 @@ class GameMapTest {
 
         assertTrue(map.buildInSquare(player2.getCurrentWorker(),Directions.SUD,Building.DOME));
         assertEquals(player2.getCurrentWorker().getPreviousBuildPosition().getTile(),player2.getCurrentWorker().getBoardPosition().getCanAccess().get(Directions.SUD));
-        assertEquals(player2.getCurrentWorker().getPreviousBuildPosition().getBuildingLevel(),4);
-        assertEquals(player2.getCurrentWorker().getPreviousBuildPosition().getBuilding(),Building.DOME);
+        assertEquals(4,player2.getCurrentWorker().getPreviousBuildPosition().getBuildingLevel());
+        assertEquals(Building.DOME,player2.getCurrentWorker().getPreviousBuildPosition().getBuilding());
         assertEquals(map.getModifiedSquare().get(0),map.getGameMap().get(10));
 
         assertFalse(map.buildInSquare(player2.getCurrentWorker(),Directions.SUD_OVEST,Building.LVL3));
-        assertEquals(map.getModifiedSquare().size(), 0);
+        assertEquals(0,map.getModifiedSquare().size());
         assertTrue(map.buildInSquare(player2.getCurrentWorker(),Directions.SUD_OVEST,Building.LVL1));
         assertEquals(map.getModifiedSquare().get(0),map.getGameMap().get(11));
 
@@ -208,33 +208,33 @@ class GameMapTest {
     @Test
     void coordinates(){
         Integer[] coordinates = {3,4};
-        assertEquals(map.getTileFromCoordinates(coordinates).getTile(),8);
+        assertEquals(8,map.getTileFromCoordinates(coordinates).getTile());
 
 
     }
 
     @Test
     void addModifiedSquare() {
-        assertEquals(map.getModifiedSquare().size(), 0);
+        assertEquals(0,map.getModifiedSquare().size());
         map.addModifiedSquare(map.getGameMap().get(23));
         assertEquals(map.getModifiedSquare().get(0), map.getGameMap().get(23));
     }
 
     @Test
     void getModifiedSquare() {
-        assertEquals(map.getModifiedSquare().size(), 0);
+        assertEquals(0,map.getModifiedSquare().size());
         map.addModifiedSquare(map.getGameMap().get(23));
         assertEquals(map.getModifiedSquare().get(0), map.getGameMap().get(23));
     }
 
     @Test
     void clearModifiedSquare() {
-        assertEquals(map.getModifiedSquare().size(), 0);
+        assertEquals(0,map.getModifiedSquare().size());
         map.addModifiedSquare(map.getGameMap().get(23));
         assertEquals(map.getModifiedSquare().get(0), map.getGameMap().get(23));
         map.addModifiedSquare(map.getGameMap().get(17));
         assertEquals(map.getModifiedSquare().get(1), map.getGameMap().get(17));
         map.clearModifiedSquare();
-        assertEquals(map.getModifiedSquare().size(), 0);
+        assertEquals(0,map.getModifiedSquare().size());
     }
 }

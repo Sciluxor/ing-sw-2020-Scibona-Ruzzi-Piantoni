@@ -41,7 +41,7 @@ class PrometheusTest {
 
     @Test
     void getFirstAction() {
-        assertEquals(cardPro.getFirstAction(), Response.BUILDBEFORE);
+        assertEquals( Response.BUILDBEFORE,cardPro.getFirstAction());
 
     }
 
@@ -51,9 +51,9 @@ class PrometheusTest {
         assertThrows(NullPointerException.class , () -> cardPro.findWorkerMove(gameMap, null));
 
         assertEquals(player1.getCurrentWorker().getBoardPosition(), gameMap.getGameMap().get(22));
-        assertEquals(cardPro.findWorkerMove(gameMap, player1.getWorkers().get(0)).size(), 7);
+        assertEquals(7,cardPro.findWorkerMove(gameMap, player1.getWorkers().get(0)).size());
         cardPro.executeBuild(gameMap,Building.LVL1, Directions.NORD_EST, player1.getCurrentWorker());
-        assertEquals(cardPro.findWorkerMove(gameMap, player1.getWorkers().get(0)).size(), 6);
+        assertEquals(6,cardPro.findWorkerMove(gameMap, player1.getWorkers().get(0)).size());
     }
 
     @Test
@@ -62,7 +62,7 @@ class PrometheusTest {
         assertThrows(NullPointerException.class , () -> cardPro.executeWorkerMove(gameMap, null, player1));
         assertThrows(NullPointerException.class , () -> cardPro.executeWorkerMove(gameMap, Directions.OVEST, null));
 
-        assertEquals(cardPro.executeWorkerMove(gameMap, Directions.OVEST, player1), Response.MOVED);
+        assertEquals(Response.MOVED,cardPro.executeWorkerMove(gameMap, Directions.OVEST, player1));
     }
 
     @Test
@@ -72,10 +72,10 @@ class PrometheusTest {
         assertThrows(NullPointerException.class , () -> cardPro.executeBuild(gameMap, Building.LVL1, null, player1.getCurrentWorker()));
         assertThrows(NullPointerException.class , () -> cardPro.executeBuild(gameMap, Building.LVL1, Directions.NORD, null));
 
-        assertEquals(cardPro.executeBuild(gameMap,Building.LVL2, Directions.NORD_EST, player1.getCurrentWorker()), Response.NOTBUILD);
-        assertEquals(cardPro.executeBuild(gameMap,Building.LVL1, Directions.NORD_EST, player1.getCurrentWorker()), Response.BUILDEDBEFORE);
-        assertEquals(cardPro.executeBuild(gameMap,Building.LVL2, Directions.NORD, player1.getCurrentWorker()), Response.NOTBUILD);
-        assertEquals(cardPro.executeBuild(gameMap,Building.LVL1, Directions.NORD, player1.getCurrentWorker()), Response.BUILD);
+        assertEquals(Response.NOTBUILD,cardPro.executeBuild(gameMap,Building.LVL2, Directions.NORD_EST, player1.getCurrentWorker()));
+        assertEquals(Response.BUILDEDBEFORE,cardPro.executeBuild(gameMap,Building.LVL1, Directions.NORD_EST, player1.getCurrentWorker()));
+        assertEquals(Response.NOTBUILD,cardPro.executeBuild(gameMap,Building.LVL2, Directions.NORD, player1.getCurrentWorker()));
+        assertEquals(Response.BUILD,cardPro.executeBuild(gameMap,Building.LVL1, Directions.NORD, player1.getCurrentWorker()));
 
 
     }

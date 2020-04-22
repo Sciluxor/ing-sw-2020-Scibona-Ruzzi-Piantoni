@@ -19,10 +19,10 @@ class BuildingTest {
 
     @Test
     void mapNext() {
-        assertEquals(Building.mapNext(Building.GROUND),Building.LVL1);
-        assertEquals(Building.mapNext(Building.LVL1),Building.LVL2);
-        assertEquals(Building.mapNext(Building.LVL2),Building.LVL3);
-        assertEquals(Building.mapNext(Building.LVL3),Building.DOME);
+        assertEquals(Building.LVL1,Building.mapNext(Building.GROUND));
+        assertEquals(Building.LVL2,Building.mapNext(Building.LVL1));
+        assertEquals(Building.LVL3,Building.mapNext(Building.LVL2));
+        assertEquals(Building.DOME,Building.mapNext(Building.LVL3));
         assertThrows(IllegalArgumentException.class,() -> Building.mapNext(Building.DOME));
 
 

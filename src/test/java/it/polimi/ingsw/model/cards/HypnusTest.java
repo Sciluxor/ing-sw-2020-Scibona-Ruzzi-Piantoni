@@ -43,7 +43,7 @@ class HypnusTest {
 
         assertTrue(cardHypn.canMove(player1, player1.getCurrentWorker()));
         gameMap.getGameMap().get(22).addBuildingLevel();
-        assertEquals(gameMap.getGameMap().get(22).getBuildingLevel(), 1);
+        assertEquals(1,gameMap.getGameMap().get(22).getBuildingLevel());
         assertFalse(cardHypn.canMove(player1, player1.getCurrentWorker()));
 
     }

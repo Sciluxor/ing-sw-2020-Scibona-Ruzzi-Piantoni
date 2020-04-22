@@ -17,43 +17,43 @@ GameMap map;
 
     @Test
     void getTile() {
-        assertEquals(map.getGameMap().get(14).getTile(),15);
+        assertEquals(15,map.getGameMap().get(14).getTile());
     }
 
     @Test
     void getBuildingLevel() {
-        assertEquals(map.getGameMap().get(15).getBuildingLevel(),0);
+        assertEquals(0,map.getGameMap().get(15).getBuildingLevel());
     }
 
     @Test
     void addBuildingLevel() {
         map.getGameMap().get(9).addBuildingLevel();
-        assertEquals(map.getGameMap().get(9).getBuildingLevel(),1);
+        assertEquals(1,map.getGameMap().get(9).getBuildingLevel());
         map.getGameMap().get(9).addBuildingLevel();
-        assertEquals(map.getGameMap().get(9).getBuildingLevel(),2);
+        assertEquals(2,map.getGameMap().get(9).getBuildingLevel());
         map.getGameMap().get(9).addBuildingLevel();
-        assertEquals(map.getGameMap().get(9).getBuildingLevel(),3);
+        assertEquals(3,map.getGameMap().get(9).getBuildingLevel());
         map.getGameMap().get(9).addBuildingLevel();
-        assertEquals(map.getGameMap().get(9).getBuildingLevel(),4);
+        assertEquals(4,map.getGameMap().get(9).getBuildingLevel());
 
         assertThrows(IllegalStateException.class,() -> map.getGameMap().get(9).addBuildingLevel());
     }
 
     @Test
     void getBuilding() {
-        assertEquals(map.getGameMap().get(9).getBuilding(),Building.GROUND);
+        assertEquals(Building.GROUND,map.getGameMap().get(9).getBuilding());
     }
 
     @Test
     void setBuilding() {
         map.getGameMap().get(13).setBuilding(Building.DOME);
-        assertEquals(map.getGameMap().get(13).getBuilding(),Building.DOME);
+        assertEquals(Building.DOME,map.getGameMap().get(13).getBuilding());
         map.getGameMap().get(10).setBuilding(Building.LVL1);
-        assertEquals(map.getGameMap().get(10).getBuilding(),Building.LVL1);
+        assertEquals(Building.LVL1,map.getGameMap().get(10).getBuilding());
         map.getGameMap().get(11).setBuilding(Building.LVL2);
-        assertEquals(map.getGameMap().get(11).getBuilding(),Building.LVL2);
+        assertEquals(Building.LVL2,map.getGameMap().get(11).getBuilding());
         map.getGameMap().get(23).setBuilding(Building.LVL3);
-        assertEquals(map.getGameMap().get(23).getBuilding(),Building.LVL3);
+        assertEquals(Building.LVL3,map.getGameMap().get(23).getBuilding());
 
         assertThrows(NullPointerException.class,() -> map.getGameMap().get(17).setBuilding(null));
     }
@@ -101,7 +101,7 @@ GameMap map;
 
     @Test
     void getCanAccess() {
-       assertEquals(map.getGameMap().get(22).getCanAccess().get(Directions.OVEST),14);
+       assertEquals(14,map.getGameMap().get(22).getCanAccess().get(Directions.OVEST));
     }
     @Test
     void setMovement(){
@@ -115,7 +115,7 @@ GameMap map;
 
     @Test
     void getCoordinates() {
-        assertEquals(map.getGameMap().get(24).getCoordinates()[0], 2);
-        assertEquals(map.getGameMap().get(24).getCoordinates()[1], 2);
+        assertEquals(2,map.getGameMap().get(24).getCoordinates()[0]);
+        assertEquals(2,map.getGameMap().get(24).getCoordinates()[1]);
     }
 }

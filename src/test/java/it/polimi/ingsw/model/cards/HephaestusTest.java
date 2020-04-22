@@ -43,9 +43,9 @@ class HephaestusTest {
         assertThrows(NullPointerException.class , () -> cardHeph.findPossibleBuild(null, player1.getCurrentWorker()));
         assertThrows(NullPointerException.class , () -> cardHeph.findPossibleBuild(gameMap, null));
 
-        assertEquals(cardHeph.findPossibleBuild(gameMap, player1.getCurrentWorker()).size(), 7);
+        assertEquals(7,cardHeph.findPossibleBuild(gameMap, player1.getCurrentWorker()).size());
         cardHeph.executeBuild(gameMap, Building.LVL1, Directions.NORD, player1.getCurrentWorker());
-        assertEquals(cardHeph.findPossibleBuild(gameMap, player1.getCurrentWorker()).size(), 1);
+        assertEquals(1,cardHeph.findPossibleBuild(gameMap, player1.getCurrentWorker()).size());
 
     }
 
@@ -56,12 +56,12 @@ class HephaestusTest {
         assertThrows(NullPointerException.class , () -> cardHeph.executeBuild(gameMap, Building.LVL1, null, player1.getCurrentWorker()));
         assertThrows(NullPointerException.class , () -> cardHeph.executeBuild(gameMap, Building.LVL1, Directions.OVEST, null));
 
-        assertEquals(cardHeph.executeBuild(gameMap, Building.LVL2, Directions.NORD, player1.getCurrentWorker()), Response.NOTBUILD);
+        assertEquals(Response.NOTBUILD,cardHeph.executeBuild(gameMap, Building.LVL2, Directions.NORD, player1.getCurrentWorker()));
         gameMap.getGameMap().get(13).setBuilding(Building.LVL2);
-        assertEquals(cardHeph.executeBuild(gameMap, Building.LVL3, Directions.OVEST, player1.getCurrentWorker()), Response.BUILD);
-        assertEquals(cardHeph.executeBuild(gameMap, Building.LVL1, Directions.SUD_OVEST, player1.getCurrentWorker()), Response.NEWBUILD);
-        assertEquals(cardHeph.executeBuild(gameMap, Building.LVL2, Directions.NORD_EST, player1.getCurrentWorker()), Response.NOTBUILD);
-        assertEquals(cardHeph.executeBuild(gameMap, Building.LVL1, Directions.SUD, player1.getCurrentWorker()), Response.BUILD);
+        assertEquals(Response.BUILD,cardHeph.executeBuild(gameMap, Building.LVL3, Directions.OVEST, player1.getCurrentWorker()));
+        assertEquals(Response.NEWBUILD,cardHeph.executeBuild(gameMap, Building.LVL1, Directions.SUD_OVEST, player1.getCurrentWorker()));
+        assertEquals(Response.NOTBUILD,cardHeph.executeBuild(gameMap, Building.LVL2, Directions.NORD_EST, player1.getCurrentWorker()));
+        assertEquals(Response.BUILD,cardHeph.executeBuild(gameMap, Building.LVL1, Directions.SUD, player1.getCurrentWorker()));
 
     }
 }
