@@ -9,9 +9,13 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 public class ImageHandler {
+
+    private ImageHandler() {
+        throw new IllegalStateException("MapLoader class cannot be instantiated");
+    }
+
     public static JLabel setImage(String s, double xMod, double yMod, int width, int height) throws IOException {
 
-        //s =s.replaceFirst("src/main/java/resources/Graphics", "");
         File file = new File(s);
         FileInputStream f = new FileInputStream(file);
         BufferedImage image = ImageIO.read( f );
@@ -31,8 +35,6 @@ public class ImageHandler {
         g.drawImage(image, 0, 0, (int)(width*xMod/100), (int)(height*yMod/100), null);
         g.dispose();
 
-        JLabel label = new JLabel(new ImageIcon(board));
-
-        return label;
+        return new JLabel(new ImageIcon(board));
     }
 }
