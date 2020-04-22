@@ -1,8 +1,8 @@
 package it.polimi.ingsw.view.client.gui;
 
 import it.polimi.ingsw.controller.ClientGameController;
-import it.polimi.ingsw.model.Player.Color;
-import it.polimi.ingsw.model.Player.Player;
+import it.polimi.ingsw.model.player.Color;
+import it.polimi.ingsw.model.player.Player;
 
 import javax.swing.*;
 import java.awt.*;

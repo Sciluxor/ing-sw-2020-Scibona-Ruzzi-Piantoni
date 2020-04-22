@@ -1,6 +1,6 @@
 package it.polimi.ingsw.view.client.gui;
 
-import it.polimi.ingsw.model.Player.Player;
+import it.polimi.ingsw.model.player.Player;
 
 import javax.swing.*;
 import javax.swing.text.BadLocationException;

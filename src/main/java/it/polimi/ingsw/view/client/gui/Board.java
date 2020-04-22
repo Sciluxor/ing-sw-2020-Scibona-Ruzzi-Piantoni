@@ -1,6 +1,6 @@
 package it.polimi.ingsw.view.client.gui;
 
-import it.polimi.ingsw.model.Player.Player;
+import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.utils.Observable;
 
 import javax.swing.*;
@@ -32,16 +32,23 @@ public class Board extends Observable {
     int[] mapButtonslvl = new int[25];
     boolean[] mapButtonsPlayer = new boolean[25];
     JLabel nicknameLabel = new JLabel();
-    JLabel gID = new JLabel(), sfondo, sfondo2, background;
+    JLabel gID = new JLabel();
+    JLabel sfondo;
+    JLabel sfondo2;
+    JLabel background;
     JLabel opponents = new JLabel("Opponents:");
     static JLabel playerpower = new JLabel();
     JButton opponent1 = new JButton();
     JTextArea chat = new JTextArea();
     JTextField field = new JTextField();
-    Dimension frameSize = new Dimension(), boardSize = new Dimension(), bottomSize = new Dimension(),
-            sideSize = new Dimension(), buttonSize = new Dimension(), scrollSize = new Dimension();
-    JLabel worker_cyan, worker_white, worker_purple, lvl1, lvl2, lvl3, lvl1_building, lvl2_building, lvl3_building, dome_building, lvl1_cyan, lvl2_cyan, lvl3_cyan, lvl1_purple, lvl2_purple, lvl3_purple,
-            lvl1_white, lvl2_white, lvl3_white, lvl1_dome, lvl2_dome, lvl3_dome, dome, exit, button_move, button_build, button_move_press, button_build_press,
+    Dimension frameSize = new Dimension();
+    Dimension boardSize = new Dimension();
+    Dimension bottomSize = new Dimension();
+    Dimension sideSize = new Dimension();
+    Dimension buttonSize = new Dimension();
+    Dimension scrollSize = new Dimension();
+    JLabel workerCyan, workerWhite, workerPurple, lvl1, lvl2, lvl3, lvl1Building, lvl2Building, lvl3Building, domeBuilding, lvl1Cyan, lvl2Cyan, lvl3Cyan, lvl1Purple, lvl2Purple, lvl3Purple,
+            lvl1White, lvl2White, lvl3White, lvl1Dome, lvl2Dome, lvl3Dome, dome, exit, lButtonMove, lButtonBuild, lButtonMovePress, lButtonBuildPress,
             button_power, button_power_press, button_chat, button_chat_press;
     private boolean chatOpen = false;
     Font felixSmall, felixNormal, felixBold;
@@ -81,36 +88,36 @@ public class Board extends Observable {
         felixBold = new Font("Felix Titling", Font.BOLD, (int) (25 * screen.getHeight() / 1080));
 
 
-        worker_cyan = ImageHandler.setImage("src/main/resources/Graphics/worker_cyan.png", 100, 100, height * 13/100, height * 13/100);
-        worker_white = ImageHandler.setImage("src/main/resources/Graphics/worker_white.png", 100, 100, height * 13/100, height * 13/100);
-        worker_purple = ImageHandler.setImage("src/main/resources/Graphics/worker_purple.png", 100, 100, height * 13/100, height * 13/100);
+        workerCyan = ImageHandler.setImage("src/main/resources/Graphics/worker_cyan.png", 100, 100, height * 13/100, height * 13/100);
+        workerWhite = ImageHandler.setImage("src/main/resources/Graphics/worker_white.png", 100, 100, height * 13/100, height * 13/100);
+        workerPurple = ImageHandler.setImage("src/main/resources/Graphics/worker_purple.png", 100, 100, height * 13/100, height * 13/100);
         lvl1 = ImageHandler.setImage("src/main/resources/Graphics/lvl1.png", 85, 85, height * 13/100, height * 13/100);
         lvl2 = ImageHandler.setImage("src/main/resources/Graphics/lvl2.png", 85, 85, height * 13/100, height * 13/100);
         lvl3 = ImageHandler.setImage("src/main/resources/Graphics/lvl3.png", 85, 85, height * 13/100, height * 13/100);
-        lvl1_building = ImageHandler.setImage("src/main/resources/Graphics/lvl1_building.png", 100, 100, frameSize.width * 5/100, frameSize.width * 5/100);
-        lvl2_building = ImageHandler.setImage("src/main/resources/Graphics/lvl2_building.png", 100, 100, frameSize.width * 5/100, frameSize.width * 5/100);
-        lvl3_building = ImageHandler.setImage("src/main/resources/Graphics/lvl3_building.png", 100, 100, frameSize.width * 5/100, frameSize.width * 5/100);
-        dome_building = ImageHandler.setImage("src/main/resources/Graphics/dome_building.png", 100, 100, frameSize.width * 5/100, frameSize.width * 5/100);
-        lvl1_cyan = ImageHandler.setImage("src/main/resources/Graphics/lvl1_cyan.png", 85, 85, height * 13/100, height * 13/100);
-        lvl2_cyan = ImageHandler.setImage("src/main/resources/Graphics/lvl2_cyan.png", 85, 85, height * 13/100, height * 13/100);
-        lvl3_cyan = ImageHandler.setImage("src/main/resources/Graphics/lvl3_cyan.png", 85, 85, height * 13/100, height * 13/100);
-        lvl1_purple = ImageHandler.setImage("src/main/resources/Graphics/lvl1_purple.png", 85, 85, height * 13/100, height * 13/100);
-        lvl2_purple = ImageHandler.setImage("src/main/resources/Graphics/lvl2_purple.png", 85, 85, height * 13/100, height * 13/100);
-        lvl3_purple = ImageHandler.setImage("src/main/resources/Graphics/lvl3_purple.png", 85, 85, height * 13/100, height * 13/100);
-        lvl1_white = ImageHandler.setImage("src/main/resources/Graphics/lvl1_white.png", 85, 85, height * 13/100, height * 13/100);
-        lvl2_white = ImageHandler.setImage("src/main/resources/Graphics/lvl2_white.png", 85, 85, height * 13/100, height * 13/100);
-        lvl3_white = ImageHandler.setImage("src/main/resources/Graphics/lvl3_white.png", 85, 85, height * 13/100, height * 13/100);
-        lvl1_dome = ImageHandler.setImage("src/main/resources/Graphics/lvl1_dome.png", 85, 85, height * 13/100, height * 13/100);
-        lvl2_dome = ImageHandler.setImage("src/main/resources/Graphics/lvl2_dome.png", 85, 85, height * 13/100, height * 13/100);
-        lvl3_dome = ImageHandler.setImage("src/main/resources/Graphics/lvl3_dome.png", 85, 85, height * 13/100, height * 13/100);
+        lvl1Building = ImageHandler.setImage("src/main/resources/Graphics/lvl1_building.png", 100, 100, frameSize.width * 5/100, frameSize.width * 5/100);
+        lvl2Building = ImageHandler.setImage("src/main/resources/Graphics/lvl2_building.png", 100, 100, frameSize.width * 5/100, frameSize.width * 5/100);
+        lvl3Building = ImageHandler.setImage("src/main/resources/Graphics/lvl3_building.png", 100, 100, frameSize.width * 5/100, frameSize.width * 5/100);
+        domeBuilding = ImageHandler.setImage("src/main/resources/Graphics/dome_building.png", 100, 100, frameSize.width * 5/100, frameSize.width * 5/100);
+        lvl1Cyan = ImageHandler.setImage("src/main/resources/Graphics/lvl1_cyan.png", 85, 85, height * 13/100, height * 13/100);
+        lvl2Cyan = ImageHandler.setImage("src/main/resources/Graphics/lvl2_cyan.png", 85, 85, height * 13/100, height * 13/100);
+        lvl3Cyan = ImageHandler.setImage("src/main/resources/Graphics/lvl3_cyan.png", 85, 85, height * 13/100, height * 13/100);
+        lvl1Purple = ImageHandler.setImage("src/main/resources/Graphics/lvl1_purple.png", 85, 85, height * 13/100, height * 13/100);
+        lvl2Purple = ImageHandler.setImage("src/main/resources/Graphics/lvl2_purple.png", 85, 85, height * 13/100, height * 13/100);
+        lvl3Purple = ImageHandler.setImage("src/main/resources/Graphics/lvl3_purple.png", 85, 85, height * 13/100, height * 13/100);
+        lvl1White = ImageHandler.setImage("src/main/resources/Graphics/lvl1_white.png", 85, 85, height * 13/100, height * 13/100);
+        lvl2White = ImageHandler.setImage("src/main/resources/Graphics/lvl2_white.png", 85, 85, height * 13/100, height * 13/100);
+        lvl3White = ImageHandler.setImage("src/main/resources/Graphics/lvl3_white.png", 85, 85, height * 13/100, height * 13/100);
+        lvl1Dome = ImageHandler.setImage("src/main/resources/Graphics/lvl1_dome.png", 85, 85, height * 13/100, height * 13/100);
+        lvl2Dome = ImageHandler.setImage("src/main/resources/Graphics/lvl2_dome.png", 85, 85, height * 13/100, height * 13/100);
+        lvl3Dome = ImageHandler.setImage("src/main/resources/Graphics/lvl3_dome.png", 85, 85, height * 13/100, height * 13/100);
         dome = ImageHandler.setImage("src/main/resources/Graphics/dome.png", 85, 85, frameSize.width * 5/100, frameSize.width * 5/100);
         exit = ImageHandler.setImage("src/main/resources/Graphics/exit.png", 75, 75, sideSize.width * 12/100, sideSize.width * 12/100);
-        button_build = ImageHandler.setImage("src/main/resources/Graphics/button_build.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
-        button_move = ImageHandler.setImage("src/main/resources/Graphics/button_move.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
+        lButtonBuild = ImageHandler.setImage("src/main/resources/Graphics/button_build.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
+        lButtonMove = ImageHandler.setImage("src/main/resources/Graphics/button_move.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
         button_power = ImageHandler.setImage("src/main/resources/Graphics/button_power.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
         button_chat = ImageHandler.setImage("src/main/resources/Graphics/button_chat.png", 100, 100, frameSize.width * 7/100, frameSize.height * 7/100);
-        button_build_press = ImageHandler.setImage("src/main/resources/Graphics/button_build_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
-        button_move_press = ImageHandler.setImage("src/main/resources/Graphics/button_move_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
+        lButtonBuildPress = ImageHandler.setImage("src/main/resources/Graphics/button_build_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
+        lButtonMovePress = ImageHandler.setImage("src/main/resources/Graphics/button_move_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
         button_power_press = ImageHandler.setImage("src/main/resources/Graphics/button_power_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
         button_chat_press = ImageHandler.setImage("src/main/resources/Graphics/button_chat_press.png", 100, 100, frameSize.width * 7/100, frameSize.height * 7/100);
 
@@ -656,19 +663,19 @@ public class Board extends Observable {
 
 
         buttonLv1.setBounds((frameSize.width * 81/100), (frameSize.height * 18/100), frameSize.width * 5/100, frameSize.width * 5/100);
-        buttonLv1.setIcon(lvl1_building.getIcon());
+        buttonLv1.setIcon(lvl1Building.getIcon());
         desktopPane.add(buttonLv1);
 
         buttonLv2.setBounds((frameSize.width * 89/100), (frameSize.height * 18/100), frameSize.width * 5/100, frameSize.width * 5/100);
-        buttonLv2.setIcon(lvl2_building.getIcon());
+        buttonLv2.setIcon(lvl2Building.getIcon());
         desktopPane.add(buttonLv2);
 
         buttonLv3.setBounds((frameSize.width * 81/100), (frameSize.height * 31/100), frameSize.width * 5/100, frameSize.width * 5/100);
-        buttonLv3.setIcon(lvl3_building.getIcon());
+        buttonLv3.setIcon(lvl3Building.getIcon());
         desktopPane.add(buttonLv3);
 
         buttonDome.setBounds((frameSize.width * 89/100), (frameSize.height * 31/100), frameSize.width * 5/100, frameSize.width * 5/100);
-        buttonDome.setIcon(dome_building.getIcon());
+        buttonDome.setIcon(domeBuilding.getIcon());
         buttonDome.setBorderPainted(false);
         buttonDome.setContentAreaFilled(false);
         desktopPane.add(buttonDome);
@@ -680,7 +687,7 @@ public class Board extends Observable {
         buttonMove.setOpaque(false);
         buttonMove.setContentAreaFilled(false);
         buttonMove.setBorderPainted(false);
-        buttonMove.setIcon(button_move.getIcon());
+        buttonMove.setIcon(lButtonMove.getIcon());
         buttonMove.addMouseListener(new ButtonPress());
         desktopPane.add(buttonMove);
 
@@ -689,7 +696,7 @@ public class Board extends Observable {
         buttonBuild.setOpaque(false);
         buttonBuild.setContentAreaFilled(false);
         buttonBuild.setBorderPainted(false);
-        buttonBuild.setIcon(button_build.getIcon());
+        buttonBuild.setIcon(lButtonBuild.getIcon());
         buttonBuild.addMouseListener(new ButtonPress());
         desktopPane.add(buttonBuild);
 
@@ -904,7 +911,7 @@ public class Board extends Observable {
             for (int x = 0; x < 25; x++){
 
                 if (mapButtons[x] == c && !mapButtonsPlayer[x]){
-                    c.setIcon(lvl3_dome.getIcon());
+                    c.setIcon(lvl3Dome.getIcon());
                     mapButtonslvl[x] = 4;
                 }
 
@@ -972,19 +979,19 @@ public class Board extends Observable {
                     switch (mapButtonslvl[x]) {
 
                         case 0:
-                            c.setIcon(worker_cyan.getIcon());
+                            c.setIcon(workerCyan.getIcon());
                             mapButtonsPlayer[x] = true;
                             break;
                         case 1:
-                            c.setIcon(lvl1_cyan.getIcon());
+                            c.setIcon(lvl1Cyan.getIcon());
                             mapButtonsPlayer[x] = true;
                             break;
                         case 2:
-                            c.setIcon(lvl2_cyan.getIcon());
+                            c.setIcon(lvl2Cyan.getIcon());
                             mapButtonsPlayer[x] = true;
                             break;
                         case 3:
-                            c.setIcon(lvl3_cyan.getIcon());
+                            c.setIcon(lvl3Cyan.getIcon());
                             mapButtonsPlayer[x] = true;
                             break;
                     }
@@ -1038,10 +1045,10 @@ public class Board extends Observable {
         public void mousePressed(MouseEvent e) {
             JButton c = (JButton)e.getSource();
             if (buttonMove == c){
-                buttonMove.setIcon(button_move_press.getIcon());
+                buttonMove.setIcon(lButtonMovePress.getIcon());
             }
             else if (buttonBuild == c){
-                buttonBuild.setIcon(button_build_press.getIcon());
+                buttonBuild.setIcon(lButtonBuildPress.getIcon());
             }
             else if (buttonPower == c){
                 buttonPower.setIcon(button_power_press.getIcon());
@@ -1055,10 +1062,10 @@ public class Board extends Observable {
             JButton c = (JButton)e.getSource();
 
             if (buttonMove == c){
-                buttonMove.setIcon(button_move.getIcon());
+                buttonMove.setIcon(lButtonMove.getIcon());
             }
             else if (buttonBuild == c){
-                buttonBuild.setIcon(button_build.getIcon());
+                buttonBuild.setIcon(lButtonBuild.getIcon());
             }
             else if (buttonPower == c){
                 buttonPower.setIcon(button_power.getIcon());

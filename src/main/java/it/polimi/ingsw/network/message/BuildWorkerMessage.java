@@ -1,8 +1,8 @@
 package it.polimi.ingsw.network.message;
 
-import it.polimi.ingsw.model.Map.Building;
-import it.polimi.ingsw.model.Map.Directions;
-import it.polimi.ingsw.model.Map.Square;
+import it.polimi.ingsw.model.map.Building;
+import it.polimi.ingsw.model.map.Directions;
+import it.polimi.ingsw.model.map.Square;
 import it.polimi.ingsw.model.Response;
 
 import java.util.ArrayList;

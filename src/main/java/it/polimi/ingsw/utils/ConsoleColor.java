@@ -1,7 +1,6 @@
 package it.polimi.ingsw.utils;
 
-import it.polimi.ingsw.model.Player.Color;
-import it.polimi.ingsw.network.message.WaitPlayerMessage;
+import it.polimi.ingsw.model.player.Color;
 
 import java.util.HashMap;
 

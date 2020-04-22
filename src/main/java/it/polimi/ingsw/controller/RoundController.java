@@ -1,13 +1,13 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.model.Cards.Card;
-import it.polimi.ingsw.model.Cards.CardSubType;
-import it.polimi.ingsw.model.Cards.CardType;
+import it.polimi.ingsw.model.cards.Card;
+import it.polimi.ingsw.model.cards.CardSubType;
+import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.Map.Building;
-import it.polimi.ingsw.model.Map.Directions;
-import it.polimi.ingsw.model.Map.Square;
-import it.polimi.ingsw.model.Player.Player;
+import it.polimi.ingsw.model.map.Building;
+import it.polimi.ingsw.model.map.Directions;
+import it.polimi.ingsw.model.map.Square;
+import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.Response;
 import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.utils.FlowStatutsLoader;

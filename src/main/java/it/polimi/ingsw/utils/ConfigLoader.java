@@ -2,7 +2,6 @@ package it.polimi.ingsw.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
-import it.polimi.ingsw.model.Cards.CardLoader;
 
 import java.io.InputStreamReader;
 

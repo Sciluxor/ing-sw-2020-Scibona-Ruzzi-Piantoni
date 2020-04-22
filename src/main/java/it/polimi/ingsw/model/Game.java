@@ -1,13 +1,13 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.Cards.Card;
-import it.polimi.ingsw.model.Cards.CardLoader;
-import it.polimi.ingsw.model.Cards.CardSubType;
-import it.polimi.ingsw.model.Map.GameMap;
-import it.polimi.ingsw.model.Map.Square;
-import it.polimi.ingsw.model.Player.Color;
-import it.polimi.ingsw.model.Player.Player;
-import it.polimi.ingsw.model.Player.PlayerQueue;
+import it.polimi.ingsw.model.cards.Card;
+import it.polimi.ingsw.model.cards.CardLoader;
+import it.polimi.ingsw.model.cards.CardSubType;
+import it.polimi.ingsw.model.map.GameMap;
+import it.polimi.ingsw.model.map.Square;
+import it.polimi.ingsw.model.player.Color;
+import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.model.player.PlayerQueue;
 import it.polimi.ingsw.utils.Observable;
 import it.polimi.ingsw.view.server.VirtualView;
 

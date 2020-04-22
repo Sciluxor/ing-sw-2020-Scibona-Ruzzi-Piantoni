@@ -3,11 +3,11 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.GameController;
-import it.polimi.ingsw.model.Cards.Card;
-import it.polimi.ingsw.model.Cards.CardLoader;
-import it.polimi.ingsw.model.Map.GameMap;
-import it.polimi.ingsw.model.Player.Color;
-import it.polimi.ingsw.model.Player.Player;
+import it.polimi.ingsw.model.cards.Card;
+import it.polimi.ingsw.model.cards.CardLoader;
+import it.polimi.ingsw.model.map.GameMap;
+import it.polimi.ingsw.model.player.Color;
+import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.server.ClientHandler;
 import it.polimi.ingsw.view.server.VirtualView;
 import org.junit.jupiter.api.BeforeEach;

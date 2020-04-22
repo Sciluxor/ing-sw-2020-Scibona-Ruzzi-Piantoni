@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.message;
 
-import it.polimi.ingsw.model.Player.Color;
+import it.polimi.ingsw.model.player.Color;
 
 import java.util.ArrayList;
 
