@@ -146,11 +146,11 @@ public class Board extends Observable {
         lButtonBuild = ImageHandler.setImage("src/main/resources/Graphics/button_build.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
         lButtonMove = ImageHandler.setImage("src/main/resources/Graphics/button_move.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
         button_power = ImageHandler.setImage("src/main/resources/Graphics/button_power.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
-        button_chat = ImageHandler.setImage("src/main/resources/Graphics/button_chat.png", 100, 100, frameSize.width * 7/100, frameSize.height * 7/100);
+        button_chat = ImageHandler.setImage("src/main/resources/Graphics/button_chat.png", 100, 100, frameSize.width * 5/100, frameSize.height * 7/100);
         lButtonBuildPress = ImageHandler.setImage("src/main/resources/Graphics/button_build_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
         lButtonMovePress = ImageHandler.setImage("src/main/resources/Graphics/button_move_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
         button_power_press = ImageHandler.setImage("src/main/resources/Graphics/button_power_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
-        button_chat_press = ImageHandler.setImage("src/main/resources/Graphics/button_chat_press.png", 100, 100, frameSize.width * 7/100, frameSize.height * 7/100);
+        button_chat_press = ImageHandler.setImage("src/main/resources/Graphics/button_chat_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 7/100);
 
 
         framePower = new JInternalFrame("frameChat", false, false, false, false);
@@ -188,11 +188,11 @@ public class Board extends Observable {
 
 
 
-        nicknameLabel.setBounds((frameSize.width * 4/100), (frameSize.height * 2/100), frameSize.width * 20/100, frameSize.width * 5/100);
+        nicknameLabel.setBounds((frameSize.width * 4/100), (frameSize.height * 3/100), frameSize.width * 20/100, frameSize.width * 5/100);
         nicknameLabel.setFont(felixNormal);
         desktopPane.add(nicknameLabel);
 
-        gID.setBounds((frameSize.width * 4/100), (frameSize.height * 4/100), frameSize.width * 20/100, frameSize.width * 5/100);
+        gID.setBounds((frameSize.width * 4/100), (frameSize.height * 5/100), frameSize.width * 20/100, frameSize.width * 5/100);
         gID.setFont(felixNormal);
         desktopPane.add(gID);
 
@@ -738,7 +738,7 @@ public class Board extends Observable {
         buttonPower.addMouseListener(new ButtonPress());
         desktopPane.add(buttonPower);
 
-        buttonChat.setBounds((int) (frameSize.width * 83.5/100), (frameSize.height * 58/100), frameSize.width * 7/100, frameSize.height * 7/100);
+        buttonChat.setBounds((int) (frameSize.width * 85/100), (frameSize.height * 58/100), frameSize.width * 5/100, frameSize.height * 7/100);
         buttonChat.addMouseListener(new ButtonPress());
         buttonChat.addActionListener(new Chat());
         buttonChat.setOpaque(false);
