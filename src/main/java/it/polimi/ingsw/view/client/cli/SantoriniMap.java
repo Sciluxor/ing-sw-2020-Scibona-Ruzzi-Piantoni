@@ -3,7 +3,6 @@ package it.polimi.ingsw.view.client.cli;
 public class SantoriniMap {
 
     private Square[][] square = new Square[5][5];
-    static final String CLEAR_CONSOLE = "\033[H\033[2J";
     private Color color = Color.ANSI_YELLOW;
     private static Color actualColor = Color.ANSI_YELLOW;
     private boolean hasDome = false;
@@ -41,7 +40,7 @@ public class SantoriniMap {
     }
 
     public void printMap() {
-        this.clearConsole();
+        Color.clearConsole();
         for(int i=0; i<5; i++) {
             for(int t=0; t<5; t++) {
                 System.out.print(setPrinterColor("---------------------"));
@@ -163,7 +162,5 @@ public class SantoriniMap {
     public String setPrinterColor(String string) {
         return this.color + string;
     }
-
-    public static void clearConsole() { System.out.println(CLEAR_CONSOLE); }
 
 }

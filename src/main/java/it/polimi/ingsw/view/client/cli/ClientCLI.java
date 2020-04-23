@@ -15,8 +15,6 @@ public class ClientCLI {
     private Color clientColor;
     private Lobby lobby;
 
-    Scanner input = new Scanner(System.in);
-
     public void printCLI() {
         initializationClient();
 
@@ -30,6 +28,8 @@ public class ClientCLI {
     }
 
     public void initializationClient() {
+
+        Scanner input = new Scanner(System.in);
 
         System.out.println(this.standard + "Inserire il nickname: ");
         setNickname(input.nextLine());
@@ -47,6 +47,9 @@ public class ClientCLI {
     }
 
     public void setNickname(String nickname) {
+
+        Scanner input = new Scanner(System.in);
+
         while(nickname.length()<4 || nickname.length()>20) {
             System.out.println("\nLUNGHEZZA NICKNAME NON VALIDA\nReinserire il nickname: ");
             nickname = input.nextLine();
@@ -60,6 +63,9 @@ public class ClientCLI {
     }
 
     public void setNumberOfPlayers(int numberOfPlayers) {
+
+        Scanner input = new Scanner(System.in);
+
         while(numberOfPlayers < 2 || numberOfPlayers > 3)
         {
             System.out.println("\nNUMERO INVALIDO DI GIOCATORI\nReinserire il numero di giocatori (2/3): ");
@@ -74,6 +80,9 @@ public class ClientCLI {
     }
 
     public void provaEsecuzione() {
+
+        Scanner input = new Scanner(System.in);
+        
         System.out.print("Inserire ok per continuare: ");
         this.keyboard = input.nextLine();
         if(this.keyboard.equalsIgnoreCase("ok")) {
@@ -121,7 +130,7 @@ public class ClientCLI {
 
         System.out.print("Inserire qualcunque cosa per pulire la schermata e concludere: ");
         this.keyboard = input.nextLine();
-        this.map.clearConsole();
+        Color.clearConsole();
     }
 
 }

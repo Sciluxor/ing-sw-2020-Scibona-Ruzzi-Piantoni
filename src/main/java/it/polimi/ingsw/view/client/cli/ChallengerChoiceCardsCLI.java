@@ -14,21 +14,24 @@ public class ChallengerChoiceCardsCLI {
     public void chooseCards(int numberOfPlayers) {
         initializeCards();
 
+        Color.clearConsole();
         System.out.println("Scegli " + numberOfPlayers + " tra le seguenti carte: (oppure inserisci il nome di una divinità per vederne gli effetti)");
-        for(int i=0; i<cards.size(); i++) {
-            System.out.println(cards);
+        for(String s: cards) {
+            System.out.println(Color.ANSI_YELLOW + s + Color.RESET);
         }
+        System.out.println();
 
-        keyboard = input.nextLine();
+        keyboard = input.nextLine().toUpperCase();
         while(!keyboard.contains(" "))
         {
-            System.out.println("Questo è il potere della divinità " + keyboard + ":");
+            System.out.println("Questo è il potere della divinità " + Color.ANSI_YELLOW + keyboard + Color.RESET + ":");
             Cards.printPower(keyboard);
 
-            keyboard = input.nextLine();
+            keyboard = input.nextLine().toUpperCase();
         }
 
-        System.out.println("Il deck di questa partita è composto da: " + Color.ANSI_BLUE + keyboard + Color.RESET);
+        Color.clearConsole();
+        System.out.println("Il deck di questa partita è composto da: " + Color.ANSI_YELLOW + keyboard + Color.RESET);
         //deck.add(keyboard)
     }
 
