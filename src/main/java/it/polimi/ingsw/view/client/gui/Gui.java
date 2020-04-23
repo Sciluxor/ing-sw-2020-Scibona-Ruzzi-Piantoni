@@ -9,6 +9,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
@@ -36,6 +37,7 @@ public class Gui extends ClientGameController {
     static Font felixBold;
     final static String FELIX = "Felix Titling";
     static ArrayList<Player> players;
+    public static final Logger LOGGER = Logger.getLogger("Gui");
 
     private void show() throws IOException {
 
@@ -149,7 +151,7 @@ public class Gui extends ClientGameController {
                 Gui gui = new Gui();
                 gui.show();
             } catch (IOException e) {
-                e.printStackTrace();
+                LOGGER.severe(e.getMessage());
             }
         });
     }
@@ -165,7 +167,7 @@ public class Gui extends ClientGameController {
                     try {
                         panelManager(0);
                     } catch (IOException ex) {
-                        ex.printStackTrace();
+                        LOGGER.severe(ex.getMessage());
                     }
                     break;
 
@@ -173,7 +175,7 @@ public class Gui extends ClientGameController {
                     try {
                         panelManager(1);
                     } catch (IOException ex) {
-                        ex.printStackTrace();
+                        LOGGER.severe(ex.getMessage());
                     }
                     break;
 
@@ -181,7 +183,7 @@ public class Gui extends ClientGameController {
                     try {
                         panelManager(2);
                     } catch (IOException ex) {
-                        ex.printStackTrace();
+                        LOGGER.severe(ex.getMessage());
                     }
                     break;
 
@@ -189,7 +191,7 @@ public class Gui extends ClientGameController {
                     try {
                         panelManager(3);
                     } catch (IOException ex) {
-                        ex.printStackTrace();
+                        LOGGER.severe(ex.getMessage());
                     }
                     break;
 
@@ -197,7 +199,7 @@ public class Gui extends ClientGameController {
                     try {
                         panelManager(4);
                     } catch (IOException ex) {
-                        ex.printStackTrace();
+                        LOGGER.severe(ex.getMessage());
                     }
                     break;
                 default:

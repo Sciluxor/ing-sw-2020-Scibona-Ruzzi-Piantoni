@@ -9,6 +9,8 @@ import java.awt.event.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static it.polimi.ingsw.view.client.gui.Gui.LOGGER;
+
 public class Board extends Observable {
     ArrayList<Player> allPlayer = new ArrayList<>();
     JFrame f;
@@ -683,7 +685,7 @@ public class Board extends Observable {
             }
         }
         catch(Exception e) {
-            e.printStackTrace();
+            LOGGER.severe(e.getMessage());
         }
 
 
