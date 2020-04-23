@@ -9,9 +9,7 @@ public class Cli extends ClientGameController {
     private Color colorClient;
     private static Color colorPrinter = Color.ANSI_RED;
     private String keyboard;
-    private SantoriniMap map = new SantoriniMap();
-    //static Square[][] squares = new Square[5][5];
-
+    private String role;
 
     public Cli() {
         this.colorServer = Color.ANSI_BLUE;
@@ -37,11 +35,7 @@ public class Cli extends ClientGameController {
         this.dump();
         this.setRole();
 
-        //this.printMap();
-        this.map.printMap();
-
-        this.provaEsecuzione(input);
-
+        this.jumpToRoleCode();
 
     }
 
@@ -60,97 +54,33 @@ public class Cli extends ClientGameController {
     }
 
     public void setRole() {
-        if(keyboard.equals("1"))
-            //set Server role
+        if(keyboard.equals("1")) {
+            this.role = "SERVER";
             System.out.println("Server setted");
-        else if(keyboard.equals("2")) {
-            Client c = new Client();
-            c.initializationClient();
+        }
+        else {
+            this.role = "CLIENT";
             System.out.println("Client setted");
         }
     }
 
-    /*public void printMap() {
-        for(int i=0; i<5; i++) {
-            for(int t=0; t<5; t++) {
-                System.out.print("-----------");
-            }
-            System.out.print("-\n");
-            for(int j=0; j<2; j++) {
-                System.out.println("|          |          |          |          |          |");
-            }
-            System.out.println("|    " + this.cella[i][0].getColorPlayer() + cella[i][0].getSimbol() + this.cella[i][0].getColorPlayer().RESET + "    |    " +
-                    this.cella[i][1].getColorPlayer() + cella[i][1].getSimbol() + this.cella[i][1].getColorPlayer().RESET + "    |    " +
-                    this.cella[i][2].getColorPlayer() + cella[i][2].getSimbol() + this.cella[i][2].getColorPlayer().RESET + "    |    " +
-                    this.cella[i][3].getColorPlayer() + cella[i][3].getSimbol() + this.cella[i][3].getColorPlayer().RESET + "    |    " +
-                    this.cella[i][4].getColorPlayer() + cella[i][4].getSimbol() + this.cella[i][4].getColorPlayer().RESET + "    |");
-            for(int j=0; j<2; j++) {
-                System.out.println("|          |          |          |          |          |");
-            }
+    public void jumpToRoleCode() {
+        if(this.role.equals("SERVER")) {
+            ServerCLI serverCLI = new ServerCLI();
+            serverCLI.printServer();
+        }
+        else if(this.role.equals("CLIENT")) {
+            ClientCLI clientCLI = new ClientCLI();
+            clientCLI.printCLI();
+        }
 
-        }
-        for(int t=0; t<5; t++) {
-            System.out.print("-----------");
-        }
-        System.out.println("-\n");
-    }*/
+    }
 
     public boolean correctInput(String keyboard) {
         return keyboard.equals("1") || keyboard.equals("2");
     }
 
     public void getTile() {
-    }
-
-    public void provaEsecuzione(Scanner input) {
-        System.out.print("Inserire ok per continuare: ");
-        this.keyboard = input.nextLine();
-        if(this.keyboard.equalsIgnoreCase("ok")) {
-            //cella[0][0].setHasPlayer(true);
-            this.map.setCellaHasPlayer(0,0,true);
-            this.map.printMap();
-        }
-
-        System.out.print("Inserire lvl1: ");
-        this.keyboard = input.nextLine();
-        if(this.keyboard.equalsIgnoreCase("lvl1")) {
-            //cella[0][0].setBuildingType("lvl1");
-            this.map.setCellaBuildingType(0,0,keyboard);
-            this.map.printMap();
-        }
-
-        System.out.print("Inserire lvl2: ");
-        this.keyboard = input.nextLine();
-        if(this.keyboard.equalsIgnoreCase("lvl2")) {
-            //cella[0][0].setBuildingType("lvl2");
-            this.map.setCellaBuildingType(0,0,keyboard);
-            this.map.printMap();
-        }
-
-        System.out.print("Inserire lvl3: ");
-        this.keyboard = input.nextLine();
-        if(this.keyboard.equalsIgnoreCase("lvl3")) {
-            //cella[0][0].setBuildingType("lvl3");
-            this.map.setCellaBuildingType(0,0,keyboard);
-            this.map.printMap();
-        }
-
-        System.out.print("Inserire dome: ");
-        this.keyboard = input.nextLine();
-        if(this.keyboard.equalsIgnoreCase("dome")) {
-            //cella[0][0].setBuildingType("Dome");
-            this.map.setCellaBuildingType(0,0,keyboard);
-            //cella[0][0].setHasPlayer(false);
-            this.map.setCellaHasPlayer(0,0,false);
-            //cella[1][1].setHasPlayer(true);
-            this.map.setCellaHasPlayer(1,1,true);
-
-            this.map.printMap();
-        }
-
-        System.out.print("Inserire qualcunque cosa per pulire la schermata e concludere: ");
-        this.keyboard = input.nextLine();
-        this.map.clearConsole();
     }
 
     public void printTitle() {
