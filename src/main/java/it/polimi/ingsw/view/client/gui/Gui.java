@@ -9,14 +9,21 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 public class Gui extends ClientGameController {
-    static Dimension d ;
-    static Dimension screenSize;
-    static JFrame frame;
+
+    public static final Logger LOGGER = Logger.getLogger("Gui");
+    static final String FELIX = "Felix Titling";
+
+    static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    static int width = (int)(screenSize.getWidth());
+    static int height = (int)(screenSize.getHeight());
+    static Dimension d = new Dimension(width * 95/100, height * 95/100);
+    static JFrame frame = new JFrame("Santorini");
     static JPanel login = null;
     static JPanel lobby = null;
     static JPanel challengerChoiseCards = null;
@@ -26,29 +33,31 @@ public class Gui extends ClientGameController {
     static JPanel chooseCard2 = null;
     static JPanel chooseCard1 = null;
     static JPanel chooseCard0 = null;
-    static JLabel lconfirm = null;
-    static JLabel lconfirmPress = null;
-    static JLabel backgroundPanel = null;
+    static JLabel lconfirm;
+    static JLabel lconfirmPress;
+    static JLabel cover;
+    static {
+        try {
+            lconfirm = ImageHandler.setImage("src/main/resources/Graphics/button_confirm.png", 100, 100, (int) (d.width * 13/100), (int) (d.height * 5/100));
+            lconfirmPress = ImageHandler.setImage("src/main/resources/Graphics/button_confirm_press.png", 100, 100, (int) (d.width * 13/100), (int) (d.height * 5/100));
+            cover = ImageHandler.setImage("src/main/resources/Graphics/background_panels.png", 100, 100, d.width, d.height);
+        } catch (IOException e) {
+            LOGGER.severe(e.getMessage());
+        }
+    }
+    static JLabel backgroundPanel = new JLabel(cover.getIcon());
     static int panelInUse = 0;
     private static int numberOfPlayers = 2;
     private static int actualPlayers = 1;
-    static Font felixSmall;
-    static Font felixNormal;
-    static Font felixBold;
-    final static String FELIX = "Felix Titling";
-    static ArrayList<Player> players;
-    public static final Logger LOGGER = Logger.getLogger("Gui");
+
+    static Font felixSmall = new Font(FELIX, Font.PLAIN, (int) (13 * screenSize.getHeight() / 1080));
+    static Font felixNormal = new Font(FELIX, Font.PLAIN, (int) (20 * screenSize.getHeight() / 1080));
+    static Font felixBold = new Font(FELIX, Font.BOLD, (int) (25 * screenSize.getHeight() / 1080));
+    static List<Player> players = new ArrayList<>();
+
 
     private void show() throws IOException {
 
-
-        screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int width = (int)(screenSize.getWidth());
-        int height = (int)(screenSize.getHeight());
-
-        d = new Dimension();
-        d.setSize(width * 95/100, height * 95/100);
-        players = new ArrayList<>();
         Player ale = new Player("Alessandro");
         Player edo = new Player("Edoardo");
         Player lui = new Player("Luigi");
@@ -58,16 +67,12 @@ public class Gui extends ClientGameController {
         //players.add(ale);
         players.add(edo);
         players.add(lui);
-        felixSmall = new Font(FELIX, Font.PLAIN, (int) (13 * screenSize.getHeight() / 1080));
-        felixNormal = new Font(FELIX, Font.PLAIN, (int) (20 * screenSize.getHeight() / 1080));
-        felixBold = new Font(FELIX, Font.BOLD, (int) (25 * screenSize.getHeight() / 1080));
 
-        frame = new JFrame("Santorini");
-        lconfirm = ImageHandler.setImage("src/main/resources/Graphics/button_confirm.png", 100, 100, (int) (d.width * 13/100), (int) (d.height * 5/100));
-        lconfirmPress = ImageHandler.setImage("src/main/resources/Graphics/button_confirm_press.png", 100, 100, (int) (d.width * 13/100), (int) (d.height * 5/100));
 
-        JLabel cover = ImageHandler.setImage("src/main/resources/Graphics/background_panels.png", 100, 100, d.width, d.height);
-        backgroundPanel = new JLabel(cover.getIcon());
+
+
+
+
 
         login = new Login(d);                                                                                                   //schermata 0 sistemata
         lobby = new LobbyGui(d, actualPlayers, numberOfPlayers, players);                                                       //schermata 1  sistemata

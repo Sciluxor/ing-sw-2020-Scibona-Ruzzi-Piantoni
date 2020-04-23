@@ -10,13 +10,13 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 import static it.polimi.ingsw.view.client.gui.Gui.backgroundButton;
 
 public class LobbyGui extends JPanel{
     Dimension frameSize = new Dimension();
 
-    public LobbyGui(Dimension frame, Integer actualPlayer, Integer numberOfPlayer, ArrayList<Player> players) throws IOException {
+    public LobbyGui(Dimension frame, Integer actualPlayer, Integer numberOfPlayer, List<Player> players) throws IOException {
 
         frameSize.setSize(frame);
         setPreferredSize(frameSize);

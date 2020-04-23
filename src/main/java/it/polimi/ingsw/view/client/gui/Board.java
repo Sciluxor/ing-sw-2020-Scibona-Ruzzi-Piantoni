@@ -8,11 +8,12 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import static it.polimi.ingsw.view.client.gui.Gui.LOGGER;
 
 public class Board extends Observable {
-    ArrayList<Player> allPlayer = new ArrayList<>();
+    List<Player> allPlayer = new ArrayList<>();
     JFrame f;
     JDesktopPane desktopPane;
     JInternalFrame frameChat;
@@ -86,7 +87,7 @@ public class Board extends Observable {
     Font felixBold;
     static final String PALETTE = "JInternalFrame.isPalette";
 
-    public void show(Dimension screen, Integer numberOfPlayer, final ArrayList<Player> players, String gameId) throws IOException {
+    public void show(Dimension screen, Integer numberOfPlayer, final List<Player> players, String gameId) throws IOException {
 
         f = new JFrame();
 
@@ -224,7 +225,7 @@ public class Board extends Observable {
             opponent2.addMouseListener(new SeePower());
         }
 
-        chat.setBounds(frameChat.getWidth() * 14/100 , frameChat.getHeight() * 28/100, frameChat.getWidth() * 63/100, frameChat.getHeight() * 38/100);
+        chat.setBounds(frameChat.getWidth() * 22/100 , frameChat.getHeight() * 28/100, frameChat.getWidth() * 63/100, frameChat.getHeight() * 38/100);
         chat.setEditable(false);
         chat.setBackground(new Color(232, 222, 208));
         chat.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -234,11 +235,11 @@ public class Board extends Observable {
         chat.setVisible(true);
         scrollPane = new JScrollPane(chat);
         scrollPane.setPreferredSize(scrollSize);
-        scrollPane.setBounds(frameChat.getWidth() * 14/100 , frameChat.getHeight() * 28/100, frameChat.getWidth() * 63/100, frameChat.getHeight() * 38/100);
+        scrollPane.setBounds(frameChat.getWidth() * 22/100 , frameChat.getHeight() * 28/100, frameChat.getWidth() * 63/100, frameChat.getHeight() * 38/100);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         frameChat.add(scrollPane);
 
-        field.setBounds(frameChat.getWidth() * 14/100, frameChat.getHeight() * 66/100, frameChat.getWidth() * 63/100, frameChat.getHeight() * 4/100);
+        field.setBounds(frameChat.getWidth() * 22/100, frameChat.getHeight() * 66/100, frameChat.getWidth() * 63/100, frameChat.getHeight() * 4/100);
         field.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         field.setBackground(new Color(232, 222, 208));
         field.addActionListener(new Write());
@@ -292,396 +293,203 @@ public class Board extends Observable {
                         frameSize.height * 13/100, frameSize.height * 13/100);
                 mapButtons[0].addMouseListener(new ColorBorder());
 
-                mapButtons[1] = new JButton();
-                mapButtons[1].setContentAreaFilled(false);
-                mapButtons[1].setOpaque(false);
-                mapButtons[1].setBorderPainted(false);
-                mapButtons[1].setBounds((int) (frameSize.width * (37.75)/100) , (int) (frameSize.width * (7)/100),
+                addMapButton(1);
+                mapButtons[1].setBounds((int) (frameSize.width * (38.1)/100) , (int) (frameSize.width * (8)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[1].addMouseListener(new ColorBorder());
 
-                mapButtons[2] = new JButton();
-                mapButtons[2].setContentAreaFilled(false);
-                mapButtons[2].setOpaque(false);
-                mapButtons[2].setBorderPainted(false);
-                mapButtons[2].setBounds((int) (frameSize.width * (46)/100) , (int) (frameSize.width * (7)/100),
+                addMapButton(2);
+                mapButtons[2].setBounds((int) (frameSize.width * (46.4)/100) , (int) (frameSize.width * (8)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[2].addMouseListener(new ColorBorder());
 
-                mapButtons[3] = new JButton();
-                mapButtons[3].setContentAreaFilled(false);
-                mapButtons[3].setOpaque(false);
-                mapButtons[3].setBorderPainted(false);
-                mapButtons[3].setBounds((int) (frameSize.width * (54.25)/100) , (int) (frameSize.width * (7)/100),
+                addMapButton(3);
+                mapButtons[3].setBounds((int) (frameSize.width * (54.7)/100) , (int) (frameSize.width * (8)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[3].addMouseListener(new ColorBorder());
 
-                mapButtons[4] = new JButton();
-                mapButtons[4].setContentAreaFilled(false);
-                mapButtons[4].setOpaque(false);
-                mapButtons[4].setBorderPainted(false);
-                mapButtons[4].setBounds((int) (frameSize.width * (62.5)/100) , (int) (frameSize.width * (7)/100),
+                addMapButton(4);
+                mapButtons[4].setBounds((int) (frameSize.width * (63)/100) , (int) (frameSize.width * (8)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[4].addMouseListener(new ColorBorder());
 
-                mapButtons[5] = new JButton();
-                mapButtons[5].setContentAreaFilled(false);
-                mapButtons[5].setOpaque(false);
-                mapButtons[5].setBorderPainted(false);
-                mapButtons[5].setBounds((int) (frameSize.width * (62.5)/100) , (int) (frameSize.width * (15.31)/100),
+                addMapButton(5);
+                mapButtons[5].setBounds((int) (frameSize.width * (63)/100) , (int) (frameSize.width * (16.3)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[5].addMouseListener(new ColorBorder());
 
-                mapButtons[6] = new JButton();
-                mapButtons[6].setContentAreaFilled(false);
-                mapButtons[6].setOpaque(false);
-                mapButtons[6].setBorderPainted(false);
-                mapButtons[6].setBounds((int) (frameSize.width * (62.5)/100) , (int) (frameSize.width * (23.62)/100),
+                addMapButton(6);
+                mapButtons[6].setBounds((int) (frameSize.width * (63)/100) , (int) (frameSize.width * (24.6)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[6].addMouseListener(new ColorBorder());
 
-                mapButtons[7] = new JButton();
-                mapButtons[7].setContentAreaFilled(false);
-                mapButtons[7].setOpaque(false);
-                mapButtons[7].setBorderPainted(false);
-                mapButtons[7].setBounds((int) (frameSize.width * (62.5)/100) , (int) (frameSize.width * (31.93)/100),
+                addMapButton(7);
+                mapButtons[7].setBounds((int) (frameSize.width * (63)/100) , (int) (frameSize.width * (32.9)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[7].addMouseListener(new ColorBorder());
 
-                mapButtons[8] = new JButton();
-                mapButtons[8].setContentAreaFilled(false);
-                mapButtons[8].setOpaque(false);
-                mapButtons[8].setBorderPainted(false);
-                mapButtons[8].setBounds((int) (frameSize.width * (62.5)/100) , (int) (frameSize.width * (40.24)/100),
+                addMapButton(8);
+                mapButtons[8].setBounds((int) (frameSize.width * (63)/100) , (int) (frameSize.width * (41.2)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[8].addMouseListener(new ColorBorder());
 
-                mapButtons[9] = new JButton();
-                mapButtons[9].setContentAreaFilled(false);
-                mapButtons[9].setOpaque(false);
-                mapButtons[9].setBorderPainted(false);
-                mapButtons[9].setBounds((int) (frameSize.width * (54.25)/100) , (int) (frameSize.width * (40.24)/100),
+                addMapButton(9);
+                mapButtons[9].setBounds((int) (frameSize.width * (54.7)/100) , (int) (frameSize.width * (41.2)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[9].addMouseListener(new ColorBorder());
 
-                mapButtons[10] = new JButton();
-                mapButtons[10].setContentAreaFilled(false);
-                mapButtons[10].setOpaque(false);
-                mapButtons[10].setBorderPainted(false);
-                mapButtons[10].setBounds((int) (frameSize.width * (46)/100) , (int) (frameSize.width * (40.24)/100),
+                addMapButton(10);
+                mapButtons[10].setBounds((int) (frameSize.width * (46.4)/100) , (int) (frameSize.width * (41.2)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[10].addMouseListener(new ColorBorder());
 
-                mapButtons[11] = new JButton();
-                mapButtons[11].setContentAreaFilled(false);
-                mapButtons[11].setOpaque(false);
-                mapButtons[11].setBorderPainted(false);
-                mapButtons[11].setBounds((int) (frameSize.width * (37.75)/100) , (int) (frameSize.width * (40.24)/100),
+                addMapButton(11);
+                mapButtons[11].setBounds((int) (frameSize.width * (38.1)/100) , (int) (frameSize.width * (41.2)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[11].addMouseListener(new ColorBorder());
 
-                mapButtons[12] = new JButton();
-                mapButtons[12].setContentAreaFilled(false);
-                mapButtons[12].setOpaque(false);
-                mapButtons[12].setBorderPainted(false);
-                mapButtons[12].setBounds((int) (frameSize.width * (29.5)/100) , (int) (frameSize.width * (40.24)/100),
+                addMapButton(12);
+                mapButtons[12].setBounds((int) (frameSize.width * (29.8)/100) , (int) (frameSize.width * (41.2)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[12].addMouseListener(new ColorBorder());
 
-                mapButtons[13] = new JButton();
-                mapButtons[13].setContentAreaFilled(false);
-                mapButtons[13].setOpaque(false);
-                mapButtons[13].setBorderPainted(false);
-                mapButtons[13].setBounds((int) (frameSize.width * (29.5)/100) , (int) (frameSize.width * (31.93)/100),
+                addMapButton(13);
+                mapButtons[13].setBounds((int) (frameSize.width * (29.8)/100) , (int) (frameSize.width * (32.9)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[13].addMouseListener(new ColorBorder());
 
-                mapButtons[14] = new JButton();
-                mapButtons[14].setContentAreaFilled(false);
-                mapButtons[14].setOpaque(false);
-                mapButtons[14].setBorderPainted(false);
-                mapButtons[14].setBounds((int) (frameSize.width * (29.5)/100) , (int) (frameSize.width * (23.62)/100),
+                addMapButton(14);
+                mapButtons[14].setBounds((int) (frameSize.width * (29.8)/100) , (int) (frameSize.width * (24.6)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[14].addMouseListener(new ColorBorder());
 
-                mapButtons[15] = new JButton();
-                mapButtons[15].setContentAreaFilled(false);
-                mapButtons[15].setOpaque(false);
-                mapButtons[15].setBorderPainted(false);
-                mapButtons[15].setBounds((int) (frameSize.width * (29.5)/100) , (int) (frameSize.width * (15.31)/100),
+                addMapButton(15);
+                mapButtons[15].setBounds((int) (frameSize.width * (29.8)/100) , (int) (frameSize.width * (16.3)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[15].addMouseListener(new ColorBorder());
 
-                mapButtons[16] = new JButton();
-                mapButtons[16].setContentAreaFilled(false);
-                mapButtons[16].setOpaque(false);
-                mapButtons[16].setBorderPainted(false);
-                mapButtons[16].setBounds((int) (frameSize.width * (37.75)/100) , (int) (frameSize.width * (15.31)/100),
+                addMapButton(16);
+                mapButtons[16].setBounds((int) (frameSize.width * (38.1)/100) , (int) (frameSize.width * (16.3)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[16].addMouseListener(new ColorBorder());
 
-                mapButtons[17] = new JButton();
-                mapButtons[17].setContentAreaFilled(false);
-                mapButtons[17].setOpaque(false);
-                mapButtons[17].setBorderPainted(false);
-                mapButtons[17].setBounds((int) (frameSize.width * (46)/100) , (int) (frameSize.width * (15.31)/100),
+                addMapButton(17);
+                mapButtons[17].setBounds((int) (frameSize.width * (46.4)/100) , (int) (frameSize.width * (16.3)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[17].addMouseListener(new ColorBorder());
-                mapButtons[18] = new JButton();
-                mapButtons[18].setContentAreaFilled(false);
-                mapButtons[18].setOpaque(false);
-                mapButtons[18].setBorderPainted(false);
-                mapButtons[18].setBounds((int) (frameSize.width * (54.25)/100) , (int) (frameSize.width * (15.31)/100),
-                        frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[18].addMouseListener(new ColorBorder());
 
-                mapButtons[19] = new JButton();
-                mapButtons[19].setContentAreaFilled(false);
-                mapButtons[19].setOpaque(false);
-                mapButtons[19].setBorderPainted(false);
-                mapButtons[19].setBounds((int) (frameSize.width * (54.25)/100) , (int) (frameSize.width * (23.62)/100),
+                addMapButton(18);
+                mapButtons[18].setBounds((int) (frameSize.width * (54.7)/100) , (int) (frameSize.width * (16.3)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[19].addMouseListener(new ColorBorder());
 
-                mapButtons[20] = new JButton();
-                mapButtons[20].setContentAreaFilled(false);
-                mapButtons[20].setOpaque(false);
-                mapButtons[20].setBorderPainted(false);
-                mapButtons[20].setBounds((int) (frameSize.width * (54.25)/100) , (int) (frameSize.width * (31.93)/100),
+                addMapButton(19);
+                mapButtons[19].setBounds((int) (frameSize.width * (54.7)/100) , (int) (frameSize.width * (24.6)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[20].addMouseListener(new ColorBorder());
 
-                mapButtons[21] = new JButton();
-                mapButtons[21].setContentAreaFilled(false);
-                mapButtons[21].setOpaque(false);
-                mapButtons[21].setBorderPainted(false);
-                mapButtons[21].setBounds((int) (frameSize.width * (46)/100) , (int) (frameSize.width * (31.93)/100),
+                addMapButton(20);
+                mapButtons[20].setBounds((int) (frameSize.width * (54.7)/100) , (int) (frameSize.width * (32.9)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[21].addMouseListener(new ColorBorder());
 
-                mapButtons[22] = new JButton();
-                mapButtons[22].setContentAreaFilled(false);
-                mapButtons[22].setOpaque(false);
-                mapButtons[22].setBorderPainted(false);
-                mapButtons[22].setBounds((int) (frameSize.width * (37.75)/100) , (int) (frameSize.width * (31.93)/100),
+                addMapButton(21);
+                mapButtons[21].setBounds((int) (frameSize.width * (46.4)/100) , (int) (frameSize.width * (32.9)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[22].addMouseListener(new ColorBorder());
 
-                mapButtons[23] = new JButton();
-                mapButtons[23].setContentAreaFilled(false);
-                mapButtons[23].setOpaque(false);
-                mapButtons[23].setBorderPainted(false);
-                mapButtons[23].setBounds((int) (frameSize.width * (37.75)/100) , (int) (frameSize.width * (23.62)/100),
+                addMapButton(22);
+                mapButtons[22].setBounds((int) (frameSize.width * (38.1)/100) , (int) (frameSize.width * (32.9)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[23].addMouseListener(new ColorBorder());
 
-                mapButtons[24] = new JButton();
-                mapButtons[24].setContentAreaFilled(false);
-                mapButtons[24].setOpaque(false);
-                mapButtons[24].setBorderPainted(false);
-                mapButtons[24].setBounds((int) (frameSize.width * (46)/100) , (int) (frameSize.width * (23.62)/100),
+                addMapButton(23);
+                mapButtons[23].setBounds((int) (frameSize.width * (38.1)/100) , (int) (frameSize.width * (24.6)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[24].addMouseListener(new ColorBorder());
+
+                addMapButton(24);
+                mapButtons[24].setBounds((int) (frameSize.width * (46.4)/100) , (int) (frameSize.width * (24.6)/100),
+                        frameSize.height * 13/100, frameSize.height * 13/100);
             }
             else {
                 //mac positions
-                mapButtons[0] = new JButton();
-                //mapButtons[0].setContentAreaFilled(false);
-                //mapButtons[0].setOpaque(false);
-                mapButtons[0].setBorderPainted(false);
+                addMapButton(0);
                 mapButtons[0].setBounds((int) (frameSize.width * (29.5)/100) , (int) (frameSize.width * (7.6)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[0].addMouseListener(new ColorBorder());
 
-                mapButtons[1] = new JButton();
-                mapButtons[1].setContentAreaFilled(false);
-                mapButtons[1].setOpaque(false);
-                mapButtons[1].setBorderPainted(false);
+                addMapButton(1);
                 mapButtons[1].setBounds((int) (frameSize.width * (38.1)/100) , (int) (frameSize.width * (8)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[1].addMouseListener(new ColorBorder());
 
-                mapButtons[2] = new JButton();
-                mapButtons[2].setContentAreaFilled(false);
-                mapButtons[2].setOpaque(false);
-                mapButtons[2].setBorderPainted(false);
+                addMapButton(2);
                 mapButtons[2].setBounds((int) (frameSize.width * (46.4)/100) , (int) (frameSize.width * (8)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[2].addMouseListener(new ColorBorder());
 
-                mapButtons[3] = new JButton();
-                mapButtons[3].setContentAreaFilled(false);
-                mapButtons[3].setOpaque(false);
-                mapButtons[3].setBorderPainted(false);
+                addMapButton(3);
                 mapButtons[3].setBounds((int) (frameSize.width * (54.7)/100) , (int) (frameSize.width * (8)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[3].addMouseListener(new ColorBorder());
 
-                mapButtons[4] = new JButton();
-                mapButtons[4].setContentAreaFilled(false);
-                mapButtons[4].setOpaque(false);
-                mapButtons[4].setBorderPainted(false);
+                addMapButton(4);
                 mapButtons[4].setBounds((int) (frameSize.width * (63)/100) , (int) (frameSize.width * (8)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[4].addMouseListener(new ColorBorder());
 
-                mapButtons[5] = new JButton();
-                mapButtons[5].setContentAreaFilled(false);
-                mapButtons[5].setOpaque(false);
-                mapButtons[5].setBorderPainted(false);
+                addMapButton(5);
                 mapButtons[5].setBounds((int) (frameSize.width * (63)/100) , (int) (frameSize.width * (16.3)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[5].addMouseListener(new ColorBorder());
 
-                mapButtons[6] = new JButton();
-                mapButtons[6].setContentAreaFilled(false);
-                mapButtons[6].setOpaque(false);
-                mapButtons[6].setBorderPainted(false);
+                addMapButton(6);
                 mapButtons[6].setBounds((int) (frameSize.width * (63)/100) , (int) (frameSize.width * (24.6)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[6].addMouseListener(new ColorBorder());
 
-                mapButtons[7] = new JButton();
-                mapButtons[7].setContentAreaFilled(false);
-                mapButtons[7].setOpaque(false);
-                mapButtons[7].setBorderPainted(false);
+                addMapButton(7);
                 mapButtons[7].setBounds((int) (frameSize.width * (63)/100) , (int) (frameSize.width * (32.9)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[7].addMouseListener(new ColorBorder());
 
-                mapButtons[8] = new JButton();
-                mapButtons[8].setContentAreaFilled(false);
-                mapButtons[8].setOpaque(false);
-                mapButtons[8].setBorderPainted(false);
+                addMapButton(8);
                 mapButtons[8].setBounds((int) (frameSize.width * (63)/100) , (int) (frameSize.width * (41.2)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[8].addMouseListener(new ColorBorder());
 
-                mapButtons[9] = new JButton();
-                mapButtons[9].setContentAreaFilled(false);
-                mapButtons[9].setOpaque(false);
-                mapButtons[9].setBorderPainted(false);
+                addMapButton(9);
                 mapButtons[9].setBounds((int) (frameSize.width * (54.7)/100) , (int) (frameSize.width * (41.2)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[9].addMouseListener(new ColorBorder());
-                mapButtons[10] = new JButton();
-                mapButtons[10].setContentAreaFilled(false);
-                mapButtons[10].setOpaque(false);
-                mapButtons[10].setBorderPainted(false);
+
+                addMapButton(10);
                 mapButtons[10].setBounds((int) (frameSize.width * (46.4)/100) , (int) (frameSize.width * (41.2)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[10].addMouseListener(new ColorBorder());
 
-                mapButtons[11] = new JButton();
-                mapButtons[11].setContentAreaFilled(false);
-                mapButtons[11].setOpaque(false);
-                mapButtons[11].setBorderPainted(false);
+                addMapButton(11);
                 mapButtons[11].setBounds((int) (frameSize.width * (38.1)/100) , (int) (frameSize.width * (41.2)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[11].addMouseListener(new ColorBorder());
 
-                mapButtons[12] = new JButton();
-                mapButtons[12].setContentAreaFilled(false);
-                mapButtons[12].setOpaque(false);
-                mapButtons[12].setBorderPainted(false);
+                addMapButton(12);
                 mapButtons[12].setBounds((int) (frameSize.width * (29.8)/100) , (int) (frameSize.width * (41.2)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[12].addMouseListener(new ColorBorder());
 
-                mapButtons[13] = new JButton();
-                mapButtons[13].setContentAreaFilled(false);
-                mapButtons[13].setOpaque(false);
-                mapButtons[13].setBorderPainted(false);
+                addMapButton(13);
                 mapButtons[13].setBounds((int) (frameSize.width * (29.8)/100) , (int) (frameSize.width * (32.9)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[13].addMouseListener(new ColorBorder());
 
-                mapButtons[14] = new JButton();
-                mapButtons[14].setContentAreaFilled(false);
-                mapButtons[14].setOpaque(false);
-                mapButtons[14].setBorderPainted(false);
+                addMapButton(14);
                 mapButtons[14].setBounds((int) (frameSize.width * (29.8)/100) , (int) (frameSize.width * (24.6)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[14].addMouseListener(new ColorBorder());
 
-                mapButtons[15] = new JButton();
-                mapButtons[15].setContentAreaFilled(false);
-                mapButtons[15].setOpaque(false);
-                mapButtons[15].setBorderPainted(false);
+                addMapButton(15);
                 mapButtons[15].setBounds((int) (frameSize.width * (29.8)/100) , (int) (frameSize.width * (16.3)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[15].addMouseListener(new ColorBorder());
 
-                mapButtons[16] = new JButton();
-                mapButtons[16].setContentAreaFilled(false);
-                mapButtons[16].setOpaque(false);
-                mapButtons[16].setBorderPainted(false);
+                addMapButton(16);
                 mapButtons[16].setBounds((int) (frameSize.width * (38.1)/100) , (int) (frameSize.width * (16.3)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[16].addMouseListener(new ColorBorder());
 
-                mapButtons[17] = new JButton();
-                mapButtons[17].setContentAreaFilled(false);
-                mapButtons[17].setOpaque(false);
-                mapButtons[17].setBorderPainted(false);
+                addMapButton(17);
                 mapButtons[17].setBounds((int) (frameSize.width * (46.4)/100) , (int) (frameSize.width * (16.3)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[17].addMouseListener(new ColorBorder());
 
-                mapButtons[18] = new JButton();
-                mapButtons[18].setContentAreaFilled(false);
-                mapButtons[18].setOpaque(false);
-                mapButtons[18].setBorderPainted(false);
+                addMapButton(18);
                 mapButtons[18].setBounds((int) (frameSize.width * (54.7)/100) , (int) (frameSize.width * (16.3)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[18].addMouseListener(new ColorBorder());
 
-                mapButtons[19] = new JButton();
-                mapButtons[19].setContentAreaFilled(false);
-                mapButtons[19].setOpaque(false);
-                mapButtons[19].setBorderPainted(false);
+                addMapButton(19);
                 mapButtons[19].setBounds((int) (frameSize.width * (54.7)/100) , (int) (frameSize.width * (24.6)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[19].addMouseListener(new ColorBorder());
 
-                mapButtons[20] = new JButton();
-                mapButtons[20].setContentAreaFilled(false);
-                mapButtons[20].setOpaque(false);
-                mapButtons[20].setBorderPainted(false);
+                addMapButton(20);
                 mapButtons[20].setBounds((int) (frameSize.width * (54.7)/100) , (int) (frameSize.width * (32.9)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[20].addMouseListener(new ColorBorder());
-                mapButtons[21] = new JButton();
-                mapButtons[21].setContentAreaFilled(false);
-                mapButtons[21].setOpaque(false);
-                mapButtons[21].setBorderPainted(false);
+
+                addMapButton(21);
                 mapButtons[21].setBounds((int) (frameSize.width * (46.4)/100) , (int) (frameSize.width * (32.9)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[21].addMouseListener(new ColorBorder());
 
-                mapButtons[22] = new JButton();
-                mapButtons[22].setContentAreaFilled(false);
-                mapButtons[22].setOpaque(false);
-                mapButtons[22].setBorderPainted(false);
+                addMapButton(22);
                 mapButtons[22].setBounds((int) (frameSize.width * (38.1)/100) , (int) (frameSize.width * (32.9)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[22].addMouseListener(new ColorBorder());
 
-                mapButtons[23] = new JButton();
-                mapButtons[23].setContentAreaFilled(false);
-                mapButtons[23].setOpaque(false);
-                mapButtons[23].setBorderPainted(false);
+                addMapButton(23);
                 mapButtons[23].setBounds((int) (frameSize.width * (38.1)/100) , (int) (frameSize.width * (24.6)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[23].addMouseListener(new ColorBorder());
 
-                mapButtons[24] = new JButton();
-                mapButtons[24].setContentAreaFilled(false);
-                mapButtons[24].setOpaque(false);
-                mapButtons[24].setBorderPainted(false);
+                addMapButton(24);
                 mapButtons[24].setBounds((int) (frameSize.width * (46.4)/100) , (int) (frameSize.width * (24.6)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[24].addMouseListener(new ColorBorder());
             }
         }
         catch(Exception e) {
@@ -694,11 +502,11 @@ public class Board extends Observable {
         }
 
 
-        buttonLv1.setBounds((frameSize.width * 81/100), (frameSize.height * 18/100), frameSize.width * 5/100, frameSize.width * 5/100);
+        buttonLv1.setBounds((frameSize.width * 81/100), (frameSize.height * 19/100), frameSize.width * 5/100, frameSize.width * 5/100);
         buttonLv1.setIcon(lvl1Building.getIcon());
         desktopPane.add(buttonLv1);
 
-        buttonLv2.setBounds((frameSize.width * 89/100), (frameSize.height * 18/100), frameSize.width * 5/100, frameSize.width * 5/100);
+        buttonLv2.setBounds((frameSize.width * 89/100), (frameSize.height * 19/100), frameSize.width * 5/100, frameSize.width * 5/100);
         buttonLv2.setIcon(lvl2Building.getIcon());
         desktopPane.add(buttonLv2);
 
@@ -714,40 +522,20 @@ public class Board extends Observable {
 
 
 
-        buttonMove.setBounds((int) (frameSize.width * 79/100), (frameSize.height * 45/100), frameSize.width * 5/100, frameSize.height * 5/100);
+        buttonMove.setBounds((int) (frameSize.width * 79/100), (frameSize.height * 46/100), frameSize.width * 5/100, frameSize.height * 5/100);
         buttonMove.addActionListener(new AddMove());
-        buttonMove.setOpaque(false);
-        buttonMove.setContentAreaFilled(false);
-        buttonMove.setBorderPainted(false);
-        buttonMove.setIcon(lButtonMove.getIcon());
-        buttonMove.addMouseListener(new ButtonPress());
-        desktopPane.add(buttonMove);
+        consoleButtons(buttonMove, lButtonMove);
 
-        buttonBuild.setBounds((int) (frameSize.width * 85/100), (frameSize.height * 45/100), frameSize.width * 5/100, frameSize.height * 5/100);
+        buttonBuild.setBounds((int) (frameSize.width * 85/100), (frameSize.height * 46/100), frameSize.width * 5/100, frameSize.height * 5/100);
         buttonBuild.addActionListener(new AddBuildLvl());
-        buttonBuild.setOpaque(false);
-        buttonBuild.setContentAreaFilled(false);
-        buttonBuild.setBorderPainted(false);
-        buttonBuild.setIcon(lButtonBuild.getIcon());
-        buttonBuild.addMouseListener(new ButtonPress());
-        desktopPane.add(buttonBuild);
+        consoleButtons(buttonBuild, lButtonBuild);
 
-        buttonPower.setBounds((int) (frameSize.width * 91/100), (frameSize.height * 45/100), frameSize.width * 5/100, frameSize.height * 5/100);
-        buttonPower.setOpaque(false);
-        buttonPower.setContentAreaFilled(false);
-        buttonPower.setBorderPainted(false);
-        buttonPower.setIcon(lButtonPower.getIcon());
-        buttonPower.addMouseListener(new ButtonPress());
-        desktopPane.add(buttonPower);
+        buttonPower.setBounds((int) (frameSize.width * 91/100), (frameSize.height * 46/100), frameSize.width * 5/100, frameSize.height * 5/100);
+        consoleButtons(buttonPower, lButtonPower);
 
         buttonChat.setBounds((int) (frameSize.width * 85/100), (frameSize.height * 58/100), frameSize.width * 5/100, frameSize.height * 7/100);
-        buttonChat.addMouseListener(new ButtonPress());
         buttonChat.addActionListener(new Chat());
-        buttonChat.setOpaque(false);
-        buttonChat.setContentAreaFilled(false);
-        buttonChat.setBorderPainted(false);
-        buttonChat.setIcon(lButtonChat.getIcon());
-        desktopPane.add(buttonChat);
+        consoleButtons(buttonChat, lButtonChat);
 
 
 
@@ -767,6 +555,23 @@ public class Board extends Observable {
         f.setLocationRelativeTo(null);
         f.setVisible(true);
 
+    }
+
+    private void consoleButtons(JButton button, JLabel label){
+        button.setOpaque(false);
+        button.setContentAreaFilled(false);
+        button.setBorderPainted(false);
+        button.setIcon(label.getIcon());
+        button.addMouseListener(new ButtonPress());
+        desktopPane.add(button);
+    }
+
+    private void addMapButton(int x){
+        mapButtons[x] = new JButton();
+        mapButtons[x].setContentAreaFilled(false);
+        mapButtons[x].setOpaque(false);
+        mapButtons[x].setBorderPainted(false);
+        mapButtons[x].addMouseListener(new ColorBorder());
     }
 
     private class Write implements ActionListener{

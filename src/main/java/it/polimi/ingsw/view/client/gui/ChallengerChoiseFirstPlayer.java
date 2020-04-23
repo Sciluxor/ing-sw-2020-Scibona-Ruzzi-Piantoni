@@ -5,14 +5,14 @@ import it.polimi.ingsw.model.player.Player;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 
 import static it.polimi.ingsw.view.client.gui.Gui.backgroundButton;
 
 public class ChallengerChoiseFirstPlayer extends JPanel{
     Dimension frameSize = new Dimension();
 
-    public ChallengerChoiseFirstPlayer(Dimension frame, Integer numberOfPlayer, ArrayList<Player> players) throws IOException {
+    public ChallengerChoiseFirstPlayer(Dimension frame, Integer numberOfPlayer, List<Player> players) throws IOException {
 
         frameSize.setSize(frame);
         setPreferredSize(frameSize);
