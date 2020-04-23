@@ -10,6 +10,7 @@ public class ClientCLI {
     private String userID;
     private Color standard = Color.ANSI_RED;
     private SantoriniMap map = new SantoriniMap();
+    private ChallengerChoiceCardsCLI challengerChoiceCardsCLI = new ChallengerChoiceCardsCLI();
     private String keyboard;
     private Color clientColor;
     private Lobby lobby;
@@ -19,12 +20,12 @@ public class ClientCLI {
     public void printCLI() {
         initializationClient();
 
-
+        this.challengerChoiceCardsCLI.chooseCards(numberOfPlayers);
 
         System.out.println("Questa è la board vuota: ");
         map.printMap();
 
-        System.out.println("QUESTA CHE SEGUE E' UNA PROVA DI ESECUZIONE CON FLUSSO PREDETERMINATO");
+        System.out.println("\nQUESTA CHE SEGUE E' UNA PROVA DI ESECUZIONE CON FLUSSO PREDETERMINATO");
         this.provaEsecuzione();
     }
 
