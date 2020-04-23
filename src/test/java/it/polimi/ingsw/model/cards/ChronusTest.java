@@ -26,7 +26,7 @@ class ChronusTest {
     void setup(){
         player1 = new Player("GoodPlayer");
         player2 = new Player("BadPlayer");
-        cardChro = CardLoader.loadCards().get("Chronus");
+        cardChro = CardLoader.loadCards().get("chronus");
         player1.setPower(cardChro);
         worker1 = new Worker(WorkerName.WORKER1);
         worker2 = new Worker(WorkerName.WORKER2);

@@ -21,7 +21,7 @@ class HypnusTest {
     void setup(){
         player1 = new Player("GoodPlayer");
         player2 = new Player("BadPlayer");
-        cardHypn = CardLoader.loadCards().get("Hypnus");
+        cardHypn = CardLoader.loadCards().get("hypnus");
         player1.setPower(cardHypn);
         gameMap = new GameMap();
         gameMap.getGameMap().get(22).setMovement(player1,player1.getWorkers().get(0));

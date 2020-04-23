@@ -22,7 +22,7 @@ class AthenaTest {
     void setup(){
         player1 = new Player("GoodPlayer");
         player2 = new Player("BadPlayer");
-        cardAthe = CardLoader.loadCards().get("Athena");
+        cardAthe = CardLoader.loadCards().get("athena");
         player1.setPower(cardAthe);
         gameMap = new GameMap();
         gameMap.getGameMap().get(22).setMovement(player1,player1.getWorkers().get(0));

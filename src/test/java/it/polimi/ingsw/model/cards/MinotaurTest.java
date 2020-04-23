@@ -22,8 +22,8 @@ class MinotaurTest {
     void setup(){
         player1 = new Player("GoodPlayer");
         player2 = new Player("BadPlayer");
-        cardMino = CardLoader.loadCards().get("Minotaur");
-        cardAtla = CardLoader.loadCards().get("Atlas");
+        cardMino = CardLoader.loadCards().get("minotaur");
+        cardAtla = CardLoader.loadCards().get("atlas");
         player1.setPower(cardMino);
         player2.setPower(cardAtla);
         gameMap = new GameMap();

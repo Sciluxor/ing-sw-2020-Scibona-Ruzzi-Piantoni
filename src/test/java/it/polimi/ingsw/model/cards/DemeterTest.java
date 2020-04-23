@@ -23,7 +23,7 @@ class DemeterTest {
     void setup(){
         player1 = new Player("GoodPlayer");
         player2 = new Player("BadPlayer");
-        cardDeme = CardLoader.loadCards().get("Demeter");
+        cardDeme = CardLoader.loadCards().get("demeter");
         player1.setPower(cardDeme);
         gameMap = new GameMap();
         gameMap.getGameMap().get(22).setMovement(player1,player1.getWorkers().get(0));

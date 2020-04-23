@@ -40,11 +40,11 @@ class GameTest {
         player2 = new Player("due");
         player3 = new Player("tre");
         player4 = new Player("quattro");
-        cardApollo = CardLoader.loadCards().get("Apollo");
-        cardAthena = CardLoader.loadCards().get("Athena");
-        cardAtlas = CardLoader.loadCards().get("Atlas");
-        cardHera = CardLoader.loadCards().get("Hera");
-        cardHypnus = CardLoader.loadCards().get("Hypnus");
+        cardApollo = CardLoader.loadCards().get("apollo");
+        cardAthena = CardLoader.loadCards().get("athena");
+        cardAtlas = CardLoader.loadCards().get("atlas");
+        cardHera = CardLoader.loadCards().get("hera");
+        cardHypnus = CardLoader.loadCards().get("hypnus");
         player1.setPower(cardApollo);
         player2.setPower(cardAthena);
         player3.setPower(cardAtlas);
@@ -305,8 +305,8 @@ class GameTest {
     @Test
     void checkCardIntoDeck() {
         assertFalse(game.checkCardIntoDeck("sbagliata"));
-        assertTrue(game.checkCardIntoDeck("Apollo"));
-        assertTrue(game.checkCardIntoDeck("Zeus"));
+        assertTrue(game.checkCardIntoDeck("apollo"));
+        assertTrue(game.checkCardIntoDeck("zeus"));
     }
 
     @Test
@@ -318,7 +318,7 @@ class GameTest {
         assertFalse(game.assignCard("sbagliata"));
         game.setCurrentPlayer(game.getPlayers().get(0));
         assertFalse(game.assignCard("sbagliata"));
-        assertTrue(game.assignCard("Pan"));
+        assertTrue(game.assignCard("pan"));
     }
 
     @Test
@@ -336,55 +336,55 @@ class GameTest {
     @Test
     void getAvailableCards() {
         ArrayList<String> cardstring = new ArrayList<>();
-        cardstring.add("Apollo");
-        cardstring.add("Atlas");
+        cardstring.add("apollo");
+        cardstring.add("atlas");
         assertNull(game.getAvailableCards());
         game.setAvailableCards(cardstring);
-        assertEquals("Apollo",game.getAvailableCards().get(0));
+        assertEquals("apollo",game.getAvailableCards().get(0));
     }
 
     @Test
     void setAvailableCards() {
         ArrayList<String> cardstring = new ArrayList<>();
-        cardstring.add("Apollo");
-        cardstring.add("Atlas");
+        cardstring.add("apollo");
+        cardstring.add("atlas");
         game.setAvailableCards(cardstring);
         assertEquals(2,game.getAvailableCards().size());
-        assertEquals("Apollo",game.getAvailableCards().get(0));
-        assertEquals("Atlas",game.getAvailableCards().get(1));
+        assertEquals("apollo",game.getAvailableCards().get(0));
+        assertEquals("atlas",game.getAvailableCards().get(1));
     }
 
     @Test
     void removeCard() {
         ArrayList<String> cardstring = new ArrayList<>();
-        cardstring.add("Apollo");
-        cardstring.add("Atlas");
+        cardstring.add("apollo");
+        cardstring.add("atlas");
         game.setAvailableCards(cardstring);
         assertEquals(2,game.getAvailableCards().size());
-        game.removeCard("Apollo");
+        game.removeCard("apollo");
         assertEquals(1,game.getAvailableCards().size());
-        assertEquals("Atlas",game.getAvailableCards().get(0));
+        assertEquals("atlas",game.getAvailableCards().get(0));
 
     }
 
     @Test
     void getCardFromAvailableCards() {
         ArrayList<String> cardstring = new ArrayList<>();
-        cardstring.add("Apollo");
-        cardstring.add("Atlas");
-        cardstring.add("Pan");
+        cardstring.add("apollo");
+        cardstring.add("atlas");
+        cardstring.add("pan");
         game.setAvailableCards(cardstring);
-        assertEquals("Apollo",game.getCardFromAvailableCards("Apollo"));
-        assertEquals("Atlas",game.getCardFromAvailableCards("Atlas"));
-        assertEquals("Pan",game.getCardFromAvailableCards("Pan"));
-        assertNull(game.getCardFromAvailableCards("Chronus"));
+        assertEquals("apollo",game.getCardFromAvailableCards("apollo"));
+        assertEquals("atlas",game.getCardFromAvailableCards("atlas"));
+        assertEquals("pan",game.getCardFromAvailableCards("pan"));
+        assertNull(game.getCardFromAvailableCards("chronus"));
         assertNull(game.getCardFromAvailableCards(""));
         assertNull(game.getCardFromAvailableCards("Nonesiste"));
     }
 
     @Test
     void getCardFromDeck() {
-        assertEquals("Apollo",game.getCardFromDeck("Apollo").getName());
+        assertEquals("apollo",game.getCardFromDeck("apollo").getName());
         assertNull(game.getCardFromDeck("Bhu"));
     }
 
@@ -444,8 +444,8 @@ class GameTest {
         game.assignPermanentConstraint();
         assertEquals(0,player1.getConstraint().size());
         assertEquals(1,player2.getConstraint().size());
-        assertEquals("Hera",player2.getConstraint().get(0).getName());
+        assertEquals("hera",player2.getConstraint().get(0).getName());
         assertEquals(1,player3.getConstraint().size());
-        assertEquals("Hera",player3.getConstraint().get(0).getName());
+        assertEquals("hera",player3.getConstraint().get(0).getName());
     }
 }

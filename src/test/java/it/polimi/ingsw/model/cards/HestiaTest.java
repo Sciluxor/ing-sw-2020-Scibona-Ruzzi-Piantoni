@@ -23,7 +23,7 @@ class HestiaTest {
     void setup(){
         player1 = new Player("GoodPlayer");
         player2 = new Player("BadPlayer");
-        cardHest = CardLoader.loadCards().get("Hestia");
+        cardHest = CardLoader.loadCards().get("hestia");
         player1.setPower(cardHest);
         gameMap = new GameMap();
         gameMap.getGameMap().get(22).setMovement(player1,player1.getWorkers().get(0));

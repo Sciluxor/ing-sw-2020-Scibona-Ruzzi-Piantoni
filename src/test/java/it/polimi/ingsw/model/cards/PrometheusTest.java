@@ -23,7 +23,7 @@ class PrometheusTest {
     void setup(){
         player1 = new Player("GoodPlayer");
         player2 = new Player("BadPlayer");
-        cardPro = CardLoader.loadCards().get("Prometheus");
+        cardPro = CardLoader.loadCards().get("prometheus");
         player1.setPower(cardPro);
         gameMap = new GameMap();
         gameMap.getGameMap().get(22).setMovement(player1,player1.getWorkers().get(0));

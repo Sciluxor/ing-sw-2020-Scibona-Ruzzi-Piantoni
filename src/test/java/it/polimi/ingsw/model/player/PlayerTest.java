@@ -33,10 +33,10 @@ class PlayerTest {
         players.add(player);
         players.add(player1);
         players.add(player2);
-        cardA = CardLoader.loadCards().get("Athena");
-        cardAp = CardLoader.loadCards().get("Apollo");
-        cardHy = CardLoader.loadCards().get("Hypnus");
-        cardHe = CardLoader.loadCards().get("Hera");
+        cardA = CardLoader.loadCards().get("athena");
+        cardAp = CardLoader.loadCards().get("apollo");
+        cardHy = CardLoader.loadCards().get("hypnus");
+        cardHe = CardLoader.loadCards().get("hera");
         worker1 = new Worker(WorkerName.WORKER1);
         worker2 = new Worker(WorkerName.WORKER2);
         gameMap = new GameMap();
@@ -87,27 +87,27 @@ class PlayerTest {
     void getPower() {
         assertNull (player.getPower());
         player.setPower(cardA);
-        assertEquals ("Athena",player.getPower().getName());
+        assertEquals ("athena",player.getPower().getName());
         player.setPower(cardHe);
         player.setPower(cardHy);
-        assertEquals ("Hypnus",player.getPower().getName());
+        assertEquals ("hypnus",player.getPower().getName());
     }
 
     @Test
     void setPower() {
         assertNull (player.getPower());
         player.setPower(cardA);
-        assertEquals ("Athena",player.getPower().getName());
+        assertEquals ("athena",player.getPower().getName());
         player.setPower(cardHy);
         player.setPower(cardHe);
         player.setPower(cardHe);
-        assertEquals ("Hera",player.getPower().getName());
+        assertEquals ("hera",player.getPower().getName());
         player.setPower(cardA);
         player.setPower(cardHe);
         player.setPower(cardHy);
-        assertEquals ("Hypnus",player.getPower().getName());
+        assertEquals ("hypnus",player.getPower().getName());
         player.setPower(cardA);
-        assertEquals ("Athena",player.getPower().getName());
+        assertEquals ("athena",player.getPower().getName());
 
         assertThrows(NullPointerException.class , () -> player.setPower(null));
     }

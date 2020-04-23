@@ -6,6 +6,7 @@ import it.polimi.ingsw.utils.ConstantsContainer;
 import it.polimi.ingsw.utils.Logger;
 import java.io.*;
 import java.net.Socket;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 
@@ -57,9 +58,11 @@ public class Client {
         }
     }
 
-    public static void main(String[] args ) throws IOException {
+    public static void main(String[] args ){
         String ip ="127.0.0.1";  // mettere in json da caricare come default
         int port = 4700;
+
+        /*
         String startView = "";
 
         if(args.length == 1 && (args[0].equalsIgnoreCase("gui") || args[0].equalsIgnoreCase("cli"))){
@@ -77,7 +80,7 @@ public class Client {
         else {
             //new Cli.startCli();
         }
-
+*/
         Client client = new Client();
 
         ConsoleColor.loadColor();
@@ -89,10 +92,7 @@ public class Client {
         try {
             ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());
             ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream());
-            client.mainThread = new Thread(()-> {
-                client.processNickAndNumber(out,client);
-
-            });
+            client.mainThread = new Thread(()-> client.processNickAndNumber(out,client));
 
             client.mainThread.start();
             /*
@@ -122,12 +122,12 @@ public class Client {
 
     }
 
-    private void simultaneousePrint() throws InterruptedException {
+    private void simultaneousePrint(){
 
         try {
             Thread.sleep(10000);
         }catch (InterruptedException inter){
-            throw new InterruptedException("error in thread");
+            Thread.currentThread().interrupt();
         }
         //mainThread.interrupt();
         clearScreen2();
@@ -195,11 +195,7 @@ public class Client {
 
             }else if (output.getType().equals(MessageType.GAMESTART) && output.getSubType().equals(MessageSubType.UPDATE)) {
                 client.setGameStarted(true);
-                try {
-                    Thread.sleep(200);
-                }catch (InterruptedException inter){
-                    throw new InterruptedException("error in thread");
-                }
+                Thread.sleep(200);
 
                 Logger.info("\nYour game is starting now. Number of total player -> " + ((GameStartedMessage) output).getPlayersNumber() + "\n" + "Your gameID is: " + ((GameStartedMessage)output).getGameID() + "\n");
 
@@ -223,11 +219,14 @@ public class Client {
                 //out.writeObject(new ReconnectionMessage(client.getNick(), MessageSubType.ANSWER, gameID, nickname));
                 out.flush();                                                                              
 
-            }else{}
+            }
 
             out.reset();
-        }catch (IOException | InterruptedException e){
+        }catch (IOException e){
             Logger.info("\nApp Disconnected");
+        }
+        catch (InterruptedException inter){
+            Thread.currentThread().interrupt();
         }
 
 

@@ -49,7 +49,7 @@ public class Cli extends ClientGameController {
         else if(keyboard.equals("2"))
             return this.colorClient + "Client: \u3020\n" + Color.RESET;
 
-        return null;
+        return "";
     }
 
     public void dump() {

@@ -19,7 +19,7 @@ class ArtemisTest {
     void setup(){
         player1 = new Player("GoodPlayer");
         player2 = new Player("BadPlayer");
-        cardArte = CardLoader.loadCards().get("Artemis");
+        cardArte = CardLoader.loadCards().get("artemis");
         player1.setPower(cardArte);
         gameMap = new GameMap();
         gameMap.getGameMap().get(22).setMovement(player1,player1.getWorkers().get(0));

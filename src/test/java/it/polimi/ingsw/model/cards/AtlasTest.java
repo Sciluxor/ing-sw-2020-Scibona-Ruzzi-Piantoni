@@ -26,7 +26,7 @@ class AtlasTest {
     void setup(){
         player1 = new Player("GoodPlayer");
         player2 = new Player("BadPlayer");
-        cardAtlas = CardLoader.loadCards().get("Atlas");
+        cardAtlas = CardLoader.loadCards().get("atlas");
         player1.setPower(cardAtlas);
         worker1 = new Worker(WorkerName.WORKER1);
         worker2 = new Worker(WorkerName.WORKER2);

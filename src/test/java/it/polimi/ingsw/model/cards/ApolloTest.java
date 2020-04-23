@@ -18,8 +18,8 @@ class ApolloTest {
     void setup(){
         player1 = new Player("GoodPlayer");
         player2 = new Player("BadPlayer");
-        cardApo = CardLoader.loadCards().get("Apollo");
-        cardAthe = CardLoader.loadCards().get("Athena");
+        cardApo = CardLoader.loadCards().get("apollo");
+        cardAthe = CardLoader.loadCards().get("athena");
         player1.setPower(cardApo);
         player2.setPower(cardAthe);
         gameMap = new GameMap();

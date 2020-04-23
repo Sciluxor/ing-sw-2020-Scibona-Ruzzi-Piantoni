@@ -27,12 +27,12 @@ class CardTest {
     void setup(){
         player = new Player("GoodPlayer");
         player2 = new Player("BadPlayer");
-        cardA = CardLoader.loadCards().get("Athena");
-        cardAp = CardLoader.loadCards().get("Apollo");
-        cardHy = CardLoader.loadCards().get("Hypnus");
-        cardHe = CardLoader.loadCards().get("Hera");
-        cardCr = CardLoader.loadCards().get("Chronus");
-        cardDe = CardLoader.loadCards().get("Demeter");
+        cardA = CardLoader.loadCards().get("athena");
+        cardAp = CardLoader.loadCards().get("apollo");
+        cardHy = CardLoader.loadCards().get("hypnus");
+        cardHe = CardLoader.loadCards().get("hera");
+        cardCr = CardLoader.loadCards().get("chronus");
+        cardDe = CardLoader.loadCards().get("demeter");
         worker1 = new Worker(WorkerName.WORKER1);
         worker2 = new Worker(WorkerName.WORKER2);
         gameMap = new GameMap();
@@ -51,17 +51,17 @@ class CardTest {
 
     @Test
     void getName() {
-        assertEquals ("Athena",cardA.getName());
-        assertEquals ("Hypnus",cardHy.getName());
-        assertEquals ("Hera",cardHe.getName());
-        assertEquals ("Chronus",cardCr.getName());
-        assertEquals ("Demeter",cardDe.getName());
+        assertEquals ("athena",cardA.getName());
+        assertEquals ("hypnus",cardHy.getName());
+        assertEquals ("hera",cardHe.getName());
+        assertEquals ("chronus",cardCr.getName());
+        assertEquals ("demeter",cardDe.getName());
     }
 
     @Test
     void getDescription() {
-        assertEquals ("Opponent's Turn: If one of your Workers moved up on your last turn, opponent Workers cannot move up this turn.",cardA.getDescription());
-        assertEquals ("Win Condition: You also win when there are at least five Complete Towers on the board.",cardCr.getDescription());
+        assertEquals ("If one of your Workers moved up on your last turn, opponent Workers cannot move up this turn.",cardA.getDescription());
+        assertEquals ("You also win when there are at least five Complete Towers on the board.",cardCr.getDescription());
     }
 
     @Test
@@ -189,9 +189,9 @@ class CardTest {
 
     @Test
     void testToString() {
-        assertEquals(cardAp.toString(), "Card Name -> Apollo\nCard Description -> Your Move: Your worker may move into an opponent Worker's space by " +
+        assertEquals(cardAp.toString(), "Card Name -> apollo\nCard Description -> Your worker may move into an opponent Worker's space by " +
                 "forcing their Worker to the space yours just vacated.\nPlayable with 3 Player -> Yes\n");
-        assertEquals(cardCr.toString(), "Card Name -> Chronus\nCard Description -> Win Condition: You also win when there are at least five Complete " +
+        assertEquals(cardCr.toString(), "Card Name -> chronus\nCard Description -> You also win when there are at least five Complete " +
                 "Towers on the board.\nPlayable with 3 Player -> No\n");
     }
 }
