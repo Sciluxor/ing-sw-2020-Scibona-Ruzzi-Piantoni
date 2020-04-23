@@ -22,7 +22,7 @@ public class ChallengerChoiseCards extends JPanel{
     JLabel power = new JLabel();
     private int count = 0;
     private int chosen = 0;
-    private int numberPlayers;
+    private final int numberPlayers;
     List<String> godChosen = new ArrayList<>();
     JButton confirm = confirmButtonCreate();
 
@@ -128,10 +128,7 @@ public class ChallengerChoiseCards extends JPanel{
         choise.setBounds(frameSize.width * 35/100, frameSize.height * 10/100, frameSize.width * 30/100, frameSize.height * 10/100);
         add(choise);
 
-        for (int z = 0; z < confirm.getActionListeners().length; z++){
-            if (confirm.getActionListeners()[z].getClass().equals(Gui.ChangePanel.class))
-                confirm.removeActionListener(confirm.getActionListeners()[z]);
-        }
+        eliminateActionClass(confirm, Gui.ChangePanel.class);
         add(confirm);
 
 
@@ -280,14 +277,8 @@ public class ChallengerChoiseCards extends JPanel{
             JButton c = (JButton)e.getSource();
             if (0 <= chosen && chosen < numberPlayers){
 
-                for (int y = 0; y < c.getMouseListeners().length; y++){
-                    if (c.getMouseListeners()[y].getClass().equals(ColorBorder.class))
-                        c.removeMouseListener(c.getMouseListeners()[y]);
-                }
-                for (int y = 0; y < c.getActionListeners().length; y++){
-                    if (c.getActionListeners()[y].getClass().equals(ChooseGod.class))
-                        c.removeActionListener(c.getActionListeners()[y]);
-                }
+                eliminateMouseClass(c, ColorBorder.class);
+                eliminateActionClass(c, ChooseGod.class);
                 c.setBorder(BorderFactory.createLineBorder(Color.red, 4));
                 c.setBorderPainted(true);
                 godChosen.add(c.getName());
@@ -303,32 +294,14 @@ public class ChallengerChoiseCards extends JPanel{
         @Override
         public void actionPerformed(ActionEvent e) {
             JButton c = (JButton)e.getSource();
-
-            for (int y = 0; y < c.getActionListeners().length; y++){
-                if (c.getActionListeners()[y].getClass().equals(RemoveGod.class))
-                    c.removeActionListener(c.getActionListeners()[y]);
-            }
+            eliminateActionClass(c, RemoveGod.class);
             c.setBorder(null);
             c.setBorderPainted(false);
             c.addMouseListener(new ColorBorder());
             godChosen.remove(c.getName());
             chosen--;
             c.addActionListener(new ChooseGod());
-
-            for (int z = 0; z < confirm.getActionListeners().length; z++){
-                if (confirm.getActionListeners()[z].getClass().equals(Gui.ChangePanel.class))
-                    confirm.removeActionListener(confirm.getActionListeners()[z]);
-            }
-
+            eliminateActionClass(c, Gui.ChangePanel.class);
         }
-    }
-
-    private boolean inChoosen(String name){
-        for (String god : godChosen){
-            if (god.equalsIgnoreCase(name)){
-                return true;
-            }
-        }
-        return false;
     }
 }
