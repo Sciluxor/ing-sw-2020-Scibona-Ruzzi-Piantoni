@@ -42,7 +42,7 @@ public class ConfigLoader {
 
         }catch (Exception e){
 
-            throw new IllegalStateException("impossible to charge Cards");
+            throw new IllegalStateException("impossible to charge Setting");
 
         }
 

@@ -484,10 +484,10 @@ public class Board extends Observable {
             else {
                 //mac positions
                 mapButtons[0] = new JButton();
-                mapButtons[0].setContentAreaFilled(false);
-                mapButtons[0].setOpaque(false);
+                //mapButtons[0].setContentAreaFilled(false);
+                //mapButtons[0].setOpaque(false);
                 mapButtons[0].setBorderPainted(false);
-                mapButtons[0].setBounds((int) (frameSize.width * (29.8)/100) , (int) (frameSize.width * (8)/100),
+                mapButtons[0].setBounds((int) (frameSize.width * (29.5)/100) , (int) (frameSize.width * (7.6)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
                 mapButtons[0].addMouseListener(new ColorBorder());
 
