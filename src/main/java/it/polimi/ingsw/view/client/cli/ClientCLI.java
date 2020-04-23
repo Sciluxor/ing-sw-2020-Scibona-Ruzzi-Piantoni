@@ -33,7 +33,7 @@ public class ClientCLI {
         Scanner input = new Scanner(System.in);
 
         System.out.println(setOutputColor("Inserire il nickname: "));
-        setNickname(setInputColor(input.nextLine()));
+        setNickname(input.nextLine());
 
         System.out.println(setOutputColor("Inserire in numero (2/3) di giocatori: "));
         setNumberOfPlayers(input.nextInt());
@@ -53,7 +53,7 @@ public class ClientCLI {
 
         while(nickname.length()<4 || nickname.length()>20) {
             System.out.println(setOutputColor("\nLUNGHEZZA NICKNAME NON VALIDA\nReinserire il nickname: "));
-            nickname = setInputColor(input.nextLine());
+            nickname = input.nextLine();
         }
         this.nickname = nickname;
         System.out.println(setOutputColor("Nickname setted!\n"));

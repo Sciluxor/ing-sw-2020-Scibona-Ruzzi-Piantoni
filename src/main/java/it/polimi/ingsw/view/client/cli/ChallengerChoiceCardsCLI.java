@@ -1,44 +1,90 @@
 package it.polimi.ingsw.view.client.cli;
 
+import it.polimi.ingsw.model.cards.Card;
+import it.polimi.ingsw.model.cards.CardLoader;
+
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class ChallengerChoiceCardsCLI {
 
-    private ArrayList<String> cards = new ArrayList<>();
-    private ArrayList<String> deck = new ArrayList<>();
+    private HashMap<String, Card> deck = CardLoader.loadCards();
+    private ArrayList<String> choosenCards = new ArrayList<>();
 
-    private String keyboard;
     private Scanner input = new Scanner(System.in);
 
     public void chooseCards(int numberOfPlayers) {
-        initializeCards();
+
+        String keyboard;
 
         Color.clearConsole();
         System.out.println("Scegli " + numberOfPlayers + " tra le seguenti carte: (oppure inserisci il nome di una divinità per vederne gli effetti)");
-        for(String s: cards) {
+        for(String s: deck.keySet())
+            System.out.println((Color.ANSI_YELLOW + s + Color.RESET).toUpperCase());
+
+
+        /*for(String s: cards) {
             System.out.println(Color.ANSI_YELLOW + s + Color.RESET);
-        }
+        }*/
         System.out.println();
 
-        keyboard = input.nextLine().toUpperCase();
-        while(!keyboard.contains(" "))
+        keyboard = this.input.nextLine().toLowerCase();
+        String[] cards = splitter(keyboard);
+        while(cards.length == 1)
         {
-            System.out.println("Questo è il potere della divinità " + Color.ANSI_YELLOW + keyboard + Color.RESET + ":");
-            Cards.printPower(keyboard);
+            Card card = deck.get(cards[0]);
+            if(!(card == null)) {
+                System.out.println("Questo è il potere della divinità " + Color.ANSI_YELLOW + keyboard.toUpperCase() + Color.RESET + ":");
+                if (keyboard.equalsIgnoreCase("ATHENA") || keyboard.equalsIgnoreCase("HERA"))
+                    System.out.print(printColorType("OPPONENT'S TURN"));
+                else if (keyboard.equalsIgnoreCase("HYPNUS"))
+                    System.out.print(printColorType("START OF OPPONENT'S TURN:"));
+                else
+                    System.out.print(printColorType(deck.get(keyboard).getType().toString()));
+                System.out.println((deck.get(keyboard).getDescription()));
+                //Cards.printPower(keyboard);
+            }
+            else
+                System.out.println("WRONG CARD NAME. Please reinsert new card name:");
 
-            keyboard = input.nextLine().toUpperCase();
+            keyboard = input.nextLine().toLowerCase();
+            cards = splitter(keyboard);
         }
+        if(cards.length != numberOfPlayers) {
+            System.out.println("WRONG NUMBER OF CARDS. Please reinsert " + numberOfPlayers + " cards:");
+            keyboard = input.nextLine().toLowerCase();
+            cards = splitter(keyboard);
+        }
+        for(int i=0; i<cards.length; i++) {
+            Card card = deck.get(cards[i]);
+            if(card == null) {
+                System.out.println("WRONG CARD NAME. Please reinsert new card name:");
+                keyboard = input.nextLine().toLowerCase();
+                cards = splitter(keyboard);
+            }
+        }
+
+        choosenCards(cards);
 
         Color.clearConsole();
-        System.out.println("Il deck di questa partita è composto da: " + Color.ANSI_YELLOW + keyboard + Color.RESET);
-        //deck.add(keyboard)
+        System.out.print("Il deck di questa partita è composto da: ");
+        for (String card : cards) {
+            System.out.print(Color.ANSI_YELLOW + card + " " + Color.RESET);
+        }
+        System.out.println();
     }
 
-    private void initializeCards() {
-        Cards[] cardsArray = Cards.values();
-        for(Cards c: cardsArray) {
-            cards.add(c.toString());
-        }
+    public void choosenCards(String[] cards) {
+        Collections.addAll(choosenCards, cards);
+    }
+
+    public static String[] splitter(String keyboard) {
+        return keyboard.split("\\s");
+    }
+
+    public static String printColorType(String string) {
+        return Color.ANSI_BLUE + string + ": " + Color.RESET;
     }
 }
