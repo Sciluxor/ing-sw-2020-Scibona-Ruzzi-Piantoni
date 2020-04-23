@@ -157,27 +157,19 @@ public class Board extends Observable {
 
 
         framePower = new JInternalFrame("frameChat", false, false, false, false);
-        framePower.putClientProperty(PALETTE, Boolean.TRUE);
-        framePower.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
-        framePower.setOpaque(false);
         framePower.setBounds(frameSize.width * 50/100 - frameSize.width * 20/100, frameSize.height * 50/100 - frameSize.height * 20/100, frameSize.width * 40/100, frameSize.height * 40/100);
-        framePower.putClientProperty(PALETTE, Boolean.TRUE);
-        framePower.setBorder(null);
+        internalFrameSetUp(framePower);
         BasicInternalFrameUI bi = (BasicInternalFrameUI)framePower.getUI();
         bi.setNorthPane(null);
 
 
 
         frameChat = new JInternalFrame("frameChat", false, false, false, false);
-        frameChat.putClientProperty(PALETTE, Boolean.TRUE);
-        frameChat.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
         frameChat.setPreferredSize(sideSize);
-        frameChat.setOpaque(false);
         frameChat.setBounds(frameSize.width * 73/100, -20, sideSize.width, sideSize.height);
-        frameChat.putClientProperty(PALETTE, Boolean.TRUE);
-        frameChat.setBorder(null);
+        internalFrameSetUp(frameChat);
         BasicInternalFrameUI bii = (BasicInternalFrameUI)frameChat.getUI();
-        bii.setNorthPane(null);
+        bi.setNorthPane(null);
 
 
         desktopPane = new JDesktopPane(){
@@ -204,25 +196,11 @@ public class Board extends Observable {
         desktopPane.add(opponents);
 
         opponent1.setBounds((frameSize.width * 4/100), (frameSize.height * 61/100), frameSize.width * 10/100, frameSize.height * 4/100);
-        opponent1.setFont(felixNormal);
-        opponent1.setHorizontalAlignment(SwingConstants.LEFT);
-        opponent1.setOpaque(false);
-        opponent1.setContentAreaFilled(false);
-        opponent1.setFocusPainted(false);
-        opponent1.setBorderPainted(false);
-        desktopPane.add(opponent1);
-        opponent1.addMouseListener(new SeePower());
+        opponentsButton(opponent1);
         if (numberOfPlayer == 3){
             JButton opponent2 = new JButton(players.get(2).getNickname());
             opponent2.setBounds((frameSize.width * 4/100), (frameSize.height * 64/100), frameSize.width * 10/100, frameSize.height * 4/100);
-            opponent2.setFont(felixNormal);
-            opponent2.setHorizontalAlignment(SwingConstants.LEFT);
-            opponent2.setOpaque(false);
-            opponent2.setContentAreaFilled(false);
-            opponent2.setFocusPainted(false);
-            opponent2.setBorderPainted(false);
-            desktopPane.add(opponent2);
-            opponent2.addMouseListener(new SeePower());
+           opponentsButton(opponent2);
         }
 
         chat.setBounds(frameChat.getWidth() * 22/100 , frameChat.getHeight() * 28/100, frameChat.getWidth() * 63/100, frameChat.getHeight() * 38/100);
@@ -249,246 +227,179 @@ public class Board extends Observable {
 
         buttonExit.setBounds((frameChat.getWidth() * 82/100), (frameChat.getHeight() * 2/100), frameChat.getWidth() * 12/100, frameChat.getWidth() * 12/100);
         buttonExit.addActionListener(new ChatExit());
-        buttonExit.setContentAreaFilled(false);
-        buttonExit.setOpaque(false);
-        buttonExit.setBorderPainted(false);
-        buttonExit.setIcon(exit.getIcon());
+        chatStyleButtons(buttonExit, exit);
         frameChat.add(buttonExit);
 
-        sfondoFrame.setContentAreaFilled(false);
-        sfondoFrame.setOpaque(false);
-        sfondoFrame.setBorderPainted(false);
-        sfondoFrame.setIcon(sfondo2.getIcon());
+        chatStyleButtons(sfondoFrame, sfondo2);
         frameChat.getContentPane().add(sfondoFrame);
 
         playerpower.setFont(felixBold);
         framePower.add(playerpower);
-        sfondoFramePower.setContentAreaFilled(false);
-        sfondoFramePower.setOpaque(false);
-        sfondoFramePower.setBorderPainted(false);
-        sfondoFramePower.setIcon(background.getIcon());
+        chatStyleButtons(sfondoFramePower, background);
         framePower.getContentPane().add(sfondoFramePower);
 
 
-        for (int x = 0; x < 25; x++){
-            mapButtonslvl[x] = 0;
-        }
+        resetLevel();
 
-        for (int x = 0; x < 25; x++){
-            mapButtonsPlayer[x] = false;
-        }
+        resetPlayer();
 
+        mapButtonStyle();
 
         try{
             String os = System.getProperty("os.name").toLowerCase();
 
             if(os.contains("win")) {
                 //windows positions
-
-                mapButtons[0] = new JButton();
-                mapButtons[0].setContentAreaFilled(false);
-                mapButtons[0].setOpaque(false);
-                mapButtons[0].setBorderPainted(false);
                 mapButtons[0].setBounds((int) (frameSize.width * (29.5)/100) , (int) (frameSize.width * (7)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
-                mapButtons[0].addMouseListener(new ColorBorder());
 
-                addMapButton(1);
-                mapButtons[1].setBounds((int) (frameSize.width * (38.1)/100) , (int) (frameSize.width * (8)/100),
+                mapButtons[1].setBounds((int) (frameSize.width * (37.75)/100) , (int) (frameSize.width * (7)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                addMapButton(2);
-                mapButtons[2].setBounds((int) (frameSize.width * (46.4)/100) , (int) (frameSize.width * (8)/100),
+                mapButtons[2].setBounds((int) (frameSize.width * (46)/100) , (int) (frameSize.width * (7)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                addMapButton(3);
-                mapButtons[3].setBounds((int) (frameSize.width * (54.7)/100) , (int) (frameSize.width * (8)/100),
+                mapButtons[3].setBounds((int) (frameSize.width * (54.25)/100) , (int) (frameSize.width * (7)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                addMapButton(4);
-                mapButtons[4].setBounds((int) (frameSize.width * (63)/100) , (int) (frameSize.width * (8)/100),
+                mapButtons[4].setBounds((int) (frameSize.width * (62.5)/100) , (int) (frameSize.width * (7)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                addMapButton(5);
-                mapButtons[5].setBounds((int) (frameSize.width * (63)/100) , (int) (frameSize.width * (16.3)/100),
+                mapButtons[5].setBounds((int) (frameSize.width * (62.5)/100) , (int) (frameSize.width * (15.31)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                addMapButton(6);
-                mapButtons[6].setBounds((int) (frameSize.width * (63)/100) , (int) (frameSize.width * (24.6)/100),
+                mapButtons[6].setBounds((int) (frameSize.width * (62.5)/100) , (int) (frameSize.width * (23.62)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                addMapButton(7);
-                mapButtons[7].setBounds((int) (frameSize.width * (63)/100) , (int) (frameSize.width * (32.9)/100),
+                mapButtons[7].setBounds((int) (frameSize.width * (62.5)/100) , (int) (frameSize.width * (31.93)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                addMapButton(8);
-                mapButtons[8].setBounds((int) (frameSize.width * (63)/100) , (int) (frameSize.width * (41.2)/100),
+                mapButtons[8].setBounds((int) (frameSize.width * (62.5)/100) , (int) (frameSize.width * (40.24)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                addMapButton(9);
-                mapButtons[9].setBounds((int) (frameSize.width * (54.7)/100) , (int) (frameSize.width * (41.2)/100),
+                mapButtons[9].setBounds((int) (frameSize.width * (54.25)/100) , (int) (frameSize.width * (40.24)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                addMapButton(10);
-                mapButtons[10].setBounds((int) (frameSize.width * (46.4)/100) , (int) (frameSize.width * (41.2)/100),
+                mapButtons[10].setBounds((int) (frameSize.width * (46)/100) , (int) (frameSize.width * (40.24)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                addMapButton(11);
-                mapButtons[11].setBounds((int) (frameSize.width * (38.1)/100) , (int) (frameSize.width * (41.2)/100),
+                mapButtons[11].setBounds((int) (frameSize.width * (37.75)/100) , (int) (frameSize.width * (40.24)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                addMapButton(12);
-                mapButtons[12].setBounds((int) (frameSize.width * (29.8)/100) , (int) (frameSize.width * (41.2)/100),
+                mapButtons[12].setBounds((int) (frameSize.width * (29.5)/100) , (int) (frameSize.width * (40.24)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                addMapButton(13);
-                mapButtons[13].setBounds((int) (frameSize.width * (29.8)/100) , (int) (frameSize.width * (32.9)/100),
+                mapButtons[13].setBounds((int) (frameSize.width * (29.5)/100) , (int) (frameSize.width * (31.93)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                addMapButton(14);
-                mapButtons[14].setBounds((int) (frameSize.width * (29.8)/100) , (int) (frameSize.width * (24.6)/100),
+                mapButtons[14].setBounds((int) (frameSize.width * (29.5)/100) , (int) (frameSize.width * (23.62)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                addMapButton(15);
-                mapButtons[15].setBounds((int) (frameSize.width * (29.8)/100) , (int) (frameSize.width * (16.3)/100),
+                mapButtons[15].setBounds((int) (frameSize.width * (29.5)/100) , (int) (frameSize.width * (15.31)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                addMapButton(16);
-                mapButtons[16].setBounds((int) (frameSize.width * (38.1)/100) , (int) (frameSize.width * (16.3)/100),
+                mapButtons[16].setBounds((int) (frameSize.width * (37.75)/100) , (int) (frameSize.width * (15.31)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                addMapButton(17);
-                mapButtons[17].setBounds((int) (frameSize.width * (46.4)/100) , (int) (frameSize.width * (16.3)/100),
+                mapButtons[17].setBounds((int) (frameSize.width * (46)/100) , (int) (frameSize.width * (15.31)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                addMapButton(18);
-                mapButtons[18].setBounds((int) (frameSize.width * (54.7)/100) , (int) (frameSize.width * (16.3)/100),
+                mapButtons[18].setBounds((int) (frameSize.width * (54.25)/100) , (int) (frameSize.width * (15.31)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                addMapButton(19);
-                mapButtons[19].setBounds((int) (frameSize.width * (54.7)/100) , (int) (frameSize.width * (24.6)/100),
+                mapButtons[19].setBounds((int) (frameSize.width * (54.25)/100) , (int) (frameSize.width * (23.62)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                addMapButton(20);
-                mapButtons[20].setBounds((int) (frameSize.width * (54.7)/100) , (int) (frameSize.width * (32.9)/100),
+                mapButtons[20].setBounds((int) (frameSize.width * (54.25)/100) , (int) (frameSize.width * (31.93)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                addMapButton(21);
-                mapButtons[21].setBounds((int) (frameSize.width * (46.4)/100) , (int) (frameSize.width * (32.9)/100),
+                mapButtons[21].setBounds((int) (frameSize.width * (46)/100) , (int) (frameSize.width * (31.93)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                addMapButton(22);
-                mapButtons[22].setBounds((int) (frameSize.width * (38.1)/100) , (int) (frameSize.width * (32.9)/100),
+                mapButtons[22].setBounds((int) (frameSize.width * (37.75)/100) , (int) (frameSize.width * (31.93)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                addMapButton(23);
-                mapButtons[23].setBounds((int) (frameSize.width * (38.1)/100) , (int) (frameSize.width * (24.6)/100),
+                mapButtons[23].setBounds((int) (frameSize.width * (37.75)/100) , (int) (frameSize.width * (23.62)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                addMapButton(24);
-                mapButtons[24].setBounds((int) (frameSize.width * (46.4)/100) , (int) (frameSize.width * (24.6)/100),
+                mapButtons[24].setBounds((int) (frameSize.width * (46)/100) , (int) (frameSize.width * (23.62)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
             }
             else {
                 //mac positions
-                addMapButton(0);
                 mapButtons[0].setBounds((int) (frameSize.width * (29.5)/100) , (int) (frameSize.width * (7.6)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                addMapButton(1);
-                mapButtons[1].setBounds((int) (frameSize.width * (38.1)/100) , (int) (frameSize.width * (8)/100),
+                mapButtons[1].setBounds((int) (frameSize.width * (37.8)/100) , (int) (frameSize.width * (7.6)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                addMapButton(2);
-                mapButtons[2].setBounds((int) (frameSize.width * (46.4)/100) , (int) (frameSize.width * (8)/100),
+                mapButtons[2].setBounds((int) (frameSize.width * (46.1)/100) , (int) (frameSize.width * (7.6)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                addMapButton(3);
-                mapButtons[3].setBounds((int) (frameSize.width * (54.7)/100) , (int) (frameSize.width * (8)/100),
+                mapButtons[3].setBounds((int) (frameSize.width * (54.4)/100) , (int) (frameSize.width * (7.6)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                addMapButton(4);
-                mapButtons[4].setBounds((int) (frameSize.width * (63)/100) , (int) (frameSize.width * (8)/100),
+                mapButtons[4].setBounds((int) (frameSize.width * (62.7)/100) , (int) (frameSize.width * (7.6)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                addMapButton(5);
-                mapButtons[5].setBounds((int) (frameSize.width * (63)/100) , (int) (frameSize.width * (16.3)/100),
+                mapButtons[5].setBounds((int) (frameSize.width * (62.7)/100) , (int) (frameSize.width * (15.9)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                addMapButton(6);
-                mapButtons[6].setBounds((int) (frameSize.width * (63)/100) , (int) (frameSize.width * (24.6)/100),
+                mapButtons[6].setBounds((int) (frameSize.width * (62.7)/100) , (int) (frameSize.width * (24.2)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                addMapButton(7);
-                mapButtons[7].setBounds((int) (frameSize.width * (63)/100) , (int) (frameSize.width * (32.9)/100),
+                mapButtons[7].setBounds((int) (frameSize.width * (62.7)/100) , (int) (frameSize.width * (32.5)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                addMapButton(8);
-                mapButtons[8].setBounds((int) (frameSize.width * (63)/100) , (int) (frameSize.width * (41.2)/100),
+                mapButtons[8].setBounds((int) (frameSize.width * (62.7)/100) , (int) (frameSize.width * (40.8)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                addMapButton(9);
-                mapButtons[9].setBounds((int) (frameSize.width * (54.7)/100) , (int) (frameSize.width * (41.2)/100),
+                mapButtons[9].setBounds((int) (frameSize.width * (54.4)/100) , (int) (frameSize.width * (40.8)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                addMapButton(10);
-                mapButtons[10].setBounds((int) (frameSize.width * (46.4)/100) , (int) (frameSize.width * (41.2)/100),
+                mapButtons[10].setBounds((int) (frameSize.width * (46.1)/100) , (int) (frameSize.width * (40.8)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                addMapButton(11);
-                mapButtons[11].setBounds((int) (frameSize.width * (38.1)/100) , (int) (frameSize.width * (41.2)/100),
+                mapButtons[11].setBounds((int) (frameSize.width * (37.8)/100) , (int) (frameSize.width * (40.8)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                addMapButton(12);
-                mapButtons[12].setBounds((int) (frameSize.width * (29.8)/100) , (int) (frameSize.width * (41.2)/100),
+                mapButtons[12].setBounds((int) (frameSize.width * (29.5)/100) , (int) (frameSize.width * (40.8)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                addMapButton(13);
-                mapButtons[13].setBounds((int) (frameSize.width * (29.8)/100) , (int) (frameSize.width * (32.9)/100),
+                mapButtons[13].setBounds((int) (frameSize.width * (29.5)/100) , (int) (frameSize.width * (32.5)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                addMapButton(14);
-                mapButtons[14].setBounds((int) (frameSize.width * (29.8)/100) , (int) (frameSize.width * (24.6)/100),
+                mapButtons[14].setBounds((int) (frameSize.width * (29.5)/100) , (int) (frameSize.width * (24.2)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                addMapButton(15);
-                mapButtons[15].setBounds((int) (frameSize.width * (29.8)/100) , (int) (frameSize.width * (16.3)/100),
+                mapButtons[15].setBounds((int) (frameSize.width * (29.5)/100) , (int) (frameSize.width * (15.9)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                addMapButton(16);
-                mapButtons[16].setBounds((int) (frameSize.width * (38.1)/100) , (int) (frameSize.width * (16.3)/100),
+                mapButtons[16].setBounds((int) (frameSize.width * (37.8)/100) , (int) (frameSize.width * (15.9)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                addMapButton(17);
-                mapButtons[17].setBounds((int) (frameSize.width * (46.4)/100) , (int) (frameSize.width * (16.3)/100),
+                mapButtons[17].setBounds((int) (frameSize.width * (46.1)/100) , (int) (frameSize.width * (15.9)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                addMapButton(18);
-                mapButtons[18].setBounds((int) (frameSize.width * (54.7)/100) , (int) (frameSize.width * (16.3)/100),
+                mapButtons[18].setBounds((int) (frameSize.width * (54.4)/100) , (int) (frameSize.width * (15.9)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                addMapButton(19);
-                mapButtons[19].setBounds((int) (frameSize.width * (54.7)/100) , (int) (frameSize.width * (24.6)/100),
+                mapButtons[19].setBounds((int) (frameSize.width * (54.4)/100) , (int) (frameSize.width * (24.2)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                addMapButton(20);
-                mapButtons[20].setBounds((int) (frameSize.width * (54.7)/100) , (int) (frameSize.width * (32.9)/100),
+                mapButtons[20].setBounds((int) (frameSize.width * (54.4)/100) , (int) (frameSize.width * (32.5)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                addMapButton(21);
-                mapButtons[21].setBounds((int) (frameSize.width * (46.4)/100) , (int) (frameSize.width * (32.9)/100),
+                mapButtons[21].setBounds((int) (frameSize.width * (46.1)/100) , (int) (frameSize.width * (32.5)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                addMapButton(22);
-                mapButtons[22].setBounds((int) (frameSize.width * (38.1)/100) , (int) (frameSize.width * (32.9)/100),
+                mapButtons[22].setBounds((int) (frameSize.width * (37.8)/100) , (int) (frameSize.width * (32.5)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                addMapButton(23);
-                mapButtons[23].setBounds((int) (frameSize.width * (38.1)/100) , (int) (frameSize.width * (24.6)/100),
+                mapButtons[23].setBounds((int) (frameSize.width * (37.8)/100) , (int) (frameSize.width * (24.2)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                addMapButton(24);
-                mapButtons[24].setBounds((int) (frameSize.width * (46.4)/100) , (int) (frameSize.width * (24.6)/100),
+                mapButtons[24].setBounds((int) (frameSize.width * (46.1)/100) , (int) (frameSize.width * (24.2)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
             }
         }
@@ -497,9 +408,7 @@ public class Board extends Observable {
         }
 
 
-        for (int x = 0; x < 25; x++){
-            desktopPane.add(mapButtons[x]);
-        }
+        addMapButton();
 
 
         buttonLv1.setBounds((frameSize.width * 81/100), (frameSize.height * 19/100), frameSize.width * 5/100, frameSize.width * 5/100);
@@ -557,6 +466,50 @@ public class Board extends Observable {
 
     }
 
+    private void internalFrameSetUp(JInternalFrame intFrame){
+        intFrame.putClientProperty(PALETTE, Boolean.TRUE);
+        intFrame.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
+        intFrame.setOpaque(false);
+        intFrame.putClientProperty(PALETTE, Boolean.TRUE);
+        intFrame.setBorder(null);
+    }
+
+    private void opponentsButton(JButton button){
+        button.setFont(felixNormal);
+        button.setHorizontalAlignment(SwingConstants.LEFT);
+        button.setOpaque(false);
+        button.setContentAreaFilled(false);
+        button.setFocusPainted(false);
+        button.setBorderPainted(false);
+        button.addMouseListener(new SeePower());
+        desktopPane.add(button);
+    }
+
+    private void chatStyleButtons(JButton button, JLabel label){
+        button.setContentAreaFilled(false);
+        button.setOpaque(false);
+        button.setBorderPainted(false);
+        button.setIcon(label.getIcon());
+    }
+
+    private void addMapButton(){
+        for (int x = 0; x < 25; x++){
+            desktopPane.add(mapButtons[x]);
+        }
+    }
+
+    private void resetPlayer(){
+        for (int x = 0; x < 25; x++){
+            mapButtonsPlayer[x] = false;
+        }
+    }
+
+    private void resetLevel(){
+        for (int x = 0; x < 25; x++){
+            mapButtonslvl[x] = 0;
+        }
+    }
+
     private void consoleButtons(JButton button, JLabel label){
         button.setOpaque(false);
         button.setContentAreaFilled(false);
@@ -566,12 +519,14 @@ public class Board extends Observable {
         desktopPane.add(button);
     }
 
-    private void addMapButton(int x){
-        mapButtons[x] = new JButton();
-        mapButtons[x].setContentAreaFilled(false);
-        mapButtons[x].setOpaque(false);
-        mapButtons[x].setBorderPainted(false);
-        mapButtons[x].addMouseListener(new ColorBorder());
+    private void mapButtonStyle(){
+        for (int x = 0; x < 25; x++){
+            mapButtons[x] = new JButton();
+            mapButtons[x].setContentAreaFilled(false);
+            mapButtons[x].setOpaque(false);
+            mapButtons[x].setBorderPainted(false);
+            mapButtons[x].addMouseListener(new ColorBorder());
+        }
     }
 
     private class Write implements ActionListener{
