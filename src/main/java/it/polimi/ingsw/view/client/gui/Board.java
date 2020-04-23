@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static it.polimi.ingsw.view.client.gui.Gui.LOGGER;
+import static it.polimi.ingsw.view.client.gui.Gui.eliminateActionClass;
 
 public class Board extends Observable {
     List<Player> allPlayer = new ArrayList<>();
@@ -157,7 +158,7 @@ public class Board extends Observable {
 
 
         framePower = new JInternalFrame("frameChat", false, false, false, false);
-        framePower.setBounds(frameSize.width * 50/100 - frameSize.width * 20/100, frameSize.height * 50/100 - frameSize.height * 20/100, frameSize.width * 40/100, frameSize.height * 40/100);
+        framePower.setBounds(frameSize.width * 30/100, frameSize.height * 30/100, frameSize.width * 40/100, frameSize.height * 40/100);
         internalFrameSetUp(framePower);
         BasicInternalFrameUI bi = (BasicInternalFrameUI)framePower.getUI();
         bi.setNorthPane(null);
@@ -795,10 +796,7 @@ public class Board extends Observable {
         }
         private void removeMove() {
             for (int x = 0; x < 25; x++){
-                for (int y = 0; y < mapButtons[x].getActionListeners().length; y++){
-                    if (mapButtons[x].getActionListeners()[y].getClass().equals(Move.class))
-                        mapButtons[x].removeActionListener(mapButtons[x].getActionListeners()[y]);
-                }
+                eliminateActionClass(mapButtons[x], Move.class);
             }
         }
     }

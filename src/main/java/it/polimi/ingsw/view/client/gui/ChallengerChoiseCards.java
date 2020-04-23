@@ -2,27 +2,41 @@ package it.polimi.ingsw.view.client.gui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import static it.polimi.ingsw.view.client.gui.Gui.*;
 
 public class ChallengerChoiseCards extends JPanel{
 
     Dimension frameSize = new Dimension();
+    Dimension intFrameSize = new Dimension();
     Dimension cardSize = new Dimension();
+    JFrame intFrame;
     ArrayList<JButton> buttons = new ArrayList<>();
+    JLabel power = new JLabel();
     private int count = 0;
+    private int chosen = 0;
+    private final int numberPlayers;
+    List<String> godChosen = new ArrayList<>();
+    JButton confirm = confirmButtonCreate();
 
     public ChallengerChoiseCards(Dimension frame, Integer numberOfPlayer) throws IOException {
 
         frameSize.setSize(frame);
+        numberPlayers = numberOfPlayer;
+        intFrameSize.setSize(frameSize.getWidth() * 40/100, frameSize.getHeight() * 40/100);
         final int xconst =  (int) (frameSize.width * 9/100);
         final int yconst = (int) frameSize.height * 24/100;
         int x = xconst;
         int y = yconst;
 
-
+        intFrame = new JFrame();
 
         cardSize.setSize((int) (frameSize.getWidth() * 9/100), (int) (frameSize.getHeight() * 23.15/100)); //(9, 22)
         setPreferredSize(frameSize);
@@ -30,32 +44,46 @@ public class ChallengerChoiseCards extends JPanel{
 
 
         JButton apollo = new JButton();
+        apollo.setName("Apollo");
         buttons.add(apollo);
         JButton artemis = new JButton();
+        artemis.setName("Artemis");
         buttons.add(artemis);
         JButton athena = new JButton();
+        athena.setName("Athena");
         buttons.add(athena);
         JButton atlas = new JButton();
+        atlas.setName("Atlas");
         buttons.add(atlas);
         JButton chronus = new JButton();
+        chronus.setName("Chronus");
         buttons.add(chronus);
         JButton demeter = new JButton();
+        demeter.setName("Demeter");
         buttons.add(demeter);
         JButton hepha = new JButton();
+        hepha.setName("Hephaestus");
         buttons.add(hepha);
         JButton hera = new JButton();
+        hera.setName("Hera");
         buttons.add(hera);
         JButton hestia = new JButton();
+        hestia.setName("Hestia");
         buttons.add(hestia);
         JButton hypnus = new JButton();
+        hypnus.setName("Hypnus");
         buttons.add(hypnus);
         JButton mino = new JButton();
+        mino.setName("Minotaur");
         buttons.add(mino);
         JButton pan = new JButton();
+        pan.setName("Pan");
         buttons.add(pan);
         JButton prome = new JButton();
+        prome.setName("Prometheus");
         buttons.add(prome);
         JButton zeus = new JButton();
+        zeus.setName("Zeus");
         buttons.add(zeus);
 
         buttonStyle();
@@ -100,10 +128,8 @@ public class ChallengerChoiseCards extends JPanel{
         choise.setBounds(frameSize.width * 35/100, frameSize.height * 10/100, frameSize.width * 30/100, frameSize.height * 10/100);
         add(choise);
 
-        JButton confirm = confirmButtonCreate();
+        eliminateActionClass(confirm, Gui.ChangePanel.class);
         add(confirm);
-
-
 
 
         if(numberOfPlayer == 2){
@@ -123,6 +149,9 @@ public class ChallengerChoiseCards extends JPanel{
              button.setContentAreaFilled(false);
              button.setFocusPainted(false);
              //button.setBorderPainted(false);
+             button.addMouseListener(new ColorBorder());
+             button.addMouseListener(new ShowPowerRight());
+             button.addActionListener(new ChooseGod());
          }
      }
 
@@ -176,4 +205,103 @@ public class ChallengerChoiseCards extends JPanel{
             }
          }
      }
+
+    private static class ColorBorder implements MouseListener {
+
+        @Override
+        public void mouseClicked(MouseEvent e) {/*override unnecessary*/}
+
+        @Override
+        public void mousePressed(MouseEvent e) {/*override unnecessary*/}
+
+        @Override
+        public void mouseReleased(MouseEvent e) {/*override unnecessary*/}
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            JButton c = (JButton)e.getSource();
+            c.setBorder(BorderFactory.createLineBorder(Color.yellow, 3));
+            c.setBorderPainted(true);
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            JButton c = (JButton)e.getSource();
+            c.setBorderPainted(false);
+        }
+    }
+
+    private class ShowPowerRight implements MouseListener {
+
+        @Override
+        public void mouseClicked(MouseEvent e) {/*override unnecessary*/}
+
+        @Override
+        public void mousePressed(MouseEvent e) {/*override unnecessary*/}
+
+        @Override
+        public void mouseReleased(MouseEvent e) {/*override unnecessary*/}
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            JButton c = (JButton)e.getSource();
+            if (c.getX() < frameSize.width * 50/100 && c.getY() < frameSize.height * 40/100) {
+                intFrame.setBounds((int) ((frameSize.width * 13 / 100) + c.getX()), (int) ((frameSize.height * 25.575 / 100)), intFrameSize.width, intFrameSize.height);
+            }
+            else if (c.getX() >= frameSize.width * 50/100 && c.getY() < frameSize.height * 40/100){
+                intFrame.setBounds((int) (c.getX() - (frameSize.width * 38 / 100)), (int) ((frameSize.height * 25.575 / 100)), intFrameSize.width, intFrameSize.height);
+            }
+            else if (c.getX() < frameSize.width * 50/100 && c.getY() >= frameSize.height * 40/100){
+                intFrame.setBounds((int) ((frameSize.width * 13 / 100) + c.getX()), (int) ((frameSize.height * 50.575 / 100)), intFrameSize.width, intFrameSize.height);
+            }
+            else
+                intFrame.setBounds((int) (c.getX() - (frameSize.width * 38 / 100)), (int) ((frameSize.height * 50.575 / 100)), intFrameSize.width, intFrameSize.height);
+            power.setText(null);
+            power.setText("questo è il potere di " + c.getName());
+            power.setBounds((intFrameSize.width * 40 / 100), (int) ((frameSize.height * 45 / 100)), intFrameSize.width * 20/100, intFrameSize.height * 10/100);
+            intFrame.add(power);
+            intFrame.setVisible(true);
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            intFrame.setVisible(false);
+        }
+    }
+
+
+
+    private class ChooseGod implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JButton c = (JButton)e.getSource();
+            if (0 <= chosen && chosen < numberPlayers){
+
+                eliminateMouseClass(c, ColorBorder.class);
+                eliminateActionClass(c, ChooseGod.class);
+                c.setBorder(BorderFactory.createLineBorder(Color.red, 4));
+                c.setBorderPainted(true);
+                godChosen.add(c.getName());
+                chosen++;
+                c.addActionListener(new RemoveGod());
+            }
+            if (chosen == numberPlayers && confirm.getActionListeners().length == 0){
+                confirm.addActionListener(new Gui.ChangePanel());
+            }
+        }
+    }
+    private class RemoveGod implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JButton c = (JButton)e.getSource();
+            eliminateActionClass(c, RemoveGod.class);
+            c.setBorder(null);
+            c.setBorderPainted(false);
+            c.addMouseListener(new ColorBorder());
+            godChosen.remove(c.getName());
+            chosen--;
+            c.addActionListener(new ChooseGod());
+            eliminateActionClass(c, Gui.ChangePanel.class);
+        }
+    }
 }
