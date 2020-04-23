@@ -157,7 +157,7 @@ public class Board extends Observable {
 
 
         framePower = new JInternalFrame("frameChat", false, false, false, false);
-        framePower.setBounds(frameSize.width * 50/100 - frameSize.width * 20/100, frameSize.height * 50/100 - frameSize.height * 20/100, frameSize.width * 40/100, frameSize.height * 40/100);
+        framePower.setBounds(frameSize.width * 30/100, frameSize.height * 30/100, frameSize.width * 40/100, frameSize.height * 40/100);
         internalFrameSetUp(framePower);
         BasicInternalFrameUI bi = (BasicInternalFrameUI)framePower.getUI();
         bi.setNorthPane(null);
