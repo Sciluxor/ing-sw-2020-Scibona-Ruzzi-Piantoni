@@ -40,7 +40,7 @@ public class Prometheus extends Card {
     public List<Directions> notUpMove(GameMap gameMap, Worker worker) {
         if (worker == null)
             throw new NullPointerException("null worker");
-        int level_position = worker.getBoardPosition().getBuildingLevel();
+        int levelPosition = worker.getBoardPosition().getBuildingLevel();
         Map<Directions, Integer> canAccess = worker.getBoardPosition().getCanAccess();
         List<Directions> reachableSquares = new ArrayList<>();
 
@@ -48,7 +48,7 @@ public class Prometheus extends Card {
             int squareTile = canAccess.get(dir);
             if (squareTile > ConstantsContainer.MINMAPPOSITION && squareTile <= ConstantsContainer.MAXMAPPOSITION) {
                 Square possibleSquare = gameMap.getGameMap().get(squareTile - 1);
-                if (!possibleSquare.hasPlayer() && (possibleSquare.getBuildingLevel() >= 0 && possibleSquare.getBuildingLevel() <= level_position && !worker.getBoardPosition().equals(possibleSquare))
+                if (!possibleSquare.hasPlayer() && (possibleSquare.getBuildingLevel() >= 0 && possibleSquare.getBuildingLevel() <= levelPosition && !worker.getBoardPosition().equals(possibleSquare))
                         && possibleSquare.getBuilding() != Building.DOME) {
                     reachableSquares.add(dir);
                 }

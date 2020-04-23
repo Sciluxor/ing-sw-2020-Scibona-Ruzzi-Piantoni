@@ -34,7 +34,7 @@ public class Artemis extends Card {
     }
 
     public List<Directions> notPreviousMove(GameMap gameMap, Worker worker) {
-        int level_position = worker.getBoardPosition().getBuildingLevel();
+        int levelPosition = worker.getBoardPosition().getBuildingLevel();
         Map<Directions,Integer> canAccess = worker.getBoardPosition().getCanAccess();
         List<Directions> reachableSquares = new ArrayList<>();
 
@@ -42,7 +42,7 @@ public class Artemis extends Card {
             int squareTile = canAccess.get(dir);
             if(squareTile > ConstantsContainer.MINMAPPOSITION && squareTile <= ConstantsContainer.MAXMAPPOSITION) { //rivedere questo if
                 Square possibleSquare = gameMap.getGameMap().get(squareTile- 1);
-                if(!possibleSquare.hasPlayer() && (possibleSquare.getBuildingLevel() >= 0 && possibleSquare.getBuildingLevel() <= level_position +1)
+                if(!possibleSquare.hasPlayer() && (possibleSquare.getBuildingLevel() >= 0 && possibleSquare.getBuildingLevel() <= levelPosition +1)
                         && possibleSquare.getBuilding() != Building.DOME && !(possibleSquare.equals(worker.getPreviousBoardPosition()))) {
                     reachableSquares.add(dir);
                 }

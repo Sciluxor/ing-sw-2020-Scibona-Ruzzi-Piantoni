@@ -24,7 +24,7 @@ public class ConfigLoader {
     }
 
 
-    private class configContainer{
+    private class ConfigContainer{
         private int socketPort;
         private int lobbyTimer;
         private int turnTimer;
@@ -32,13 +32,13 @@ public class ConfigLoader {
 
     public static void loadSetting(){
         Gson gsonServer = new Gson();
-        ConfigLoader.configContainer container;
+        ConfigLoader.ConfigContainer container;
 
         try{
             String configPath = "/ServerConfig.json";
             InputStreamReader serverConfigInput = new InputStreamReader(ConfigLoader.class.getResourceAsStream(configPath));
             JsonReader serverConfigReader = new JsonReader(serverConfigInput);
-            container = gsonServer.fromJson(serverConfigReader, ConfigLoader.configContainer.class);
+            container = gsonServer.fromJson(serverConfigReader, ConfigLoader.ConfigContainer.class);
 
         }catch (Exception e){
 

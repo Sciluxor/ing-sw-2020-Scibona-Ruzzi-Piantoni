@@ -7,7 +7,6 @@ import it.polimi.ingsw.network.message.MessageType;
 import it.polimi.ingsw.utils.ConfigLoader;
 import it.polimi.ingsw.utils.ConstantsContainer;
 import it.polimi.ingsw.utils.LobbyTimerTask;
-import it.polimi.ingsw.utils.Logger;
 import it.polimi.ingsw.view.server.VirtualView;
 
 import java.io.*;
@@ -85,7 +84,7 @@ public class ClientHandler implements Runnable, ConnectionInterface {
             objectOut.reset();
 
         }catch (IOException e){
-            Logger.info("error in connection");
+            Server.LOGGER.severe(e.getMessage());
         }
 
     }
@@ -114,7 +113,7 @@ public class ClientHandler implements Runnable, ConnectionInterface {
             objectOut.close();
             socket.close();
         }catch (IOException e){
-            Logger.info("problem in closing connection");
+            Server.LOGGER.severe(e.getMessage());
         }
     }
 
@@ -124,7 +123,7 @@ public class ClientHandler implements Runnable, ConnectionInterface {
         try{
             socket.close();
         }catch (IOException e){
-            Logger.info("problem in closing connection");
+            Server.LOGGER.severe(e.getMessage());
         }
     }
 
@@ -203,14 +202,14 @@ public class ClientHandler implements Runnable, ConnectionInterface {
                 server.handleDisconnection(userID,this,new Message(userID,nickName,MessageType.DISCONNECTION,MessageSubType.ERROR));
             }
             catch(ClassNotFoundException c){
-                Logger.info("problem with class");
+                Server.LOGGER.severe(c.getMessage());
             }
             finally {
                 if(isConnectionActive)
                     closeConnection();
                 else
                     closeAfterDisconnection();
-                Logger.info("player disconnected");
+                Server.LOGGER.info("player disconnected");
             }
         }
 

@@ -24,7 +24,7 @@ public class Minotaur extends Card {
         if (gameMap == null ||worker == null)
             throw new NullPointerException("null gameMap or worker");
 
-        int level_position = worker.getBoardPosition().getBuildingLevel();
+        int levelPosition = worker.getBoardPosition().getBuildingLevel();
         Map<Directions, Integer> canAccess = worker.getBoardPosition().getCanAccess();
         List<Directions> reachableSquares = new ArrayList<>();
 
@@ -32,7 +32,7 @@ public class Minotaur extends Card {
             int squareTile = canAccess.get(dir);
             if (squareTile > ConstantsContainer.MINMAPPOSITION && squareTile <= ConstantsContainer.MAXMAPPOSITION) { //rivedere questo if
                 Square possibleSquare = gameMap.getGameMap().get(squareTile - 1);
-                if ((possibleSquare.getBuildingLevel() >= 0 && possibleSquare.getBuildingLevel() <= level_position + 1)
+                if ((possibleSquare.getBuildingLevel() >= 0 && possibleSquare.getBuildingLevel() <= levelPosition + 1)
                         && possibleSquare.getBuilding() != Building.DOME) {
                     if (possibleSquare.hasPlayer()) {
                         if(canPush(gameMap, possibleSquare, dir))

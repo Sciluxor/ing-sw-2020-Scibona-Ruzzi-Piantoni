@@ -6,7 +6,6 @@ import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.utils.ConfigLoader;
 import it.polimi.ingsw.utils.ConstantsContainer;
 import it.polimi.ingsw.utils.FlowStatutsLoader;
-import it.polimi.ingsw.utils.Logger;
 import it.polimi.ingsw.view.server.VirtualView;
 
 import java.io.IOException;
@@ -24,6 +23,7 @@ public class Server {
     private Integer socketPort;
     private int numGameID;
     private int numUserID;
+    public static final java.util.logging.Logger LOGGER = java.util.logging.Logger.getLogger("Server");
 
     private Server(){
         numGameID = 0;
@@ -32,9 +32,9 @@ public class Server {
 
     public static void main( String[] args )
     {
-        Logger.info("Welcome to Santorini Server");
-        Logger.info("Server is starting...");
-        Logger.info("Please choose a Port (Default is 4700): ");
+        LOGGER.info("Welcome to Santorini Server");
+        LOGGER.info("Server is starting...");
+        LOGGER.info("Please choose a Port (Default is 4700): ");
 
         ConfigLoader.loadSetting();
         FlowStatutsLoader.loadFlow();  //aggiungere anche i controlli per gli errori
@@ -67,10 +67,10 @@ public class Server {
     public void startSocketServer(int port){
         try {
             this.socketHandler = new SocketHandler(port,this);
-            Logger.info("Server is listening on port: "+ port);
+            LOGGER.info("Server is listening on port: "+ port);
             closeServerIfRequested();
         }catch (IOException e){
-            Logger.info("Impossible to start the Server");
+            LOGGER.severe(e.getMessage());
         }
     }
 
@@ -87,7 +87,7 @@ public class Server {
                 removeFromConnections(connection);
             }
 
-            Logger.info("Server Shutted Down.");
+            LOGGER.info("Server Shutted Down.");
             System.exit(0);
         }
                                                                //vedere cosa fare per chiudere tutte le connessioni, bisogna inviare un mesaaggio.
@@ -126,7 +126,7 @@ public class Server {
         }
     }
 
-    public void insertPlayerInGame(Message message,ClientHandler connection,boolean isFirstTime){
+    public void insertPlayerInGame(Message message,ClientHandler connection,boolean isFirstTime) {
         synchronized (clientsLock) {
             String nick = message.getNickName();
             int numberOfPlayer = ((GameConfigMessage) message).getNumberOfPlayer();
@@ -212,7 +212,7 @@ public class Server {
         return controller.isFreeNick(nick);
     }
 
-    public GameController newMatch(int numberOfPlayer){
+    public GameController newMatch(int numberOfPlayer) {
         String gameID = ConstantsContainer.GAMEIDPREFIX + numGameID;
         numGameID++;
         GameController match = new GameController(numberOfPlayer,gameID);
@@ -258,7 +258,6 @@ public class Server {
     }
 
     public synchronized void  handleDisconnectionDuringGame(GameController controller){
-        //controller.stopStartedGame();
         synchronized (clientsLock) {
             actualMatches.remove(controller);
 
@@ -274,7 +273,7 @@ public class Server {
         new Thread(() -> {
             String input = "";
             while (!input.equalsIgnoreCase("close")) {
-                Logger.info("Type \"close\" to stop the server.");
+                LOGGER.info("Type \"close\" to stop the server.");
                 input = new Scanner(System.in).nextLine();
             }
 

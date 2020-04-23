@@ -11,6 +11,8 @@ import it.polimi.ingsw.model.player.PlayerQueue;
 import it.polimi.ingsw.utils.Observable;
 import it.polimi.ingsw.view.server.VirtualView;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.*;
 
 public class Game extends Observable<Response> {
@@ -26,6 +28,7 @@ public class Game extends Observable<Response> {
     private List<Color> availableColors;
     private List<String> availableCards;
     private PlayerQueue playerQueue;
+    private Random rand;
 
     private boolean hasWinner;
     private Player winner;
@@ -229,8 +232,15 @@ public class Game extends Observable<Response> {
     }
 
     public Player pickChallenger() {
-        int Challenger = (int) ((Math.random()*(numberOfPlayers)) - 1);
-        return settedPlayers.get(Challenger);
+        try {
+            rand = SecureRandom.getInstanceStrong();
+        }
+        catch (NoSuchAlgorithmException nsa){
+            //logger
+        }
+
+        int challenger = rand.nextInt(numberOfPlayers-1);
+        return settedPlayers.get(challenger);
     }
 
 

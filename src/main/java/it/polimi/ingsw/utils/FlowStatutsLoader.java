@@ -6,9 +6,7 @@ import it.polimi.ingsw.model.Response;
 import it.polimi.ingsw.network.message.MessageType;
 
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.*;
 
 public class FlowStatutsLoader {
 
@@ -16,7 +14,7 @@ public class FlowStatutsLoader {
             throw new IllegalStateException("FLowStatusLoader class cannot be instantiated");
         }
 
-        private static HashMap<Response,ArrayList<MessageType>> nextMessageFromStatus = new HashMap<>();
+        private static Map<Response,ArrayList<MessageType>> nextMessageFromStatus = new EnumMap<>(Response.class);
 
         private static class FlowContainer{
             Response type;

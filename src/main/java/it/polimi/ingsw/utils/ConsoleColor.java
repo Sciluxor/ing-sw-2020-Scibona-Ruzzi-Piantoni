@@ -2,21 +2,22 @@ package it.polimi.ingsw.utils;
 
 import it.polimi.ingsw.model.player.Color;
 
-import java.util.HashMap;
+import java.util.EnumMap;
+import java.util.Map;
 
 public class ConsoleColor {
 //implementare meglio con un Json
 
-    public final static String CLEARCONSOLE = "\033[H\033[2J";
-    public final static String RESET = "\033[0m";
-    public final static String PURPLE = "\033[0;35m";
-    public final static String WHITE = "\033[0;37m";
-    public final static String BLUE = "\033[0;34m";
+    public static final String CLEARCONSOLE = "\033[H\033[2J";
+    public static final String RESET = "\033[0m";
+    public static final String PURPLE = "\033[0;35m";
+    public static final String WHITE = "\033[0;37m";
+    public static final String BLUE = "\033[0;34m";
 
-    private static HashMap<Color,String> colorString;
+    private static Map<Color,String> colorString;
 
     public static void loadColor(){
-        colorString = new HashMap<>();
+        colorString = new EnumMap<>(Color.class);
         colorString.put(Color.PURPLE,PURPLE);
         colorString.put(Color.WHITE,WHITE);
         colorString.put(Color.BLUE,BLUE);

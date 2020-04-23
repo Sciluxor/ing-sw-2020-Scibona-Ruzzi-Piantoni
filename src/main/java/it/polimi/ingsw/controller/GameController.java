@@ -7,7 +7,6 @@ import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.utils.*;
 import it.polimi.ingsw.utils.Observer;
 import it.polimi.ingsw.view.server.VirtualView;
-
 import java.util.*;
 
 public class GameController implements Observer<Message> {

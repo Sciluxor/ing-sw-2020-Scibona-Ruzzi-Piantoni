@@ -158,7 +158,7 @@ public class Player {
             throw new NullPointerException("gameMap or worker == null");
 
         List<Directions> direction = findWorkerMove(gameMap, worker);
-        if(direction.size() > 0){
+        if(!direction.isEmpty()){
             for(Card card : constraint){
                 if (!checkConstraint(gameMap, worker, card, direction))
                     return  false;
@@ -171,7 +171,7 @@ public class Player {
 
     private boolean checkConstraint (GameMap gameMap, Worker worker, Card card, List<Directions> direction){
         if(card.getType().equals(CardType.YOURMOVE) && !card.getSubType().equals(CardSubType.NORMAL)){
-            return card.eliminateInvalidMove(gameMap, worker, direction).size() > 0;
+            return !card.eliminateInvalidMove(gameMap, worker, direction).isEmpty();
         }
         else if(card.getType().equals(CardType.YOURTURN) && !card.getSubType().equals(CardSubType.NORMAL)) {
             return card.canMove(this, worker);

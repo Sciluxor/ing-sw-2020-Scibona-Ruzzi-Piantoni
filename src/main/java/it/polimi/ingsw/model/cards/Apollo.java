@@ -46,7 +46,7 @@ public class Apollo extends Card {
     }
 
     public List<Directions> allReachableSquares(GameMap gameMap, Worker worker) {
-        int level_position = worker.getBoardPosition().getBuildingLevel();
+        int levelPosition = worker.getBoardPosition().getBuildingLevel();
         Map<Directions,Integer> canAccess = worker.getBoardPosition().getCanAccess();
         List<Directions> reachableSquares = new ArrayList<>();
 
@@ -54,7 +54,7 @@ public class Apollo extends Card {
             int squareTile  =canAccess.get(dir);
             if(squareTile > ConstantsContainer.MINMAPPOSITION && squareTile <= ConstantsContainer.MAXMAPPOSITION) { //rivedere questo if
                 Square possibleSquare = gameMap.getGameMap().get(squareTile- 1);
-                if((possibleSquare.getBuildingLevel() >= 0 && possibleSquare.getBuildingLevel() <= level_position +1 && !worker.getBoardPosition().equals(possibleSquare) )
+                if((possibleSquare.getBuildingLevel() >= 0 && possibleSquare.getBuildingLevel() <= levelPosition +1 && !worker.getBoardPosition().equals(possibleSquare) )
                         && possibleSquare.getBuilding() != Building.DOME ){
                     reachableSquares.add(dir);
                 }

@@ -32,7 +32,7 @@ public class ChallengerChoiceCardsCLI {
         while(cards.length == 1)
         {
             Card card = deck.get(cards[0]);
-            if(!(card == null)) {
+            if(card != null) {
                 System.out.println("Questo è il potere della divinità " + Color.ANSI_YELLOW + keyboard.toUpperCase() + Color.RESET + ":");
                 if (keyboard.equalsIgnoreCase("ATHENA") || keyboard.equalsIgnoreCase("HERA"))
                     System.out.print(printColorType("OPPONENT'S TURN"));

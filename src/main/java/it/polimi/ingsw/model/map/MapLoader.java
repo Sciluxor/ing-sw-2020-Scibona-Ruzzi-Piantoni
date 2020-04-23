@@ -5,10 +5,7 @@ import com.google.gson.stream.JsonReader;
 
 
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 public class MapLoader {
@@ -56,7 +53,7 @@ public class MapLoader {
 
     private static Map<Directions,Integer> createHashMapFromArray(Integer[] canAccess) {
 
-        Map<Directions, Integer> constructorMap = new HashMap<>();
+        Map<Directions, Integer> constructorMap = new EnumMap<>(Directions.class);
         int i = 0;
         for (Directions dir : Directions.values()) {
 

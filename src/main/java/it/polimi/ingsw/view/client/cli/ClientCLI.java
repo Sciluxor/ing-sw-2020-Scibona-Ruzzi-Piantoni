@@ -12,7 +12,6 @@ public class ClientCLI {
     private Color clientIn = Color.ANSI_BLUE;
     private SantoriniMap map = new SantoriniMap();
     private ChallengerChoiceCardsCLI challengerChoiceCardsCLI = new ChallengerChoiceCardsCLI();
-    private String keyboard;
     private Color clientColor;
     private Lobby lobby;
 
@@ -81,44 +80,44 @@ public class ClientCLI {
     }
 
     public void provaEsecuzione() {
-
+        String keyboard;
         Scanner input = new Scanner(System.in);
         
         System.out.print("Inserire ok per continuare: ");
-        this.keyboard = input.nextLine();
-        if(this.keyboard.equalsIgnoreCase("ok")) {
+        keyboard = input.nextLine();
+        if(keyboard.equalsIgnoreCase("ok")) {
             //cella[0][0].setHasPlayer(true);
             this.map.setCellaHasPlayer(0,0,true);
             this.map.printMap();
         }
 
         System.out.print("Inserire lvl1: ");
-        this.keyboard = input.nextLine();
-        if(this.keyboard.equalsIgnoreCase("lvl1")) {
+        keyboard = input.nextLine();
+        if(keyboard.equalsIgnoreCase("lvl1")) {
             //cella[0][0].setBuildingType("lvl1");
             this.map.setCellaBuildingType(0,0,keyboard);
             this.map.printMap();
         }
 
         System.out.print("Inserire lvl2: ");
-        this.keyboard = input.nextLine();
-        if(this.keyboard.equalsIgnoreCase("lvl2")) {
+        keyboard = input.nextLine();
+        if(keyboard.equalsIgnoreCase("lvl2")) {
             //cella[0][0].setBuildingType("lvl2");
             this.map.setCellaBuildingType(0,0,keyboard);
             this.map.printMap();
         }
 
         System.out.print("Inserire lvl3: ");
-        this.keyboard = input.nextLine();
-        if(this.keyboard.equalsIgnoreCase("lvl3")) {
+        keyboard = input.nextLine();
+        if(keyboard.equalsIgnoreCase("lvl3")) {
             //cella[0][0].setBuildingType("lvl3");
             this.map.setCellaBuildingType(0,0,keyboard);
             this.map.printMap();
         }
 
         System.out.print("Inserire dome: ");
-        this.keyboard = input.nextLine();
-        if(this.keyboard.equalsIgnoreCase("dome")) {
+        keyboard = input.nextLine();
+        if(keyboard.equalsIgnoreCase("dome")) {
             //cella[0][0].setBuildingType("Dome");
             this.map.setCellaBuildingType(0,0,keyboard);
             //cella[0][0].setHasPlayer(false);
@@ -130,7 +129,7 @@ public class ClientCLI {
         }
 
         System.out.print("Inserire qualcunque cosa per pulire la schermata e concludere: ");
-        this.keyboard = input.nextLine();
+        keyboard = input.nextLine();
         Color.clearConsole();
     }
 

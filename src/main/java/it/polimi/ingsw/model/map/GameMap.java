@@ -39,7 +39,7 @@ public class GameMap {
     public List<Directions> reachableSquares(Worker worker){
           if(worker == null)
               throw new NullPointerException("null worker");
-          int level_position = worker.getBoardPosition().getBuildingLevel();
+          int levelPosition = worker.getBoardPosition().getBuildingLevel();
           Map<Directions,Integer> canAccess = worker.getBoardPosition().getCanAccess();
           List<Directions> reachableSquares = new ArrayList<>();
 
@@ -47,7 +47,7 @@ public class GameMap {
               int squareTile  =canAccess.get(dir);
               if(squareTile > ConstantsContainer.MINMAPPOSITION && squareTile <= ConstantsContainer.MAXMAPPOSITION) {                                              //mettere come costanti
                   Square possibleSquare = gameMap.get(squareTile- 1);
-                  if(!possibleSquare.hasPlayer() && (possibleSquare.getBuildingLevel() >= 0 && possibleSquare.getBuildingLevel() <= level_position + 1 && !worker.getBoardPosition().equals(possibleSquare) )
+                  if(!possibleSquare.hasPlayer() && (possibleSquare.getBuildingLevel() >= 0 && possibleSquare.getBuildingLevel() <= levelPosition + 1 && !worker.getBoardPosition().equals(possibleSquare) )
                           && possibleSquare.getBuilding() != Building.DOME ){
                       reachableSquares.add(dir);
                   }
