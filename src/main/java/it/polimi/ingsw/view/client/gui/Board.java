@@ -68,10 +68,10 @@ public class Board extends Observable {
     JLabel lButtonBuild;
     JLabel lButtonMovePress;
     JLabel lButtonBuildPress;
-    JLabel button_power;
-    JLabel button_power_press;
-    JLabel button_chat;
-    JLabel button_chat_press;
+    JLabel lButtonPower;
+    JLabel lButtonPowerPress;
+    JLabel lButtonChat;
+    JLabel lButtonChatPress;
     private boolean chatOpen = false;
     Dimension frameSize = new Dimension();
     Dimension boardSize = new Dimension();
@@ -82,7 +82,7 @@ public class Board extends Observable {
     Font felixSmall;
     Font felixNormal;
     Font felixBold;
-    final  String PALETTE = "JInternalFrame.isPalette";
+    static final String PALETTE = "JInternalFrame.isPalette";
 
     public void show(Dimension screen, Integer numberOfPlayer, final ArrayList<Player> players, String gameId) throws IOException {
 
@@ -145,12 +145,12 @@ public class Board extends Observable {
         exit = ImageHandler.setImage("src/main/resources/Graphics/exit.png", 75, 75, sideSize.width * 12/100, sideSize.width * 12/100);
         lButtonBuild = ImageHandler.setImage("src/main/resources/Graphics/button_build.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
         lButtonMove = ImageHandler.setImage("src/main/resources/Graphics/button_move.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
-        button_power = ImageHandler.setImage("src/main/resources/Graphics/button_power.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
-        button_chat = ImageHandler.setImage("src/main/resources/Graphics/button_chat.png", 100, 100, frameSize.width * 5/100, frameSize.height * 7/100);
+        lButtonPower = ImageHandler.setImage("src/main/resources/Graphics/button_power.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
+        lButtonChat = ImageHandler.setImage("src/main/resources/Graphics/button_chat.png", 100, 100, frameSize.width * 5/100, frameSize.height * 7/100);
         lButtonBuildPress = ImageHandler.setImage("src/main/resources/Graphics/button_build_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
         lButtonMovePress = ImageHandler.setImage("src/main/resources/Graphics/button_move_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
-        button_power_press = ImageHandler.setImage("src/main/resources/Graphics/button_power_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
-        button_chat_press = ImageHandler.setImage("src/main/resources/Graphics/button_chat_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 7/100);
+        lButtonPowerPress = ImageHandler.setImage("src/main/resources/Graphics/button_power_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
+        lButtonChatPress = ImageHandler.setImage("src/main/resources/Graphics/button_chat_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 7/100);
 
 
         framePower = new JInternalFrame("frameChat", false, false, false, false);
@@ -734,7 +734,7 @@ public class Board extends Observable {
         buttonPower.setOpaque(false);
         buttonPower.setContentAreaFilled(false);
         buttonPower.setBorderPainted(false);
-        buttonPower.setIcon(button_power.getIcon());
+        buttonPower.setIcon(lButtonPower.getIcon());
         buttonPower.addMouseListener(new ButtonPress());
         desktopPane.add(buttonPower);
 
@@ -744,12 +744,12 @@ public class Board extends Observable {
         buttonChat.setOpaque(false);
         buttonChat.setContentAreaFilled(false);
         buttonChat.setBorderPainted(false);
-        buttonChat.setIcon(button_chat.getIcon());
+        buttonChat.setIcon(lButtonChat.getIcon());
         desktopPane.add(buttonChat);
 
 
 
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         f.setPreferredSize(frameSize);
 
         frameChat.setVisible(false);
@@ -968,8 +968,7 @@ public class Board extends Observable {
 
             buttonBuild.setEnabled(false);
             for (int x = 0; x < 25; x++){
-                if (!mapButtonsPlayer[x])
-                    if (mapButtonslvl[x] != 4)
+                if (!mapButtonsPlayer[x] && mapButtonslvl[x] != 4)
                         mapButtons[x].addActionListener(new Move());
             }
         }
@@ -1083,10 +1082,10 @@ public class Board extends Observable {
                 buttonBuild.setIcon(lButtonBuildPress.getIcon());
             }
             else if (buttonPower == c){
-                buttonPower.setIcon(button_power_press.getIcon());
+                buttonPower.setIcon(lButtonPowerPress.getIcon());
             }
             else
-                buttonChat.setIcon(button_chat_press.getIcon());
+                buttonChat.setIcon(lButtonChatPress.getIcon());
         }
 
         @Override
@@ -1100,10 +1099,10 @@ public class Board extends Observable {
                 buttonBuild.setIcon(lButtonBuild.getIcon());
             }
             else if (buttonPower == c){
-                buttonPower.setIcon(button_power.getIcon());
+                buttonPower.setIcon(lButtonPower.getIcon());
             }
             else
-                buttonChat.setIcon(button_chat.getIcon());
+                buttonChat.setIcon(lButtonChat.getIcon());
         }
 
         @Override
