@@ -1,6 +1,3 @@
-package it.polimi.ingsw;
-
-
 import it.polimi.ingsw.view.client.cli.Cli;
 import it.polimi.ingsw.view.client.gui.Gui;
 

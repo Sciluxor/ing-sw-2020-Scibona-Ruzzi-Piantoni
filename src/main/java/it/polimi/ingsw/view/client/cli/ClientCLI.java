@@ -8,7 +8,8 @@ public class ClientCLI {
     private String nickname;
     private String gameID;
     private String userID;
-    private Color standard = Color.ANSI_RED;
+    private Color clientOut = Color.ANSI_RED;
+    private Color clientIn = Color.ANSI_BLUE;
     private SantoriniMap map = new SantoriniMap();
     private ChallengerChoiceCardsCLI challengerChoiceCardsCLI = new ChallengerChoiceCardsCLI();
     private String keyboard;
@@ -31,10 +32,10 @@ public class ClientCLI {
 
         Scanner input = new Scanner(System.in);
 
-        System.out.println(this.standard + "Inserire il nickname: ");
-        setNickname(input.nextLine());
+        System.out.println(setOutputColor("Inserire il nickname: "));
+        setNickname(setInputColor(input.nextLine()));
 
-        System.out.println("Inserire in numero (2/3) di giocatori: ");
+        System.out.println(setOutputColor("Inserire in numero (2/3) di giocatori: "));
         setNumberOfPlayers(input.nextInt());
 
         //lobby = new LobbyGui();
@@ -51,11 +52,11 @@ public class ClientCLI {
         Scanner input = new Scanner(System.in);
 
         while(nickname.length()<4 || nickname.length()>20) {
-            System.out.println("\nLUNGHEZZA NICKNAME NON VALIDA\nReinserire il nickname: ");
-            nickname = input.nextLine();
+            System.out.println(setOutputColor("\nLUNGHEZZA NICKNAME NON VALIDA\nReinserire il nickname: "));
+            nickname = setInputColor(input.nextLine());
         }
         this.nickname = nickname;
-        System.out.println("Nickname setted!\n");
+        System.out.println(setOutputColor("Nickname setted!\n"));
     }
 
     public int getNumberOfPlayers() {
@@ -68,11 +69,11 @@ public class ClientCLI {
 
         while(numberOfPlayers < 2 || numberOfPlayers > 3)
         {
-            System.out.println("\nNUMERO INVALIDO DI GIOCATORI\nReinserire il numero di giocatori (2/3): ");
-            numberOfPlayers = input.nextInt();
+            System.out.println(setOutputColor("\nNUMERO INVALIDO DI GIOCATORI\nReinserire il numero di giocatori (2/3): "));
+            numberOfPlayers = Integer.parseInt(setInputColor(input.nextLine()));
         }
         this.numberOfPlayers = numberOfPlayers;
-        System.out.println("NumberOfPlayers setted!\n" + standard.RESET);
+        System.out.println(setOutputColor("NumberOfPlayers setted!\n"));
     }
 
     public void setWorkersColor(Color clientColor) {
@@ -131,6 +132,14 @@ public class ClientCLI {
         System.out.print("Inserire qualcunque cosa per pulire la schermata e concludere: ");
         this.keyboard = input.nextLine();
         Color.clearConsole();
+    }
+
+    public String setOutputColor(String string) {
+        return this.clientOut + string + this.clientOut.RESET;
+    }
+
+    public String setInputColor(String string) {
+        return this.clientIn + string + this.clientIn.RESET;
     }
 
 }

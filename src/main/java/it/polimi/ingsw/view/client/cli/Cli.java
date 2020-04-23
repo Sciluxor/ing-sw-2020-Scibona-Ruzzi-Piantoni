@@ -11,6 +11,9 @@ public class Cli extends ClientGameController {
     private String keyboard;
     private String role;
 
+    private ClientCLI clientCLI = new ClientCLI();
+    private ServerCLI serverCLI = new ServerCLI();
+
     public Cli() {
         this.colorServer = Color.ANSI_BLUE;
         this.colorClient = Color.ANSI_RED;
@@ -66,11 +69,9 @@ public class Cli extends ClientGameController {
 
     public void jumpToRoleCode() {
         if(this.role.equals("SERVER")) {
-            ServerCLI serverCLI = new ServerCLI();
             serverCLI.printServer();
         }
         else if(this.role.equals("CLIENT")) {
-            ClientCLI clientCLI = new ClientCLI();
             clientCLI.printCLI();
         }
 

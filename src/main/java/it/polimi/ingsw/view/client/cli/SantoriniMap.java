@@ -6,6 +6,7 @@ public class SantoriniMap {
     private Color color = Color.ANSI_YELLOW;
     private static Color actualColor = Color.ANSI_YELLOW;
     private boolean hasDome = false;
+    private boolean firstExec = true;
 
     public SantoriniMap() {
         for(int i=0; i<5; i++) {
@@ -40,7 +41,9 @@ public class SantoriniMap {
     }
 
     public void printMap() {
-        Color.clearConsole();
+        if(!firstExec)
+            Color.clearConsole();
+        firstExec = false;
         for(int i=0; i<5; i++) {
             for(int t=0; t<5; t++) {
                 System.out.print(setPrinterColor("---------------------"));
