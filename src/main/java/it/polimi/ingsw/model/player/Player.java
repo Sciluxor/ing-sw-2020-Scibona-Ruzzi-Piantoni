@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.map.Directions;
 import it.polimi.ingsw.model.map.GameMap;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Player {
 
@@ -16,8 +17,8 @@ public class Player {
     private Card power;
     private Color color;
     private TurnStatus turnStatus;
-    private ArrayList<Card> constraint;
-    private ArrayList<Worker> workers;
+    private List<Card> constraint;
+    private List<Worker> workers;
     private Worker currentWorker;
     private Worker unmovedWorker;
     private boolean hasPlacedWorkers;
@@ -88,7 +89,7 @@ public class Player {
         this.turnStatus = turnStatus;
     }
 
-    public ArrayList<Card> getConstraint() { return constraint;}
+    public List<Card> getConstraint() { return constraint;}
 
     public void setConstraint(Card constraint) {
         if (constraint == null)
@@ -104,7 +105,7 @@ public class Player {
         this.constraint.remove(constraint);
     }
 
-    public ArrayList<Worker> getWorkers() { return workers;}
+    public List<Worker> getWorkers() { return workers;}
 
 
     public void setCurrentWorker(Worker currentWorker) {
@@ -156,7 +157,7 @@ public class Player {
         if (gameMap == null || worker == null)
             throw new NullPointerException("gameMap or worker == null");
 
-        ArrayList<Directions> direction = findWorkerMove(gameMap, worker);
+        List<Directions> direction = findWorkerMove(gameMap, worker);
         if(direction.size() > 0){
             for(Card card : constraint){
                 if (!checkConstraint(gameMap, worker, card, direction))
@@ -168,7 +169,7 @@ public class Player {
         return true;
     }
 
-    private boolean checkConstraint (GameMap gameMap, Worker worker, Card card, ArrayList<Directions> direction){
+    private boolean checkConstraint (GameMap gameMap, Worker worker, Card card, List<Directions> direction){
         if(card.getType().equals(CardType.YOURMOVE) && !card.getSubType().equals(CardSubType.NORMAL)){
             return card.eliminateInvalidMove(gameMap, worker, direction).size() > 0;
         }
@@ -190,7 +191,7 @@ public class Player {
         return power.getFirstAction();
     }
 
-    public ArrayList<Directions> findWorkerMove(GameMap gameMap, Worker worker){
+    public List<Directions> findWorkerMove(GameMap gameMap, Worker worker){
         if (gameMap == null || worker == null)
             throw new NullPointerException("gameMap or worker == null");
 
@@ -204,7 +205,7 @@ public class Player {
         return power.executeWorkerMove(gameMap, direction, this);
     }
 
-    public ArrayList<Directions> findPossibleBuild(GameMap gameMap, Worker worker){
+    public List<Directions> findPossibleBuild(GameMap gameMap, Worker worker){
         if (gameMap == null || worker == null)
             throw new NullPointerException("gameMap or worker == null");
 
@@ -226,11 +227,11 @@ public class Player {
     }
 
 
-    public void assignConstraint(ArrayList<Player> playerArrayList){
-        if(playerArrayList == null)
+    public void assignConstraint(List<Player> playerList){
+        if(playerList == null)
             throw new NullPointerException("null playerArrayList");
 
-        for(Player player: playerArrayList){
+        for(Player player: playerList){
             if(!player.equals(this))
                 player.setConstraint(this.getPower());
         }

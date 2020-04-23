@@ -7,6 +7,8 @@ import com.google.gson.stream.JsonReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class MapLoader {
@@ -24,7 +26,7 @@ public class MapLoader {
         Integer[] xy;
     }
 
-    public static ArrayList<Square> loadMap(){
+    public static List<Square> loadMap(){
         Gson gsonMap = new Gson();
         SquareContainer[] containers;
 
@@ -40,11 +42,11 @@ public class MapLoader {
 
         }
 
-        ArrayList<Square> squares = new ArrayList<>();
+        List<Square> squares = new ArrayList<>();
 
         for(SquareContainer container: containers){
 
-            HashMap<Directions,Integer> canAccess = createHashMapFromArray(container.canAccess);
+            Map<Directions,Integer> canAccess = createHashMapFromArray(container.canAccess);
             squares.add(new Square(container.tile,container.buildingLevel,container.building,container.hasPlayer,canAccess,container.xy));
 
         }
@@ -52,9 +54,9 @@ public class MapLoader {
         return squares;
     }
 
-    private static HashMap<Directions,Integer> createHashMapFromArray(Integer[] canAccess) {
+    private static Map<Directions,Integer> createHashMapFromArray(Integer[] canAccess) {
 
-        HashMap<Directions, Integer> constructorMap = new HashMap<>();
+        Map<Directions, Integer> constructorMap = new HashMap<>();
         int i = 0;
         for (Directions dir : Directions.values()) {
 

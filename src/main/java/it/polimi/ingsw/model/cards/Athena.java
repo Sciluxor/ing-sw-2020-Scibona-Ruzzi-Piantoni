@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.model.Response;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Athena extends Card {
 
@@ -33,9 +34,9 @@ public class Athena extends Card {
     }
 
     @Override
-    public ArrayList<Directions> eliminateInvalidMove(GameMap gameMap, Worker worker, ArrayList<Directions> directionsArrayList) {
+    public List<Directions> eliminateInvalidMove(GameMap gameMap, Worker worker, List<Directions> directionsArrayList) {
         Square currentSquare = worker.getBoardPosition();
-        ArrayList<Directions> toRemoveDirections = new ArrayList<>();
+        List<Directions> toRemoveDirections = new ArrayList<>();
         for (Directions dir : directionsArrayList) {
             Square possibleSquare = gameMap.getGameMap().get(currentSquare.getCanAccess().get(dir) - 1);
             if (possibleSquare.getBuildingLevel() == currentSquare.getBuildingLevel() + 1) {

@@ -10,7 +10,7 @@ import it.polimi.ingsw.model.Response;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -20,7 +20,7 @@ class CardTest {
     Card cardA, cardAp, cardHy, cardHe, cardCr, cardDe;
     Worker worker1,worker2;
     GameMap gameMap;
-    ArrayList<Directions> directions;
+    List<Directions> directions;
 
 
     @BeforeEach

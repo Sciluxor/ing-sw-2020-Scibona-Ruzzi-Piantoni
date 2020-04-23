@@ -5,16 +5,16 @@ import it.polimi.ingsw.model.map.Directions;
 import it.polimi.ingsw.model.map.Square;
 import it.polimi.ingsw.model.Response;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class BuildWorkerMessage extends Message {
 
     private Directions direction;
     private Building building;
-    private ArrayList<Square> modifiedSquare;
+    private List<Square> modifiedSquare;
     private Response winResponse;
 
-    public BuildWorkerMessage(String sender, String nickName, MessageType type, MessageSubType subType, Directions direction, Building building,Response winResponse,ArrayList<Square> squares) {
+    public BuildWorkerMessage(String sender, String nickName, MessageType type, MessageSubType subType, Directions direction, Building building,Response winResponse,List<Square> squares) {
         super(sender, nickName, MessageType.BUILDWORKER, subType);
         this.direction = direction;
         this.building = building;
@@ -30,7 +30,7 @@ public class BuildWorkerMessage extends Message {
         return building;
     }
 
-    public ArrayList<Square> getModifiedSquare() {
+    public List<Square> getModifiedSquare() {
         return modifiedSquare;
     }
 

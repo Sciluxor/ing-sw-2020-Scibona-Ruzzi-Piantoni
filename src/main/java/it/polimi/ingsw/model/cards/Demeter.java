@@ -9,7 +9,8 @@ import it.polimi.ingsw.model.Response;
 import it.polimi.ingsw.utils.ConstantsContainer;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Demeter extends Card {
 
@@ -21,7 +22,7 @@ public class Demeter extends Card {
     }
 
     @Override
-    public ArrayList<Directions> findPossibleBuild(GameMap gameMap, Worker worker) {
+    public List<Directions> findPossibleBuild(GameMap gameMap, Worker worker) {
         if(gameMap == null || worker == null)
             throw new NullPointerException("null gameMap or worker");
 
@@ -31,10 +32,10 @@ public class Demeter extends Card {
         return gameMap.reachableSquares(worker);
     }
 
-    public ArrayList<Directions> notPreviousBuild(GameMap gameMap, Worker worker) {
+    public List<Directions> notPreviousBuild(GameMap gameMap, Worker worker) {
         int levelPosition = worker.getBoardPosition().getBuildingLevel();
-        HashMap<Directions,Integer> canAccess = worker.getBoardPosition().getCanAccess();
-        ArrayList<Directions> reachableSquares = new ArrayList<>();
+        Map<Directions,Integer> canAccess = worker.getBoardPosition().getCanAccess();
+        List<Directions> reachableSquares = new ArrayList<>();
 
         for(Directions dir: Directions.values()){
             int squareTile = canAccess.get(dir);

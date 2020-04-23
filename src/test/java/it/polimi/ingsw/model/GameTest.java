@@ -14,19 +14,20 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameTest {
 
-    ArrayList<VirtualView> players;
+    List<VirtualView> players;
     ClientHandler connection1, connection2, connection3;
     VirtualView viewPlayer1, viewPlayer2, viewPlayer3, viewPlayer4;
     Player player1, player2, player3, player4, player5, player6;
     Card cardApollo, cardAthena, cardAtlas, cardHera, cardHypnus;
     Game game;
-    HashMap<String, Card> deck;
+    Map<String, Card> deck;
     GameMap gameMap;
 
     @BeforeEach

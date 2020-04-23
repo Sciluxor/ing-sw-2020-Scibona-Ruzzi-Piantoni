@@ -4,7 +4,7 @@ import it.polimi.ingsw.model.player.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -36,7 +36,7 @@ class GameMapTest {
         map.getGameMap().get(5).addBuildingLevel();
         map.getGameMap().get(5).addBuildingLevel();
 
-        ArrayList<Directions> directions = map.reachableSquares(player1.getWorkers().get(1));
+        List<Directions> directions = map.reachableSquares(player1.getWorkers().get(1));
         assertEquals(1, directions.size());
         assertEquals(Directions.OVEST,directions.get(0));
 
@@ -97,7 +97,7 @@ class GameMapTest {
         map.getGameMap().get(5).addBuildingLevel();
         map.getGameMap().get(5).addBuildingLevel();
 
-        ArrayList<Directions> directions = map.buildableSquare(player1.getWorkers().get(1));
+        List<Directions> directions = map.buildableSquare(player1.getWorkers().get(1));
         assertEquals(2, directions.size());
         assertEquals(Directions.SUD,directions.get(0));
         assertEquals(Directions.OVEST,directions.get(1));

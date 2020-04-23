@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.player.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,7 +15,7 @@ class HypnusTest {
     Player player1, player2;
     Card cardHypn;
     GameMap gameMap;
-    ArrayList<Directions> directions;
+    List<Directions> directions;
 
     @BeforeEach
     void setup(){

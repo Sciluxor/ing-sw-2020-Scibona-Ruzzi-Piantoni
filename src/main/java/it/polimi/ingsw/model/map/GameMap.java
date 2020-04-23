@@ -4,16 +4,17 @@ import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.utils.ConstantsContainer;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class GameMap {
 
 
 
-    private ArrayList<Square> gameMap;
-    private HashMap<Worker, Square> workersPosition;           //forse non serve
+    private List<Square> gameMap;
+    private Map<Worker, Square> workersPosition;           //forse non serve
     private Square [][]linkToCoordinates = new Square[ConstantsContainer.MAXMAPPOSITION][ConstantsContainer.MAXMAPPOSITION]; // mettere come costanti
-    private ArrayList<Square> modifiedSquare = new ArrayList<>();
+    private List<Square> modifiedSquare = new ArrayList<>();
 
     public GameMap() {
         this.gameMap = MapLoader.loadMap();
@@ -35,12 +36,12 @@ public class GameMap {
     //function to find all the reachable square moving from a specific square
     //
 
-    public ArrayList<Directions> reachableSquares(Worker worker){
+    public List<Directions> reachableSquares(Worker worker){
           if(worker == null)
               throw new NullPointerException("null worker");
           int level_position = worker.getBoardPosition().getBuildingLevel();
-          HashMap<Directions,Integer> canAccess = worker.getBoardPosition().getCanAccess();
-          ArrayList<Directions> reachableSquares = new ArrayList<>();
+          Map<Directions,Integer> canAccess = worker.getBoardPosition().getCanAccess();
+          List<Directions> reachableSquares = new ArrayList<>();
 
           for(Directions dir: Directions.values()){
               int squareTile  =canAccess.get(dir);
@@ -79,11 +80,11 @@ return reachableSquares;
     //function that change the position of the worker
     //
 
-    public ArrayList<Directions> buildableSquare(Worker worker){
+    public List<Directions> buildableSquare(Worker worker){
         if(worker == null)
             throw new NullPointerException("null worker");
-        ArrayList<Directions> buildableSquare = new ArrayList<>();
-        HashMap<Directions,Integer> canAccess = worker.getBoardPosition().getCanAccess();
+        List<Directions> buildableSquare = new ArrayList<>();
+        Map<Directions,Integer> canAccess = worker.getBoardPosition().getCanAccess();
 
         for(Directions dir: Directions.values()){
               int squareTile = canAccess.get(dir);
@@ -125,10 +126,10 @@ return reachableSquares;
     //function that return the positions of both player's workers
     //
 
-    public ArrayList<Square> getWorkersSquares(Player actualPlayer){
+    public List<Square> getWorkersSquares(Player actualPlayer){
         if(actualPlayer == null)
             throw new NullPointerException("player null");
-        ArrayList<Square> workerSquare = new ArrayList<>();
+        List<Square> workerSquare = new ArrayList<>();
 
         for(Worker worker : actualPlayer.getWorkers()){
             workerSquare.add(worker.getBoardPosition());
@@ -137,7 +138,7 @@ return reachableSquares;
         return workerSquare;
     }
 
-    public ArrayList<Square> getGameMap(){ return gameMap;}
+    public List<Square> getGameMap(){ return gameMap;}
 
 
     //
@@ -156,7 +157,7 @@ return reachableSquares;
         this.modifiedSquare.add(square);
     }
 
-    public ArrayList<Square> getModifiedSquare() {
+    public List<Square> getModifiedSquare() {
         return modifiedSquare;
     }
 
@@ -166,7 +167,7 @@ return reachableSquares;
 
     public void removeWorkersOfPlayer(Player player){
 
-        ArrayList<Square> workerSquares = getWorkersSquares(player);
+        List<Square> workerSquares = getWorkersSquares(player);
 
         clearModifiedSquare();
 

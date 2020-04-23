@@ -2,7 +2,7 @@ package it.polimi.ingsw.model.cards;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,7 +14,7 @@ class CardLoaderTest {
     @Test
     void CardLoadedContentCheck(){
 
-        HashMap<String,Card> deck = CardLoader.loadCards();
+        Map<String,Card> deck = CardLoader.loadCards();
         assertFalse(deck.get("chronus").isPlayableIn3());
         assertEquals("apollo",deck.get("apollo").getName());
         assertEquals(CardSubType.PERMANENTCONSTRAINT,deck.get("hypnus").getSubType());

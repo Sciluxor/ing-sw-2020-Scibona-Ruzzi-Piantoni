@@ -11,22 +11,20 @@ import it.polimi.ingsw.model.player.PlayerQueue;
 import it.polimi.ingsw.utils.Observable;
 import it.polimi.ingsw.view.server.VirtualView;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.*;
 
 public class Game extends Observable<Response> {
     private Integer numberOfPlayers;
-    private ArrayList<Player> settedPlayers;
+    private List<Player> settedPlayers;
     private int configPlayer;
-    private HashMap<String, Card> deck;
+    private Map<String, Card> deck;
     private Player currentPlayer;
     private GameMap gameMap;
     private boolean isGameStarted;
     private Response gameStatus;
     private String gameID;
-    private ArrayList<Color> availableColors;
-    private ArrayList<String> availableCards;
+    private List<Color> availableColors;
+    private List<String> availableCards;
     private PlayerQueue playerQueue;
 
     private boolean hasWinner;
@@ -46,11 +44,11 @@ public class Game extends Observable<Response> {
         availableColors.addAll(Arrays.asList(Color.values()));
     }
 
-    public ArrayList<String> getAvailableCards() {
+    public List<String> getAvailableCards() {
         return availableCards;
     }
 
-    public void setAvailableCards(ArrayList<String> cardNames) {
+    public void setAvailableCards(List<String> cardNames) {
         availableCards = cardNames;
     }
 
@@ -80,7 +78,7 @@ public class Game extends Observable<Response> {
     }
 
 
-    public ArrayList<Player> getPlayers() {
+    public List<Player> getPlayers() {
         return settedPlayers;
     }
 
@@ -157,7 +155,7 @@ public class Game extends Observable<Response> {
         return true;
     }
 
-    public HashMap<String, Card> getDeck() {
+    public Map<String, Card> getDeck() {
         return deck;
     }
 
@@ -240,7 +238,7 @@ public class Game extends Observable<Response> {
         if(nickname == null)
             throw new NullPointerException("null nickname");
 
-        ArrayList<Player> queue = new ArrayList<>();
+        List<Player> queue = new ArrayList<>();
 
         for(Player player1: settedPlayers) {
             if (player1.getNickname().equalsIgnoreCase(nickname)) {

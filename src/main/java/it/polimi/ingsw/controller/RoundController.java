@@ -13,6 +13,7 @@ import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.utils.FlowStatutsLoader;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class RoundController {
 
@@ -75,7 +76,7 @@ public class RoundController {
 
     public synchronized void handleChallengerChoice(Message message){
         if(FlowStatutsLoader.isRightMessage(game.getGameStatus(),message.getType())) {
-            ArrayList<String> cards = ((ChallengerChoiceMessage) message).getCards();
+            List<String> cards = ((ChallengerChoiceMessage) message).getCards();
             String firstPlayer = ((ChallengerChoiceMessage) message).getFirstPlayer();
 
 
@@ -93,7 +94,7 @@ public class RoundController {
 
     }
 
-    public boolean checkCardsChoice(ArrayList<String> cards){
+    public boolean checkCardsChoice(List<String> cards){
         for(String cardName : cards){
             if(game.getCardFromDeck(cardName) == null){
                 return false;
@@ -176,7 +177,7 @@ public class RoundController {
     //
 
     public void handleMovement(Message message) {
-        ArrayList<Directions> possibleMoveSquare = game.getCurrentPlayer().findWorkerMove(game.getGameMap(), game.getCurrentPlayer().getCurrentWorker());
+        List<Directions> possibleMoveSquare = game.getCurrentPlayer().findWorkerMove(game.getGameMap(), game.getCurrentPlayer().getCurrentWorker());
         Directions direction = ((MoveWorkerMessage) message).getDirection();
         Response response = Response.NOTMOVED;
 
@@ -250,7 +251,7 @@ public class RoundController {
 
 
     public void handleBuilding(Message message){
-        ArrayList<Directions> possibleBuildSquare = game.getCurrentPlayer().findPossibleBuild(game.getGameMap(),game.getCurrentPlayer().getCurrentWorker());
+        List<Directions> possibleBuildSquare = game.getCurrentPlayer().findPossibleBuild(game.getGameMap(),game.getCurrentPlayer().getCurrentWorker());
         Directions direction = ((BuildWorkerMessage) message).getDirection();
         Building building = ((BuildWorkerMessage) message).getBuilding();
         Response response = Response.NOTBUILDPLACE;
@@ -329,8 +330,8 @@ public class RoundController {
     //method to check if client has changed the right squares
     //
 
-    public boolean checkRightSquares(ArrayList<Square> clientModifiedSquares){
-        ArrayList<Square> realModifiedSquares = game.getGameMap().getModifiedSquare();
+    public boolean checkRightSquares(List<Square> clientModifiedSquares){
+        List<Square> realModifiedSquares = game.getGameMap().getModifiedSquare();
 
         if(realModifiedSquares.size() != clientModifiedSquares.size())
             return false;

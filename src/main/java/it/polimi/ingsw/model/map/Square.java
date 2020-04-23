@@ -4,7 +4,7 @@ import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.Worker;
 
 import java.io.Serializable;
-import java.util.HashMap;
+import java.util.Map;
 
 public class Square implements Serializable{
 
@@ -16,9 +16,9 @@ public class Square implements Serializable{
     private boolean hasPlayer;
     private Player player;
     private Worker worker;
-    private HashMap<Directions,Integer> canAccess;
+    private Map<Directions,Integer> canAccess;
 
-    public Square(Integer tile, int buildingLevel, Building building, boolean hasPlayer,HashMap<Directions,Integer> canAccess,Integer[] coordinates) {
+    public Square(Integer tile, int buildingLevel, Building building, boolean hasPlayer,Map<Directions,Integer> canAccess,Integer[] coordinates) {
         this.tile = tile;
         this.buildingLevel = buildingLevel;
         this.building = building;
@@ -88,7 +88,7 @@ public class Square implements Serializable{
         this.worker = worker;
     }
 
-    public HashMap<Directions, Integer> getCanAccess() {
+    public Map<Directions, Integer> getCanAccess() {
         return canAccess;
     }
 

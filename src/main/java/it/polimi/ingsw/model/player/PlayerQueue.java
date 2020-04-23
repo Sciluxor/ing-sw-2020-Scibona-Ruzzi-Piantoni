@@ -1,12 +1,12 @@
 package it.polimi.ingsw.model.player;
 
 import java.util.ArrayDeque;
-import java.util.ArrayList;
+import java.util.List;
 
 public class PlayerQueue extends ArrayDeque<Player> {
 
 
-    public PlayerQueue(ArrayList<Player> players) {
+    public PlayerQueue(List<Player> players) {
         super(players);
     }
 

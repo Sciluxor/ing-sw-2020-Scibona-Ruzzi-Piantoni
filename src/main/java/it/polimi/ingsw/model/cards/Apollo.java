@@ -10,7 +10,8 @@ import it.polimi.ingsw.model.Response;
 import it.polimi.ingsw.utils.ConstantsContainer;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Apollo extends Card {
 
@@ -19,7 +20,7 @@ public class Apollo extends Card {
     }
 
     @Override
-    public ArrayList<Directions> findWorkerMove(GameMap gameMap, Worker worker) {
+    public List<Directions> findWorkerMove(GameMap gameMap, Worker worker) {
         if(gameMap == null || worker == null)
             throw new NullPointerException("null gameMap or worker");
 
@@ -44,10 +45,10 @@ public class Apollo extends Card {
         return  Response.MOVED;
     }
 
-    public ArrayList<Directions> allReachableSquares(GameMap gameMap, Worker worker) {
+    public List<Directions> allReachableSquares(GameMap gameMap, Worker worker) {
         int level_position = worker.getBoardPosition().getBuildingLevel();
-        HashMap<Directions,Integer> canAccess = worker.getBoardPosition().getCanAccess();
-        ArrayList<Directions> reachableSquares = new ArrayList<>();
+        Map<Directions,Integer> canAccess = worker.getBoardPosition().getCanAccess();
+        List<Directions> reachableSquares = new ArrayList<>();
 
         for(Directions dir: Directions.values()){
             int squareTile  =canAccess.get(dir);

@@ -15,12 +15,12 @@ import java.util.*;
 public class Server {
 
     private final Object clientsLock = new Object();
-    private ArrayList<GameController> lobby = new ArrayList<>();
-    private ArrayList<GameController> actualMatches = new ArrayList<>();
-    private HashMap<String, GameController> controllerFromGameID = new HashMap<>();
-    private HashMap<String, GameController> controllerFromUserID = new HashMap<>();
+    private List<GameController> lobby = new ArrayList<>();
+    private List<GameController> actualMatches = new ArrayList<>();
+    private Map<String, GameController> controllerFromGameID = new HashMap<>();
+    private Map<String, GameController> controllerFromUserID = new HashMap<>();
     private SocketHandler socketHandler;
-    private ArrayList<ClientHandler> connections = new ArrayList<>();
+    private List<ClientHandler> connections = new ArrayList<>();
     private Integer socketPort;
     private int numGameID;
     private int numUserID;

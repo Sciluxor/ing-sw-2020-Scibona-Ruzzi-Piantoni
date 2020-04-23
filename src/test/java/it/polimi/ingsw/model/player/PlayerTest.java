@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,8 +20,8 @@ class PlayerTest {
     Card cardA, cardAp, cardHy, cardHe;
     Worker worker1,worker2;
     GameMap gameMap;
-    ArrayList<Directions> directions, directions2;
-    ArrayList<Player> players;
+    List<Directions> directions, directions2;
+    List<Player> players;
 
 
 

@@ -5,16 +5,15 @@ import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.Response;
 import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.utils.*;
+import it.polimi.ingsw.utils.Observer;
 import it.polimi.ingsw.view.server.VirtualView;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Timer;
+import java.util.*;
 
 public class GameController implements Observer<Message> {
 
     private Game game;
-    private HashMap<String, VirtualView> clients;
+    private Map<String, VirtualView> clients;
     private Timer turnTimer ;
     private RoundController roundController;
 
@@ -88,7 +87,7 @@ public class GameController implements Observer<Message> {
         }
     }
 
-    public synchronized ArrayList<Player> getActualPlayers(){
+    public synchronized List<Player> getActualPlayers(){
 
         return game.getPlayers();
     }
@@ -242,7 +241,7 @@ public class GameController implements Observer<Message> {
     }
 
     public synchronized boolean isFreeNick(String nick){
-        ArrayList<Player> players = game.getPlayers();
+        List<Player> players = game.getPlayers();
 
         for(Player player : players){
             if(player.getNickname().equals(nick))

@@ -7,7 +7,7 @@ import it.polimi.ingsw.model.Response;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -16,7 +16,7 @@ class MinotaurTest {
     Player player1, player2;
     Card cardMino, cardAtla;
     GameMap gameMap;
-    ArrayList<Directions> directions;
+    List<Directions> directions;
 
     @BeforeEach
     void setup(){

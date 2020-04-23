@@ -5,6 +5,7 @@ import com.google.gson.stream.JsonReader;
 
 import java.io.InputStreamReader;
 import java.util.HashMap;
+import java.util.Map;
 
 public class CardLoader {
 
@@ -22,7 +23,7 @@ public class CardLoader {
 
     }
 
-    public static HashMap<String, Card> loadCards(){
+    public static Map<String, Card> loadCards(){
         Gson gsonCard = new Gson();
         CardLoader.CardContainer[] containers;
 
@@ -38,7 +39,7 @@ public class CardLoader {
 
         }
 
-        HashMap<String,Card> deck = new HashMap<>();
+        Map<String,Card> deck = new HashMap<>();
         int i=0;
         deck.put(containers[i].name,new Apollo(containers[i].name,containers[i].description,containers[i].isPlayableIn3,containers[i].type,containers[i].subType));
         i++;

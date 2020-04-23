@@ -3,11 +3,12 @@ package it.polimi.ingsw.network.message;
 import it.polimi.ingsw.model.player.Color;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class WaitPlayerMessage extends Message {
 
-    private ArrayList<String> nickNames;
-    private ArrayList<Color> colors;
+    private List<String> nickNames;
+    private List<Color> colors;
 
 
     public WaitPlayerMessage(String sender,MessageSubType subType,String message) {
@@ -16,7 +17,7 @@ public class WaitPlayerMessage extends Message {
         colors = new ArrayList<>();
     }
 
-    public ArrayList<String> getNickNames() {
+    public List<String> getNickNames() {
         return nickNames;
     }
 
@@ -25,7 +26,7 @@ public class WaitPlayerMessage extends Message {
         this.nickNames.add(nickName);
     }
 
-    public ArrayList<Color> getColors() {
+    public List<Color> getColors() {
         return colors;
     }
 

@@ -3,15 +3,12 @@ package it.polimi.ingsw.view.client.cli;
 import it.polimi.ingsw.model.cards.Card;
 import it.polimi.ingsw.model.cards.CardLoader;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Scanner;
+import java.util.*;
 
 public class ChallengerChoiceCardsCLI {
 
-    private HashMap<String, Card> deck = CardLoader.loadCards();
-    private ArrayList<String> choosenCards = new ArrayList<>();
+    private Map<String, Card> deck = CardLoader.loadCards();
+    private List<String> choosenCards = new ArrayList<>();
 
     private Scanner input = new Scanner(System.in);
 

@@ -2,7 +2,7 @@ package it.polimi.ingsw.model.map;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,7 +15,7 @@ class MapLoaderTest {
         @Test
         void mapLoadedContentCheck(){
 
-            ArrayList<Square> squares = MapLoader.loadMap();
+            List<Square> squares = MapLoader.loadMap();
             assertEquals(25, squares.size());
             assert (squares.get(3).getCanAccess().get(Directions.OVEST) == 3);
             assertNotEquals(true, squares.get(6).hasPlayer());

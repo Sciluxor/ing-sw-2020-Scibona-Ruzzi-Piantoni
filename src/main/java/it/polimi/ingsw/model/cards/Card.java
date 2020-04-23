@@ -9,7 +9,7 @@ import it.polimi.ingsw.model.Response;
 import it.polimi.ingsw.utils.ConstantsContainer;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.List;
 
 public class Card implements Serializable {
 
@@ -54,7 +54,7 @@ public class Card implements Serializable {
 
     }
 
-    public ArrayList<Directions> findWorkerMove(GameMap gameMap, Worker worker) {
+    public List<Directions> findWorkerMove(GameMap gameMap, Worker worker) {
         if(gameMap == null || worker == null)
             throw new NullPointerException("null gameMap or worker");
 
@@ -69,7 +69,7 @@ public class Card implements Serializable {
         return  Response.MOVED;
     }
 
-    public ArrayList<Directions> findPossibleBuild(GameMap gameMap, Worker worker) {
+    public List<Directions> findPossibleBuild(GameMap gameMap, Worker worker) {
         if(gameMap == null || worker == null)
             throw new NullPointerException("null gameMap or worker");
 
@@ -96,7 +96,7 @@ public class Card implements Serializable {
         return Response.NOTWIN;
     }
 
-    public ArrayList<Directions> eliminateInvalidMove(GameMap gameMap, Worker worker, ArrayList<Directions> directionsArrayList) {
+    public List<Directions> eliminateInvalidMove(GameMap gameMap, Worker worker, List<Directions> directionsArrayList) {
         if(gameMap == null || worker == null || directionsArrayList == null)
             throw new NullPointerException("null gameMap or worker or directionsArrayList");
 

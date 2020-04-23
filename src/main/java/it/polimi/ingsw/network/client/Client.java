@@ -6,7 +6,6 @@ import it.polimi.ingsw.utils.ConstantsContainer;
 import it.polimi.ingsw.utils.Logger;
 import java.io.*;
 import java.net.Socket;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 

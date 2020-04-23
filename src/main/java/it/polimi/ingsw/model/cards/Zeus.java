@@ -4,7 +4,7 @@ import it.polimi.ingsw.model.map.Directions;
 import it.polimi.ingsw.model.map.GameMap;
 import it.polimi.ingsw.model.player.Worker;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class Zeus extends Card {
 
@@ -12,10 +12,10 @@ public class Zeus extends Card {
         super(name, description, isPlayableIn3, type, subType);
     }
     @Override
-    public ArrayList<Directions> findPossibleBuild(GameMap gameMap, Worker worker) {
+    public List<Directions> findPossibleBuild(GameMap gameMap, Worker worker) {
         if(gameMap == null || worker == null)
             throw new NullPointerException("null gameMap or worker");
-        ArrayList<Directions> direction = gameMap.reachableSquares(worker);
+        List<Directions> direction = gameMap.reachableSquares(worker);
         direction.add(Directions.CENTER);
         return direction;
     }
