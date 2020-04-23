@@ -2,10 +2,13 @@ package it.polimi.ingsw.view.client.gui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import static it.polimi.ingsw.view.client.gui.Gui.*;
 
@@ -18,10 +21,15 @@ public class ChallengerChoiseCards extends JPanel{
     ArrayList<JButton> buttons = new ArrayList<>();
     JLabel power = new JLabel();
     private int count = 0;
+    private int chosen = 0;
+    private int numberPlayers;
+    List<String> godChosen = new ArrayList<>();
+    JButton confirm = confirmButtonCreate();
 
     public ChallengerChoiseCards(Dimension frame, Integer numberOfPlayer) throws IOException {
 
         frameSize.setSize(frame);
+        numberPlayers = numberOfPlayer;
         intFrameSize.setSize(frameSize.getWidth() * 40/100, frameSize.getHeight() * 40/100);
         final int xconst =  (int) (frameSize.width * 9/100);
         final int yconst = (int) frameSize.height * 24/100;
@@ -120,7 +128,10 @@ public class ChallengerChoiseCards extends JPanel{
         choise.setBounds(frameSize.width * 35/100, frameSize.height * 10/100, frameSize.width * 30/100, frameSize.height * 10/100);
         add(choise);
 
-        JButton confirm = confirmButtonCreate();
+        for (int z = 0; z < confirm.getActionListeners().length; z++){
+            if (confirm.getActionListeners()[z].getClass().equals(Gui.ChangePanel.class))
+                confirm.removeActionListener(confirm.getActionListeners()[z]);
+        }
         add(confirm);
 
 
@@ -142,8 +153,8 @@ public class ChallengerChoiseCards extends JPanel{
              button.setFocusPainted(false);
              //button.setBorderPainted(false);
              button.addMouseListener(new ColorBorder());
-
              button.addMouseListener(new ShowPowerRight());
+             button.addActionListener(new ChooseGod());
          }
      }
 
@@ -198,7 +209,7 @@ public class ChallengerChoiseCards extends JPanel{
          }
      }
 
-    private class ColorBorder implements MouseListener {
+    private static class ColorBorder implements MouseListener {
 
         @Override
         public void mouseClicked(MouseEvent e) {/*override unnecessary*/}
@@ -223,27 +234,6 @@ public class ChallengerChoiseCards extends JPanel{
         }
     }
 
-    private class ShowPowerLeft implements MouseListener {
-
-        @Override
-        public void mouseClicked(MouseEvent e) {/*override unnecessary*/}
-
-        @Override
-        public void mousePressed(MouseEvent e) {/*override unnecessary*/}
-
-        @Override
-        public void mouseReleased(MouseEvent e) {/*override unnecessary*/}
-
-        @Override
-        public void mouseEntered(MouseEvent e) {
-            intFrame.setVisible(true);
-        }
-
-        @Override
-        public void mouseExited(MouseEvent e) {
-            intFrame.setVisible(false);
-        }
-    }
     private class ShowPowerRight implements MouseListener {
 
         @Override
@@ -280,5 +270,65 @@ public class ChallengerChoiseCards extends JPanel{
         public void mouseExited(MouseEvent e) {
             intFrame.setVisible(false);
         }
+    }
+
+
+
+    private class ChooseGod implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JButton c = (JButton)e.getSource();
+            if (0 <= chosen && chosen < numberPlayers){
+
+                for (int y = 0; y < c.getMouseListeners().length; y++){
+                    if (c.getMouseListeners()[y].getClass().equals(ColorBorder.class))
+                        c.removeMouseListener(c.getMouseListeners()[y]);
+                }
+                for (int y = 0; y < c.getActionListeners().length; y++){
+                    if (c.getActionListeners()[y].getClass().equals(ChooseGod.class))
+                        c.removeActionListener(c.getActionListeners()[y]);
+                }
+                c.setBorder(BorderFactory.createLineBorder(Color.red, 4));
+                c.setBorderPainted(true);
+                godChosen.add(c.getName());
+                chosen++;
+                c.addActionListener(new RemoveGod());
+            }
+            if (chosen == numberPlayers && confirm.getActionListeners().length == 0){
+                confirm.addActionListener(new Gui.ChangePanel());
+            }
+        }
+    }
+    private class RemoveGod implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JButton c = (JButton)e.getSource();
+
+            for (int y = 0; y < c.getActionListeners().length; y++){
+                if (c.getActionListeners()[y].getClass().equals(RemoveGod.class))
+                    c.removeActionListener(c.getActionListeners()[y]);
+            }
+            c.setBorder(null);
+            c.setBorderPainted(false);
+            c.addMouseListener(new ColorBorder());
+            godChosen.remove(c.getName());
+            chosen--;
+            c.addActionListener(new ChooseGod());
+
+            for (int z = 0; z < confirm.getActionListeners().length; z++){
+                if (confirm.getActionListeners()[z].getClass().equals(Gui.ChangePanel.class))
+                    confirm.removeActionListener(confirm.getActionListeners()[z]);
+            }
+
+        }
+    }
+
+    private boolean inChoosen(String name){
+        for (String god : godChosen){
+            if (god.equalsIgnoreCase(name)){
+                return true;
+            }
+        }
+        return false;
     }
 }
