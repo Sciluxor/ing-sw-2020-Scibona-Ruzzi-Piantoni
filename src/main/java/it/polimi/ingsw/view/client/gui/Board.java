@@ -115,7 +115,7 @@ public class Board extends Observable {
         JLabel cover1 = ImageHandler.setImage("src/main/resources/Graphics/panel_chat.png", 100, 100, sideSize.width, sideSize.height);
         sfondo2 = new JLabel(cover1.getIcon());
 
-        JLabel cover2 = ImageHandler.setImage("src/main/resources/Graphics/background.png", 100, 100, frameSize.width * 40/100, frameSize.height * 40/100);
+        JLabel cover2 = ImageHandler.setImage("src/main/resources/Graphics/title_sky.png", 100, 100, frameSize.width * 40/100, frameSize.height * 40/100);
         background = new JLabel(cover2.getIcon());
 
         felixSmall = new Font(Gui.FELIX, Font.PLAIN, (int) (13 * screen.getHeight() / 1080));
@@ -170,7 +170,7 @@ public class Board extends Observable {
         frameChat.setBounds(frameSize.width * 73/100, -20, sideSize.width, sideSize.height);
         internalFrameSetUp(frameChat);
         BasicInternalFrameUI bii = (BasicInternalFrameUI)frameChat.getUI();
-        bi.setNorthPane(null);
+        bii.setNorthPane(null);
 
 
         desktopPane = new JDesktopPane(){
@@ -251,19 +251,19 @@ public class Board extends Observable {
 
             if(os.contains("win")) {
                 //windows positions
-                mapButtons[0].setBounds((int) (frameSize.width * (29.5)/100) , (int) (frameSize.width * (7)/100),
+                mapButtons[0].setBounds((int) (frameSize.width * (29.5)/100) , frameSize.width * 7/100,
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                mapButtons[1].setBounds((int) (frameSize.width * (37.75)/100) , (int) (frameSize.width * (7)/100),
+                mapButtons[1].setBounds((int) (frameSize.width * (37.75)/100) , frameSize.width * 7/100,
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                mapButtons[2].setBounds((int) (frameSize.width * (46)/100) , (int) (frameSize.width * (7)/100),
+                mapButtons[2].setBounds(frameSize.width * 46/100 , frameSize.width * 7/100,
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                mapButtons[3].setBounds((int) (frameSize.width * (54.25)/100) , (int) (frameSize.width * (7)/100),
+                mapButtons[3].setBounds((int) (frameSize.width * (54.25)/100) , frameSize.width * 7/100,
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                mapButtons[4].setBounds((int) (frameSize.width * (62.5)/100) , (int) (frameSize.width * (7)/100),
+                mapButtons[4].setBounds((int) (frameSize.width * (62.5)/100) , frameSize.width * 7/100,
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
                 mapButtons[5].setBounds((int) (frameSize.width * (62.5)/100) , (int) (frameSize.width * (15.31)/100),
@@ -281,7 +281,7 @@ public class Board extends Observable {
                 mapButtons[9].setBounds((int) (frameSize.width * (54.25)/100) , (int) (frameSize.width * (40.24)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                mapButtons[10].setBounds((int) (frameSize.width * (46)/100) , (int) (frameSize.width * (40.24)/100),
+                mapButtons[10].setBounds(frameSize.width * 46/100 , (int) (frameSize.width * (40.24)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
                 mapButtons[11].setBounds((int) (frameSize.width * (37.75)/100) , (int) (frameSize.width * (40.24)/100),
@@ -302,7 +302,7 @@ public class Board extends Observable {
                 mapButtons[16].setBounds((int) (frameSize.width * (37.75)/100) , (int) (frameSize.width * (15.31)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                mapButtons[17].setBounds((int) (frameSize.width * (46)/100) , (int) (frameSize.width * (15.31)/100),
+                mapButtons[17].setBounds(frameSize.width * 46/100 , (int) (frameSize.width * (15.31)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
                 mapButtons[18].setBounds((int) (frameSize.width * (54.25)/100) , (int) (frameSize.width * (15.31)/100),
@@ -314,7 +314,7 @@ public class Board extends Observable {
                 mapButtons[20].setBounds((int) (frameSize.width * (54.25)/100) , (int) (frameSize.width * (31.93)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                mapButtons[21].setBounds((int) (frameSize.width * (46)/100) , (int) (frameSize.width * (31.93)/100),
+                mapButtons[21].setBounds(frameSize.width * 46/100 , (int) (frameSize.width * (31.93)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
                 mapButtons[22].setBounds((int) (frameSize.width * (37.75)/100) , (int) (frameSize.width * (31.93)/100),
@@ -323,7 +323,7 @@ public class Board extends Observable {
                 mapButtons[23].setBounds((int) (frameSize.width * (37.75)/100) , (int) (frameSize.width * (23.62)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
 
-                mapButtons[24].setBounds((int) (frameSize.width * (46)/100) , (int) (frameSize.width * (23.62)/100),
+                mapButtons[24].setBounds(frameSize.width * 46/100 , (int) (frameSize.width * (23.62)/100),
                         frameSize.height * 13/100, frameSize.height * 13/100);
             }
             else {
@@ -412,19 +412,19 @@ public class Board extends Observable {
         addMapButton();
 
 
-        buttonLv1.setBounds((frameSize.width * 81/100), (frameSize.height * 19/100), frameSize.width * 5/100, frameSize.width * 5/100);
+        buttonLv1.setBounds(frameSize.width * 81/100, frameSize.height * 19/100, frameSize.width * 5/100, frameSize.width * 5/100);
         buttonLv1.setIcon(lvl1Building.getIcon());
         desktopPane.add(buttonLv1);
 
-        buttonLv2.setBounds((frameSize.width * 89/100), (frameSize.height * 19/100), frameSize.width * 5/100, frameSize.width * 5/100);
+        buttonLv2.setBounds(frameSize.width * 89/100, frameSize.height * 19/100, frameSize.width * 5/100, frameSize.width * 5/100);
         buttonLv2.setIcon(lvl2Building.getIcon());
         desktopPane.add(buttonLv2);
 
-        buttonLv3.setBounds((frameSize.width * 81/100), (frameSize.height * 31/100), frameSize.width * 5/100, frameSize.width * 5/100);
+        buttonLv3.setBounds(frameSize.width * 81/100, frameSize.height * 31/100, frameSize.width * 5/100, frameSize.width * 5/100);
         buttonLv3.setIcon(lvl3Building.getIcon());
         desktopPane.add(buttonLv3);
 
-        buttonDome.setBounds((frameSize.width * 89/100), (frameSize.height * 31/100), frameSize.width * 5/100, frameSize.width * 5/100);
+        buttonDome.setBounds(frameSize.width * 89/100, frameSize.height * 31/100, frameSize.width * 5/100, frameSize.width * 5/100);
         buttonDome.setIcon(domeBuilding.getIcon());
         buttonDome.setBorderPainted(false);
         buttonDome.setContentAreaFilled(false);
@@ -432,18 +432,18 @@ public class Board extends Observable {
 
 
 
-        buttonMove.setBounds((int) (frameSize.width * 79/100), (frameSize.height * 46/100), frameSize.width * 5/100, frameSize.height * 5/100);
+        buttonMove.setBounds(frameSize.width * 79/100, frameSize.height * 46/100, frameSize.width * 5/100, frameSize.height * 5/100);
         buttonMove.addActionListener(new AddMove());
         consoleButtons(buttonMove, lButtonMove);
 
-        buttonBuild.setBounds((int) (frameSize.width * 85/100), (frameSize.height * 46/100), frameSize.width * 5/100, frameSize.height * 5/100);
+        buttonBuild.setBounds(frameSize.width * 85/100, frameSize.height * 46/100, frameSize.width * 5/100, frameSize.height * 5/100);
         buttonBuild.addActionListener(new AddBuildLvl());
         consoleButtons(buttonBuild, lButtonBuild);
 
-        buttonPower.setBounds((int) (frameSize.width * 91/100), (frameSize.height * 46/100), frameSize.width * 5/100, frameSize.height * 5/100);
+        buttonPower.setBounds(frameSize.width * 91/100, frameSize.height * 46/100, frameSize.width * 5/100, frameSize.height * 5/100);
         consoleButtons(buttonPower, lButtonPower);
 
-        buttonChat.setBounds((int) (frameSize.width * 85/100), (frameSize.height * 58/100), frameSize.width * 5/100, frameSize.height * 7/100);
+        buttonChat.setBounds(frameSize.width * 85/100, frameSize.height * 58/100, frameSize.width * 5/100, frameSize.height * 7/100);
         buttonChat.addActionListener(new Chat());
         consoleButtons(buttonChat, lButtonChat);
 

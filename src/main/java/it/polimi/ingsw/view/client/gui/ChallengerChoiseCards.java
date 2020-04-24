@@ -18,12 +18,12 @@ public class ChallengerChoiseCards extends JPanel{
     Dimension intFrameSize = new Dimension();
     Dimension cardSize = new Dimension();
     JFrame intFrame;
-    ArrayList<JButton> buttons = new ArrayList<>();
+    private final List<JButton> buttons = new ArrayList<>();
     JLabel power = new JLabel();
     private int count = 0;
     private int chosen = 0;
     private final int numberPlayers;
-    List<String> godChosen = new ArrayList<>();
+    private List<String> godChosen = new ArrayList<>();
     JButton confirm = confirmButtonCreate();
 
     public ChallengerChoiseCards(Dimension frame, Integer numberOfPlayer) throws IOException {
@@ -31,12 +31,16 @@ public class ChallengerChoiseCards extends JPanel{
         frameSize.setSize(frame);
         numberPlayers = numberOfPlayer;
         intFrameSize.setSize(frameSize.getWidth() * 40/100, frameSize.getHeight() * 40/100);
-        final int xconst =  (int) (frameSize.width * 9/100);
-        final int yconst = (int) frameSize.height * 24/100;
+        final int xconst = frameSize.width * 9/100;
+        final int yconst = frameSize.height * 24/100;
         int x = xconst;
         int y = yconst;
 
+        JLabel cover = ImageHandler.setImage("src/main/resources/Graphics/title_sky.png", 100, 100, frameSize.width * 40/100, frameSize.height * 40/100);
+        JLabel background = new JLabel(cover.getIcon());
         intFrame = new JFrame();
+        intFrame.getContentPane().add(background);
+
 
         cardSize.setSize((int) (frameSize.getWidth() * 9/100), (int) (frameSize.getHeight() * 23.15/100)); //(9, 22)
         setPreferredSize(frameSize);
@@ -148,7 +152,7 @@ public class ChallengerChoiseCards extends JPanel{
              button.setOpaque(false);
              button.setContentAreaFilled(false);
              button.setFocusPainted(false);
-             //button.setBorderPainted(false);
+             button.setBorderPainted(false);
              button.addMouseListener(new ColorBorder());
              button.addMouseListener(new ShowPowerRight());
              button.addActionListener(new ChooseGod());
