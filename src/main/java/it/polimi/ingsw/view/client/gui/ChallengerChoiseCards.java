@@ -19,7 +19,8 @@ public class ChallengerChoiseCards extends JPanel{
     Dimension cardSize = new Dimension();
     JFrame intFrame;
     private final List<JButton> buttons = new ArrayList<>();
-    JLabel power = new JLabel();
+    JButton background = new JButton();
+    JLabel cover =new JLabel();
     private int count = 0;
     private int chosen = 0;
     private final int numberPlayers;
@@ -36,10 +37,15 @@ public class ChallengerChoiseCards extends JPanel{
         int x = xconst;
         int y = yconst;
 
-        JLabel cover = ImageHandler.setImage("src/main/resources/Graphics/title_sky.png", 100, 100, frameSize.width * 40/100, frameSize.height * 40/100);
-        JLabel background = new JLabel(cover.getIcon());
         intFrame = new JFrame();
-        intFrame.getContentPane().add(background);
+
+
+        background.setBounds(0, 0,intFrameSize.width, intFrameSize.height);
+        background.setOpaque(false);
+        background.setContentAreaFilled(false);
+        background.setBorderPainted(false);
+        intFrame.add(background);
+
 
 
         cardSize.setSize((int) (frameSize.getWidth() * 9/100), (int) (frameSize.getHeight() * 23.15/100)); //(9, 22)
@@ -48,46 +54,46 @@ public class ChallengerChoiseCards extends JPanel{
 
 
         JButton apollo = new JButton();
-        apollo.setName("Apollo");
+        apollo.setName("src/main/resources/Graphics/gods/apollo_description.png");
         buttons.add(apollo);
         JButton artemis = new JButton();
-        artemis.setName("Artemis");
+        artemis.setName("src/main/resources/Graphics/gods/artemis_description.png");
         buttons.add(artemis);
         JButton athena = new JButton();
-        athena.setName("Athena");
+        athena.setName("src/main/resources/Graphics/gods/athena_description.png");
         buttons.add(athena);
         JButton atlas = new JButton();
-        atlas.setName("Atlas");
+        atlas.setName("src/main/resources/Graphics/gods/atlas_description.png");
         buttons.add(atlas);
         JButton chronus = new JButton();
-        chronus.setName("Chronus");
+        chronus.setName("src/main/resources/Graphics/gods/chronus_description.png");
         buttons.add(chronus);
         JButton demeter = new JButton();
-        demeter.setName("Demeter");
+        demeter.setName("src/main/resources/Graphics/gods/demeter_description.png");
         buttons.add(demeter);
         JButton hepha = new JButton();
-        hepha.setName("Hephaestus");
+        hepha.setName("src/main/resources/Graphics/gods/hephaestus_description.png");
         buttons.add(hepha);
         JButton hera = new JButton();
-        hera.setName("Hera");
+        hera.setName("src/main/resources/Graphics/gods/hera_description.png");
         buttons.add(hera);
         JButton hestia = new JButton();
-        hestia.setName("Hestia");
+        hestia.setName("src/main/resources/Graphics/gods/hestia_description.png");
         buttons.add(hestia);
         JButton hypnus = new JButton();
-        hypnus.setName("Hypnus");
+        hypnus.setName("src/main/resources/Graphics/gods/hypnus_description.png");
         buttons.add(hypnus);
         JButton mino = new JButton();
-        mino.setName("Minotaur");
+        mino.setName("src/main/resources/Graphics/gods/minotaur_description.png");
         buttons.add(mino);
         JButton pan = new JButton();
-        pan.setName("Pan");
+        pan.setName("src/main/resources/Graphics/gods/pan_description.png");
         buttons.add(pan);
         JButton prome = new JButton();
-        prome.setName("Prometheus");
+        prome.setName("src/main/resources/Graphics/gods/prometheus_description.png");
         buttons.add(prome);
         JButton zeus = new JButton();
-        zeus.setName("Zeus");
+        zeus.setName("src/main/resources/Graphics/gods/zeus_description.png");
         buttons.add(zeus);
 
         buttonStyle();
@@ -145,6 +151,8 @@ public class ChallengerChoiseCards extends JPanel{
 
         JButton back = backgroundButton();
         add(back);
+
+
     }
 
      private void buttonStyle(){
@@ -260,10 +268,16 @@ public class ChallengerChoiseCards extends JPanel{
             }
             else
                 intFrame.setBounds((int) (c.getX() - (frameSize.width * 38 / 100)), (int) ((frameSize.height * 50.575 / 100)), intFrameSize.width, intFrameSize.height);
-            power.setText(null);
-            power.setText("questo è il potere di " + c.getName());
-            power.setBounds((intFrameSize.width * 40 / 100), (int) ((frameSize.height * 45 / 100)), intFrameSize.width * 20/100, intFrameSize.height * 10/100);
-            intFrame.add(power);
+
+            background.setIcon(null);
+            try {
+                cover = ImageHandler.setImage(c.getName(), 100, 100, cardSize.width, cardSize.height);
+            } catch (IOException ex) {
+                LOGGER.severe(ex.getMessage());
+            }
+            //power.setText("questo è il potere di " + c.getName());
+            //power.setBounds(intFrameSize.width * 40 / 100, frameSize.height * 45 / 100, intFrameSize.width * 20/100, intFrameSize.height * 10/100);
+            background.setIcon(cover.getIcon());
             intFrame.setVisible(true);
         }
 
