@@ -33,11 +33,11 @@ public class Apollo extends Card {
             throw new NullPointerException("null gameMap or player or direction");
 
         int wantToAccess = player.getCurrentWorker().getBoardPosition().getCanAccess().get(directions);
-        if(gameMap.getGameMap().get(wantToAccess).hasPlayer()){
+        if(gameMap.getMap().get(wantToAccess).hasPlayer()){
             gameMap.clearModifiedSquare();
             gameMap.addModifiedSquare(player.getCurrentWorker().getBoardPosition());
-            gameMap.addModifiedSquare(gameMap.getGameMap().get(wantToAccess- 1).getWorker().getBoardPosition());
-            swapWorker(player.getCurrentWorker().getBoardPosition(), gameMap.getGameMap().get(wantToAccess- 1).getWorker().getBoardPosition());
+            gameMap.addModifiedSquare(gameMap.getMap().get(wantToAccess- 1).getWorker().getBoardPosition());
+            swapWorker(player.getCurrentWorker().getBoardPosition(), gameMap.getMap().get(wantToAccess- 1).getWorker().getBoardPosition());
         }
         else
             gameMap.moveWorkerTo(player, directions);
@@ -53,7 +53,7 @@ public class Apollo extends Card {
         for(Directions dir: Directions.values()){
             int squareTile  =canAccess.get(dir);
             if(squareTile > ConstantsContainer.MINMAPPOSITION && squareTile <= ConstantsContainer.MAXMAPPOSITION) { //rivedere questo if
-                Square possibleSquare = gameMap.getGameMap().get(squareTile- 1);
+                Square possibleSquare = gameMap.getMap().get(squareTile- 1);
                 if((possibleSquare.getBuildingLevel() >= 0 && possibleSquare.getBuildingLevel() <= levelPosition +1 && !worker.getBoardPosition().equals(possibleSquare) )
                         && possibleSquare.getBuilding() != Building.DOME ){
                     reachableSquares.add(dir);

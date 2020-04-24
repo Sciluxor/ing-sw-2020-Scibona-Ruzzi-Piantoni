@@ -26,26 +26,26 @@ class PanTest {
         cardPan = CardLoader.loadCards().get("pan");
         player1.setPower(cardPan);
         gameMap = new GameMap();
-        gameMap.getGameMap().get(13).setMovement(player1, player1.getWorkers().get(0));
-        player1.getWorkers().get(0).setBoardPosition(gameMap.getGameMap().get(13));
-        gameMap.getGameMap().get(4).setMovement(player1, player1.getWorkers().get(1));
-        player1.getWorkers().get(1).setBoardPosition(gameMap.getGameMap().get(4));
-        gameMap.getGameMap().get(21).setMovement(player2, player2.getWorkers().get(0));
-        player2.getWorkers().get(0).setBoardPosition(gameMap.getGameMap().get(21));
-        gameMap.getGameMap().get(18).setMovement(player2, player2.getWorkers().get(1));
-        player2.getWorkers().get(1).setBoardPosition(gameMap.getGameMap().get(18));
+        gameMap.getMap().get(13).setMovement(player1, player1.getWorkers().get(0));
+        player1.getWorkers().get(0).setBoardPosition(gameMap.getMap().get(13));
+        gameMap.getMap().get(4).setMovement(player1, player1.getWorkers().get(1));
+        player1.getWorkers().get(1).setBoardPosition(gameMap.getMap().get(4));
+        gameMap.getMap().get(21).setMovement(player2, player2.getWorkers().get(0));
+        player2.getWorkers().get(0).setBoardPosition(gameMap.getMap().get(21));
+        gameMap.getMap().get(18).setMovement(player2, player2.getWorkers().get(1));
+        player2.getWorkers().get(1).setBoardPosition(gameMap.getMap().get(18));
         player1.selectCurrentWorker(gameMap, "worker1");
 
-        gameMap.getGameMap().get(23).setBuilding(Building.LVL1);
-        gameMap.getGameMap().get(23).addBuildingLevel();
-        gameMap.getGameMap().get(23).setBuilding(Building.LVL2);
-        gameMap.getGameMap().get(23).addBuildingLevel();
-        gameMap.getGameMap().get(23).setBuilding(Building.LVL3);
-        gameMap.getGameMap().get(23).addBuildingLevel();
-        gameMap.getGameMap().get(14).setBuilding(Building.LVL1);
-        gameMap.getGameMap().get(14).addBuildingLevel();
-        gameMap.getGameMap().get(14).setBuilding(Building.LVL2);
-        gameMap.getGameMap().get(14).addBuildingLevel();
+        gameMap.getMap().get(23).setBuilding(Building.LVL1);
+        gameMap.getMap().get(23).addBuildingLevel();
+        gameMap.getMap().get(23).setBuilding(Building.LVL2);
+        gameMap.getMap().get(23).addBuildingLevel();
+        gameMap.getMap().get(23).setBuilding(Building.LVL3);
+        gameMap.getMap().get(23).addBuildingLevel();
+        gameMap.getMap().get(14).setBuilding(Building.LVL1);
+        gameMap.getMap().get(14).addBuildingLevel();
+        gameMap.getMap().get(14).setBuilding(Building.LVL2);
+        gameMap.getMap().get(14).addBuildingLevel();
 
         directions = player1.findWorkerMove(gameMap, player1.getWorkers().get(0));
     }
@@ -57,7 +57,7 @@ class PanTest {
 
         assertEquals(Response.MOVED,player1.executeWorkerMove(gameMap, Directions.NORD));
         assertEquals(Response.NOTWIN,cardPan.checkVictory(gameMap, player1));
-        player1.getCurrentWorker().setBoardPosition(gameMap.getGameMap().get(14));
+        player1.getCurrentWorker().setBoardPosition(gameMap.getMap().get(14));
         assertEquals(Response.MOVED,player1.executeWorkerMove(gameMap, Directions.EST));
         assertEquals(Response.WIN,cardPan.checkVictory(gameMap, player1));
         assertEquals( Response.MOVED,player1.executeWorkerMove(gameMap, Directions.OVEST));

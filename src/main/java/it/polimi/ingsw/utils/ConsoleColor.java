@@ -8,6 +8,10 @@ import java.util.Map;
 public class ConsoleColor {
 //implementare meglio con un Json
 
+    private ConsoleColor() {
+        throw new IllegalStateException("ConsoleColor class cannot be instantiated");
+    }
+
     public static final String CLEARCONSOLE = "\033[H\033[2J";
     public static final String RESET = "\033[0m";
     public static final String PURPLE = "\033[0;35m";

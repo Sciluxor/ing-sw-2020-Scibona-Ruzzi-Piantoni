@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.map;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
+import it.polimi.ingsw.utils.PathContainer;
 
 
 import java.io.InputStreamReader;
@@ -28,7 +29,7 @@ public class MapLoader {
         SquareContainer[] containers;
 
         try{
-            String mapPath = "/MapJson/Map.json";
+            String mapPath = PathContainer.MAP;
             InputStreamReader gameMapInput = new InputStreamReader(MapLoader.class.getResourceAsStream(mapPath));
             JsonReader gameMapReader = new JsonReader(gameMapInput);
             containers = gsonMap.fromJson(gameMapReader,SquareContainer[].class);

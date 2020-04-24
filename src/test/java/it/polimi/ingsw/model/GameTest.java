@@ -246,14 +246,14 @@ class GameTest {
         Integer[] tile2 = {1, 1};
         game.setCurrentPlayer(player4);
         game.placeWorkersOnMap(tile1, tile2);
-        assertEquals(player4.getWorkers().get(0).getBoardPosition(), game.getGameMap().getGameMap().get(0));
-        assertEquals(player4.getWorkers().get(1).getBoardPosition(), game.getGameMap().getGameMap().get(16));
-        assertEquals(game.getGameMap().getGameMap().get(0).getWorker(), player4.getWorkers().get(0));
-        assertEquals(game.getGameMap().getGameMap().get(16).getWorker(), player4.getWorkers().get(1));
-        assertTrue(game.getGameMap().getGameMap().get(0).hasPlayer());
-        assertTrue(game.getGameMap().getGameMap().get(16).hasPlayer());
-        assertEquals(game.getGameMap().getGameMap().get(16).getPlayer(), player4);
-        assertEquals(game.getGameMap().getGameMap().get(16).getPlayer(), player4);
+        assertEquals(player4.getWorkers().get(0).getBoardPosition(), game.getGameMap().getMap().get(0));
+        assertEquals(player4.getWorkers().get(1).getBoardPosition(), game.getGameMap().getMap().get(16));
+        assertEquals(game.getGameMap().getMap().get(0).getWorker(), player4.getWorkers().get(0));
+        assertEquals(game.getGameMap().getMap().get(16).getWorker(), player4.getWorkers().get(1));
+        assertTrue(game.getGameMap().getMap().get(0).hasPlayer());
+        assertTrue(game.getGameMap().getMap().get(16).hasPlayer());
+        assertEquals(game.getGameMap().getMap().get(16).getPlayer(), player4);
+        assertEquals(game.getGameMap().getMap().get(16).getPlayer(), player4);
     }
 
     @Test

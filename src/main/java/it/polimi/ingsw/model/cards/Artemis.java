@@ -41,7 +41,7 @@ public class Artemis extends Card {
         for(Directions dir: Directions.values()){
             int squareTile = canAccess.get(dir);
             if(squareTile > ConstantsContainer.MINMAPPOSITION && squareTile <= ConstantsContainer.MAXMAPPOSITION) { //rivedere questo if
-                Square possibleSquare = gameMap.getGameMap().get(squareTile- 1);
+                Square possibleSquare = gameMap.getMap().get(squareTile- 1);
                 if(!possibleSquare.hasPlayer() && (possibleSquare.getBuildingLevel() >= 0 && possibleSquare.getBuildingLevel() <= levelPosition +1)
                         && possibleSquare.getBuilding() != Building.DOME && !(possibleSquare.equals(worker.getPreviousBoardPosition()))) {
                     reachableSquares.add(dir);

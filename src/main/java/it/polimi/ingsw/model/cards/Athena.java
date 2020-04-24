@@ -38,7 +38,7 @@ public class Athena extends Card {
         Square currentSquare = worker.getBoardPosition();
         List<Directions> toRemoveDirections = new ArrayList<>();
         for (Directions dir : directionsArrayList) {
-            Square possibleSquare = gameMap.getGameMap().get(currentSquare.getCanAccess().get(dir) - 1);
+            Square possibleSquare = gameMap.getMap().get(currentSquare.getCanAccess().get(dir) - 1);
             if (possibleSquare.getBuildingLevel() == currentSquare.getBuildingLevel() + 1) {
                 toRemoveDirections.add(dir);
             }

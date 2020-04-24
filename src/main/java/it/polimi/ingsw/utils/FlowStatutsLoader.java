@@ -26,7 +26,7 @@ public class FlowStatutsLoader {
             FlowContainer[] containers;
 
             try{
-                String flowPath = "/PossibleMoves.json";
+                String flowPath = PathContainer.FLOW;
                 InputStreamReader flowInput = new InputStreamReader(FlowStatutsLoader.class.getResourceAsStream(flowPath));
                 JsonReader flowReader = new JsonReader(flowInput);
                 containers = gsonFlow.fromJson(flowReader,FlowContainer[].class);

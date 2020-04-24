@@ -27,14 +27,14 @@ class MinotaurTest {
         player1.setPower(cardMino);
         player2.setPower(cardAtla);
         gameMap = new GameMap();
-        gameMap.getGameMap().get(22).setMovement(player1,player1.getWorkers().get(0));
-        player1.getWorkers().get(0).setBoardPosition(gameMap.getGameMap().get(22));
-        gameMap.getGameMap().get(5).setMovement(player1,player1.getWorkers().get(1));
-        player1.getWorkers().get(1).setBoardPosition(gameMap.getGameMap().get(5));
-        gameMap.getGameMap().get(21).setMovement(player2,player2.getWorkers().get(0));
-        player2.getWorkers().get(0).setBoardPosition(gameMap.getGameMap().get(21));
-        gameMap.getGameMap().get(18).setMovement(player2,player2.getWorkers().get(1));
-        player2.getWorkers().get(1).setBoardPosition(gameMap.getGameMap().get(18));
+        gameMap.getMap().get(22).setMovement(player1,player1.getWorkers().get(0));
+        player1.getWorkers().get(0).setBoardPosition(gameMap.getMap().get(22));
+        gameMap.getMap().get(5).setMovement(player1,player1.getWorkers().get(1));
+        player1.getWorkers().get(1).setBoardPosition(gameMap.getMap().get(5));
+        gameMap.getMap().get(21).setMovement(player2,player2.getWorkers().get(0));
+        player2.getWorkers().get(0).setBoardPosition(gameMap.getMap().get(21));
+        gameMap.getMap().get(18).setMovement(player2,player2.getWorkers().get(1));
+        player2.getWorkers().get(1).setBoardPosition(gameMap.getMap().get(18));
         player1.selectCurrentWorker(gameMap, "worker1");
         player2.selectCurrentWorker(gameMap, "worker1");
         directions = player1.findWorkerMove(gameMap, player1.getWorkers().get(0));
@@ -58,19 +58,19 @@ class MinotaurTest {
         assertThrows(NullPointerException.class , () -> cardMino.executeWorkerMove(gameMap, Directions.OVEST, null));
 
         assertEquals(Response.MOVED,cardMino.executeWorkerMove(gameMap, Directions.NORD, player1));
-        assertEquals(player1.getCurrentWorker().getBoardPosition(), gameMap.getGameMap().get(23));
-        assertEquals(gameMap.getModifiedSquare().get(0), gameMap.getGameMap().get(22));
-        assertEquals(gameMap.getModifiedSquare().get(1), gameMap.getGameMap().get(23));
+        assertEquals(player1.getCurrentWorker().getBoardPosition(), gameMap.getMap().get(23));
+        assertEquals(gameMap.getModifiedSquare().get(0), gameMap.getMap().get(22));
+        assertEquals(gameMap.getModifiedSquare().get(1), gameMap.getMap().get(23));
         assertEquals(Response.MOVED,cardMino.executeWorkerMove(gameMap, Directions.SUD, player1));
-        assertEquals(player1.getCurrentWorker().getBoardPosition(), gameMap.getGameMap().get(22));
-        assertEquals(gameMap.getModifiedSquare().get(0), gameMap.getGameMap().get(23));
-        assertEquals(gameMap.getModifiedSquare().get(1), gameMap.getGameMap().get(22));
+        assertEquals(player1.getCurrentWorker().getBoardPosition(), gameMap.getMap().get(22));
+        assertEquals(gameMap.getModifiedSquare().get(0), gameMap.getMap().get(23));
+        assertEquals(gameMap.getModifiedSquare().get(1), gameMap.getMap().get(22));
         assertEquals(Response.MOVED,cardMino.executeWorkerMove(gameMap, Directions.EST, player1));
-        assertEquals(player1.getCurrentWorker().getBoardPosition(), gameMap.getGameMap().get(21));
-        assertEquals(player2.getCurrentWorker().getBoardPosition(), gameMap.getGameMap().get(20));
-        assertEquals(gameMap.getModifiedSquare().get(0), gameMap.getGameMap().get(22));
-        assertEquals(gameMap.getModifiedSquare().get(1), gameMap.getGameMap().get(21));
-        assertEquals(gameMap.getModifiedSquare().get(2), gameMap.getGameMap().get(20));
+        assertEquals(player1.getCurrentWorker().getBoardPosition(), gameMap.getMap().get(21));
+        assertEquals(player2.getCurrentWorker().getBoardPosition(), gameMap.getMap().get(20));
+        assertEquals(gameMap.getModifiedSquare().get(0), gameMap.getMap().get(22));
+        assertEquals(gameMap.getModifiedSquare().get(1), gameMap.getMap().get(21));
+        assertEquals(gameMap.getModifiedSquare().get(2), gameMap.getMap().get(20));
 
     }
 }

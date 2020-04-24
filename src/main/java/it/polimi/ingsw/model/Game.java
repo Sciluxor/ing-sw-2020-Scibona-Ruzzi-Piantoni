@@ -204,9 +204,9 @@ public class Game extends Observable<Response> {
         if(square1.hasPlayer() || square2.hasPlayer())
             return false;
 
-        this.gameMap.getGameMap().get(square1.getTile() - 1).setMovement(currentPlayer, currentPlayer.getWorkers().get(0));
+        this.gameMap.getMap().get(square1.getTile() - 1).setMovement(currentPlayer, currentPlayer.getWorkers().get(0));
         currentPlayer.getWorkers().get(0).setBoardPosition(square1);
-        this.gameMap.getGameMap().get(square2.getTile() - 1).setMovement(currentPlayer, currentPlayer.getWorkers().get(1));
+        this.gameMap.getMap().get(square2.getTile() - 1).setMovement(currentPlayer, currentPlayer.getWorkers().get(1));
         currentPlayer.getWorkers().get(1).setBoardPosition(square2);
 
         currentPlayer.setHasPlacedWorkers(true);

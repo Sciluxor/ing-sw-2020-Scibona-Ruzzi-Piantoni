@@ -15,8 +15,7 @@ public class Hypnus extends Card {
             throw new NullPointerException("null player or worker");
 
           for(Worker wor: player.getWorkers()) {
-              if (!wor.equals(worker)) {
-                  if(worker.getBoardPosition().getBuildingLevel() > wor.getBoardPosition().getBuildingLevel())
+              if (!wor.equals(worker) && worker.getBoardPosition().getBuildingLevel() > wor.getBoardPosition().getBuildingLevel()) {
                       return false;
               }
           }

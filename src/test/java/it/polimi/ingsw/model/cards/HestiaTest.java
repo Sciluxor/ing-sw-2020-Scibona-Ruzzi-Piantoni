@@ -26,14 +26,14 @@ class HestiaTest {
         cardHest = CardLoader.loadCards().get("hestia");
         player1.setPower(cardHest);
         gameMap = new GameMap();
-        gameMap.getGameMap().get(22).setMovement(player1,player1.getWorkers().get(0));
-        player1.getWorkers().get(0).setBoardPosition(gameMap.getGameMap().get(22));
-        gameMap.getGameMap().get(4).setMovement(player1,player1.getWorkers().get(1));
-        player1.getWorkers().get(1).setBoardPosition(gameMap.getGameMap().get(4));
-        gameMap.getGameMap().get(21).setMovement(player2,player2.getWorkers().get(0));
-        player2.getWorkers().get(0).setBoardPosition(gameMap.getGameMap().get(21));
-        gameMap.getGameMap().get(18).setMovement(player2,player2.getWorkers().get(1));
-        player2.getWorkers().get(1).setBoardPosition(gameMap.getGameMap().get(18));
+        gameMap.getMap().get(22).setMovement(player1,player1.getWorkers().get(0));
+        player1.getWorkers().get(0).setBoardPosition(gameMap.getMap().get(22));
+        gameMap.getMap().get(4).setMovement(player1,player1.getWorkers().get(1));
+        player1.getWorkers().get(1).setBoardPosition(gameMap.getMap().get(4));
+        gameMap.getMap().get(21).setMovement(player2,player2.getWorkers().get(0));
+        player2.getWorkers().get(0).setBoardPosition(gameMap.getMap().get(21));
+        gameMap.getMap().get(18).setMovement(player2,player2.getWorkers().get(1));
+        player2.getWorkers().get(1).setBoardPosition(gameMap.getMap().get(18));
         player1.selectCurrentWorker(gameMap, "worker1");
         directions = player1.findWorkerMove(gameMap, player1.getWorkers().get(0));
     }

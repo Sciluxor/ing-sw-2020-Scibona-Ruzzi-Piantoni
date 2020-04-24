@@ -8,20 +8,21 @@ import it.polimi.ingsw.model.map.Building;
 import it.polimi.ingsw.model.map.Directions;
 import it.polimi.ingsw.model.map.GameMap;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player {
+public class Player implements Serializable {
 
     private String nickname;
-    private Card power;
-    private Color color;
-    private TurnStatus turnStatus;
-    private List<Card> constraint;
-    private List<Worker> workers;
-    private Worker currentWorker;
-    private Worker unmovedWorker;
-    private boolean hasPlacedWorkers;
+    private transient Card power;
+    private transient Color color;
+    private transient TurnStatus turnStatus;
+    private transient List<Card> constraint;
+    private transient List<Worker> workers;
+    private transient Worker currentWorker;
+    private transient Worker unmovedWorker;
+    private transient boolean hasPlacedWorkers;
 
     public Player (String nickname){
 

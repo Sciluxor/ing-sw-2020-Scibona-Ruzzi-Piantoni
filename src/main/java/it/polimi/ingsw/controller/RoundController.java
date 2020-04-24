@@ -11,7 +11,6 @@ import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.Response;
 import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.utils.FlowStatutsLoader;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -194,7 +193,7 @@ public class RoundController {
             }
         }
 
-        if(!checkRightSquares(((MoveWorkerMessage)message).getModifiedSquare())) {
+        if(!areRightSquares(((MoveWorkerMessage)message).getModifiedSquare())) {
             game.setGameStatus(Response.NOTMOVED);  //come faccio a tornare indietro? ormai ho già modificato, magari mettere una response diversa
             return;
         }
@@ -263,7 +262,7 @@ public class RoundController {
 
         }
 
-        if(!checkRightSquares(((BuildWorkerMessage)message).getModifiedSquare())) {
+        if(!areRightSquares(((BuildWorkerMessage)message).getModifiedSquare())) {
             game.setGameStatus(Response.NOTBUILD);
             return;
         }
@@ -330,17 +329,25 @@ public class RoundController {
     //method to check if client has changed the right squares
     //
 
-    public boolean checkRightSquares(List<Square> clientModifiedSquares){
+    public boolean areRightSquares(List<Square> clientModifiedSquares){
         List<Square> realModifiedSquares = game.getGameMap().getModifiedSquare();
 
         if(realModifiedSquares.size() != clientModifiedSquares.size())
             return false;
         for(int i = 0; i < realModifiedSquares.size();i++){
-            if(!clientModifiedSquares.get(i).equals(realModifiedSquares.get(i)))
+            if(!checkSquare(clientModifiedSquares.get(i),realModifiedSquares.get(i)))
                 return false;
         }
 
         return true;
+    }
+
+    public boolean checkSquare(Square q1, Square q2){
+
+        return q1.getBuildingLevel() == q2.getBuildingLevel() && q1.hasPlayer() == q2.hasPlayer() && q1.getBuilding().equals(q2.getBuilding())
+                && q1.getPlayer().getNickname().equals(q2.getPlayer().getNickname())
+                && q1.getWorker().getName().equals(q2.getWorker().getName()) && q1.getTile().equals(q2.getTile());
+
     }
 
 

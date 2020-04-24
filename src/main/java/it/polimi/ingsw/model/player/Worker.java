@@ -2,12 +2,14 @@ package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.model.map.Square;
 
-public class Worker {
+import java.io.Serializable;
+
+public class Worker implements Serializable {
 
     private WorkerName name;
-    private Square boardPosition;
-    private  Square previousBoardPosition;
-    private  Square previousBuildPosition;
+    private transient Square boardPosition;
+    private transient Square previousBoardPosition;
+    private transient Square previousBuildPosition;
 
     public Worker(WorkerName name){
         this.name = name;

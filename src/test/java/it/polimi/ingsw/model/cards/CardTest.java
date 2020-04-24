@@ -38,14 +38,14 @@ class CardTest {
         gameMap = new GameMap();
         player.setPower(cardAp);
         player2.setPower(cardHy);
-        gameMap.getGameMap().get(22).setMovement(player,player.getWorkers().get(0));
-        player.getWorkers().get(0).setBoardPosition(gameMap.getGameMap().get(22));
-        gameMap.getGameMap().get(4).setMovement(player,player.getWorkers().get(1));
-        player.getWorkers().get(1).setBoardPosition(gameMap.getGameMap().get(4));
-        gameMap.getGameMap().get(21).setMovement(player2,player2.getWorkers().get(0));
-        player2.getWorkers().get(0).setBoardPosition(gameMap.getGameMap().get(21));
-        gameMap.getGameMap().get(18).setMovement(player2,player2.getWorkers().get(1));
-        player2.getWorkers().get(1).setBoardPosition(gameMap.getGameMap().get(18));
+        gameMap.getMap().get(22).setMovement(player,player.getWorkers().get(0));
+        player.getWorkers().get(0).setBoardPosition(gameMap.getMap().get(22));
+        gameMap.getMap().get(4).setMovement(player,player.getWorkers().get(1));
+        player.getWorkers().get(1).setBoardPosition(gameMap.getMap().get(4));
+        gameMap.getMap().get(21).setMovement(player2,player2.getWorkers().get(0));
+        player2.getWorkers().get(0).setBoardPosition(gameMap.getMap().get(21));
+        gameMap.getMap().get(18).setMovement(player2,player2.getWorkers().get(1));
+        player2.getWorkers().get(1).setBoardPosition(gameMap.getMap().get(18));
         directions = player.findWorkerMove(gameMap, player.getWorkers().get(0));
     }
 
@@ -145,13 +145,13 @@ class CardTest {
         assertThrows(NullPointerException.class , () -> cardA.checkVictory(gameMap, null));
 
         player.setPower(cardAp);
-        gameMap.getGameMap().get(22).addBuildingLevel();
-        gameMap.getGameMap().get(22).addBuildingLevel();
-        assertEquals(2,gameMap.getGameMap().get(22).getBuildingLevel());
-        gameMap.getGameMap().get(23).addBuildingLevel();
-        gameMap.getGameMap().get(23).addBuildingLevel();
-        gameMap.getGameMap().get(23).addBuildingLevel();
-        assertEquals(3,gameMap.getGameMap().get(23).getBuildingLevel());
+        gameMap.getMap().get(22).addBuildingLevel();
+        gameMap.getMap().get(22).addBuildingLevel();
+        assertEquals(2,gameMap.getMap().get(22).getBuildingLevel());
+        gameMap.getMap().get(23).addBuildingLevel();
+        gameMap.getMap().get(23).addBuildingLevel();
+        gameMap.getMap().get(23).addBuildingLevel();
+        assertEquals(3,gameMap.getMap().get(23).getBuildingLevel());
         player.selectCurrentWorker(gameMap, "worker1");
         cardAp.executeWorkerMove(gameMap, Directions.NORD, player);
         assertEquals(Response.WIN,cardAp.checkVictory(gameMap, player));

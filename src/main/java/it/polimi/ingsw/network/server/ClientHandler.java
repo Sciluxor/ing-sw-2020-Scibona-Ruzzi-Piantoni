@@ -150,7 +150,7 @@ public class ClientHandler implements Runnable, ConnectionInterface {
     @Override
     public void run() {
 
-            try {
+            try{
                 this.objectOut = new ObjectOutputStream(socket.getOutputStream());
                 this.objectIn = new ObjectInputStream(socket.getInputStream());
                 startLobbyTimer();

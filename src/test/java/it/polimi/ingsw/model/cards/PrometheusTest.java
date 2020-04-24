@@ -26,14 +26,14 @@ class PrometheusTest {
         cardPro = CardLoader.loadCards().get("prometheus");
         player1.setPower(cardPro);
         gameMap = new GameMap();
-        gameMap.getGameMap().get(22).setMovement(player1,player1.getWorkers().get(0));
-        player1.getWorkers().get(0).setBoardPosition(gameMap.getGameMap().get(22));
-        gameMap.getGameMap().get(4).setMovement(player1,player1.getWorkers().get(1));
-        player1.getWorkers().get(1).setBoardPosition(gameMap.getGameMap().get(4));
-        gameMap.getGameMap().get(21).setMovement(player2,player2.getWorkers().get(0));
-        player2.getWorkers().get(0).setBoardPosition(gameMap.getGameMap().get(21));
-        gameMap.getGameMap().get(18).setMovement(player2,player2.getWorkers().get(1));
-        player2.getWorkers().get(1).setBoardPosition(gameMap.getGameMap().get(18));
+        gameMap.getMap().get(22).setMovement(player1,player1.getWorkers().get(0));
+        player1.getWorkers().get(0).setBoardPosition(gameMap.getMap().get(22));
+        gameMap.getMap().get(4).setMovement(player1,player1.getWorkers().get(1));
+        player1.getWorkers().get(1).setBoardPosition(gameMap.getMap().get(4));
+        gameMap.getMap().get(21).setMovement(player2,player2.getWorkers().get(0));
+        player2.getWorkers().get(0).setBoardPosition(gameMap.getMap().get(21));
+        gameMap.getMap().get(18).setMovement(player2,player2.getWorkers().get(1));
+        player2.getWorkers().get(1).setBoardPosition(gameMap.getMap().get(18));
         player1.selectCurrentWorker(gameMap, "worker1");
 
         directions = player1.findWorkerMove(gameMap, player1.getWorkers().get(0));
@@ -50,7 +50,7 @@ class PrometheusTest {
         assertThrows(NullPointerException.class , () -> cardPro.findWorkerMove(null, player1.getCurrentWorker()));
         assertThrows(NullPointerException.class , () -> cardPro.findWorkerMove(gameMap, null));
 
-        assertEquals(player1.getCurrentWorker().getBoardPosition(), gameMap.getGameMap().get(22));
+        assertEquals(player1.getCurrentWorker().getBoardPosition(), gameMap.getMap().get(22));
         assertEquals(7,cardPro.findWorkerMove(gameMap, player1.getWorkers().get(0)).size());
         cardPro.executeBuild(gameMap,Building.LVL1, Directions.NORD_EST, player1.getCurrentWorker());
         assertEquals(6,cardPro.findWorkerMove(gameMap, player1.getWorkers().get(0)).size());

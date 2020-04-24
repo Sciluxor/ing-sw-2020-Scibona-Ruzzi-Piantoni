@@ -22,14 +22,14 @@ class ArtemisTest {
         cardArte = CardLoader.loadCards().get("artemis");
         player1.setPower(cardArte);
         gameMap = new GameMap();
-        gameMap.getGameMap().get(22).setMovement(player1,player1.getWorkers().get(0));
-        player1.getWorkers().get(0).setBoardPosition(gameMap.getGameMap().get(22));
-        gameMap.getGameMap().get(4).setMovement(player1,player1.getWorkers().get(1));
-        player1.getWorkers().get(1).setBoardPosition(gameMap.getGameMap().get(4));
-        gameMap.getGameMap().get(21).setMovement(player2,player2.getWorkers().get(0));
-        player2.getWorkers().get(0).setBoardPosition(gameMap.getGameMap().get(21));
-        gameMap.getGameMap().get(18).setMovement(player2,player2.getWorkers().get(1));
-        player2.getWorkers().get(1).setBoardPosition(gameMap.getGameMap().get(18));
+        gameMap.getMap().get(22).setMovement(player1,player1.getWorkers().get(0));
+        player1.getWorkers().get(0).setBoardPosition(gameMap.getMap().get(22));
+        gameMap.getMap().get(4).setMovement(player1,player1.getWorkers().get(1));
+        player1.getWorkers().get(1).setBoardPosition(gameMap.getMap().get(4));
+        gameMap.getMap().get(21).setMovement(player2,player2.getWorkers().get(0));
+        player2.getWorkers().get(0).setBoardPosition(gameMap.getMap().get(21));
+        gameMap.getMap().get(18).setMovement(player2,player2.getWorkers().get(1));
+        player2.getWorkers().get(1).setBoardPosition(gameMap.getMap().get(18));
         player1.selectCurrentWorker(gameMap, "worker1");
     }
 
@@ -38,11 +38,11 @@ class ArtemisTest {
         assertThrows(NullPointerException.class , () -> cardArte.findWorkerMove(null, player1.getWorkers().get(0)));
         assertThrows(NullPointerException.class , () -> cardArte.findWorkerMove(gameMap, null));
 
-        assertEquals(player1.getCurrentWorker().getBoardPosition(), gameMap.getGameMap().get(22));
+        assertEquals(player1.getCurrentWorker().getBoardPosition(), gameMap.getMap().get(22));
         assertEquals(7,cardArte.findWorkerMove(gameMap, player1.getCurrentWorker()).size());
         assertEquals(Response.NEWMOVE,cardArte.executeWorkerMove(gameMap, Directions.OVEST, player1));
         assertEquals(4,cardArte.findWorkerMove(gameMap, player1.getCurrentWorker()).size());
-        assertEquals(player1.getCurrentWorker().getBoardPosition(), gameMap.getGameMap().get(13));
+        assertEquals(player1.getCurrentWorker().getBoardPosition(), gameMap.getMap().get(13));
 
 
     }

@@ -31,7 +31,7 @@ public class Minotaur extends Card {
         for (Directions dir : Directions.values()) {
             int squareTile = canAccess.get(dir);
             if (squareTile > ConstantsContainer.MINMAPPOSITION && squareTile <= ConstantsContainer.MAXMAPPOSITION) { //rivedere questo if
-                Square possibleSquare = gameMap.getGameMap().get(squareTile - 1);
+                Square possibleSquare = gameMap.getMap().get(squareTile - 1);
                 if ((possibleSquare.getBuildingLevel() >= 0 && possibleSquare.getBuildingLevel() <= levelPosition + 1)
                         && possibleSquare.getBuilding() != Building.DOME) {
                     if (possibleSquare.hasPlayer()) {
@@ -54,7 +54,7 @@ public class Minotaur extends Card {
             throw new NullPointerException("null gameMap or player or direction");
 
         Worker currentWorker = player.getCurrentWorker();
-        Square nextSquare = gameMap.getGameMap().get(currentWorker.getBoardPosition().getCanAccess().get(directions) - 1);
+        Square nextSquare = gameMap.getMap().get(currentWorker.getBoardPosition().getCanAccess().get(directions) - 1);
         gameMap.clearModifiedSquare();
 
         if(nextSquare.hasPlayer()){
@@ -78,7 +78,7 @@ public class Minotaur extends Card {
 
         int pushingTile = possibleSquare.getCanAccess().get(directions);
         if (pushingTile != 0){
-            Square pushingSquare = gameMap.getGameMap().get(pushingTile - 1);
+            Square pushingSquare = gameMap.getMap().get(pushingTile - 1);
             return !pushingSquare.hasPlayer() && pushingSquare.getBuildingLevel() != 4;
         }
         return  false;
@@ -94,7 +94,7 @@ public class Minotaur extends Card {
 
         pushedWorker.setPreviousBoardPosition(actualSquare);
         pushedWorker.getPreviousBoardPosition().setHasPlayer(false);
-        pushedWorker.setBoardPosition(gameMap.getGameMap().get(pushedWorker.getBoardPosition().getCanAccess().get(directions) - 1));
+        pushedWorker.setBoardPosition(gameMap.getMap().get(pushedWorker.getBoardPosition().getCanAccess().get(directions) - 1));
         pushedWorker.getBoardPosition().setHasPlayer(true);
         pushedWorker.getBoardPosition().setPlayer(pushedPlayer);
         pushedWorker.getBoardPosition().setWorker(pushedWorker);

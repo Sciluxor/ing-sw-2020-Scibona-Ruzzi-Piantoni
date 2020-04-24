@@ -10,7 +10,7 @@ public class ClientConnection implements ConnectionInterface {
     private boolean isConnectionActive;
 
     public ClientConnection(){
-
+       //da implementare
     }
 
     @Override
@@ -20,16 +20,17 @@ public class ClientConnection implements ConnectionInterface {
 
     @Override
     public void sendMessage(Message message) {
-
+           //da implementare
     }
 
     @Override
     public void closeConnection() {
-
+         //da implementare
     }
 
     @Override
     public Message receiveMessage() throws IOException, ClassNotFoundException {
+        //da implementare
         return null;
     }
 }

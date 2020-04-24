@@ -23,14 +23,14 @@ class ApolloTest {
         player1.setPower(cardApo);
         player2.setPower(cardAthe);
         gameMap = new GameMap();
-        gameMap.getGameMap().get(22).setMovement(player1,player1.getWorkers().get(0));
-        player1.getWorkers().get(0).setBoardPosition(gameMap.getGameMap().get(22));
-        gameMap.getGameMap().get(4).setMovement(player1,player1.getWorkers().get(1));
-        player1.getWorkers().get(1).setBoardPosition(gameMap.getGameMap().get(4));
-        gameMap.getGameMap().get(21).setMovement(player2,player2.getWorkers().get(0));
-        player2.getWorkers().get(0).setBoardPosition(gameMap.getGameMap().get(21));
-        gameMap.getGameMap().get(18).setMovement(player2,player2.getWorkers().get(1));
-        player2.getWorkers().get(1).setBoardPosition(gameMap.getGameMap().get(18));
+        gameMap.getMap().get(22).setMovement(player1,player1.getWorkers().get(0));
+        player1.getWorkers().get(0).setBoardPosition(gameMap.getMap().get(22));
+        gameMap.getMap().get(4).setMovement(player1,player1.getWorkers().get(1));
+        player1.getWorkers().get(1).setBoardPosition(gameMap.getMap().get(4));
+        gameMap.getMap().get(21).setMovement(player2,player2.getWorkers().get(0));
+        player2.getWorkers().get(0).setBoardPosition(gameMap.getMap().get(21));
+        gameMap.getMap().get(18).setMovement(player2,player2.getWorkers().get(1));
+        player2.getWorkers().get(1).setBoardPosition(gameMap.getMap().get(18));
         player1.selectCurrentWorker(gameMap, "worker1");
         player2.selectCurrentWorker(gameMap, "worker1");
     }
@@ -49,12 +49,12 @@ class ApolloTest {
         assertThrows(NullPointerException.class , () -> cardApo.executeWorkerMove(gameMap, null, player1));
         assertThrows(NullPointerException.class , () -> cardApo.executeWorkerMove(gameMap, Directions.NORD, null));
 
-        assertEquals(gameMap.getGameMap().get(22),player1.getCurrentWorker().getBoardPosition());
-        assertEquals(gameMap.getGameMap().get(21),player2.getCurrentWorker().getBoardPosition());
+        assertEquals(gameMap.getMap().get(22),player1.getCurrentWorker().getBoardPosition());
+        assertEquals(gameMap.getMap().get(21),player2.getCurrentWorker().getBoardPosition());
         player1.executeWorkerMove(gameMap, Directions.EST);
-        assertEquals(gameMap.getGameMap().get(21),player1.getCurrentWorker().getBoardPosition());
-        assertEquals(gameMap.getGameMap().get(22),player2.getCurrentWorker().getBoardPosition());
-        assertEquals(gameMap.getGameMap().get(22),gameMap.getModifiedSquare().get(0));
-        assertEquals(gameMap.getGameMap().get(21),gameMap.getModifiedSquare().get(1));
+        assertEquals(gameMap.getMap().get(21),player1.getCurrentWorker().getBoardPosition());
+        assertEquals(gameMap.getMap().get(22),player2.getCurrentWorker().getBoardPosition());
+        assertEquals(gameMap.getMap().get(22),gameMap.getModifiedSquare().get(0));
+        assertEquals(gameMap.getMap().get(21),gameMap.getModifiedSquare().get(1));
     }
 }

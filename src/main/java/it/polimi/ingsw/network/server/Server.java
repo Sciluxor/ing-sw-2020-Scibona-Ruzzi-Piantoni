@@ -67,7 +67,7 @@ public class Server {
     public void startSocketServer(int port){
         try {
             this.socketHandler = new SocketHandler(port,this);
-            LOGGER.info("Server is listening on port: "+ port);
+            LOGGER.info("Server is listening on port: " + port);
             closeServerIfRequested();
         }catch (IOException e){
             LOGGER.severe(e.getMessage());
@@ -150,8 +150,8 @@ public class Server {
             else
             {
                 for (GameController match : lobby) {
-                  if (getNumberOfPlayer(match) == numberOfPlayer && !isFull(match)) {
-                      if(checkNick(message,match)) {
+                  if (getNumberOfPlayer(match) == numberOfPlayer && !isFull(match) && checkNick(message,match)) {
+                      {
                           addPlayer(match,connection, message,message.getSender());
                           controllerFromUserID.remove(message.getSender());
                           controllerFromUserID.put(message.getSender(),match);

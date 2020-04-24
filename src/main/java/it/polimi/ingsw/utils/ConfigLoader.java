@@ -35,7 +35,7 @@ public class ConfigLoader {
         ConfigLoader.ConfigContainer container;
 
         try{
-            String configPath = "/ServerConfig.json";
+            String configPath = PathContainer.CONFIG;
             InputStreamReader serverConfigInput = new InputStreamReader(ConfigLoader.class.getResourceAsStream(configPath));
             JsonReader serverConfigReader = new JsonReader(serverConfigInput);
             container = gsonServer.fromJson(serverConfigReader, ConfigLoader.ConfigContainer.class);
