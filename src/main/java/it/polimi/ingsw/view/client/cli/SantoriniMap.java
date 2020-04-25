@@ -7,6 +7,9 @@ public class SantoriniMap {
     private static Color actualColor = Color.ANSI_YELLOW;
     private boolean hasDome = false;
     private boolean firstExec = true;
+    private boolean firstMove = true;
+    private int[] previousTile = new int[2];
+    private int[] currentTile = new int[2];
 
     public SantoriniMap() {
         for(int i=0; i<5; i++) {
@@ -20,8 +23,19 @@ public class SantoriniMap {
         return this.square[x][y].isHasPlayer();
     }
 
-    public void setCellaHasPlayer(int x, int y, boolean hasPlayer) {
-        this.square[x][y].setHasPlayer(hasPlayer);
+    public void setCellaHasPlayer(int x, int y) {
+        int[] coordinate = {x, y};
+        if(isFirstMove()) {
+            this.setFirstMove(false);
+            this.setPreviousTile(coordinate);
+            this.square[x][y].setHasPlayer(true);
+            this.setCurrentTile(coordinate);
+        }
+        else {
+            this.square[x][y].setHasPlayer(true);
+            this.setPreviousTile(this.getCurrentTile());
+            this.setCurrentTile(coordinate);
+        }
     }
 
     public BuildingType getCellaBuildingType(int x, int y) {
@@ -29,6 +43,8 @@ public class SantoriniMap {
     }
 
     public void setCellaBuildingType(int x, int y, String builgindType) {
+        if(builgindType.equals("DOME"))
+            this.setCellaHasPlayer(currentTile[0]+1, currentTile[1]+1);
         this.square[x][y].setBuildingType(builgindType);
     }
 
@@ -40,10 +56,18 @@ public class SantoriniMap {
         this.hasDome = hasDome;
     }
 
+    public boolean isFirstExec() {
+        return firstExec;
+    }
+
+    public void setFirstExec(boolean firstExec) {
+        this.firstExec = firstExec;
+    }
+
     public void printMap() {
-        if(!firstExec)
+        if(!isFirstExec())
             Color.clearConsole();
-        firstExec = false;
+        setFirstExec(false);
         for(int i=0; i<5; i++) {
             for(int t=0; t<5; t++) {
                 System.out.print(setPrinterColor("---------------------"));
@@ -166,4 +190,29 @@ public class SantoriniMap {
         return this.color + string;
     }
 
+    public int[] getPreviousTile() {
+        return previousTile;
+    }
+
+    public void setPreviousTile(int[] previousTile) {
+        this.square[previousTile[0]][previousTile[1]].setHasPlayer(false);
+        this.previousTile[0] = previousTile[0];
+        this.previousTile[1] = previousTile[1];
+    }
+
+    public boolean isFirstMove() {
+        return firstMove;
+    }
+
+    public void setFirstMove(boolean firstMove) {
+        this.firstMove = firstMove;
+    }
+
+    public int[] getCurrentTile() {
+        return currentTile;
+    }
+
+    public void setCurrentTile(int[] currentTile) {
+        this.currentTile = currentTile;
+    }
 }

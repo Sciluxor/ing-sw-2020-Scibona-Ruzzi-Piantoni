@@ -32,8 +32,11 @@ public class Cli extends ClientGameController {
         System.out.println("Questa è la board vuota: ");
         map.printMap();
 
-        System.out.println("\nQUESTA CHE SEGUE E' UNA PROVA DI ESECUZIONE CON FLUSSO PREDETERMINATO");
-        this.provaEsecuzione();
+        //System.out.println("\nQUESTA CHE SEGUE E' UNA PROVA DI ESECUZIONE CON FLUSSO PREDETERMINATO");
+        //this.provaEsecuzione();
+
+        System.out.println("\nQUESTA CHE SEGUE E' UNA PROVA DI ESECUZIONE NON PREDETERMINATA");
+        this.provaEsecuzioneNonPredeterminato();
     }
 
     public void initializationClient() {
@@ -88,7 +91,7 @@ public class Cli extends ClientGameController {
         System.out.print("Inserire ok per continuare: ");
         keyboard = input.nextLine();
         if(keyboard.equalsIgnoreCase("ok")) {
-            this.map.setCellaHasPlayer(0,0,true);
+            this.map.setCellaHasPlayer(0,0);
             this.map.printMap();
         }
 
@@ -117,8 +120,7 @@ public class Cli extends ClientGameController {
         keyboard = input.nextLine();
         if(keyboard.equalsIgnoreCase("dome")) {
             this.map.setCellaBuildingType(0,0,keyboard);
-            this.map.setCellaHasPlayer(0,0,false);
-            this.map.setCellaHasPlayer(1,1,true);
+            this.map.setCellaHasPlayer(1,1);
 
             this.map.printMap();
         }
@@ -130,6 +132,56 @@ public class Cli extends ClientGameController {
 
     public String setOutputColor(String string) {
         return this.clientOut + string + this.clientOut.RESET;
+    }
+
+    public void provaEsecuzioneNonPredeterminato() {
+        String keyboard;
+        Scanner input = new Scanner(System.in);
+
+        System.out.print("Inserire le coordinate in cui mettere il worker: ");
+        int[] coordinate = getCoordinatesFromString();
+        this.map.setCellaHasPlayer(coordinate[0], coordinate[1]);
+
+        this.map.printMap();
+
+        do {
+            System.out.print("Inserire MOVE o BUILD: (qualsiasi altra cosa per terminare l'esecuzione");
+            keyboard = input.nextLine().toUpperCase();
+            if(!keyboard.equals("MOVE") && !keyboard.equals("BUILD"))
+                break;
+
+            System.out.print("Inserire le coordinate in cui eseguire l'azione: ");
+            coordinate = getCoordinatesFromString();
+
+            selectCorrectExec(keyboard, coordinate);
+
+            this.map.printMap();
+        }while(keyboard.equals("MOVE") || keyboard.equals("BUILD"));
+
+        System.out.println(Color.ANSI_CYAN + "FINE ESECUZIONE!" + Color.RESET);
+    }
+
+    public void selectCorrectExec(String choice, int[] coordinate) {
+        if(choice.equals("MOVE"))
+            this.map.setCellaHasPlayer(coordinate[0], coordinate[1]);
+        if(choice.equals("BUILD")) {
+            Scanner input = new Scanner(System.in);
+            System.out.print("Inserire il tipo di edificio da costruire: ");
+            this.map.setCellaBuildingType(coordinate[0], coordinate[1], input.nextLine().toUpperCase());
+        }
+
+    }
+
+    public int[] getCoordinatesFromString() {
+        Scanner input = new Scanner(System.in);
+
+        keyboard = input.nextLine();
+        int[] coordinate = new int[2];
+        String[] split = keyboard.split("\\s");
+        for(int i=0; i<2; i++)
+            coordinate[i] = Integer.parseInt(split[i]);
+
+        return coordinate;
     }
 
 }
