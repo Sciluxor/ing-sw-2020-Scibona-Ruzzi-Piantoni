@@ -21,6 +21,7 @@ public class ChallengerChoiseCards extends JPanel{
     private final List<JButton> buttons = new ArrayList<>();
     JButton background = new JButton();
     JLabel cover =new JLabel();
+    JLabel label =new JLabel();
     private int count = 0;
     private int chosen = 0;
     private final int numberPlayers;
@@ -31,7 +32,7 @@ public class ChallengerChoiseCards extends JPanel{
 
         frameSize.setSize(frame);
         numberPlayers = numberOfPlayer;
-        intFrameSize.setSize(frameSize.getWidth() * 40/100, frameSize.getHeight() * 40/100);
+        intFrameSize.setSize(frameSize.getWidth() * 40/100, frameSize.getHeight() * 45/100);
         final int xconst = frameSize.width * 9/100;
         final int yconst = frameSize.height * 24/100;
         int x = xconst;
@@ -258,26 +259,25 @@ public class ChallengerChoiseCards extends JPanel{
         public void mouseEntered(MouseEvent e) {
             JButton c = (JButton)e.getSource();
             if (c.getX() < frameSize.width * 50/100 && c.getY() < frameSize.height * 40/100) {
-                intFrame.setBounds((int) ((frameSize.width * 13 / 100) + c.getX()), (int) ((frameSize.height * 25.575 / 100)), intFrameSize.width, intFrameSize.height);
+                intFrame.setBounds((int) ((frameSize.width * 13 / 100) + c.getX()), (int) ((frameSize.height * 20.575 / 100)), intFrameSize.width, intFrameSize.height);
             }
             else if (c.getX() >= frameSize.width * 50/100 && c.getY() < frameSize.height * 40/100){
-                intFrame.setBounds((int) (c.getX() - (frameSize.width * 38 / 100)), (int) ((frameSize.height * 25.575 / 100)), intFrameSize.width, intFrameSize.height);
+                intFrame.setBounds((int) (c.getX() - (frameSize.width * 38 / 100)), (int) ((frameSize.height * 20.575 / 100)), intFrameSize.width, intFrameSize.height);
             }
             else if (c.getX() < frameSize.width * 50/100 && c.getY() >= frameSize.height * 40/100){
-                intFrame.setBounds((int) ((frameSize.width * 13 / 100) + c.getX()), (int) ((frameSize.height * 50.575 / 100)), intFrameSize.width, intFrameSize.height);
+                intFrame.setBounds((int) ((frameSize.width * 13 / 100) + c.getX()), (int) ((frameSize.height * 45.575 / 100)), intFrameSize.width, intFrameSize.height);
             }
             else
-                intFrame.setBounds((int) (c.getX() - (frameSize.width * 38 / 100)), (int) ((frameSize.height * 50.575 / 100)), intFrameSize.width, intFrameSize.height);
+                intFrame.setBounds((int) (c.getX() - (frameSize.width * 38 / 100)), (int) ((frameSize.height * 45.575 / 100)), intFrameSize.width, intFrameSize.height);
 
             background.setIcon(null);
             try {
-                cover = ImageHandler.setImage(c.getName(), 100, 100, cardSize.width, cardSize.height);
+                cover = ImageHandler.setImage(c.getName(), 100, 100, intFrame.getWidth() , intFrame.getHeight() );
             } catch (IOException ex) {
                 LOGGER.severe(ex.getMessage());
             }
-            //power.setText("questo è il potere di " + c.getName());
-            //power.setBounds(intFrameSize.width * 40 / 100, frameSize.height * 45 / 100, intFrameSize.width * 20/100, intFrameSize.height * 10/100);
-            background.setIcon(cover.getIcon());
+            label.setIcon(cover.getIcon());
+            background.setIcon(label.getIcon());
             intFrame.setVisible(true);
         }
 
