@@ -25,7 +25,7 @@ public class ChallengerChoiseCards extends JPanel{
     private int count = 0;
     private int chosen = 0;
     private final int numberPlayers;
-    private List<String> godChosen = new ArrayList<>();
+    private static List<JButton> godChosen = new ArrayList<>();
     JButton confirm = confirmButtonCreate();
 
     public ChallengerChoiseCards(Dimension frame, Integer numberOfPlayer) throws IOException {
@@ -163,7 +163,7 @@ public class ChallengerChoiseCards extends JPanel{
              button.setFocusPainted(false);
              button.setBorderPainted(false);
              button.addMouseListener(new ColorBorder());
-             button.addMouseListener(new ShowPowerRight());
+             button.addMouseListener(new ShowPower());
              button.addActionListener(new ChooseGod());
          }
      }
@@ -244,7 +244,7 @@ public class ChallengerChoiseCards extends JPanel{
         }
     }
 
-    private class ShowPowerRight implements MouseListener {
+    private class ShowPower implements MouseListener {
 
         @Override
         public void mouseClicked(MouseEvent e) {/*override unnecessary*/}
@@ -299,7 +299,7 @@ public class ChallengerChoiseCards extends JPanel{
                 eliminateActionClass(c, ChooseGod.class);
                 c.setBorder(BorderFactory.createLineBorder(Color.red, 4));
                 c.setBorderPainted(true);
-                godChosen.add(c.getName());
+                godChosen.add(c);
                 chosen++;
                 c.addActionListener(new RemoveGod());
             }
@@ -316,10 +316,18 @@ public class ChallengerChoiseCards extends JPanel{
             c.setBorder(null);
             c.setBorderPainted(false);
             c.addMouseListener(new ColorBorder());
-            godChosen.remove(c.getName());
+            godChosen.remove(c);
             chosen--;
             c.addActionListener(new ChooseGod());
             eliminateActionClass(c, Gui.ChangePanel.class);
         }
+    }
+
+    public static List<JButton> returnGodChoosen(){
+        for (JButton button : godChosen){
+            button.setBorderPainted(false);
+            eliminateActionClass(button, RemoveGod.class);
+        }
+        return godChosen;
     }
 }

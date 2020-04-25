@@ -42,6 +42,7 @@ public class Login extends JPanel{
 
 
         JButton confirm = confirmButtonCreate();
+        eliminateActionClass(confirm, Gui.ChangePanel.class);
         add(confirm);
 
         nickname.setBounds((int) (frameSize.width * 40/100), (int) (frameSize.height * 46.5/100), frameSize.width * 20/100,frameSize.height * 3/100);
@@ -61,12 +62,14 @@ public class Login extends JPanel{
     private class Send implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (!nickname.getText().equals("")){
+            if (!nickname.getText().equals("") && !numberPlayers.getText().equals("") && (numberPlayers.getText().equals("2") || numberPlayers.getText().equals("3"))){
                 setNamePlayer(nickname.getText());
-            }
-
-            if (!numberPlayers.getText().equals("")) {
                 setNumberOfPlayers((Integer.parseInt(numberPlayers.getText())));
+                try {
+                    panelManager(0);
+                } catch (IOException ioException) {
+                    LOGGER.severe(ioException.getMessage());
+                }
             }
         }
     }

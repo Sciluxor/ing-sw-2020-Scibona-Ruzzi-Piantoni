@@ -3,7 +3,8 @@ package it.polimi.ingsw.view.client.gui;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-
+import java.util.List;
+import static it.polimi.ingsw.view.client.gui.ChallengerChoiseCards.returnGodChoosen;
 import static it.polimi.ingsw.view.client.gui.Gui.backgroundButton;
 import static it.polimi.ingsw.view.client.gui.Gui.confirmButtonCreate;
 
@@ -27,6 +28,7 @@ public class ChooseCard extends  JPanel{
         JButton button1 = new JButton("First");
         JButton button2 = new JButton("Second");
         JButton button3 = new JButton("Third");
+        List<JButton> godChoosen = returnGodChoosen();
 
         if(numberOfPanel == 3 || numberOfPanel == 2) {
 
@@ -36,22 +38,22 @@ public class ChooseCard extends  JPanel{
             add(confirm);
 
             if (numberOfPanel == 3){
-                button1.setBounds(x, y, cardSize.width, cardSize.height);
-                this.add(button1);
+                godChoosen.get(0).setBounds(x, y, cardSize.width, cardSize.height);
+                this.add(godChoosen.get(0));
 
-                button2.setBounds(x + frameSize.width * 12/100, y, cardSize.width, cardSize.height);
-                this.add(button2);
+                godChoosen.get(1).setBounds(x + frameSize.width * 12/100, y, cardSize.width, cardSize.height);
+                this.add(godChoosen.get(1));
 
-                button3.setBounds(x + frameSize.width * 24/100, y, cardSize.width, cardSize.height);
-                this.add(button3);
+                godChoosen.get(2).setBounds(x + frameSize.width * 24/100, y, cardSize.width, cardSize.height);
+                this.add(godChoosen.get(2));
             }
 
             if (numberOfPanel == 2){
-                button1.setBounds((int) (x + frameSize.width * 6/100), y, cardSize.width, cardSize.height);
-                this.add(button1);
+                godChoosen.get(0).setBounds((int) (x + frameSize.width * 6/100), y, cardSize.width, cardSize.height);
+                this.add(godChoosen.get(0));
 
-                button2.setBounds((int) (x + frameSize.width * 18/100), y, cardSize.width, cardSize.height);
-                this.add(button2);
+                godChoosen.get(1).setBounds((int) (x + frameSize.width * 18/100), y, cardSize.width, cardSize.height);
+                this.add(godChoosen.get(1));
             }
         }
 
@@ -62,8 +64,8 @@ public class ChooseCard extends  JPanel{
                 choise.setBounds(frameSize.width * 35/100, frameSize.height * 10/100, frameSize.width * 30/100, frameSize.height * 10/100);
                 add(choise);
 
-                button1.setBounds((int) (frameSize.width * 45.5/100), y, cardSize.width, cardSize.height);
-                this.add(button1);
+                godChoosen.get(0).setBounds((int) (frameSize.width * 45.5/100), y, cardSize.width, cardSize.height);
+                this.add(godChoosen.get(0));
             }
             else{
                 wait.setBounds(frameSize.width * 35/100, frameSize.height * 10/100, frameSize.width * 30/100, frameSize.height * 10/100);

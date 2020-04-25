@@ -115,7 +115,7 @@ public class Board extends Observable {
         JLabel cover1 = ImageHandler.setImage("src/main/resources/Graphics/panel_chat.png", 100, 100, sideSize.width, sideSize.height);
         sfondo2 = new JLabel(cover1.getIcon());
 
-        JLabel cover2 = ImageHandler.setImage("src/main/resources/Graphics/title_sky.png", 100, 100, frameSize.width * 40/100, frameSize.height * 45/100);
+        JLabel cover2 = ImageHandler.setImage("src/main/resources/Graphics/gods/apollo_description.png", 100, 100, frameSize.width * 40/100, frameSize.height * 45/100);
         background = new JLabel(cover2.getIcon());
 
         felixSmall = new Font(Gui.FELIX, Font.PLAIN, (int) (13 * screen.getHeight() / 1080));
@@ -234,8 +234,7 @@ public class Board extends Observable {
         chatStyleButtons(sfondoFrame, sfondo2);
         frameChat.getContentPane().add(sfondoFrame);
 
-        playerpower.setFont(felixBold);
-        framePower.add(playerpower);
+
         chatStyleButtons(sfondoFramePower, background);
         framePower.getContentPane().add(sfondoFramePower);
 
