@@ -5,21 +5,21 @@ import it.polimi.ingsw.model.cards.CardLoader;
 
 import java.util.*;
 
-public class ChallengerChoiceCardsCLI {
+public class ChoiceCardsCLI {
 
     private Map<String, Card> deck = CardLoader.loadCards();
     private List<String> choosenCards = new ArrayList<>();
 
     private Scanner input = new Scanner(System.in);
 
-    public void chooseCards(int numberOfPlayers) {
+    public void selectChoosenCards(int numberOfPlayers) {
 
         String keyboard;
 
         Color.clearConsole();
         System.out.println("Scegli " + numberOfPlayers + " tra le seguenti carte: (oppure inserisci il nome di una divinità per vederne gli effetti)");
         for(String s: deck.keySet())
-            System.out.println((Color.ANSI_YELLOW + s + Color.RESET).toUpperCase());
+            System.out.println(Color.ANSI_YELLOW + s.toUpperCase() + Color.RESET);
 
         System.out.println();
 
@@ -63,7 +63,7 @@ public class ChallengerChoiceCardsCLI {
         Color.clearConsole();
         System.out.print("Il deck di questa partita è composto da: ");
         for (String card : cards) {
-            System.out.print(Color.ANSI_YELLOW + card + " " + Color.RESET);
+            System.out.print(Color.ANSI_YELLOW + card.toUpperCase() + " " + Color.RESET);
         }
         System.out.println();
     }
@@ -78,5 +78,9 @@ public class ChallengerChoiceCardsCLI {
 
     public static String printColorType(String string) {
         return Color.ANSI_BLUE + string + ": " + Color.RESET;
+    }
+
+    public void chooseCardsFromChoosenCards() {
+
     }
 }

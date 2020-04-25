@@ -15,7 +15,7 @@ public class Cli extends ClientGameController {
     private String userID;
     private Color clientOut = Color.ANSI_RED;
     private SantoriniMap map = new SantoriniMap();
-    private ChallengerChoiceCardsCLI challengerChoiceCardsCLI = new ChallengerChoiceCardsCLI();
+    private ChoiceCardsCLI choiceCardsCLI = new ChoiceCardsCLI();
     private Color clientColor;
 
 
@@ -27,7 +27,7 @@ public class Cli extends ClientGameController {
     public void printCLI() {
         initializationClient();
 
-        this.challengerChoiceCardsCLI.chooseCards(numberOfPlayers);
+        this.choiceCardsCLI.selectChoosenCards(numberOfPlayers);
 
         System.out.println("Questa è la board vuota: ");
         map.printMap();
