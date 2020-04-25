@@ -5,90 +5,131 @@ import java.util.Scanner;
 
 public class Cli extends ClientGameController {
 
-    private Color colorServer;
-    private Color colorClient;
+    private Color colorCLIStandardClient;
     private static Color colorPrinter = Color.ANSI_RED;
     private String keyboard;
-    private String role;
 
-    private ClientCLI clientCLI = new ClientCLI();
-    private ServerCLI serverCLI = new ServerCLI();
+    private int numberOfPlayers;
+    private String nickname;
+    private String gameID;
+    private String userID;
+    private Color clientOut = Color.ANSI_RED;
+    private SantoriniMap map = new SantoriniMap();
+    private ChallengerChoiceCardsCLI challengerChoiceCardsCLI = new ChallengerChoiceCardsCLI();
+    private Color clientColor;
+
 
     public Cli() {
-        this.colorServer = Color.ANSI_BLUE;
-        this.colorClient = Color.ANSI_RED;
+        this.colorCLIStandardClient = Color.ANSI_RED;
         this.keyboard = null;
     }
 
-    public void avvio() {
+    public void printCLI() {
+        initializationClient();
 
-        //Welcome w = new Welcome();
+        this.challengerChoiceCardsCLI.chooseCards(numberOfPlayers);
+
+        System.out.println("Questa è la board vuota: ");
+        map.printMap();
+
+        System.out.println("\nQUESTA CHE SEGUE E' UNA PROVA DI ESECUZIONE CON FLUSSO PREDETERMINATO");
+        this.provaEsecuzione();
+    }
+
+    public void initializationClient() {
+
         Scanner input = new Scanner(System.in);
 
-        printTitle();
+        System.out.println(setOutputColor("Inserire il nickname: "));
+        setNickname(input.nextLine());
 
-        //System.out.println("Welcome to Santorini! \uD83D\uDE03\n");
-        System.out.println("Please enter 1 to be a server, 2 to be a client: ");
-        this.keyboard = input.nextLine();
-        while(!this.correctInput(this.keyboard)) {
-            System.out.println("Invalid answer. Please enter 1 to be a server, 2 to be a client: ");
-            this.keyboard = input.nextLine();
+        System.out.println(setOutputColor("Inserire in numero (2/3) di giocatori: "));
+        setNumberOfPlayers(input.nextInt());
+
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+
+        Scanner input = new Scanner(System.in);
+
+        while(nickname.length()<4 || nickname.length()>20) {
+            System.out.println(setOutputColor("\nLUNGHEZZA NICKNAME NON VALIDA\nReinserire il nickname: "));
+            nickname = input.nextLine();
+        }
+        this.nickname = nickname;
+        System.out.println(setOutputColor("Nickname setted!\n"));
+    }
+
+    public int getNumberOfPlayers() {
+        return numberOfPlayers;
+    }
+
+    public void setNumberOfPlayers(int numberOfPlayers) {
+
+        Scanner input = new Scanner(System.in);
+
+        while(numberOfPlayers < 2 || numberOfPlayers > 3)
+        {
+            System.out.println(setOutputColor("\nNUMERO INVALIDO DI GIOCATORI\nReinserire il numero di giocatori (2/3): "));
+            numberOfPlayers = Integer.parseInt(input.nextLine());
+        }
+        this.numberOfPlayers = numberOfPlayers;
+        System.out.println(setOutputColor("NumberOfPlayers setted!\n"));
+    }
+
+    public void provaEsecuzione() {
+        String keyboard;
+        Scanner input = new Scanner(System.in);
+
+        System.out.print("Inserire ok per continuare: ");
+        keyboard = input.nextLine();
+        if(keyboard.equalsIgnoreCase("ok")) {
+            this.map.setCellaHasPlayer(0,0,true);
+            this.map.printMap();
         }
 
-        this.dump();
-        this.setRole();
-
-        this.jumpToRoleCode();
-
-    }
-
-    @Override
-    public String toString() {
-        if(keyboard.equals("1"))
-            return this.colorServer + "Server: \uD83D\uDF32\n" + Color.RESET;
-        else if(keyboard.equals("2"))
-            return this.colorClient + "Client: \u3020\n" + Color.RESET;
-
-        return "";
-    }
-
-    public void dump() {
-        System.out.println(this);
-    }
-
-    public void setRole() {
-        if(keyboard.equals("1")) {
-            this.role = "SERVER";
-            System.out.println("Server setted");
-        }
-        else {
-            this.role = "CLIENT";
-            System.out.println("Client setted");
-        }
-    }
-
-    public void jumpToRoleCode() {
-        if(this.role.equals("SERVER")) {
-            serverCLI.printServer();
-        }
-        else if(this.role.equals("CLIENT")) {
-            clientCLI.printCLI();
+        System.out.print("Inserire lvl1: ");
+        keyboard = input.nextLine();
+        if(keyboard.equalsIgnoreCase("lvl1")) {
+            this.map.setCellaBuildingType(0,0,keyboard);
+            this.map.printMap();
         }
 
+        System.out.print("Inserire lvl2: ");
+        keyboard = input.nextLine();
+        if(keyboard.equalsIgnoreCase("lvl2")) {
+            this.map.setCellaBuildingType(0,0,keyboard);
+            this.map.printMap();
+        }
+
+        System.out.print("Inserire lvl3: ");
+        keyboard = input.nextLine();
+        if(keyboard.equalsIgnoreCase("lvl3")) {
+            this.map.setCellaBuildingType(0,0,keyboard);
+            this.map.printMap();
+        }
+
+        System.out.print("Inserire dome: ");
+        keyboard = input.nextLine();
+        if(keyboard.equalsIgnoreCase("dome")) {
+            this.map.setCellaBuildingType(0,0,keyboard);
+            this.map.setCellaHasPlayer(0,0,false);
+            this.map.setCellaHasPlayer(1,1,true);
+
+            this.map.printMap();
+        }
+
+        System.out.print("Inserire qualcunque cosa per pulire la schermata e concludere: ");
+        input.nextLine();
+        Color.clearConsole();
     }
 
-    public boolean correctInput(String keyboard) {
-        return keyboard.equals("1") || keyboard.equals("2");
-    }
-
-    public void getTile() {
-    }
-
-    public void printTitle() {
-        System.out.println(this.colorPrinter +  "             ___       ___  ___          ___    _____   ___      ___               _____  ___   ___                 |_|  |_|\n" +
-                " \\   \\/   / |    |    |    |   | |\\  /| |         |    |   |    |       /\\   |\\  |   |   |   | |   | | |\\  | |     ___________\n" +
-                "  \\  /\\  /  |--  |    |    |   | | \\/ | |--       |    |   |    |---|  /--\\  | \\ |   |   |   | |___| | | \\ | |     |   _|_   |\n" +
-                "   \\/  \\/   |___ |___ |___ |___| |    | |___      |    |___|     ___| /    \\ |  \\|   |   |___| |  \\  | |  \\| |      |_______|\n" + this.colorPrinter.RESET);
+    public String setOutputColor(String string) {
+        return this.clientOut + string + this.clientOut.RESET;
     }
 
 }

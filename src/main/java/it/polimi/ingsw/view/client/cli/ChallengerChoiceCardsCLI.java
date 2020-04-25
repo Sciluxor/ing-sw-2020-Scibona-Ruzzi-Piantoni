@@ -21,10 +21,6 @@ public class ChallengerChoiceCardsCLI {
         for(String s: deck.keySet())
             System.out.println((Color.ANSI_YELLOW + s + Color.RESET).toUpperCase());
 
-
-        /*for(String s: cards) {
-            System.out.println(Color.ANSI_YELLOW + s + Color.RESET);
-        }*/
         System.out.println();
 
         keyboard = this.input.nextLine().toLowerCase();
@@ -41,7 +37,6 @@ public class ChallengerChoiceCardsCLI {
                 else
                     System.out.print(printColorType(deck.get(keyboard).getType().toString()));
                 System.out.println((deck.get(keyboard).getDescription()));
-                //Cards.printPower(keyboard);
             }
             else
                 System.out.println("WRONG CARD NAME. Please reinsert new card name:");
