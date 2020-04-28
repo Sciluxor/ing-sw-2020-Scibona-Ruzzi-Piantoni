@@ -46,11 +46,13 @@ public class Login extends JPanel{
                 add(confirm);
 
         nickname.setBounds((int) (frameSize.width * 40/100), (int) (frameSize.height * 46.5/100), frameSize.width * 20/100,frameSize.height * 3/100);
+        nickname.setText("Nickname");
         add(nickname);
         nicknameLabel.setBounds((int) (frameSize.width * 24.5/100), (int) (frameSize.height * 45.5/100), frameSize.width * 15/100,frameSize.height * 5/100);
         add(nicknameLabel);
 
         numberPlayers.setBounds( (frameSize.width * 40/100), (int) (frameSize.height * 56.5/100), frameSize.width * 20/100,frameSize.height * 3/100);
+        numberPlayers.setText("2");
         add(numberPlayers);
         numberPlayersLabel.setBounds((int) (frameSize.width * 19.5/100), (int) (frameSize.height * 55.5/100), frameSize.width * 20/100,frameSize.height * 5/100);
         add(numberPlayersLabel);
