@@ -105,24 +105,36 @@ public class Gui extends ClientGameController {
     }
 
 
-    public static void panelManager(int panel) throws IOException {
+    public static void panelManager(int panel){
         switch (panel){
             case 0:
                 frame.remove(login);
-                challengerChoiseCards = new ChallengerChoiseCards(d, numberOfPlayers);
+                try {
+                    challengerChoiseCards = new ChallengerChoiseCards(d, numberOfPlayers);
+                } catch (IOException e) {
+                    LOGGER.severe(e.getMessage());
+                }
                 frame.add(challengerChoiseCards);
                 panelInUse = 1;
                 break;
             case 1:
                 frame.remove(challengerChoiseCards);
-                challengerChoiseFirst = new ChallengerChoiseFirstPlayer(d, numberOfPlayers, players);
+                try {
+                    challengerChoiseFirst = new ChallengerChoiseFirstPlayer(d, numberOfPlayers, players);
+                } catch (IOException e) {
+                    LOGGER.severe(e.getMessage());
+                }
                 frame.add(challengerChoiseFirst);
                 panelInUse = 2;
                 break;
 
             case 2:
                 frame.remove(challengerChoiseFirst);
-                chooseCard2 = new ChooseCard(screenSize, d, 2);
+                try {
+                    chooseCard2 = new ChooseCard(screenSize, d, 2);
+                } catch (IOException e) {
+                    LOGGER.severe(e.getMessage());
+                }
                 frame.add(chooseCard2);
                 panelInUse = 3;
                 break;
@@ -130,7 +142,11 @@ public class Gui extends ClientGameController {
             case 3:
                 frame.dispose();
                 Board board = new Board();
-                board.show(screenSize, numberOfPlayers, players, "GID01");
+                try {
+                    board.show(screenSize, numberOfPlayers, players, "GID01");
+                } catch (IOException e) {
+                    LOGGER.severe(e.getMessage());
+                }
                 panelInUse = 4;
                 break;
 
@@ -170,100 +186,29 @@ public class Gui extends ClientGameController {
 
             switch (panelInUse){
                 case 0:
-                    try {
-                        panelManager(0);
-                    } catch (IOException ex) {
-                        LOGGER.severe(ex.getMessage());
-                    }
+                    panelManager(0);
                     break;
 
                 case 1:
-                    try {
-                        panelManager(1);
-                    } catch (IOException ex) {
-                        LOGGER.severe(ex.getMessage());
-                    }
+                    panelManager(1);
                     break;
 
                 case 2:
-                    try {
-                        panelManager(2);
-                    } catch (IOException ex) {
-                        LOGGER.severe(ex.getMessage());
-                    }
+                    panelManager(2);
                     break;
 
                 case 3:
-                    try {
-                        panelManager(3);
-                    } catch (IOException ex) {
-                        LOGGER.severe(ex.getMessage());
-                    }
+                    panelManager(3);
                     break;
 
                 case 4:
-                    try {
-                        panelManager(4);
-                    } catch (IOException ex) {
-                        LOGGER.severe(ex.getMessage());
-                    }
+                    panelManager(4);
                     break;
                 default:
             }
 
         }
 
-    }
-
-    public static JButton confirmButtonCreate() throws IOException {
-        JButton confirm = new JButton();
-        lconfirm = ImageHandler.setImage("src/main/resources/Graphics/button_confirm.png", 100, 100, (int) (d.getWidth() * 13/100), (int) (d.getHeight() * 5/100));
-        lconfirmPress = ImageHandler.setImage("src/main/resources/Graphics/button_confirm_press.png", 100, 100, (int) (d.getWidth() * 13/100), (int) (d.getHeight() * 5/100));
-
-        confirm.setBounds((int) (d.getWidth() * 43.5/100), (int) (d.getHeight() * 79.5/100), (int) (d.getWidth() * 13/100), (int) (d.getHeight() * 5/100));
-        confirm.setOpaque(false);
-        confirm.setContentAreaFilled(false);
-        confirm.setFocusPainted(false);
-        confirm.setBorderPainted(false);
-        confirm.setIcon(Gui.lconfirm.getIcon());
-        //confirm.setVisible(true);
-        confirm.addMouseListener(new ConfirmButtonPress());
-        confirm.addActionListener(new Gui.ChangePanel());
-        return confirm;
-    }
-
-    public static class ConfirmButtonPress implements MouseListener {
-
-        @Override
-        public void mouseClicked(MouseEvent e) {/*override unnecessary*/}
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-            JButton c = (JButton)e.getSource();
-            c.setIcon(lconfirmPress.getIcon());
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent e) {
-            JButton c = (JButton)e.getSource();
-            c.setIcon(lconfirm.getIcon());
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent e) {/*override unnecessary*/}
-
-        @Override
-        public void mouseExited(MouseEvent e) {/*override unnecessary*/}
-    }
-
-    public static JButton backgroundButton(){
-        JButton back = new JButton();
-        back.setIcon(backgroundPanel.getIcon());
-        back.setBounds(0, 0, d.width, d.height);
-        back.setOpaque(false);
-        back.setContentAreaFilled(false);
-        back.setBorderPainted(false);
-        return back;
     }
 
 
@@ -274,6 +219,10 @@ public class Gui extends ClientGameController {
     public static void setNamePlayer(String name) {
         players.add(0, new Player(name));
         players.get(0).setColor(Color.BLUE);
+    }
+
+    public static Dimension getD() {
+        return d;
     }
 
     public static void eliminateActionClass(JButton button, Class clas){
@@ -288,6 +237,7 @@ public class Gui extends ClientGameController {
             if (button.getMouseListeners()[x].getClass().equals(clas))
                 button.removeMouseListener(button.getMouseListeners()[x]);
         }
+
     }
 
 

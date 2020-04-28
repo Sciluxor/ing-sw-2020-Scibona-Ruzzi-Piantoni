@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
+import static it.polimi.ingsw.view.client.gui.ConfirmButton.confirmButton;
 import static it.polimi.ingsw.view.client.gui.Gui.*;
 
 public class ChallengerChoiseCards extends JPanel{
@@ -26,7 +28,7 @@ public class ChallengerChoiseCards extends JPanel{
     private int chosen = 0;
     private final int numberPlayers;
     private static List<JButton> godChosen = new ArrayList<>();
-    JButton confirm = confirmButtonCreate();
+    JButton confirm = confirmButton();
 
     public ChallengerChoiseCards(Dimension frame, Integer numberOfPlayer) throws IOException {
 
@@ -139,7 +141,7 @@ public class ChallengerChoiseCards extends JPanel{
         choise.setBounds(frameSize.width * 35/100, frameSize.height * 10/100, frameSize.width * 30/100, frameSize.height * 10/100);
         add(choise);
 
-        eliminateActionClass(confirm, Gui.ChangePanel.class);
+
         add(confirm);
 
 
@@ -319,7 +321,7 @@ public class ChallengerChoiseCards extends JPanel{
             godChosen.remove(c);
             chosen--;
             c.addActionListener(new ChooseGod());
-            eliminateActionClass(c, Gui.ChangePanel.class);
+            eliminateActionClass(confirm, Gui.ChangePanel.class);
         }
     }
 

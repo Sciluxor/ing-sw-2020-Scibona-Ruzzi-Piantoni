@@ -3,7 +3,8 @@ package it.polimi.ingsw.view.client.gui;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-import static it.polimi.ingsw.view.client.gui.Gui.backgroundButton;
+
+import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
 
 public class WaitChallenger extends JPanel{
 

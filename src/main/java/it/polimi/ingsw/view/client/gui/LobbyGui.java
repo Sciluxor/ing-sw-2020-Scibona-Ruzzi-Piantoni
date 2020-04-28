@@ -11,7 +11,8 @@ import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.io.IOException;
 import java.util.List;
-import static it.polimi.ingsw.view.client.gui.Gui.backgroundButton;
+
+import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
 
 public class LobbyGui extends JPanel{
     Dimension frameSize = new Dimension();
