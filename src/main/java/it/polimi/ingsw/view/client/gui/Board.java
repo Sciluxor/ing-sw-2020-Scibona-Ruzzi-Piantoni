@@ -801,16 +801,7 @@ public class Board extends Observable {
     }
 
 
-    private static class ColorBorder implements MouseListener {
-
-        @Override
-        public void mouseClicked(MouseEvent e) {/*override unnecessary*/}
-
-        @Override
-        public void mousePressed(MouseEvent e) {/*override unnecessary*/}
-
-        @Override
-        public void mouseReleased(MouseEvent e) {/*override unnecessary*/}
+    private static class ColorBorder extends MouseAdapter {
 
         @Override
         public void mouseEntered(MouseEvent e) {
@@ -826,10 +817,7 @@ public class Board extends Observable {
         }
     }
 
-    private class ButtonPress implements MouseListener {
-
-        @Override
-        public void mouseClicked(MouseEvent e) {/*override unnecessary*/}
+    private class ButtonPress extends MouseAdapter {
 
         @Override
         public void mousePressed(MouseEvent e) {
@@ -863,24 +851,10 @@ public class Board extends Observable {
             else
                 buttonChat.setIcon(lButtonChat.getIcon());
         }
-
-        @Override
-        public void mouseEntered(MouseEvent e) {/*override unnecessary*/}
-
-        @Override
-        public void mouseExited(MouseEvent e) {/*override unnecessary*/}
     }
 
 
-    private class SeePower implements MouseListener {
-        @Override
-        public void mouseClicked(MouseEvent e) {/*override unnecessary*/}
-
-        @Override
-        public void mousePressed(MouseEvent e) {/*override unnecessary*/}
-
-        @Override
-        public void mouseReleased(MouseEvent e) {/*override unnecessary*/}
+    private class SeePower extends MouseAdapter {
 
         @Override
         public void mouseEntered(MouseEvent e) {

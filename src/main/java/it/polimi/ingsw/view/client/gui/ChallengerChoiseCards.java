@@ -2,16 +2,13 @@ package it.polimi.ingsw.view.client.gui;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
-import static it.polimi.ingsw.view.client.gui.ConfirmButton.confirmButton;
+//import static it.polimi.ingsw.view.client.gui.ConfirmButton.confirmButton;
 import static it.polimi.ingsw.view.client.gui.Gui.*;
 
 public class ChallengerChoiseCards extends JPanel{
@@ -28,7 +25,7 @@ public class ChallengerChoiseCards extends JPanel{
     private int chosen = 0;
     private final int numberPlayers;
     private static List<JButton> godChosen = new ArrayList<>();
-    JButton confirm = confirmButton();
+    ConfirmButton confirm = new ConfirmButton();
 
     public ChallengerChoiseCards(Dimension frame, Integer numberOfPlayer) throws IOException {
 
@@ -221,16 +218,7 @@ public class ChallengerChoiseCards extends JPanel{
          }
      }
 
-    private static class ColorBorder implements MouseListener {
-
-        @Override
-        public void mouseClicked(MouseEvent e) {/*override unnecessary*/}
-
-        @Override
-        public void mousePressed(MouseEvent e) {/*override unnecessary*/}
-
-        @Override
-        public void mouseReleased(MouseEvent e) {/*override unnecessary*/}
+    private static class ColorBorder extends MouseAdapter {
 
         @Override
         public void mouseEntered(MouseEvent e) {
@@ -246,16 +234,7 @@ public class ChallengerChoiseCards extends JPanel{
         }
     }
 
-    private class ShowPower implements MouseListener {
-
-        @Override
-        public void mouseClicked(MouseEvent e) {/*override unnecessary*/}
-
-        @Override
-        public void mousePressed(MouseEvent e) {/*override unnecessary*/}
-
-        @Override
-        public void mouseReleased(MouseEvent e) {/*override unnecessary*/}
+    private class ShowPower extends MouseAdapter {
 
         @Override
         public void mouseEntered(MouseEvent e) {

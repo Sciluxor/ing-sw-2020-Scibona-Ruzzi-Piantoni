@@ -7,7 +7,7 @@ import java.util.List;
 
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
 import static it.polimi.ingsw.view.client.gui.ChallengerChoiseCards.returnGodChoosen;
-import static it.polimi.ingsw.view.client.gui.ConfirmButton.confirmButton;
+//import static it.polimi.ingsw.view.client.gui.ConfirmButton.confirmButton;
 
 public class ChooseCard extends  JPanel{
     Dimension frameSize = new Dimension();
@@ -25,7 +25,7 @@ public class ChooseCard extends  JPanel{
         JLabel choose = ImageHandler.setImage("src/main/resources/Graphics/Texts/choose_your_god.png", 100, 100, frameSize.width * 30/100, frameSize.height * 10/100);
         JLabel choise = ImageHandler.setImage("src/main/resources/Graphics/Texts/this_is_your_god.png", 100, 100, frameSize.width * 30/100, frameSize.height * 10/100);
         JLabel wait = ImageHandler.setImage("src/main/resources/Graphics/Texts/waiting_for_other_players_choice.png", 100, 100, frameSize.width * 30/100, frameSize.height * 10/100);
-        JButton confirm = confirmButton();
+        ConfirmButton confirm = new ConfirmButton();
         JButton button1 = new JButton("First");
         JButton button2 = new JButton("Second");
         JButton button3 = new JButton("Third");

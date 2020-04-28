@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-import static it.polimi.ingsw.view.client.gui.ConfirmButton.confirmButton;
+//import static it.polimi.ingsw.view.client.gui.ConfirmButton.confirmButton;
 import static it.polimi.ingsw.view.client.gui.Gui.*;
 
 public class Login extends JPanel{
@@ -42,8 +42,8 @@ public class Login extends JPanel{
         add(santoriniLabel);
 
 
-        JButton confirm = confirmButton();
-        add(confirm);
+        ConfirmButton confirm = new ConfirmButton();
+                add(confirm);
 
         nickname.setBounds((int) (frameSize.width * 40/100), (int) (frameSize.height * 46.5/100), frameSize.width * 20/100,frameSize.height * 3/100);
         add(nickname);
