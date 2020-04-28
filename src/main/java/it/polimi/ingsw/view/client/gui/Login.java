@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-//import static it.polimi.ingsw.view.client.gui.ConfirmButton.confirmButton;
+
 import static it.polimi.ingsw.view.client.gui.Gui.*;
 
 public class Login extends JPanel{

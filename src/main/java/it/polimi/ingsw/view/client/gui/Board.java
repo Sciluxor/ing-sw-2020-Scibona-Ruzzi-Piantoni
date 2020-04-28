@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static it.polimi.ingsw.view.client.gui.Gui.LOGGER;
-import static it.polimi.ingsw.view.client.gui.Gui.eliminateActionClass;
+import static it.polimi.ingsw.view.client.gui.EliminateListeners.*;
 
 public class Board extends Observable {
     List<Player> allPlayer = new ArrayList<>();

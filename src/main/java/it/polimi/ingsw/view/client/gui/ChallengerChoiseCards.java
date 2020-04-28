@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
-//import static it.polimi.ingsw.view.client.gui.ConfirmButton.confirmButton;
+import static it.polimi.ingsw.view.client.gui.EliminateListeners.*;
 import static it.polimi.ingsw.view.client.gui.Gui.*;
 
 public class ChallengerChoiseCards extends JPanel{
@@ -161,7 +161,7 @@ public class ChallengerChoiseCards extends JPanel{
              button.setContentAreaFilled(false);
              button.setFocusPainted(false);
              button.setBorderPainted(false);
-             button.addMouseListener(new ColorBorder());
+             button.addMouseListener(new ColorBorderGodCards());
              button.addMouseListener(new ShowPower());
              button.addActionListener(new ChooseGod());
          }
@@ -218,22 +218,6 @@ public class ChallengerChoiseCards extends JPanel{
          }
      }
 
-    private static class ColorBorder extends MouseAdapter {
-
-        @Override
-        public void mouseEntered(MouseEvent e) {
-            JButton c = (JButton)e.getSource();
-            c.setBorder(BorderFactory.createLineBorder(Color.yellow, 3));
-            c.setBorderPainted(true);
-        }
-
-        @Override
-        public void mouseExited(MouseEvent e) {
-            JButton c = (JButton)e.getSource();
-            c.setBorderPainted(false);
-        }
-    }
-
     private class ShowPower extends MouseAdapter {
 
         @Override
@@ -276,7 +260,7 @@ public class ChallengerChoiseCards extends JPanel{
             JButton c = (JButton)e.getSource();
             if (0 <= chosen && chosen < numberPlayers){
 
-                eliminateMouseClass(c, ColorBorder.class);
+                eliminateMouseClass(c, ColorBorderGodCards.class);
                 eliminateActionClass(c, ChooseGod.class);
                 c.setBorder(BorderFactory.createLineBorder(Color.red, 4));
                 c.setBorderPainted(true);
@@ -296,7 +280,7 @@ public class ChallengerChoiseCards extends JPanel{
             eliminateActionClass(c, RemoveGod.class);
             c.setBorder(null);
             c.setBorderPainted(false);
-            c.addMouseListener(new ColorBorder());
+            c.addMouseListener(new ColorBorderGodCards());
             godChosen.remove(c);
             chosen--;
             c.addActionListener(new ChooseGod());
@@ -307,7 +291,9 @@ public class ChallengerChoiseCards extends JPanel{
     public static List<JButton> returnGodChoosen(){
         for (JButton button : godChosen){
             button.setBorderPainted(false);
-            eliminateActionClass(button, RemoveGod.class);
+            eliminateAllActionClass(button);
+            eliminateAllMouseClass(button);
+            button.addMouseListener(new ColorBorderGodCards());
         }
         return godChosen;
     }
