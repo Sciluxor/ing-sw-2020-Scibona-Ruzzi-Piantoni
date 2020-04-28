@@ -25,9 +25,6 @@ public class ChooseCard extends  JPanel{
         JLabel choise = ImageHandler.setImage("src/main/resources/Graphics/Texts/this_is_your_god.png", 100, 100, frameSize.width * 30/100, frameSize.height * 10/100);
         JLabel wait = ImageHandler.setImage("src/main/resources/Graphics/Texts/waiting_for_other_players_choice.png", 100, 100, frameSize.width * 30/100, frameSize.height * 10/100);
         ConfirmButton confirm = new ConfirmButton();
-        JButton button1 = new JButton("First");
-        JButton button2 = new JButton("Second");
-        JButton button3 = new JButton("Third");
         List<JButton> godChoosen = returnGodChoosen();
 
         if(numberOfPanel == 3 || numberOfPanel == 2) {
@@ -49,10 +46,10 @@ public class ChooseCard extends  JPanel{
             }
 
             if (numberOfPanel == 2){
-                godChoosen.get(0).setBounds((int) (x + frameSize.width * 6/100), y, cardSize.width, cardSize.height);
+                godChoosen.get(0).setBounds(x + frameSize.width * 6/100, y, cardSize.width, cardSize.height);
                 this.add(godChoosen.get(0));
 
-                godChoosen.get(1).setBounds((int) (x + frameSize.width * 18/100), y, cardSize.width, cardSize.height);
+                godChoosen.get(1).setBounds(x + frameSize.width * 18/100, y, cardSize.width, cardSize.height);
                 this.add(godChoosen.get(1));
             }
         }

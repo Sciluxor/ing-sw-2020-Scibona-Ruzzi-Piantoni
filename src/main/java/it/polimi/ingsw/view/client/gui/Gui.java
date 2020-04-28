@@ -38,7 +38,7 @@ public class Gui extends ClientGameController {
     static JLabel cover;
     static {
         try {
-            lconfirm = ImageHandler.setImage("src/main/resources/Graphics/button_confirm.png", 100, 100, (int) (d.width * 13/100), (int) (d.height * 5/100));
+            lconfirm = ImageHandler.setImage("src/main/resources/Graphics/button_confirm.png", 100, 100, d.width * 13/100, d.height * 5/100);
             lconfirmPress = ImageHandler.setImage("src/main/resources/Graphics/button_confirm_press.png", 100, 100, (int) (d.width * 13/100), (int) (d.height * 5/100));
             cover = ImageHandler.setImage("src/main/resources/Graphics/background_panels.png", 100, 100, d.width, d.height);
         } catch (IOException e) {
@@ -130,12 +130,22 @@ public class Gui extends ClientGameController {
 
             case 2:
                 frame.remove(challengerChoiseFirst);
-                try {
-                    chooseCard2 = new ChooseCard(screenSize, d, 2);
-                } catch (IOException e) {
-                    LOGGER.severe(e.getMessage());
+                if (numberOfPlayers == 2){
+                    try {
+                        chooseCard2 = new ChooseCard(screenSize, d, numberOfPlayers);
+                    } catch (IOException e) {
+                        LOGGER.severe(e.getMessage());
+                    }
+                    frame.add(chooseCard2);
                 }
-                frame.add(chooseCard2);
+                else{
+                    try {
+                        chooseCard3 = new ChooseCard(screenSize, d, numberOfPlayers);
+                    } catch (IOException e) {
+                        LOGGER.severe(e.getMessage());
+                    }
+                    frame.add(chooseCard3);
+                }
                 panelInUse = 3;
                 break;
 

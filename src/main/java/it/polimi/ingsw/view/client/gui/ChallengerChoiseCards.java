@@ -24,7 +24,7 @@ public class ChallengerChoiseCards extends JPanel{
     private int count = 0;
     private int chosen = 0;
     private final int numberPlayers;
-    private static List<JButton> godChosen = new ArrayList<>();
+    private static final List<JButton> godChosen = new ArrayList<>();
     ConfirmButton confirm = new ConfirmButton();
 
     public ChallengerChoiseCards(Dimension frame, Integer numberOfPlayer) throws IOException {
@@ -264,7 +264,7 @@ public class ChallengerChoiseCards extends JPanel{
                 eliminateActionClass(c, ChooseGod.class);
                 c.setBorder(BorderFactory.createLineBorder(Color.red, 4));
                 c.setBorderPainted(true);
-                godChosen.add(c);
+                addGod(c);
                 chosen++;
                 c.addActionListener(new RemoveGod());
             }
@@ -296,5 +296,16 @@ public class ChallengerChoiseCards extends JPanel{
             button.addMouseListener(new ColorBorderGodCards());
         }
         return godChosen;
+    }
+
+    private void addGod(JButton god){
+
+        for (int x = 0; x < godChosen.size(); x++){
+            if (godChosen.get(x).getName().compareTo(god.getName()) > 0){
+                godChosen.add(x, god);
+                return;
+            }
+        }
+        godChosen.add(god);
     }
 }
