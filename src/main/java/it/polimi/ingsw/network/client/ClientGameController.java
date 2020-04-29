@@ -8,7 +8,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.logging.Logger;
 
-public abstract class ClientGameController implements Runnable{ //rimettere implements
+public abstract class ClientGameController implements Runnable, FunctionListener{ //rimettere implements
     public static final Logger LOGGER = Logger.getLogger("Client");
 
     private SimplifiedGame game;

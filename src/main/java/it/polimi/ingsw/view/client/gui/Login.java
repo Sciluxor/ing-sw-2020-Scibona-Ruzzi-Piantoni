@@ -11,14 +11,16 @@ import static it.polimi.ingsw.view.client.gui.Gui.*;
 
 public class Login extends JPanel{
 
+    private Gui gui;
     Dimension frameSize = new Dimension();
     JTextField nickname;
     JTextField numberPlayers;
     JTextField port;
     JTextField address;
 
-    public Login(Dimension frame) throws IOException {
+    public Login(Gui istance, Dimension frame) throws IOException {
 
+        gui = istance;
         frameSize.setSize(frame);
         setPreferredSize(frameSize);
         setLayout(null);
@@ -85,9 +87,10 @@ public class Login extends JPanel{
             if (!nickname.getText().equals("") && !numberPlayers.getText().equals("") && (numberPlayers.getText().equals("2") || numberPlayers.getText().equals("3"))){
                 setNamePlayer(nickname.getText());
                 setNumberOfPlayers((Integer.parseInt(numberPlayers.getText())));
-
+                gui.guiOpenConnection(nickname.getText(), (Integer.parseInt(numberPlayers.getText())), address.getText(), (Integer.parseInt(port.getText())));
                 panelManager(0);
             }
         }
     }
+
 }

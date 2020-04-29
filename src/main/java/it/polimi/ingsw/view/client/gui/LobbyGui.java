@@ -9,19 +9,38 @@ import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.List;
 
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
+import static it.polimi.ingsw.view.client.gui.Gui.*;
 
-public class LobbyGui extends JPanel{
+public class LobbyGui extends JDesktopPane{
     Dimension frameSize = new Dimension();
+    static JButton backButton = new JButton();
+    static JLabel lback;
+    static JLabel lbackPress;
 
-    public LobbyGui(Dimension frame, Integer actualPlayer, Integer numberOfPlayer, List<Player> players) throws IOException {
+    public LobbyGui(Gui istance, Dimension frame, Integer actualPlayer, Integer numberOfPlayer, List<Player> players) throws IOException {
 
         frameSize.setSize(frame);
         setPreferredSize(frameSize);
         setLayout(null);
+
+        lback = ImageHandler.setImage("src/main/resources/Graphics/button_back.png", 100, 100, frameSize.width * 13/100, frameSize.height * 5/100);
+        lbackPress = ImageHandler.setImage("src/main/resources/Graphics/button_back_press.png", 100, 100, frameSize.width * 13/100, frameSize.height * 5/100);
+        backButton.setBounds((int) (getD().getWidth() * 43.5 / 100), (int) (getD().getHeight() * 79.5 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
+        backButton.setOpaque(false);
+        backButton.setContentAreaFilled(false);
+        backButton.setFocusPainted(false);
+        backButton.setBorderPainted(false);
+        backButton.setIcon(lback.getIcon());
+        backButton.setEnabled(true);
+        backButton.addMouseListener(new BackButtonPress());
+        backButton.addActionListener(new Gui.ChangePanel());
+        add(backButton);
 
         JLabel wait = ImageHandler.setImage("src/main/resources/Graphics/Texts/waiting_others_players.png", 100, 100, frameSize.width * 30/100, frameSize.height * 10/100);
         JLabel actualNumber;
@@ -84,7 +103,24 @@ public class LobbyGui extends JPanel{
                 Logger.info("InsertString Failed");
             }
         }
-        JButton back = backgroundButton();
-        add(back);
+
+
+        JButton backgroundButton = backgroundButton();
+        add(backgroundButton);
+    }
+
+    private static class BackButtonPress extends MouseAdapter {
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            JButton c = (JButton)e.getSource();
+            c.setIcon(lbackPress.getIcon());
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            JButton c = (JButton)e.getSource();
+            c.setIcon(lback.getIcon());
+        }
     }
 }
