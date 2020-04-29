@@ -1,6 +1,6 @@
 package it.polimi.ingsw.view.client.cli;
 
-import it.polimi.ingsw.controller.ClientGameController;
+import it.polimi.ingsw.network.client.ClientGameController;
 import java.util.Scanner;
 
 public class Cli extends ClientGameController {

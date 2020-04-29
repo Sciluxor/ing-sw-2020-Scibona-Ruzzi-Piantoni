@@ -1,6 +1,6 @@
 package it.polimi.ingsw.view.client.gui;
 
-import it.polimi.ingsw.controller.ClientGameController;
+import it.polimi.ingsw.network.client.ClientGameController;
 import it.polimi.ingsw.model.player.Color;
 import it.polimi.ingsw.model.player.Player;
 

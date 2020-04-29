@@ -561,7 +561,7 @@ public class Board extends Observable {
             buttonLv2.addActionListener(new AddBuildLvl2());
             buttonLv3.addActionListener(new AddBuildLvl3());
             buttonDome.addActionListener(new AddBuildDome());
-            buttonMove.setEnabled(false);
+            buttonMove.setVisible(false);
         }
     }
 
