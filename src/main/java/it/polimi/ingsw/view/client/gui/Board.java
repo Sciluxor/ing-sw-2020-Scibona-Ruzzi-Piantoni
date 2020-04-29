@@ -465,7 +465,7 @@ public class Board extends Observable {
 
     }
 
-    private void internalFrameSetUp(JInternalFrame intFrame){
+    public static void internalFrameSetUp(JInternalFrame intFrame){
         intFrame.putClientProperty(PALETTE, Boolean.TRUE);
         intFrame.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
         intFrame.setOpaque(false);

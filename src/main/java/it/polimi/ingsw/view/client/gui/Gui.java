@@ -26,11 +26,11 @@ public class Gui extends ClientGameController {
     static JFrame frame = new JFrame("Santorini");
     static JPanel login = null;
     static JPanel lobby = null;
-    static JPanel challengerChoiseCards = null;
+    static JDesktopPane challengerChoiseCards = null;
     static JPanel waitChallenger = null;
     static JPanel challengerChoiseFirst = null;
-    static JPanel chooseCard3 = null;
-    static JPanel chooseCard2 = null;
+    static JDesktopPane chooseCard3 = null;
+    static JDesktopPane chooseCard2 = null;
     static JPanel chooseCard1 = null;
     static JPanel chooseCard0 = null;
     static JLabel lconfirm;
@@ -124,7 +124,7 @@ public class Gui extends ClientGameController {
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }
-                frame.add(challengerChoiseFirst);
+                frame.setContentPane(challengerChoiseFirst);
                 panelInUse = 2;
                 break;
 
@@ -136,7 +136,7 @@ public class Gui extends ClientGameController {
                     } catch (IOException e) {
                         LOGGER.severe(e.getMessage());
                     }
-                    frame.add(chooseCard2);
+                    frame.setContentPane(chooseCard2);
                 }
                 else{
                     try {
@@ -144,7 +144,7 @@ public class Gui extends ClientGameController {
                     } catch (IOException e) {
                         LOGGER.severe(e.getMessage());
                     }
-                    frame.add(chooseCard3);
+                    frame.setContentPane(chooseCard3);
                 }
                 panelInUse = 3;
                 break;

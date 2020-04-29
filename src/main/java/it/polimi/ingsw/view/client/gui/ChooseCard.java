@@ -8,7 +8,7 @@ import java.util.List;
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
 import static it.polimi.ingsw.view.client.gui.ChallengerChoiseCards.returnGodChoosen;
 
-public class ChooseCard extends  JPanel{
+public class ChooseCard extends  JDesktopPane{
     Dimension frameSize = new Dimension();
 
     public ChooseCard(Dimension screen, Dimension frame, Integer numberOfPanel) throws IOException {

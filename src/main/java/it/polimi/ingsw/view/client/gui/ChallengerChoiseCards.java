@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.client.gui;
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicInternalFrameUI;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
@@ -8,15 +9,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
+import static it.polimi.ingsw.view.client.gui.Board.internalFrameSetUp;
 import static it.polimi.ingsw.view.client.gui.EliminateListeners.*;
 import static it.polimi.ingsw.view.client.gui.Gui.*;
 
-public class ChallengerChoiseCards extends JPanel{
+public class ChallengerChoiseCards extends JDesktopPane{
 
     Dimension frameSize = new Dimension();
     Dimension intFrameSize = new Dimension();
     Dimension cardSize = new Dimension();
-    JFrame intFrame;
+    JDesktopPane pane;
+    JInternalFrame intFrame;
     private final List<JButton> buttons = new ArrayList<>();
     JButton buttonBackground = new JButton();
     JLabel cover =new JLabel();
@@ -37,7 +40,13 @@ public class ChallengerChoiseCards extends JPanel{
         int x = xconst;
         int y = yconst;
 
-        intFrame = new JFrame();
+        intFrame = new JInternalFrame("", false, false, false, false);
+        intFrame.setPreferredSize(intFrameSize);
+        internalFrameSetUp(intFrame);
+        BasicInternalFrameUI bii = (BasicInternalFrameUI)intFrame.getUI();
+        bii.setNorthPane(null);
+        intFrame.setVisible(false);
+        add(intFrame);
 
 
         buttonBackground.setBounds(0, 0,intFrameSize.width, intFrameSize.height);
@@ -50,7 +59,7 @@ public class ChallengerChoiseCards extends JPanel{
 
         cardSize.setSize((int) (frameSize.getWidth() * 9/100), (int) (frameSize.getHeight() * 23.15/100)); //(9, 22)
         setPreferredSize(frameSize);
-        setLayout(null);
+        //setLayout(null);
 
 
         JButton apollo = new JButton();
@@ -169,7 +178,7 @@ public class ChallengerChoiseCards extends JPanel{
 
      private void buttonPositioning(JButton button, int x, int y){
          button.setBounds(x, y, cardSize.width, cardSize.height);
-         this.add(button);
+         add(button);
      }
 
      private void addForTwo(int x, int y, int yconst){
@@ -224,16 +233,16 @@ public class ChallengerChoiseCards extends JPanel{
         public void mouseEntered(MouseEvent e) {
             JButton c = (JButton)e.getSource();
             if (c.getX() < frameSize.width * 50/100 && c.getY() < frameSize.height * 40/100) {
-                intFrame.setBounds((int) ((frameSize.width * 13 / 100) + c.getX()), (int) ((frameSize.height * 20.575 / 100)), intFrameSize.width, intFrameSize.height);
+                intFrame.setBounds((int) ((frameSize.width * 11 / 100) + c.getX()), (int) ((frameSize.height * 15 / 100)), intFrameSize.width, intFrameSize.height);
             }
             else if (c.getX() >= frameSize.width * 50/100 && c.getY() < frameSize.height * 40/100){
-                intFrame.setBounds((int) (c.getX() - (frameSize.width * 38 / 100)), (int) ((frameSize.height * 20.575 / 100)), intFrameSize.width, intFrameSize.height);
+                intFrame.setBounds((int) (c.getX() - (frameSize.width * 41.5 / 100)), (int) ((frameSize.height * 15 / 100)), intFrameSize.width, intFrameSize.height);
             }
             else if (c.getX() < frameSize.width * 50/100 && c.getY() >= frameSize.height * 40/100){
-                intFrame.setBounds((int) ((frameSize.width * 13 / 100) + c.getX()), (int) ((frameSize.height * 45.575 / 100)), intFrameSize.width, intFrameSize.height);
+                intFrame.setBounds((int) ((frameSize.width * 11 / 100) + c.getX()), (int) ((frameSize.height * 38 / 100)), intFrameSize.width, intFrameSize.height);
             }
             else
-                intFrame.setBounds((int) (c.getX() - (frameSize.width * 38 / 100)), (int) ((frameSize.height * 45.575 / 100)), intFrameSize.width, intFrameSize.height);
+                intFrame.setBounds((int) (c.getX() - (frameSize.width * 41.5 / 100)), (int) ((frameSize.height * 38 / 100)), intFrameSize.width, intFrameSize.height);
 
             buttonBackground.setIcon(null);
             try {
