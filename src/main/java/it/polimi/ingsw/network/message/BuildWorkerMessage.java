@@ -14,7 +14,7 @@ public class BuildWorkerMessage extends Message {
     private List<Square> modifiedSquare;
     private Response winResponse;
 
-    public BuildWorkerMessage(String sender, String nickName, MessageType type, MessageSubType subType, Directions direction, Building building,Response winResponse,List<Square> squares) {
+    public BuildWorkerMessage(String sender, String nickName, MessageSubType subType, Directions direction, Building building,Response winResponse,List<Square> squares) {
         super(sender, nickName, MessageType.BUILDWORKER, subType);
         this.direction = direction;
         this.building = building;
