@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static it.polimi.ingsw.view.client.gui.ChallengerChoiseCards.returnGodChoosen;
 import static it.polimi.ingsw.view.client.gui.Gui.LOGGER;
 import static it.polimi.ingsw.view.client.gui.EliminateListeners.*;
 
@@ -18,7 +19,7 @@ public class Board extends Observable {
     JFrame f;
     JDesktopPane desktopPane;
     JInternalFrame frameChat;
-    JInternalFrame framePower;
+    JWindow framePower;
     JScrollPane scrollPane;
     JButton buttonLv1 = new JButton();
     JButton buttonLv2 = new JButton();
@@ -42,6 +43,7 @@ public class Board extends Observable {
     JLabel gID = new JLabel();
     JLabel sfondo;
     JLabel sfondo2;
+    JLabel cover2;
     JLabel background;
     JLabel opponents = new JLabel("Opponents:");
     JLabel workerCyan;
@@ -115,7 +117,7 @@ public class Board extends Observable {
         JLabel cover1 = ImageHandler.setImage("src/main/resources/Graphics/panel_chat.png", 100, 100, sideSize.width, sideSize.height);
         sfondo2 = new JLabel(cover1.getIcon());
 
-        JLabel cover2 = ImageHandler.setImage("src/main/resources/Graphics/gods/apollo_description.png", 100, 100, frameSize.width * 40/100, frameSize.height * 45/100);
+        cover2 = ImageHandler.setImage("src/main/resources/Graphics/title_sky.png", 100, 100, frameSize.width * 40/100, frameSize.height * 45/100);
         background = new JLabel(cover2.getIcon());
 
         felixSmall = new Font(Gui.FELIX, Font.PLAIN, (int) (13 * screen.getHeight() / 1080));
@@ -157,12 +159,8 @@ public class Board extends Observable {
         lButtonChatPress = ImageHandler.setImage("src/main/resources/Graphics/button_chat_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 7/100);
 
 
-        framePower = new JInternalFrame("frameChat", false, false, false, false);
-        framePower.setBounds(frameSize.width * 30/100, frameSize.height * 30/100, frameSize.width * 40/100, frameSize.height * 45/100);
-        internalFrameSetUp(framePower);
-        BasicInternalFrameUI bi = (BasicInternalFrameUI)framePower.getUI();
-        bi.setNorthPane(null);
-
+        framePower = new JWindow();
+        framePower.setBounds((int)(frameSize.width * 35.5/100), (int) (frameSize.height * 37/100), frameSize.width * 40/100, frameSize.height * 45/100);
 
 
         frameChat = new JInternalFrame("frameChat", false, false, false, false);
@@ -197,11 +195,13 @@ public class Board extends Observable {
         desktopPane.add(opponents);
 
         opponent1.setBounds((frameSize.width * 4/100), (frameSize.height * 61/100), frameSize.width * 10/100, frameSize.height * 4/100);
+        opponent1.setName(returnGodChoosen().get(1).getName());
         opponentsButton(opponent1);
         if (numberOfPlayer == 3){
             JButton opponent2 = new JButton(players.get(2).getNickname());
+            opponent2.setName(returnGodChoosen().get(2).getName());
             opponent2.setBounds((frameSize.width * 4/100), (frameSize.height * 64/100), frameSize.width * 10/100, frameSize.height * 4/100);
-           opponentsButton(opponent2);
+            opponentsButton(opponent2);
         }
 
         chat.setBounds(frameChat.getWidth() * 22/100 , frameChat.getHeight() * 28/100, frameChat.getWidth() * 63/100, frameChat.getHeight() * 38/100);
@@ -453,7 +453,6 @@ public class Board extends Observable {
 
         frameChat.setVisible(false);
         desktopPane.add(frameChat);
-        desktopPane.add(framePower);
         f.setContentPane(desktopPane);
 
 
@@ -859,9 +858,15 @@ public class Board extends Observable {
         @Override
         public void mouseEntered(MouseEvent e) {
             JButton c = (JButton)e.getSource();
-            playerpower.setText("Ecco il potere di " + c.getText());
-            playerpower.setHorizontalTextPosition(SwingConstants.CENTER);
-            playerpower.setBounds((framePower.getWidth() * 50/100 - 150), (framePower.getHeight() * 50/100) - 50, 300, 100);
+            try {
+                cover2 = ImageHandler.setImage(c.getName(), 100, 100, frameSize.width * 40/100, frameSize.height * 45/100);
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+            background = new JLabel(cover2.getIcon());
+            framePower.getContentPane().removeAll();
+            chatStyleButtons(sfondoFramePower, background);
+            framePower.getContentPane().add(sfondoFramePower);
             framePower.setVisible(true);
         }
         @Override
