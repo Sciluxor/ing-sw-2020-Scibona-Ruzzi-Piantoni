@@ -8,8 +8,11 @@ import java.io.IOException;
 public class ClientConnection implements ConnectionInterface {
 
     private boolean isConnectionActive;
+    private String userName;
+    private String address;
+    private int port;
 
-    public ClientConnection(){
+    public ClientConnection(String name, String address, int port){
        //da implementare
     }
 
