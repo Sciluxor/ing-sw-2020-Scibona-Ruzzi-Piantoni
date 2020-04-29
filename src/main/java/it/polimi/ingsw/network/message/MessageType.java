@@ -8,4 +8,6 @@ public enum MessageType {
     //roundcontroller messages
     WORKERCHOICE,MOVEWORKER, BUILDWORKER, WIN,
 
+    PING
+
 }
