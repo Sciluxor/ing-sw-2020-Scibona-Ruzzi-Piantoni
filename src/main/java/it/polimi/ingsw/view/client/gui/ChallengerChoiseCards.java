@@ -18,7 +18,6 @@ public class ChallengerChoiseCards extends JDesktopPane{
     Dimension frameSize = new Dimension();
     Dimension intFrameSize = new Dimension();
     Dimension cardSize = new Dimension();
-    JDesktopPane pane;
     JInternalFrame intFrame;
     private final List<JButton> buttons = new ArrayList<>();
     JButton buttonBackground = new JButton();
@@ -59,7 +58,6 @@ public class ChallengerChoiseCards extends JDesktopPane{
 
         cardSize.setSize((int) (frameSize.getWidth() * 9/100), (int) (frameSize.getHeight() * 23.15/100)); //(9, 22)
         setPreferredSize(frameSize);
-        //setLayout(null);
 
 
         JButton apollo = new JButton();
@@ -302,7 +300,6 @@ public class ChallengerChoiseCards extends JDesktopPane{
             button.setBorderPainted(false);
             eliminateAllActionClass(button);
             eliminateAllMouseClass(button);
-            button.addMouseListener(new ColorBorderGodCards());
         }
         return godChosen;
     }
