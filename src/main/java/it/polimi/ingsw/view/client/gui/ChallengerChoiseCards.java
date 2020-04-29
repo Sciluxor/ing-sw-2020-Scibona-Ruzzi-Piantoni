@@ -18,7 +18,7 @@ public class ChallengerChoiseCards extends JPanel{
     Dimension cardSize = new Dimension();
     JFrame intFrame;
     private final List<JButton> buttons = new ArrayList<>();
-    JButton background = new JButton();
+    JButton buttonBackground = new JButton();
     JLabel cover =new JLabel();
     JLabel label =new JLabel();
     private int count = 0;
@@ -40,11 +40,11 @@ public class ChallengerChoiseCards extends JPanel{
         intFrame = new JFrame();
 
 
-        background.setBounds(0, 0,intFrameSize.width, intFrameSize.height);
-        background.setOpaque(false);
-        background.setContentAreaFilled(false);
-        background.setBorderPainted(false);
-        intFrame.add(background);
+        buttonBackground.setBounds(0, 0,intFrameSize.width, intFrameSize.height);
+        buttonBackground.setOpaque(false);
+        buttonBackground.setContentAreaFilled(false);
+        buttonBackground.setBorderPainted(false);
+        intFrame.add(buttonBackground);
 
 
 
@@ -235,14 +235,14 @@ public class ChallengerChoiseCards extends JPanel{
             else
                 intFrame.setBounds((int) (c.getX() - (frameSize.width * 38 / 100)), (int) ((frameSize.height * 45.575 / 100)), intFrameSize.width, intFrameSize.height);
 
-            background.setIcon(null);
+            buttonBackground.setIcon(null);
             try {
                 cover = ImageHandler.setImage(c.getName(), 100, 100, intFrame.getWidth() , intFrame.getHeight() );
             } catch (IOException ex) {
                 LOGGER.severe(ex.getMessage());
             }
             label.setIcon(cover.getIcon());
-            background.setIcon(label.getIcon());
+            buttonBackground.setIcon(label.getIcon());
             intFrame.setVisible(true);
         }
 
