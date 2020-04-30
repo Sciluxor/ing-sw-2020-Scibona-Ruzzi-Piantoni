@@ -6,7 +6,6 @@ import it.polimi.ingsw.model.player.Player;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,16 +22,18 @@ public class Gui extends ClientGameController {
     static int width = (int)(screenSize.getWidth());
     static int height = (int)(screenSize.getHeight());
     static Dimension d = new Dimension(width * 95/100, height * 95/100);
-    static JFrame frame = new JFrame("Santorini");
-    static JPanel login = null;
-    static LobbyGui lobby = null;
-    static JDesktopPane challengerChoiseCards = null;
-    static JPanel waitChallenger = null;
-    static JPanel challengerChoiseFirst = null;
-    static JDesktopPane chooseCard3 = null;
-    static JDesktopPane chooseCard2 = null;
-    static JPanel chooseCard1 = null;
-    static JPanel chooseCard0 = null;
+    JFrame frame = new JFrame("Santorini");
+    JPanel login = null;
+    LobbyGui lobby = null;
+    JDesktopPane challengerChoiseCards = null;
+    JPanel waitChallenger = null;
+    JPanel challengerChoiseFirst = null;
+    JDesktopPane chooseCard3 = null;
+    JDesktopPane chooseCard2 = null;
+    JPanel chooseCard1 = null;
+    JPanel chooseCard0 = null;
+    PopUp constructorPopUp = null;
+    JInternalFrame popUp;
     static JLabel lconfirm;
     static JLabel lconfirmPress;
     static JLabel cover;
@@ -67,7 +68,7 @@ public class Gui extends ClientGameController {
         lui.setColor(Color.PURPLE);
 
 
-
+        constructorPopUp = new PopUp();
 
 
 
@@ -111,7 +112,7 @@ public class Gui extends ClientGameController {
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }
-                frame.add(lobby.getPane());
+                frame.setContentPane(lobby.getPane());
                 panelInUse = 1;
                 break;
             case 1:
@@ -252,7 +253,12 @@ public class Gui extends ClientGameController {
 
     @Override
     public void nickUsed() {
-
+        System.out.println("stato qui");
+        popUp = constructorPopUp.lobbyPopUp();
+        frame.add(popUp);
+        popUp.setVisible(true);
+        frame.repaint();
+        frame.validate();
     }
 
     @Override
