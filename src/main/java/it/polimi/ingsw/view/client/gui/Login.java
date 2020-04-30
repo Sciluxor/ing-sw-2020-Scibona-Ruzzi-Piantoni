@@ -1,5 +1,7 @@
 package it.polimi.ingsw.view.client.gui;
 
+import it.polimi.ingsw.utils.ConstantsContainer;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -85,7 +87,7 @@ public class Login extends JPanel{
     private class Send implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (!nickname.getText().equals("") && !numberPlayers.getText().equals("") && (numberPlayers.getText().equals("2") || numberPlayers.getText().equals("3"))){
+            if (!nickname.getText().equals("") && nickname.getText().length() > ConstantsContainer.MIN_LENGHT_NICK &&  nickname.getText().length() < ConstantsContainer.MAX_LENGHT_NICK && !numberPlayers.getText().equals("") && (numberPlayers.getText().equals("2") || numberPlayers.getText().equals("3"))){
                 gui.setNamePlayer(nickname.getText());
                 gui.setNumberOfPlayers((Integer.parseInt(numberPlayers.getText())));
                 gui.openConnection(nickname.getText(), (Integer.parseInt(numberPlayers.getText())), address.getText(), (Integer.parseInt(port.getText())));

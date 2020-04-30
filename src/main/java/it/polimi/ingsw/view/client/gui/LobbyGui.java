@@ -1,7 +1,6 @@
 package it.polimi.ingsw.view.client.gui;
 
 import it.polimi.ingsw.model.player.Player;
-import it.polimi.ingsw.utils.Logger;
 
 import javax.swing.*;
 import javax.swing.text.*;
@@ -54,7 +53,7 @@ public class LobbyGui{
         backButton.setIcon(lback.getIcon());
         backButton.setEnabled(true);
         backButton.addMouseListener(new BackButtonPress());
-        backButton.addActionListener(new Stamp());
+        backButton.addActionListener(new BackToLogin());
         pane.add(backButton);
 
         JLabel wait = ImageHandler.setImage("src/main/resources/Graphics/Texts/waiting_others_players.png", 100, 100, frameSize.width * 30/100, frameSize.height * 10/100);
@@ -129,11 +128,12 @@ public class LobbyGui{
         }
     }
 
-    private static class Stamp implements ActionListener{
+    private class BackToLogin implements ActionListener{
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            stamp(players2);
+            gui.backToLogin();
+            gui.onBackCommand();
         }
     }
 

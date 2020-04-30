@@ -235,6 +235,18 @@ public class Gui extends ClientGameController {
         return d;
     }
 
+    public void backToLogin(){
+        frame.getContentPane().removeAll();
+        try {
+            login = new Login(this, d);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        frame.add(login);
+        frame.repaint();
+        frame.validate();
+    }
+
     @Override
     public void updateLobbyPlayer() {
         SwingUtilities.invokeLater(() -> {
