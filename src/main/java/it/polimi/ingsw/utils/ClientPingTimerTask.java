@@ -4,11 +4,11 @@ import it.polimi.ingsw.network.client.ClientGameController;
 
 import java.util.TimerTask;
 
-public class PingTimerTask extends TimerTask {
+public class ClientPingTimerTask extends TimerTask {
 
     private ClientGameController controller;
 
-    public PingTimerTask(ClientGameController controller){
+    public ClientPingTimerTask(ClientGameController controller){
         this.controller = controller;
     }
 

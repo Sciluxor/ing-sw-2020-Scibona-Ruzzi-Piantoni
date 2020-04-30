@@ -2,16 +2,17 @@ package it.polimi.ingsw.network.client;
 
 import it.polimi.ingsw.network.ConnectionInterface;
 import it.polimi.ingsw.network.message.*;
+import it.polimi.ingsw.utils.ClientPingTimerTask;
 import it.polimi.ingsw.utils.ConfigLoader;
 import it.polimi.ingsw.utils.ConstantsContainer;
 import it.polimi.ingsw.utils.Logger;
-import it.polimi.ingsw.utils.PingTimerTask;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Timer;
+import java.util.TimerTask;
 
 public class ClientConnection implements ConnectionInterface,Runnable {
 
@@ -112,7 +113,7 @@ public class ClientConnection implements ConnectionInterface,Runnable {
 
     public void startPingTimer(){
         pingTimer = new Timer();
-        PingTimerTask task = new PingTimerTask(clientController);
+        ClientPingTimerTask task = new ClientPingTimerTask(clientController);
         pingTimer.schedule(task,(long) ConfigLoader.getPingTimer() * 1000);
     }
 
@@ -129,6 +130,7 @@ public class ClientConnection implements ConnectionInterface,Runnable {
                 if (received != null && received.getType() == MessageType.PING) { // si deve controllare il ping anche lato server?
                     stopPingTimer();
                     startPingTimer();
+                    System.out.println("ping");
                                                                    //fare due config sepratati per client e server?
                 } else if (received != null) {
                     new Thread(() -> clientController.onUpdate(received)).start();

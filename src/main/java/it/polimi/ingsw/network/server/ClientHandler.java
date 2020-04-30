@@ -12,6 +12,7 @@ import it.polimi.ingsw.view.server.VirtualView;
 import java.io.*;
 import java.net.Socket;
 import java.util.Timer;
+import java.util.TimerTask;
 
 public class ClientHandler implements Runnable, ConnectionInterface {
 
@@ -23,6 +24,7 @@ public class ClientHandler implements Runnable, ConnectionInterface {
     private boolean isConnectionActive;
     private VirtualView view;
     private Timer lobbyTimer;
+    private Timer PingTimer;
     private int newNickCounter;
 
     private String userID = ConstantsContainer.USERDIDDEF;
@@ -166,6 +168,9 @@ public class ClientHandler implements Runnable, ConnectionInterface {
                         this.newNickCounter = 0;
                         server.insertPlayerInGame(input,this,true);
                         server.moveGameStarted();
+                    }
+                    else if(input.getType() == MessageType.PING){
+                        //vedere se fare anche il ping lato server oppure no
                     }
                     else if (input.getType() == MessageType.CONFIG && input.getSubType() == MessageSubType.UPDATE) {
                         stopLobbyTimer();
