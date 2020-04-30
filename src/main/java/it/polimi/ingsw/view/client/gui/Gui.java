@@ -78,7 +78,7 @@ public class Gui extends ClientGameController {
 
 
 
-        login = new Login(this, d);                                                                                      //schermata 0 sistemata
+        login = new Login(this, d, true);                                                                                      //schermata 0 sistemata
         //lobby = new LobbyGui(this, d, numberOfPlayers);                                                       //schermata 1  sistemata
         //challengerChoiseCards2 = new ChallengerChoiseCards(d, numberOfPlayers, background_panel);                              //schermata 2 sistemata
         //challengerChoiseCards3 = new ChallengerChoiseCards(d, numberOfPlayers, background_panel);                              //schermata 3 sistemata
@@ -114,7 +114,7 @@ public class Gui extends ClientGameController {
             case 0:
                 frame.remove(login);
                 try {
-                    lobby = new LobbyGui(this, d, numberOfPlayers, Gui.players);
+                    lobby = new LobbyGui(this, d, numberOfPlayers, players);
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }
@@ -238,7 +238,13 @@ public class Gui extends ClientGameController {
     public void backToLogin(){
         frame.getContentPane().removeAll();
         panelInUse = 0;
+        try {
+            login = new Login(this, d, false);
+        } catch (IOException e) {
+            LOGGER.severe(e.getMessage());
+        }
         frame.add(login);
+        players.clear();
         frame.repaint();
         frame.validate();
     }

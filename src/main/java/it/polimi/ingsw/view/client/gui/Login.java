@@ -20,9 +20,11 @@ public class Login extends JPanel{
     JTextField port;
     JTextField address;
     ConfirmButton confirm;
+    boolean firstConnection = true;
 
-    public Login(Gui istance, Dimension frame) throws IOException {
+    public Login(Gui istance, Dimension frame, boolean connection) throws IOException {
 
+        this.firstConnection = connection;
         gui = istance;
         frameSize.setSize(frame);
         setPreferredSize(frameSize);
@@ -68,6 +70,7 @@ public class Login extends JPanel{
         numberPlayersLabel.setBounds((int) (frameSize.width * 19.5/100), (int) (frameSize.height * 44/100), frameSize.width * 20/100,frameSize.height * 5/100);
         add(numberPlayersLabel);
 
+        if (firstConnection){
         port.setBounds((int) (frameSize.width * 40/100), (int) (frameSize.height * 55/100), frameSize.width * 20/100,frameSize.height * 3/100);
         port.setText("4700");
         add(port);
@@ -79,6 +82,7 @@ public class Login extends JPanel{
         add(address);
         addresslabel.setBounds((int) (frameSize.width * 29.5/100), (int) (frameSize.height * 64/100), frameSize.width * 10/100,frameSize.height * 5/100);
         add(addresslabel);
+        }
 
         add(back);
         confirm.addActionListener(new Send());
@@ -87,11 +91,21 @@ public class Login extends JPanel{
     private class Send implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (!nickname.getText().equals("") && nickname.getText().length() > ConstantsContainer.MIN_LENGHT_NICK &&  nickname.getText().length() < ConstantsContainer.MAX_LENGHT_NICK && !numberPlayers.getText().equals("") && (numberPlayers.getText().equals("2") || numberPlayers.getText().equals("3"))){
+            if (!nickname.getText().equals("") && nickname.getText().length() > ConstantsContainer.MIN_LENGHT_NICK &&  nickname.getText().length() < ConstantsContainer.MAX_LENGHT_NICK &&
+                    !numberPlayers.getText().equals("") && (numberPlayers.getText().equals("2") || numberPlayers.getText().equals("3")) && firstConnection){
                 gui.setNamePlayer(nickname.getText());
                 gui.setNumberOfPlayers((Integer.parseInt(numberPlayers.getText())));
                 gui.openConnection(nickname.getText(), (Integer.parseInt(numberPlayers.getText())), address.getText(), (Integer.parseInt(port.getText())));
                 gui.changePanel();
+            }
+            else{
+                if (!nickname.getText().equals("") && nickname.getText().length() > ConstantsContainer.MIN_LENGHT_NICK &&  nickname.getText().length() < ConstantsContainer.MAX_LENGHT_NICK &&
+                        !numberPlayers.getText().equals("") && (numberPlayers.getText().equals("2") || numberPlayers.getText().equals("3"))){
+                    gui.setNamePlayer(nickname.getText());
+                    gui.setNumberOfPlayers((Integer.parseInt(numberPlayers.getText())));
+                    gui.newGame(nickname.getText(), (Integer.parseInt(numberPlayers.getText())));
+                    gui.changePanel();
+                }
             }
         }
     }
