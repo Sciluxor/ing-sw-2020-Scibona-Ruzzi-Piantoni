@@ -114,7 +114,7 @@ public class Gui extends ClientGameController {
             case 0:
                 frame.remove(login);
                 try {
-                    lobby = new LobbyGui(this, d, numberOfPlayers, players);
+                    lobby = new LobbyGui(this, d, numberOfPlayers, Gui.players);
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }
@@ -222,12 +222,12 @@ public class Gui extends ClientGameController {
     }
 
 
-    public static void setNumberOfPlayers(int numberOfPlayers) {
+    public void setNumberOfPlayers(int numberOfPlayers) {
         Gui.numberOfPlayers = numberOfPlayers;
     }
 
-    public static void setNamePlayer(String name) {
-        players.add(0, new Player(name));
+    public void setNamePlayer(String name) {
+        players.add(new Player(name));
         players.get(0).setColor(Color.BLUE);
     }
 

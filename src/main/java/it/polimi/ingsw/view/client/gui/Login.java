@@ -13,10 +13,11 @@ public class Login extends JPanel{
 
     private Gui gui;
     Dimension frameSize = new Dimension();
-    JTextField nickname;
+    private static JTextField nickname;
     JTextField numberPlayers;
     JTextField port;
     JTextField address;
+    ConfirmButton confirm;
 
     public Login(Gui istance, Dimension frame) throws IOException {
 
@@ -50,7 +51,7 @@ public class Login extends JPanel{
         add(santoriniLabel);
 
 
-        ConfirmButton confirm = new ConfirmButton();
+        confirm = new ConfirmButton();
         add(confirm);
 
         nickname.setBounds((int) (frameSize.width * 40/100), (int) (frameSize.height * 35/100), frameSize.width * 20/100,frameSize.height * 3/100);
@@ -79,16 +80,16 @@ public class Login extends JPanel{
 
         add(back);
         confirm.addActionListener(new Send());
-        confirm.addActionListener(new ChangePanel(gui));
     }
 
     private class Send implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (!nickname.getText().equals("") && !numberPlayers.getText().equals("") && (numberPlayers.getText().equals("2") || numberPlayers.getText().equals("3"))){
-                setNamePlayer(nickname.getText());
-                setNumberOfPlayers((Integer.parseInt(numberPlayers.getText())));
+                gui.setNamePlayer(nickname.getText());
+                gui.setNumberOfPlayers((Integer.parseInt(numberPlayers.getText())));
                 gui.openConnection(nickname.getText(), (Integer.parseInt(numberPlayers.getText())), address.getText(), (Integer.parseInt(port.getText())));
+                gui.changePanel();
             }
         }
     }

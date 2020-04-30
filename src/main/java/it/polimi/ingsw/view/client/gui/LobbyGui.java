@@ -80,7 +80,7 @@ public class LobbyGui{
         }
 
 
-        //pane.add(lactualNumber);
+
         of.setBounds(frameSize.width * 47/100, frameSize.height * 20/100, frameSize.width * 5/100, frameSize.height * 5/100);
         of.setFont(Gui.felixBold);
         pane.add(of);
@@ -152,7 +152,7 @@ public class LobbyGui{
             try{
                 doc.insertString(doc.getLength(), player.getNickname() + "\n \n", colorStyle);
             }catch (BadLocationException e){
-                Logger.info("InsertString Failed");
+               LOGGER.severe("InsertString Failed");
             }
         }
         number(players.size());
@@ -162,12 +162,12 @@ public class LobbyGui{
         try {
             doc.remove(0, doc.getLength());
         } catch (BadLocationException e) {
-            e.printStackTrace();
+            LOGGER.severe(e.getMessage());
         }
         try {
             numberDoc.remove(0, numberDoc.getLength());
         } catch (BadLocationException e) {
-            e.printStackTrace();
+            LOGGER.severe(e.getMessage());
         }
     }
 
