@@ -276,7 +276,7 @@ public class ChallengerChoiseCards extends JDesktopPane{
                 c.addActionListener(new RemoveGod());
             }
             if (chosen == numberPlayers && confirm.getActionListeners().length == 0){
-                confirm.addActionListener(new Gui.ChangePanel());
+                confirm.addActionListener(new ChangePanel());
             }
         }
     }
@@ -291,7 +291,7 @@ public class ChallengerChoiseCards extends JDesktopPane{
             godChosen.remove(c);
             chosen--;
             c.addActionListener(new ChooseGod());
-            eliminateActionClass(confirm, Gui.ChangePanel.class);
+            eliminateActionClass(confirm, ChangePanel.class);
         }
     }
 

@@ -25,7 +25,7 @@ public class Gui extends ClientGameController {
     static Dimension d = new Dimension(width * 95/100, height * 95/100);
     static JFrame frame = new JFrame("Santorini");
     static JPanel login = null;
-    static JDesktopPane lobby = null;
+    static LobbyGui lobby = null;
     static JDesktopPane challengerChoiseCards = null;
     static JPanel waitChallenger = null;
     static JPanel challengerChoiseFirst = null;
@@ -54,6 +54,7 @@ public class Gui extends ClientGameController {
     static Font felixNormal = new Font(FELIX, Font.PLAIN, (int) (20 * screenSize.getHeight() / 1080));
     static Font felixBold = new Font(FELIX, Font.BOLD, (int) (25 * screenSize.getHeight() / 1080));
     static List<Player> players = new ArrayList<>();
+    static List<Player> players2 = new ArrayList<>();
 
 
     private void show() throws IOException {
@@ -66,8 +67,11 @@ public class Gui extends ClientGameController {
         lui.setColor(Color.PURPLE);
         //players.add(ale);
         players.add(edo);
-        players.add(lui);
+        //players.add(lui);
 
+        players2.add(ale);
+        players2.add(edo);
+        players2.add(lui);
 
 
 
@@ -75,7 +79,7 @@ public class Gui extends ClientGameController {
 
 
         login = new Login(this, d);                                                                                      //schermata 0 sistemata
-        lobby = new LobbyGui(this, d, actualPlayers, numberOfPlayers, players);                                                       //schermata 1  sistemata
+        //lobby = new LobbyGui(d, actualPlayers, numberOfPlayers, players);                                                       //schermata 1  sistemata
         //challengerChoiseCards2 = new ChallengerChoiseCards(d, numberOfPlayers, background_panel);                              //schermata 2 sistemata
         //challengerChoiseCards3 = new ChallengerChoiseCards(d, numberOfPlayers, background_panel);                              //schermata 3 sistemata
         waitChallenger = new WaitChallenger(d);                                                                                 //schermata 4 sistemata
@@ -105,16 +109,16 @@ public class Gui extends ClientGameController {
     }
 
 
-    public static void panelManager(int panel){
+    private static void panelManager(int panel){
         switch (panel){
             case 0:
                 frame.remove(login);
                 try {
-                    challengerChoiseCards = new ChallengerChoiseCards(d, numberOfPlayers);
+                    lobby = new LobbyGui(d, actualPlayers, numberOfPlayers, players);
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }
-                frame.add(challengerChoiseCards);
+                frame.add(lobby.getPane());
                 panelInUse = 1;
                 break;
             case 1:
@@ -191,9 +195,7 @@ public class Gui extends ClientGameController {
 
 
 
-    public static class ChangePanel implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
+    public static void changePanel (){
 
             switch (panelInUse){
                 case 0:
@@ -217,9 +219,6 @@ public class Gui extends ClientGameController {
                     break;
                 default:
             }
-
-        }
-
     }
 
 
@@ -236,18 +235,10 @@ public class Gui extends ClientGameController {
         return d;
     }
 
-    public void guiOpenConnection(String name, int numberOfPlayer, String address, int port) {
-        openConnection(name, numberOfPlayer, address, port);
-    }
-
     @Override
     public void updateLobbyPlayer() {
         SwingUtilities.invokeLater(() -> {
-            try {
-                updateLobby();
-            } catch (IOException e) {
-                LOGGER.severe(e.getMessage());
-            }
+            LobbyGui.stamp(getPlayers());
         });
     }
 
@@ -261,17 +252,55 @@ public class Gui extends ClientGameController {
         frame.dispose();
         Board board = new Board();
         try {
-            board.show(screenSize, numberOfPlayers, players, "GID01");
+            board.show(screenSize, numberOfPlayers, getPlayers(), "GID01");
         } catch (IOException e) {
             LOGGER.severe(e.getMessage());
         }
     }
 
-    private void updateLobby() throws IOException {
-        players = getCurrentPlayer();
-        lobby = new LobbyGui(this, d, actualPlayers, numberOfPlayers, players);
-        frame.removeAll();
-        frame.add(lobby);
+    @Override
+    public void challengerChoice() {
+
+    }
+
+    @Override
+    public void cardChoice() {
+
+    }
+
+    @Override
+    public void placeWorker() {
+
+    }
+
+    @Override
+    public void updateBoard() {
+
+    }
+
+    @Override
+    public void notifyWin() {
+
+    }
+
+    @Override
+    public void addConstraint() {
+
+    }
+
+    @Override
+    public void onDisconnection() {
+
+    }
+
+    @Override
+    public void errorMessage() {
+
+    }
+
+    @Override
+    public void startTurn() {
+
     }
 
 }

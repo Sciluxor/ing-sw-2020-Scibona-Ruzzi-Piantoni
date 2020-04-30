@@ -57,7 +57,7 @@ public class ChooseCard extends  JDesktopPane{
 
             choose.setBounds(frameSize.width * 35/100, frameSize.height * 10/100, frameSize.width * 30/100, frameSize.height * 10/100);
             add(choose);
-            confirm.addActionListener(new Gui.ChangePanel());
+            confirm.addActionListener(new ChangePanel());
             add(confirm);
 
             if (numberOfPanel == 3){

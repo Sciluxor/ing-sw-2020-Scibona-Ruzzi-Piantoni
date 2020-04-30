@@ -27,17 +27,17 @@ public class ChallengerChoiseFirstPlayer extends JPanel{
 
         player1.setBounds(frameSize.width * 35/100, frameSize.height * 38/100, frameSize.width * 30/100, frameSize.height * 5/100);
         add(player1);
-        player1.addActionListener(new Gui.ChangePanel());
+        player1.addActionListener(new ChangePanel());
 
         player2.setBounds(frameSize.width * 35/100, frameSize.height * 45/100, frameSize.width * 30/100, frameSize.height * 5/100);
         add(player2);
-        player2.addActionListener(new Gui.ChangePanel());
+        player2.addActionListener(new ChangePanel());
 
         if (numberOfPlayer == 3){
             player3 = new JButton(players.get(2).getNickname());
             player3.setBounds(frameSize.width * 35/100, frameSize.height * 52/100, frameSize.width * 30/100, frameSize.height * 5/100);
             add(player3);
-            player3.addActionListener(new Gui.ChangePanel());
+            player3.addActionListener(new ChangePanel());
         }
         JButton back = backgroundButton();
         add(back);

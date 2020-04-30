@@ -42,8 +42,8 @@ public class Login extends JPanel{
         JLabel santoriniLabel = ImageHandler.setImage("src/main/resources/Graphics/Texts/Santorini_HD.png", 100, 100, frameSize.width * 30/100,frameSize.height*20/100);
         JLabel nicknameLabel = ImageHandler.setImage("src/main/resources/Graphics/Texts/nickname.png", 97, 100, frameSize.width * 15/100,frameSize.height * 5/100);
         JLabel numberPlayersLabel = ImageHandler.setImage("src/main/resources/Graphics/Texts/number_of_players.png", 97, 100, frameSize.width * 20/100,frameSize.height * 5/100);
-        //JLabel portlabel = ImageHandler.setImage("src/main/resources/Graphics/Texts/port.png", 97, 100, frameSize.width * 15/100,frameSize.height * 5/100);
-        //JLabel addresslabel = ImageHandler.setImage("src/main/resources/Graphics/Texts/address.png", 97, 100, frameSize.width * 20/100,frameSize.height * 5/100);
+        JLabel portlabel = ImageHandler.setImage("src/main/resources/Graphics/Texts/port.png", 97, 100, frameSize.width * 5/100,frameSize.height * 5/100);
+        JLabel addresslabel = ImageHandler.setImage("src/main/resources/Graphics/Texts/address.png", 97, 100, frameSize.width * 10/100,frameSize.height * 5/100);
 
 
         santoriniLabel.setBounds(frameSize.width * 35/100 , frameSize.height * 7/100, frameSize.width * 30/100,frameSize.height*20/100);
@@ -68,14 +68,14 @@ public class Login extends JPanel{
         port.setBounds((int) (frameSize.width * 40/100), (int) (frameSize.height * 55/100), frameSize.width * 20/100,frameSize.height * 3/100);
         port.setText("4700");
         add(port);
-        /*portlabel.setBounds((int) (frameSize.width * 24.5/100), (int) (frameSize.height * 54/100), frameSize.width * 15/100,frameSize.height * 5/100);
-        add(portlabel);*/
+        portlabel.setBounds((int) (frameSize.width * 34.5/100), (int) (frameSize.height * 54/100), frameSize.width * 5/100,frameSize.height * 5/100);
+        add(portlabel);
 
         address.setBounds((int) (frameSize.width * 40/100), (int) (frameSize.height * 65/100), frameSize.width * 20/100,frameSize.height * 3/100);
         address.setText("127.0.0.1");
         add(address);
-        /*addresslabel.setBounds((int) (frameSize.width * 24.5/100), (int) (frameSize.height * 64/100), frameSize.width * 15/100,frameSize.height * 5/100);
-        add(addresslabel);*/
+        addresslabel.setBounds((int) (frameSize.width * 29.5/100), (int) (frameSize.height * 64/100), frameSize.width * 10/100,frameSize.height * 5/100);
+        add(addresslabel);
 
         add(back);
         confirm.addActionListener(new Send());
@@ -87,8 +87,8 @@ public class Login extends JPanel{
             if (!nickname.getText().equals("") && !numberPlayers.getText().equals("") && (numberPlayers.getText().equals("2") || numberPlayers.getText().equals("3"))){
                 setNamePlayer(nickname.getText());
                 setNumberOfPlayers((Integer.parseInt(numberPlayers.getText())));
-                gui.guiOpenConnection(nickname.getText(), (Integer.parseInt(numberPlayers.getText())), address.getText(), (Integer.parseInt(port.getText())));
-                panelManager(0);
+                //gui.openConnection(nickname.getText(), (Integer.parseInt(numberPlayers.getText())), address.getText(), (Integer.parseInt(port.getText())));
+                changePanel();
             }
         }
     }
