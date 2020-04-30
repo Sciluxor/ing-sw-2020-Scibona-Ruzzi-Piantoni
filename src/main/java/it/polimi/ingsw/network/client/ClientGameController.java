@@ -79,7 +79,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         eventQueue.add(this::startGame);
     }
 
-    public synchronized void onUpdate(Message message){  //farlo synchronized?
+    public synchronized void onUpdate(Message message){
         switch (message.getType()){
             case WAITPLAYER:
                 onUpdateLobbyPlayer(message);

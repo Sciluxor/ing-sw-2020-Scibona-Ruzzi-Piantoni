@@ -103,6 +103,8 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
    }
 
    public void handleNickUsed(){
+        WaitPlayerMessage message = new WaitPlayerMessage(ConstantsContainer.SERVERNAME,MessageSubType.UPDATE,connection.getUserID());
+        connection.sendMessage(buildWaitLobbyMessage(message));
         connection.sendMessage(new Message(ConstantsContainer.SERVERNAME, MessageType.CONFIG,MessageSubType.NICKUSED,connection.getUserID()));
         connection.startLobbyTimer();
    }

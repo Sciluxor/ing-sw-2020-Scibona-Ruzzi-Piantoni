@@ -1,9 +1,5 @@
 [
   {
-    "type": "NEWMOVE",
-    "next": ["BUILDWORKER","MOVEWORKER"]
-  },
-  {
     "type": "NEWBUILD",
     "next": ["BUILDWORKER","ENDTURN"]
   },
