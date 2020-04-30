@@ -196,7 +196,7 @@ public class Client {
                 client.setGameStarted(true);
                 Thread.sleep(200);
 
-                Logger.info("\nYour game is starting now. Number of total player -> " + ((GameStartedMessage) output).getPlayersNumber() + "\n" + "Your gameID is: " + ((GameStartedMessage)output).getGameID() + "\n");
+                Logger.info("\nYour game is starting now. Number of total player -> "  + "Your gameID is: " + ((GameStartedMessage)output).getGameID() + "\n");
 
             } else if (output.getType().equals(MessageType.DISCONNECTION) && output.getSubType().equals(MessageSubType.SETTED)) {
                 Logger.info("\nDisconnetted from Server, closing Application...");
@@ -216,7 +216,7 @@ public class Client {
                 Logger.info(("\nNow insert your gameID: "));
                 String gameID = scanner.nextLine();
                 //out.writeObject(new ReconnectionMessage(client.getNick(), MessageSubType.ANSWER, gameID, nickname));
-                out.flush();                                                                              
+                out.flush();
 
             }
 
