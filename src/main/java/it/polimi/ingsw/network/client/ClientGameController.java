@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.Response;
 import it.polimi.ingsw.model.SimplifiedGame;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.message.*;
+import it.polimi.ingsw.utils.ConfigLoader;
 
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
@@ -19,6 +20,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
 
 
     public ClientGameController(){
+        ConfigLoader.loadSetting();
         new Thread(this).start();
     }
 
@@ -77,6 +79,11 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         game.setGameID(((GameStartedMessage) message).getGameID());
         game.setGameStatus(Response.GAMESTARTED);
         eventQueue.add(this::startGame);
+    }
+
+    public synchronized void handleDisconnection(){
+        client.closeConnection();
+
     }
 
     public synchronized void onUpdate(Message message){

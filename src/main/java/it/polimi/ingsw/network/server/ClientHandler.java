@@ -76,7 +76,7 @@ public class ClientHandler implements Runnable, ConnectionInterface {
         this.view = view;
     }
 
-    public void sendMessage(Message msg){                                  //fare un'altra funzione per mandare in asincrono i messaggi
+    public synchronized void sendMessage(Message msg){                                  //fare un'altra funzione per mandare in asincrono i messaggi
 
         try {
             objectOut.writeObject(msg);
@@ -147,6 +147,10 @@ public class ClientHandler implements Runnable, ConnectionInterface {
 
     }
 
+    public void ping(){
+        sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.PING,MessageSubType.UPDATE));
+    }
+
     @Override
     public void run() {
 
@@ -198,7 +202,7 @@ public class ClientHandler implements Runnable, ConnectionInterface {
 
             }catch (IOException e){
                 stopLobbyTimer();
-                isConnectionActive = false;         //sfruttare questo per chiudere la connection, e inviare o no il messaggio.
+                isConnectionActive = false;         //sfruttare questo per chiudere la connection, e inviare o no il messaggio. fare messaggi personallzzati
                 server.handleDisconnection(userID,this,new Message(userID,nickName,MessageType.DISCONNECTION,MessageSubType.ERROR));
             }
             catch(ClassNotFoundException c){

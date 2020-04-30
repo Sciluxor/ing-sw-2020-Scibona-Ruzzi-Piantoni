@@ -15,6 +15,5 @@ public class TurnTimerTask extends TimerTask {
     @Override
     public void run() {
         controller.handleTurnLobbyEnded();
-
     }
 }

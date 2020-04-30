@@ -11,7 +11,7 @@ import it.polimi.ingsw.view.server.VirtualView;
 import java.io.IOException;
 import java.util.*;
 
-public class Server {
+public class Server implements Runnable{
 
     private final Object clientsLock = new Object();
     private List<GameController> lobby = new ArrayList<>();
@@ -69,6 +69,7 @@ public class Server {
             this.socketHandler = new SocketHandler(port,this);
             LOGGER.info("Server is listening on port: " + port);
             closeServerIfRequested();
+            new Thread(this).start();
         }catch (IOException e){
             LOGGER.severe(e.getMessage());
         }
@@ -284,4 +285,22 @@ public class Server {
             System.exit(0);
         }).start();
     }
+
+    @Override
+    public void run() {
+            while (!Thread.currentThread().isInterrupted()){
+                synchronized (clientsLock){
+                    for(ClientHandler connection : connections){
+                        if(connection.isConnectionActive())
+                            connection.ping();
+                    }
+                    try{
+                        Thread.sleep(1500);
+                    }catch (InterruptedException inter){
+                        LOGGER.severe(inter.getMessage());
+                        Thread.currentThread().interrupt();
+                    }
+            }
+        }
     }
+}

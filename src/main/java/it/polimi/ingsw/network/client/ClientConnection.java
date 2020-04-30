@@ -2,13 +2,16 @@ package it.polimi.ingsw.network.client;
 
 import it.polimi.ingsw.network.ConnectionInterface;
 import it.polimi.ingsw.network.message.*;
+import it.polimi.ingsw.utils.ConfigLoader;
 import it.polimi.ingsw.utils.ConstantsContainer;
 import it.polimi.ingsw.utils.Logger;
+import it.polimi.ingsw.utils.PingTimerTask;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Timer;
 
 public class ClientConnection implements ConnectionInterface,Runnable {
 
@@ -19,6 +22,7 @@ public class ClientConnection implements ConnectionInterface,Runnable {
     private String address;
     private int port;
     private Thread messageListener;
+    private Timer pingTimer;
 
     private Socket clientSocket;
     private ObjectInputStream in;
@@ -59,6 +63,8 @@ public class ClientConnection implements ConnectionInterface,Runnable {
         sendMessage(new GameConfigMessage(userID,nickName, MessageSubType.ANSWER,numberOfPlayer,false,false,false));
         messageListener = new Thread(this);
         messageListener.start();
+        startPingTimer();
+
     }
 
     public void updateNickName(String name){
@@ -104,14 +110,26 @@ public class ClientConnection implements ConnectionInterface,Runnable {
         }
     }
 
+    public void startPingTimer(){
+        pingTimer = new Timer();
+        PingTimerTask task = new PingTimerTask(clientController);
+        pingTimer.schedule(task,(long) ConfigLoader.getPingTimer() * 1000);
+    }
+
+    public void stopPingTimer(){
+        pingTimer.cancel();
+    }
+
     @Override
     public void run() {
         while (!Thread.currentThread().isInterrupted()) {
             try {
                 Message received = receiveMessage();
 
-                if (received != null && received.getType() == MessageType.PING) {
-                    //fare PING
+                if (received != null && received.getType() == MessageType.PING) { // si deve controllare il ping anche lato server?
+                    stopPingTimer();
+                    startPingTimer();
+                                                                   //fare due config sepratati per client e server?
                 } else if (received != null) {
                     new Thread(() -> clientController.onUpdate(received)).start();
                 }
@@ -119,7 +137,7 @@ public class ClientConnection implements ConnectionInterface,Runnable {
                 closeConnection();
             } catch (ClassNotFoundException e) {
                 Logger.info("App Disconnected");
-                ClientGameController.LOGGER.severe(e.getMessage());
+                ClientGameController.LOGGER.severe(e.getMessage());  //mettere una finally?
             }
         }
     }

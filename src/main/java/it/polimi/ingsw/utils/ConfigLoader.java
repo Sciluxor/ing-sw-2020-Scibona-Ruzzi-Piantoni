@@ -10,6 +10,7 @@ public class ConfigLoader {
     private static int socketPort;
     private static int lobbyTimer;
     private static int turnTimer;
+    private static int pingTimer;
 
     public static int getSocketPort() {
         return socketPort;
@@ -23,11 +24,13 @@ public class ConfigLoader {
         return turnTimer;
     }
 
+    public static int getPingTimer() { return pingTimer; }
 
     private class ConfigContainer{
         private int socketPort;
         private int lobbyTimer;
         private int turnTimer;
+        private int pingTimer;
     }
 
     public static void loadSetting(){
@@ -49,6 +52,7 @@ public class ConfigLoader {
         socketPort = container.socketPort;
         lobbyTimer = container.lobbyTimer;
         turnTimer = container.turnTimer;
+        pingTimer = container.pingTimer;
     }
 
 
