@@ -237,11 +237,7 @@ public class Gui extends ClientGameController {
 
     public void backToLogin(){
         frame.getContentPane().removeAll();
-        try {
-            login = new Login(this, d);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        panelInUse = 0;
         frame.add(login);
         frame.repaint();
         frame.validate();

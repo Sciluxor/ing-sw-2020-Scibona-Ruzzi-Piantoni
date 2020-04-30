@@ -41,15 +41,19 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         client.connectToServer(numberOfPlayer);
     }
 
-    public synchronized void onBackCommand(String name, int numberOfPlayer){
+    public synchronized void newGame(String nickName, int numberOfPlayer){
         game = new SimplifiedGame(numberOfPlayer);
-        //inviare un altro messaggio   ma vedere se fare sincronizzati gli in e out
+        client.setNickName(nickName);
+        client.sendMessage(new GameConfigMessage(client.getUserID(),nickName, MessageSubType.ANSWER,numberOfPlayer,false,false,false));
+    }
 
+    public synchronized void onBackCommand(){
+        client.sendMessage(new Message(client.getUserID(),client.getNickName(),MessageType.DISCONNECTION, MessageSubType.BACK));
     }
 
     public synchronized void onUpdateLobbyPlayer(Message message) {
         client.setUserID(message.getMessage());
-        game.initPlayers(client.getUserName(),((WaitPlayerMessage) message).getNickNames(),((WaitPlayerMessage) message).getColors());
+        game.initPlayers(client.getNickName(),((WaitPlayerMessage) message).getNickNames(),((WaitPlayerMessage) message).getColors());
 
         eventQueue.add(this::updateLobbyPlayer);
     }
@@ -63,9 +67,9 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         eventQueue.add(this::nickUsed);
     }
 
-    public synchronized void updateUserName(String userName){
-        client.setUserName(userName);
-        client.sendMessage(new GameConfigMessage(client.getUserID(),userName,MessageSubType.UPDATE,game.getNumberOfPlayers() ,false,false,false));
+    public synchronized void updateNickName(String nickName){
+        client.setNickName(nickName);
+        client.sendMessage(new GameConfigMessage(client.getUserID(),nickName,MessageSubType.UPDATE,game.getNumberOfPlayers() ,false,false,false));
     }//gestire anche gli errori
 
     public synchronized void onGameStart(Message message){

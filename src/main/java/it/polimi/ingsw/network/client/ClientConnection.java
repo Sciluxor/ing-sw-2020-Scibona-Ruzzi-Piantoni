@@ -15,7 +15,7 @@ public class ClientConnection implements ConnectionInterface,Runnable {
     private boolean isConnectionActive;
     private ClientGameController clientController;
     private String userID = ConstantsContainer.USERDIDDEF;
-    private String userName;
+    private String nickName;
     private String address;
     private int port;
     private Thread messageListener;
@@ -25,7 +25,7 @@ public class ClientConnection implements ConnectionInterface,Runnable {
     private ObjectOutputStream out;
 
     public ClientConnection(String name, String address, int port,ClientGameController clientController){
-       this.userName = name;
+       this.nickName = name;
        this.address = address;
        this.port = port;
        this.clientController = clientController;
@@ -40,12 +40,12 @@ public class ClientConnection implements ConnectionInterface,Runnable {
         this.userID = userID;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getNickName() {
+        return nickName;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 
     public void connectToServer(int numberOfPlayer){
@@ -56,13 +56,13 @@ public class ClientConnection implements ConnectionInterface,Runnable {
         }catch (IOException e){
             ClientGameController.LOGGER.severe(e.getMessage());
         }
-        sendMessage(new GameConfigMessage(userID,userName, MessageSubType.ANSWER,numberOfPlayer,false,false,false));
+        sendMessage(new GameConfigMessage(userID,nickName, MessageSubType.ANSWER,numberOfPlayer,false,false,false));
         messageListener = new Thread(this);
         messageListener.start();
     }
 
-    public void updateUserName(String name){
-        this.userName = name;
+    public void updateNickName(String name){
+        this.nickName = name;
     }
 
     @Override
