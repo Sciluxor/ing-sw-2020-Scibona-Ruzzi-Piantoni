@@ -26,7 +26,7 @@ public abstract class ClientGameController implements Runnable,FunctionListener{
     public void run() {
         while (!Thread.currentThread().isInterrupted()){
             try{
-                 eventQueue.take().run();
+                 eventQueue.take().run();  //bisogna sincronizzarla?
 
             }catch (InterruptedException e) {
             LOGGER.severe(e.getMessage());
@@ -39,6 +39,12 @@ public abstract class ClientGameController implements Runnable,FunctionListener{
         client = new ClientConnection(name,address,port,this);
         client.connectToServer(numberOfPlayer);
         game = new SimplifiedGame(numberOfPlayer);
+
+    }
+
+    public void onBackCommand(String name, int numberOfPlayer){
+        game = new SimplifiedGame(numberOfPlayer);
+        //inviare un altro messaggio   ma vedere se fare sincronizzati gli in e out
 
     }
 
@@ -61,7 +67,7 @@ public abstract class ClientGameController implements Runnable,FunctionListener{
     public void updateUserName(String userName){
         client.setUserName(userName);
         client.sendMessage(new GameConfigMessage(client.getUserID(),userName,MessageSubType.UPDATE,game.getNumberOfPlayers() ,false,false,false));
-    }
+    }//gestire anche gli errori
 
     public void onGameStart(Message message){
         game.setGameStarted(true);
@@ -70,7 +76,7 @@ public abstract class ClientGameController implements Runnable,FunctionListener{
         eventQueue.add(this::startGame);
     }
 
-    public void onUpdate(Message message){
+    public void onUpdate(Message message){  //farlo synchronized?
         switch (message.getType()){
             case WAITPLAYER:
                 onUpdateLobbyPlayer(message);

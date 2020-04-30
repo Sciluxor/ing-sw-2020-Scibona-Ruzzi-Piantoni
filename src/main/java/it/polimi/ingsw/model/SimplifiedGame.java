@@ -4,7 +4,6 @@ import it.polimi.ingsw.model.map.GameMap;
 import it.polimi.ingsw.model.map.Square;
 import it.polimi.ingsw.model.player.Color;
 import it.polimi.ingsw.model.player.Player;
-import it.polimi.ingsw.view.server.VirtualView;
 import java.util.*;
 
 public class SimplifiedGame{
