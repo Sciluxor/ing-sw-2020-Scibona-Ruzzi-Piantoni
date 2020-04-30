@@ -25,12 +25,12 @@ public class Gui extends ClientGameController {
     static Dimension d = new Dimension(width * 95/100, height * 95/100);
     static JFrame frame = new JFrame("Santorini");
     static JPanel login = null;
-    static JPanel lobby = null;
-    static JPanel challengerChoiseCards = null;
+    static LobbyGui lobby = null;
+    static JDesktopPane challengerChoiseCards = null;
     static JPanel waitChallenger = null;
     static JPanel challengerChoiseFirst = null;
-    static JPanel chooseCard3 = null;
-    static JPanel chooseCard2 = null;
+    static JDesktopPane chooseCard3 = null;
+    static JDesktopPane chooseCard2 = null;
     static JPanel chooseCard1 = null;
     static JPanel chooseCard0 = null;
     static JLabel lconfirm;
@@ -54,6 +54,7 @@ public class Gui extends ClientGameController {
     static Font felixNormal = new Font(FELIX, Font.PLAIN, (int) (20 * screenSize.getHeight() / 1080));
     static Font felixBold = new Font(FELIX, Font.BOLD, (int) (25 * screenSize.getHeight() / 1080));
     static List<Player> players = new ArrayList<>();
+    static List<Player> players2 = new ArrayList<>();
 
 
     private void show() throws IOException {
@@ -65,17 +66,20 @@ public class Gui extends ClientGameController {
         edo.setColor(Color.WHITE);
         lui.setColor(Color.PURPLE);
         //players.add(ale);
-        players.add(edo);
-        players.add(lui);
+        //players.add(edo);
+        //players.add(lui);
+
+        players2.add(ale);
+        players2.add(edo);
+        players2.add(lui);
 
 
 
 
 
 
-
-        login = new Login(d);                                                                                                   //schermata 0 sistemata
-        lobby = new LobbyGui(d, actualPlayers, numberOfPlayers, players);                                                       //schermata 1  sistemata
+        login = new Login(this, d);                                                                                      //schermata 0 sistemata
+        //lobby = new LobbyGui(this, d, numberOfPlayers);                                                       //schermata 1  sistemata
         //challengerChoiseCards2 = new ChallengerChoiseCards(d, numberOfPlayers, background_panel);                              //schermata 2 sistemata
         //challengerChoiseCards3 = new ChallengerChoiseCards(d, numberOfPlayers, background_panel);                              //schermata 3 sistemata
         waitChallenger = new WaitChallenger(d);                                                                                 //schermata 4 sistemata
@@ -105,26 +109,26 @@ public class Gui extends ClientGameController {
     }
 
 
-    public static void panelManager(int panel){
+    private void panelManager(int panel){
         switch (panel){
             case 0:
                 frame.remove(login);
                 try {
-                    challengerChoiseCards = new ChallengerChoiseCards(d, numberOfPlayers);
+                    lobby = new LobbyGui(this, d, numberOfPlayers, players);
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }
-                frame.add(challengerChoiseCards);
+                frame.add(lobby.getPane());
                 panelInUse = 1;
                 break;
             case 1:
                 frame.remove(challengerChoiseCards);
                 try {
-                    challengerChoiseFirst = new ChallengerChoiseFirstPlayer(d, numberOfPlayers, players);
+                    challengerChoiseFirst = new ChallengerChoiseFirstPlayer(this, d, numberOfPlayers, players);
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }
-                frame.add(challengerChoiseFirst);
+                frame.setContentPane(challengerChoiseFirst);
                 panelInUse = 2;
                 break;
 
@@ -132,19 +136,19 @@ public class Gui extends ClientGameController {
                 frame.remove(challengerChoiseFirst);
                 if (numberOfPlayers == 2){
                     try {
-                        chooseCard2 = new ChooseCard(screenSize, d, numberOfPlayers);
+                        chooseCard2 = new ChooseCard(this, screenSize, d, numberOfPlayers);
                     } catch (IOException e) {
                         LOGGER.severe(e.getMessage());
                     }
-                    frame.add(chooseCard2);
+                    frame.setContentPane(chooseCard2);
                 }
                 else{
                     try {
-                        chooseCard3 = new ChooseCard(screenSize, d, numberOfPlayers);
+                        chooseCard3 = new ChooseCard(this, screenSize, d, numberOfPlayers);
                     } catch (IOException e) {
                         LOGGER.severe(e.getMessage());
                     }
-                    frame.add(chooseCard3);
+                    frame.setContentPane(chooseCard3);
                 }
                 panelInUse = 3;
                 break;
@@ -190,9 +194,8 @@ public class Gui extends ClientGameController {
 
 
 
-    public static class ChangePanel implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
+
+    public void changePanel (){
 
             switch (panelInUse){
                 case 0:
@@ -216,9 +219,6 @@ public class Gui extends ClientGameController {
                     break;
                 default:
             }
-
-        }
-
     }
 
 
@@ -235,6 +235,72 @@ public class Gui extends ClientGameController {
         return d;
     }
 
+    @Override
+    public void updateLobbyPlayer() {
+        SwingUtilities.invokeLater(() -> {
+            LobbyGui.stamp(getPlayers());
+        });
+    }
 
+    @Override
+    public void nickUsed() {
+
+    }
+
+    @Override
+    public void startGame() {
+        frame.dispose();
+        Board board = new Board();
+        try {
+            board.show(screenSize, numberOfPlayers, getPlayers(), "GID01");
+        } catch (IOException e) {
+            LOGGER.severe(e.getMessage());
+        }
+    }
+
+    @Override
+    public void challengerChoice() {
+
+    }
+
+    @Override
+    public void cardChoice() {
+
+    }
+
+    @Override
+    public void placeWorker() {
+
+    }
+
+    @Override
+    public void updateBoard() {
+
+    }
+
+    @Override
+    public void notifyWin() {
+
+    }
+
+    @Override
+    public void addConstraint() {
+
+    }
+
+    @Override
+    public void onDisconnection() {
+
+    }
+
+    @Override
+    public void errorMessage() {
+
+    }
+
+    @Override
+    public void startTurn() {
+
+    }
 
 }

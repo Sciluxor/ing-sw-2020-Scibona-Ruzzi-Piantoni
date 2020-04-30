@@ -465,7 +465,7 @@ public class Board extends Observable {
 
     }
 
-    private void internalFrameSetUp(JInternalFrame intFrame){
+    public static void internalFrameSetUp(JInternalFrame intFrame){
         intFrame.putClientProperty(PALETTE, Boolean.TRUE);
         intFrame.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
         intFrame.setOpaque(false);
@@ -861,7 +861,7 @@ public class Board extends Observable {
             try {
                 cover2 = ImageHandler.setImage(c.getName(), 100, 100, frameSize.width * 40/100, frameSize.height * 45/100);
             } catch (IOException ioException) {
-                ioException.printStackTrace();
+                LOGGER.severe(ioException.getMessage());
             }
             background = new JLabel(cover2.getIcon());
             framePower.getContentPane().removeAll();

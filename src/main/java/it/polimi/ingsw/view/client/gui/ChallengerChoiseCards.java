@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.client.gui;
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicInternalFrameUI;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
@@ -8,17 +9,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
+import static it.polimi.ingsw.view.client.gui.Board.internalFrameSetUp;
 import static it.polimi.ingsw.view.client.gui.EliminateListeners.*;
 import static it.polimi.ingsw.view.client.gui.Gui.*;
 
-public class ChallengerChoiseCards extends JPanel{
+public class ChallengerChoiseCards extends JDesktopPane{
 
+    Gui gui;
     Dimension frameSize = new Dimension();
     Dimension intFrameSize = new Dimension();
     Dimension cardSize = new Dimension();
-    JFrame intFrame;
+    JInternalFrame intFrame;
     private final List<JButton> buttons = new ArrayList<>();
-    JButton background = new JButton();
+    JButton buttonBackground = new JButton();
     JLabel cover =new JLabel();
     JLabel label =new JLabel();
     private int count = 0;
@@ -27,8 +30,9 @@ public class ChallengerChoiseCards extends JPanel{
     private static final List<JButton> godChosen = new ArrayList<>();
     ConfirmButton confirm = new ConfirmButton();
 
-    public ChallengerChoiseCards(Dimension frame, Integer numberOfPlayer) throws IOException {
+    public ChallengerChoiseCards(Gui instance, Dimension frame, Integer numberOfPlayer) throws IOException {
 
+        gui = instance;
         frameSize.setSize(frame);
         numberPlayers = numberOfPlayer;
         intFrameSize.setSize(frameSize.getWidth() * 40/100, frameSize.getHeight() * 45/100);
@@ -37,20 +41,25 @@ public class ChallengerChoiseCards extends JPanel{
         int x = xconst;
         int y = yconst;
 
-        intFrame = new JFrame();
+        intFrame = new JInternalFrame("", false, false, false, false);
+        intFrame.setPreferredSize(intFrameSize);
+        internalFrameSetUp(intFrame);
+        BasicInternalFrameUI bii = (BasicInternalFrameUI)intFrame.getUI();
+        bii.setNorthPane(null);
+        intFrame.setVisible(false);
+        add(intFrame);
 
 
-        background.setBounds(0, 0,intFrameSize.width, intFrameSize.height);
-        background.setOpaque(false);
-        background.setContentAreaFilled(false);
-        background.setBorderPainted(false);
-        intFrame.add(background);
+        buttonBackground.setBounds(0, 0,intFrameSize.width, intFrameSize.height);
+        buttonBackground.setOpaque(false);
+        buttonBackground.setContentAreaFilled(false);
+        buttonBackground.setBorderPainted(false);
+        intFrame.add(buttonBackground);
 
 
 
         cardSize.setSize((int) (frameSize.getWidth() * 9/100), (int) (frameSize.getHeight() * 23.15/100)); //(9, 22)
         setPreferredSize(frameSize);
-        setLayout(null);
 
 
         JButton apollo = new JButton();
@@ -169,7 +178,7 @@ public class ChallengerChoiseCards extends JPanel{
 
      private void buttonPositioning(JButton button, int x, int y){
          button.setBounds(x, y, cardSize.width, cardSize.height);
-         this.add(button);
+         add(button);
      }
 
      private void addForTwo(int x, int y, int yconst){
@@ -224,25 +233,25 @@ public class ChallengerChoiseCards extends JPanel{
         public void mouseEntered(MouseEvent e) {
             JButton c = (JButton)e.getSource();
             if (c.getX() < frameSize.width * 50/100 && c.getY() < frameSize.height * 40/100) {
-                intFrame.setBounds((int) ((frameSize.width * 13 / 100) + c.getX()), (int) ((frameSize.height * 20.575 / 100)), intFrameSize.width, intFrameSize.height);
+                intFrame.setBounds((int) ((frameSize.width * 11 / 100) + c.getX()), (int) ((frameSize.height * 15 / 100)), intFrameSize.width, intFrameSize.height);
             }
             else if (c.getX() >= frameSize.width * 50/100 && c.getY() < frameSize.height * 40/100){
-                intFrame.setBounds((int) (c.getX() - (frameSize.width * 38 / 100)), (int) ((frameSize.height * 20.575 / 100)), intFrameSize.width, intFrameSize.height);
+                intFrame.setBounds((int) (c.getX() - (frameSize.width * 41.5 / 100)), (int) ((frameSize.height * 15 / 100)), intFrameSize.width, intFrameSize.height);
             }
             else if (c.getX() < frameSize.width * 50/100 && c.getY() >= frameSize.height * 40/100){
-                intFrame.setBounds((int) ((frameSize.width * 13 / 100) + c.getX()), (int) ((frameSize.height * 45.575 / 100)), intFrameSize.width, intFrameSize.height);
+                intFrame.setBounds((int) ((frameSize.width * 11 / 100) + c.getX()), (int) ((frameSize.height * 38 / 100)), intFrameSize.width, intFrameSize.height);
             }
             else
-                intFrame.setBounds((int) (c.getX() - (frameSize.width * 38 / 100)), (int) ((frameSize.height * 45.575 / 100)), intFrameSize.width, intFrameSize.height);
+                intFrame.setBounds((int) (c.getX() - (frameSize.width * 41.5 / 100)), (int) ((frameSize.height * 38 / 100)), intFrameSize.width, intFrameSize.height);
 
-            background.setIcon(null);
+            buttonBackground.setIcon(null);
             try {
                 cover = ImageHandler.setImage(c.getName(), 100, 100, intFrame.getWidth() , intFrame.getHeight() );
             } catch (IOException ex) {
                 LOGGER.severe(ex.getMessage());
             }
             label.setIcon(cover.getIcon());
-            background.setIcon(label.getIcon());
+            buttonBackground.setIcon(label.getIcon());
             intFrame.setVisible(true);
         }
 
@@ -269,7 +278,7 @@ public class ChallengerChoiseCards extends JPanel{
                 c.addActionListener(new RemoveGod());
             }
             if (chosen == numberPlayers && confirm.getActionListeners().length == 0){
-                confirm.addActionListener(new Gui.ChangePanel());
+                confirm.addActionListener(new ChangePanel(gui));
             }
         }
     }
@@ -284,7 +293,7 @@ public class ChallengerChoiseCards extends JPanel{
             godChosen.remove(c);
             chosen--;
             c.addActionListener(new ChooseGod());
-            eliminateActionClass(confirm, Gui.ChangePanel.class);
+            eliminateActionClass(confirm, ChangePanel.class);
         }
     }
 
@@ -293,7 +302,6 @@ public class ChallengerChoiseCards extends JPanel{
             button.setBorderPainted(false);
             eliminateAllActionClass(button);
             eliminateAllMouseClass(button);
-            button.addMouseListener(new ColorBorderGodCards());
         }
         return godChosen;
     }

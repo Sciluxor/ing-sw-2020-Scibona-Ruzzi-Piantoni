@@ -4,87 +4,194 @@ import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.utils.Logger;
 
 import javax.swing.*;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Style;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyledDocument;
+import javax.swing.text.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
+import static it.polimi.ingsw.view.client.gui.Gui.*;
 
-public class LobbyGui extends JPanel{
-    Dimension frameSize = new Dimension();
+public class LobbyGui{
+    Gui gui;
+    static Dimension frameSize = new Dimension();
+    private static JDesktopPane pane;
+    static JButton backButton = new JButton();
+    static JLabel lactualNumber = new JLabel();
+    static JLabel lnumber = new JLabel();
+    static JLabel lback;
+    static JLabel lbackPress;
+    static Style colorStyle;
+    static StyledDocument doc;
+    static Style numberStyle;
+    static MutableAttributeSet fontSize;
+    static StyledDocument numberDoc;
+    static int num = 2;
+    static List<Player> players = new ArrayList<>();
 
-    public LobbyGui(Dimension frame, Integer actualPlayer, Integer numberOfPlayer, List<Player> players) throws IOException {
+    public LobbyGui(Gui instance, Dimension frame, Integer numberOfPlayer, List<Player> actualPlayers) throws IOException {
 
+        gui = instance;
+        num = numberOfPlayer;
+        players = actualPlayers;
+        pane = new JDesktopPane();
         frameSize.setSize(frame);
-        setPreferredSize(frameSize);
-        setLayout(null);
+        pane.setPreferredSize(frameSize);
+        pane.setLayout(null);
+
+        lback = ImageHandler.setImage("src/main/resources/Graphics/button_back.png", 100, 100, frameSize.width * 13/100, frameSize.height * 5/100);
+        lbackPress = ImageHandler.setImage("src/main/resources/Graphics/button_back_press.png", 100, 100, frameSize.width * 13/100, frameSize.height * 5/100);
+        backButton.setBounds((int) (getD().getWidth() * 43.5 / 100), (int) (getD().getHeight() * 79.5 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
+        backButton.setOpaque(false);
+        backButton.setContentAreaFilled(false);
+        backButton.setFocusPainted(false);
+        backButton.setBorderPainted(false);
+        backButton.setIcon(lback.getIcon());
+        backButton.setEnabled(true);
+        backButton.addMouseListener(new BackButtonPress());
+        backButton.addActionListener(new Stamp());
+        pane.add(backButton);
 
         JLabel wait = ImageHandler.setImage("src/main/resources/Graphics/Texts/waiting_others_players.png", 100, 100, frameSize.width * 30/100, frameSize.height * 10/100);
-        JLabel actualNumber;
-        JLabel number;
         JLabel of = ImageHandler.setImage("src/main/resources/Graphics/Texts/of.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
         JTextPane textPane = new JTextPane();
-        StyledDocument doc = textPane.getStyledDocument();
+        JTextPane numberPane = new JTextPane();
+        doc = textPane.getStyledDocument();
+        numberDoc = numberPane.getStyledDocument();
 
-        if (actualPlayer == 1){
-            actualNumber = ImageHandler.setImage("src/main/resources/Graphics/Texts/1.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
-        }
-        else if (actualPlayer == 2){
-            actualNumber = ImageHandler.setImage("src/main/resources/Graphics/Texts/2.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
-        }
-        else{
-            actualNumber = ImageHandler.setImage("src/main/resources/Graphics/Texts/3.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
-        }
 
-        if (numberOfPlayer == 2){
-            number = ImageHandler.setImage("src/main/resources/Graphics/Texts/2.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
-        }
-        else {
-            number = ImageHandler.setImage("src/main/resources/Graphics/Texts/3.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
-        }
 
 
         wait.setBounds(frameSize.width * 35/100, frameSize.height * 10/100, frameSize.width * 30/100, frameSize.height * 10/100);
-        add(wait);
+        pane.add(wait);
 
-        actualNumber.setBounds(frameSize.width * 42/100, frameSize.height * 20/100, frameSize.width * 5/100, frameSize.height * 5/100);
-        add(actualNumber);
+
+
+        if (num == 2){
+            lnumber = ImageHandler.setImage("src/main/resources/Graphics/Texts/2.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
+        }
+        else {
+            lnumber = ImageHandler.setImage("src/main/resources/Graphics/Texts/3.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
+        }
+
+
+        //pane.add(lactualNumber);
         of.setBounds(frameSize.width * 47/100, frameSize.height * 20/100, frameSize.width * 5/100, frameSize.height * 5/100);
         of.setFont(Gui.felixBold);
-        add(of);
-        number.setBounds(frameSize.width * 52/100, frameSize.height * 20/100, frameSize.width * 5/100, frameSize.height * 5/100);
-        add(number);
+        pane.add(of);
+        lnumber.setBounds(frameSize.width * 52/100, frameSize.height * 20/100, frameSize.width * 5/100, frameSize.height * 5/100);
+        pane.add(lnumber);
 
 
         textPane.setBounds((int) (frameSize.width * 30/100), frameSize.height * 45/100, frameSize.width * 40/100, frameSize.height * 20/100);
         textPane.setOpaque(false);
         textPane.setFont(Gui.felixBold);
-        add(textPane);
-        Style blue = textPane.addStyle("Blue", null);
-        StyleConstants.setAlignment(blue, StyleConstants.ALIGN_CENTER);
-        doc.setParagraphAttributes(0, doc.getLength(), blue, false);
+        pane.add(textPane);
+        colorStyle = textPane.addStyle("colorStyle", null);
+        StyleConstants.setAlignment(colorStyle, StyleConstants.ALIGN_CENTER);
+        doc.setParagraphAttributes(0, doc.getLength(), colorStyle, false);
 
+        numberPane.setBounds((int) (frameSize.width * 42/100), frameSize.height * 20/100, frameSize.width * 5/100, frameSize.height * 5/100);
+        numberPane.setOpaque(false);
+        numberPane.setFont(Gui.felixBold);
+        pane.add(numberPane);
+        fontSize = numberPane.getInputAttributes();
+        numberStyle = numberPane.addStyle("colorStyle", null);
+        StyleConstants.setAlignment(numberStyle, StyleConstants.ALIGN_CENTER);
+        StyleConstants.setForeground(numberStyle, Color.BLACK);
+        StyleConstants.setFontSize(fontSize, 30);
+        numberDoc.setParagraphAttributes(0, numberDoc.getLength(), numberStyle, false);
+
+        stamp(players);
+
+
+        JButton backgroundButton = backgroundButton();
+        pane.add(backgroundButton);
+    }
+
+    private static class BackButtonPress extends MouseAdapter {
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            JButton c = (JButton)e.getSource();
+            c.setIcon(lbackPress.getIcon());
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            JButton c = (JButton)e.getSource();
+            c.setIcon(lback.getIcon());
+        }
+    }
+
+    private static class Stamp implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            stamp(players2);
+        }
+    }
+
+    public static void stamp(List<Player> players){
+        clean();
         for (Player player : players){
             if(player.getColor().toString().equalsIgnoreCase("BLUE")){
-                StyleConstants.setForeground(blue, Color.BLUE);
+                StyleConstants.setForeground(colorStyle, Color.BLUE);
             }
             else if(player.getColor().toString().equalsIgnoreCase("WHITE")){
-                StyleConstants.setForeground(blue, Color.WHITE);
+                StyleConstants.setForeground(colorStyle, Color.WHITE);
             }
             else {
-                StyleConstants.setForeground(blue, Color.MAGENTA);
+                StyleConstants.setForeground(colorStyle, Color.MAGENTA);
             }
             try{
-                doc.insertString(doc.getLength(), player.getNickname() + "\n \n", blue);
+                doc.insertString(doc.getLength(), player.getNickname() + "\n \n", colorStyle);
             }catch (BadLocationException e){
                 Logger.info("InsertString Failed");
             }
         }
-        JButton back = backgroundButton();
-        add(back);
+        number(players.size());
     }
+
+    private static void clean(){
+        try {
+            doc.remove(0, doc.getLength());
+        } catch (BadLocationException e) {
+            e.printStackTrace();
+        }
+        try {
+            numberDoc.remove(0, numberDoc.getLength());
+        } catch (BadLocationException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void number(int size){
+        String value;
+        if (size == 1){
+            value = "1";
+        }
+        else if (size == 2){
+            value = "2";
+        }
+        else{
+            value = "3";
+        }
+        try {
+            numberDoc.insertString(numberDoc.getLength(), value, fontSize);
+        } catch (BadLocationException e) {
+            LOGGER.severe(e.getMessage());
+        }
+    }
+
+
+    public JDesktopPane getPane() {
+        return pane;
+    }
+
 }
