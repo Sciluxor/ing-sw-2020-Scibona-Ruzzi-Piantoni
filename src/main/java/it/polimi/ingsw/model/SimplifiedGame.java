@@ -57,9 +57,8 @@ public class SimplifiedGame{
         this.winner = winner;
     }
 
-    public void initPlayers(String clientName,List<String> names, List<Color> colors) {
+    public void initPlayers(String clientName,List<String> names, List<Color> colors){
         settedPlayers = new ArrayList<>();
-        clientPlayer = null;
         if (names.size() != colors.size())
             throw new IllegalStateException("wrong numbers");
         for (int i = 0; i < names.size(); i++) {

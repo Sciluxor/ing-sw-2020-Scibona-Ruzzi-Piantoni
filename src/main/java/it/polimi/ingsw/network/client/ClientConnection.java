@@ -1,10 +1,7 @@
 package it.polimi.ingsw.network.client;
 
 import it.polimi.ingsw.network.ConnectionInterface;
-import it.polimi.ingsw.network.message.GameConfigMessage;
-import it.polimi.ingsw.network.message.Message;
-import it.polimi.ingsw.network.message.MessageSubType;
-import it.polimi.ingsw.network.message.MessageType;
+import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.utils.ConstantsContainer;
 import it.polimi.ingsw.utils.Logger;
 

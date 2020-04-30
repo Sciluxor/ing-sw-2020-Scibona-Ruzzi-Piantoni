@@ -115,7 +115,6 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
        for(Player player: controller.getActualPlayers()){
            message.addColor(player.getColor());
            message.addNickName(player.getNickname());
-
        }
        return message;
 

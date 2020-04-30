@@ -35,48 +35,47 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         }
     }
 
-    public void openConnection(String name, int numberOfPlayer, String address, int port) {
+    public synchronized void openConnection(String name, int numberOfPlayer, String address, int port) {
+        game = new SimplifiedGame(numberOfPlayer);
         client = new ClientConnection(name,address,port,this);
         client.connectToServer(numberOfPlayer);
-        game = new SimplifiedGame(numberOfPlayer);
-
     }
 
-    public void onBackCommand(String name, int numberOfPlayer){
+    public synchronized void onBackCommand(String name, int numberOfPlayer){
         game = new SimplifiedGame(numberOfPlayer);
         //inviare un altro messaggio   ma vedere se fare sincronizzati gli in e out
 
     }
 
-    public void onUpdateLobbyPlayer(Message message) {
+    public synchronized void onUpdateLobbyPlayer(Message message) {
         client.setUserID(message.getMessage());
         game.initPlayers(client.getUserName(),((WaitPlayerMessage) message).getNickNames(),((WaitPlayerMessage) message).getColors());
 
         eventQueue.add(this::updateLobbyPlayer);
     }
 
-    public List<Player> getPlayers(){
+    public synchronized List<Player> getPlayers(){
         return game.getPlayers();
     }
 
-    public void nickUsed(Message message){
+    public synchronized void nickUsed(Message message){
         client.setUserID(message.getMessage());
         eventQueue.add(this::nickUsed);
     }
 
-    public void updateUserName(String userName){
+    public synchronized void updateUserName(String userName){
         client.setUserName(userName);
         client.sendMessage(new GameConfigMessage(client.getUserID(),userName,MessageSubType.UPDATE,game.getNumberOfPlayers() ,false,false,false));
     }//gestire anche gli errori
 
-    public void onGameStart(Message message){
+    public synchronized void onGameStart(Message message){
         game.setGameStarted(true);
         game.setGameID(((GameStartedMessage) message).getGameID());
         game.setGameStatus(Response.GAMESTARTED);
         eventQueue.add(this::startGame);
     }
 
-    public void onUpdate(Message message){  //farlo synchronized?
+    public synchronized void onUpdate(Message message){  //farlo synchronized?
         switch (message.getType()){
             case WAITPLAYER:
                 onUpdateLobbyPlayer(message);

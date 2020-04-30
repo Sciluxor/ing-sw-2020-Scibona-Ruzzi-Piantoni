@@ -195,11 +195,11 @@ public class Board extends Observable {
         desktopPane.add(opponents);
 
         opponent1.setBounds((frameSize.width * 4/100), (frameSize.height * 61/100), frameSize.width * 10/100, frameSize.height * 4/100);
-        opponent1.setName(returnGodChoosen().get(1).getName());
+        //opponent1.setName(returnGodChoosen().get(1).getName());
         opponentsButton(opponent1);
         if (numberOfPlayer == 3){
             JButton opponent2 = new JButton(players.get(2).getNickname());
-            opponent2.setName(returnGodChoosen().get(2).getName());
+            //opponent2.setName(returnGodChoosen().get(2).getName());
             opponent2.setBounds((frameSize.width * 4/100), (frameSize.height * 64/100), frameSize.width * 10/100, frameSize.height * 4/100);
             opponentsButton(opponent2);
         }

@@ -249,13 +249,15 @@ public class Gui extends ClientGameController {
 
     @Override
     public void startGame() {
-        frame.dispose();
-        Board board = new Board();
-        try {
-            board.show(screenSize, numberOfPlayers, getPlayers(), "GID01");
-        } catch (IOException e) {
-            LOGGER.severe(e.getMessage());
-        }
+        SwingUtilities.invokeLater(() -> {
+            frame.dispose();
+            Board board = new Board();
+            try {
+                board.show(screenSize, numberOfPlayers, getPlayers(), "GID01");
+            } catch (IOException e) {
+                LOGGER.severe(e.getMessage());
+            }
+        });
     }
 
     @Override
