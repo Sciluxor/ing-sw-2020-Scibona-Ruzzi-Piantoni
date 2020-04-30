@@ -13,6 +13,7 @@ import java.util.List;
 import static it.polimi.ingsw.view.client.gui.ChallengerChoiseCards.returnGodChoosen;
 import static it.polimi.ingsw.view.client.gui.Gui.LOGGER;
 import static it.polimi.ingsw.view.client.gui.EliminateListeners.*;
+import static it.polimi.ingsw.view.client.gui.Gui.players;
 
 public class Board extends Observable {
     List<Player> allPlayer = new ArrayList<>();
@@ -89,15 +90,22 @@ public class Board extends Observable {
     Font felixNormal;
     Font felixBold;
     static final String PALETTE = "JInternalFrame.isPalette";
+    Player mePlayer;
+    String nickname;
 
-    public void show(Dimension screen, Integer numberOfPlayer, final List<Player> players, String gameId) throws IOException {
+    public void show(Dimension screen, Integer numberOfPlayer, final List<Player> players, String gameId, String nickname) throws IOException {
 
         f = new JFrame();
 
-        nicknameLabel.setText("Nickname: " + players.get(0).getNickname());
+        System.out.println(allPlayer.size());
+        nicknameLabel.setText("Nickname: " + nickname);
         gID.setText("GameID: " + gameId);
-        opponent1.setText(players.get(1).getNickname());
+        this.nickname = nickname;
         allPlayer = players;
+        System.out.println(allPlayer.size());
+        mePlayer = pickNickFromPlayers();
+        removeNickFromPlayers();
+        System.out.println(allPlayer.size());
 
         double ratio= (screen.getWidth()/screen.getHeight());
         int width = (int) ((screen.getWidth() * 95 / 100) * (1.689999 / ratio));
@@ -194,11 +202,12 @@ public class Board extends Observable {
         opponents.setFont(felixNormal);
         desktopPane.add(opponents);
 
+        opponent1.setText(allPlayer.get(0).getNickname());
         opponent1.setBounds((frameSize.width * 4/100), (frameSize.height * 61/100), frameSize.width * 10/100, frameSize.height * 4/100);
         //opponent1.setName(returnGodChoosen().get(1).getName());
         opponentsButton(opponent1);
         if (numberOfPlayer == 3){
-            JButton opponent2 = new JButton(players.get(2).getNickname());
+            JButton opponent2 = new JButton(allPlayer.get(1).getNickname());
             //opponent2.setName(returnGodChoosen().get(2).getName());
             opponent2.setBounds((frameSize.width * 4/100), (frameSize.height * 64/100), frameSize.width * 10/100, frameSize.height * 4/100);
             opponentsButton(opponent2);
@@ -528,11 +537,23 @@ public class Board extends Observable {
         }
     }
 
+    private void removeNickFromPlayers(){
+        allPlayer.removeIf(player -> player.getNickname().equalsIgnoreCase(nickname));
+    }
+
+    private Player pickNickFromPlayers(){
+        for (Player player : allPlayer){
+            if (player.getNickname().equalsIgnoreCase(nickname))
+                return player;
+        }
+        return null;
+    }
+
     private class Write implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
             if (!field.getText().equals("")) {
-                chat.append(allPlayer.get(0).getNickname() + ": " + field.getText().toLowerCase() + "\n");
+                chat.append(mePlayer.getNickname() + ": " + field.getText().toLowerCase() + "\n");
                 chat.setCaretPosition(chat.getDocument().getLength());
                 field.setText("");
             }

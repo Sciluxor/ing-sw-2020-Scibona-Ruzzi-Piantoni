@@ -54,7 +54,7 @@ public class Gui extends ClientGameController {
     static Font felixNormal = new Font(FELIX, Font.PLAIN, (int) (20 * screenSize.getHeight() / 1080));
     static Font felixBold = new Font(FELIX, Font.BOLD, (int) (25 * screenSize.getHeight() / 1080));
     static List<Player> players = new ArrayList<>();
-    static List<Player> players2 = new ArrayList<>();
+    String nickname;
 
 
     private void show() throws IOException {
@@ -65,13 +65,6 @@ public class Gui extends ClientGameController {
         ale.setColor(Color.BLUE);
         edo.setColor(Color.WHITE);
         lui.setColor(Color.PURPLE);
-        //players.add(ale);
-        //players.add(edo);
-        //players.add(lui);
-
-        players2.add(ale);
-        players2.add(edo);
-        players2.add(lui);
 
 
 
@@ -157,7 +150,7 @@ public class Gui extends ClientGameController {
                 frame.dispose();
                 Board board = new Board();
                 try {
-                    board.show(screenSize, numberOfPlayers, players, "GID01");
+                    board.show(screenSize, numberOfPlayers, players, "GID01", nickname);
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }
@@ -229,6 +222,7 @@ public class Gui extends ClientGameController {
     public void setNamePlayer(String name) {
         players.add(new Player(name));
         players.get(0).setColor(Color.BLUE);
+        nickname = name;
     }
 
     public static Dimension getD() {
@@ -267,7 +261,7 @@ public class Gui extends ClientGameController {
             frame.dispose();
             Board board = new Board();
             try {
-                board.show(screenSize, numberOfPlayers, getPlayers(), "GID01");
+                board.show(screenSize, numberOfPlayers, getPlayers(), "GID01", nickname);
             } catch (IOException e) {
                 LOGGER.severe(e.getMessage());
             }
