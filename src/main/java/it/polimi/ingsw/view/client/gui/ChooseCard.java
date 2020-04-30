@@ -14,6 +14,8 @@ import static it.polimi.ingsw.view.client.gui.ChallengerChoiseCards.returnGodCho
 import static it.polimi.ingsw.view.client.gui.Gui.LOGGER;
 
 public class ChooseCard extends  JDesktopPane{
+
+    Gui gui;
     Dimension frameSize = new Dimension();
     Dimension intFrameSize = new Dimension();
     JInternalFrame intFrame;
@@ -22,7 +24,9 @@ public class ChooseCard extends  JDesktopPane{
     JLabel label = new JLabel();
     List<JButton> godChoosen = null;
 
-    public ChooseCard(Dimension screen, Dimension frame, Integer numberOfPanel) throws IOException {
+    public ChooseCard(Gui instance, Dimension screen, Dimension frame, Integer numberOfPanel) throws IOException {
+
+        gui = instance;
         frameSize.setSize(frame);
         intFrameSize.setSize(frameSize.getWidth() * 40/100, frameSize.getHeight() * 45/100);
         setPreferredSize(frameSize);
@@ -57,7 +61,7 @@ public class ChooseCard extends  JDesktopPane{
 
             choose.setBounds(frameSize.width * 35/100, frameSize.height * 10/100, frameSize.width * 30/100, frameSize.height * 10/100);
             add(choose);
-            confirm.addActionListener(new ChangePanel());
+            confirm.addActionListener(new ChangePanel(gui));
             add(confirm);
 
             if (numberOfPanel == 3){

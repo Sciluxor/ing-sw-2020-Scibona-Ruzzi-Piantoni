@@ -11,12 +11,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
 import static it.polimi.ingsw.view.client.gui.Gui.*;
 
 public class LobbyGui{
+    Gui gui;
     static Dimension frameSize = new Dimension();
     private static JDesktopPane pane;
     static JButton backButton = new JButton();
@@ -30,10 +32,13 @@ public class LobbyGui{
     static MutableAttributeSet fontSize;
     static StyledDocument numberDoc;
     static int num = 2;
+    static List<Player> players = new ArrayList<>();
 
-    public LobbyGui(Dimension frame, Integer actualPlayer, Integer numberOfPlayer, List<Player> players) throws IOException {
+    public LobbyGui(Gui instance, Dimension frame, Integer numberOfPlayer, List<Player> actualPlayers) throws IOException {
 
+        gui = instance;
         num = numberOfPlayer;
+        players = actualPlayers;
         pane = new JDesktopPane();
         frameSize.setSize(frame);
         pane.setPreferredSize(frameSize);

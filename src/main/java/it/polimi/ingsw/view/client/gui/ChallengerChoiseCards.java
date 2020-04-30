@@ -15,6 +15,7 @@ import static it.polimi.ingsw.view.client.gui.Gui.*;
 
 public class ChallengerChoiseCards extends JDesktopPane{
 
+    Gui gui;
     Dimension frameSize = new Dimension();
     Dimension intFrameSize = new Dimension();
     Dimension cardSize = new Dimension();
@@ -29,8 +30,9 @@ public class ChallengerChoiseCards extends JDesktopPane{
     private static final List<JButton> godChosen = new ArrayList<>();
     ConfirmButton confirm = new ConfirmButton();
 
-    public ChallengerChoiseCards(Dimension frame, Integer numberOfPlayer) throws IOException {
+    public ChallengerChoiseCards(Gui instance, Dimension frame, Integer numberOfPlayer) throws IOException {
 
+        gui = instance;
         frameSize.setSize(frame);
         numberPlayers = numberOfPlayer;
         intFrameSize.setSize(frameSize.getWidth() * 40/100, frameSize.getHeight() * 45/100);
@@ -276,7 +278,7 @@ public class ChallengerChoiseCards extends JDesktopPane{
                 c.addActionListener(new RemoveGod());
             }
             if (chosen == numberPlayers && confirm.getActionListeners().length == 0){
-                confirm.addActionListener(new ChangePanel());
+                confirm.addActionListener(new ChangePanel(gui));
             }
         }
     }

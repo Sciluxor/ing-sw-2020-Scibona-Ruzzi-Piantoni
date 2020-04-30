@@ -79,6 +79,7 @@ public class Login extends JPanel{
 
         add(back);
         confirm.addActionListener(new Send());
+        confirm.addActionListener(new ChangePanel(gui));
     }
 
     private class Send implements ActionListener {
@@ -87,8 +88,7 @@ public class Login extends JPanel{
             if (!nickname.getText().equals("") && !numberPlayers.getText().equals("") && (numberPlayers.getText().equals("2") || numberPlayers.getText().equals("3"))){
                 setNamePlayer(nickname.getText());
                 setNumberOfPlayers((Integer.parseInt(numberPlayers.getText())));
-                //gui.openConnection(nickname.getText(), (Integer.parseInt(numberPlayers.getText())), address.getText(), (Integer.parseInt(port.getText())));
-                changePanel();
+                gui.openConnection(nickname.getText(), (Integer.parseInt(numberPlayers.getText())), address.getText(), (Integer.parseInt(port.getText())));
             }
         }
     }

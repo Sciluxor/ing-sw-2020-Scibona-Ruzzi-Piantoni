@@ -66,7 +66,7 @@ public class Gui extends ClientGameController {
         edo.setColor(Color.WHITE);
         lui.setColor(Color.PURPLE);
         //players.add(ale);
-        players.add(edo);
+        //players.add(edo);
         //players.add(lui);
 
         players2.add(ale);
@@ -79,7 +79,7 @@ public class Gui extends ClientGameController {
 
 
         login = new Login(this, d);                                                                                      //schermata 0 sistemata
-        //lobby = new LobbyGui(d, actualPlayers, numberOfPlayers, players);                                                       //schermata 1  sistemata
+        //lobby = new LobbyGui(this, d, numberOfPlayers);                                                       //schermata 1  sistemata
         //challengerChoiseCards2 = new ChallengerChoiseCards(d, numberOfPlayers, background_panel);                              //schermata 2 sistemata
         //challengerChoiseCards3 = new ChallengerChoiseCards(d, numberOfPlayers, background_panel);                              //schermata 3 sistemata
         waitChallenger = new WaitChallenger(d);                                                                                 //schermata 4 sistemata
@@ -109,12 +109,12 @@ public class Gui extends ClientGameController {
     }
 
 
-    private static void panelManager(int panel){
+    private void panelManager(int panel){
         switch (panel){
             case 0:
                 frame.remove(login);
                 try {
-                    lobby = new LobbyGui(d, actualPlayers, numberOfPlayers, players);
+                    lobby = new LobbyGui(this, d, numberOfPlayers, players);
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }
@@ -124,7 +124,7 @@ public class Gui extends ClientGameController {
             case 1:
                 frame.remove(challengerChoiseCards);
                 try {
-                    challengerChoiseFirst = new ChallengerChoiseFirstPlayer(d, numberOfPlayers, players);
+                    challengerChoiseFirst = new ChallengerChoiseFirstPlayer(this, d, numberOfPlayers, players);
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }
@@ -136,7 +136,7 @@ public class Gui extends ClientGameController {
                 frame.remove(challengerChoiseFirst);
                 if (numberOfPlayers == 2){
                     try {
-                        chooseCard2 = new ChooseCard(screenSize, d, numberOfPlayers);
+                        chooseCard2 = new ChooseCard(this, screenSize, d, numberOfPlayers);
                     } catch (IOException e) {
                         LOGGER.severe(e.getMessage());
                     }
@@ -144,7 +144,7 @@ public class Gui extends ClientGameController {
                 }
                 else{
                     try {
-                        chooseCard3 = new ChooseCard(screenSize, d, numberOfPlayers);
+                        chooseCard3 = new ChooseCard(this, screenSize, d, numberOfPlayers);
                     } catch (IOException e) {
                         LOGGER.severe(e.getMessage());
                     }
@@ -195,7 +195,7 @@ public class Gui extends ClientGameController {
 
 
 
-    public static void changePanel (){
+    public void changePanel (){
 
             switch (panelInUse){
                 case 0:

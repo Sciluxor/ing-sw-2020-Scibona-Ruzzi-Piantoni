@@ -9,10 +9,13 @@ import java.util.List;
 
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
 public class ChallengerChoiseFirstPlayer extends JPanel{
+
+    Gui gui;
     Dimension frameSize = new Dimension();
 
-    public ChallengerChoiseFirstPlayer(Dimension frame, Integer numberOfPlayer, List<Player> players) throws IOException {
+    public ChallengerChoiseFirstPlayer(Gui istance, Dimension frame, Integer numberOfPlayer, List<Player> players) throws IOException {
 
+        gui = istance;
         frameSize.setSize(frame);
         setPreferredSize(frameSize);
         setLayout(null);
@@ -27,17 +30,17 @@ public class ChallengerChoiseFirstPlayer extends JPanel{
 
         player1.setBounds(frameSize.width * 35/100, frameSize.height * 38/100, frameSize.width * 30/100, frameSize.height * 5/100);
         add(player1);
-        player1.addActionListener(new ChangePanel());
+        player1.addActionListener(new ChangePanel(gui));
 
         player2.setBounds(frameSize.width * 35/100, frameSize.height * 45/100, frameSize.width * 30/100, frameSize.height * 5/100);
         add(player2);
-        player2.addActionListener(new ChangePanel());
+        player2.addActionListener(new ChangePanel(gui));
 
         if (numberOfPlayer == 3){
             player3 = new JButton(players.get(2).getNickname());
             player3.setBounds(frameSize.width * 35/100, frameSize.height * 52/100, frameSize.width * 30/100, frameSize.height * 5/100);
             add(player3);
-            player3.addActionListener(new ChangePanel());
+            player3.addActionListener(new ChangePanel(gui));
         }
         JButton back = backgroundButton();
         add(back);
