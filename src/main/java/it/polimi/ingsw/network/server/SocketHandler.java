@@ -30,6 +30,9 @@ public class SocketHandler extends Thread implements Closeable {
             while(isActive) {
                 try {
                     Socket connection = serverSocket.accept();
+                    connection.setTcpNoDelay(true);
+
+                    Server.LOGGER.info("ServerSocket --> accepted, sock:" + connection.getInetAddress());
                     executor.submit(new ClientHandler(server,connection));
 
                 } catch (IOException s) {

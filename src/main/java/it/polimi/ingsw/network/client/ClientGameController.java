@@ -15,7 +15,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     public static final Logger LOGGER = Logger.getLogger("Client");
 
     private SimplifiedGame game;
-    private BlockingQueue<Runnable> eventQueue = new LinkedBlockingQueue<>();
+    private final BlockingQueue<Runnable> eventQueue = new LinkedBlockingQueue<>();
     private ClientConnection client;
 
 

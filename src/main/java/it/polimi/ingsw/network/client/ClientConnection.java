@@ -12,8 +12,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Timer;
-import java.util.TimerTask;
-
 public class ClientConnection implements ConnectionInterface,Runnable {
 
     private boolean isConnectionActive;
@@ -55,7 +53,8 @@ public class ClientConnection implements ConnectionInterface,Runnable {
 
     public void connectToServer(int numberOfPlayer){
         try{
-            clientSocket = new Socket(address, port);
+            clientSocket = new Socket("192.168.0.50", port);
+            clientSocket.setTcpNoDelay(true);
             out = new ObjectOutputStream(clientSocket.getOutputStream());
             in = new ObjectInputStream(clientSocket.getInputStream());
         }catch (IOException e){
@@ -129,8 +128,7 @@ public class ClientConnection implements ConnectionInterface,Runnable {
 
                 if (received != null && received.getType() == MessageType.PING) { // si deve controllare il ping anche lato server?
                     stopPingTimer();
-                    startPingTimer();
-                    System.out.println("ping");
+                    startPingTimer();      //testare su due pc separati
                                                                    //fare due config sepratati per client e server?
                 } else if (received != null) {
                     new Thread(() -> clientController.onUpdate(received)).start();

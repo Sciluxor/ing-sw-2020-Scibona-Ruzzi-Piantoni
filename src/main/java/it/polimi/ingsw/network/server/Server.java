@@ -295,7 +295,7 @@ public class Server implements Runnable{
                             connection.ping();
                     }
                     try{
-                        Thread.sleep(1500);
+                        clientsLock.wait(1500);
                     }catch (InterruptedException inter){
                         LOGGER.severe(inter.getMessage());
                         Thread.currentThread().interrupt();

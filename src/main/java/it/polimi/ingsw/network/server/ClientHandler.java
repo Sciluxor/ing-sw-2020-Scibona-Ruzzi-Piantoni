@@ -18,8 +18,12 @@ public class ClientHandler implements Runnable, ConnectionInterface {
 
     private ObjectInputStream objectIn;
     private ObjectOutputStream objectOut;
-    private Socket socket;
-    private Server server;
+
+    private final Object inputLock = new Object();
+    private final Object outputLock = new Object();
+
+    private final Socket socket;
+    private final Server server;
     private boolean isViewActive = false;
     private boolean isConnectionActive;
     private VirtualView view;
@@ -79,15 +83,16 @@ public class ClientHandler implements Runnable, ConnectionInterface {
     }
 
     public synchronized void sendMessage(Message msg){                                  //fare un'altra funzione per mandare in asincrono i messaggi
+      synchronized (outputLock) {
+          try {
+              objectOut.writeObject(msg);
+              objectOut.flush();
+              objectOut.reset();
 
-        try {
-            objectOut.writeObject(msg);
-            objectOut.flush();
-            objectOut.reset();
-
-        }catch (IOException e){
-            Server.LOGGER.severe(e.getMessage());
-        }
+          } catch (IOException e) {
+              Server.LOGGER.severe(e.getMessage());
+          }
+      }
 
     }
 
@@ -161,48 +166,44 @@ public class ClientHandler implements Runnable, ConnectionInterface {
                 this.objectIn = new ObjectInputStream(socket.getInputStream());
                 startLobbyTimer();
                 while(isConnectionActive()) {
-                    Message input = receiveMessage();
+                    synchronized (inputLock) {
+                        Message input = receiveMessage();
 
-                    if (input.getType() == MessageType.CONFIG && input.getSubType() == MessageSubType.ANSWER) {
-                        stopLobbyTimer();
-                        this.newNickCounter = 0;
-                        server.insertPlayerInGame(input,this,true);
-                        server.moveGameStarted();
-                    }
-                    else if(input.getType() == MessageType.PING){
-                        //vedere se fare anche il ping lato server oppure no
-                    }
-                    else if (input.getType() == MessageType.CONFIG && input.getSubType() == MessageSubType.UPDATE) {
-                        stopLobbyTimer();
-                        newNickCounter++;
-                        if(newNickCounter > ConstantsContainer.MAXTRYTOCHANGENICK){
-                            input.setMessageSubType(MessageSubType.ANSWER);
+                        if (input.getType() == MessageType.CONFIG && input.getSubType() == MessageSubType.ANSWER) {
+                            stopLobbyTimer();
                             this.newNickCounter = 0;
-                            server.handleDisconnection(userID,this,new Message(input.getSender(),input.getNickName(),MessageType.DISCONNECTION,MessageSubType.NICKMAXTRY)); //si deve cambiare
-                            server.insertPlayerInGame(input,this,false);
+                            server.insertPlayerInGame(input, this, true);
+                            server.moveGameStarted();
+                        } else if (input.getType() == MessageType.PING) {
+                            //vedere se fare anche il ping lato server oppure no
+                        } else if (input.getType() == MessageType.CONFIG && input.getSubType() == MessageSubType.UPDATE) {
+                            stopLobbyTimer();
+                            newNickCounter++;
+                            if (newNickCounter > ConstantsContainer.MAXTRYTOCHANGENICK) {
+                                input.setMessageSubType(MessageSubType.ANSWER);
+                                this.newNickCounter = 0;
+                                server.handleDisconnection(userID, this, new Message(input.getSender(), input.getNickName(), MessageType.DISCONNECTION, MessageSubType.NICKMAXTRY)); //si deve cambiare
+                                server.insertPlayerInGame(input, this, false);
+                            } else {
+                                dispatchMessageToVirtualView(input);
+                            }
+                            server.moveGameStarted();
+                        } else if ((input.getType() == MessageType.DISCONNECTION)) {
+                            server.handleDisconnection(userID, this, input);
+
+                            if (!input.getSubType().equals(MessageSubType.BACK))
+                                break;
+
+
+                            //completare questo
+                            //confermare la ricezione del messaggio, è giò fatto
+                            //due casi diversi se si disconette prima di aver iniziato la partita o dopo aver iniziato la partita, nel primo si deve chiudere l'app
+                            //nel secondo si deve richiedere se si vuole iniziare una nuova parita
+                            //terminare la partita
+                        } else {
+                            dispatchMessageToVirtualView(input); //runnarlo in un altro thread?
                         }
-                        else{
-                            dispatchMessageToVirtualView(input);
-                        }
-                        server.moveGameStarted();
                     }
-                    else if((input.getType() == MessageType.DISCONNECTION)){
-                        server.handleDisconnection(userID,this,input);
-
-                        if(!input.getSubType().equals(MessageSubType.BACK))
-                            break;
-
-
-                        //completare questo
-                                                                                                             //confermare la ricezione del messaggio, è giò fatto
-                        //due casi diversi se si disconette prima di aver iniziato la partita o dopo aver iniziato la partita, nel primo si deve chiudere l'app
-                        //nel secondo si deve richiedere se si vuole iniziare una nuova parita
-                                                                                                                  //terminare la partita
-                    }
-                    else {
-                        dispatchMessageToVirtualView(input); //runnarlo in un altro thread?
-                    }
-
                 }
 
             }catch (IOException e){
