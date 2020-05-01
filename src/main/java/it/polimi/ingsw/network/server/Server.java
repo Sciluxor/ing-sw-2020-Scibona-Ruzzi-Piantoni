@@ -135,7 +135,6 @@ public class Server implements Runnable{
             if(!checkValidConfig(nick,numberOfPlayer,connection))
                 return;
 
-
             if(isFirstTime) {
                 connections.add(connection);
                 for (GameController match : lobby) {

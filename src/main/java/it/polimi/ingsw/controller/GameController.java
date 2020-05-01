@@ -34,7 +34,6 @@ public class GameController implements Observer<Message> {
               nickUsed(view);
               return;
         }
-
         addPlayer(view,nick);
 
     }

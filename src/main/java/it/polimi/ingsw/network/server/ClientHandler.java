@@ -39,7 +39,6 @@ public class ClientHandler implements Runnable, ConnectionInterface {
         this.server = server;
         this.isConnectionActive = true;
 
-
     }
 
     public String getNickName() {
