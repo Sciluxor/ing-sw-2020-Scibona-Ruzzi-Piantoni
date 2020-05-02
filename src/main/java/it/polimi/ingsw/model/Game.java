@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.map.Square;
 import it.polimi.ingsw.model.player.Color;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerQueue;
+import it.polimi.ingsw.utils.ConstantsContainer;
 import it.polimi.ingsw.utils.Observable;
 import it.polimi.ingsw.view.server.VirtualView;
 
@@ -197,6 +198,11 @@ public class Game extends Observable<Response> {
     }
 
     public boolean placeWorkersOnMap(Integer[] tile1,Integer[] tile2) {
+         if(tile1[0]> ConstantsContainer.MAXMAPCOORD || tile1[0]<ConstantsContainer.MINMAPPOSITION
+                 || tile1[1]>ConstantsContainer.MAXMAPCOORD || tile1[1] <ConstantsContainer.MINMAPPOSITION
+                 || tile2[0]>ConstantsContainer.MAXMAPCOORD || tile2[0]<ConstantsContainer.MINMAPPOSITION
+                 || tile2[1]>ConstantsContainer.MAXMAPCOORD || tile2[1] <ConstantsContainer.MINMAPPOSITION)
+             return false;
 
         Square square1 = gameMap.getTileFromCoordinates(tile1);
         Square square2 = gameMap.getTileFromCoordinates(tile2);
