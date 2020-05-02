@@ -41,4 +41,7 @@ public class BuildWorkerMessage extends Message {
         return winResponse;
     }
 
+    public Player getWinnerPlayer() {
+        return winnerPlayer;
+    }
 }

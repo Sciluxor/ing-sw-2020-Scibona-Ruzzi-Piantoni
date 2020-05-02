@@ -64,6 +64,7 @@ public class RoundController {
                 handleConstraint();
                 break;
             case BUILD:
+            case WRONGSQUAREBUILD:
                 handleEndTurn();
                 break;
             default:
@@ -179,16 +180,17 @@ public class RoundController {
             }
         }
 
-        if(!areRightSquares(((MoveWorkerMessage)message).getModifiedSquare())) {
-            game.setGameStatus(Response.WRONGSQUARE);  //come faccio a tornare indietro? ormai ho già modificato, magari mettere una response diversa
+        if(!response.equals(Response.NOTMOVED) && !areRightSquares(((MoveWorkerMessage)message).getModifiedSquare())) {
+            game.setGameStatus(Response.WRONGSQUAREMOVE);  //come faccio a tornare indietro? ormai ho già modificato, magari mettere una response diversa
+            mapNextAction(response);
             return;
         }
 
-        if (!response.equals(Response.NOTMOVED) && (!checkMoveVictory(message)))
-
-        game.setGameStatus(response);
+        if (!(checkMoveVictory(message)))
+            game.setGameStatus(Response.MOVEWINMISMATCH);
 
         if(game.hasWinner()){
+            game.setGameStatus(response);
             game.setGameStatus(Response.WIN);
         }
         else{
@@ -222,6 +224,7 @@ public class RoundController {
         if(response.equals(Response.WIN)) {
             game.setWinner(game.getCurrentPlayer());  // se c'è una vittoria bisogna settare prima la mossa e poi la vittoria per notificare in ordine
             game.setHasWinner(true);
+            return game.getCurrentPlayer().getNickname().equals(((MoveWorkerMessage) message).getWinnerPlayer().getNickname());
         }
 
 
@@ -247,18 +250,18 @@ public class RoundController {
 
         }
 
-        if(!areRightSquares(((BuildWorkerMessage)message).getModifiedSquare())) {
-            game.setGameStatus(Response.WRONGSQUARE);
+        if(!response.equals(Response.NOTBUILD) && !response.equals(Response.NOTBUILDPLACE) &&!areRightSquares(((BuildWorkerMessage)message).getModifiedSquare())) {
+            game.setGameStatus(Response.WRONGSQUAREBUILD);
+            mapNextAction(Response.WRONGSQUAREBUILD);
             return;
         }
 
-        if (!response.equals(Response.NOTBUILD) && !response.equals(Response.NOTBUILDPLACE) && (!checkBuildVictory(message)))
+        if (!checkBuildVictory(message))
              game.setGameStatus(Response.BUILDWINMISMATCH);  //vedere come gestire le build win.è diverso se lui vince ma in realtà non ha vinto, oppure se vince un altro ma per lui
                                                                 //non ha vinto nessuno, trattare in maniera diversa
 
-        game.setGameStatus(response);
-
         if(game.hasWinner()){
+            game.setGameStatus(response);
             game.setGameStatus(Response.WIN);
         }
         else{
@@ -270,14 +273,14 @@ public class RoundController {
 
     public boolean checkBuildVictory(Message message){
         Response response = Response.NOTBUILDWIN;
-
         for(Player player: game.getPlayers()){
             if(player.getPower().getType().equals(CardType.BUILDVICTORY) && player.getPower().getSubType().equals(CardSubType.NORMAL)){
-                response = game.getCurrentPlayer().checkVictory(game.getGameMap());
+                response = player.checkVictory(game.getGameMap());
                 if(response.equals(Response.BUILDWIN)) {
                     game.setWinner(player);
                     game.setHasWinner(true);
-                    break;
+                    return response.equals(((BuildWorkerMessage) message).getWinResponse()) &&
+                            player.getNickname().equals(((BuildWorkerMessage) message).getWinnerPlayer().getNickname());
                 }
             }
         }
@@ -285,7 +288,10 @@ public class RoundController {
         if(response.equals(Response.NOTWIN))
             response = Response.NOTBUILDWIN;
 
-        return response.equals(((BuildWorkerMessage) message).getWinResponse());
+        if(Response.NOTBUILDWIN.equals(response))
+            return response.equals(((BuildWorkerMessage) message).getWinResponse());
+
+        return false;
     }
 
     //

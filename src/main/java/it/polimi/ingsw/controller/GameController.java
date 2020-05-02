@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.Response;
+import it.polimi.ingsw.model.player.TurnStatus;
 import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.utils.*;
 import it.polimi.ingsw.utils.Observer;
@@ -278,7 +279,8 @@ public class GameController implements Observer<Message> {
 
 
     public synchronized void handleTurnBeginning() {//to start timer
-        if (game.getCurrentPlayer().checkIfLoose(game.getGameMap())) {
+        if (!game.getCurrentPlayer().checkIfLoose(game.getGameMap())) {
+              game.getCurrentPlayer().setTurnStatus(TurnStatus.PLAYTURN);
               game.setGameStatus(Response.STARTTURN);
         } else {
             stopRoundTimer();
@@ -291,7 +293,7 @@ public class GameController implements Observer<Message> {
     public synchronized void handleEndTun(Message message){
         stopRoundTimer();
         if(FlowStatutsLoader.isRightMessage(game.getGameStatus(),message.getType())) {
-
+            game.getCurrentPlayer().setTurnStatus(TurnStatus.IDLE);
             changeTurnPlayer(message);
             startRoundTimer();
 

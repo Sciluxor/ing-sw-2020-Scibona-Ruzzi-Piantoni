@@ -20,7 +20,19 @@
     "next": ["WORKERCHOICE"]
   },
   {
+    "type": "WRONGSQUAREMOVE",
+    "next": ["MOVEWORKER","BUILDWORKER"]
+  },
+  {
+    "type": "WRONGSQUAREBUILD",
+    "next": ["MOVEWORKER","BUILDWORKER","ENDTURN"]
+  },
+  {
     "type": "MOVED",
+    "next": ["BUILDWORKER"]
+  },
+  {
+    "type": "NOTBUILD",
     "next": ["BUILDWORKER"]
   },
   {

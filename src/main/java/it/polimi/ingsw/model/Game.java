@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.map.Square;
 import it.polimi.ingsw.model.player.Color;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerQueue;
+import it.polimi.ingsw.model.player.TurnStatus;
 import it.polimi.ingsw.utils.ConstantsContainer;
 import it.polimi.ingsw.utils.Observable;
 import it.polimi.ingsw.view.server.VirtualView;
@@ -247,6 +248,7 @@ public class Game extends Observable<Response> {
 
         int numChallenger = rand.nextInt(numberOfPlayers-1);
         Player challenger = settedPlayers.get(numChallenger);
+        challenger.setTurnStatus(TurnStatus.PLAYTURN);
         currentPlayer = challenger;
         return challenger;
     }
