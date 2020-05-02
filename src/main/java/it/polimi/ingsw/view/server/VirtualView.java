@@ -61,7 +61,7 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
            case STATUSERROR:
            case CARDCHOICEERROR:
            case CHALLENGERCHOICEERROR:
-           case STARTURNERROR:
+           case STARTTURNERROR:
                handleClientError();
                break;
            case CHALLENGERCHOICE:

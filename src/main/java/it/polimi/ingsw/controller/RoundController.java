@@ -11,6 +11,8 @@ import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.Response;
 import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.utils.FlowStatutsLoader;
+
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -141,11 +143,13 @@ public class RoundController {
 
     public void handleWorkerChoice(Message message){
 
-        if(game.getCurrentPlayer().checkIfCanMove(game.getGameMap(),game.getCurrentPlayer().getWorkerFromString(message.getMessage()))){
+        if((message.getMessage().equalsIgnoreCase("worker1") || message.getMessage().equalsIgnoreCase("worker2"))
+                && game.getCurrentPlayer().checkIfCanMove(game.getGameMap(),game.getCurrentPlayer().getWorkerFromString(message.getMessage()))){
+            game.getCurrentPlayer().setCurrentWorker(game.getCurrentPlayer().getWorkerFromString(message.getMessage()));
             handleFirstAction();
         }
         else{
-            game.setGameStatus(Response.STARTURNERROR);
+            game.setGameStatus(Response.STARTTURNERROR);
         }
     }
 
@@ -176,12 +180,11 @@ public class RoundController {
         }
 
         if(!areRightSquares(((MoveWorkerMessage)message).getModifiedSquare())) {
-            game.setGameStatus(Response.NOTMOVED);  //come faccio a tornare indietro? ormai ho già modificato, magari mettere una response diversa
+            game.setGameStatus(Response.WRONGSQUARE);  //come faccio a tornare indietro? ormai ho già modificato, magari mettere una response diversa
             return;
         }
 
         if (!response.equals(Response.NOTMOVED) && (!checkMoveVictory(message)))
-                game.setGameStatus(Response.MOVEWINMISMATCH);  //vedere che response usare
 
         game.setGameStatus(response);
 
@@ -245,7 +248,7 @@ public class RoundController {
         }
 
         if(!areRightSquares(((BuildWorkerMessage)message).getModifiedSquare())) {
-            game.setGameStatus(Response.NOTBUILD);
+            game.setGameStatus(Response.WRONGSQUARE);
             return;
         }
 
@@ -326,10 +329,14 @@ public class RoundController {
 
     public boolean checkSquare(Square q1, Square q2){
 
-        return q1.getBuildingLevel() == q2.getBuildingLevel() && q1.hasPlayer() == q2.hasPlayer() && q1.getBuilding().equals(q2.getBuilding())
-                && q1.getPlayer().getNickname().equals(q2.getPlayer().getNickname())
-                && q1.getWorker().getName().equals(q2.getWorker().getName()) && q1.getTile().equals(q2.getTile());
-
+        if(q1.getTile().equals(q2.getTile()) &&
+                q1.getBuildingLevel() == q2.getBuildingLevel() && q1.hasPlayer() == q2.hasPlayer() && q1.getBuilding().equals(q2.getBuilding())) {
+                if(q1.hasPlayer()) {
+                    return q1.getPlayer().getNickname().equals(q2.getPlayer().getNickname()) && q1.getWorker().getName().equals(q2.getWorker().getName());
+                }
+                else return true;
+        }
+        return false;
     }
 
 

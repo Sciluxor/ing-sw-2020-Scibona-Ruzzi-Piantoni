@@ -16,6 +16,10 @@
     "next": ["WORKERCHOICE"]
   },
   {
+    "type": "STARTTURNERROR",
+    "next": ["WORKERCHOICE"]
+  },
+  {
     "type": "MOVED",
     "next": ["BUILDWORKER"]
   },
