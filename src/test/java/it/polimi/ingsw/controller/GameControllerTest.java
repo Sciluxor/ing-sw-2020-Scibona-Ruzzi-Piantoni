@@ -1,10 +1,10 @@
 package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.Response;
-import it.polimi.ingsw.network.message.GameConfigMessage;
-import it.polimi.ingsw.network.message.Message;
-import it.polimi.ingsw.network.message.MessageSubType;
+import it.polimi.ingsw.model.cards.Card;
+import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.network.server.ClientHandler;
 import it.polimi.ingsw.network.server.Server;
+import it.polimi.ingsw.utils.FlowStatutsLoader;
 import it.polimi.ingsw.view.server.VirtualView;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,16 +30,37 @@ class GameControllerTest {
         }
     }
 
+    private static class StubGameController extends GameController{
+
+        public StubGameController(int numberOfPlayer, String gameID) {
+            super(numberOfPlayer, gameID);
+        }
+
+        public Response getGameStatus(){
+            return game.getGameStatus();
+        }
+
+        @Override
+        public void startRoundTimer() {
+
+        }
+
+        @Override
+        public void stopRoundTimer() {
+
+        }
+    }
+
 
     List<VirtualView> players;
     ClientHandler connection1, connection2, connection3;
     VirtualView viewPlayer1, viewPlayer2, viewPlayer3, viewPlayer4;
-    GameController controller;
+    StubGameController controller;
     Server server;
 
     @BeforeEach
     void setup(){
-        controller = new GameController(3,"GID01");
+        controller = new StubGameController(3,"GID01");
         connection1 = new ClientHandler(server,new Socket());
         connection2 = new ClientHandler(server,new Socket());
         connection3 = new ClientHandler(server,new Socket());
@@ -48,12 +69,15 @@ class GameControllerTest {
         viewPlayer3 = new StubVirtualView(connection3, controller);
         viewPlayer4 = new StubVirtualView(connection3, controller);
         players = new ArrayList<>();
+        viewPlayer1.addObservers(controller);
+        viewPlayer2.addObservers(controller);
+        viewPlayer3.addObservers(controller);
+        FlowStatutsLoader.loadFlow();
     }
 
     @Test
     void handleNewPlayer() {
-        viewPlayer1.addObservers(controller);
-        viewPlayer2.addObservers(controller);
+        assertEquals(3,controller.getNumberOfPlayers());
         GameConfigMessage message = new GameConfigMessage("deafult","primo", MessageSubType.ANSWER,3,false,false,false);
         message.setView(viewPlayer1);
         viewPlayer1.notify(message);
@@ -68,12 +92,11 @@ class GameControllerTest {
         viewPlayer2.notify(message);
         assertFalse(viewPlayer2.isYourTurn());
         assertEquals(1,controller.getActualPlayers().size());
+        assertThrows(IllegalStateException.class,() -> viewPlayer2.notify(null));
     }
 
     @Test
     void handleNewNickname() {
-        viewPlayer1.addObservers(controller);
-        viewPlayer2.addObservers(controller);
         GameConfigMessage message = new GameConfigMessage("UID1","primo", MessageSubType.ANSWER,3,false,false,false);
         message.setView(viewPlayer1);
         controller.addUserID(viewPlayer1,"UID1");
@@ -83,7 +106,7 @@ class GameControllerTest {
         message.setView(viewPlayer2);
         controller.addUserID(viewPlayer2,"UID2");
         viewPlayer2.notify(message);
-        message = new GameConfigMessage("UID2","primo", MessageSubType.ANSWER,3,false,false,false);
+        message = new GameConfigMessage("UID2","primo", MessageSubType.UPDATE,3,false,false,false);
         message.setView(viewPlayer2);
         viewPlayer2.notify(message);
         assertEquals(1,controller.getActualPlayers().size());
@@ -101,62 +124,88 @@ class GameControllerTest {
 
     @Test
     void checkIfGameCanStart() {
-    }
-
-    @Test
-    void getActualPlayers() {
-    }
-
-    @Test
-    void getCurrentPlayer() {
-    }
-
-    @Test
-    void getNewPlayer() {
-    }
-
-    @Test
-    void isGameStarted() {
-    }
-
-    @Test
-    void initializeGame() {
-    }
-
-    @Test
-    void addUserID() {
-    }
-
-    @Test
-    void getViewFromUserID() {
-    }
-
-    @Test
-    void getViewFromNickName() {
+        GameConfigMessage message = new GameConfigMessage("deafult", "primo", MessageSubType.ANSWER, 3, false, false, false);
+        message.setView(viewPlayer1);
+        viewPlayer1.notify(message);
+        message = new GameConfigMessage("deafult", "secondo", MessageSubType.ANSWER, 3, false, false, false);
+        message.setView(viewPlayer2);
+        viewPlayer2.notify(message);
+        message = new GameConfigMessage("deafult", "terzo", MessageSubType.ANSWER, 3, false, false, false);
+        message.setView(viewPlayer3);
+        viewPlayer3.notify(message);
+        assertEquals(3, controller.getActualPlayers().size());
+        assertTrue(controller.isGameStarted());
+        assertEquals(Response.CHALLENGERCHOICE,controller.getGameStatus());
     }
 
     @Test
     void isFull() {
+        GameConfigMessage message = new GameConfigMessage("deafult","primo", MessageSubType.ANSWER,3,false,false,false);
+        message.setView(viewPlayer1);
+        viewPlayer1.notify(message);
+        message = new GameConfigMessage("deafult","secondo", MessageSubType.ANSWER,3,false,false,false);
+        message.setView(viewPlayer2);
+        viewPlayer2.notify(message);
+        message = new GameConfigMessage("deafult","secondo", MessageSubType.ANSWER,3,false,false,false);
+        message.setView(viewPlayer3);
+        viewPlayer3.notify(message);
+        assertTrue(controller.isFull());
+        assertEquals(2,controller.getActualPlayers().size());
     }
 
     @Test
-    void getGameID() {
-    }
+    void testFirstStepGame() {
+        GameConfigMessage message = new GameConfigMessage("UID0", "primo", MessageSubType.ANSWER, 3, false, false, false);
+        message.setView(viewPlayer1);
+        viewPlayer1.notify(message);
+        controller.addUserID(viewPlayer1,"UID0");
+        viewPlayer1.getConnection().setUserID("UID0");
+        message = new GameConfigMessage("UID1", "secondo", MessageSubType.ANSWER, 3, false, false, false);
+        message.setView(viewPlayer2);
+        viewPlayer2.notify(message);
+        controller.addUserID(viewPlayer2,"UID1");
+        viewPlayer2.getConnection().setUserID("UID1");
+        message = new GameConfigMessage("UID2", "terzo", MessageSubType.ANSWER, 3, false, false, false);
+        message.setView(viewPlayer3);
+        viewPlayer3.notify(message);
+        controller.addUserID(viewPlayer3,"UID2");
+        viewPlayer3.getConnection().setUserID("UID2");
+        ArrayList<String> choice = new ArrayList<>();
+        choice.add("athena");
+        choice.add("atlas");
+        choice.add("apollo1");
+        ChallengerChoiceMessage message1 = new ChallengerChoiceMessage(controller.getViewFromNickName(controller.getCurrentPlayer().getNickname()).getConnection().getUserID()
+                ,controller.getCurrentPlayer().getNickname(),MessageSubType.ANSWER,"primo",choice);
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickname()).notify(message1);
+        assertEquals(Response.CHALLENGERCHOICEERROR,controller.getGameStatus());
+        choice.clear();
+        choice.add("athena");
+        choice.add("atlas");
+        choice.add("apollo");
+        message1 = new ChallengerChoiceMessage(controller.getViewFromNickName(controller.getCurrentPlayer().getNickname()).getConnection().getUserID()
+                ,controller.getCurrentPlayer().getNickname(),MessageSubType.ANSWER,"quarto",choice);
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickname()).notify(message1);
+        assertEquals(Response.CHALLENGERCHOICEERROR,controller.getGameStatus());
+        choice.clear();
+        choice.add("athena");
+        choice.add("atlas");
+        choice.add("apollo");
+        message1 = new ChallengerChoiceMessage(controller.getViewFromNickName(controller.getCurrentPlayer().getNickname()).getConnection().getUserID()
+                ,controller.getCurrentPlayer().getNickname(),MessageSubType.ANSWER,"secondo",choice);
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickname()).notify(message1);
+        assertEquals(Response.CHALLENGERCHOICEDONE,controller.getGameStatus());
+        Message message2 = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickname()).getConnection().getUserID()
+                ,controller.getCurrentPlayer().getNickname(), MessageType.ENDTURN,MessageSubType.UPDATE);
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickname()).notify(message2);
+        assertEquals(Response.CARDCHOICE,controller.getGameStatus());
+        assertEquals("secondo",controller.getCurrentPlayer().getNickname());
+        assertTrue(viewPlayer2.isYourTurn());
 
-    @Test
-    void getNumberOfPlayers() {
-    }
 
-    @Test
-    void stopStartedGame() {
     }
 
     @Test
     void resetPlayer() {
-    }
-
-    @Test
-    void getUserIDFromPlayer() {
     }
 
     @Test
@@ -207,23 +256,4 @@ class GameControllerTest {
     void handleEndTun() {
     }
 
-    @Test
-    void sendToRoundController() {
-    }
-
-    @Test
-    void startRoundTimer() {
-    }
-
-    @Test
-    void stopRoundTimer() {
-    }
-
-    @Test
-    void processMessage() {
-    }
-
-    @Test
-    void update() {
-    }
 }

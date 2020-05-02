@@ -239,8 +239,10 @@ public class Game extends Observable<Response> {
             //logger
         }
 
-        int challenger = rand.nextInt(numberOfPlayers-1);
-        return settedPlayers.get(challenger);
+        int numChallenger = rand.nextInt(numberOfPlayers-1);
+        Player challenger = settedPlayers.get(numChallenger);
+        currentPlayer = challenger;
+        return challenger;
     }
 
 

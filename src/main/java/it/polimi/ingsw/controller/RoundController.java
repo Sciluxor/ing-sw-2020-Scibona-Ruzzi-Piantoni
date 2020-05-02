@@ -19,7 +19,6 @@ public class RoundController {
     private Game game;
 
     public RoundController(Game game){
-
         this.game = game;
     }
 
@@ -74,7 +73,6 @@ public class RoundController {
     //
 
     public synchronized void handleChallengerChoice(Message message){
-        if(FlowStatutsLoader.isRightMessage(game.getGameStatus(),message.getType())) {
             List<String> cards = ((ChallengerChoiceMessage) message).getCards();
             String firstPlayer = ((ChallengerChoiceMessage) message).getFirstPlayer();
 
@@ -87,11 +85,6 @@ public class RoundController {
                 game.setGameStatus(Response.CHALLENGERCHOICEERROR);
             }
         }
-        else{
-            game.setGameStatus(Response.STATUSERROR);
-        }
-
-    }
 
     public boolean checkCardsChoice(List<String> cards){
         for(String cardName : cards){
@@ -116,7 +109,6 @@ public class RoundController {
     //
 
     public synchronized void handleCardChoice(Message message) {
-        if(FlowStatutsLoader.isRightMessage(game.getGameStatus(),message.getType())) {
             String cardName = message.getMessage();
             if (game.getCardFromAvailableCards(cardName) == null)
                 game.setGameStatus(Response.CARDCHOICEERROR);
@@ -126,17 +118,12 @@ public class RoundController {
                 game.setGameStatus(Response.CARDCHOICEDONE);
             }
         }
-        else {
-            game.setGameStatus(Response.STATUSERROR);
-        }
-    }
 
     //
     //methods for the workers positioning of each player
     //
 
     public void handleWorkerPositioning(Message message){
-        if(FlowStatutsLoader.isRightMessage(game.getGameStatus(),message.getType())) {
             Integer[] tile1 = ((PlaceWorkersMessage) message).getTile1();
             Integer[] tile2 = ((PlaceWorkersMessage) message).getTile2();
 
@@ -147,11 +134,6 @@ public class RoundController {
                 game.setGameStatus(Response.PLACEWORKERSERROR);
             }
         }
-        else{
-            game.setGameStatus(Response.STATUSERROR);
-        }
-
-    }
 
     //
     //methods for the workers to use in the turn

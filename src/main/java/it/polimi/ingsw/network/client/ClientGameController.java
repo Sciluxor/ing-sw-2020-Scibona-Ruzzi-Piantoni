@@ -83,7 +83,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
 
     public synchronized void handleDisconnection(){
         client.closeConnection();
-        System.out.println("Lost connection");
+        LOGGER.info("Lost connection");
         //chiamare una funzione per chiudere il client, mostrare a schermo
     }
 

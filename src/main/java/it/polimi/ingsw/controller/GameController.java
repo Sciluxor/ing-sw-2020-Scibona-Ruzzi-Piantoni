@@ -11,7 +11,7 @@ import java.util.*;
 
 public class GameController implements Observer<Message> {
 
-    private Game game;
+    protected Game game;
     private Map<String, VirtualView> clients;
     private Timer turnTimer ;
     private RoundController roundController;
@@ -54,7 +54,7 @@ public class GameController implements Observer<Message> {
     }
 
     public synchronized void addPlayer(VirtualView view, String nick){
-        clients.put(nick,view);
+        addNick(view,nick);
         game.setGameStatus(Response.PLAYERADDED);
         view.getConnection().setNickName(nick);
         view.setYourTurn(false);
@@ -94,10 +94,6 @@ public class GameController implements Observer<Message> {
         return game.getCurrentPlayer();
     }
 
-    public synchronized Player getNewPlayer(){
-        return game.getPlayers().get(game.getPlayers().size() -1);
-    }
-
     public synchronized boolean isGameStarted(){
         return game.isGameStarted();
     }
@@ -106,6 +102,10 @@ public class GameController implements Observer<Message> {
     public synchronized Game initializeGame(int numberOfPlayers, String gameID){
 
         return new Game(numberOfPlayers,gameID);
+    }
+
+    public synchronized void addNick(VirtualView view,String nickName){
+        clients.put(nickName,view);
     }
 
     public synchronized void addUserID(VirtualView view,String userID){
@@ -263,6 +263,7 @@ public class GameController implements Observer<Message> {
         Player challenger = game.pickChallenger();
         getViewFromNickName(challenger.getNickname()).setYourTurn(true);
         game.setGameStatus(Response.CHALLENGERCHOICE);
+        startRoundTimer();
     }
 
     public synchronized void changeTurnPlayer(Message message){
@@ -383,6 +384,8 @@ public class GameController implements Observer<Message> {
 
     @Override
     public synchronized void update(Message message) {
+        if(message == null)
+            throw new IllegalStateException("invalid message");
         try{
             processMessage(message);
         }catch (IllegalStateException ill){
