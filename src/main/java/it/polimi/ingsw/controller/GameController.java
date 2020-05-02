@@ -105,6 +105,8 @@ public class GameController implements Observer<Message> {
         return new Game(numberOfPlayers,gameID);
     }
 
+    public synchronized boolean hasWinner(){return game.hasWinner();}
+
     public synchronized void addNick(VirtualView view,String nickName){
         clients.put(nickName,view);
     }
@@ -140,24 +142,27 @@ public class GameController implements Observer<Message> {
     public synchronized void stopStartedGame(){
 
         game.setGameStatus(Response.GAMESTOPPED);
+        stopRoundTimer();                               //devo stoppare il  timer qui?
 
         for(Player player :getActualPlayers()){
             VirtualView playerView = removeViewFromGame(player.getNickname());
             resetPlayer(playerView);
-            game.removeObserver(getViewFromNickName(player.getNickname()));
 
             if(playerView.getConnection().isConnectionActive()) {
-                playerView.getConnection().stopLobbyTimer();
+                playerView.getConnection().stopLobbyTimer();     //qui non ci va start lobby timer? forse da spostare in reset player
             }
         }
 
     }
 
     public synchronized void resetPlayer(VirtualView playerView){
+        stopRoundTimer();  //si può stoppare più volte il timer?
         playerView.getConnection().setUserID(ConstantsContainer.USERDIDDEF);
         playerView.getConnection().setNickName(ConstantsContainer.NICKDEF);
         playerView.getConnection().startLobbyTimer();
         playerView.getConnection().setViewActive(false);
+        playerView.removeObserver(this);
+        game.removeObserver(playerView);
     }
 
     public synchronized String  getUserIDFromPlayer(Player player){

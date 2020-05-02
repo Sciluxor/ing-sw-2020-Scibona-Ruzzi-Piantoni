@@ -1,7 +1,6 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.Response;
-import it.polimi.ingsw.model.cards.CardLoader;
 import it.polimi.ingsw.model.map.*;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.message.*;
@@ -12,7 +11,6 @@ import it.polimi.ingsw.view.server.VirtualView;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import javax.swing.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
@@ -363,6 +361,7 @@ class RoundControllerTest {
 
         controller.getViewFromNickName(controller.getCurrentPlayer().getNickname()).notify(messageMove);
         assertEquals(Response.WIN,controller.getGameStatus());
+        assertTrue(controller.hasWinner());
 
 
     }

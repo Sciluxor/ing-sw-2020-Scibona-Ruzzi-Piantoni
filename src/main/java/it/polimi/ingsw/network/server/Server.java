@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.server;
 
+import com.sun.prism.shader.AlphaOne_RadialGradient_AlphaTest_Loader;
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.message.*;
@@ -127,6 +128,21 @@ public class Server implements Runnable{
         }
     }
 
+    public synchronized void removeGameEnded(){
+        List<Player> toRemovePlayers;
+        for(GameController match: actualMatches){
+            if(match.hasWinner()){
+                actualMatches.remove(match);
+                toRemovePlayers = match.getActualPlayers();
+                controllerFromGameID.remove(match.getGameID());
+                for(Player player : toRemovePlayers){
+                    controllerFromUserID.remove(match.getUserIDFromPlayer(player));
+                }
+                break;
+            }
+        }
+    }
+
     public void insertPlayerInGame(Message message,ClientHandler connection,boolean isFirstTime) {
         synchronized (clientsLock) {
             String nick = message.getNickName();
@@ -231,7 +247,6 @@ public class Server implements Runnable{
 
                 } else {
                       handleDisconnectionBeforeGame(controller,userID,connection,message);
-
                 }
             }
         }

@@ -1,7 +1,5 @@
 package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.Response;
-import it.polimi.ingsw.model.cards.Card;
-import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.network.server.ClientHandler;
 import it.polimi.ingsw.network.server.Server;
