@@ -27,7 +27,7 @@ public class LobbyTimerTask extends TimerTask {
             server.handleDisconnectionBeforeGame(server.getControllerFromUserID(userID),userID,connection,
                     new Message (userID,nickName, MessageType.DISCONNECTION, MessageSubType.TIMEENDED));
 
-            connection.closeConnection();
+            connection.closeConnection(new Message(ConstantsContainer.SERVERNAME,MessageType.DISCONNECTION,MessageSubType.TIMEENDED));
 
     }
 }

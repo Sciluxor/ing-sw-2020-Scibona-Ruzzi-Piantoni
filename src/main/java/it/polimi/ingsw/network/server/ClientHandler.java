@@ -98,8 +98,8 @@ public class ClientHandler implements Runnable, ConnectionInterface {
         }
     }
 
-    public void closeConnection(){
-        sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.DISCONNECTION,MessageSubType.TIMEENDED));  //vederer come differenziere i messaggi
+    public void closeConnection(Message message){
+        sendMessage(message);
         server.removeFromConnections(this);
         close();
     }
@@ -210,7 +210,7 @@ public class ClientHandler implements Runnable, ConnectionInterface {
             }
             finally {
                 if(isConnectionActive)
-                    closeConnection();      //vedere se viene chiamata due volte quando scade il lobby timer
+                    closeConnection(new Message(ConstantsContainer.SERVERNAME,MessageType.DISCONNECTION,MessageSubType.UPDATE));      //vedere se viene chiamata due volte quando scade il lobby timer
                 else
                     closeAfterDisconnection();
                 Server.LOGGER.info("player disconnected");

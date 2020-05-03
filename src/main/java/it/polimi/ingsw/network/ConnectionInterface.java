@@ -10,8 +10,6 @@ public interface ConnectionInterface {
 
     void sendMessage(Message message);
 
-    void closeConnection();
-
     Message receiveMessage() throws IOException, ClassNotFoundException;
 
 }

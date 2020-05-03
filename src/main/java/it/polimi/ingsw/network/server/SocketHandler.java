@@ -13,7 +13,7 @@ import java.util.concurrent.Executors;
 public class SocketHandler extends Thread implements Closeable {
     private ServerSocket serverSocket;
     int port;
-    private Server server;
+    private final Server server;
     private boolean isActive;
 
     public SocketHandler(int port,Server server)throws IOException{
