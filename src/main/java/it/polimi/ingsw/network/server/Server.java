@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.server;
 
 import com.sun.prism.shader.AlphaOne_RadialGradient_AlphaTest_Loader;
 import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.model.Response;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.utils.ConfigLoader;
@@ -9,6 +10,7 @@ import it.polimi.ingsw.utils.ConstantsContainer;
 import it.polimi.ingsw.utils.FlowStatutsLoader;
 import it.polimi.ingsw.view.server.VirtualView;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.util.*;
 
@@ -242,7 +244,7 @@ public class Server implements Runnable{
             if (!userID.equalsIgnoreCase(ConstantsContainer.USERDIDDEF)) {
                 GameController controller = getControllerFromUserID(userID);
                 if (controller.isGameStarted()) {                             //mettere il caso di disconnection request se il game è già iniziato
-                             handleDisconnectionDuringGame(controller);
+                             handleDisconnectionDuringGame(controller,message);
 
                 } else {
                       handleDisconnectionBeforeGame(controller,userID,connection,message);
@@ -266,7 +268,7 @@ public class Server implements Runnable{
     }
     }
 
-    public synchronized void  handleDisconnectionDuringGame(GameController controller){
+    public synchronized void  handleDisconnectionDuringGame(GameController controller,Message message){
         synchronized (clientsLock) {
             actualMatches.remove(controller);
 
@@ -274,7 +276,12 @@ public class Server implements Runnable{
                 controllerFromUserID.remove(controller.getUserIDFromPlayer(player));
             }
             controllerFromGameID.remove(controller.getGameID());
-            controller.stopStartedGame();
+            if(message.getSubType().equals(MessageSubType.TIMEENDED))
+                 controller.stopStartedGame(Response.PLAYERTIMERENDED);
+            else if(message.getSubType().equals(MessageSubType.LOOSEEXITREQUEST))
+                return;
+            else
+                controller.stopStartedGame(Response.GAMESTOPPED);
         }
     }
 

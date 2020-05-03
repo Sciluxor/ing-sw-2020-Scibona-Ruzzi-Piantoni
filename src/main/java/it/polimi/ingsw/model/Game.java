@@ -227,7 +227,7 @@ public class Game extends Observable<Response> {
         settedPlayers.remove(toRemovePlayer);
         playerQueue.remove(toRemovePlayer);
         gameMap.removeWorkersOfPlayer(toRemovePlayer);
-        pickPlayer(); //implementare questa funzione
+        pickPlayer();
     }
 
     public boolean allWorkersPlaced(){

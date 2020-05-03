@@ -148,6 +148,10 @@ public class ClientHandler implements Runnable, ConnectionInterface {
         sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.PING,MessageSubType.UPDATE));
     }
 
+    public void TurnTimerEnded(Message message){
+        server.handleDisconnection(userID,this,message);
+    }
+
     @Override
     public void run() {
 

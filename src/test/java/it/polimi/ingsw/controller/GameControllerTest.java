@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.Response;
+import it.polimi.ingsw.model.map.*;
 import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.network.server.ClientHandler;
 import it.polimi.ingsw.network.server.Server;
@@ -60,6 +61,10 @@ class GameControllerTest {
             return clients.size();
         }
 
+        public GameMap getGameMap(){
+            return game.getGameMap();
+        }
+
         public int getConfigPlayer(){
             return game.getConfigPlayer();
         }
@@ -69,9 +74,20 @@ class GameControllerTest {
 
         }
 
+        public boolean hasPlayer(int tile){
+            return game.getGameMap().getMap().get(tile-1).hasPlayer();
+        }
+
         @Override
         public void stopRoundTimer() {
 
+        }
+        public void changeSquare(int tile){
+            game.getGameMap().getMap().get(tile-1).setBuilding(Building.DOME);
+        }
+
+        public String getWinner(){
+            return game.getWinner().getNickname();
         }
     }
 
@@ -81,6 +97,7 @@ class GameControllerTest {
     VirtualView viewPlayer1, viewPlayer2, viewPlayer3, viewPlayer4;
     StubGameController controller;
     Server server;
+    List<Square> map = MapLoader.loadMap();
 
     @BeforeEach
     void setup(){
@@ -355,24 +372,6 @@ class GameControllerTest {
 
     }
 
-
-
-    @Test
-    void handleTurnLobbyEnded() {
-    }
-
-    @Test
-    void eliminatePlayer() {
-    }
-
-    @Test
-    void removeViewFromGame() {
-    }
-
-    @Test
-    void removePlayerFromBoard() {
-    }
-
     @Test
     void stopStartedGame() {
 
@@ -392,7 +391,20 @@ class GameControllerTest {
         controller.addUserID(viewPlayer3,"UID2");
         viewPlayer3.getConnection().setUserID("UID2");
 
-        controller.stopStartedGame();
+        assertEquals(6,controller.getNumClients());
+
+        controller.stopStartedGame(Response.GAMESTOPPED);
+
+        assertEquals(0,controller.getNumClients());
+
+        assertEquals(ConstantsContainer.USERDIDDEF,connection1.getUserID());
+        assertEquals(ConstantsContainer.NICKDEF,connection1.getNickName());
+
+        assertEquals(ConstantsContainer.USERDIDDEF,connection2.getUserID());
+        assertEquals(ConstantsContainer.NICKDEF,connection2.getNickName());
+
+        assertEquals(ConstantsContainer.USERDIDDEF,connection3.getUserID());
+        assertEquals(ConstantsContainer.NICKDEF,connection3.getNickName());
 
     }
 
@@ -479,6 +491,165 @@ class GameControllerTest {
 
         assertFalse(controller.isFreeNick("primo"));
         assertTrue(controller.isFreeNick("secondo"));
+    }
+
+    @Test
+    void eliminatePlayerGameEnded() {
+        GameConfigMessage message = new GameConfigMessage("UID0", "primo", MessageSubType.ANSWER, 3, false, false, false);
+        message.setView(viewPlayer1);
+        viewPlayer1.notify(message);
+        controller.addUserID(viewPlayer1,"UID0");
+        viewPlayer1.getConnection().setUserID("UID0");
+        message = new GameConfigMessage("UID1", "secondo", MessageSubType.ANSWER, 3, false, false, false);
+        message.setView(viewPlayer2);
+        assertEquals("UID0",controller.getUserIDFromPlayer(controller.getActualPlayers().get(0)));
+        viewPlayer2.notify(message);
+        controller.addUserID(viewPlayer2,"UID1");
+        viewPlayer2.getConnection().setUserID("UID1");
+        message = new GameConfigMessage("UID2", "terzo", MessageSubType.ANSWER, 3, false, false, false);
+        message.setView(viewPlayer3);
+        viewPlayer3.notify(message);
+        controller.addUserID(viewPlayer3,"UID2");
+        viewPlayer3.getConnection().setUserID("UID2");
+        ArrayList<String> choice = new ArrayList<>();
+        choice.add("athena");
+        choice.add("chronus");
+        choice.add("hera");
+        ChallengerChoiceMessage message1 = new ChallengerChoiceMessage(controller.getViewFromNickName(controller.getCurrentPlayer().getNickname()).getConnection().getUserID()
+                ,controller.getCurrentPlayer().getNickname(),MessageSubType.ANSWER,"secondo",choice);
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickname()).notify(message1);
+        Message message2 = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickname()).getConnection().getUserID()
+                ,controller.getCurrentPlayer().getNickname(), MessageType.ENDTURN,MessageSubType.UPDATE);
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickname()).notify(message2);
+
+        Message cardMessage = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickname()).getConnection().getUserID()
+                ,MessageType.CHOOSECARD,MessageSubType.ANSWER,"hera");
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickname()).notify(cardMessage);
+        message2 = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickname()).getConnection().getUserID()
+                ,controller.getCurrentPlayer().getNickname(), MessageType.ENDTURN,MessageSubType.UPDATE);
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickname()).notify(message2);
+
+        cardMessage = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickname()).getConnection().getUserID()
+                ,MessageType.CHOOSECARD,MessageSubType.ANSWER,"chronus");
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickname()).notify(cardMessage);
+        message2 = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickname()).getConnection().getUserID()
+                ,controller.getCurrentPlayer().getNickname(), MessageType.ENDTURN,MessageSubType.UPDATE);
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickname()).notify(message2);
+
+        cardMessage = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickname()).getConnection().getUserID()
+                ,MessageType.CHOOSECARD,MessageSubType.ANSWER,"athena");
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickname()).notify(cardMessage);
+        message2 = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickname()).getConnection().getUserID()
+                ,controller.getCurrentPlayer().getNickname(), MessageType.ENDTURN,MessageSubType.UPDATE);
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickname()).notify(message2);
+
+        Integer[] tile1 = {0,0};
+        Integer[] tile2 = {4,4};
+        PlaceWorkersMessage placeMessage = new PlaceWorkersMessage(controller.getViewFromNickName(controller.getCurrentPlayer().getNickname()).getConnection().getUserID(),
+                MessageSubType.ANSWER,tile1,tile2);
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickname()).notify(placeMessage);
+        message2 = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickname()).getConnection().getUserID()
+                ,controller.getCurrentPlayer().getNickname(), MessageType.ENDTURN,MessageSubType.UPDATE);
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickname()).notify(message2);
+
+        tile1 = new Integer[]{3, 2};
+        tile2 = new Integer[]{4, 3};
+        placeMessage = new PlaceWorkersMessage(controller.getViewFromNickName(controller.getCurrentPlayer().getNickname()).getConnection().getUserID(),
+                MessageSubType.ANSWER,tile1,tile2);
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickname()).notify(placeMessage);
+        message2 = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickname()).getConnection().getUserID()
+                ,controller.getCurrentPlayer().getNickname(), MessageType.ENDTURN,MessageSubType.UPDATE);
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickname()).notify(message2);
+
+        tile1 = new Integer[]{2, 3};
+        tile2 = new Integer[]{3, 3};
+        placeMessage = new PlaceWorkersMessage(controller.getViewFromNickName(controller.getCurrentPlayer().getNickname()).getConnection().getUserID(),
+                MessageSubType.ANSWER,tile1,tile2);
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickname()).notify(placeMessage);
+        message2 = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickname()).getConnection().getUserID()
+                ,controller.getCurrentPlayer().getNickname(), MessageType.ENDTURN,MessageSubType.UPDATE);
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickname()).notify(message2);
+
+        Message workMessage = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickname()).getConnection().getUserID(),
+                MessageType.WORKERCHOICE, MessageSubType.ANSWER,"worker1");
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickname()).notify(workMessage);
+
+        map.get(0).setHasPlayer(false);
+        map.get(1).setMovement(controller.getCurrentPlayer(),controller.getCurrentPlayer().getWorkerFromString("worker1"));
+
+        List<Square> modSquare = new ArrayList<>();
+        modSquare.add(map.get(0));
+        modSquare.add(map.get(1));
+
+        MoveWorkerMessage messageMove = new MoveWorkerMessage(controller.getViewFromNickName(controller.getCurrentPlayer().getNickname()).getConnection().getUserID(),
+                controller.getCurrentPlayer().getNickname(),MessageSubType.ANSWER, Directions.EST,Response.NOTWIN,null,modSquare);
+
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickname()).notify(messageMove);
+        assertEquals(Response.MOVED,controller.getGameStatus());
+        assertEquals(2,controller.getCurrentPlayer().getWorkerFromString("worker1").getBoardPosition().getTile());
+
+
+
+        modSquare.clear();
+        map.get(2).setBuilding(Building.LVL2);
+        BuildWorkerMessage messageBuild = new BuildWorkerMessage(controller.getViewFromNickName(controller.getCurrentPlayer().getNickname()).getConnection().getUserID(),
+                controller.getCurrentPlayer().getNickname(),MessageSubType.ANSWER, Directions.EST,Building.LVL2,Response.NOTWIN,null,modSquare);
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickname()).notify(messageBuild);
+        assertEquals(Response.NOTBUILD,controller.getGameStatus());
+
+        modSquare.clear();
+        map.get(2).setBuilding(Building.LVL1);
+        map.get(2).addBuildingLevel();
+        modSquare.add(map.get(2));
+        messageBuild = new BuildWorkerMessage(controller.getViewFromNickName(controller.getCurrentPlayer().getNickname()).getConnection().getUserID(),
+                controller.getCurrentPlayer().getNickname(),MessageSubType.ANSWER, Directions.EST,Building.LVL1,Response.NOTWIN,null,modSquare);
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickname()).notify(messageBuild);
+        assertEquals(3,controller.getCurrentPlayer().getCurrentWorker().getPreviousBuildPosition().getTile());
+        assertEquals(Response.ENDTURN,controller.getGameStatus());
+        message2 = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickname()).getConnection().getUserID()
+                ,controller.getCurrentPlayer().getNickname(), MessageType.ENDTURN,MessageSubType.UPDATE);
+
+
+
+        controller.changeSquare(18);
+        controller.changeSquare(19);
+        controller.changeSquare(6);
+        controller.changeSquare(25);
+        controller.changeSquare(7);
+        controller.changeSquare(8);
+        controller.changeSquare(11);
+        controller.changeSquare(12);
+        controller.changeSquare(23);
+        controller.changeSquare(24);
+
+        controller.changeSquare(22);
+        controller.changeSquare(10);
+
+        assertTrue(controller.hasPlayer(2));
+        assertTrue(controller.hasPlayer(9));
+        assertTrue(controller.hasPlayer(20));
+        assertTrue(controller.hasPlayer(21));
+        assertTrue(controller.hasPlayer(22));
+        assertTrue(controller.hasPlayer(10));
+        assertEquals(6,controller.getNumClients());
+
+
+
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickname()).notify(message2);
+        assertEquals(Response.WIN,controller.getGameStatus());
+        assertEquals("secondo",controller.getWinner());
+
+        assertEquals(2,controller.getNumClients());
+        assertEquals(1,controller.getActualPlayers().size());
+
+        assertTrue(controller.hasPlayer(2));
+        assertTrue(controller.hasPlayer(9));
+
+        assertFalse(controller.hasPlayer(20));
+        assertFalse(controller.hasPlayer(21));
+        assertFalse(controller.hasPlayer(22));
+        assertFalse(controller.hasPlayer(10));
+
     }
 
 }

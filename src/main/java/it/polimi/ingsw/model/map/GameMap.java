@@ -14,7 +14,6 @@ public class GameMap {
     private final List<Square> map;
     private final Square [][]linkToCoordinates = new Square[ConstantsContainer.MAXMAPPOSITION][ConstantsContainer.MAXMAPPOSITION]; // mettere come costanti
     private final List<Square> modifiedSquare = new ArrayList<>();
-    private final List<Square> pastSquare = new ArrayList<>();
 
     public GameMap() {
         this.map = MapLoader.loadMap();
@@ -45,7 +44,7 @@ public class GameMap {
 
           for(Directions dir: Directions.values()){
               int squareTile  =canAccess.get(dir);
-              if(squareTile > ConstantsContainer.MINMAPPOSITION && squareTile <= ConstantsContainer.MAXMAPPOSITION) {
+              if(squareTile > ConstantsContainer.MINMAPPOSITION && squareTile <= ConstantsContainer.MAXMAPPOSITION) {                                              //mettere come costanti
                   Square possibleSquare = map.get(squareTile- 1);
                   if(!possibleSquare.hasPlayer() && (possibleSquare.getBuildingLevel() >= 0 && possibleSquare.getBuildingLevel() <= levelPosition + 1 && !worker.getBoardPosition().equals(possibleSquare) )
                           && possibleSquare.getBuilding() != Building.DOME ){
@@ -54,7 +53,7 @@ public class GameMap {
               }
           }
 
-return reachableSquares;
+           return reachableSquares;
     }
 
     //

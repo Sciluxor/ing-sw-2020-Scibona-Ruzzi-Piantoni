@@ -139,9 +139,9 @@ public class GameController implements Observer<Message> {
     //methods for disconnection from the Game
     //
 
-    public synchronized void stopStartedGame(){
+    public synchronized void stopStartedGame(Response newStatus){
 
-        game.setGameStatus(Response.GAMESTOPPED);
+        game.setGameStatus(newStatus);
         stopRoundTimer();                               //devo stoppare il  timer qui?
 
         for(Player player :getActualPlayers()){
@@ -155,7 +155,6 @@ public class GameController implements Observer<Message> {
         stopRoundTimer();  //si può stoppare più volte il timer? per quando finisce il game e deve iniziarne un'altro
         playerView.getConnection().setUserID(ConstantsContainer.USERDIDDEF);
         playerView.getConnection().setNickName(ConstantsContainer.NICKDEF);
-        playerView.getConnection().startLobbyTimer();
         playerView.removeObserver(this);
         game.removeObserver(playerView);
 
@@ -176,16 +175,6 @@ public class GameController implements Observer<Message> {
         view.removeObserver(this);
     }
 
-    public synchronized void handleTurnLobbyEnded(){
-        VirtualView view = removeViewFromGame(getCurrentPlayer().getNickname());
-        game.removeObserver(view);
-        removePlayerFromBoard();
-
-        game.setGameStatus(Response.PLAYERTIMERENDED);
-        checkIfStillCorrectGame();
-
-    }
-
     public synchronized void eliminatePlayer(){
         removeViewFromGame(getCurrentPlayer().getNickname());
         removePlayerFromBoard();
@@ -197,8 +186,9 @@ public class GameController implements Observer<Message> {
 
     public synchronized VirtualView removeViewFromGame(String nickName){
         VirtualView view = clients.get(nickName);
-        clients.remove(getCurrentPlayer().getNickname());
         view.setYourTurn(false);
+        clients.remove(nickName);
+        clients.remove(view.getConnection().getUserID());
         return view;
     }
 
@@ -344,7 +334,7 @@ public class GameController implements Observer<Message> {
 
     public void startRoundTimer(){
       turnTimer = new Timer();
-      TurnTimerTask task = new TurnTimerTask(this);
+      TurnTimerTask task = new TurnTimerTask(clients.get(getCurrentPlayer().getNickname()).getConnection());
       turnTimer.schedule(task, (long) ConfigLoader.getTurnTimer()*1000);
     }
 
