@@ -206,7 +206,6 @@ public class Server implements Runnable{
         VirtualView view = new VirtualView(connection,controller);
         ((GameConfigMessage) message).setView(view);
         connection.setView(view);
-        connection.setViewActive(true);
         view.addObservers(controller);
         connection.setUserID(userID);
         controller.addUserID(view,userID);
@@ -255,17 +254,12 @@ public class Server implements Runnable{
     public synchronized void handleDisconnectionBeforeGame(GameController controller,String userID,ClientHandler connection,Message message){
     synchronized (clientsLock) {
         controllerFromUserID.remove(userID);
-
         if ((message.getSubType().equals(MessageSubType.TIMEENDED))) {
             controller.handleLobbyTimerEnded(message);
         } else {
                 controller.disconnectPlayerBeforeGameStart(message);
                 if (message.getSubType().equals(MessageSubType.BACK)) {
                     controller.resetPlayer(connection.getView());
-                    connection.getView().removeObserver(controller);
-                }
-                else if ((message.getSubType().equals(MessageSubType.NICKMAXTRY))) {
-                    connection.getView().removeObserver(controller);
                 }
 
         }

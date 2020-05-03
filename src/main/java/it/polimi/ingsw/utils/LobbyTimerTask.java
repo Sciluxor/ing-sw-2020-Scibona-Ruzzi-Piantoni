@@ -23,7 +23,7 @@ public class LobbyTimerTask extends TimerTask {
 
     @Override
     public void run() {
-        if(connection.isViewActive())
+        if(!connection.getUserID().equals(ConstantsContainer.USERDIDDEF))
             server.handleDisconnectionBeforeGame(server.getControllerFromUserID(userID),userID,connection,
                     new Message (userID,nickName, MessageType.DISCONNECTION, MessageSubType.TIMEENDED));
 

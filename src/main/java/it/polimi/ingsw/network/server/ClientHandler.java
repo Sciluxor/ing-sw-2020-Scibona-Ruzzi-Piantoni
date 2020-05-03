@@ -24,7 +24,6 @@ public class ClientHandler implements Runnable, ConnectionInterface {
 
     private final Socket socket;
     private final Server server;
-    private boolean isViewActive = false;
     private boolean isConnectionActive;
     private VirtualView view;
     private Timer lobbyTimer;
@@ -63,14 +62,6 @@ public class ClientHandler implements Runnable, ConnectionInterface {
 
     public void setConnectionActive(boolean connectionActive) {
         isConnectionActive = connectionActive;
-    }
-
-    public boolean isViewActive() {
-        return isViewActive;
-    }
-
-    public void setViewActive(boolean active) {
-        isViewActive = active;
     }
 
     public VirtualView getView() {
@@ -215,7 +206,7 @@ public class ClientHandler implements Runnable, ConnectionInterface {
             }
             finally {
                 if(isConnectionActive)
-                    closeConnection();
+                    closeConnection();      //vedere se viene chiamata due volte quando scade il lobby timer
                 else
                     closeAfterDisconnection();
                 Server.LOGGER.info("player disconnected");

@@ -3,6 +3,7 @@ import it.polimi.ingsw.model.Response;
 import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.network.server.ClientHandler;
 import it.polimi.ingsw.network.server.Server;
+import it.polimi.ingsw.utils.ConstantsContainer;
 import it.polimi.ingsw.utils.FlowStatutsLoader;
 import it.polimi.ingsw.view.server.VirtualView;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,6 +30,22 @@ class GameControllerTest {
         }
     }
 
+    private static class StubConnection extends ClientHandler {
+        public StubConnection(Server server, Socket socket) {
+            super(server, socket);
+        }
+
+        @Override
+        public void startLobbyTimer() {
+
+        }
+
+        @Override
+        public void stopLobbyTimer() {
+
+        }
+    }
+
     private static class StubGameController extends GameController{
 
         public StubGameController(int numberOfPlayer, String gameID) {
@@ -37,6 +54,14 @@ class GameControllerTest {
 
         public Response getGameStatus(){
             return game.getGameStatus();
+        }
+
+        public int getNumClients(){
+            return clients.size();
+        }
+
+        public int getConfigPlayer(){
+            return game.getConfigPlayer();
         }
 
         @Override
@@ -52,7 +77,7 @@ class GameControllerTest {
 
 
     List<VirtualView> players;
-    ClientHandler connection1, connection2, connection3;
+    StubConnection connection1, connection2, connection3;
     VirtualView viewPlayer1, viewPlayer2, viewPlayer3, viewPlayer4;
     StubGameController controller;
     Server server;
@@ -60,9 +85,9 @@ class GameControllerTest {
     @BeforeEach
     void setup(){
         controller = new StubGameController(3,"GID01");
-        connection1 = new ClientHandler(server,new Socket());
-        connection2 = new ClientHandler(server,new Socket());
-        connection3 = new ClientHandler(server,new Socket());
+        connection1 = new StubConnection(server,new Socket());
+        connection2 = new StubConnection(server,new Socket());
+        connection3 = new StubConnection(server,new Socket());
         viewPlayer1 = new StubVirtualView(connection1, controller);
         viewPlayer2 = new StubVirtualView(connection2, controller);
         viewPlayer3 = new StubVirtualView(connection3, controller);
@@ -327,15 +352,10 @@ class GameControllerTest {
 
         assertEquals(Response.STATUSERROR,controller.getGameStatus());
 
+
     }
 
-    @Test
-    void resetPlayer() {
-    }
 
-    @Test
-    void handleLobbyTimerEnded() {
-    }
 
     @Test
     void handleTurnLobbyEnded() {
@@ -354,15 +374,111 @@ class GameControllerTest {
     }
 
     @Test
-    void checkIfStillCorrectGame() {
+    void stopStartedGame() {
+
+        GameConfigMessage message = new GameConfigMessage("UID0", "primo", MessageSubType.ANSWER, 3, false, false, false);
+        message.setView(viewPlayer1);
+        viewPlayer1.notify(message);
+        controller.addUserID(viewPlayer1,"UID0");
+        viewPlayer1.getConnection().setUserID("UID0");
+        message = new GameConfigMessage("UID1", "secondo", MessageSubType.ANSWER, 3, false, false, false);
+        message.setView(viewPlayer2);
+        viewPlayer2.notify(message);
+        controller.addUserID(viewPlayer2,"UID1");
+        viewPlayer2.getConnection().setUserID("UID1");
+        message = new GameConfigMessage("UID2", "terzo", MessageSubType.ANSWER, 3, false, false, false);
+        message.setView(viewPlayer3);
+        viewPlayer3.notify(message);
+        controller.addUserID(viewPlayer3,"UID2");
+        viewPlayer3.getConnection().setUserID("UID2");
+
+        controller.stopStartedGame();
+
     }
 
     @Test
     void disconnectPlayerBeforeGameStart() {
+        GameConfigMessage message = new GameConfigMessage("UID1","primo", MessageSubType.ANSWER,3,false,false,false);
+        message.setView(viewPlayer1);
+        controller.addUserID(viewPlayer1,"UID1");
+        viewPlayer1.notify(message);
+        assertFalse(controller.isGameStarted());
+        message = new GameConfigMessage("UID2","primo", MessageSubType.ANSWER,3,false,false,false);
+        message.setView(viewPlayer2);
+        controller.addUserID(viewPlayer2,"UID2");
+        viewPlayer2.notify(message);
+        assertEquals(1,controller.getConfigPlayer());
+        message = new GameConfigMessage("UID2","primo", MessageSubType.UPDATE,3,false,false,false);
+        message.setView(viewPlayer2);
+        viewPlayer2.notify(message);
+        assertEquals(1,controller.getConfigPlayer());
+        assertEquals(3,controller.getNumClients());
+        assertEquals(1,controller.getActualPlayers().size());
+        controller.handleLobbyTimerEnded(new Message ("UID2","primo", MessageType.DISCONNECTION, MessageSubType.TIMEENDED));
+
+        assertEquals(0,controller.getConfigPlayer());
+        assertEquals(1,controller.getActualPlayers().size());
+        assertEquals(2,controller.getNumClients());
+
+        message = new GameConfigMessage("UID3","secondo", MessageSubType.ANSWER,3,false,false,false);
+        message.setView(viewPlayer2);
+        viewPlayer2.addObservers(controller);
+        controller.addUserID(viewPlayer2,"UID3");
+        viewPlayer2.notify(message);
+
+        assertEquals(0,controller.getConfigPlayer());
+
+        assertEquals(2,controller.getActualPlayers().size());
+        assertEquals(4,controller.getNumClients());
+
+        controller.disconnectPlayerBeforeGameStart(new Message("UID3","secondo", MessageType.DISCONNECTION, MessageSubType.BACK));
+
+        assertEquals(0,controller.getConfigPlayer());
+        assertEquals(1,controller.getActualPlayers().size());
+        assertEquals(2,controller.getNumClients());
+        assertEquals(Response.REMOVEDPLAYER,controller.getGameStatus());
+        controller.resetPlayer(viewPlayer2);
+
+        assertEquals(2,controller.getNumClients());
+        assertEquals(ConstantsContainer.USERDIDDEF,connection2.getUserID());
+        assertEquals(ConstantsContainer.NICKDEF,connection2.getNickName());
+
+        message = new GameConfigMessage("UID4","secondo", MessageSubType.ANSWER,3,false,false,false);
+        message.setView(viewPlayer2);
+        viewPlayer2.addObservers(controller);
+        controller.addUserID(viewPlayer2,"UID4");
+        viewPlayer2.notify(message);
+
+        assertEquals(0,controller.getConfigPlayer());
+        assertEquals(2,controller.getActualPlayers().size());
+        assertEquals(4,controller.getNumClients());
+
+        message = new GameConfigMessage("UID5","primo", MessageSubType.ANSWER,3,false,false,false);
+        message.setView(viewPlayer3);
+        controller.addUserID(viewPlayer3,"UID5");
+        viewPlayer3.notify(message);
+
+        assertEquals(1,controller.getConfigPlayer());
+        assertEquals(2,controller.getActualPlayers().size());
+        assertTrue(controller.isFull());
+        assertEquals(5,controller.getNumClients());
+
+        controller.disconnectPlayerBeforeGameStart(new Message("UID5","primo", MessageType.DISCONNECTION, MessageSubType.NICKMAXTRY));
+
+        assertFalse(controller.isFull());
+        assertEquals(0,controller.getConfigPlayer());
+        assertEquals(4,controller.getNumClients());
     }
 
     @Test
     void isFreeNick() {
+        GameConfigMessage message = new GameConfigMessage("UID1","primo", MessageSubType.ANSWER,3,false,false,false);
+        message.setView(viewPlayer1);
+        controller.addUserID(viewPlayer1,"UID1");
+        viewPlayer1.notify(message);
+
+        assertFalse(controller.isFreeNick("primo"));
+        assertTrue(controller.isFreeNick("secondo"));
     }
 
 }

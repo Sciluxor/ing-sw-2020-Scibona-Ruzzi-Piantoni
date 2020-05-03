@@ -20,7 +20,7 @@ public class ServerPingTimerTask implements Runnable {
 
     @Override
     public void run() {
-        if(connection.isViewActive())
+        if(!connection.getUserID().equals(ConstantsContainer.USERDIDDEF))
             server.handleDisconnectionBeforeGame(server.getControllerFromUserID(userID),userID,connection,
                     new Message(userID,nickName, MessageType.DISCONNECTION, MessageSubType.PINGFAIL));
 
