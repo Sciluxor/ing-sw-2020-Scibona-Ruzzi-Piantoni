@@ -633,17 +633,21 @@ class GameControllerTest {
         assertTrue(controller.hasPlayer(10));
         assertEquals(6,controller.getNumClients());
 
-
+        assertTrue(controller.isStillInGame("primo"));
+        assertTrue(controller.isStillInGame("terzo"));
 
         controller.getViewFromNickName(controller.getCurrentPlayer().getNickname()).notify(message2);
         assertEquals(Response.WIN,controller.getGameStatus());
         assertEquals("secondo",controller.getWinner());
 
-        assertEquals(2,controller.getNumClients());
+        assertEquals(6,controller.getNumClients());
         assertEquals(1,controller.getActualPlayers().size());
 
         assertTrue(controller.hasPlayer(2));
         assertTrue(controller.hasPlayer(9));
+
+        assertFalse(controller.isStillInGame("primo"));
+        assertFalse(controller.isStillInGame("terzo"));
 
         assertFalse(controller.hasPlayer(20));
         assertFalse(controller.hasPlayer(21));

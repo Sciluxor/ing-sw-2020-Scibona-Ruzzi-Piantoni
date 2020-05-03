@@ -241,10 +241,16 @@ public class Server implements Runnable{
 
     public void handleDisconnection(String userID,ClientHandler connection,Message message) {      //spezzare questa in tre funzioni
         synchronized (clientsLock) {
-            if (!userID.equalsIgnoreCase(ConstantsContainer.USERDIDDEF)) {
+            if(message.getSubType().equals(MessageSubType.LOOSEEXITREQUEST)){
+                GameController controller = getControllerFromUserID(message.getSender());
+                controllerFromUserID.remove(message.getSender());
+                controller.removeViewFromGame(message.getNickName());
+                controller.resetPlayer(connection.getView());
+            }
+            else if (!userID.equalsIgnoreCase(ConstantsContainer.USERDIDDEF)) {
                 GameController controller = getControllerFromUserID(userID);
                 if (controller.isGameStarted()) {                             //mettere il caso di disconnection request se il game è già iniziato
-                             handleDisconnectionDuringGame(controller,message);
+                             handleDisconnectionDuringGame(controller,message,connection);
 
                 } else {
                       handleDisconnectionBeforeGame(controller,userID,connection,message);
@@ -268,8 +274,15 @@ public class Server implements Runnable{
     }
     }
 
-    public synchronized void  handleDisconnectionDuringGame(GameController controller,Message message){
+    public synchronized void  handleDisconnectionDuringGame(GameController controller,Message message,ClientHandler connection){
         synchronized (clientsLock) {
+            if(controller.isStillInGame(message.getNickName())){
+                controllerFromUserID.remove(message.getSender());
+                controller.removeViewFromGame(message.getNickName());
+                controller.resetPlayer(connection.getView());
+                return;
+            }
+
             actualMatches.remove(controller);
 
             for (Player player : controller.getActualPlayers()) {
@@ -278,8 +291,6 @@ public class Server implements Runnable{
             controllerFromGameID.remove(controller.getGameID());
             if(message.getSubType().equals(MessageSubType.TIMEENDED))
                  controller.stopStartedGame(Response.PLAYERTIMERENDED);
-            else if(message.getSubType().equals(MessageSubType.LOOSEEXITREQUEST))
-                return;
             else
                 controller.stopStartedGame(Response.GAMESTOPPED);
         }

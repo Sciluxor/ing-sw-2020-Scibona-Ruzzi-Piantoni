@@ -127,6 +127,14 @@ public class GameController implements Observer<Message> {
         return (game.getPlayers().size()+game.getConfigPlayer()) == game.getNumberOfPlayers();
     }
 
+    public boolean isStillInGame(String nickName){
+        for(Player player: getActualPlayers()){
+            if(player.getNickname().equals(nickName))
+                return true;
+        }
+        return false;
+    }
+
     public String getGameID(){
         return game.getGameID();
     }
@@ -176,7 +184,8 @@ public class GameController implements Observer<Message> {
     }
 
     public synchronized void eliminatePlayer(){
-        removeViewFromGame(getCurrentPlayer().getNickname());
+        VirtualView view = clients.get(getCurrentPlayer().getNickname());
+        view.setYourTurn(false);
         removePlayerFromBoard();
 
         game.setGameStatus(Response.PLAYERLOSE);
