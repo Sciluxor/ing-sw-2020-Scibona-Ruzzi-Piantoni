@@ -72,7 +72,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     public synchronized void updateNickName(String nickName){
         client.setNickName(nickName);
         client.sendMessage(new GameConfigMessage(client.getUserID(),nickName,MessageSubType.UPDATE,game.getNumberOfPlayers() ,false,false,false));
-    }//gestire anche gli errori
+    }//gestire anche gli errori false ecc.
 
     public synchronized void onGameStart(Message message){
         game.setGameStarted(true);
@@ -81,10 +81,15 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         eventQueue.add(this::startGame);
     }
 
-    public synchronized void handleDisconnection(){
+    public synchronized void handleDisconnection(Message message){
         client.closeConnection();
-        LOGGER.info("Lost connection");
-        //chiamare una funzione per chiudere il client, mostrare a schermo
+        switch (message.getSubType()) {
+            case TIMEENDED:
+                eventQueue.add(this::onLobbyDisconnection);
+            case PINGFAIL:
+                eventQueue.add(this::onPingDisconnection);
+
+        }
     }
 
     public synchronized void onUpdate(Message message){
@@ -98,6 +103,8 @@ public abstract class ClientGameController implements Runnable, FunctionListener
             case GAMESTART:
                 onGameStart(message);
                 break;
+            case DISCONNECTION:
+                handleDisconnection(message);
             default:
 
         }
