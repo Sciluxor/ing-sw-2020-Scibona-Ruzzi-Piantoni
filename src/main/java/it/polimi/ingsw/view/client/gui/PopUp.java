@@ -6,7 +6,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
 import java.io.IOException;
 
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
@@ -19,7 +18,9 @@ public class PopUp {
     MyButton button1;
     MyButton button2;
     JTextField nickname;
-    JLabel nicknameLabel;
+    JLabel label1;
+    JLabel label2;
+    JLabel label3;
     JPanel panel;
 
     public PopUp(Gui istance, Dimension d){
@@ -39,22 +40,59 @@ public class PopUp {
                 button1.setBounds((int) (intFrameSize.width * 41.12 / 100), (int) (intFrameSize.height * 79.5 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
                 button1.addActionListener(new Send());
                 window.add(button1);
-                nicknameLabel = new JLabel("nickname");
 
                 nickname.setBounds((int) (intFrameSize.width * 35/100), (int) (intFrameSize.height * 50/100), intFrameSize.width * 30/100,intFrameSize.height * 4/100);
                 nickname.setText("Other Nickname");
                 window.add(nickname);
+
+                label1 = new JLabel();
                 try {
-                    nicknameLabel = ImageHandler.setImage("src/main/resources/Graphics/Texts/nickname.png", 97, 100, intFrameSize.width * 15/100,intFrameSize.height * 5/100);
+                    label1 = ImageHandler.setImage("src/main/resources/Graphics/Texts/nickname.png", 97, 100, intFrameSize.width * 15/100,intFrameSize.height * 5/100);
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }
-                nicknameLabel.setBounds((int) (intFrameSize.width * 20/100), (int) (intFrameSize.height * 49.5/100), intFrameSize.width * 15/100,intFrameSize.height * 5/100);
-                window.add(nicknameLabel);
+                label1.setBounds((int) (intFrameSize.width * 20/100), (int) (intFrameSize.height * 49.5/100), intFrameSize.width * 15/100,intFrameSize.height * 5/100);
+                window.add(label1);
+
+                /*label2 = new JLabel();
+                try {
+                    label2 = ImageHandler.setImage("src/main/resources/Graphics/Texts/your_nickname.png", 97, 100, intFrameSize.width * 15/100,intFrameSize.height * 5/100);
+                } catch (IOException e) {
+                    LOGGER.severe(e.getMessage());
+                }
+                label2.setBounds((int) (intFrameSize.width * 42.5/100), (int) (intFrameSize.height * 25/100), intFrameSize.width * 15/100,intFrameSize.height * 5/100);
+                window.add(label2);
+
+                label3 = new JLabel();
+                try {
+                    label3 = ImageHandler.setImage("src/main/resources/Graphics/Texts/change_nickname.png", 97, 100, intFrameSize.width * 15/100,intFrameSize.height * 5/100);
+                } catch (IOException e) {
+                    LOGGER.severe(e.getMessage());
+                }
+                label2.setBounds((int) (intFrameSize.width * 42.5/100), (int) (intFrameSize.height * 35/100), intFrameSize.width * 15/100,intFrameSize.height * 5/100);
+                window.add(label3);*/
 
                 break;
 
             case 1:
+                /*label1 = new JLabel();
+                try {
+                    label1 = ImageHandler.setImage("src/main/resources/Graphics/Texts/disconnected.png", 97, 100, intFrameSize.width * 15/100,intFrameSize.height * 5/100);
+                } catch (IOException e) {
+                    LOGGER.severe(e.getMessage());
+                }
+                label1.setBounds((int) (intFrameSize.width * 42.5/100), (int) (intFrameSize.height * 25/100), intFrameSize.width * 15/100,intFrameSize.height * 5/100);
+                window.add(label1);
+
+                label2 = new JLabel();
+                try {
+                    label2 = ImageHandler.setImage("src/main/resources/Graphics/Texts/start_a_newgame.png", 97, 100, intFrameSize.width * 15/100,intFrameSize.height * 5/100);
+                } catch (IOException e) {
+                    LOGGER.severe(e.getMessage());
+                }
+                label2.setBounds((int) (intFrameSize.width * 42.5/100), (int) (intFrameSize.height * 35/100), intFrameSize.width * 15/100,intFrameSize.height * 5/100);
+                window.add(label2);*/
+
                 button1 = new MyButton(2);
                 button1.setBounds((int) (intFrameSize.width * 29.12 / 100), (int) (intFrameSize.height * 79.5 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
                 button2 = new MyButton(3);
