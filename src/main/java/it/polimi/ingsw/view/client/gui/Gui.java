@@ -254,9 +254,7 @@ public class Gui extends ClientGameController {
     @Override
     public void nickUsed() {
         System.out.println("stato qui");
-        popUp = constructorPopUp.lobbyPopUp();
-        frame.add(popUp);
-        popUp.setVisible(true);
+        lobby.getPopUp().setVisible(true);
         frame.repaint();
         frame.validate();
     }

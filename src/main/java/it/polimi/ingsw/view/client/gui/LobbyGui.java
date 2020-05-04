@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.client.gui;
 import it.polimi.ingsw.model.player.Player;
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicInternalFrameUI;
 import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -14,13 +15,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
+import static it.polimi.ingsw.view.client.gui.Board.internalFrameSetUp;
 import static it.polimi.ingsw.view.client.gui.Gui.*;
 
 public class LobbyGui{
     Gui gui;
     static Dimension frameSize = new Dimension();
     private static JDesktopPane pane;
+    JInternalFrame popUp;
+    PopUp constructorPopUp = null;
     static JButton backButton = new JButton();
+    ConfirmButton confirm;
     static JLabel lactualNumber = new JLabel();
     static JLabel lnumber = new JLabel();
     static JLabel lback;
@@ -41,7 +46,25 @@ public class LobbyGui{
         pane = new JDesktopPane();
         frameSize.setSize(frame);
         pane.setPreferredSize(frameSize);
-        pane.setLayout(null);
+        //pane.setLayout(null);
+
+        confirm = new ConfirmButton();
+        window.add(confirm);
+        nicknameLabel = new JLabel("nickname");
+
+        nickname.setBounds((int) (Gui.getD().getWidth() * 40/100), (int) (Gui.getD().getHeight() * 35/100), Gui.getD().width * 20/100,Gui.getD().height * 3/100);
+        nickname.setText("Nickname");
+        window.add(nickname);
+        nicknameLabel.setBounds((int) (Gui.getD().getWidth() * 24.5/100), (int) (Gui.getD().getHeight() * 34/100), Gui.getD().width * 15/100,Gui.getD().height * 5/100);
+        window.add(nicknameLabel);
+        window = new JInternalFrame("", false, false, false, false);
+        window.setPreferredSize(intFrameSize);
+        internalFrameSetUp(window);
+        BasicInternalFrameUI bii = (BasicInternalFrameUI)window.getUI();
+        bii.setNorthPane(null);
+        window.setVisible(false);
+        popUp.setVisible(false);
+        pane.add(popUp);
 
         lback = ImageHandler.setImage("src/main/resources/Graphics/button_back.png", 100, 100, frameSize.width * 13/100, frameSize.height * 5/100);
         lbackPress = ImageHandler.setImage("src/main/resources/Graphics/button_back_press.png", 100, 100, frameSize.width * 13/100, frameSize.height * 5/100);
@@ -193,5 +216,11 @@ public class LobbyGui{
     public JDesktopPane getPane() {
         return pane;
     }
+
+
+    public JInternalFrame getPopUp() {
+        return popUp;
+    }
+
 
 }
