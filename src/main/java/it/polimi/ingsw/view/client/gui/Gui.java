@@ -282,7 +282,13 @@ public class Gui extends ClientGameController {
 
     @Override
     public void onPingDisconnection() {
-
+        SwingUtilities.invokeLater(() -> {
+            popUp.remove(lobbyPanel);
+            lobbyPanel = constructorPopUp.lobbyPopUp(2);
+            popUp.add(lobbyPanel);
+            popUp.repaint();
+            popUp.validate();
+        });
     }
 
     @Override

@@ -103,6 +103,20 @@ public class PopUp {
                 button2.addActionListener(new Close());
                 break;
 
+            case 2:
+                label1 = new JLabel();
+                try {
+                    label1 = ImageHandler.setImage("src/main/resources/Graphics/Texts/disconnected.png", 97, 100, intFrameSize.width * 15/100,intFrameSize.height * 5/100);
+                } catch (IOException e) {
+                    LOGGER.severe(e.getMessage());
+                }
+                label1.setBounds((int) (intFrameSize.width * 42.5/100), (int) (intFrameSize.height * 35/100), intFrameSize.width * 15/100,intFrameSize.height * 5/100);
+                window.add(label1);
+                button1 = new MyButton(3);
+                button1.setBounds((int) (intFrameSize.width * 41.12 / 100), (int) (intFrameSize.height * 79.5 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
+                button1.addActionListener(new Close());
+                window.add(button1);
+                break;
             default:
         }
         JButton back = backgroundButton(1);
