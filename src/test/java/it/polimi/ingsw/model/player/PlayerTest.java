@@ -115,38 +115,24 @@ class PlayerTest {
 
     @Test
     void getTurnStatus() {
-        assertEquals (TurnStatus.PREGAME,player.getTurnStatus());
-        player.setTurnStatus(TurnStatus.GAMEENDED);
-        assertEquals (TurnStatus.GAMEENDED,player.getTurnStatus());
-        player.setTurnStatus(TurnStatus.WORKERSELECTION);
-        player.setTurnStatus(TurnStatus.WORKERTURN);
-        player.setTurnStatus(TurnStatus.IDLE);
-        player.setTurnStatus(TurnStatus.WORKERSELECTION);
         player.setTurnStatus(TurnStatus.IDLE);
         assertEquals (TurnStatus.IDLE,player.getTurnStatus());
-        player.setTurnStatus(TurnStatus.ENDTURN);
-        player.setTurnStatus(TurnStatus.WORKERSELECTION);
-        player.setTurnStatus(TurnStatus.WORKERSELECTION);
-        assertEquals (TurnStatus.WORKERSELECTION,player.getTurnStatus());
+        player.setTurnStatus(TurnStatus.PLAYTURN);
+        assertEquals (TurnStatus.PLAYTURN,player.getTurnStatus());
+        player.setTurnStatus(TurnStatus.PREGAME);
+        assertEquals (TurnStatus.PREGAME,player.getTurnStatus());
+
     }
 
     @Test
     void setTurnStatus() {
         assertEquals (TurnStatus.PREGAME,player.getTurnStatus());
-        player.setTurnStatus(TurnStatus.CHECKIFLOSE);
-        assertEquals (TurnStatus.CHECKIFLOSE,player.getTurnStatus());
-        player.setTurnStatus(TurnStatus.ENDTURN);
-        assertEquals (TurnStatus.ENDTURN,player.getTurnStatus());
-        player.setTurnStatus(TurnStatus.GAMEENDED);
-        assertEquals (TurnStatus.GAMEENDED,player.getTurnStatus());
+        player.setTurnStatus(TurnStatus.PLAYTURN);
+        assertEquals (TurnStatus.PLAYTURN,player.getTurnStatus());
         player.setTurnStatus(TurnStatus.IDLE);
         assertEquals (TurnStatus.IDLE,player.getTurnStatus());
         player.setTurnStatus(TurnStatus.PREGAME);
         assertEquals (TurnStatus.PREGAME,player.getTurnStatus());
-        player.setTurnStatus(TurnStatus.WORKERSELECTION);
-        assertEquals (TurnStatus.WORKERSELECTION,player.getTurnStatus());
-        player.setTurnStatus(TurnStatus.WORKERTURN);
-        assertEquals (TurnStatus.WORKERTURN,player.getTurnStatus());
 
         assertThrows(NullPointerException.class , () -> player.setTurnStatus(null));
     }

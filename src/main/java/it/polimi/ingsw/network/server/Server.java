@@ -1,6 +1,8 @@
 package it.polimi.ingsw.network.server;
 
+import com.sun.prism.shader.AlphaOne_RadialGradient_AlphaTest_Loader;
 import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.model.Response;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.utils.ConfigLoader;
@@ -8,10 +10,11 @@ import it.polimi.ingsw.utils.ConstantsContainer;
 import it.polimi.ingsw.utils.FlowStatutsLoader;
 import it.polimi.ingsw.view.server.VirtualView;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.util.*;
 
-public class Server {
+public class Server implements Runnable{
 
     private final Object clientsLock = new Object();
     private List<GameController> lobby = new ArrayList<>();
@@ -69,6 +72,7 @@ public class Server {
             this.socketHandler = new SocketHandler(port,this);
             LOGGER.info("Server is listening on port: " + port);
             closeServerIfRequested();
+            new Thread(this).start();
         }catch (IOException e){
             LOGGER.severe(e.getMessage());
         }
@@ -126,6 +130,21 @@ public class Server {
         }
     }
 
+    public synchronized void removeGameEnded(){
+        List<Player> toRemovePlayers;
+        for(GameController match: actualMatches){
+            if(match.hasWinner()){
+                actualMatches.remove(match);
+                toRemovePlayers = match.getActualPlayers();
+                controllerFromGameID.remove(match.getGameID());
+                for(Player player : toRemovePlayers){
+                    controllerFromUserID.remove(match.getUserIDFromPlayer(player));
+                }
+                break;
+            }
+        }
+    }
+
     public void insertPlayerInGame(Message message,ClientHandler connection,boolean isFirstTime) {
         synchronized (clientsLock) {
             String nick = message.getNickName();
@@ -133,7 +152,6 @@ public class Server {
 
             if(!checkValidConfig(nick,numberOfPlayer,connection))
                 return;
-
 
             if(isFirstTime) {
                 connections.add(connection);
@@ -190,7 +208,6 @@ public class Server {
         VirtualView view = new VirtualView(connection,controller);
         ((GameConfigMessage) message).setView(view);
         connection.setView(view);
-        connection.setViewActive(true);
         view.addObservers(controller);
         connection.setUserID(userID);
         controller.addUserID(view,userID);
@@ -224,14 +241,19 @@ public class Server {
 
     public void handleDisconnection(String userID,ClientHandler connection,Message message) {      //spezzare questa in tre funzioni
         synchronized (clientsLock) {
-            if (!userID.equalsIgnoreCase(ConstantsContainer.USERDIDDEF)) {
+            if(message.getSubType().equals(MessageSubType.LOOSEEXITREQUEST)){
+                GameController controller = getControllerFromUserID(message.getSender());
+                controllerFromUserID.remove(message.getSender());
+                controller.removeViewFromGame(message.getNickName());
+                controller.resetPlayer(connection.getView());
+            }
+            else if (!userID.equalsIgnoreCase(ConstantsContainer.USERDIDDEF)) {
                 GameController controller = getControllerFromUserID(userID);
                 if (controller.isGameStarted()) {                             //mettere il caso di disconnection request se il game è già iniziato
-                             handleDisconnectionDuringGame(controller);
+                             handleDisconnectionDuringGame(controller,message,connection);
 
                 } else {
                       handleDisconnectionBeforeGame(controller,userID,connection,message);
-
                 }
             }
         }
@@ -240,32 +262,37 @@ public class Server {
     public synchronized void handleDisconnectionBeforeGame(GameController controller,String userID,ClientHandler connection,Message message){
     synchronized (clientsLock) {
         controllerFromUserID.remove(userID);
-
         if ((message.getSubType().equals(MessageSubType.TIMEENDED))) {
             controller.handleLobbyTimerEnded(message);
         } else {
                 controller.disconnectPlayerBeforeGameStart(message);
                 if (message.getSubType().equals(MessageSubType.BACK)) {
                     controller.resetPlayer(connection.getView());
-                    connection.getView().removeObserver(controller);
-                }
-                else if ((message.getSubType().equals(MessageSubType.NICKMAXTRY))) {
-                    connection.getView().removeObserver(controller);
                 }
 
         }
     }
     }
 
-    public synchronized void  handleDisconnectionDuringGame(GameController controller){
+    public synchronized void  handleDisconnectionDuringGame(GameController controller,Message message,ClientHandler connection){
         synchronized (clientsLock) {
+            if(controller.isStillInGame(message.getNickName())){
+                controllerFromUserID.remove(message.getSender());
+                controller.removeViewFromGame(message.getNickName());
+                controller.resetPlayer(connection.getView());
+                return;
+            }
+
             actualMatches.remove(controller);
 
             for (Player player : controller.getActualPlayers()) {
                 controllerFromUserID.remove(controller.getUserIDFromPlayer(player));
             }
             controllerFromGameID.remove(controller.getGameID());
-            controller.stopStartedGame();
+            if(message.getSubType().equals(MessageSubType.TIMEENDED))
+                 controller.stopStartedGame(Response.PLAYERTIMERENDED);
+            else
+                controller.stopStartedGame(Response.GAMESTOPPED);
         }
     }
 
@@ -284,4 +311,22 @@ public class Server {
             System.exit(0);
         }).start();
     }
+
+    @Override
+    public void run() {
+            while (!Thread.currentThread().isInterrupted()){
+                synchronized (clientsLock){
+                    for(ClientHandler connection : connections){
+                        if(connection.isConnectionActive())
+                            connection.ping();
+                    }
+                    try{
+                        clientsLock.wait(1500);
+                    }catch (InterruptedException inter){
+                        LOGGER.severe(inter.getMessage());
+                        Thread.currentThread().interrupt();
+                    }
+            }
+        }
     }
+}

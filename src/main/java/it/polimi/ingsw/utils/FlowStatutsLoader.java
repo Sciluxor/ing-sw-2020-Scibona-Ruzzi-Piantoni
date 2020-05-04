@@ -14,7 +14,7 @@ public class FlowStatutsLoader {
             throw new IllegalStateException("FLowStatusLoader class cannot be instantiated");
         }
 
-        private static Map<Response,ArrayList<MessageType>> nextMessageFromStatus = new EnumMap<>(Response.class);
+        private static final Map<Response,ArrayList<MessageType>> nextMessageFromStatus = new EnumMap<>(Response.class);
 
         private static class FlowContainer{
             Response type;

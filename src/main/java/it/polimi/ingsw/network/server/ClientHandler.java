@@ -12,17 +12,22 @@ import it.polimi.ingsw.view.server.VirtualView;
 import java.io.*;
 import java.net.Socket;
 import java.util.Timer;
+import java.util.TimerTask;
 
 public class ClientHandler implements Runnable, ConnectionInterface {
 
     private ObjectInputStream objectIn;
     private ObjectOutputStream objectOut;
-    private Socket socket;
-    private Server server;
-    private boolean isViewActive = false;
+
+    private final Object inputLock = new Object();
+    private final Object outputLock = new Object();
+
+    private final Socket socket;
+    private final Server server;
     private boolean isConnectionActive;
     private VirtualView view;
     private Timer lobbyTimer;
+    private Timer PingTimer;
     private int newNickCounter;
 
     private String userID = ConstantsContainer.USERDIDDEF;
@@ -32,7 +37,6 @@ public class ClientHandler implements Runnable, ConnectionInterface {
         this.socket = socket;
         this.server = server;
         this.isConnectionActive = true;
-
 
     }
 
@@ -60,14 +64,6 @@ public class ClientHandler implements Runnable, ConnectionInterface {
         isConnectionActive = connectionActive;
     }
 
-    public boolean isViewActive() {
-        return isViewActive;
-    }
-
-    public void setViewActive(boolean active) {
-        isViewActive = active;
-    }
-
     public VirtualView getView() {
         return view;
     }
@@ -76,16 +72,17 @@ public class ClientHandler implements Runnable, ConnectionInterface {
         this.view = view;
     }
 
-    public void sendMessage(Message msg){                                  //fare un'altra funzione per mandare in asincrono i messaggi
+    public synchronized void sendMessage(Message msg){                                  //fare un'altra funzione per mandare in asincrono i messaggi
+      synchronized (outputLock) {
+          try {
+              objectOut.writeObject(msg);
+              objectOut.flush();
+              objectOut.reset();
 
-        try {
-            objectOut.writeObject(msg);
-            objectOut.flush();
-            objectOut.reset();
-
-        }catch (IOException e){
-            Server.LOGGER.severe(e.getMessage());
-        }
+          } catch (IOException e) {
+              Server.LOGGER.severe(e.getMessage());
+          }
+      }
 
     }
 
@@ -147,6 +144,14 @@ public class ClientHandler implements Runnable, ConnectionInterface {
 
     }
 
+    public void ping(){
+        sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.PING,MessageSubType.UPDATE));
+    }
+
+    public void TurnTimerEnded(Message message){
+        server.handleDisconnection(userID,this,message);
+    }
+
     @Override
     public void run() {
 
@@ -155,50 +160,49 @@ public class ClientHandler implements Runnable, ConnectionInterface {
                 this.objectIn = new ObjectInputStream(socket.getInputStream());
                 startLobbyTimer();
                 while(isConnectionActive()) {
-                    Message input = receiveMessage();
+                    synchronized (inputLock) {
+                        Message input = receiveMessage();
 
-                    if (input.getType() == MessageType.CONFIG && input.getSubType() == MessageSubType.ANSWER) {
-                        stopLobbyTimer();
-                        this.newNickCounter = 0;
-                        server.insertPlayerInGame(input,this,true);
-                        server.moveGameStarted();
-                    }
-                    else if (input.getType() == MessageType.CONFIG && input.getSubType() == MessageSubType.UPDATE) {
-                        stopLobbyTimer();
-                        newNickCounter++;
-                        if(newNickCounter > ConstantsContainer.MAXTRYTOCHANGENICK){
-                            input.setMessageSubType(MessageSubType.ANSWER);
+                        if (input.getType() == MessageType.CONFIG && input.getSubType() == MessageSubType.ANSWER) {
+                            stopLobbyTimer();
                             this.newNickCounter = 0;
-                            server.handleDisconnection(userID,this,new Message(input.getSender(),input.getNickName(),MessageType.DISCONNECTION,MessageSubType.NICKMAXTRY)); //si deve cambiare
-                            server.insertPlayerInGame(input,this,false);
+                            server.insertPlayerInGame(input, this, true);
+                            server.moveGameStarted();
+                        } else if (input.getType() == MessageType.PING) {
+                            //vedere se fare anche il ping lato server oppure no
+                        } else if (input.getType() == MessageType.CONFIG && input.getSubType() == MessageSubType.UPDATE) {
+                            stopLobbyTimer();
+                            newNickCounter++;
+                            if (newNickCounter > ConstantsContainer.MAXTRYTOCHANGENICK) {
+                                input.setMessageSubType(MessageSubType.ANSWER);
+                                this.newNickCounter = 0;
+                                server.handleDisconnection(userID, this, new Message(input.getSender(), input.getNickName(), MessageType.DISCONNECTION, MessageSubType.NICKMAXTRY)); //si deve cambiare
+                                server.insertPlayerInGame(input, this, false);
+                            } else {
+                                dispatchMessageToVirtualView(input);
+                            }
+                            server.moveGameStarted();
+                        } else if ((input.getType() == MessageType.DISCONNECTION)) {
+                            server.handleDisconnection(userID, this, input);
+
+                            if (!input.getSubType().equals(MessageSubType.BACK))
+                                break;
+
+
+                            //completare questo
+                            //confermare la ricezione del messaggio, è giò fatto
+                            //due casi diversi se si disconette prima di aver iniziato la partita o dopo aver iniziato la partita, nel primo si deve chiudere l'app
+                            //nel secondo si deve richiedere se si vuole iniziare una nuova parita
+                            //terminare la partita
+                        } else {
+                            dispatchMessageToVirtualView(input); //runnarlo in un altro thread?
                         }
-                        else{
-                            dispatchMessageToVirtualView(input);
-                        }
-                        server.moveGameStarted();
                     }
-                    else if((input.getType() == MessageType.DISCONNECTION)){
-                        server.handleDisconnection(userID,this,input);
-
-                        if(!input.getSubType().equals(MessageSubType.BACK))
-                            break;
-
-
-                        //completare questo
-                                                                                                             //confermare la ricezione del messaggio, è giò fatto
-                        //due casi diversi se si disconette prima di aver iniziato la partita o dopo aver iniziato la partita, nel primo si deve chiudere l'app
-                        //nel secondo si deve richiedere se si vuole iniziare una nuova parita
-                                                                                                                  //terminare la partita
-                    }
-                    else {
-                        dispatchMessageToVirtualView(input); //runnarlo in un altro thread?
-                    }
-
                 }
 
             }catch (IOException e){
                 stopLobbyTimer();
-                isConnectionActive = false;         //sfruttare questo per chiudere la connection, e inviare o no il messaggio.
+                isConnectionActive = false;         //sfruttare questo per chiudere la connection, e inviare o no il messaggio. fare messaggi personallzzati
                 server.handleDisconnection(userID,this,new Message(userID,nickName,MessageType.DISCONNECTION,MessageSubType.ERROR));
             }
             catch(ClassNotFoundException c){
@@ -206,7 +210,7 @@ public class ClientHandler implements Runnable, ConnectionInterface {
             }
             finally {
                 if(isConnectionActive)
-                    closeConnection();
+                    closeConnection();      //vedere se viene chiamata due volte quando scade il lobby timer
                 else
                     closeAfterDisconnection();
                 Server.LOGGER.info("player disconnected");

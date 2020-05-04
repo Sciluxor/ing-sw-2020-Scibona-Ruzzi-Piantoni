@@ -25,6 +25,7 @@ public class ConstantsContainer {
     //Map and Card
     public static final Integer PERIMETERPOSITION = 16;
     public static final Integer MINMAPPOSITION = 0;
+    public static final Integer MAXMAPCOORD = 4;
     public static final Integer MAXMAPPOSITION = 25;
     public static final Integer MAXBUILDINGLEVEL = 4;
     public static final Integer WINNINGLEVEL =3;

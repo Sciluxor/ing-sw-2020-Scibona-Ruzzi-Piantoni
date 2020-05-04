@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.Response;
+import it.polimi.ingsw.model.player.TurnStatus;
 import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.utils.*;
 import it.polimi.ingsw.utils.Observer;
@@ -11,10 +12,10 @@ import java.util.*;
 
 public class GameController implements Observer<Message> {
 
-    private Game game;
-    private Map<String, VirtualView> clients;
+    protected Game game;
+    protected final Map<String, VirtualView> clients;
     private Timer turnTimer ;
-    private RoundController roundController;
+    private final RoundController roundController;
 
     public GameController(int numberOfPlayer,String gameID) {
         this.game = initializeGame(numberOfPlayer,gameID);
@@ -34,7 +35,6 @@ public class GameController implements Observer<Message> {
               nickUsed(view);
               return;
         }
-
         addPlayer(view,nick);
 
     }
@@ -55,7 +55,7 @@ public class GameController implements Observer<Message> {
     }
 
     public synchronized void addPlayer(VirtualView view, String nick){
-        clients.put(nick,view);
+        addNick(view,nick);
         game.setGameStatus(Response.PLAYERADDED);
         view.getConnection().setNickName(nick);
         view.setYourTurn(false);
@@ -95,10 +95,6 @@ public class GameController implements Observer<Message> {
         return game.getCurrentPlayer();
     }
 
-    public synchronized Player getNewPlayer(){
-        return game.getPlayers().get(game.getPlayers().size() -1);
-    }
-
     public synchronized boolean isGameStarted(){
         return game.isGameStarted();
     }
@@ -107,6 +103,12 @@ public class GameController implements Observer<Message> {
     public synchronized Game initializeGame(int numberOfPlayers, String gameID){
 
         return new Game(numberOfPlayers,gameID);
+    }
+
+    public synchronized boolean hasWinner(){return game.hasWinner();}
+
+    public synchronized void addNick(VirtualView view,String nickName){
+        clients.put(nickName,view);
     }
 
     public synchronized void addUserID(VirtualView view,String userID){
@@ -125,6 +127,14 @@ public class GameController implements Observer<Message> {
         return (game.getPlayers().size()+game.getConfigPlayer()) == game.getNumberOfPlayers();
     }
 
+    public boolean isStillInGame(String nickName){
+        for(Player player: getActualPlayers()){
+            if(player.getNickname().equals(nickName))
+                return true;
+        }
+        return false;
+    }
+
     public String getGameID(){
         return game.getGameID();
     }
@@ -137,27 +147,28 @@ public class GameController implements Observer<Message> {
     //methods for disconnection from the Game
     //
 
-    public synchronized void stopStartedGame(){
+    public synchronized void stopStartedGame(Response newStatus){
 
-        game.setGameStatus(Response.GAMESTOPPED);
+        game.setGameStatus(newStatus);
+        stopRoundTimer();                               //devo stoppare il  timer qui?
 
         for(Player player :getActualPlayers()){
             VirtualView playerView = removeViewFromGame(player.getNickname());
             resetPlayer(playerView);
-            game.removeObserver(getViewFromNickName(player.getNickname()));
-
-            if(playerView.getConnection().isConnectionActive()) {
-                playerView.getConnection().stopLobbyTimer();
-            }
         }
 
     }
 
     public synchronized void resetPlayer(VirtualView playerView){
+        stopRoundTimer();  //si può stoppare più volte il timer? per quando finisce il game e deve iniziarne un'altro
         playerView.getConnection().setUserID(ConstantsContainer.USERDIDDEF);
         playerView.getConnection().setNickName(ConstantsContainer.NICKDEF);
-        playerView.getConnection().startLobbyTimer();
-        playerView.getConnection().setViewActive(false);
+        playerView.removeObserver(this);
+        game.removeObserver(playerView);
+
+        if(playerView.getConnection().isConnectionActive()) {
+            playerView.getConnection().startLobbyTimer();
+        }
     }
 
     public synchronized String  getUserIDFromPlayer(Player player){
@@ -166,24 +177,15 @@ public class GameController implements Observer<Message> {
 
     public synchronized void handleLobbyTimerEnded(Message message){
         VirtualView view = clients.get(message.getSender());
-        view.getConnection().setViewActive(false);
         game.removeConfigPlayer();
         clients.remove(message.getSender());
         game.removeObserver(view);
-    }
-
-    public synchronized void handleTurnLobbyEnded(){
-        VirtualView view = removeViewFromGame(getCurrentPlayer().getNickname());
-        game.removeObserver(view);
-        removePlayerFromBoard();
-
-        game.setGameStatus(Response.PLAYERTIMERENDED);
-        checkIfStillCorrectGame();
-
+        view.removeObserver(this);
     }
 
     public synchronized void eliminatePlayer(){
-        removeViewFromGame(getCurrentPlayer().getNickname());
+        VirtualView view = clients.get(getCurrentPlayer().getNickname());
+        view.setYourTurn(false);
         removePlayerFromBoard();
 
         game.setGameStatus(Response.PLAYERLOSE);
@@ -193,9 +195,9 @@ public class GameController implements Observer<Message> {
 
     public synchronized VirtualView removeViewFromGame(String nickName){
         VirtualView view = clients.get(nickName);
-        clients.remove(getCurrentPlayer().getNickname());
-        view.getConnection().setViewActive(false);
         view.setYourTurn(false);
+        clients.remove(nickName);
+        clients.remove(view.getConnection().getUserID());
         return view;
     }
 
@@ -221,11 +223,9 @@ public class GameController implements Observer<Message> {
 
     public synchronized void disconnectPlayerBeforeGameStart(Message message) {
         VirtualView view = clients.get(message.getSender());
-        view.getConnection().setViewActive(false);
         view.setYourTurn(false);
 
         game.removeObserver(view);
-        clients.remove(message.getNickName());
         clients.remove(message.getSender());
 
 
@@ -234,6 +234,7 @@ public class GameController implements Observer<Message> {
         }
         else {
             game.removeSettedPlayer(message.getNickName());
+            clients.remove(message.getNickName());
             game.setGameStatus(Response.REMOVEDPLAYER);
         }
 
@@ -264,6 +265,7 @@ public class GameController implements Observer<Message> {
         Player challenger = game.pickChallenger();
         getViewFromNickName(challenger.getNickname()).setYourTurn(true);
         game.setGameStatus(Response.CHALLENGERCHOICE);
+        startRoundTimer();
     }
 
     public synchronized void changeTurnPlayer(Message message){
@@ -278,20 +280,19 @@ public class GameController implements Observer<Message> {
 
 
     public synchronized void handleTurnBeginning() {//to start timer
-        if (game.getCurrentPlayer().checkIfLoose(game.getGameMap())) {
+        if (!game.getCurrentPlayer().checkIfLoose(game.getGameMap())) {
+              game.getCurrentPlayer().setTurnStatus(TurnStatus.PLAYTURN);
               game.setGameStatus(Response.STARTTURN);
         } else {
             stopRoundTimer();
             eliminatePlayer();
-
-
         }
     }
 
     public synchronized void handleEndTun(Message message){
         stopRoundTimer();
         if(FlowStatutsLoader.isRightMessage(game.getGameStatus(),message.getType())) {
-
+            game.getCurrentPlayer().setTurnStatus(TurnStatus.IDLE);
             changeTurnPlayer(message);
             startRoundTimer();
 
@@ -342,7 +343,7 @@ public class GameController implements Observer<Message> {
 
     public void startRoundTimer(){
       turnTimer = new Timer();
-      TurnTimerTask task = new TurnTimerTask(this);
+      TurnTimerTask task = new TurnTimerTask(clients.get(getCurrentPlayer().getNickname()).getConnection());
       turnTimer.schedule(task, (long) ConfigLoader.getTurnTimer()*1000);
     }
 
@@ -384,6 +385,8 @@ public class GameController implements Observer<Message> {
 
     @Override
     public synchronized void update(Message message) {
+        if(message == null)
+            throw new IllegalStateException("invalid message");
         try{
             processMessage(message);
         }catch (IllegalStateException ill){

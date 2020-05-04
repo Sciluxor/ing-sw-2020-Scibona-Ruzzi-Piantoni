@@ -11,9 +11,9 @@ public class GameMap {
 
 
 
-    private List<Square> map;          //forse non serve
-    private Square [][]linkToCoordinates = new Square[ConstantsContainer.MAXMAPPOSITION][ConstantsContainer.MAXMAPPOSITION]; // mettere come costanti
-    private List<Square> modifiedSquare = new ArrayList<>();
+    private final List<Square> map;
+    private final Square [][]linkToCoordinates = new Square[ConstantsContainer.MAXMAPPOSITION][ConstantsContainer.MAXMAPPOSITION]; // mettere come costanti
+    private final List<Square> modifiedSquare = new ArrayList<>();
 
     public GameMap() {
         this.map = MapLoader.loadMap();
@@ -53,7 +53,7 @@ public class GameMap {
               }
           }
 
-return reachableSquares;
+           return reachableSquares;
     }
 
     //

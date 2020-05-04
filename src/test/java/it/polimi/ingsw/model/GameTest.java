@@ -53,6 +53,7 @@ class GameTest {
         deck = CardLoader.loadCards();
         game = new Game(3, "G01");
         gameMap = new GameMap();
+
     }
 
     @Test

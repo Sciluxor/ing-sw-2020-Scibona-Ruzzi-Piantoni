@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.map.Building;
 import it.polimi.ingsw.model.map.Directions;
 import it.polimi.ingsw.model.map.Square;
 import it.polimi.ingsw.model.Response;
+import it.polimi.ingsw.model.player.Player;
 
 import java.util.List;
 
@@ -13,13 +14,15 @@ public class BuildWorkerMessage extends Message {
     private Building building;
     private List<Square> modifiedSquare;
     private Response winResponse;
+    private Player winnerPlayer;
 
-    public BuildWorkerMessage(String sender, String nickName, MessageSubType subType, Directions direction, Building building,Response winResponse,List<Square> squares) {
+    public BuildWorkerMessage(String sender, String nickName, MessageSubType subType, Directions direction, Building building, Response winResponse, Player winnerPlayer, List<Square> squares) {
         super(sender, nickName, MessageType.BUILDWORKER, subType);
         this.direction = direction;
         this.building = building;
         this.modifiedSquare = squares;
         this.winResponse = winResponse;
+        this.winnerPlayer = winnerPlayer;
     }
 
     public Directions getDirection() {
@@ -38,4 +41,7 @@ public class BuildWorkerMessage extends Message {
         return winResponse;
     }
 
+    public Player getWinnerPlayer() {
+        return winnerPlayer;
+    }
 }

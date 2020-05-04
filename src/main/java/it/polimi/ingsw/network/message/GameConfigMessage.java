@@ -7,7 +7,7 @@ public class GameConfigMessage extends Message {
     private boolean isNickValid;
     private boolean isNumberPlayerValid;
     private boolean isNickUsed;
-    private VirtualView view;
+    private transient VirtualView view;
 
 
     public GameConfigMessage(String sender,String nickName,MessageSubType subType,int numberOfPlayer,boolean isNickValid,boolean isNickUsed,boolean isNumberPlayerValid) {

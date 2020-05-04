@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.Response;
 import it.polimi.ingsw.model.SimplifiedGame;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.message.*;
+import it.polimi.ingsw.utils.ConfigLoader;
 
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
@@ -14,11 +15,12 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     public static final Logger LOGGER = Logger.getLogger("Client");
 
     private SimplifiedGame game;
-    private BlockingQueue<Runnable> eventQueue = new LinkedBlockingQueue<>();
+    private final BlockingQueue<Runnable> eventQueue = new LinkedBlockingQueue<>();
     private ClientConnection client;
 
 
     public ClientGameController(){
+        ConfigLoader.loadSetting();
         new Thread(this).start();
     }
 
@@ -79,7 +81,13 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         eventQueue.add(this::startGame);
     }
 
-    public synchronized void onUpdate(Message message){  //farlo synchronized?
+    public synchronized void handleDisconnection(){
+        client.closeConnection();
+        LOGGER.info("Lost connection");
+        //chiamare una funzione per chiudere il client, mostrare a schermo
+    }
+
+    public synchronized void onUpdate(Message message){
         switch (message.getType()){
             case WAITPLAYER:
                 onUpdateLobbyPlayer(message);

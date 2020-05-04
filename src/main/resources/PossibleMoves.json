@@ -1,9 +1,5 @@
 [
   {
-    "type": "NEWMOVE",
-    "next": ["BUILDWORKER","MOVEWORKER"]
-  },
-  {
     "type": "NEWBUILD",
     "next": ["BUILDWORKER","ENDTURN"]
   },
@@ -20,7 +16,23 @@
     "next": ["WORKERCHOICE"]
   },
   {
+    "type": "STARTTURNERROR",
+    "next": ["WORKERCHOICE"]
+  },
+  {
+    "type": "WRONGSQUAREMOVE",
+    "next": ["MOVEWORKER","BUILDWORKER"]
+  },
+  {
+    "type": "WRONGSQUAREBUILD",
+    "next": ["MOVEWORKER","BUILDWORKER","ENDTURN"]
+  },
+  {
     "type": "MOVED",
+    "next": ["BUILDWORKER"]
+  },
+  {
+    "type": "NOTBUILD",
     "next": ["BUILDWORKER"]
   },
   {
@@ -40,6 +52,10 @@
     "next": ["CHALLENGERCHOICE"]
   },
   {
+    "type": "CHALLENGERCHOICEERROR",
+    "next": ["CHALLENGERCHOICE"]
+  },
+  {
     "type": "CHALLENGERCHOICEDONE",
     "next": ["ENDTURN"]
   },
@@ -48,13 +64,22 @@
   "next": ["CHOOSECARD"]
  },
   {
+    "type": "CARDCHOICEERROR",
+    "next": ["CHOOSECARD"]
+  },
+  {
     "type": "CARDCHOICEDONE",
     "next": ["ENDTURN"]
   },
   {
   "type": "PLACEWORKERS",
   "next": ["PLACEWORKERS"]
- },{
+ },
+  {
+    "type": "PLACEWORKERSERROR",
+    "next": ["PLACEWORKERS"]
+  },
+  {
   "type": "PLACEWORKERSDONE",
   "next": ["ENDTURN"]
 }
