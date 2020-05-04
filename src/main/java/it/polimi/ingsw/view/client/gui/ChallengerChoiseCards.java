@@ -28,7 +28,7 @@ public class ChallengerChoiseCards extends JDesktopPane{
     private int chosen = 0;
     private final int numberPlayers;
     private static final List<JButton> godChosen = new ArrayList<>();
-    ConfirmButton confirm = new ConfirmButton();
+    MyButton confirm = new MyButton(0);
 
     public ChallengerChoiseCards(Gui instance, Dimension frame, Integer numberOfPlayer) throws IOException {
 

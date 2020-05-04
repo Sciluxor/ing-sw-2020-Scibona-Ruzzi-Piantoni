@@ -25,8 +25,8 @@ public class LobbyGui{
     private static JDesktopPane pane;
     private static JInternalFrame popUp;
     PopUp constructorPopUp = null;
-    static JButton backButton = new JButton();
-    ConfirmButton confirm;
+    MyButton backButton = null;
+    MyButton confirm = null;
     static JLabel lactualNumber = new JLabel();
     static JLabel lnumber = new JLabel();
     static JLabel lback;
@@ -53,7 +53,7 @@ public class LobbyGui{
         pane.setLayout(null);
 
         popUp = new JInternalFrame("", false, false, false, false);
-        confirm = new ConfirmButton();
+        confirm = new MyButton(0);
         popUp.add(confirm);
         nicknameLabel = new JLabel("nickname");
         nickname.setBounds((int) (intFrameSize.getWidth() * 40/100), (int) (intFrameSize.getHeight() * 35/100), intFrameSize.width * 20/100,intFrameSize.height * 3/100);
@@ -68,16 +68,8 @@ public class LobbyGui{
         popUp.setVisible(false);
         pane.add(popUp);
 
-        lback = ImageHandler.setImage("src/main/resources/Graphics/button_back.png", 100, 100, frameSize.width * 13/100, frameSize.height * 5/100);
-        lbackPress = ImageHandler.setImage("src/main/resources/Graphics/button_back_press.png", 100, 100, frameSize.width * 13/100, frameSize.height * 5/100);
-        backButton.setBounds((int) (getD().getWidth() * 43.5 / 100), (int) (getD().getHeight() * 79.5 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
-        backButton.setOpaque(false);
-        backButton.setContentAreaFilled(false);
-        backButton.setFocusPainted(false);
-        backButton.setBorderPainted(false);
-        backButton.setIcon(lback.getIcon());
+        backButton = new MyButton(1);
         backButton.setEnabled(true);
-        backButton.addMouseListener(new BackButtonPress());
         backButton.addActionListener(new BackToLogin());
         pane.add(backButton);
 
@@ -138,26 +130,11 @@ public class LobbyGui{
         pane.add(backgroundButton);
     }
 
-    private static class BackButtonPress extends MouseAdapter {
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-            JButton c = (JButton)e.getSource();
-            c.setIcon(lbackPress.getIcon());
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent e) {
-            JButton c = (JButton)e.getSource();
-            c.setIcon(lback.getIcon());
-        }
-    }
-
     private class BackToLogin implements ActionListener{
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            gui.backToLogin();
+            gui.backToLogin(false);
             gui.onBackCommand();
         }
     }

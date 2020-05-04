@@ -2,9 +2,24 @@ package it.polimi.ingsw.view.client.gui;
 
 import javax.swing.*;
 
+import java.io.IOException;
+
 import static it.polimi.ingsw.view.client.gui.Gui.*;
 
 public class BackgroundButton {
+
+    static JLabel cover;
+    static JLabel cover2;
+    static {
+        try {
+            cover = ImageHandler.setImage("src/main/resources/Graphics/background_panels.png", 100, 100, d.width, d.height);
+            cover2 = ImageHandler.setImage("src/main/resources/Graphics/title_sky.png", 100, 100, d.width, d.height);
+        } catch (IOException e) {
+            LOGGER.severe(e.getMessage());
+        }
+    }
+    static JLabel backgroundPanel = new JLabel(cover.getIcon());
+    static JLabel internalBackgroundPanel = new JLabel(cover2.getIcon());
 
     public static JButton backgroundButton(int n){
         JButton back = new JButton();

@@ -31,26 +31,11 @@ public class Gui extends ClientGameController {
     JPanel challengerChoiseFirst = null;
     JDesktopPane chooseCard3 = null;
     JDesktopPane chooseCard2 = null;
-    JPanel chooseCard1 = null;
+    JPanel lobbyPanel = null;
     JPanel chooseCard0 = null;
+
     PopUp constructorPopUp = null;
     JFrame popUp = new JFrame();
-    static JLabel lconfirm;
-    static JLabel lconfirmPress;
-    static JLabel cover;
-    static JLabel cover2;
-    static {
-        try {
-            lconfirm = ImageHandler.setImage("src/main/resources/Graphics/button_confirm.png", 100, 100, d.width * 13/100, d.height * 5/100);
-            lconfirmPress = ImageHandler.setImage("src/main/resources/Graphics/button_confirm_press.png", 100, 100, (int) (d.width * 13/100), (int) (d.height * 5/100));
-            cover = ImageHandler.setImage("src/main/resources/Graphics/background_panels.png", 100, 100, d.width, d.height);
-            cover2 = ImageHandler.setImage("src/main/resources/Graphics/title_sky.png", 100, 100, d.width, d.height);
-        } catch (IOException e) {
-            LOGGER.severe(e.getMessage());
-        }
-    }
-    static JLabel backgroundPanel = new JLabel(cover.getIcon());
-    static JLabel internalBackgroundPanel = new JLabel(cover2.getIcon());
     static int panelInUse = 0;
     private static int numberOfPlayers = 2;
     private static int actualPlayers = 1;
@@ -75,7 +60,7 @@ public class Gui extends ClientGameController {
 
 
         constructorPopUp = new PopUp(this, d);
-        popUp.add(constructorPopUp.lobbyPopUp(0));
+        newPopUp();
 
 
         login = new Login(this, d, true);                                                                                      //schermata 0 sistemata
@@ -247,12 +232,16 @@ public class Gui extends ClientGameController {
     public static Dimension getD() {
         return d;
     }
+    public void newPopUp(){
+        lobbyPanel = constructorPopUp.lobbyPopUp(0);
+        popUp.add(lobbyPanel);
+    }
 
-    public void backToLogin(){
+    public void backToLogin(boolean bool){
         frame.getContentPane().removeAll();
         panelInUse = 0;
         try {
-            login = new Login(this, d, false);
+            login = new Login(this, d, bool);
         } catch (IOException e) {
             LOGGER.severe(e.getMessage());
         }
@@ -272,6 +261,7 @@ public class Gui extends ClientGameController {
     @Override
     public void nickUsed() {
         SwingUtilities.invokeLater(() -> {
+            newPopUp();
             popUp.setVisible(true);
             popUp.repaint();
             popUp.validate();
@@ -282,8 +272,9 @@ public class Gui extends ClientGameController {
     @Override
     public void onLobbyDisconnection() {
         SwingUtilities.invokeLater(() -> {
-            popUp.removeAll();
-            popUp.add(constructorPopUp.lobbyPopUp(1));
+            popUp.remove(lobbyPanel);
+            lobbyPanel = constructorPopUp.lobbyPopUp(1);
+            popUp.add(lobbyPanel);
             popUp.repaint();
             popUp.validate();
         });

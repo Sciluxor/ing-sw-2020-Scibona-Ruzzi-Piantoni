@@ -8,9 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-
-import static it.polimi.ingsw.view.client.gui.Gui.*;
-
 public class Login extends JPanel{
 
     private Gui gui;
@@ -19,7 +16,7 @@ public class Login extends JPanel{
     JTextField numberPlayers;
     JTextField port;
     JTextField address;
-    ConfirmButton confirm;
+    MyButton confirm;
     boolean firstConnection = true;
 
     public Login(Gui istance, Dimension frame, boolean connection) throws IOException {
@@ -55,7 +52,7 @@ public class Login extends JPanel{
         add(santoriniLabel);
 
 
-        confirm = new ConfirmButton();
+        confirm = new MyButton(0);
         add(confirm);
 
         nickname.setBounds((int) (frameSize.width * 40/100), (int) (frameSize.height * 35/100), frameSize.width * 20/100,frameSize.height * 3/100);

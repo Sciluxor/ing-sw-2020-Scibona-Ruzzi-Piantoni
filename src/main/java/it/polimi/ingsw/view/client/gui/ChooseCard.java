@@ -53,7 +53,7 @@ public class ChooseCard extends  JDesktopPane{
         JLabel choose = ImageHandler.setImage("src/main/resources/Graphics/Texts/choose_your_god.png", 100, 100, frameSize.width * 30/100, frameSize.height * 10/100);
         JLabel choise = ImageHandler.setImage("src/main/resources/Graphics/Texts/this_is_your_god.png", 100, 100, frameSize.width * 30/100, frameSize.height * 10/100);
         JLabel wait = ImageHandler.setImage("src/main/resources/Graphics/Texts/waiting_for_other_players_choice.png", 100, 100, frameSize.width * 30/100, frameSize.height * 10/100);
-        ConfirmButton confirm = new ConfirmButton();
+        MyButton confirm = new MyButton(0);
         godChoosen = returnGodChoosen();
         buttonStyle();
 
