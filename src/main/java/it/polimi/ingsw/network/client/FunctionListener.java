@@ -20,6 +20,10 @@ public interface FunctionListener {
 
     void addConstraint();
 
+    void onLobbyDisconnection();
+
+    void onPingDisconnection();
+
     void onDisconnection();
 
     void errorMessage();

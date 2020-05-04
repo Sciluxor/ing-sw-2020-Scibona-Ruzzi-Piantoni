@@ -17,12 +17,12 @@ import java.util.*;
 public class Server implements Runnable{
 
     private final Object clientsLock = new Object();
-    private List<GameController> lobby = new ArrayList<>();
-    private List<GameController> actualMatches = new ArrayList<>();
-    private Map<String, GameController> controllerFromGameID = new HashMap<>();
-    private Map<String, GameController> controllerFromUserID = new HashMap<>();
+    private final List<GameController> lobby = new ArrayList<>();
+    private final List<GameController> actualMatches = new ArrayList<>();
+    private final Map<String, GameController> controllerFromGameID = new HashMap<>();
+    private final Map<String, GameController> controllerFromUserID = new HashMap<>();
     private SocketHandler socketHandler;
-    private List<ClientHandler> connections = new ArrayList<>();
+    private final List<ClientHandler> connections = new ArrayList<>();
     private Integer socketPort;
     private int numGameID;
     private int numUserID;
@@ -43,14 +43,21 @@ public class Server implements Runnable{
         FlowStatutsLoader.loadFlow();  //aggiungere anche i controlli per gli errori
 
         Scanner in = new Scanner(System.in);
-        String port = in.nextLine();
-
         int serverPort;
 
-        if(port.equals(""))
+        try {
+            String port = in.nextLine();
+            if (port.equals(""))
+                serverPort = ConfigLoader.getSocketPort();
+            else {
+                serverPort = Integer.parseInt(port);
+                if(serverPort < 1024 || serverPort > 60000)  //rivedere questi numeri
+                    serverPort = ConfigLoader.getSocketPort();
+            }
+        }catch (NumberFormatException numExc){
             serverPort = ConfigLoader.getSocketPort();
-        else
-            serverPort = Integer.parseInt(port);  //gestire input sbagliati
+        }
+
 
         Server server = new Server();
         server.setSocketPort(serverPort);
@@ -130,7 +137,7 @@ public class Server implements Runnable{
         }
     }
 
-    public synchronized void removeGameEnded(){
+    public synchronized void removeGameEnded(){  // da chiamare dalle view quandi finisce la partita
         List<Player> toRemovePlayers;
         for(GameController match: actualMatches){
             if(match.hasWinner()){

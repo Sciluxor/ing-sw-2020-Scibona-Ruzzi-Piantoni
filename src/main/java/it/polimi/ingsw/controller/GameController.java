@@ -14,7 +14,7 @@ public class GameController implements Observer<Message> {
 
     protected Game game;
     protected final Map<String, VirtualView> clients;
-    private Timer turnTimer ;
+    private Timer turnTimer = new Timer();
     private final RoundController roundController;
 
     public GameController(int numberOfPlayer,String gameID) {

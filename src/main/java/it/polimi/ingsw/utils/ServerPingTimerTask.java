@@ -24,6 +24,6 @@ public class ServerPingTimerTask implements Runnable {
             server.handleDisconnectionBeforeGame(server.getControllerFromUserID(userID),userID,connection,
                     new Message(userID,nickName, MessageType.DISCONNECTION, MessageSubType.PINGFAIL));
 
-        connection.closeConnection();
+        connection.closeAfterDisconnection();
     }
 }

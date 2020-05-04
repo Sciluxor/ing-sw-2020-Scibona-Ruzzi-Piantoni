@@ -87,7 +87,6 @@ public class ClientConnection implements ConnectionInterface,Runnable {
         }
     }
 
-    @Override
     public void closeConnection() {
         try {
             clientSocket.close();
