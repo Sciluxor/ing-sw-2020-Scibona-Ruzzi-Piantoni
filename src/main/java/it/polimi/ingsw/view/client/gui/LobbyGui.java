@@ -21,8 +21,9 @@ import static it.polimi.ingsw.view.client.gui.Gui.*;
 public class LobbyGui{
     Gui gui;
     static Dimension frameSize = new Dimension();
+    Dimension intFrameSize = new Dimension();
     private static JDesktopPane pane;
-    JInternalFrame popUp;
+    private static JInternalFrame popUp;
     PopUp constructorPopUp = null;
     static JButton backButton = new JButton();
     ConfirmButton confirm;
@@ -30,6 +31,8 @@ public class LobbyGui{
     static JLabel lnumber = new JLabel();
     static JLabel lback;
     static JLabel lbackPress;
+    JLabel nicknameLabel;
+    JTextField nickname = new JTextField(20);
     static Style colorStyle;
     static StyledDocument doc;
     static Style numberStyle;
@@ -40,29 +43,28 @@ public class LobbyGui{
 
     public LobbyGui(Gui instance, Dimension frame, Integer numberOfPlayer, List<Player> actualPlayers) throws IOException {
 
+        frameSize.setSize(frame);
         gui = instance;
         num = numberOfPlayer;
         players = actualPlayers;
         pane = new JDesktopPane();
-        frameSize.setSize(frame);
+        intFrameSize.setSize(frameSize.getWidth() * 40/100, frameSize.getHeight() * 45/100);
         pane.setPreferredSize(frameSize);
-        //pane.setLayout(null);
+        pane.setLayout(null);
 
+        popUp = new JInternalFrame("", false, false, false, false);
         confirm = new ConfirmButton();
-        window.add(confirm);
+        popUp.add(confirm);
         nicknameLabel = new JLabel("nickname");
-
-        nickname.setBounds((int) (Gui.getD().getWidth() * 40/100), (int) (Gui.getD().getHeight() * 35/100), Gui.getD().width * 20/100,Gui.getD().height * 3/100);
+        nickname.setBounds((int) (intFrameSize.getWidth() * 40/100), (int) (intFrameSize.getHeight() * 35/100), intFrameSize.width * 20/100,intFrameSize.height * 3/100);
         nickname.setText("Nickname");
-        window.add(nickname);
+        popUp.add(nickname);
         nicknameLabel.setBounds((int) (Gui.getD().getWidth() * 24.5/100), (int) (Gui.getD().getHeight() * 34/100), Gui.getD().width * 15/100,Gui.getD().height * 5/100);
-        window.add(nicknameLabel);
-        window = new JInternalFrame("", false, false, false, false);
-        window.setPreferredSize(intFrameSize);
-        internalFrameSetUp(window);
-        BasicInternalFrameUI bii = (BasicInternalFrameUI)window.getUI();
+        popUp.add(nicknameLabel);
+        popUp.setPreferredSize(intFrameSize);
+        internalFrameSetUp(popUp);
+        BasicInternalFrameUI bii = (BasicInternalFrameUI)popUp.getUI();
         bii.setNorthPane(null);
-        window.setVisible(false);
         popUp.setVisible(false);
         pane.add(popUp);
 
@@ -132,7 +134,7 @@ public class LobbyGui{
         stamp(players);
 
 
-        JButton backgroundButton = backgroundButton();
+        JButton backgroundButton = backgroundButton(0);
         pane.add(backgroundButton);
     }
 
@@ -218,8 +220,8 @@ public class LobbyGui{
     }
 
 
-    public JInternalFrame getPopUp() {
-        return popUp;
+    public void setVisiblePopUp() {
+        popUp.setVisible(true);
     }
 
 

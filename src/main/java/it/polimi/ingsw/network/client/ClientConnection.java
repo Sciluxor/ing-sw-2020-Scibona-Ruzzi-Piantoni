@@ -53,7 +53,7 @@ public class ClientConnection implements ConnectionInterface,Runnable {
 
     public void connectToServer(int numberOfPlayer){
         try{
-            clientSocket = new Socket("192.168.0.50", port);
+            clientSocket = new Socket("127.0.0.1", port);
             clientSocket.setTcpNoDelay(true);
             out = new ObjectOutputStream(clientSocket.getOutputStream());
             in = new ObjectInputStream(clientSocket.getInputStream());

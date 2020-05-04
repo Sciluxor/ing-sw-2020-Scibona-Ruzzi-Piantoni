@@ -22,6 +22,7 @@ public class Gui extends ClientGameController {
     static int width = (int)(screenSize.getWidth());
     static int height = (int)(screenSize.getHeight());
     static Dimension d = new Dimension(width * 95/100, height * 95/100);
+    Dimension intFrameSize = new Dimension(d.width * 70/100, d.height * 75/100);
     JFrame frame = new JFrame("Santorini");
     JPanel login = null;
     LobbyGui lobby = null;
@@ -33,20 +34,23 @@ public class Gui extends ClientGameController {
     JPanel chooseCard1 = null;
     JPanel chooseCard0 = null;
     PopUp constructorPopUp = null;
-    JInternalFrame popUp;
+    JFrame popUp = new JFrame();
     static JLabel lconfirm;
     static JLabel lconfirmPress;
     static JLabel cover;
+    static JLabel cover2;
     static {
         try {
             lconfirm = ImageHandler.setImage("src/main/resources/Graphics/button_confirm.png", 100, 100, d.width * 13/100, d.height * 5/100);
             lconfirmPress = ImageHandler.setImage("src/main/resources/Graphics/button_confirm_press.png", 100, 100, (int) (d.width * 13/100), (int) (d.height * 5/100));
             cover = ImageHandler.setImage("src/main/resources/Graphics/background_panels.png", 100, 100, d.width, d.height);
+            cover2 = ImageHandler.setImage("src/main/resources/Graphics/title_sky.png", 100, 100, d.width, d.height);
         } catch (IOException e) {
             LOGGER.severe(e.getMessage());
         }
     }
     static JLabel backgroundPanel = new JLabel(cover.getIcon());
+    static JLabel internalBackgroundPanel = new JLabel(cover2.getIcon());
     static int panelInUse = 0;
     private static int numberOfPlayers = 2;
     private static int actualPlayers = 1;
@@ -56,9 +60,11 @@ public class Gui extends ClientGameController {
     static Font felixBold = new Font(FELIX, Font.BOLD, (int) (25 * screenSize.getHeight() / 1080));
     static List<Player> players = new ArrayList<>();
     String nickname;
+    JButton buttonBackground = new JButton();
 
 
     private void show() throws IOException {
+
 
         Player ale = new Player("Alessandro");
         Player edo = new Player("Edoardo");
@@ -68,8 +74,8 @@ public class Gui extends ClientGameController {
         lui.setColor(Color.PURPLE);
 
 
-        constructorPopUp = new PopUp();
-
+        constructorPopUp = new PopUp(this, d);
+        popUp.add(constructorPopUp.lobbyPopUp(0));
 
 
         login = new Login(this, d, true);                                                                                      //schermata 0 sistemata
@@ -87,7 +93,19 @@ public class Gui extends ClientGameController {
         //board3 = new Board(screenSize, d, 3, players, "GID01");                                                                   //schermata 12
 
 
-
+        buttonBackground.setBounds(0, 0,intFrameSize.width, intFrameSize.height);
+        buttonBackground.setOpaque(false);
+        buttonBackground.setContentAreaFilled(false);
+        buttonBackground.setBorderPainted(false);
+        //popUp.add(buttonBackground);
+        popUp.setPreferredSize(intFrameSize);
+        popUp.setUndecorated(true);
+        popUp.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        SwingUtilities.updateComponentTreeUI(popUp);
+        popUp.pack();
+        popUp.setLocationRelativeTo(null);
+        popUp.setResizable(false);
+        popUp.setVisible(false);
 
         frame.setPreferredSize(d);
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -238,7 +256,7 @@ public class Gui extends ClientGameController {
         } catch (IOException e) {
             LOGGER.severe(e.getMessage());
         }
-        frame.add(login);
+        frame.setContentPane(login);
         players.clear();
         frame.repaint();
         frame.validate();
@@ -253,10 +271,27 @@ public class Gui extends ClientGameController {
 
     @Override
     public void nickUsed() {
-        System.out.println("stato qui");
-        lobby.getPopUp().setVisible(true);
-        frame.repaint();
-        frame.validate();
+        SwingUtilities.invokeLater(() -> {
+            popUp.setVisible(true);
+            popUp.repaint();
+            popUp.validate();
+        });
+
+    }
+
+    @Override
+    public void onLobbyDisconnection() {
+        SwingUtilities.invokeLater(() -> {
+            popUp.removeAll();
+            popUp.add(constructorPopUp.lobbyPopUp(1));
+            popUp.repaint();
+            popUp.validate();
+        });
+    }
+
+    @Override
+    public void onPingDisconnection() {
+
     }
 
     @Override

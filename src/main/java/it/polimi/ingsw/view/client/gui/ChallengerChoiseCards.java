@@ -158,7 +158,7 @@ public class ChallengerChoiseCards extends JDesktopPane{
             addForThree(chronus, x, y, yconst);
         }
 
-        JButton back = backgroundButton();
+        JButton back = backgroundButton(0);
         add(back);
 
 

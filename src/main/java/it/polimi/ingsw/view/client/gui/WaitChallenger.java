@@ -21,7 +21,7 @@ public class WaitChallenger extends JPanel{
         label.setBounds(frameSize.width * 30/100, frameSize.height * 5/100, frameSize.width * 40/100, frameSize.height * 20/100);
         add(label);
 
-        JButton back = backgroundButton();
+        JButton back = backgroundButton(0);
         add(back);
     }
 }

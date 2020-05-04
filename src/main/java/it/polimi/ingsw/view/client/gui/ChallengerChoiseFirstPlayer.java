@@ -42,7 +42,7 @@ public class ChallengerChoiseFirstPlayer extends JPanel{
             add(player3);
             player3.addActionListener(new ChangePanel(gui));
         }
-        JButton back = backgroundButton();
+        JButton back = backgroundButton(0);
         add(back);
 
     }

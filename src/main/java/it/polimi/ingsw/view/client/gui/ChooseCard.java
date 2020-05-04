@@ -99,7 +99,7 @@ public class ChooseCard extends  JDesktopPane{
                 add(wait);
             }
         }
-        JButton back = backgroundButton();
+        JButton back = backgroundButton(0);
         add(back);
     }
 
