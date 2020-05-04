@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
@@ -61,6 +62,7 @@ public class PopUp {
                 window.add(button1);
                 button1.addActionListener(new NewGame());
                 window.add(button2);
+                button2.addActionListener(new Close());
                 break;
 
             default:
@@ -96,11 +98,9 @@ public class PopUp {
     private class Close implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (!nickname.getText().equals("") && nickname.getText().length() > ConstantsContainer.MIN_LENGHT_NICK &&  nickname.getText().length() < ConstantsContainer.MAX_LENGHT_NICK){
-                gui.setNamePlayer(nickname.getText());
-                gui.updateNickName(nickname.getText());
-                gui.popUp.setVisible(false);
-            }
+            gui.popUp.dispose();
+            gui.frame.dispose();
+            System.exit(0);
         }
     }
 }
