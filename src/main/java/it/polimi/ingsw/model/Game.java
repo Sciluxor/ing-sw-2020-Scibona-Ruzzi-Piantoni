@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.player.Color;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerQueue;
 import it.polimi.ingsw.model.player.TurnStatus;
+import it.polimi.ingsw.network.server.Server;
 import it.polimi.ingsw.utils.ConstantsContainer;
 import it.polimi.ingsw.utils.Observable;
 import it.polimi.ingsw.view.server.VirtualView;
@@ -243,7 +244,7 @@ public class Game extends Observable<Response> {
             rand = SecureRandom.getInstanceStrong();
         }
         catch (NoSuchAlgorithmException nsa){
-            //logger
+            Server.LOGGER.severe(nsa.getMessage());
         }
 
         int numChallenger = rand.nextInt(numberOfPlayers-1);

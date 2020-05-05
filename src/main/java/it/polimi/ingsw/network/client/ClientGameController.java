@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.utils.ConfigLoader;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -20,7 +21,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
 
 
     public ClientGameController(){
-        ConfigLoader.loadSetting();
+        ConfigLoader.loadSetting();    //farne uno solo per il client?
         new Thread(this).start();
     }
 
@@ -61,7 +62,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     public synchronized List<Player> getPlayers(){
-        return game.getPlayers();
+        return new ArrayList<>(game.getPlayers());
     }
 
     public synchronized void nickUsed(Message message){
@@ -98,6 +99,10 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     public synchronized void placeWorkersResponse(int tile1,int tile2){
         client.sendMessage(new PlaceWorkersMessage(client.getUserID(),MessageSubType.ANSWER,game.getCoordinatesFromTile(tile1),
                 game.getCoordinatesFromTile(tile2)));
+    }
+
+    public synchronized void endTurn(){
+        client.sendMessage(new Message(client.getUserID(),client.getNickName(),MessageType.ENDTURN,MessageSubType.UPDATE));
     }
 
     public synchronized void updateCardChoice(Message message){
@@ -188,7 +193,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
                 handleCardChoice(message);
                 break;
             case PLACEWORKERS:
-                handlePlaceWorkers(message);  //come aggiornare i player piazzati? anche per carte.
+                handlePlaceWorkers(message);
                 break;
             default:
 
