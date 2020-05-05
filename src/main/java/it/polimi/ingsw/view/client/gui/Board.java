@@ -90,6 +90,12 @@ public class Board extends Observable {
     JLabel lButtonPowerPress;
     JLabel lButtonChat;
     JLabel lButtonChatPress;
+    JLabel lButtonChooseCards;
+    JLabel lButtonChooseCardsPress;
+    JLabel lbuttonChooseFirst;
+    JLabel lbuttonChooseFirstPress;
+    JLabel lbuttonChoosePower;
+    JLabel lbuttonChoosePowerPress;
     Dimension frameSize = new Dimension();
     Dimension boardSize = new Dimension();
     Dimension bottomSize = new Dimension();
@@ -174,10 +180,16 @@ public class Board extends Observable {
         lButtonMove = ImageHandler.setImage("src/main/resources/Graphics/button_move.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
         lButtonPower = ImageHandler.setImage("src/main/resources/Graphics/button_power.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
         lButtonChat = ImageHandler.setImage("src/main/resources/Graphics/button_chat.png", 100, 100, frameSize.width * 5/100, frameSize.height * 7/100);
+        lButtonChooseCards = ImageHandler.setImage("src/main/resources/Graphics/button_chat.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
+        lbuttonChooseFirst = ImageHandler.setImage("src/main/resources/Graphics/button_chat.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
+        lbuttonChoosePower = ImageHandler.setImage("src/main/resources/Graphics/button_chat.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
         lButtonBuildPress = ImageHandler.setImage("src/main/resources/Graphics/button_build_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
         lButtonMovePress = ImageHandler.setImage("src/main/resources/Graphics/button_move_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
         lButtonPowerPress = ImageHandler.setImage("src/main/resources/Graphics/button_power_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
         lButtonChatPress = ImageHandler.setImage("src/main/resources/Graphics/button_chat_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 7/100);
+        lButtonChooseCardsPress = ImageHandler.setImage("src/main/resources/Graphics/button_chat_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
+        lbuttonChooseFirst = ImageHandler.setImage("src/main/resources/Graphics/button_chat_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
+        lbuttonChoosePowerPress = ImageHandler.setImage("src/main/resources/Graphics/button_chat_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
 
 
         windowPower = new JWindow();
@@ -478,6 +490,12 @@ public class Board extends Observable {
         buttonChat.setBounds(frameSize.width * 85/100, frameSize.height * 58/100, frameSize.width * 5/100, frameSize.height * 7/100);
         buttonChat.addActionListener(new Chat());
         consoleButtons(buttonChat, lButtonChat);
+
+        buttonChooseCards.setBounds(frameSize.width * 85/100, frameSize.height * 19/100, frameSize.width * 5/100, frameSize.height * 5/100);
+
+        buttonChooseFirst.setBounds(frameSize.width * 85/100, frameSize.height * 31/100, frameSize.width * 5/100, frameSize.height * 5/100);
+
+        buttonChoosePower.setBounds(frameSize.width * 85/100, frameSize.height * 19/100, frameSize.width * 5/100, frameSize.height * 5/100);
 
 
 
