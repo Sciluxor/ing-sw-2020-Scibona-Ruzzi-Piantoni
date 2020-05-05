@@ -135,7 +135,7 @@ public class ClientConnection implements ConnectionInterface,Runnable {
             } catch (IOException e) {
                 closeConnection();
             } catch (ClassNotFoundException e) {
-                Logger.info("App Disconnected");
+                Logger.info("it.polimi.ingsw.App Disconnected");
                 ClientGameController.LOGGER.severe(e.getMessage());  //mettere una finally?
             }
         }

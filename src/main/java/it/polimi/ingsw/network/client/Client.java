@@ -222,7 +222,7 @@ public class Client {
 
             out.reset();
         }catch (IOException e){
-            Logger.info("\nApp Disconnected");
+            Logger.info("\nit.polimi.ingsw.App Disconnected");
         }
         catch (InterruptedException inter){
             Thread.currentThread().interrupt();
