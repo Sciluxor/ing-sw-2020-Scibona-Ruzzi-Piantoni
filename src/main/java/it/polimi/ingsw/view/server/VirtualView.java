@@ -9,7 +9,6 @@ import it.polimi.ingsw.utils.ConstantsContainer;
 import it.polimi.ingsw.utils.Observable;
 import it.polimi.ingsw.utils.Observer;
 
-import java.util.List;
 
 
 public class VirtualView extends Observable<Message> implements Observer<Response> {

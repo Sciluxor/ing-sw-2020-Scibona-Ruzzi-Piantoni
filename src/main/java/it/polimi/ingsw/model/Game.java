@@ -22,12 +22,12 @@ public class Game extends Observable<Response> {
     private Integer numberOfPlayers;
     private List<Player> settedPlayers;
     private int configPlayer;
-    private Map<String, Card> deck;
+    private final Map<String, Card> deck;
     private Player currentPlayer;
-    private GameMap gameMap;
+    private final GameMap gameMap;
     private boolean isGameStarted;
     private Response gameStatus;
-    private String gameID;
+    private final String gameID;
     private List<Color> availableColors;
     private List<String> availableCards;
     private PlayerQueue playerQueue;

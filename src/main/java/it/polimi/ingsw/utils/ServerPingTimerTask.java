@@ -5,7 +5,9 @@ import it.polimi.ingsw.network.message.MessageType;
 import it.polimi.ingsw.network.server.ClientHandler;
 import it.polimi.ingsw.network.server.Server;
 
-public class ServerPingTimerTask implements Runnable {
+import java.util.TimerTask;
+
+public class ServerPingTimerTask extends TimerTask {
     private ClientHandler connection;
     private String userID;
     private Server server;
@@ -21,7 +23,7 @@ public class ServerPingTimerTask implements Runnable {
     @Override
     public void run() {
         if(!connection.getUserID().equals(ConstantsContainer.USERDIDDEF))
-            server.handleDisconnectionBeforeGame(server.getControllerFromUserID(userID),userID,connection,
+            server.handleDisconnection(userID,connection,
                     new Message(userID,nickName, MessageType.DISCONNECTION, MessageSubType.PINGFAIL));
 
         connection.closeAfterDisconnection();
