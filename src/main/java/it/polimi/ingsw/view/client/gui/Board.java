@@ -4,6 +4,8 @@ import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.utils.Observable;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.StyleConstants;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
@@ -16,6 +18,7 @@ import static it.polimi.ingsw.view.client.gui.EliminateListeners.*;
 public class Board extends Observable {
     Gui gui;
     List<Player> allPlayer = new ArrayList<>();
+    List<Player> otherPlayers = new ArrayList<>();
     JFrame f;
     JDesktopPane desktopPane;
     JDesktopPane challengerChoiceCards;
@@ -48,6 +51,7 @@ public class Board extends Observable {
     boolean[] mapButtonsPlayer = new boolean[25];
     static JLabel playerpower = new JLabel();
     JLabel nicknameLabel = new JLabel();
+    JLabel nicknameLabel1 = new JLabel();
     JLabel gID = new JLabel();
     JLabel cover;
     JLabel cover1;
@@ -105,16 +109,15 @@ public class Board extends Observable {
 
         f = new JFrame();
         gui = instance;
-        System.out.println(allPlayer.size());
-        nicknameLabel.setText("Nickname: " + nickname);
+        nicknameLabel.setText("Nickname: ");
+        nicknameLabel1.setText(nickname);
         gID.setText("GameID: " + gameId);
         this.nickname = nickname;
         this.numberOfPlayers = numberOfPlayer;
         allPlayer = players;
-        System.out.println(allPlayer.size());
+        otherPlayers = players;
         mePlayer = pickNickFromPlayers();
-        removeNickFromPlayers();
-        System.out.println(allPlayer.size());
+        removeNickFromOtherPlayers();
 
         double ratio= (screen.getWidth()/screen.getHeight());
         int width = (int) ((screen.getWidth() * 95 / 100) * (1.689999 / ratio));
@@ -203,26 +206,32 @@ public class Board extends Observable {
 
 
 
-        nicknameLabel.setBounds((frameSize.width * 4/100), (frameSize.height * 3/100), frameSize.width * 20/100, frameSize.width * 5/100);
+        nicknameLabel.setBounds((int) (frameSize.width * 3.5/100), (int) (frameSize.height * 2.5/100), frameSize.width * 20/100, frameSize.width * 5/100);
         nicknameLabel.setFont(felixNormal);
+        nicknameLabel1.setBounds((int) (frameSize.width * 10.5/100), (int) (frameSize.height * 2.5/100), frameSize.width * 20/100, frameSize.width * 5/100);
+        nicknameLabel1.setFont(felixNormal);
+        nicknameLabel1.setForeground(getColorPlayer(mePlayer));
         desktopPane.add(nicknameLabel);
+        desktopPane.add(nicknameLabel1);
 
-        gID.setBounds((frameSize.width * 4/100), (frameSize.height * 5/100), frameSize.width * 20/100, frameSize.width * 5/100);
+        gID.setBounds((int) (frameSize.width * 3.5/100), (int) (frameSize.height * 4.5/100), frameSize.width * 20/100, frameSize.width * 5/100);
         gID.setFont(felixNormal);
         desktopPane.add(gID);
 
-        opponents.setBounds((frameSize.width * 3/100), (frameSize.height * 55/100), frameSize.width * 20/100, frameSize.width * 5/100);
+        opponents.setBounds((frameSize.width * 2/100), (frameSize.height * 55/100), frameSize.width * 20/100, frameSize.width * 5/100);
         opponents.setFont(felixNormal);
         desktopPane.add(opponents);
 
-        opponent1.setText(allPlayer.get(0).getNickname());
-        opponent1.setBounds((frameSize.width * 4/100), (frameSize.height * 61/100), frameSize.width * 10/100, frameSize.height * 4/100);
+        opponent1.setText(otherPlayers.get(0).getNickname());
+        opponent1.setBounds((frameSize.width * 3/100), (frameSize.height * 61/100), frameSize.width * 10/100, frameSize.height * 4/100);
+        opponent1.setForeground(getColorPlayer(otherPlayers.get(0)));
         //opponent1.setName(returnGodChoosen().get(1).getName());
         opponentsButton(opponent1);
         if (numberOfPlayer == 3){
-            JButton opponent2 = new JButton(allPlayer.get(1).getNickname());
+            JButton opponent2 = new JButton(otherPlayers.get(1).getNickname());
             //opponent2.setName(returnGodChoosen().get(2).getName());
-            opponent2.setBounds((frameSize.width * 4/100), (frameSize.height * 64/100), frameSize.width * 10/100, frameSize.height * 4/100);
+            opponent2.setBounds((frameSize.width * 3/100), (frameSize.height * 64/100), frameSize.width * 10/100, frameSize.height * 4/100);
+            opponent2.setForeground(getColorPlayer(otherPlayers.get(1)));
             opponentsButton(opponent2);
         }
 
@@ -489,6 +498,18 @@ public class Board extends Observable {
 
     }
 
+    private Color getColorPlayer(Player player){
+        if(player.getColor().toString().equalsIgnoreCase("BLUE")){
+            return Color.BLUE;
+        }
+        else if(player.getColor().toString().equalsIgnoreCase("WHITE")){
+            return Color.WHITE;
+        }
+        else {
+            return Color.MAGENTA;
+        }
+    }
+
     public static void internalFrameSetUp(JInternalFrame intFrame){
         intFrame.putClientProperty(PALETTE, Boolean.TRUE);
         intFrame.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
@@ -552,12 +573,12 @@ public class Board extends Observable {
         }
     }
 
-    private void removeNickFromPlayers(){
-        allPlayer.removeIf(player -> player.getNickname().equalsIgnoreCase(nickname));
+    private void removeNickFromOtherPlayers(){
+        otherPlayers.removeIf(player -> player.getNickname().equalsIgnoreCase(nickname));
     }
 
     private Player pickNickFromPlayers(){
-        for (Player player : allPlayer){
+        for (Player player : otherPlayers){
             if (player.getNickname().equalsIgnoreCase(nickname))
                 return player;
         }
