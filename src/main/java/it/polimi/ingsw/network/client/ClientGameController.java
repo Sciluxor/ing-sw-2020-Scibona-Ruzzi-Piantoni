@@ -86,8 +86,10 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         switch (message.getSubType()) {
             case TIMEENDED:
                 eventQueue.add(this::onLobbyDisconnection);
+                break;
             case PINGFAIL:
                 eventQueue.add(this::onPingDisconnection);
+                break;
 
         }
     }
