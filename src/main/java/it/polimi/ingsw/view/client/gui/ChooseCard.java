@@ -10,10 +10,10 @@ import java.util.List;
 
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
 import static it.polimi.ingsw.view.client.gui.Board.internalFrameSetUp;
-import static it.polimi.ingsw.view.client.gui.ChallengerChoiseCards.returnGodChoosen;
+import static it.polimi.ingsw.view.client.gui.ChallengerChoiceCards.returnGodChoosen;
 import static it.polimi.ingsw.view.client.gui.Gui.LOGGER;
 
-public class ChooseCard extends  JDesktopPane{
+public class ChooseCard extends JDesktopPane{
 
     Gui gui;
     Dimension frameSize = new Dimension();

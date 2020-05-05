@@ -10,17 +10,21 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static it.polimi.ingsw.view.client.gui.ChallengerChoiseCards.returnGodChoosen;
 import static it.polimi.ingsw.view.client.gui.Gui.LOGGER;
 import static it.polimi.ingsw.view.client.gui.EliminateListeners.*;
-import static it.polimi.ingsw.view.client.gui.Gui.players;
 
 public class Board extends Observable {
+    Gui gui;
     List<Player> allPlayer = new ArrayList<>();
     JFrame f;
     JDesktopPane desktopPane;
+    JDesktopPane challengerChoiceCards;
+    JPanel waitChallenger;
+    JPanel challengerChoiceFirstPlayer;
+    JDesktopPane chooseCard;
     JInternalFrame frameChat;
-    JWindow framePower;
+    JWindow windowChallenger;
+    JWindow windowPower;
     JScrollPane scrollPane;
     JButton buttonLv1 = new JButton();
     JButton buttonLv2 = new JButton();
@@ -29,9 +33,12 @@ public class Board extends Observable {
     JButton buttonMove = new JButton();
     JButton buttonBuild = new JButton();
     JButton buttonPower = new JButton();
+    JButton buttonChooseCards = new JButton();
+    JButton buttonChooseFirst = new JButton();
+    JButton buttonChoosePower = new JButton();
     JButton buttonChat = new JButton();
     JButton buttonExit = new JButton();
-    JButton sfondoFrame = new JButton();
+    JButton backgroundFrameChat = new JButton();
     JButton sfondoFramePower = new JButton();
     JButton opponent1 = new JButton();
     JTextArea chat = new JTextArea();
@@ -42,8 +49,8 @@ public class Board extends Observable {
     static JLabel playerpower = new JLabel();
     JLabel nicknameLabel = new JLabel();
     JLabel gID = new JLabel();
-    JLabel sfondo;
-    JLabel sfondo2;
+    JLabel cover;
+    JLabel cover1;
     JLabel cover2;
     JLabel background;
     JLabel opponents = new JLabel("Opponents:");
@@ -79,28 +86,30 @@ public class Board extends Observable {
     JLabel lButtonPowerPress;
     JLabel lButtonChat;
     JLabel lButtonChatPress;
-    private boolean chatOpen = false;
     Dimension frameSize = new Dimension();
     Dimension boardSize = new Dimension();
     Dimension bottomSize = new Dimension();
     Dimension sideSize = new Dimension();
     Dimension buttonSize = new Dimension();
     Dimension scrollSize = new Dimension();
+    Dimension windowSize = new Dimension();
     Font felixSmall;
     Font felixNormal;
     Font felixBold;
     static final String PALETTE = "JInternalFrame.isPalette";
     Player mePlayer;
     String nickname;
+    int numberOfPlayers = 2;
 
-    public void show(Dimension screen, Integer numberOfPlayer, final List<Player> players, String gameId, String nickname) throws IOException {
+    public void show(Gui instance, Dimension screen, Integer numberOfPlayer, final List<Player> players, String gameId, String nickname) throws IOException {
 
         f = new JFrame();
-
+        gui = instance;
         System.out.println(allPlayer.size());
         nicknameLabel.setText("Nickname: " + nickname);
         gID.setText("GameID: " + gameId);
         this.nickname = nickname;
+        this.numberOfPlayers = numberOfPlayer;
         allPlayer = players;
         System.out.println(allPlayer.size());
         mePlayer = pickNickFromPlayers();
@@ -111,6 +120,7 @@ public class Board extends Observable {
         int width = (int) ((screen.getWidth() * 95 / 100) * (1.689999 / ratio));
         int height = (int) (screen.getHeight() * 91 / 100);
         frameSize.setSize(width, height);
+        windowSize.setSize(frameSize.width * 40/100, frameSize.height * 45/100);
 
 
         boardSize.setSize(frameSize.height * 80/100, frameSize.height * 80/100);
@@ -120,12 +130,12 @@ public class Board extends Observable {
         scrollSize.setSize(sideSize.getWidth() * 14/100 , sideSize.getHeight() * 28/100);
 
         JLabel cover = ImageHandler.setImage("src/main/resources/Graphics/board.png", 100, 100, width, height);
-        sfondo = new JLabel(cover.getIcon());
+        this.cover = new JLabel(cover.getIcon());
 
         JLabel cover1 = ImageHandler.setImage("src/main/resources/Graphics/panel_chat.png", 100, 100, sideSize.width, sideSize.height);
-        sfondo2 = new JLabel(cover1.getIcon());
+        this.cover1 = new JLabel(cover1.getIcon());
 
-        cover2 = ImageHandler.setImage("src/main/resources/Graphics/title_sky.png", 100, 100, frameSize.width * 40/100, frameSize.height * 45/100);
+        cover2 = ImageHandler.setImage("src/main/resources/Graphics/background.png", 100, 100, frameSize.width * 40/100, frameSize.height * 45/100);
         background = new JLabel(cover2.getIcon());
 
         felixSmall = new Font(Gui.FELIX, Font.PLAIN, (int) (13 * screen.getHeight() / 1080));
@@ -167,8 +177,11 @@ public class Board extends Observable {
         lButtonChatPress = ImageHandler.setImage("src/main/resources/Graphics/button_chat_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 7/100);
 
 
-        framePower = new JWindow();
-        framePower.setBounds((int)(frameSize.width * 35.5/100), (int) (frameSize.height * 37/100), frameSize.width * 40/100, frameSize.height * 45/100);
+        windowPower = new JWindow();
+        windowPower.setBounds((int)(frameSize.width * 35.5/100), (int) (frameSize.height * 37/100), windowSize.width, windowSize.height);
+
+        windowChallenger = new JWindow();
+        windowChallenger.setBounds((int)(frameSize.width * 35.5/100), (int) (frameSize.height * 37/100), windowSize.width, windowSize.height);
 
 
         frameChat = new JInternalFrame("frameChat", false, false, false, false);
@@ -183,7 +196,7 @@ public class Board extends Observable {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                g.drawImage( ((ImageIcon)(sfondo.getIcon())).getImage(), -7, -18, null);
+                g.drawImage( ((ImageIcon)(Board.this.cover.getIcon())).getImage(), -7, -18, null);
             }};
 
         desktopPane.setPreferredSize(frameSize);
@@ -240,12 +253,14 @@ public class Board extends Observable {
         chatStyleButtons(buttonExit, exit);
         frameChat.add(buttonExit);
 
-        chatStyleButtons(sfondoFrame, sfondo2);
-        frameChat.getContentPane().add(sfondoFrame);
+        chatStyleButtons(backgroundFrameChat, this.cover1);
+        frameChat.getContentPane().add(backgroundFrameChat);
 
 
         chatStyleButtons(sfondoFramePower, background);
-        framePower.getContentPane().add(sfondoFramePower);
+        windowPower.getContentPane().add(sfondoFramePower);
+
+        windowChallenger.getContentPane().add(sfondoFramePower);
 
 
         resetLevel();
@@ -547,6 +562,25 @@ public class Board extends Observable {
                 return player;
         }
         return null;
+    }
+
+    public void showChallenger(String name, boolean bool) {
+        if (bool){
+            try {
+                challengerChoiceCards = new ChallengerChoiceCards(gui, windowSize, numberOfPlayers);
+            } catch (IOException e) {
+                LOGGER.severe(e.getMessage());
+            }
+            windowChallenger.getContentPane().add(challengerChoiceCards);
+        }
+        else{
+            try {
+                waitChallenger = new WaitChallenger(windowSize);
+            } catch (IOException e) {
+                LOGGER.severe(e.getMessage());
+            }
+            windowChallenger.add(waitChallenger);
+        }
     }
 
     private class Write implements ActionListener{
@@ -879,7 +913,7 @@ public class Board extends Observable {
         @Override
         public void mouseEntered(MouseEvent e) {
             JButton c = (JButton)e.getSource();
-            try {
+            /*try {
                 cover2 = ImageHandler.setImage(c.getName(), 100, 100, frameSize.width * 40/100, frameSize.height * 45/100);
             } catch (IOException ioException) {
                 LOGGER.severe(ioException.getMessage());
@@ -887,12 +921,12 @@ public class Board extends Observable {
             background = new JLabel(cover2.getIcon());
             framePower.getContentPane().removeAll();
             chatStyleButtons(sfondoFramePower, background);
-            framePower.getContentPane().add(sfondoFramePower);
-            framePower.setVisible(true);
+            framePower.getContentPane().add(sfondoFramePower);*/
+            windowPower.setVisible(true);
         }
         @Override
         public void mouseExited(MouseEvent e) {
-            framePower.setVisible(false);
+            windowPower.setVisible(false);
         }
     }
 }

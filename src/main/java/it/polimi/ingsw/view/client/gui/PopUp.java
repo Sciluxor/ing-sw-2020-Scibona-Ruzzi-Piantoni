@@ -41,7 +41,7 @@ public class PopUp {
                 button1.addActionListener(new Send());
                 window.add(button1);
 
-                nickname.setBounds((int) (intFrameSize.width * 35/100), (int) (intFrameSize.height * 50/100), intFrameSize.width * 30/100,intFrameSize.height * 4/100);
+                nickname.setBounds((int) (intFrameSize.width * 35/100), (int) (intFrameSize.height * 60/100), intFrameSize.width * 30/100,intFrameSize.height * 4/100);
                 nickname.setText("Other Nickname");
                 window.add(nickname);
 
@@ -51,47 +51,47 @@ public class PopUp {
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }
-                label1.setBounds((int) (intFrameSize.width * 20/100), (int) (intFrameSize.height * 49.5/100), intFrameSize.width * 15/100,intFrameSize.height * 5/100);
-                window.add(label1);
-
-                /*label2 = new JLabel();
-                try {
-                    label2 = ImageHandler.setImage("src/main/resources/Graphics/Texts/your_nickname.png", 97, 100, intFrameSize.width * 15/100,intFrameSize.height * 5/100);
-                } catch (IOException e) {
-                    LOGGER.severe(e.getMessage());
-                }
-                label2.setBounds((int) (intFrameSize.width * 42.5/100), (int) (intFrameSize.height * 25/100), intFrameSize.width * 15/100,intFrameSize.height * 5/100);
-                window.add(label2);
-
-                label3 = new JLabel();
-                try {
-                    label3 = ImageHandler.setImage("src/main/resources/Graphics/Texts/change_nickname.png", 97, 100, intFrameSize.width * 15/100,intFrameSize.height * 5/100);
-                } catch (IOException e) {
-                    LOGGER.severe(e.getMessage());
-                }
-                label2.setBounds((int) (intFrameSize.width * 42.5/100), (int) (intFrameSize.height * 35/100), intFrameSize.width * 15/100,intFrameSize.height * 5/100);
-                window.add(label3);*/
-
-                break;
-
-            case 1:
-                /*label1 = new JLabel();
-                try {
-                    label1 = ImageHandler.setImage("src/main/resources/Graphics/Texts/disconnected.png", 97, 100, intFrameSize.width * 15/100,intFrameSize.height * 5/100);
-                } catch (IOException e) {
-                    LOGGER.severe(e.getMessage());
-                }
-                label1.setBounds((int) (intFrameSize.width * 42.5/100), (int) (intFrameSize.height * 25/100), intFrameSize.width * 15/100,intFrameSize.height * 5/100);
+                label1.setBounds((int) (intFrameSize.width * 20/100), (int) (intFrameSize.height * 59.5/100), intFrameSize.width * 15/100,intFrameSize.height * 5/100);
                 window.add(label1);
 
                 label2 = new JLabel();
                 try {
-                    label2 = ImageHandler.setImage("src/main/resources/Graphics/Texts/start_a_newgame.png", 97, 100, intFrameSize.width * 15/100,intFrameSize.height * 5/100);
+                    label2 = ImageHandler.setImage("src/main/resources/Graphics/Texts/your_nickname_is_already_used.png", 97, 100, intFrameSize.width * 50/100,intFrameSize.height * 15/100);
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }
-                label2.setBounds((int) (intFrameSize.width * 42.5/100), (int) (intFrameSize.height * 35/100), intFrameSize.width * 15/100,intFrameSize.height * 5/100);
-                window.add(label2);*/
+                label2.setBounds((int) (intFrameSize.width * 25/100), (int) (intFrameSize.height * 10/100), intFrameSize.width * 50/100,intFrameSize.height * 15/100);
+                window.add(label2);
+
+                label3 = new JLabel();
+                try {
+                    label3 = ImageHandler.setImage("src/main/resources/Graphics/Texts/change_your_nickname.png", 97, 100, intFrameSize.width * 40/100,intFrameSize.height * 15/100);
+                } catch (IOException e) {
+                    LOGGER.severe(e.getMessage());
+                }
+                label3.setBounds((int) (intFrameSize.width * 30/100), (int) (intFrameSize.height * 25/100), intFrameSize.width * 40/100,intFrameSize.height * 15/100);
+                window.add(label3);
+
+                break;
+
+            case 1:
+                label1 = new JLabel();
+                try {
+                    label1 = ImageHandler.setImage("src/main/resources/Graphics/Texts/you_have_been_disconnected.png", 97, 100, intFrameSize.width * 40/100,intFrameSize.height * 15/100);
+                } catch (IOException e) {
+                    LOGGER.severe(e.getMessage());
+                }
+                label1.setBounds((int) (intFrameSize.width * 30/100), (int) (intFrameSize.height * 20/100), intFrameSize.width * 40/100,intFrameSize.height * 15/100);
+                window.add(label1);
+
+                label2 = new JLabel();
+                try {
+                    label2 = ImageHandler.setImage("src/main/resources/Graphics/Texts/start_new_game_or_close.png", 97, 100, intFrameSize.width * 40/100,intFrameSize.height * 15/100);
+                } catch (IOException e) {
+                    LOGGER.severe(e.getMessage());
+                }
+                label2.setBounds((int) (intFrameSize.width * 30/100), (int) (intFrameSize.height * 40/100), intFrameSize.width * 40/100,intFrameSize.height * 15/100);
+                window.add(label2);
 
                 button1 = new MyButton(2);
                 button1.setBounds((int) (intFrameSize.width * 29.12 / 100), (int) (intFrameSize.height * 79.5 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
@@ -106,11 +106,11 @@ public class PopUp {
             case 2:
                 label1 = new JLabel();
                 try {
-                    label1 = ImageHandler.setImage("src/main/resources/Graphics/Texts/disconnected.png", 97, 100, intFrameSize.width * 15/100,intFrameSize.height * 5/100);
+                    label1 = ImageHandler.setImage("src/main/resources/Graphics/Texts/you_have_been_disconnected.png", 97, 100, intFrameSize.width * 40/100,intFrameSize.height * 15/100);
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }
-                label1.setBounds((int) (intFrameSize.width * 42.5/100), (int) (intFrameSize.height * 35/100), intFrameSize.width * 15/100,intFrameSize.height * 5/100);
+                label1.setBounds((int) (intFrameSize.width * 30/100), (int) (intFrameSize.height * 35/100), intFrameSize.width * 40/100,intFrameSize.height * 15/100);
                 window.add(label1);
                 button1 = new MyButton(3);
                 button1.setBounds((int) (intFrameSize.width * 41.12 / 100), (int) (intFrameSize.height * 79.5 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));

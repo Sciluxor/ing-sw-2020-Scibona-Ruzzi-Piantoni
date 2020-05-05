@@ -31,9 +31,11 @@ public class Gui extends ClientGameController {
     JPanel challengerChoiseFirst = null;
     JDesktopPane chooseCard3 = null;
     JDesktopPane chooseCard2 = null;
+    JDesktopPane challengerChoiseCards2 = null;
+    JDesktopPane challengerChoiseCards3 = null;
     JPanel lobbyPanel = null;
     JPanel chooseCard0 = null;
-
+    Board board;
     PopUp constructorPopUp = null;
     JFrame popUp = new JFrame();
     static int panelInUse = 0;
@@ -63,13 +65,15 @@ public class Gui extends ClientGameController {
         newPopUp();
 
 
+        board = new Board();
+
         login = new Login(this, d, true);                                                                                      //schermata 0 sistemata
         //lobby = new LobbyGui(this, d, numberOfPlayers);                                                       //schermata 1  sistemata
-        //challengerChoiseCards2 = new ChallengerChoiseCards(d, numberOfPlayers, background_panel);                              //schermata 2 sistemata
-        //challengerChoiseCards3 = new ChallengerChoiseCards(d, numberOfPlayers, background_panel);                              //schermata 3 sistemata
+        //challengerChoiseCards2 = new ChallengerChoiceCards(d, numberOfPlayers, background_panel);                              //schermata 2 sistemata
+        //challengerChoiseCards3 = new ChallengerChoiceCards(d, numberOfPlayers, background_panel);                              //schermata 3 sistemata
         waitChallenger = new WaitChallenger(d);                                                                                 //schermata 4 sistemata
-        //challengerChoiseFirst2 = new ChallengerChoiseFirstPlayer(d, numberOfPlayers, players, background_panel);              //schermata 5 sistemata
-        //challengerChoiseFirst3 = new ChallengerChoiseFirstPlayer(d, numberOfPlayers, players, background_panel);              //schermata 6 sistemata
+        //challengerChoiseFirst2 = new ChallengerChoiceFirstPlayer(d, numberOfPlayers, players, background_panel);              //schermata 5 sistemata
+        //challengerChoiseFirst3 = new ChallengerChoiceFirstPlayer(d, numberOfPlayers, players, background_panel);              //schermata 6 sistemata
         //chooseCard3 = new ChooseCard(screenSize, d, 3);                                                             //schermata 7 sistemata
         //chooseCard2 = new ChooseCard(screenSize, d, 2);                                                             //schermata 8 sistemata
         //chooseCard1 = new ChooseCard(screenSize, d, 1);                                                             //schermata 9 sistemata
@@ -119,9 +123,9 @@ public class Gui extends ClientGameController {
                 panelInUse = 1;
                 break;
             case 1:
-                frame.remove(challengerChoiseCards);
+                //frame.remove(challengerChoiseCards);
                 try {
-                    challengerChoiseFirst = new ChallengerChoiseFirstPlayer(this, d, numberOfPlayers, players);
+                    challengerChoiseFirst = new ChallengerChoiceFirstPlayer(this, d, numberOfPlayers, players);
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }
@@ -154,7 +158,7 @@ public class Gui extends ClientGameController {
                 frame.dispose();
                 Board board = new Board();
                 try {
-                    board.show(screenSize, numberOfPlayers, players, "GID01", nickname);
+                    board.show(this, screenSize, numberOfPlayers, players, "GID01", nickname);
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }
@@ -254,7 +258,7 @@ public class Gui extends ClientGameController {
     @Override
     public void updateLobbyPlayer() {
         SwingUtilities.invokeLater(() -> {
-            LobbyGui.stamp(getPlayers());
+            lobby.stamp(getPlayers());
         });
     }
 
@@ -295,9 +299,8 @@ public class Gui extends ClientGameController {
     public void startGame() {
         SwingUtilities.invokeLater(() -> {
             frame.dispose();
-            Board board = new Board();
             try {
-                board.show(screenSize, numberOfPlayers, getPlayers(), "GID01", nickname);
+                board.show(this, screenSize, numberOfPlayers, getPlayers(), "GID01", nickname);
             } catch (IOException e) {
                 LOGGER.severe(e.getMessage());
             }
@@ -305,8 +308,8 @@ public class Gui extends ClientGameController {
     }
 
     @Override
-    public void challengerChoice() {
-
+    public void challengerChoice(/*String name, boolean bool*/) {
+        //board.showChallenger(name, bool);
     }
 
     @Override

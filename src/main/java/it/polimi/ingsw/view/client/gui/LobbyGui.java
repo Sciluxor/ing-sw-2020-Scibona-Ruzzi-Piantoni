@@ -22,7 +22,7 @@ public class LobbyGui{
     Gui gui;
     static Dimension frameSize = new Dimension();
     Dimension intFrameSize = new Dimension();
-    private static JDesktopPane pane;
+    private JDesktopPane pane;
     private static JInternalFrame popUp;
     PopUp constructorPopUp = null;
     MyButton backButton = null;
@@ -139,7 +139,7 @@ public class LobbyGui{
         }
     }
 
-    public static void stamp(List<Player> players){
+    public void stamp(List<Player> players){
         clean();
         for (Player player : players){
             if(player.getColor().toString().equalsIgnoreCase("BLUE")){
@@ -160,7 +160,7 @@ public class LobbyGui{
         number(players.size());
     }
 
-    private static void clean(){
+    private void clean(){
         try {
             doc.remove(0, doc.getLength());
         } catch (BadLocationException e) {
@@ -173,7 +173,7 @@ public class LobbyGui{
         }
     }
 
-    private static void number(int size){
+    private void number(int size){
         String value;
         if (size == 1){
             value = "1";

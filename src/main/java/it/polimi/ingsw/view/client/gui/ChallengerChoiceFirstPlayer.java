@@ -8,12 +8,12 @@ import java.io.IOException;
 import java.util.List;
 
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
-public class ChallengerChoiseFirstPlayer extends JPanel{
+public class ChallengerChoiceFirstPlayer extends JPanel{
 
     Gui gui;
     Dimension frameSize = new Dimension();
 
-    public ChallengerChoiseFirstPlayer(Gui istance, Dimension frame, Integer numberOfPlayer, List<Player> players) throws IOException {
+    public ChallengerChoiceFirstPlayer(Gui istance, Dimension frame, Integer numberOfPlayer, List<Player> players) throws IOException {
 
         gui = istance;
         frameSize.setSize(frame);

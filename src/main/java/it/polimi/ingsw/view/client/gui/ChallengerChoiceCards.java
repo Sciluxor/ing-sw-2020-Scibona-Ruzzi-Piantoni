@@ -13,7 +13,7 @@ import static it.polimi.ingsw.view.client.gui.Board.internalFrameSetUp;
 import static it.polimi.ingsw.view.client.gui.EliminateListeners.*;
 import static it.polimi.ingsw.view.client.gui.Gui.*;
 
-public class ChallengerChoiseCards extends JDesktopPane{
+public class ChallengerChoiceCards extends JDesktopPane{
 
     Gui gui;
     Dimension frameSize = new Dimension();
@@ -30,7 +30,7 @@ public class ChallengerChoiseCards extends JDesktopPane{
     private static final List<JButton> godChosen = new ArrayList<>();
     MyButton confirm = new MyButton(0);
 
-    public ChallengerChoiseCards(Gui instance, Dimension frame, Integer numberOfPlayer) throws IOException {
+    public ChallengerChoiceCards(Gui instance, Dimension frame, Integer numberOfPlayer) throws IOException {
 
         gui = instance;
         frameSize.setSize(frame);
