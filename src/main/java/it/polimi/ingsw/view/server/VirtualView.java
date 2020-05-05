@@ -9,11 +9,13 @@ import it.polimi.ingsw.utils.ConstantsContainer;
 import it.polimi.ingsw.utils.Observable;
 import it.polimi.ingsw.utils.Observer;
 
+import java.util.List;
+
 
 public class VirtualView extends Observable<Message> implements Observer<Response> {
 
-    private ClientHandler connection;
-    private GameController controller;
+    private final ClientHandler connection;
+    private final GameController controller;
     private boolean isGameStarted = false;
     private boolean isYourTurn = false;
 
@@ -43,39 +45,45 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
     }
 
     public void processMessageReceived(Message message){
-       notify(message);
-   }
+        notify(message);
+    }
 
-   public void onUpdatedStatus(Response status){
-       switch (status) {
-           case PLAYERADDED:
-               handleYourPlayerAdded();
-               break;
-           case NICKUSED:
-               handleNickUsed();
-               break;
-           case GAMESTARTED:
-               handleStartGame();
-               break;
-           case PLACEWORKERSERROR:
-           case STATUSERROR:
-           case CARDCHOICEERROR:
-           case CHALLENGERCHOICEERROR:
-           case STARTTURNERROR:
-               handleClientError();
-               break;
-           case CHALLENGERCHOICE:
-               //aggoingere metodo
-               break;
-           case PLAYERLOSE:
-               //handleYourPlayerLose(); //finire questi
-               break;
-           default:
-       }
+    public void onUpdatedStatus(Response status){
+        switch (status) {
+            case PLAYERADDED:
+                handleYourPlayerAdded();
+                break;
+            case NICKUSED:
+                handleNickUsed();
+                break;
+            case GAMESTARTED:
+                handleStartGame();
+                break;
+            case PLACEWORKERSERROR:
+            case STATUSERROR:
+            case CARDCHOICEERROR:
+            case CHALLENGERCHOICEERROR:
+            case STARTTURNERROR:
+                handleClientError();
+                break;
+            case CHALLENGERCHOICE:
+                handleChallengerChoice();
+                break;
+            case CARDCHOICE:
+                handleCardChoice();
+                break;
+            case PLACEWORKERS:
+                handlePlaceWorkers();
+                break;
+            case PLAYERLOSE:
+                //handleYourPlayerLose(); //finire questi
+                break;
+            default:
+        }
 
-   }
+    }
 
-   public void onUpdatedInstance(Response status){
+    public void onUpdatedInstance(Response status){
         switch (status){
             case PLAYERADDED:
                 handleNewPlayerAdded();
@@ -84,47 +92,73 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
                 handleRemovedPlayer();
                 break;
             case CHALLENGERCHOICE:
-                handleChallengerChoice();
+                handleOtherChallengerChoice();
+                break;
+            case CHALLENGERCHOICEDONE:
+                handleChallengerChoiceDone();
+                break;
+            case CARDCHOICE:
+                handleOtherCardChoice();
+                break;
+            case CARDCHOICEDONE:
+                handleOtherCardChoiceDone();
+                break;
+            case PLACEWORKERS:
+                handleOtherPlaceWorkers();
+                break;
+            case PLACEWORKERSDONE:
+                handleOtherPlaceWorkersDone();
                 break;
             case PLAYERLOSE:
-               // handleOtherPlayerLoose();
+                // handleOtherPlayerLoose();
                 break;
             default:
         }
-   }
+    }
 
     //
     // methods for the turn of player
     //
 
-   public void handleYourPlayerAdded(){
+    public void handleYourPlayerAdded(){
         WaitPlayerMessage message = new WaitPlayerMessage(ConstantsContainer.SERVERNAME,MessageSubType.UPDATE,connection.getUserID());
         connection.sendMessage(buildWaitLobbyMessage(message));
-   }
+    }
 
-   public void handleNickUsed(){
+    public void handleNickUsed(){
         WaitPlayerMessage message = new WaitPlayerMessage(ConstantsContainer.SERVERNAME,MessageSubType.UPDATE,connection.getUserID());
         connection.sendMessage(buildWaitLobbyMessage(message));
         connection.sendMessage(new Message(ConstantsContainer.SERVERNAME, MessageType.CONFIG,MessageSubType.NICKUSED,connection.getUserID()));
         connection.startLobbyTimer();
-   }
+    }
 
-   public void handleStartGame(){
-       connection.sendMessage(new GameStartedMessage(ConstantsContainer.SERVERNAME,MessageSubType.UPDATE,controller.getGameID()));
-   }
+    public void handleStartGame(){
+        connection.sendMessage(new GameStartedMessage(ConstantsContainer.SERVERNAME,MessageSubType.UPDATE,controller.getGameID()));
+    }
 
-   public Message buildWaitLobbyMessage(WaitPlayerMessage message){
-       for(Player player: controller.getActualPlayers()){
-           message.addColor(player.getColor());
-           message.addNickName(player.getNickname());
-       }
-       return message;
+    public Message buildWaitLobbyMessage(WaitPlayerMessage message){
+        for(Player player: controller.getActualPlayers()){
+            message.addColor(player.getColor());
+            message.addNickName(player.getNickname());
+        }
+        return message;
+    }
 
-   }
+    public void handleChallengerChoice(){
+        connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.CHALLENGERCHOICE,MessageSubType.REQUEST,controller.getCurrentPlayer().getNickname()));
+    }
 
-   public void handleClientError(){
-                                    //connection.sendMessage(new Message());
-   }
+    public void  handleCardChoice(){
+        connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.CHOOSECARD,MessageSubType.REQUEST,controller.getCurrentPlayer().getNickname()));
+    }
+
+    public void handlePlaceWorkers(){
+        connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.PLACEWORKERS,MessageSubType.REQUEST,controller.getCurrentPlayer().getNickname()));
+    }
+
+    public void handleClientError(){
+        //connection.sendMessage(new Message());
+    }
 
     //
     //methods for the idle turn of the player
@@ -143,21 +177,38 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
         connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.NOTYOURTURN,MessageSubType.ERROR));
     }
 
+    public void handleOtherChallengerChoice(){
+        connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.CHALLENGERCHOICE,MessageSubType.UPDATE,controller.getCurrentPlayer().getNickname()));
+    }
+
+    public void handleChallengerChoiceDone(){
+        connection.sendMessage(new ChallengerChoiceMessage(ConstantsContainer.SERVERNAME,controller.getCurrentPlayer().getNickname(),MessageSubType.SETTED,null,controller.getAvailableCards()));
+    }
+    public void handleOtherCardChoice(){
+        connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.CHOOSECARD,MessageSubType.UPDATE,controller.getCurrentPlayer().getNickname()));
+    }
+    public void handleOtherCardChoiceDone(){
+        connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.CHOOSECARD,MessageSubType.SETTED,controller.getCurrentPlayer().getPower().getName()));
+    }
+    public void  handleOtherPlaceWorkers(){
+        connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.PLACEWORKERS,MessageSubType.UPDATE,controller.getCurrentPlayer().getNickname()));
+    }
+    public void handleOtherPlaceWorkersDone(){
+         //mandare i modifiedSquare?
+    }
+
     //
     //methods for both
     //
 
-    public void handleChallengerChoice(){
-        //connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.CHALLENGERCHOICE,MessageSubType.REQUEST,controller.getCurrentPlayer().getNickname()));
-    }
+
     //getNickname manca la maiuscola
 
 
     @Override
     public void update(Response status) {
-      if(isYourTurn)
-       onUpdatedStatus(status);
-      else onUpdatedInstance(status);
+        if(isYourTurn)
+            onUpdatedStatus(status);
+        else onUpdatedInstance(status);
     }
 }
-//creare un'interfaccia comune per virtualView e view del client

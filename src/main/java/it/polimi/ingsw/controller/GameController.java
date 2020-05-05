@@ -105,6 +105,10 @@ public class GameController implements Observer<Message> {
         return new Game(numberOfPlayers,gameID);
     }
 
+    public synchronized List<String> getAvailableCards(){
+        return game.getAvailableCards();
+    }
+
     public synchronized boolean hasWinner(){return game.hasWinner();}
 
     public synchronized void addNick(VirtualView view,String nickName){

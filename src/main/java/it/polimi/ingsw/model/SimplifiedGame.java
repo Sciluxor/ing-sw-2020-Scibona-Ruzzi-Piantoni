@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.cards.Card;
+import it.polimi.ingsw.model.cards.CardLoader;
 import it.polimi.ingsw.model.map.GameMap;
 import it.polimi.ingsw.model.map.Square;
 import it.polimi.ingsw.model.player.Color;
@@ -9,6 +11,8 @@ import java.util.*;
 public class SimplifiedGame{
     private Integer numberOfPlayers;
     private List<Player> settedPlayers;
+    private Map<String, Card> deck;
+    private List<String> availableCards;
     private Player currentPlayer;
     private Player clientPlayer;
     private GameMap gameMap;
@@ -22,6 +26,7 @@ public class SimplifiedGame{
 
         this.numberOfPlayers = numberOfPlayers;
         gameMap = new GameMap();
+        deck = CardLoader.loadCards();
         isGameStarted = false;
         hasWinner = false;
     }
@@ -37,6 +42,7 @@ public class SimplifiedGame{
     public  Integer getNumberOfPlayers() {
         return numberOfPlayers;
     }
+
     public List<Player> getPlayers() {
         return settedPlayers;
     }
@@ -57,6 +63,10 @@ public class SimplifiedGame{
         this.winner = winner;
     }
 
+    public Integer[] getCoordinatesFromTile(int tile){
+       return gameMap.getMap().get(tile-1).getCoordinates();
+    }
+
     public void initPlayers(String clientName,List<String> names, List<Color> colors){
         settedPlayers = new ArrayList<>();
         if (names.size() != colors.size())
@@ -71,15 +81,29 @@ public class SimplifiedGame{
             }
         }
     }
+    public List<String> getAvailableCards() {
+        return availableCards;
+    }
+
+    public void setAvailableCards(List<String> cardNames) {
+        availableCards = cardNames;
+    }
+
+    public void removeCard(String toRemoveCard){
+        availableCards.remove(toRemoveCard);
+    }
+
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
 
-    public void setCurrentPlayer(Player currentPlayer) {
+    public void setCurrentPlayer(String playerName) {
         if(currentPlayer == null)
             throw new NullPointerException("null currentPlayer");
 
-        this.currentPlayer = currentPlayer;
+        for(Player player : settedPlayers)
+            if(player.getNickname().equals(playerName))
+                this.currentPlayer = player;
     }
 
     public GameMap getGameMap() {

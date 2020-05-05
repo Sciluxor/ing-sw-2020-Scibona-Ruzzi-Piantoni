@@ -308,17 +308,17 @@ public class Gui extends ClientGameController {
     }
 
     @Override
-    public void challengerChoice(/*String name, boolean bool*/) {
+    public void challengerChoice(String name, boolean bool) {
         //board.showChallenger(name, bool);
     }
 
     @Override
-    public void cardChoice() {
+    public void cardChoice(String name, boolean bool) {
 
     }
 
     @Override
-    public void placeWorker() {
+    public void placeWorker(String name, boolean bool) {
 
     }
 

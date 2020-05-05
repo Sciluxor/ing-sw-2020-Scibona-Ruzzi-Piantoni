@@ -8,11 +8,11 @@ public interface FunctionListener {
 
     void startGame();
 
-    void challengerChoice();
+    void challengerChoice(String challengerNick,boolean isYourPlayer);
 
-    void cardChoice();
+    void cardChoice(String challengerNick,boolean isYourPlayer);
 
-    void placeWorker();
+    void placeWorker(String challengerNick,boolean isYourPlayer);
 
     void updateBoard();
 

@@ -28,12 +28,12 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     public void run() {
         while (!Thread.currentThread().isInterrupted()){
             try{
-                 eventQueue.take().run();  //bisogna sincronizzarla?
+                eventQueue.take().run();  //bisogna sincronizzarla?
 
             }catch (InterruptedException e) {
-            LOGGER.severe(e.getMessage());
-            Thread.currentThread().interrupt();
-           }
+                LOGGER.severe(e.getMessage());
+                Thread.currentThread().interrupt();
+            }
         }
     }
 
@@ -81,6 +81,79 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         eventQueue.add(this::startGame);
     }
 
+    public synchronized List<String> getAvailableCards(){
+        return game.getAvailableCards();
+    }
+
+    public synchronized void challengerResponse(String firstPlayer,List<String> cards){
+        game.setAvailableCards(cards);
+        client.sendMessage(new ChallengerChoiceMessage(client.getUserID(),client.getNickName(),MessageSubType.ANSWER,firstPlayer,cards));
+    }
+
+    public synchronized void cardChoiceResponse(String card){
+        game.removeCard(card);
+        client.sendMessage(new Message(client.getUserID(),MessageType.CHOOSECARD,MessageSubType.ANSWER,card));
+    }
+
+    public synchronized void placeWorkersResponse(int tile1,int tile2){
+        client.sendMessage(new PlaceWorkersMessage(client.getUserID(),MessageSubType.ANSWER,game.getCoordinatesFromTile(tile1),
+                game.getCoordinatesFromTile(tile2)));
+    }
+
+    public synchronized void updateCardChoice(Message message){
+
+    }
+
+    public synchronized void updatePlaceWorkers(Message message){
+
+    }
+
+    public synchronized void updateChallengerChoice(Message message){
+
+    }
+
+    public synchronized void handleChallengerChoice(Message message){
+        if(message.getSubType().equals(MessageSubType.REQUEST)) {
+            game.setCurrentPlayer(message.getMessage());
+            eventQueue.add(() -> challengerChoice(message.getMessage(), true));
+        }
+        else if(message.getSubType().equals(MessageSubType.UPDATE)) {
+            game.setCurrentPlayer(message.getMessage());
+            eventQueue.add(() -> challengerChoice(message.getMessage(), false));
+        }
+        else{
+            game.setAvailableCards(((ChallengerChoiceMessage) message).getCards());
+        }
+    }
+
+    public synchronized void handleCardChoice(Message message){
+        if(message.getSubType().equals(MessageSubType.REQUEST)) {
+            game.setCurrentPlayer(message.getMessage());
+            eventQueue.add(() -> cardChoice(message.getMessage(), true));
+        }
+        else if(message.getSubType().equals(MessageSubType.UPDATE)) {
+            game.setCurrentPlayer(message.getMessage());
+            eventQueue.add(() -> cardChoice(message.getMessage(), false));
+        }
+        else{
+             game.removeCard(message.getMessage());
+        }
+    }
+
+    public synchronized void handlePlaceWorkers(Message message){
+        if(message.getSubType().equals(MessageSubType.REQUEST)) {
+            game.setCurrentPlayer(message.getMessage());
+            eventQueue.add(() -> placeWorker(message.getMessage(), true));
+        }
+        else if(message.getSubType().equals(MessageSubType.UPDATE)) {
+            game.setCurrentPlayer(message.getMessage());
+            eventQueue.add(() -> placeWorker(message.getMessage(), false));
+        }
+        else {
+            //aggiornaree le posizioni dei workers
+        }
+    }
+
     public synchronized void handleDisconnection(Message message){
         client.closeConnection();
         switch (message.getSubType()) {
@@ -90,7 +163,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
             case PINGFAIL:
                 eventQueue.add(this::onPingDisconnection);
                 break;
-
+            default:
         }
     }
 
@@ -107,6 +180,16 @@ public abstract class ClientGameController implements Runnable, FunctionListener
                 break;
             case DISCONNECTION:
                 handleDisconnection(message);
+                break;
+            case CHALLENGERCHOICE:
+                handleChallengerChoice(message);
+                break;
+            case CHOOSECARD:
+                handleCardChoice(message);
+                break;
+            case PLACEWORKERS:
+                handlePlaceWorkers(message);  //come aggiornare i player piazzati? anche per carte.
+                break;
             default:
 
         }
