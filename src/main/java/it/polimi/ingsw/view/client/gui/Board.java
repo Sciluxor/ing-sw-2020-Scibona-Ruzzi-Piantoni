@@ -17,6 +17,8 @@ public class Board extends Observable {
     Gui gui;
     List<Player> allPlayer = new ArrayList<>();
     List<Player> otherPlayers = new ArrayList<>();
+    List<String> cardChosen = new ArrayList<>();
+    String firstPlayer = null;
     JFrame f;
     JDesktopPane desktopPane;
     JDesktopPane challengerChoiceCards;
@@ -572,6 +574,7 @@ public class Board extends Observable {
         button.setBorderPainted(false);
         button.addMouseListener(new SeePower());
         desktopPane.add(button);
+
     }
 
     private void chatStyleButtons(JButton button, JLabel label){
@@ -677,7 +680,7 @@ public class Board extends Observable {
         public void actionPerformed(ActionEvent e) {
             internalFrameChallenger1.remove(youChosen);
             try {
-                challengerChoiceCards = new ChallengerChoiceCards(gui, internalFrameChallenger1, internalFrameSize, numberOfPlayers);
+                challengerChoiceCards = new ChallengerChoiceCards(gui, gui.board, internalFrameChallenger1, internalFrameSize, numberOfPlayers);
             } catch (IOException ie) {
                 LOGGER.severe(ie.getMessage());
             }
@@ -690,12 +693,28 @@ public class Board extends Observable {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                challengerChoiceFirstPlayer = new ChallengerChoiceFirstPlayer(gui, internalFrameChallenger2, internalFrameSize, numberOfPlayers, allPlayer);
+                challengerChoiceFirstPlayer = new ChallengerChoiceFirstPlayer(gui, gui.board, internalFrameChallenger2, internalFrameSize, numberOfPlayers, allPlayer);
             } catch (IOException ie) {
                 LOGGER.severe(ie.getMessage());
             }
             internalFrameChallenger2.getContentPane().add(challengerChoiceFirstPlayer);
             internalFrameChallenger2.setVisible(true);
+        }
+    }
+
+    public void setFirstPlayer(String firstPlayer) {
+        this.firstPlayer = firstPlayer;
+    }
+
+    public void setCardChosen(List<String> cardChosen) {
+        this.cardChosen = cardChosen;
+    }
+
+    public void challResponse(){
+        if (cardChosen.size()!=0 && firstPlayer != null){
+            gui.challengerResponse(firstPlayer, cardChosen);
+            buttonChooseCards.setVisible(false);
+            buttonChooseFirst.setVisible(false);
         }
     }
 

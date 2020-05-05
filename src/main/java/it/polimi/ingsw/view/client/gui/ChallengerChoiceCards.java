@@ -16,6 +16,7 @@ import static it.polimi.ingsw.view.client.gui.Gui.*;
 public class ChallengerChoiceCards extends JDesktopPane{
 
     Gui gui;
+    Board board;
     Dimension frameSize = new Dimension();
     Dimension intFrameSize = new Dimension();
     Dimension cardSize = new Dimension();
@@ -31,11 +32,13 @@ public class ChallengerChoiceCards extends JDesktopPane{
     private static final List<JButton> godChosen = new ArrayList<>();
     MyButton confirm = new MyButton(0);
     MyButton back = new MyButton(1);
+    List<String> cardsChosen = new ArrayList<>();
 
-    public ChallengerChoiceCards(Gui instance, JInternalFrame frame, Dimension dimensionFrame, Integer numberOfPlayer) throws IOException {
+    public ChallengerChoiceCards(Gui instance, Board instance2, JInternalFrame aframe, Dimension dimensionFrame, Integer numberOfPlayer) throws IOException {
 
         gui = instance;
-        guiIntFrame = frame;
+        board = instance2;
+        guiIntFrame = aframe;
         frameSize.setSize(dimensionFrame);
         numberPlayers = numberOfPlayer;
         intFrameSize.setSize(frameSize.getWidth() * 40/100, frameSize.getHeight() * 45/100);
@@ -44,20 +47,20 @@ public class ChallengerChoiceCards extends JDesktopPane{
         int x = xconst;
         int y = yconst;
 
-        frame = new JInternalFrame("", false, false, false, false);
-        frame.setPreferredSize(intFrameSize);
-        internalFrameSetUp(frame);
-        BasicInternalFrameUI bii = (BasicInternalFrameUI)frame.getUI();
+        intFrame = new JInternalFrame("", false, false, false, false);
+        intFrame.setPreferredSize(intFrameSize);
+        internalFrameSetUp(intFrame);
+        BasicInternalFrameUI bii = (BasicInternalFrameUI) intFrame.getUI();
         bii.setNorthPane(null);
-        frame.setVisible(false);
-        add(frame);
+        intFrame.setVisible(false);
+        add(intFrame);
 
 
         buttonBackground.setBounds(0, 0,intFrameSize.width, intFrameSize.height);
         buttonBackground.setOpaque(false);
         buttonBackground.setContentAreaFilled(false);
         buttonBackground.setBorderPainted(false);
-        frame.add(buttonBackground);
+        intFrame.add(buttonBackground);
 
 
 
@@ -66,46 +69,46 @@ public class ChallengerChoiceCards extends JDesktopPane{
 
 
         JButton apollo = new JButton();
-        apollo.setName("resources/Graphics/gods/apollo_description.png");
+        apollo.setName("apollo");
         buttons.add(apollo);
         JButton artemis = new JButton();
-        artemis.setName("resources/Graphics/gods/artemis_description.png");
+        artemis.setName("artemis");
         buttons.add(artemis);
         JButton athena = new JButton();
-        athena.setName("resources/Graphics/gods/athena_description.png");
+        athena.setName("athena");
         buttons.add(athena);
         JButton atlas = new JButton();
-        atlas.setName("resources/Graphics/gods/atlas_description.png");
+        atlas.setName("atlas");
         buttons.add(atlas);
         JButton chronus = new JButton();
-        chronus.setName("resources/Graphics/gods/chronus_description.png");
+        chronus.setName("chronus");
         buttons.add(chronus);
         JButton demeter = new JButton();
-        demeter.setName("resources/Graphics/gods/demeter_description.png");
+        demeter.setName("demeter");
         buttons.add(demeter);
         JButton hepha = new JButton();
-        hepha.setName("resources/Graphics/gods/hephaestus_description.png");
+        hepha.setName("hephaestus");
         buttons.add(hepha);
         JButton hera = new JButton();
-        hera.setName("resources/Graphics/gods/hera_description.png");
+        hera.setName("hera");
         buttons.add(hera);
         JButton hestia = new JButton();
-        hestia.setName("resources/Graphics/gods/hestia_description.png");
+        hestia.setName("hestia");
         buttons.add(hestia);
         JButton hypnus = new JButton();
-        hypnus.setName("resources/Graphics/gods/hypnus_description.png");
+        hypnus.setName("hypnus");
         buttons.add(hypnus);
         JButton mino = new JButton();
-        mino.setName("resources/Graphics/gods/minotaur_description.png");
+        mino.setName("minotaur");
         buttons.add(mino);
         JButton pan = new JButton();
-        pan.setName("resources/Graphics/gods/pan_description.png");
+        pan.setName("pan");
         buttons.add(pan);
         JButton prome = new JButton();
-        prome.setName("resources/Graphics/gods/prometheus_description.png");
+        prome.setName("prometheus");
         buttons.add(prome);
         JButton zeus = new JButton();
-        zeus.setName("resources/Graphics/gods/zeus_description.png");
+        zeus.setName("zeus");
         buttons.add(zeus);
 
         buttonStyle();
@@ -253,7 +256,7 @@ public class ChallengerChoiceCards extends JDesktopPane{
 
             buttonBackground.setIcon(null);
             try {
-                cover = ImageHandler.setImage(c.getName(), 100, 100, intFrame.getWidth() , intFrame.getHeight() );
+                cover = ImageHandler.setImage("resources/Graphics/gods/" + c.getName() + "_description.png", 100, 100, intFrame.getWidth() , intFrame.getHeight() );
             } catch (IOException ex) {
                 LOGGER.severe(ex.getMessage());
             }
@@ -285,7 +288,7 @@ public class ChallengerChoiceCards extends JDesktopPane{
                 c.addActionListener(new RemoveGod());
             }
             if (chosen == numberPlayers && confirm.getActionListeners().length == 0){
-                confirm.addActionListener(new ChangePanel(gui));
+                confirm.addActionListener(new Confirm());
             }
         }
     }
@@ -328,6 +331,18 @@ public class ChallengerChoiceCards extends JDesktopPane{
         @Override
         public void actionPerformed(ActionEvent e) {
             guiIntFrame.setVisible(false);
+        }
+    }
+
+    private class Confirm implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            for (JButton button : godChosen){
+                cardsChosen.add(button.getName());
+            }
+            board.setCardChosen(cardsChosen);
+            guiIntFrame.setVisible(false);
+            board.challResponse();
         }
     }
 }

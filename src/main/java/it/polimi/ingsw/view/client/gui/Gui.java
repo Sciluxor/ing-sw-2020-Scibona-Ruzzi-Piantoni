@@ -317,7 +317,7 @@ public class Gui extends ClientGameController {
 
     @Override
     public void cardChoice(String name, boolean bool) {
-
+        System.out.println("cardChoise here");
     }
 
     @Override
