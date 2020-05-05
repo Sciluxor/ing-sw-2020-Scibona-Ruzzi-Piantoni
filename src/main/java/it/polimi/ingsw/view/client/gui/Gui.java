@@ -71,7 +71,7 @@ public class Gui extends ClientGameController {
         //lobby = new LobbyGui(this, d, numberOfPlayers);                                                       //schermata 1  sistemata
         //challengerChoiseCards2 = new ChallengerChoiceCards(d, numberOfPlayers, background_panel);                              //schermata 2 sistemata
         //challengerChoiseCards3 = new ChallengerChoiceCards(d, numberOfPlayers, background_panel);                              //schermata 3 sistemata
-        waitChallenger = new WaitChallenger(d);                                                                                 //schermata 4 sistemata
+       // waitChallenger = new WaitChallenger(d);                                                                                 //schermata 4 sistemata
         //challengerChoiseFirst2 = new ChallengerChoiceFirstPlayer(d, numberOfPlayers, players, background_panel);              //schermata 5 sistemata
         //challengerChoiseFirst3 = new ChallengerChoiceFirstPlayer(d, numberOfPlayers, players, background_panel);              //schermata 6 sistemata
         //chooseCard3 = new ChooseCard(screenSize, d, 3);                                                             //schermata 7 sistemata
@@ -124,11 +124,11 @@ public class Gui extends ClientGameController {
                 break;
             case 1:
                 //frame.remove(challengerChoiseCards);
-                try {
-                    challengerChoiseFirst = new ChallengerChoiceFirstPlayer(this, d, numberOfPlayers, players);
+                /*try {
+                    //challengerChoiseFirst = new ChallengerChoiceFirstPlayer(this, d, numberOfPlayers, players);
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
-                }
+                }*/
                 frame.setContentPane(challengerChoiseFirst);
                 panelInUse = 2;
                 break;
@@ -158,7 +158,7 @@ public class Gui extends ClientGameController {
                 frame.dispose();
                 Board board = new Board();
                 try {
-                    board.show(this, screenSize, numberOfPlayers, players, "GID01", nickname);
+                    board.show(this, screenSize, numberOfPlayers, players, players, "GID01", nickname);
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }
@@ -300,7 +300,7 @@ public class Gui extends ClientGameController {
         SwingUtilities.invokeLater(() -> {
             frame.dispose();
             try {
-                board.show(this, screenSize, numberOfPlayers, getPlayers(), "GID01", nickname);
+                board.show(this, screenSize, numberOfPlayers, getPlayers(), getPlayers(),"GID01", nickname);
             } catch (IOException e) {
                 LOGGER.severe(e.getMessage());
             }
@@ -309,7 +309,10 @@ public class Gui extends ClientGameController {
 
     @Override
     public void challengerChoice(String name, boolean bool) {
-        //board.showChallenger(name, bool);
+        SwingUtilities.invokeLater(() -> {
+            board.showChallenger(name, bool);
+        });
+
     }
 
     @Override

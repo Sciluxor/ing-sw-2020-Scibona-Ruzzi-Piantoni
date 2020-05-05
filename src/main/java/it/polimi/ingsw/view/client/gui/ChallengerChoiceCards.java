@@ -20,6 +20,7 @@ public class ChallengerChoiceCards extends JDesktopPane{
     Dimension intFrameSize = new Dimension();
     Dimension cardSize = new Dimension();
     JInternalFrame intFrame;
+    JInternalFrame guiIntFrame;
     private final List<JButton> buttons = new ArrayList<>();
     JButton buttonBackground = new JButton();
     JLabel cover =new JLabel();
@@ -29,11 +30,13 @@ public class ChallengerChoiceCards extends JDesktopPane{
     private final int numberPlayers;
     private static final List<JButton> godChosen = new ArrayList<>();
     MyButton confirm = new MyButton(0);
+    MyButton back = new MyButton(1);
 
-    public ChallengerChoiceCards(Gui instance, Dimension frame, Integer numberOfPlayer) throws IOException {
+    public ChallengerChoiceCards(Gui instance, JInternalFrame frame, Dimension dimensionFrame, Integer numberOfPlayer) throws IOException {
 
         gui = instance;
-        frameSize.setSize(frame);
+        guiIntFrame = frame;
+        frameSize.setSize(dimensionFrame);
         numberPlayers = numberOfPlayer;
         intFrameSize.setSize(frameSize.getWidth() * 40/100, frameSize.getHeight() * 45/100);
         final int xconst = frameSize.width * 9/100;
@@ -41,20 +44,20 @@ public class ChallengerChoiceCards extends JDesktopPane{
         int x = xconst;
         int y = yconst;
 
-        intFrame = new JInternalFrame("", false, false, false, false);
-        intFrame.setPreferredSize(intFrameSize);
-        internalFrameSetUp(intFrame);
-        BasicInternalFrameUI bii = (BasicInternalFrameUI)intFrame.getUI();
+        frame = new JInternalFrame("", false, false, false, false);
+        frame.setPreferredSize(intFrameSize);
+        internalFrameSetUp(frame);
+        BasicInternalFrameUI bii = (BasicInternalFrameUI)frame.getUI();
         bii.setNorthPane(null);
-        intFrame.setVisible(false);
-        add(intFrame);
+        frame.setVisible(false);
+        add(frame);
 
 
         buttonBackground.setBounds(0, 0,intFrameSize.width, intFrameSize.height);
         buttonBackground.setOpaque(false);
         buttonBackground.setContentAreaFilled(false);
         buttonBackground.setBorderPainted(false);
-        intFrame.add(buttonBackground);
+        frame.add(buttonBackground);
 
 
 
@@ -147,8 +150,12 @@ public class ChallengerChoiceCards extends JDesktopPane{
         choise.setBounds(frameSize.width * 35/100, frameSize.height * 10/100, frameSize.width * 30/100, frameSize.height * 10/100);
         add(choise);
 
-
+        confirm.setBounds((int) (frameSize.width * 31.5/ 100), (int) (frameSize.height * 81 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
         add(confirm);
+
+        back.setBounds((int) (frameSize.width * 51.5/ 100), (int) (frameSize.height * 81 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
+        add(back);
+        back.addActionListener(new Close());
 
 
         if(numberOfPlayer == 2){
@@ -315,5 +322,12 @@ public class ChallengerChoiceCards extends JDesktopPane{
             }
         }
         godChosen.add(god);
+    }
+
+    private class Close implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            guiIntFrame.setVisible(false);
+        }
     }
 }
