@@ -6,14 +6,14 @@ import java.io.IOException;
 
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
 
-public class WaitChallenger extends JPanel{
+public class WaitChallenger extends JDesktopPane{
 
     Dimension frameSize = new Dimension();
 
 
-    public WaitChallenger(Dimension frame) throws IOException {
+    public WaitChallenger(int wi, int he) throws IOException {
 
-        frameSize.setSize(frame);
+        frameSize.setSize(wi, he);
         setPreferredSize(frameSize);
         setLayout(null);
 
@@ -21,7 +21,7 @@ public class WaitChallenger extends JPanel{
         label.setBounds(frameSize.width * 30/100, frameSize.height * 5/100, frameSize.width * 40/100, frameSize.height * 20/100);
         add(label);
 
-        JButton back = backgroundButton(0 );
+        JButton back = backgroundButton(1 );
         add(back);
     }
 }

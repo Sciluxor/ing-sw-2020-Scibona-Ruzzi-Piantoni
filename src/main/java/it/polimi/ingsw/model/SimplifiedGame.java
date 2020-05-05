@@ -98,8 +98,8 @@ public class SimplifiedGame{
     }
 
     public void setCurrentPlayer(String playerName) {
-        if(currentPlayer == null)
-            throw new NullPointerException("null currentPlayer");
+       // if(currentPlayer == null)
+            //throw new NullPointerException("null currentPlayer");
 
         for(Player player : settedPlayers)
             if(player.getNickname().equals(playerName))

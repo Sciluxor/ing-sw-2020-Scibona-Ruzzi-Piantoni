@@ -4,8 +4,6 @@ import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.utils.Observable;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.StyleConstants;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
@@ -22,11 +20,13 @@ public class Board extends Observable {
     JFrame f;
     JDesktopPane desktopPane;
     JDesktopPane challengerChoiceCards;
-    JPanel waitChallenger;
-    JPanel challengerChoiceFirstPlayer;
+    JDesktopPane waitChallenger;
+    JDesktopPane challengerChoiceFirstPlayer;
+    JDesktopPane youChosen;
     JDesktopPane chooseCard;
     JInternalFrame frameChat;
-    JWindow windowChallenger;
+    JInternalFrame internalFrameChallenger1;
+    JInternalFrame internalFrameChallenger2;
     JWindow windowPower;
     JScrollPane scrollPane;
     JButton buttonLv1 = new JButton();
@@ -40,6 +40,7 @@ public class Board extends Observable {
     JButton buttonChooseFirst = new JButton();
     JButton buttonChoosePower = new JButton();
     JButton buttonChat = new JButton();
+    JButton buttonEndturn = new JButton();
     JButton buttonExit = new JButton();
     JButton backgroundFrameChat = new JButton();
     JButton sfondoFramePower = new JButton();
@@ -94,15 +95,15 @@ public class Board extends Observable {
     JLabel lButtonChooseCardsPress;
     JLabel lbuttonChooseFirst;
     JLabel lbuttonChooseFirstPress;
-    JLabel lbuttonChoosePower;
-    JLabel lbuttonChoosePowerPress;
+    JLabel lbuttonEndturn;
+    JLabel lbuttonEndturnPress;
     Dimension frameSize = new Dimension();
     Dimension boardSize = new Dimension();
     Dimension bottomSize = new Dimension();
     Dimension sideSize = new Dimension();
     Dimension buttonSize = new Dimension();
     Dimension scrollSize = new Dimension();
-    Dimension windowSize = new Dimension();
+    Dimension internalFrameSize = new Dimension();
     Font felixSmall;
     Font felixNormal;
     Font felixBold;
@@ -111,7 +112,7 @@ public class Board extends Observable {
     String nickname;
     int numberOfPlayers = 2;
 
-    public void show(Gui instance, Dimension screen, Integer numberOfPlayer, final List<Player> players, String gameId, String nickname) throws IOException {
+    public void show(Gui instance, Dimension screen, Integer numberOfPlayer, List<Player> players,List<Player> players2, String gameId, String nickname) throws IOException {
 
         f = new JFrame();
         gui = instance;
@@ -121,7 +122,7 @@ public class Board extends Observable {
         this.nickname = nickname;
         this.numberOfPlayers = numberOfPlayer;
         allPlayer = players;
-        otherPlayers = players;
+        otherPlayers = players2;
         mePlayer = pickNickFromPlayers();
         removeNickFromOtherPlayers();
 
@@ -129,7 +130,7 @@ public class Board extends Observable {
         int width = (int) ((screen.getWidth() * 95 / 100) * (1.689999 / ratio));
         int height = (int) (screen.getHeight() * 91 / 100);
         frameSize.setSize(width, height);
-        windowSize.setSize(frameSize.width * 40/100, frameSize.height * 45/100);
+        internalFrameSize.setSize(frameSize.width * 90/100, frameSize.height * 90/100);
 
 
         boardSize.setSize(frameSize.height * 80/100, frameSize.height * 80/100);
@@ -180,26 +181,39 @@ public class Board extends Observable {
         lButtonMove = ImageHandler.setImage("resources/Graphics/button_move.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
         lButtonPower = ImageHandler.setImage("resources/Graphics/button_power.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
         lButtonChat = ImageHandler.setImage("resources/Graphics/button_chat.png", 100, 100, frameSize.width * 5/100, frameSize.height * 7/100);
-        lButtonChooseCards = ImageHandler.setImage("resources/Graphics/button_chat.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
-        lbuttonChooseFirst = ImageHandler.setImage("resources/Graphics/button_chat.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
-        lbuttonChoosePower = ImageHandler.setImage("resources/Graphics/button_chat.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
+        lButtonChooseCards = ImageHandler.setImage("resources/Graphics/button_choose_cards.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
+        lbuttonChooseFirst = ImageHandler.setImage("resources/Graphics/button_choose_first.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
+        lbuttonEndturn = ImageHandler.setImage("resources/Graphics/button_endturn_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
         lButtonBuildPress = ImageHandler.setImage("resources/Graphics/button_build_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
         lButtonMovePress = ImageHandler.setImage("resources/Graphics/button_move_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
         lButtonPowerPress = ImageHandler.setImage("resources/Graphics/button_power_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
         lButtonChatPress = ImageHandler.setImage("resources/Graphics/button_chat_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 7/100);
-        lButtonChooseCardsPress = ImageHandler.setImage("resources/Graphics/button_chat_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
-        lbuttonChooseFirst = ImageHandler.setImage("resources/Graphics/button_chat_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
-        lbuttonChoosePowerPress = ImageHandler.setImage("resources/Graphics/button_chat_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
+        lButtonChooseCardsPress = ImageHandler.setImage("resources/Graphics/button_choose_cards_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
+        lbuttonChooseFirstPress = ImageHandler.setImage("resources/Graphics/button_choose_first_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
+        lbuttonEndturnPress = ImageHandler.setImage("resources/Graphics/button_endturn_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
 
 
         windowPower = new JWindow();
-        windowPower.setBounds((int)(frameSize.width * 35.5/100), (int) (frameSize.height * 37/100), windowSize.width, windowSize.height);
-
-        windowChallenger = new JWindow();
-        windowChallenger.setBounds((int)(frameSize.width * 35.5/100), (int) (frameSize.height * 37/100), windowSize.width, windowSize.height);
+        windowPower.setBounds((int)(frameSize.width * 35.5/100), (int) (frameSize.height * 37/100), frameSize.width * 40/100, frameSize.height * 45/100);
 
 
-        frameChat = new JInternalFrame("frameChat", false, false, false, false);
+
+        internalFrameChallenger1 = new JInternalFrame("", false, false, false, false);
+        internalFrameChallenger1.setPreferredSize(sideSize);
+        internalFrameChallenger1.setBounds((int)((frameSize.width * 50/100) - (internalFrameSize.width * 50/100)), (int) ((frameSize.height * 46/100) - (internalFrameSize.height * 50/100)), internalFrameSize.width, internalFrameSize.height);
+        internalFrameSetUp(internalFrameChallenger1);
+        BasicInternalFrameUI bi = (BasicInternalFrameUI) internalFrameChallenger1.getUI();
+        bi.setNorthPane(null);
+
+        internalFrameChallenger2 = new JInternalFrame("", false, false, false, false);
+        internalFrameChallenger2.setPreferredSize(sideSize);
+        internalFrameChallenger2.setBounds((int)((frameSize.width * 50/100) - (internalFrameSize.width * 50/100)), (int) ((frameSize.height * 46/100) - (internalFrameSize.height * 50/100)), internalFrameSize.width, internalFrameSize.height);
+        internalFrameSetUp(internalFrameChallenger2);
+        BasicInternalFrameUI bi2 = (BasicInternalFrameUI) internalFrameChallenger2.getUI();
+        bi2.setNorthPane(null);
+
+
+        frameChat = new JInternalFrame("", false, false, false, false);
         frameChat.setPreferredSize(sideSize);
         frameChat.setBounds(frameSize.width * 73/100, -20, sideSize.width, sideSize.height);
         internalFrameSetUp(frameChat);
@@ -281,7 +295,7 @@ public class Board extends Observable {
         chatStyleButtons(sfondoFramePower, background);
         windowPower.getContentPane().add(sfondoFramePower);
 
-        windowChallenger.getContentPane().add(sfondoFramePower);
+        //windowChallenger.getContentPane().add(sfondoFramePower);
 
 
         resetLevel();
@@ -458,18 +472,22 @@ public class Board extends Observable {
 
         buttonLv1.setBounds(frameSize.width * 81/100, frameSize.height * 19/100, frameSize.width * 5/100, frameSize.width * 5/100);
         buttonLv1.setIcon(lvl1Building.getIcon());
+        buttonLv1.setVisible(false);
         desktopPane.add(buttonLv1);
 
         buttonLv2.setBounds(frameSize.width * 89/100, frameSize.height * 19/100, frameSize.width * 5/100, frameSize.width * 5/100);
         buttonLv2.setIcon(lvl2Building.getIcon());
+        buttonLv2.setVisible(false);
         desktopPane.add(buttonLv2);
 
         buttonLv3.setBounds(frameSize.width * 81/100, frameSize.height * 31/100, frameSize.width * 5/100, frameSize.width * 5/100);
         buttonLv3.setIcon(lvl3Building.getIcon());
+        buttonLv3.setVisible(false);
         desktopPane.add(buttonLv3);
 
         buttonDome.setBounds(frameSize.width * 89/100, frameSize.height * 31/100, frameSize.width * 5/100, frameSize.width * 5/100);
         buttonDome.setIcon(domeBuilding.getIcon());
+        buttonDome.setVisible(false);
         buttonDome.setBorderPainted(false);
         buttonDome.setContentAreaFilled(false);
         desktopPane.add(buttonDome);
@@ -490,12 +508,19 @@ public class Board extends Observable {
         buttonChat.setBounds(frameSize.width * 85/100, frameSize.height * 58/100, frameSize.width * 5/100, frameSize.height * 7/100);
         buttonChat.addActionListener(new Chat());
         consoleButtons(buttonChat, lButtonChat);
+        buttonChat.setVisible(true);
 
-        buttonChooseCards.setBounds(frameSize.width * 85/100, frameSize.height * 19/100, frameSize.width * 5/100, frameSize.height * 5/100);
+        buttonChooseCards.setBounds(frameSize.width * 85/100, (int) (frameSize.height * 21.5/100), frameSize.width * 5/100, frameSize.height * 5/100);
+        consoleButtons(buttonChooseCards, lButtonChooseCards);
 
-        buttonChooseFirst.setBounds(frameSize.width * 85/100, frameSize.height * 31/100, frameSize.width * 5/100, frameSize.height * 5/100);
+        buttonChooseFirst.setBounds(frameSize.width * 85/100, (int) (frameSize.height * 33.5/100), frameSize.width * 5/100, frameSize.height * 5/100);
+        consoleButtons(buttonChooseFirst, lbuttonChooseFirst);
 
-        buttonChoosePower.setBounds(frameSize.width * 85/100, frameSize.height * 19/100, frameSize.width * 5/100, frameSize.height * 5/100);
+        buttonChoosePower.setBounds(frameSize.width * 85/100, (int) (frameSize.height * 21.5/100), frameSize.width * 5/100, frameSize.height * 5/100);
+        consoleButtons(buttonChoosePower, lButtonPower);
+
+        buttonEndturn.setBounds(frameSize.width * 85/100, (int) (frameSize.height * 46/100), frameSize.width * 5/100, frameSize.height * 5/100);
+        consoleButtons(buttonEndturn, lbuttonEndturn);
 
 
 
@@ -504,6 +529,8 @@ public class Board extends Observable {
 
         frameChat.setVisible(false);
         desktopPane.add(frameChat);
+        desktopPane.add(internalFrameChallenger1);
+        desktopPane.add(internalFrameChallenger2);
         f.setContentPane(desktopPane);
 
 
@@ -578,6 +605,7 @@ public class Board extends Observable {
         button.setBorderPainted(false);
         button.setIcon(label.getIcon());
         button.addMouseListener(new ButtonPress());
+        button.setVisible(false);
         desktopPane.add(button);
     }
 
@@ -605,21 +633,32 @@ public class Board extends Observable {
 
     public void showChallenger(String name, boolean bool) {
         if (bool){
+            //internalFrameChallenger.getContentPane().add(challengerChoiceCards);
             try {
-                challengerChoiceCards = new ChallengerChoiceCards(gui, windowSize, numberOfPlayers);
+                youChosen = new YouHaveBeenChosen(internalFrameChallenger1, internalFrameSize);
             } catch (IOException e) {
                 LOGGER.severe(e.getMessage());
             }
-            windowChallenger.getContentPane().add(challengerChoiceCards);
+            internalFrameChallenger1.getContentPane().add(youChosen);
+            internalFrameChallenger1.setVisible(true);
+            buttonChooseCards.setVisible(true);
+            buttonChooseCards.addActionListener(new ChooseCards());
+            buttonChooseFirst.setVisible(true);
+            buttonChooseFirst.addActionListener(new ChooseFirst());
         }
         else{
             try {
-                waitChallenger = new WaitChallenger(windowSize);
+                waitChallenger = new WaitChallenger(frameSize.width * 50/100, frameSize.height * 55/100);
             } catch (IOException e) {
                 LOGGER.severe(e.getMessage());
             }
-            windowChallenger.add(waitChallenger);
+            internalFrameChallenger1.setBounds(frameSize.width * 25/100, (int) (frameSize.height * 22.5/100), frameSize.width * 50/100, frameSize.height * 55/100);
+            internalFrameChallenger1.getContentPane().add(waitChallenger);
+            internalFrameChallenger1.setVisible(true);
         }
+
+
+        //buttonChooseFirst.setEnabled(false);
     }
 
     private class Write implements ActionListener{
@@ -630,6 +669,33 @@ public class Board extends Observable {
                 chat.setCaretPosition(chat.getDocument().getLength());
                 field.setText("");
             }
+        }
+    }
+
+    private class ChooseCards implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            internalFrameChallenger1.remove(youChosen);
+            try {
+                challengerChoiceCards = new ChallengerChoiceCards(gui, internalFrameChallenger1, internalFrameSize, numberOfPlayers);
+            } catch (IOException ie) {
+                LOGGER.severe(ie.getMessage());
+            }
+            internalFrameChallenger1.getContentPane().add(challengerChoiceCards);
+            internalFrameChallenger1.setVisible(true);
+        }
+    }
+
+    private class ChooseFirst implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try {
+                challengerChoiceFirstPlayer = new ChallengerChoiceFirstPlayer(gui, internalFrameChallenger2, internalFrameSize, numberOfPlayers, allPlayer);
+            } catch (IOException ie) {
+                LOGGER.severe(ie.getMessage());
+            }
+            internalFrameChallenger2.getContentPane().add(challengerChoiceFirstPlayer);
+            internalFrameChallenger2.setVisible(true);
         }
     }
 
@@ -655,6 +721,10 @@ public class Board extends Observable {
             buttonLv2.addActionListener(new AddBuildLvl2());
             buttonLv3.addActionListener(new AddBuildLvl3());
             buttonDome.addActionListener(new AddBuildDome());
+            buttonLv1.setVisible(true);
+            buttonLv2.setVisible(true);
+            buttonLv3.setVisible(true);
+            buttonDome.setVisible(true);
             buttonMove.setVisible(false);
         }
     }
@@ -914,18 +984,32 @@ public class Board extends Observable {
 
         @Override
         public void mousePressed(MouseEvent e) {
-            JButton c = (JButton)e.getSource();
-            if (buttonMove == c){
+            JButton c = (JButton) e.getSource();
+            if (buttonMove == c) {
                 buttonMove.setIcon(lButtonMovePress.getIcon());
             }
-            else if (buttonBuild == c){
+            else if (buttonBuild == c) {
                 buttonBuild.setIcon(lButtonBuildPress.getIcon());
             }
-            else if (buttonPower == c){
+            else if (buttonPower == c) {
                 buttonPower.setIcon(lButtonPowerPress.getIcon());
             }
-            else
+            else if (buttonChat == c){
                 buttonChat.setIcon(lButtonChatPress.getIcon());
+            }
+            else if (buttonChooseCards == c) {
+                buttonChooseCards.setIcon(lButtonChooseCardsPress.getIcon());
+            }
+            else if (buttonChooseFirst == c) {
+                buttonChooseFirst.setIcon(lbuttonChooseFirstPress.getIcon());
+            }
+            else if (buttonChoosePower == c) {
+                buttonChoosePower.setIcon(lButtonPowerPress.getIcon());
+            }
+            else if (buttonEndturn == c) {
+                buttonChoosePower.setIcon(lbuttonEndturnPress.getIcon());
+            }
+
         }
 
         @Override
@@ -941,8 +1025,21 @@ public class Board extends Observable {
             else if (buttonPower == c){
                 buttonPower.setIcon(lButtonPower.getIcon());
             }
-            else
+            else if(buttonChat == c) {
                 buttonChat.setIcon(lButtonChat.getIcon());
+            }
+            else if (buttonChooseCards == c) {
+                buttonChooseCards.setIcon(lButtonChooseCards.getIcon());
+            }
+            else if (buttonChooseFirst == c) {
+                buttonChooseFirst.setIcon(lbuttonChooseFirst.getIcon());
+            }
+            else if (buttonChoosePower == c) {
+                buttonChoosePower.setIcon(lButtonPower.getIcon());
+            }
+            else if (buttonEndturn == c) {
+                buttonChoosePower.setIcon(lbuttonEndturn.getIcon());
+            }
         }
     }
 

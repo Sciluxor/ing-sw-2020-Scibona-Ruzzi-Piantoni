@@ -4,19 +4,26 @@ import it.polimi.ingsw.model.player.Player;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.List;
 
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
-public class ChallengerChoiceFirstPlayer extends JPanel{
+import static it.polimi.ingsw.view.client.gui.Gui.getD;
+
+public class ChallengerChoiceFirstPlayer extends JDesktopPane{
 
     Gui gui;
     Dimension frameSize = new Dimension();
+    MyButton backButton = new MyButton(1);
+    JInternalFrame intFrame;
 
-    public ChallengerChoiceFirstPlayer(Gui istance, Dimension frame, Integer numberOfPlayer, List<Player> players) throws IOException {
+    public ChallengerChoiceFirstPlayer(Gui istance, JInternalFrame frame, Dimension dimensionFrame, Integer numberOfPlayer, List<Player> players) throws IOException {
 
         gui = istance;
-        frameSize.setSize(frame);
+        frameSize.setSize(dimensionFrame);
+        intFrame = frame;
         setPreferredSize(frameSize);
         setLayout(null);
 
@@ -42,8 +49,18 @@ public class ChallengerChoiceFirstPlayer extends JPanel{
             add(player3);
             player3.addActionListener(new ChangePanel(gui));
         }
+        backButton.setBounds((int) (frameSize.width * 43.5/ 100), (int) (frameSize.height * 81 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
+        add(backButton);
+        backButton.addActionListener(new Close());
+
         JButton back = backgroundButton(0);
         add(back);
+    }
 
+    private class Close implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            intFrame.setVisible(false);
+        }
     }
 }
