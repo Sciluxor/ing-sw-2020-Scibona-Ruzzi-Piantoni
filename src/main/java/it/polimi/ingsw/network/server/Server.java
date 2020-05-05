@@ -246,7 +246,7 @@ public class Server implements Runnable{
 
     }
 
-    public void handleDisconnection(String userID,ClientHandler connection,Message message) {      //spezzare questa in tre funzioni
+    public void handleDisconnection(String userID,ClientHandler connection,Message message) {
         synchronized (clientsLock) {
             if(message.getSubType().equals(MessageSubType.LOOSEEXITREQUEST)){
                 GameController controller = getControllerFromUserID(message.getSender());

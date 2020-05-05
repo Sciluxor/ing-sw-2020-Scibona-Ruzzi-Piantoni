@@ -7,6 +7,7 @@ import it.polimi.ingsw.network.message.MessageType;
 import it.polimi.ingsw.utils.ConfigLoader;
 import it.polimi.ingsw.utils.ConstantsContainer;
 import it.polimi.ingsw.utils.LobbyTimerTask;
+import it.polimi.ingsw.utils.ServerPingTimerTask;
 import it.polimi.ingsw.view.server.VirtualView;
 
 import java.io.*;
@@ -27,7 +28,7 @@ public class ClientHandler implements Runnable, ConnectionInterface {
     private boolean isConnectionActive;
     private VirtualView view;
     private Timer lobbyTimer;
-    private Timer PingTimer;
+    private Timer pingTimer;
     private int newNickCounter;
 
     private String userID = ConstantsContainer.USERDIDDEF;
@@ -143,6 +144,16 @@ public class ClientHandler implements Runnable, ConnectionInterface {
         lobbyTimer.cancel();
 
     }
+    public void startPingTimer(){
+        pingTimer = new Timer();
+        ServerPingTimerTask task = new ServerPingTimerTask(server,this,userID,nickName);
+        pingTimer.schedule(task, (long) ConfigLoader.getPingTimer() * 1000);
+    }
+
+    public void stopPingTimer(){
+        pingTimer.cancel();
+    }
+
 
     public void ping(){
         sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.PING,MessageSubType.UPDATE));
@@ -159,6 +170,7 @@ public class ClientHandler implements Runnable, ConnectionInterface {
                 this.objectOut = new ObjectOutputStream(socket.getOutputStream());
                 this.objectIn = new ObjectInputStream(socket.getInputStream());
                 startLobbyTimer();
+                startPingTimer();
                 while(isConnectionActive()) {
                     synchronized (inputLock) {
                         Message input = receiveMessage();
@@ -169,7 +181,9 @@ public class ClientHandler implements Runnable, ConnectionInterface {
                             server.insertPlayerInGame(input, this, true);
                             server.moveGameStarted();
                         } else if (input.getType() == MessageType.PING) {
-                            //vedere se fare anche il ping lato server oppure no
+                            System.out.println("ping");
+                            stopPingTimer();
+                            startPingTimer();
                         } else if (input.getType() == MessageType.CONFIG && input.getSubType() == MessageSubType.UPDATE) {
                             stopLobbyTimer();
                             newNickCounter++;
@@ -202,6 +216,7 @@ public class ClientHandler implements Runnable, ConnectionInterface {
 
             }catch (IOException e){
                 stopLobbyTimer();
+                stopPingTimer();
                 isConnectionActive = false;         //sfruttare questo per chiudere la connection, e inviare o no il messaggio. fare messaggi personallzzati
                 server.handleDisconnection(userID,this,new Message(userID,nickName,MessageType.DISCONNECTION,MessageSubType.ERROR));
             }
@@ -209,6 +224,8 @@ public class ClientHandler implements Runnable, ConnectionInterface {
                 Server.LOGGER.severe(c.getMessage());
             }
             finally {
+                stopLobbyTimer();
+                stopPingTimer();
                 if(isConnectionActive)
                     closeConnection(new Message(ConstantsContainer.SERVERNAME,MessageType.DISCONNECTION,MessageSubType.UPDATE));      //vedere se viene chiamata due volte quando scade il lobby timer
                 else

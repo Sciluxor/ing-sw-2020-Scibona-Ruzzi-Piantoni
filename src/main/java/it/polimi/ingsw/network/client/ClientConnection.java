@@ -127,8 +127,9 @@ public class ClientConnection implements ConnectionInterface,Runnable {
 
                 if (received != null && received.getType() == MessageType.PING) { // si deve controllare il ping anche lato server?
                     stopPingTimer();
+                    sendMessage(new Message(userID,nickName,MessageType.PING,MessageSubType.UPDATE));
                     startPingTimer();      //testare su due pc separati
-                                                                   //fare due config sepratati per client e server?
+                    //fare due config sepratati per client e server?
                 } else if (received != null) {
                     new Thread(() -> clientController.onUpdate(received)).start();
                 }
