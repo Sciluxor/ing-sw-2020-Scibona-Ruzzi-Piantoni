@@ -125,61 +125,48 @@
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>2.4</version>
-        <configuration>
-          <archive>
-            <manifest>
-              <addClasspath>true</addClasspath>
-              <mainClass>it.polimi.ingsw.App</mainClass>
-            </manifest>
-          </archive>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
-        <version>3.1.1</version>
-        <configuration>
-          <descriptorRefs>
-            <descriptorRef>jar-with-dependencies</descriptorRef>
-          </descriptorRefs>
-        </configuration>
         <executions>
-          <execution>
-            <id>client-jar-execution</id>
-            <phase>package</phase>
-            <goals>
-              <goal>single</goal>
-            </goals>
-            <configuration>
-              <archive>
-                <manifest>
-                  <mainClass>it.polimi.ingsw.network.client.Client</mainClass>
-                </manifest>
-              </archive>
-              <finalName>client.jar</finalName>
-            </configuration>
-          </execution>
 
+          <!-- Server JAR -->
           <execution>
-            <id>server-jar-execution</id>
+            <id>server</id>
+            <goals><goal>single</goal></goals>
             <phase>package</phase>
-            <goals>
-              <goal>single</goal>
-            </goals>
             <configuration>
+              <finalName>Server</finalName>
               <archive>
                 <manifest>
                   <mainClass>it.polimi.ingsw.network.server.Server</mainClass>
                 </manifest>
               </archive>
-              <finalName>server.jar</finalName>
+              <descriptorRefs>
+                <descriptorRef>jar-with-dependencies</descriptorRef>
+              </descriptorRefs>
             </configuration>
           </execution>
+
+          <!-- Client JAR -->
+          <execution>
+            <id>client</id>
+            <goals><goal>single</goal></goals>
+            <phase>package</phase>
+            <configuration>
+              <finalName>Client</finalName>
+              <archive>
+                <manifest>
+                  <mainClass>it.polimi.ingsw.App</mainClass>
+                </manifest>
+              </archive>
+              <descriptorRefs>
+                <descriptorRef>jar-with-dependencies</descriptorRef>
+              </descriptorRefs>
+            </configuration>
+          </execution>
+
         </executions>
       </plugin>
+
     </plugins>
   </build>
 </project>
