@@ -23,12 +23,12 @@ public class MyButton extends JButton{
         try {
             lconfirm = ImageHandler.setImage("resources/Graphics/button_confirm.png", 100, 100, d.width * 13/100, d.height * 5/100);
             lconfirmPress = ImageHandler.setImage("resources/Graphics/button_confirm_press.png", 100, 100, (int) (d.width * 13/100), (int) (d.height * 5/100));
-            lback = ImageHandler.setImage("src/main/resources/Graphics/button_back.png", 100, 100, d.width * 13/100, d.height * 5/100);
-            lbackPress = ImageHandler.setImage("src/main/resources/Graphics/button_back_press.png", 100, 100, (int) (d.width * 13/100), (int) (d.height * 5/100));
-            lnewGame = ImageHandler.setImage("src/main/resources/Graphics/button_newgame.png", 100, 100, d.width * 13/100, d.height * 5/100);
-            lnewGamePress = ImageHandler.setImage("src/main/resources/Graphics/button_newgame_press.png", 100, 100, (int) (d.width * 13/100), (int) (d.height * 5/100));
-            lclose = ImageHandler.setImage("src/main/resources/Graphics/button_close.png", 100, 100, d.width * 13/100, d.height * 5/100);
-            lclosePress = ImageHandler.setImage("src/main/resources/Graphics/button_close_press.png", 100, 100, (int) (d.width * 13/100), (int) (d.height * 5/100));
+            lback = ImageHandler.setImage("resources/Graphics/button_back.png", 100, 100, d.width * 13/100, d.height * 5/100);
+            lbackPress = ImageHandler.setImage("resources/Graphics/button_back_press.png", 100, 100, (int) (d.width * 13/100), (int) (d.height * 5/100));
+            lnewGame = ImageHandler.setImage("resources/Graphics/button_newgame.png", 100, 100, d.width * 13/100, d.height * 5/100);
+            lnewGamePress = ImageHandler.setImage("resources/Graphics/button_newgame_press.png", 100, 100, (int) (d.width * 13/100), (int) (d.height * 5/100));
+            lclose = ImageHandler.setImage("resources/Graphics/button_close.png", 100, 100, d.width * 13/100, d.height * 5/100);
+            lclosePress = ImageHandler.setImage("resources/Graphics/button_close_press.png", 100, 100, (int) (d.width * 13/100), (int) (d.height * 5/100));
         } catch (IOException e) {
             LOGGER.severe(e.getMessage());
         }

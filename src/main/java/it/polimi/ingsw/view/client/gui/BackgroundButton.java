@@ -12,8 +12,8 @@ public class BackgroundButton {
     static JLabel cover2;
     static {
         try {
-            cover = ImageHandler.setImage("src/main/resources/Graphics/background_panels.png", 100, 100, d.width, d.height);
-            cover2 = ImageHandler.setImage("src/main/resources/Graphics/background.png", 100, 100, d.width, d.height);
+            cover = ImageHandler.setImage("resources/Graphics/background_panels.png", 100, 100, d.width, d.height);
+            cover2 = ImageHandler.setImage("resources/Graphics/background.png", 100, 100, d.width, d.height);
         } catch (IOException e) {
             LOGGER.severe(e.getMessage());
         }

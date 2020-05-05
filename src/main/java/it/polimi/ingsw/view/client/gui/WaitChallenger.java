@@ -17,7 +17,7 @@ public class WaitChallenger extends JPanel{
         setPreferredSize(frameSize);
         setLayout(null);
 
-        JLabel label = ImageHandler.setImage("src/main/resources/Graphics/Texts/waiting_for_challenger_to_choose_the_god.png", 100, 100, frameSize.width * 40/100, frameSize.height * 20/100);
+        JLabel label = ImageHandler.setImage("resources/Graphics/Texts/waiting_for_challenger_to_choose_the_god.png", 100, 100, frameSize.width * 40/100, frameSize.height * 20/100);
         label.setBounds(frameSize.width * 30/100, frameSize.height * 5/100, frameSize.width * 40/100, frameSize.height * 20/100);
         add(label);
 

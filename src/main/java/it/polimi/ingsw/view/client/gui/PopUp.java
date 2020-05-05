@@ -47,7 +47,7 @@ public class PopUp {
 
                 label1 = new JLabel();
                 try {
-                    label1 = ImageHandler.setImage("src/main/resources/Graphics/Texts/nickname.png", 97, 100, intFrameSize.width * 15/100,intFrameSize.height * 5/100);
+                    label1 = ImageHandler.setImage("resources/Graphics/Texts/nickname.png", 97, 100, intFrameSize.width * 15/100,intFrameSize.height * 5/100);
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }
@@ -56,7 +56,7 @@ public class PopUp {
 
                 label2 = new JLabel();
                 try {
-                    label2 = ImageHandler.setImage("src/main/resources/Graphics/Texts/your_nickname_is_already_used.png", 97, 100, intFrameSize.width * 50/100,intFrameSize.height * 15/100);
+                    label2 = ImageHandler.setImage("resources/Graphics/Texts/your_nickname_is_already_used.png", 97, 100, intFrameSize.width * 50/100,intFrameSize.height * 15/100);
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }
@@ -65,7 +65,7 @@ public class PopUp {
 
                 label3 = new JLabel();
                 try {
-                    label3 = ImageHandler.setImage("src/main/resources/Graphics/Texts/change_your_nickname.png", 97, 100, intFrameSize.width * 40/100,intFrameSize.height * 15/100);
+                    label3 = ImageHandler.setImage("resources/Graphics/Texts/change_your_nickname.png", 97, 100, intFrameSize.width * 40/100,intFrameSize.height * 15/100);
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }
@@ -77,7 +77,7 @@ public class PopUp {
             case 1:
                 label1 = new JLabel();
                 try {
-                    label1 = ImageHandler.setImage("src/main/resources/Graphics/Texts/you_have_been_disconnected.png", 97, 100, intFrameSize.width * 40/100,intFrameSize.height * 15/100);
+                    label1 = ImageHandler.setImage("resources/Graphics/Texts/you_have_been_disconnected.png", 97, 100, intFrameSize.width * 40/100,intFrameSize.height * 15/100);
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }
@@ -86,7 +86,7 @@ public class PopUp {
 
                 label2 = new JLabel();
                 try {
-                    label2 = ImageHandler.setImage("src/main/resources/Graphics/Texts/start_new_game_or_close.png", 97, 100, intFrameSize.width * 40/100,intFrameSize.height * 15/100);
+                    label2 = ImageHandler.setImage("resources/Graphics/Texts/start_new_game_or_close.png", 97, 100, intFrameSize.width * 40/100,intFrameSize.height * 15/100);
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }
@@ -106,7 +106,7 @@ public class PopUp {
             case 2:
                 label1 = new JLabel();
                 try {
-                    label1 = ImageHandler.setImage("src/main/resources/Graphics/Texts/you_have_been_disconnected.png", 97, 100, intFrameSize.width * 40/100,intFrameSize.height * 15/100);
+                    label1 = ImageHandler.setImage("resources/Graphics/Texts/you_have_been_disconnected.png", 97, 100, intFrameSize.width * 40/100,intFrameSize.height * 15/100);
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }

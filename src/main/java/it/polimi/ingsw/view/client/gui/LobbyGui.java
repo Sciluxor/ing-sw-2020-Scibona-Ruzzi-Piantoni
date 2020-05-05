@@ -73,8 +73,8 @@ public class LobbyGui{
         backButton.addActionListener(new BackToLogin());
         pane.add(backButton);
 
-        JLabel wait = ImageHandler.setImage("src/main/resources/Graphics/Texts/waiting_others_players.png", 100, 100, frameSize.width * 30/100, frameSize.height * 10/100);
-        JLabel of = ImageHandler.setImage("src/main/resources/Graphics/Texts/of.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
+        JLabel wait = ImageHandler.setImage("resources/Graphics/Texts/waiting_others_players.png", 100, 100, frameSize.width * 30/100, frameSize.height * 10/100);
+        JLabel of = ImageHandler.setImage("resources/Graphics/Texts/of.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
         JTextPane textPane = new JTextPane();
         JTextPane numberPane = new JTextPane();
         doc = textPane.getStyledDocument();
@@ -89,10 +89,10 @@ public class LobbyGui{
 
 
         if (num == 2){
-            lnumber = ImageHandler.setImage("src/main/resources/Graphics/Texts/2.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
+            lnumber = ImageHandler.setImage("resources/Graphics/Texts/2.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
         }
         else {
-            lnumber = ImageHandler.setImage("src/main/resources/Graphics/Texts/3.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
+            lnumber = ImageHandler.setImage("resources/Graphics/Texts/3.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
         }
 
 

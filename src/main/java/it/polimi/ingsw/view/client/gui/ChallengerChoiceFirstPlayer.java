@@ -24,7 +24,7 @@ public class ChallengerChoiceFirstPlayer extends JPanel{
         JButton player2 = new JButton(players.get(1).getNickname());
         JButton player3;
 
-        JLabel choose = ImageHandler.setImage("src/main/resources/Graphics/Texts/choose_the_first_player.png", 100, 100, frameSize.width * 40/100, frameSize.height * 10/100);
+        JLabel choose = ImageHandler.setImage("resources/Graphics/Texts/choose_the_first_player.png", 100, 100, frameSize.width * 40/100, frameSize.height * 10/100);
         choose.setBounds(frameSize.width * 30/100, frameSize.height * 10/100, frameSize.width * 40/100, frameSize.height * 10/100);
         add(choose);
 
