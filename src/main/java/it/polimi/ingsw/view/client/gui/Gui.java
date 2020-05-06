@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.client.gui;
 
+import it.polimi.ingsw.model.map.Square;
 import it.polimi.ingsw.network.client.ClientGameController;
 import it.polimi.ingsw.model.player.Color;
 import it.polimi.ingsw.model.player.Player;
@@ -235,6 +236,11 @@ public class Gui extends ClientGameController {
 
     @Override
     public void placeWorker(String name, boolean bool) {
+
+    }
+
+    @Override
+    public void updatePlacedWorkers(List<Square> squares) {
 
     }
 

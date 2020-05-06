@@ -10,13 +10,13 @@ public class Square implements Serializable{
 
 
     private Integer tile;
-    private transient Integer[] coordinates;
+    private Integer[] coordinates;
     private int buildingLevel;
     private Building building;
     private boolean hasPlayer;
     private Player player;
     private Worker worker;
-    private transient Map<Directions,Integer> canAccess;
+    private  Map<Directions,Integer> canAccess;
 
     public Square(Integer tile, int buildingLevel, Building building, boolean hasPlayer,Map<Directions,Integer> canAccess,Integer[] coordinates) {
         this.tile = tile;

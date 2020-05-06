@@ -208,13 +208,14 @@ public class Game extends Observable<Response> {
 
         Square square1 = gameMap.getTileFromCoordinates(tile1);
         Square square2 = gameMap.getTileFromCoordinates(tile2);
+        getGameMap().clearModifiedSquare();
 
         if(square1.hasPlayer() || square2.hasPlayer())
             return false;
 
-        this.gameMap.getMap().get(square1.getTile() - 1).setMovement(currentPlayer, currentPlayer.getWorkers().get(0));
+        this.getGameMap().placeWorker(square1,currentPlayer,currentPlayer.getWorkers().get(0));
         currentPlayer.getWorkers().get(0).setBoardPosition(square1);
-        this.gameMap.getMap().get(square2.getTile() - 1).setMovement(currentPlayer, currentPlayer.getWorkers().get(1));
+        this.getGameMap().placeWorker(square2,currentPlayer,currentPlayer.getWorkers().get(1));
         currentPlayer.getWorkers().get(1).setBoardPosition(square2);
 
         currentPlayer.setHasPlacedWorkers(true);

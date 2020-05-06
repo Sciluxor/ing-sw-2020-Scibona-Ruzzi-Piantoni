@@ -193,7 +193,7 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
         connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.PLACEWORKERS,MessageSubType.UPDATE,controller.getCurrentPlayer().getNickname()));
     }
     public void handleOtherPlaceWorkersDone(){
-         //mandare i modifiedSquare?
+        connection.sendMessage(new PlaceWorkersMessage(ConstantsContainer.SERVERNAME,MessageSubType.SETTED,controller.getModifiedSquares().get(0).getCoordinates(),controller.getModifiedSquares().get(1).getCoordinates()));
     }
 
     //

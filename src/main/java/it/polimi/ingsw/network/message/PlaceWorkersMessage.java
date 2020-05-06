@@ -1,5 +1,9 @@
 package it.polimi.ingsw.network.message;
 
+import it.polimi.ingsw.model.map.Square;
+
+import java.util.List;
+
 public class PlaceWorkersMessage extends Message {
 
     private Integer[] tile1;

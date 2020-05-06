@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.map.Square;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.Response;
 import it.polimi.ingsw.model.player.TurnStatus;
@@ -125,6 +126,10 @@ public class GameController implements Observer<Message> {
 
     public VirtualView getViewFromNickName(String nick){
         return clients.get(nick);
+    }
+
+    public synchronized List<Square> getModifiedSquares(){
+        return  game.getGameMap().getModifiedSquare();
     }
 
     public synchronized boolean isFull(){

@@ -121,6 +121,11 @@ public class GameMap {
 
     }
 
+    public void placeWorker(Square square,Player player,Worker worker){
+        square.setMovement(player,worker);
+        modifiedSquare.add(square);
+    }
+
     //
     //function that return the positions of both player's workers
     //

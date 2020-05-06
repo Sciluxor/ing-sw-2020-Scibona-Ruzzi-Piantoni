@@ -98,24 +98,13 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     public synchronized void placeWorkersResponse(int tile1,int tile2){
+        game.placeWorkersOnMap(tile1,tile2);
         client.sendMessage(new PlaceWorkersMessage(client.getUserID(),MessageSubType.ANSWER,game.getCoordinatesFromTile(tile1),
                 game.getCoordinatesFromTile(tile2)));
     }
 
     public synchronized void endTurn(){
         client.sendMessage(new Message(client.getUserID(),client.getNickName(),MessageType.ENDTURN,MessageSubType.UPDATE));
-    }
-
-    public synchronized void updateCardChoice(Message message){
-
-    }
-
-    public synchronized void updatePlaceWorkers(Message message){
-
-    }
-
-    public synchronized void updateChallengerChoice(Message message){
-
     }
 
     public synchronized void handleChallengerChoice(Message message){
@@ -156,7 +145,10 @@ public abstract class ClientGameController implements Runnable, FunctionListener
             eventQueue.add(() -> placeWorker(message.getMessage(), false));
         }
         else {
-            //aggiornaree le posizioni dei workers
+            int tile1 = game.getGameMap().getTileFromCoordinates(((PlaceWorkersMessage) message).getTile1()).getTile();
+            int tile2 = game.getGameMap().getTileFromCoordinates(((PlaceWorkersMessage) message).getTile2()).getTile();
+            game.placeWorkersOnMap(tile1,tile2);
+            eventQueue.add(() -> updatePlacedWorkers(game.getGameMap().getModifiedSquare()));
         }
     }
 
