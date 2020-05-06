@@ -181,7 +181,6 @@ public class ClientHandler implements Runnable, ConnectionInterface {
                             server.insertPlayerInGame(input, this, true);
                             server.moveGameStarted();
                         } else if (input.getType() == MessageType.PING) {
-                            System.out.println("ping");
                             stopPingTimer();
                             startPingTimer();
                         } else if (input.getType() == MessageType.CONFIG && input.getSubType() == MessageSubType.UPDATE) {

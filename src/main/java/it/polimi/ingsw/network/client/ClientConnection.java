@@ -10,6 +10,7 @@ import it.polimi.ingsw.utils.Logger;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.ConnectException;
 import java.net.Socket;
 import java.util.Timer;
 public class ClientConnection implements ConnectionInterface,Runnable {
@@ -51,19 +52,20 @@ public class ClientConnection implements ConnectionInterface,Runnable {
         this.nickName = nickName;
     }
 
-    public void connectToServer(int numberOfPlayer){
+    public void connectToServer(int numberOfPlayer) throws ConnectException {
         try{
             clientSocket = new Socket("127.0.0.1", port);
             clientSocket.setTcpNoDelay(true);
             out = new ObjectOutputStream(clientSocket.getOutputStream());
             in = new ObjectInputStream(clientSocket.getInputStream());
+            sendMessage(new GameConfigMessage(userID,nickName, MessageSubType.ANSWER,numberOfPlayer,false,false,false));
+            messageListener = new Thread(this);
+            messageListener.start();
+            startPingTimer();
         }catch (IOException e){
-            ClientGameController.LOGGER.severe(e.getMessage());
+            throw new ConnectException("wrong parameters");
         }
-        sendMessage(new GameConfigMessage(userID,nickName, MessageSubType.ANSWER,numberOfPlayer,false,false,false));
-        messageListener = new Thread(this);
-        messageListener.start();
-        startPingTimer();
+
 
     }
 

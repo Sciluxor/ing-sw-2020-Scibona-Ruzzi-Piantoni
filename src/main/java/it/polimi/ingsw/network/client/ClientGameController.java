@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.utils.ConfigLoader;
 
+import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
@@ -38,7 +39,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         }
     }
 
-    public synchronized void openConnection(String name, int numberOfPlayer, String address, int port) {
+    public synchronized void openConnection(String name, int numberOfPlayer, String address, int port) throws ConnectException {
         game = new SimplifiedGame(numberOfPlayer);
         client = new ClientConnection(name,address,port,this);
         client.connectToServer(numberOfPlayer);
@@ -160,6 +161,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     public synchronized void handleDisconnection(Message message){
+        client.stopPingTimer();
         client.closeConnection();
         LOGGER.info("lost connection");
         switch (message.getSubType()) {
