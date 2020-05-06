@@ -23,8 +23,8 @@ public class WaitChallenger extends JDesktopPane{
         setPreferredSize(frameSize);
         setLayout(null);
 
-        JLabel label = ImageHandler.setImage("resources/Graphics/Texts/waiting_for_challenger_to_choose_the_god.png", 100, 100, frameSize.width * 80/100, frameSize.height * 30/100);
-        label.setBounds(frameSize.width * 10/100, frameSize.height * 30/100, frameSize.width * 80/100, frameSize.height * 30/100);
+        JLabel label = ImageHandler.setImage("resources/Graphics/Texts/waiting_for_challenger_to_choose_the_god.png", 100, 100, frameSize.width * 85/100, frameSize.height * 30/100);
+        label.setBounds((int) (frameSize.width * 7.5/100), frameSize.height * 30/100, frameSize.width * 85/100, frameSize.height * 30/100);
         add(label);
 
         close.addActionListener(new Close());

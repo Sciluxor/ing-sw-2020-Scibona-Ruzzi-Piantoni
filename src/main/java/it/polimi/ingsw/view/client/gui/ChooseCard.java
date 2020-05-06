@@ -15,8 +15,7 @@ import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
 import static it.polimi.ingsw.view.client.gui.Board.internalFrameSetUp;
 import static it.polimi.ingsw.view.client.gui.EliminateListeners.eliminateActionClass;
 import static it.polimi.ingsw.view.client.gui.EliminateListeners.eliminateMouseClass;
-import static it.polimi.ingsw.view.client.gui.Gui.LOGGER;
-import static it.polimi.ingsw.view.client.gui.Gui.getD;
+import static it.polimi.ingsw.view.client.gui.Gui.*;
 
 public class ChooseCard extends JDesktopPane{
 
@@ -37,6 +36,8 @@ public class ChooseCard extends JDesktopPane{
     MyButton close = new MyButton(3);
     private int chosen = 0;
     String cardChosen = null;
+    String nameChoosing;
+    int posx;
 
     public ChooseCard(Board instance, JInternalFrame aframe,Dimension frame, List<String> cards, Integer numberOfPanel, String name) throws IOException {
 
@@ -46,6 +47,8 @@ public class ChooseCard extends JDesktopPane{
         intFrameSize.setSize(frameSize.getWidth() * 40/100, frameSize.getHeight() * 45/100);
         setPreferredSize(frameSize);
 
+        nameChoosing = name;
+        posx = nameChoosing.length() * 50/100;
         godCards = cards;
         costructor = new ButtonGodsList(frameSize, godList);
 
@@ -70,8 +73,11 @@ public class ChooseCard extends JDesktopPane{
 
         JLabel choose = ImageHandler.setImage("resources/Graphics/Texts/choose_your_god.png", 100, 100, frameSize.width * 30/100, frameSize.height * 10/100);
         JLabel choise = ImageHandler.setImage("resources/Graphics/Texts/this_is_your_god.png", 100, 100, frameSize.width * 30/100, frameSize.height * 10/100);
-        JLabel wait = ImageHandler.setImage("resources/Graphics/Texts/waiting_for_other_players_choice.png", 100, 100, frameSize.width * 30/100, frameSize.height * 10/100);
-
+        JLabel isChoosing = ImageHandler.setImage("resources/Graphics/Texts/is_choosing_the_god_power.png", 100, 100, frameSize.width * 30/100, frameSize.height * 10/100);
+        JLabel first = ImageHandler.setImage("resources/Graphics/Texts/choose_your_god_power.png", 100, 100, frameSize.width * 30/100, frameSize.height * 10/100);
+        JLabel otherName = new JLabel(name);
+        otherName.setBounds((int) ((frameSize.width * 40/100) - posx), (int) (frameSize.height * 10/100), frameSize.width * 20/100, frameSize.width * 5/100);
+        otherName.setFont(felixBold);
 
         selectGodsChosen();
 
@@ -108,6 +114,9 @@ public class ChooseCard extends JDesktopPane{
                 godChoosen.get(1).setBounds(x + frameSize.width * 18/100, y, cardSize.width, cardSize.height);
                 this.add(godChoosen.get(1));
             }
+            JButton back = backgroundButton(0);
+            back.setBounds(0, 0, frameSize.width, frameSize.height);
+            add(back);
         }
 
         else {
@@ -120,16 +129,39 @@ public class ChooseCard extends JDesktopPane{
                 godChoosen.get(0).setBounds((int) (frameSize.width * 45.5/100), y, cardSize.width, cardSize.height);
                 this.add(godChoosen.get(0));
 
-                confirm.setBounds((int) (frameSize.width * 31.5/ 100), (int) (frameSize.height * 81 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
+                confirm.setBounds((int) ((frameSize.width * 50/ 100) - ((getD().getWidth() * 13 / 100) * 50/100)), (int) (frameSize.height * 81 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
                 add(confirm);
+
+                JButton back = backgroundButton(0);
+                back.setBounds(0, 0, frameSize.width, frameSize.height);
+                add(back);
             }
-            else{
-                wait.setBounds(frameSize.width * 35/100, frameSize.height * 10/100, frameSize.width * 30/100, frameSize.height * 10/100);
-                add(wait);
+            else if (numberOfPanel == 4){
+
+                first.setBounds(frameSize.width * 35/100, frameSize.height * 10/100, frameSize.width * 30/100, frameSize.height * 10/100);
+                add(first);
 
                 close.addActionListener(new Close());
                 close.setBounds((int) ((frameSize.width * 50/ 100) - ((getD().getWidth() * 13 / 100) * 50/100)), (int) (frameSize.height * 81 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
                 add(close);
+
+                JButton back = backgroundButton(0);
+                back.setBounds(0, 0, frameSize.width, frameSize.height);
+                add(back);
+            }
+            else{
+                add(otherName);
+
+                isChoosing.setBounds(frameSize.width * 35/100, frameSize.height * 15/100, frameSize.width * 30/100, frameSize.height * 10/100);
+                add(isChoosing);
+
+                close.addActionListener(new Close());
+                close.setBounds((int) ((frameSize.width * 50/ 100) - ((getD().getWidth() * 13 / 100) * 50/100)), (int) (frameSize.height * 81 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
+                add(close);
+
+                JButton back = backgroundButton(1);
+                back.setBounds(0, 0, frameSize.width, frameSize.height);
+                add(back);
             }
         }
         JButton back = backgroundButton(0);
@@ -209,7 +241,7 @@ public class ChooseCard extends JDesktopPane{
                 c.addActionListener(new ChooseCard.RemoveGod());
             }
             if (chosen == 1 && confirm.getActionListeners().length == 0){
-                confirm.addActionListener(new ChooseCard.Confirm());
+                confirm.addActionListener(new Confirm());
             }
         }
     }

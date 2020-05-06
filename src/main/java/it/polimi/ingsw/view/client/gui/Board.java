@@ -18,6 +18,7 @@ public class Board extends Observable {
     List<Player> allPlayer = new ArrayList<>();
     List<Player> otherPlayers = new ArrayList<>();
     List<String> cardsChosen = new ArrayList<>();
+    List<String> godCards = new ArrayList<>();
     String cardChosen = null;
     String firstPlayer = null;
     JFrame f;
@@ -121,6 +122,7 @@ public class Board extends Observable {
     static final String PALETTE = "JInternalFrame.isPalette";
     Player mePlayer;
     String nickname;
+    String nameChoosing;
     int numberOfPlayers = 2;
 
     public void show(Gui instance, Dimension screen, Integer numberOfPlayer, List<Player> players,List<Player> players2, String gameId, String nickname) throws IOException {
@@ -219,20 +221,6 @@ public class Board extends Observable {
         setInternalFrames(internalFrameChooseCards);
         BasicInternalFrameUI bi3 = (BasicInternalFrameUI) internalFrameChooseCards.getUI();
         bi3.setNorthPane(null);
-/*
-        internalFrameChallenger1 = new JInternalFrame("", false, false, false, false);
-        internalFrameChallenger1.setPreferredSize(sideSize);
-        internalFrameChallenger1.setBounds((int)((frameSize.width * 50/100) - (internalFrameSize.width * 50/100)), (int) ((frameSize.height * 46/100) - (internalFrameSize.height * 50/100)), internalFrameSize.width, internalFrameSize.height);
-        internalFrameSetUp(internalFrameChallenger1);
-        BasicInternalFrameUI bi = (BasicInternalFrameUI) internalFrameChallenger1.getUI();
-        bi.setNorthPane(null);
-
-        internalFrameChallenger2 = new JInternalFrame("", false, false, false, false);
-        internalFrameChallenger2.setPreferredSize(sideSize);
-        internalFrameChallenger2.setBounds((int)((frameSize.width * 50/100) - (internalFrameSize.width * 50/100)), (int) ((frameSize.height * 46/100) - (internalFrameSize.height * 50/100)), internalFrameSize.width, internalFrameSize.height);
-        internalFrameSetUp(internalFrameChallenger2);
-        BasicInternalFrameUI bi2 = (BasicInternalFrameUI) internalFrameChallenger2.getUI();
-        bi2.setNorthPane(null);*/
 
 
         frameChat = new JInternalFrame("", false, false, false, false);
@@ -546,6 +534,10 @@ public class Board extends Observable {
         buttonChooseFirst.setBounds((int) (frameSize.width * 84/100), (int) (frameSize.height * 34/100), frameSize.width * 7/100, frameSize.height * 7/100);
         consoleButtons(buttonChooseFirst, lbuttonChooseFirst);
 
+        labelChoosePower.setBounds((int) (frameSize.width * 81/100), (int) (frameSize.height * 15.5/100), frameSize.width * 20/100, frameSize.width * 5/100);
+        labelChoosePower.setFont(felixNormal);
+        labelChoosePower.setVisible(false);
+        desktopPane.add(labelChoosePower);
         buttonChoosePower.setBounds((int) (frameSize.width * 84/100), (int) (frameSize.height * 22/100), frameSize.width * 7/100, frameSize.height * 7/100);
         consoleButtons(buttonChoosePower, lButtonChoosePower);
         buttonChoosePower.setVisible(false);
@@ -764,21 +756,27 @@ public class Board extends Observable {
             labelChooseCards.setVisible(false);
             buttonChooseFirst.setVisible(false);
             labelChooseFirst.setVisible(false);
-            labelEndturn.setVisible(true);
-            buttonEndturn.setVisible(true);
+            showEndturn();
         }
     }
 
     public void showCardChoice(List<String> cards, String name, boolean bool){
+
+        godCards = cards;
+        nameChoosing = name;
+
         if (chooseCard != null) {
             internalFrameChooseCards.remove(chooseCard);
         }
         if (bool) {
             try {
-                chooseCard = new ChooseCard(this, internalFrameChooseCards, internalFrameSize, cards, cards.size(), name);
+                chooseCard = new ChooseCard(this, internalFrameChooseCards, internalFrameSize, cards, 4, name);
             } catch (IOException e) {
                 LOGGER.severe(e.getMessage());
             }
+            buttonChoosePower.setVisible(true);
+            labelChoosePower.setVisible(true);
+            buttonChoosePower.addActionListener(new ChoosePower());
         }
         else {
             try {
@@ -787,7 +785,6 @@ public class Board extends Observable {
                 LOGGER.severe(e.getMessage());
             }
         }
-        buttonChoosePower.setVisible(true);
         internalFrameChooseCards.getContentPane().add(chooseCard);
         internalFrameChooseCards.setVisible(true);
     }
@@ -797,8 +794,7 @@ public class Board extends Observable {
             gui.cardChoiceResponse(cardChosen);
             buttonChoosePower.setVisible(false);
             labelChoosePower.setVisible(false);
-            labelEndturn.setVisible(true);
-            buttonEndturn.setVisible(true);
+            showEndturn();
         }
     }
 
@@ -807,13 +803,36 @@ public class Board extends Observable {
         this.cardChosen = cardChosen;
     }
 
+    private class ChoosePower implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            internalFrameChooseCards.remove(chooseCard);
+            try {
+                chooseCard = new ChooseCard(gui.board, internalFrameChooseCards, internalFrameSize, godCards, godCards.size(), nameChoosing);
+            } catch (IOException ie) {
+                LOGGER.severe(ie.getMessage());
+            }
+            internalFrameChooseCards.getContentPane().add(chooseCard);
+            internalFrameChooseCards.setVisible(true);
+        }
+    }
+
+    private void showEndturn(){
+        labelEndturn.setVisible(true);
+        buttonEndturn.setVisible(true);
+    }
+
+    private void hideEndturn(){
+        labelEndturn.setVisible(false);
+        buttonEndturn.setVisible(false);
+    }
+
 
     private class EndTurn implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
             gui.endTurn();
-            buttonEndturn.setVisible(false);
-            labelEndturn.setVisible(false);
+            hideEndturn();
         }
     }
 
@@ -1168,7 +1187,7 @@ public class Board extends Observable {
         public void mouseEntered(MouseEvent e) {
             JButton c = (JButton)e.getSource();
             /*try {
-                cover2 = ImageHandler.setImage(c.getName(), 100, 100, frameSize.width * 40/100, frameSize.height * 45/100);
+                cover2 = ImageHandler.setImage("resources/Graphics/gods/" + c.getName() + "_description.png", 100, 100, frameSize.width * 40/100, frameSize.height * 45/100);
             } catch (IOException ioException) {
                 LOGGER.severe(ioException.getMessage());
             }
