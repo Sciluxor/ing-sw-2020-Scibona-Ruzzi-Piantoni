@@ -22,10 +22,11 @@ public class ServerPingTimerTask extends TimerTask {
 
     @Override
     public void run() {
-        if(!connection.getUserID().equals(ConstantsContainer.USERDIDDEF))
-            server.handleDisconnection(userID,connection,
-                    new Message(userID,nickName, MessageType.DISCONNECTION, MessageSubType.PINGFAIL));
-
+        if(!connection.getUserID().equals(ConstantsContainer.USERDIDDEF)) {
+            server.handleDisconnection(userID, connection,
+                    new Message(userID, nickName, MessageType.DISCONNECTION, MessageSubType.PINGFAIL));
+            connection.setUserID(ConstantsContainer.USERDIDDEF);
+        }
         connection.closeAfterDisconnection();
     }
 }

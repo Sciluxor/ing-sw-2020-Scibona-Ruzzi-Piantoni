@@ -160,6 +160,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     public synchronized void handleDisconnection(Message message){
+        client.stopPingTimer();
         client.closeConnection();
         LOGGER.info("lost connection");
         switch (message.getSubType()) {
