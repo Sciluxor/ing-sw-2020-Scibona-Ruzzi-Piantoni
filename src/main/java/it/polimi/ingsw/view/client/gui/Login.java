@@ -92,7 +92,7 @@ public class Login extends JPanel{
     private class Send implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (!nickname.getText().equals("") && nickname.getText().length() > ConstantsContainer.MIN_LENGHT_NICK &&  nickname.getText().length() < ConstantsContainer.MAX_LENGHT_NICK &&
+            if (!nickname.getText().equals("") && nickname.getText().length() > ConstantsContainer.MIN_LENGHT_NICK &&  nickname.getText().length() <= ConstantsContainer.MAX_LENGHT_NICK &&
                     !numberPlayers.getText().equals("") && (numberPlayers.getText().equals("2") || numberPlayers.getText().equals("3")) && firstConnection){
                 gui.setNamePlayer(nickname.getText());
                 gui.setNumberOfPlayers((Integer.parseInt(numberPlayers.getText())));
@@ -104,7 +104,7 @@ public class Login extends JPanel{
                 }
             }
             else{
-                if (!nickname.getText().equals("") && nickname.getText().length() > ConstantsContainer.MIN_LENGHT_NICK &&  nickname.getText().length() < ConstantsContainer.MAX_LENGHT_NICK &&
+                if (!nickname.getText().equals("") && nickname.getText().length() > ConstantsContainer.MIN_LENGHT_NICK &&  nickname.getText().length() <= ConstantsContainer.MAX_LENGHT_NICK &&
                         !numberPlayers.getText().equals("") && (numberPlayers.getText().equals("2") || numberPlayers.getText().equals("3"))){
                     gui.setNamePlayer(nickname.getText());
                     gui.setNumberOfPlayers((Integer.parseInt(numberPlayers.getText())));

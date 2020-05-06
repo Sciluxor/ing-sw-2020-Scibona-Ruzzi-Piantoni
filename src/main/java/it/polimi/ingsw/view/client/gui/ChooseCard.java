@@ -39,11 +39,11 @@ public class ChooseCard extends JDesktopPane{
     String nameChoosing;
     int posx;
 
-    public ChooseCard(Board instance, JInternalFrame aframe,Dimension frame, List<String> cards, Integer numberOfPanel, String name) throws IOException {
+    public ChooseCard(Board instance, JInternalFrame aframe, int wi, int he, List<String> cards, Integer numberOfPanel, String name) throws IOException {
 
         board = instance;
         guiIntFrame = aframe;
-        frameSize.setSize(frame);
+        frameSize.setSize(wi, he);
         intFrameSize.setSize(frameSize.getWidth() * 40/100, frameSize.getHeight() * 45/100);
         setPreferredSize(frameSize);
 
@@ -73,10 +73,10 @@ public class ChooseCard extends JDesktopPane{
 
         JLabel choose = ImageHandler.setImage("resources/Graphics/Texts/choose_your_god.png", 100, 100, frameSize.width * 30/100, frameSize.height * 10/100);
         JLabel choise = ImageHandler.setImage("resources/Graphics/Texts/this_is_your_god.png", 100, 100, frameSize.width * 30/100, frameSize.height * 10/100);
-        JLabel isChoosing = ImageHandler.setImage("resources/Graphics/Texts/is_choosing_the_god_power.png", 100, 100, frameSize.width * 30/100, frameSize.height * 10/100);
-        JLabel first = ImageHandler.setImage("resources/Graphics/Texts/choose_your_god_power.png", 100, 100, frameSize.width * 30/100, frameSize.height * 10/100);
+        JLabel isChoosing = ImageHandler.setImage("resources/Graphics/Texts/is_choosing_the_god_power.png", 100, 100, frameSize.width * 85/100, frameSize.height * 25/100);
+        JLabel first = ImageHandler.setImage("resources/Graphics/Texts/choose_your_god_power.png", 100, 100, frameSize.width * 85/100, frameSize.height * 25/100);
         JLabel otherName = new JLabel(name);
-        otherName.setBounds((int) ((frameSize.width * 40/100) - posx), (int) (frameSize.height * 10/100), frameSize.width * 20/100, frameSize.width * 5/100);
+        otherName.setBounds((int) ((frameSize.width * 40/100) - posx), (int) (frameSize.height * 10/100), frameSize.width * 50/100, frameSize.width * 5/100);
         otherName.setFont(felixBold);
 
         selectGodsChosen();
@@ -138,21 +138,21 @@ public class ChooseCard extends JDesktopPane{
             }
             else if (numberOfPanel == 4){
 
-                first.setBounds(frameSize.width * 35/100, frameSize.height * 10/100, frameSize.width * 30/100, frameSize.height * 10/100);
+                first.setBounds((int) (frameSize.width * 7.5/100), frameSize.height * 10/100, frameSize.width * 85/100, frameSize.height * 25/100);
                 add(first);
 
                 close.addActionListener(new Close());
                 close.setBounds((int) ((frameSize.width * 50/ 100) - ((getD().getWidth() * 13 / 100) * 50/100)), (int) (frameSize.height * 81 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
                 add(close);
 
-                JButton back = backgroundButton(0);
+                JButton back = backgroundButton(1);
                 back.setBounds(0, 0, frameSize.width, frameSize.height);
                 add(back);
             }
             else{
                 add(otherName);
 
-                isChoosing.setBounds(frameSize.width * 35/100, frameSize.height * 15/100, frameSize.width * 30/100, frameSize.height * 10/100);
+                isChoosing.setBounds((int) (frameSize.width * 7.5/100), frameSize.height * 15/100, frameSize.width * 85/100, frameSize.height * 25/100);
                 add(isChoosing);
 
                 close.addActionListener(new Close());
