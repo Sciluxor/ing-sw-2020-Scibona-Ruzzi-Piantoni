@@ -54,7 +54,7 @@ public class ClientConnection implements ConnectionInterface,Runnable {
 
     public void connectToServer(int numberOfPlayer) throws ConnectException {
         try{
-            clientSocket = new Socket("127.0.0.1", port);
+            clientSocket = new Socket(address, port);
             clientSocket.setTcpNoDelay(true);
             out = new ObjectOutputStream(clientSocket.getOutputStream());
             in = new ObjectInputStream(clientSocket.getInputStream());

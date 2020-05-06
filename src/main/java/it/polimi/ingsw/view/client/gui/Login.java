@@ -4,9 +4,13 @@ import it.polimi.ingsw.utils.ConstantsContainer;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.desktop.SystemEventListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.net.ConnectException;
+
+import static it.polimi.ingsw.view.client.gui.Gui.LOGGER;
 
 public class Login extends JPanel{
 
@@ -92,8 +96,12 @@ public class Login extends JPanel{
                     !numberPlayers.getText().equals("") && (numberPlayers.getText().equals("2") || numberPlayers.getText().equals("3")) && firstConnection){
                 gui.setNamePlayer(nickname.getText());
                 gui.setNumberOfPlayers((Integer.parseInt(numberPlayers.getText())));
-                gui.openConnection(nickname.getText(), (Integer.parseInt(numberPlayers.getText())), address.getText(), (Integer.parseInt(port.getText())));
-                gui.changePanel();
+                try {
+                    gui.openConnection(nickname.getText(), (Integer.parseInt(numberPlayers.getText())), address.getText(), (Integer.parseInt(port.getText())));
+                    gui.logginToLobby();
+                } catch (ConnectException connectException) {
+                    LOGGER.severe(connectException.getMessage());
+                }
             }
             else{
                 if (!nickname.getText().equals("") && nickname.getText().length() > ConstantsContainer.MIN_LENGHT_NICK &&  nickname.getText().length() < ConstantsContainer.MAX_LENGHT_NICK &&
@@ -101,7 +109,7 @@ public class Login extends JPanel{
                     gui.setNamePlayer(nickname.getText());
                     gui.setNumberOfPlayers((Integer.parseInt(numberPlayers.getText())));
                     gui.newGame(nickname.getText(), (Integer.parseInt(numberPlayers.getText())));
-                    gui.changePanel();
+                    gui.logginToLobby();
                 }
             }
         }

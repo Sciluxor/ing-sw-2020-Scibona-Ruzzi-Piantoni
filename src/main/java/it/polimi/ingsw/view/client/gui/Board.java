@@ -689,11 +689,11 @@ public class Board extends Observable {
         }
         else{
             try {
-                waitChallenger = new WaitChallenger(internalFrameChallenger1, frameSize.width * 50/100, frameSize.height * 55/100);
+                waitChallenger = new WaitChallenger(internalFrameChallenger1, frameSize.width * 40/100, frameSize.height * 45/100);
             } catch (IOException e) {
                 LOGGER.severe(e.getMessage());
             }
-            internalFrameChallenger1.setBounds(frameSize.width * 25/100, (int) (frameSize.height * 22.5/100), frameSize.width * 50/100, frameSize.height * 55/100);
+            internalFrameChallenger1.setBounds(frameSize.width * 30/100, (int) (frameSize.height * 2.5/100), frameSize.width * 40/100, frameSize.height * 45/100);
             internalFrameChallenger1.getContentPane().add(waitChallenger);
             internalFrameChallenger1.setVisible(true);
         }

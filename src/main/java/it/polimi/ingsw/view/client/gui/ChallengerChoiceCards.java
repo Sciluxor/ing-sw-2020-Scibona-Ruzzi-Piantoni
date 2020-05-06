@@ -236,7 +236,7 @@ public class ChallengerChoiceCards extends JDesktopPane{
             godChosen.remove(c);
             chosen--;
             c.addActionListener(new ChooseGod());
-            eliminateActionClass(confirm, ChangePanel.class);
+            eliminateActionClass(confirm, ChallengerChoiceCards.Confirm.class);
         }
     }
 

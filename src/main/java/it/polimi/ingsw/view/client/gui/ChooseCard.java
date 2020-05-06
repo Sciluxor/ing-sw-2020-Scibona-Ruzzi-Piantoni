@@ -256,7 +256,7 @@ public class ChooseCard extends JDesktopPane{
             cardChosen = null;
             chosen--;
             c.addActionListener(new ChooseCard.ChooseGod());
-            eliminateActionClass(confirm, Confirm.class);
+            eliminateActionClass(confirm, ChooseCard.Confirm.class);
         }
     }
 

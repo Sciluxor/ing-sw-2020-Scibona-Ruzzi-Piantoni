@@ -109,79 +109,6 @@ public class Gui extends ClientGameController {
 
     }
 
-
-    private void panelManager(int panel){
-        switch (panel){
-            case 0:
-                frame.remove(login);
-                try {
-                    lobby = new LobbyGui(this, d, numberOfPlayers, players);
-                } catch (IOException e) {
-                    LOGGER.severe(e.getMessage());
-                }
-                frame.setContentPane(lobby.getPane());
-                panelInUse = 1;
-                break;
-            case 1:
-                //frame.remove(challengerChoiseCards);
-                /*try {
-                    //challengerChoiseFirst = new ChallengerChoiceFirstPlayer(this, d, numberOfPlayers, players);
-                } catch (IOException e) {
-                    LOGGER.severe(e.getMessage());
-                }*/
-                frame.setContentPane(challengerChoiseFirst);
-                panelInUse = 2;
-                break;
-
-            case 2:
-                frame.remove(challengerChoiseFirst);
-                if (numberOfPlayers == 2){
-                    /*try {
-                        chooseCard2 = new ChooseCard(this, screenSize, d, numberOfPlayers);
-                    } catch (IOException e) {
-                        LOGGER.severe(e.getMessage());
-                    }
-                    frame.setContentPane(chooseCard2);*/
-                }
-                else{
-                    /*try {
-                        chooseCard3 = new ChooseCard(this, screenSize, d, numberOfPlayers);
-                    } catch (IOException e) {
-                        LOGGER.severe(e.getMessage());
-                    }
-                    frame.setContentPane(chooseCard3);*/
-                }
-                panelInUse = 3;
-                break;
-
-            case 3:
-                frame.dispose();
-                Board board = new Board();
-                try {
-                    board.show(this, screenSize, numberOfPlayers, players, players, "GID01", nickname);
-                } catch (IOException e) {
-                    LOGGER.severe(e.getMessage());
-                }
-                panelInUse = 4;
-                break;
-
-            case 4:
-
-                //frame.add(new Board(boardSize, 2), BorderLayout.CENTER);
-                //frame.remove(board3);
-                //frame.add(board2);
-                panelInUse = 5;
-                break;
-            default:
-        }
-        if (panelInUse != 4){
-            frame.repaint();
-            frame.validate();
-        }
-    }
-
-
-
     public void avvio() { //avvio
         SwingUtilities.invokeLater(() -> {
             try {
@@ -190,36 +117,20 @@ public class Gui extends ClientGameController {
             } catch (IOException e) {
                 LOGGER.severe(e.getMessage());
             }
+
         });
     }
 
-
-
-
-    public void changePanel (){
-
-            switch (panelInUse){
-                case 0:
-                    panelManager(0);
-                    break;
-
-                case 1:
-                    panelManager(1);
-                    break;
-
-                case 2:
-                    panelManager(2);
-                    break;
-
-                case 3:
-                    panelManager(3);
-                    break;
-
-                case 4:
-                    panelManager(4);
-                    break;
-                default:
-            }
+    public void logginToLobby(){
+        frame.remove(login);
+        try {
+            lobby = new LobbyGui(this, d, numberOfPlayers, players);
+        } catch (IOException e) {
+            LOGGER.severe(e.getMessage());
+        }
+        frame.setContentPane(lobby.getPane());
+        frame.repaint();
+        frame.validate();
     }
 
 
