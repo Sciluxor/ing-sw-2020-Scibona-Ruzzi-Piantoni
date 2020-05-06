@@ -127,6 +127,7 @@ public class LobbyGui{
 
 
         JButton backgroundButton = backgroundButton(0);
+        backgroundButton.setBounds(0, 0, getD().width, getD().height);
         pane.add(backgroundButton);
     }
 

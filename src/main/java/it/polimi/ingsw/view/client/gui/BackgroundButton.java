@@ -33,7 +33,7 @@ public class BackgroundButton {
             default:
         }
 
-        back.setBounds(0, 0, getD().width, getD().height);
+
         back.setOpaque(false);
         back.setContentAreaFilled(false);
         back.setBorderPainted(false);

@@ -56,6 +56,7 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
         backButton.addActionListener(new Close());
 
         JButton back = backgroundButton(0);
+        back.setBounds(0, 0, frameSize.width, frameSize.height);
         add(back);
     }
 
@@ -72,7 +73,8 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
             JButton c = (JButton)e.getSource();
             board.setFirstPlayer(c.getText());
             intFrame.setVisible(false);
-            board.challResponse();
+            board.callChallengerResponse();
+            board.buttonChooseFirst.setEnabled(false);
         }
     }
 }

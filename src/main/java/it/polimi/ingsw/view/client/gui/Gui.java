@@ -136,20 +136,20 @@ public class Gui extends ClientGameController {
             case 2:
                 frame.remove(challengerChoiseFirst);
                 if (numberOfPlayers == 2){
-                    try {
+                    /*try {
                         chooseCard2 = new ChooseCard(this, screenSize, d, numberOfPlayers);
                     } catch (IOException e) {
                         LOGGER.severe(e.getMessage());
                     }
-                    frame.setContentPane(chooseCard2);
+                    frame.setContentPane(chooseCard2);*/
                 }
                 else{
-                    try {
+                    /*try {
                         chooseCard3 = new ChooseCard(this, screenSize, d, numberOfPlayers);
                     } catch (IOException e) {
                         LOGGER.severe(e.getMessage());
                     }
-                    frame.setContentPane(chooseCard3);
+                    frame.setContentPane(chooseCard3);*/
                 }
                 panelInUse = 3;
                 break;
@@ -317,7 +317,9 @@ public class Gui extends ClientGameController {
 
     @Override
     public void cardChoice(String name, boolean bool) {
-        System.out.println("cardChoise here");
+        SwingUtilities.invokeLater(() -> {
+            board.showCardChoice(getAvailableCards(), name, bool);
+        });
     }
 
     @Override

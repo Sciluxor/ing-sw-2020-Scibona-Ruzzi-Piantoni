@@ -22,17 +22,18 @@ public class ChallengerChoiceCards extends JDesktopPane{
     Dimension cardSize = new Dimension();
     JInternalFrame intFrame;
     JInternalFrame guiIntFrame;
-    private final List<JButton> buttons = new ArrayList<>();
     JButton buttonBackground = new JButton();
     JLabel cover =new JLabel();
     JLabel label =new JLabel();
     private int count = 0;
     private int chosen = 0;
     private final int numberPlayers;
-    private static final List<JButton> godChosen = new ArrayList<>();
+    private final List<JButton> godChosen = new ArrayList<>();
     MyButton confirm = new MyButton(0);
     MyButton back = new MyButton(1);
     List<String> cardsChosen = new ArrayList<>();
+    List<JButton> godList = new ArrayList<>();
+    ButtonGodsList costructor;
 
     public ChallengerChoiceCards(Gui instance, Board instance2, JInternalFrame aframe, Dimension dimensionFrame, Integer numberOfPlayer) throws IOException {
 
@@ -46,6 +47,8 @@ public class ChallengerChoiceCards extends JDesktopPane{
         final int yconst = frameSize.height * 24/100;
         int x = xconst;
         int y = yconst;
+
+        costructor = new ButtonGodsList(frameSize, godList);
 
         intFrame = new JInternalFrame("", false, false, false, false);
         intFrame.setPreferredSize(intFrameSize);
@@ -67,81 +70,10 @@ public class ChallengerChoiceCards extends JDesktopPane{
         cardSize.setSize((int) (frameSize.getWidth() * 9/100), (int) (frameSize.getHeight() * 23.15/100)); //(9, 22)
         setPreferredSize(frameSize);
 
-
-        JButton apollo = new JButton();
-        apollo.setName("apollo");
-        buttons.add(apollo);
-        JButton artemis = new JButton();
-        artemis.setName("artemis");
-        buttons.add(artemis);
-        JButton athena = new JButton();
-        athena.setName("athena");
-        buttons.add(athena);
-        JButton atlas = new JButton();
-        atlas.setName("atlas");
-        buttons.add(atlas);
         JButton chronus = new JButton();
         chronus.setName("chronus");
-        buttons.add(chronus);
-        JButton demeter = new JButton();
-        demeter.setName("demeter");
-        buttons.add(demeter);
-        JButton hepha = new JButton();
-        hepha.setName("hephaestus");
-        buttons.add(hepha);
-        JButton hera = new JButton();
-        hera.setName("hera");
-        buttons.add(hera);
-        JButton hestia = new JButton();
-        hestia.setName("hestia");
-        buttons.add(hestia);
-        JButton hypnus = new JButton();
-        hypnus.setName("hypnus");
-        buttons.add(hypnus);
-        JButton mino = new JButton();
-        mino.setName("minotaur");
-        buttons.add(mino);
-        JButton pan = new JButton();
-        pan.setName("pan");
-        buttons.add(pan);
-        JButton prome = new JButton();
-        prome.setName("prometheus");
-        buttons.add(prome);
-        JButton zeus = new JButton();
-        zeus.setName("zeus");
-        buttons.add(zeus);
 
         buttonStyle();
-
-        JLabel lapollo = ImageHandler.setImage("resources/Graphics/gods/apollo.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel lartemis = ImageHandler.setImage("resources/Graphics/gods/artemis.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel lathena = ImageHandler.setImage("resources/Graphics/gods/athena.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel latlas = ImageHandler.setImage("resources/Graphics/gods/atlas.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel lchronus = ImageHandler.setImage("resources/Graphics/gods/chronus.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel ldemeter = ImageHandler.setImage("resources/Graphics/gods/demeter.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel lhepha = ImageHandler.setImage("resources/Graphics/gods/hephaestus.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel lhera = ImageHandler.setImage("resources/Graphics/gods/hera.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel lhestia = ImageHandler.setImage("resources/Graphics/gods/hestia.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel lhypnus = ImageHandler.setImage("resources/Graphics/gods/hypnus.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel lmino = ImageHandler.setImage("resources/Graphics/gods/minotaur.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel lpan = ImageHandler.setImage("resources/Graphics/gods/pan.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel lprome = ImageHandler.setImage("resources/Graphics/gods/prometheus.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel lzeus = ImageHandler.setImage("resources/Graphics/gods/zeus.png", 100, 100, cardSize.width, cardSize.height);
-
-        apollo.setIcon(lapollo.getIcon());
-        artemis.setIcon(lartemis.getIcon());
-        athena.setIcon(lathena.getIcon());
-        atlas.setIcon(latlas.getIcon());
-        chronus.setIcon(lchronus.getIcon());
-        demeter.setIcon(ldemeter.getIcon());
-        hepha.setIcon(lhepha.getIcon());
-        hera.setIcon(lhera.getIcon());
-        hestia.setIcon(lhestia.getIcon());
-        hypnus.setIcon(lhypnus.getIcon());
-        mino.setIcon(lmino.getIcon());
-        pan.setIcon(lpan.getIcon());
-        prome.setIcon(lprome.getIcon());
-        zeus.setIcon(lzeus.getIcon());
 
         JLabel choise;
         if (numberOfPlayer == 2){
@@ -169,13 +101,14 @@ public class ChallengerChoiceCards extends JDesktopPane{
         }
 
         JButton back = backgroundButton(0);
+        back.setBounds(0, 0, frameSize.width, frameSize.height);
         add(back);
 
 
     }
 
      private void buttonStyle(){
-         for (JButton button : buttons){
+         for (JButton button : godList){
              button.setOpaque(false);
              button.setContentAreaFilled(false);
              button.setFocusPainted(false);
@@ -192,7 +125,7 @@ public class ChallengerChoiceCards extends JDesktopPane{
      }
 
      private void addForTwo(int x, int y, int yconst){
-         for (JButton button : buttons){
+         for (JButton button : godList){
             if(count == 0){
                 buttonPositioning(button, x, y);
                 count++;
@@ -215,17 +148,17 @@ public class ChallengerChoiceCards extends JDesktopPane{
      }
 
      private void addForThree(JButton chronus, int x, int y, int yconst){
-         for (JButton button : buttons){
+         for (JButton button : godList){
              if(count == 0){
                 buttonPositioning(button, x, y);
                 count++;
             }
-            else if(count < 7 && !button.equals(chronus)){
+            else if(count < 7 && !button.getName().equalsIgnoreCase(chronus.getName())){
                 x = x + frameSize.width * 12/100;
                 buttonPositioning(button, x, y);
                 count++;
             }
-            else if(!button.equals(chronus)){
+            else if(!button.getName().equalsIgnoreCase(chronus.getName())){
                 if (y == yconst){
 
                     x = frameSize.width * 3/100;
@@ -307,15 +240,6 @@ public class ChallengerChoiceCards extends JDesktopPane{
         }
     }
 
-    public static List<JButton> returnGodChoosen(){
-        for (JButton button : godChosen){
-            button.setBorderPainted(false);
-            eliminateAllActionClass(button);
-            eliminateAllMouseClass(button);
-        }
-        return godChosen;
-    }
-
     private void addGod(JButton god){
 
         for (int x = 0; x < godChosen.size(); x++){
@@ -340,9 +264,10 @@ public class ChallengerChoiceCards extends JDesktopPane{
             for (JButton button : godChosen){
                 cardsChosen.add(button.getName());
             }
-            board.setCardChosen(cardsChosen);
+            board.setCardsChosen(cardsChosen);
             guiIntFrame.setVisible(false);
-            board.challResponse();
+            board.callChallengerResponse();
+            board.buttonChooseCards.setEnabled(false);
         }
     }
 }
