@@ -18,13 +18,13 @@ public class WaitChallenger extends JDesktopPane{
 
     public WaitChallenger(JInternalFrame frame, int wi, int he) throws IOException {
 
-        intFrame = frame;
         frameSize.setSize(wi, he);
+        intFrame = frame;
         setPreferredSize(frameSize);
         setLayout(null);
 
-        JLabel label = ImageHandler.setImage("resources/Graphics/Texts/waiting_for_challenger_to_choose_the_god.png", 100, 100, frameSize.width * 85/100, frameSize.height * 30/100);
-        label.setBounds((int) (frameSize.width * 7.5/100), frameSize.height * 30/100, frameSize.width * 85/100, frameSize.height * 30/100);
+        JLabel label = ImageHandler.setImage("resources/Graphics/Texts/waiting_for_challenger_to_choose_the_god.png", 99, 99, frameSize.width * 85/100, frameSize.height * 25/100);
+        label.setBounds((int) (frameSize.width * 7.5/100), frameSize.height * 30/100, frameSize.width * 85/100, frameSize.height * 25/100);
         add(label);
 
         close.addActionListener(new Close());

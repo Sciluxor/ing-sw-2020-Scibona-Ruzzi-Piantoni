@@ -41,7 +41,7 @@ public class MyButton extends JButton{
         setContentAreaFilled(false);
         setFocusPainted(false);
         setBorderPainted(false);
-        addMouseListener(new buttonPress());
+        addMouseListener(new ButtonPress());
         switch (type){
             case 0:
                 setIcon(lconfirm.getIcon());
@@ -61,7 +61,7 @@ public class MyButton extends JButton{
         }
     }
 
-    private class buttonPress extends MouseAdapter {
+    private class ButtonPress extends MouseAdapter {
 
         @Override
         public void mousePressed(MouseEvent e) {
@@ -76,11 +76,11 @@ public class MyButton extends JButton{
                     break;
 
                 case 2:
-                    setIcon(lnewGamePress.getIcon());
+                    c.setIcon(lnewGamePress.getIcon());
                     break;
 
                 case 3:
-                    setIcon(lclosePress.getIcon());
+                    c.setIcon(lclosePress.getIcon());
                     break;
 
                 default:

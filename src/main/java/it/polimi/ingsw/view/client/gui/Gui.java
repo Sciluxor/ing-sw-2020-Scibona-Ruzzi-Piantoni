@@ -39,7 +39,7 @@ public class Gui extends ClientGameController {
     PopUp constructorPopUp = null;
     JFrame popUp = new JFrame();
     static int panelInUse = 0;
-    private static int numberOfPlayers = 2;
+    private int numberOfPlayers = 2;
     private static int actualPlayers = 1;
 
     static Font felixSmall = new Font(FELIX, Font.PLAIN, (int) (13 * screenSize.getHeight() / 1080));
@@ -224,7 +224,7 @@ public class Gui extends ClientGameController {
 
 
     public void setNumberOfPlayers(int numberOfPlayers) {
-        Gui.numberOfPlayers = numberOfPlayers;
+        this.numberOfPlayers = numberOfPlayers;
     }
 
     public void setNamePlayer(String name) {

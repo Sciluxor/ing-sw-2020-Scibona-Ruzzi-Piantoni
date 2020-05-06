@@ -133,7 +133,7 @@ public class Board extends Observable {
         nicknameLabel1.setText(nickname);
         gID.setText("GameID: " + gameId);
         this.nickname = nickname;
-        this.numberOfPlayers = numberOfPlayer;
+        numberOfPlayers = numberOfPlayer;
         allPlayer = players;
         otherPlayers = players2;
         mePlayer = pickNickFromPlayers();
@@ -794,6 +794,9 @@ public class Board extends Observable {
             gui.cardChoiceResponse(cardChosen);
             buttonChoosePower.setVisible(false);
             labelChoosePower.setVisible(false);
+            buttonPower.setName(cardChosen);
+            buttonPower.addActionListener(new ShowPower());
+            buttonPower.setVisible(true);
             showEndturn();
         }
     }
@@ -1199,6 +1202,34 @@ public class Board extends Observable {
         }
         @Override
         public void mouseExited(MouseEvent e) {
+            windowPower.setVisible(false);
+        }
+    }
+
+    private class ShowPower implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JButton c = (JButton)e.getSource();
+            eliminateActionClass(c, Board.ShowPower.class);
+            try {
+                cover2 = ImageHandler.setImage("resources/Graphics/gods/" + c.getName() + "_description.png", 100, 100, frameSize.width * 40/100, frameSize.height * 45/100);
+            } catch (IOException ioException) {
+                LOGGER.severe(ioException.getMessage());
+            }
+            background = new JLabel(cover2.getIcon());
+            windowPower.getContentPane().removeAll();
+            chatStyleButtons(sfondoFramePower, background);
+            windowPower.getContentPane().add(sfondoFramePower);
+            c.addActionListener(new HidePower());
+            windowPower.setVisible(true);
+        }
+    }
+    private class HidePower implements  ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JButton c = (JButton)e.getSource();
+            eliminateActionClass(c, Board.HidePower.class);
+            c.addActionListener(new ShowPower());
             windowPower.setVisible(false);
         }
     }
