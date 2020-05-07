@@ -34,12 +34,12 @@ public class Cli extends ClientGameController {
         print(TITLE);
         login(false);
 
-        print("INSERT THE PORT NUMBER (default as 4700):");
+        print("INSERT THE PORT NUMBER (default as 4700): ");
         keyboard = input();
         if(!keyboard.equals(""))
             setPort(Integer.parseInt(keyboard));
 
-        print("INSERT THE IP ADDRESS (default as 127.0.0.1 - localhost):");
+        print("INSERT THE IP ADDRESS (default as 127.0.0.1 - localhost): ");
         keyboard = input();
         if(!keyboard.equals(""))
             setAddress(keyboard);
@@ -108,7 +108,7 @@ public class Cli extends ClientGameController {
                 print(deck.get(keyboard).getDescription() + "\n\n");
             }
             else
-                print("WRONG CARD NAME. PLEASE, REINSERT NEW CARD NAME:");
+                print("WRONG CARD NAME. PLEASE, REINSERT NEW CARD NAME: ");
 
             keyboard = input().toLowerCase();
             cards = splitter(keyboard);
@@ -121,7 +121,7 @@ public class Cli extends ClientGameController {
         for(int i=0; i<cards.length; i++) {
             Card card = deck.get(cards[i]);
             if(card == null) {
-                print("WRONG CARD NAME. PLEASE, REINSERT NEW CARD NAME:");
+                print("WRONG CARD NAME. PLEASE, REINSERT NEW CARD NAME: ");
                 keyboard = input().toLowerCase();
                 cards = splitter(keyboard);
             }
@@ -185,9 +185,14 @@ public class Cli extends ClientGameController {
         print("\nINSERT YOUR NICKNAME:");
         nickName = input();
         while(nickName.length() < MIN_LENGHT_NICK || nickName.length() > MAX_LENGHT_NICK) {
-            print("\nINVALID NICKNAME LENGHT. PLEASE, REINSERT YOUR NICKNAME:");
+            print("\nINVALID NICKNAME LENGHT. PLEASE, REINSERT YOUR NICKNAME: ");
             nickName = input();
         }
+
+        //DEBUG
+        print(nickName + "\n");
+        //------
+
         this.nickName = nickName;
     }
 
@@ -200,8 +205,12 @@ public class Cli extends ClientGameController {
 
         print("INSERT THE NUMBER OF PLAYERS:");
         keyboard = input();
-        while (!keyboard.equals(MINPLAYERLOBBY) || !keyboard.equals(MAXPLAYERLOBBY)) {
-            print("\nINVALID NUMBER OF PLAYERS. PLEASE, REINSERT THE NUMBER OF PLAYERS:");
+
+        //DEBUG
+        print(keyboard + "\n");
+        //------
+        while (!keyboard.equals("2") && !keyboard.equals("3")) {
+            print("\nINVALID NUMBER OF PLAYERS. PLEASE, REINSERT THE NUMBER OF PLAYERS: ");
             keyboard = input();
         }
 
