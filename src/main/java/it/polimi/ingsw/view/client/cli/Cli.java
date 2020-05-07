@@ -1,187 +1,334 @@
 package it.polimi.ingsw.view.client.cli;
 
+import it.polimi.ingsw.model.cards.Card;
+import it.polimi.ingsw.model.cards.CardLoader;
+import it.polimi.ingsw.model.map.Square;
+import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.client.ClientGameController;
-import java.util.Scanner;
 
-public class Cli{
+import javax.print.DocFlavor;
+import java.util.*;
+import java.util.zip.CheckedOutputStream;
 
-    private Color colorCLIStandardClient;
-    private static Color colorPrinter = Color.ANSI_RED;
-    private String keyboard;
+import static it.polimi.ingsw.utils.ConstantsContainer.*;
 
+public class Cli extends ClientGameController {
+
+    private int port = 4700;
+    private String address = "127.0.0.1";
+    private String nickName;
     private int numberOfPlayers;
-    private String nickname;
-    private String gameID;
-    private String userID;
-    private Color clientOut = Color.ANSI_RED;
-    private SantoriniMap map = new SantoriniMap();
-    private ChoiceCardsCLI choiceCardsCLI = new ChoiceCardsCLI();
-    private Color clientColor;
+
+    private Map<String, Card> deck = CardLoader.loadCards();
+
+    private static final String TITLE = "\n\u001B[31m" +
+            "             ___       ___  ___          ___    _____   ___      ___               _____  ___   ___                  |_|  |_|\n" +
+            " \\   \\/   / |    |    |    |   | |\\  /| |         |    |   |    |       /\\   |\\  |   |   |   | |   | | |\\  | |     ___________\n" +
+            "  \\  /\\  /  |--  |    |    |   | | \\/ | |--       |    |   |    |---|  /--\\  | \\ |   |   |   | |___| | | \\ | |     |   _|_   |\n" +
+            "   \\/  \\/   |___ |___ |___ |___| |    | |___      |    |___|     ___| /    \\ |  \\|   |   |___| |  \\  | |  \\| |      |_______|\n\n\u001B[0m";
 
 
-    public Cli() {
-        this.colorCLIStandardClient = Color.ANSI_RED;
-        this.keyboard = null;
-    }
+    public void start() {
+        String keyboard;
 
-    public void printCLI() {
-        initializationClient();
+        print(TITLE);
+        login(false);
 
-        this.choiceCardsCLI.selectChoosenCards(numberOfPlayers);
+        print("INSERT THE PORT NUMBER (default as 4700): ");
+        keyboard = input();
+        if(!keyboard.equals(""))
+            setPort(Integer.parseInt(keyboard));
 
-        System.out.println("Questa è la board vuota: ");
-        map.printMap();
+        print("INSERT THE IP ADDRESS (default as 127.0.0.1 - localhost): ");
+        keyboard = input();
+        if(!keyboard.equals(""))
+            setAddress(keyboard);
 
-        //System.out.println("\nQUESTA CHE SEGUE E' UNA PROVA DI ESECUZIONE CON FLUSSO PREDETERMINATO");
-        //this.provaEsecuzione();
 
-        System.out.println("\nQUESTA CHE SEGUE E' UNA PROVA DI ESECUZIONE NON PREDETERMINATA");
-        this.provaEsecuzioneNonPredeterminato();
-    }
-
-    public void initializationClient() {
-
-        Scanner input = new Scanner(System.in);
-
-        System.out.println(setOutputColor("Inserire il nickname: "));
-        setNickname(input.nextLine());
-
-        System.out.println(setOutputColor("Inserire in numero (2/3) di giocatori: "));
-        setNumberOfPlayers(input.nextInt());
-
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-
-        Scanner input = new Scanner(System.in);
-
-        while(nickname.length()<4 || nickname.length()>20) {
-            System.out.println(setOutputColor("\nLUNGHEZZA NICKNAME NON VALIDA\nReinserire il nickname: "));
-            nickname = input.nextLine();
+        try {
+            openConnection(getNickName(), getNumberOfPlayers(), getAddress(), getPort());
+        }catch (Exception e) {
+            System.err.print("\n\nFAILED TO OPENING CONNECTION\n\n");
         }
-        this.nickname = nickname;
-        System.out.println(setOutputColor("Nickname setted!\n"));
+
+        lobby();
+
+        startGame();
+
+    }
+
+    public void lobby() {
+        Color.clearConsole();
+        int waiting = getNumberOfPlayers() - getPlayers().size();
+        print("WAITING FOR " + waiting + " PLAYERS\n\n");
+        for(Player player: getPlayers())
+            print(">>> " + player.getNickname());
+
+        print("INSERT \"BACK\" TO TURN BACK IN THE LOGIN WINDOW: ");
+        String keyboard = input();
+
+        if(keyboard.equalsIgnoreCase("BACK")) {
+            onBackCommand();
+            login(true);
+        }
+    }
+
+    public void login(boolean lobbyCall) {
+
+        setNickName();
+        setNumberOfPlayers();
+
+        if(lobbyCall)
+            newGame(getNickName(), getNumberOfPlayers());
+    }
+
+    public List<String> challengerChooseCards() {
+        List<String> chosenCards = new ArrayList<>();
+        String keyboard;
+
+        for(String s: deck.keySet())
+            System.out.println(Color.ANSI_YELLOW + s.toUpperCase() + Color.RESET);
+
+
+        keyboard = input().toLowerCase();
+        String[] cards = splitter(keyboard);
+        while(cards.length == 1)
+        {
+            Card card = deck.get(cards[0]);
+            if(card != null) {
+                print("THIS IS THE POWER OF ");
+                print(keyboard.toUpperCase(), Color.ANSI_YELLOW);
+                print(":\n");
+                if (keyboard.equalsIgnoreCase("ATHENA") || keyboard.equalsIgnoreCase("HERA"))
+                    print("OPPONENT'S TURN:", Color.ANSI_BLUE);
+                else if (keyboard.equalsIgnoreCase("HYPNUS"))
+                    print("START OF OPPONENT'S TURN:", Color.ANSI_BLUE);
+                else
+                    print(deck.get(keyboard).getType().toString() + ":", Color.ANSI_BLUE);
+                print(deck.get(keyboard).getDescription() + "\n\n");
+            }
+            else
+                print("WRONG CARD NAME. PLEASE, REINSERT NEW CARD NAME: ");
+
+            keyboard = input().toLowerCase();
+            cards = splitter(keyboard);
+        }
+        if(cards.length != getPlayers().size()) {
+            print("WRONG NUMBER OF CARDS. PLEASE, REINSERT " + getPlayers().size() + " CARDS:");
+            keyboard = input().toLowerCase();
+            cards = splitter(keyboard);
+        }
+        for(int i=0; i<cards.length; i++) {
+            Card card = deck.get(cards[i]);
+            if(card == null) {
+                print("WRONG CARD NAME. PLEASE, REINSERT NEW CARD NAME: ");
+                keyboard = input().toLowerCase();
+                cards = splitter(keyboard);
+            }
+        }
+
+        Color.clearConsole();
+        print("THE DECK OF THIS GAME IS COMPOSED BY: ");
+        for (String card : cards) {
+            print(card.toUpperCase() + " ", Color.ANSI_YELLOW);
+        }
+
+        Collections.addAll(chosenCards, cards);
+        return chosenCards;
+    }
+
+
+    //---USEFUL FUNCTIONS------------------------------------
+
+    public static void print(String string) {
+        System.out.print(Color.ANSI_RED + string + Color.RESET);
+    }
+
+    public static void print(String string, Color color) {
+        System.out.print(color + string + Color.RESET);
+    }
+
+    public static String input() {
+        String keyboard;
+        Scanner input = new Scanner(System.in);
+        keyboard = input.nextLine();
+        return keyboard;
+    }
+
+    public static String[] splitter(String keyboard) {
+        return keyboard.split("\\s");
+    }
+
+    public int getPort() {
+        return port;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName() {
+        String nickName;
+
+        print("\nINSERT YOUR NICKNAME:");
+        nickName = input();
+        while(nickName.length() < MIN_LENGHT_NICK || nickName.length() > MAX_LENGHT_NICK) {
+            print("\nINVALID NICKNAME LENGHT. PLEASE, REINSERT YOUR NICKNAME: ");
+            nickName = input();
+        }
+
+        //DEBUG
+        print(nickName + "\n");
+        //------
+
+        this.nickName = nickName;
     }
 
     public int getNumberOfPlayers() {
         return numberOfPlayers;
     }
 
-    public void setNumberOfPlayers(int numberOfPlayers) {
+    public void setNumberOfPlayers() {
+        String keyboard;
 
-        Scanner input = new Scanner(System.in);
+        print("INSERT THE NUMBER OF PLAYERS:");
+        keyboard = input();
 
-        while(numberOfPlayers < 2 || numberOfPlayers > 3)
-        {
-            System.out.println(setOutputColor("\nNUMERO INVALIDO DI GIOCATORI\nReinserire il numero di giocatori (2/3): "));
-            numberOfPlayers = Integer.parseInt(input.nextLine());
+        //DEBUG
+        print(keyboard + "\n");
+        //------
+        while (!keyboard.equals("2") && !keyboard.equals("3")) {
+            print("\nINVALID NUMBER OF PLAYERS. PLEASE, REINSERT THE NUMBER OF PLAYERS: ");
+            keyboard = input();
         }
-        this.numberOfPlayers = numberOfPlayers;
-        System.out.println(setOutputColor("NumberOfPlayers setted!\n"));
+
+        this.numberOfPlayers = Integer.parseInt(keyboard);
     }
 
-    public void provaEsecuzione() {
-        String keyboard;
-        Scanner input = new Scanner(System.in);
 
-        System.out.print("Inserire ok per continuare: ");
-        keyboard = input.nextLine();
-        if(keyboard.equalsIgnoreCase("ok")) {
-            this.map.setCellaHasPlayer(0,0);
-            this.map.printMap();
-        }
 
-        System.out.print("Inserire lvl1: ");
-        keyboard = input.nextLine();
-        if(keyboard.equalsIgnoreCase("lvl1")) {
-            this.map.setCellaBuildingType(0,0,keyboard);
-            this.map.printMap();
-        }
+    ////---OVERRIDING FUNCTIONS------------------------------------
 
-        System.out.print("Inserire lvl2: ");
-        keyboard = input.nextLine();
-        if(keyboard.equalsIgnoreCase("lvl2")) {
-            this.map.setCellaBuildingType(0,0,keyboard);
-            this.map.printMap();
-        }
+    @Override
+    public void updateLobbyPlayer() {
 
-        System.out.print("Inserire lvl3: ");
-        keyboard = input.nextLine();
-        if(keyboard.equalsIgnoreCase("lvl3")) {
-            this.map.setCellaBuildingType(0,0,keyboard);
-            this.map.printMap();
-        }
+    }
 
-        System.out.print("Inserire dome: ");
-        keyboard = input.nextLine();
-        if(keyboard.equalsIgnoreCase("dome")) {
-            this.map.setCellaBuildingType(0,0,keyboard);
-            this.map.setCellaHasPlayer(1,1);
-
-            this.map.printMap();
-        }
-
-        System.out.print("Inserire qualcunque cosa per pulire la schermata e concludere: ");
-        input.nextLine();
+    @Override
+    public void nickUsed() {
         Color.clearConsole();
+        print("NICKNAME ALREADY USED. PLEASE, REINSERT A NEW NICKNAME:");
+        setNickName();
     }
 
-    public String setOutputColor(String string) {
-        return this.clientOut + string + this.clientOut.RESET;
+    @Override
+    public void startGame() {
+        Color.clearConsole();
+        print("GAME IS GOING TO START. PLEASE WAIT WHILE IS LOADING");
+
+        //INIZIO GIOCO (?)
+
     }
 
-    public void provaEsecuzioneNonPredeterminato() {
-        String keyboard;
-        Scanner input = new Scanner(System.in);
+    @Override
+    public void challengerChoice(String challengerNick, boolean isYourPlayer) {
+        Color.clearConsole();
+        if(isYourPlayer) {
+            print("YOU HAVE BEEN CHOSEN AS CHALLENGER!\nPLEASE, CHOOSE " + getPlayers().size() + " CARDS ");
+            print("(insert ONLY ONE card to see its power)", Color.ANSI_BLUE);
+            print(":\n");
 
-        System.out.print("Inserire le coordinate in cui mettere il worker: ");
-        int[] coordinate = getCoordinatesFromString();
-        this.map.setCellaHasPlayer(coordinate[0], coordinate[1]);
+            List<String> cards = challengerChooseCards();
 
-        this.map.printMap();
+            challengerResponse(challengerNick, cards);
 
-        do {
-            System.out.print("Inserire MOVE o BUILD: (qualsiasi altra cosa per terminare l'esecuzione");
-            keyboard = input.nextLine().toUpperCase();
-            if(!keyboard.equals("MOVE") && !keyboard.equals("BUILD"))
+        }
+        else {
+            print("PLAYER " + challengerNick + "IS CHOOSING CARDS");
+        }
+    }
+
+    @Override
+    public void cardChoice(String challengerNick, boolean isYourPlayer) {
+
+    }
+
+    @Override
+    public void placeWorker(String challengerNick, boolean isYourPlayer) {
+
+    }
+
+    @Override
+    public void updatePlacedWorkers(List<Square> squares) {
+
+    }
+
+    @Override
+    public void updateBoard() {
+
+    }
+
+    @Override
+    public void notifyWin() {
+
+    }
+
+    @Override
+    public void addConstraint() {
+
+    }
+
+    @Override
+    public void onLobbyDisconnection() {
+        Color.clearConsole();
+        print("YOU ARE GOING TO BE DISCONNECTED FROM THE LOBBY. DO YOU WANT TO BE RECONNECTED (type REC) OR DO YOU WANT TO CLOSE THE APPLICATION (type CLOSE)?");
+        String keyboard = input().toUpperCase();
+
+        while (!keyboard.equals("REC") && !keyboard.equals("CLOSE")) {
+            print("\nPLEASE REINSERT \"REC\" TO BE RECONNECTED TO THE LOBBY, \"CLOSE\" TO CLOSE THE APP:");
+            keyboard = input().toUpperCase();
+        }
+
+        switch (keyboard) {
+            case "REC":
                 break;
-
-            System.out.print("Inserire le coordinate in cui eseguire l'azione: ");
-            coordinate = getCoordinatesFromString();
-
-            selectCorrectExec(keyboard, coordinate);
-
-            this.map.printMap();
-        }while(keyboard.equals("MOVE") || keyboard.equals("BUILD"));
-
-        System.out.println(Color.ANSI_CYAN + "FINE ESECUZIONE!" + Color.RESET);
-    }
-
-    public void selectCorrectExec(String choice, int[] coordinate) {
-        if(choice.equals("MOVE"))
-            this.map.setCellaHasPlayer(coordinate[0], coordinate[1]);
-        if(choice.equals("BUILD")) {
-            Scanner input = new Scanner(System.in);
-            System.out.print("Inserire il tipo di edificio da costruire: ");
-            this.map.setCellaBuildingType(coordinate[0], coordinate[1], input.nextLine().toUpperCase());
+            case "CLOSE":
+                break;
+            default:
+                System.err.print("\n\nERROR IN DISCONNECTION CHOICE\n\n");
         }
 
     }
 
-    public int[] getCoordinatesFromString() {
-        Scanner input = new Scanner(System.in);
+    @Override
+    public void onPingDisconnection() {
 
-        keyboard = input.nextLine();
-        int[] coordinate = new int[2];
-        String[] split = keyboard.split("\\s");
-        for(int i=0; i<2; i++)
-            coordinate[i] = Integer.parseInt(split[i]);
-
-        return coordinate;
     }
 
+    @Override
+    public void onDisconnection() {
+
+    }
+
+    @Override
+    public void errorMessage() {
+
+    }
+
+    @Override
+    public void startTurn() {
+
+    }
 }
