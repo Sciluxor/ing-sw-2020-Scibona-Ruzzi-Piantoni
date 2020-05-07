@@ -15,14 +15,14 @@ public class App {
 
     public static void main(String[] args) {
 
-        System.out.print(TITLE);
+        //System.out.print(TITLE);
 
         Scanner input = new Scanner(System.in);
         System.out.print("Insert 1 to run CLI, insert 2 to run GUI: ");
         String keyboard = input.nextLine();
         if(keyboard.equals("1")) {
             Cli cli = new Cli();
-            cli.printCLI();
+            cli.start();
         }
         else if(keyboard.equals("2")) {
             Gui gui = new Gui();

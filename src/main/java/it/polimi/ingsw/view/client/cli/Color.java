@@ -25,7 +25,10 @@ public enum Color {
         this.escape = escape;
     }
 
-    public static void clearConsole() { System.out.println(CLEAR_CONSOLE); }
+    public static void clearConsole() {
+        System.out.println(CLEAR_CONSOLE);
+        System.out.println("[CHAT]  [BOARD]  [OPPONENTS]  [POWER]\n\n\n");
+    }
 
     @Override
     public String toString() {

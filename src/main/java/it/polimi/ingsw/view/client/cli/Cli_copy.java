@@ -3,7 +3,7 @@ package it.polimi.ingsw.view.client.cli;
 import it.polimi.ingsw.network.client.ClientGameController;
 import java.util.Scanner;
 
-public class Cli{
+public class Cli_copy {
 
     private Color colorCLIStandardClient;
     private static Color colorPrinter = Color.ANSI_RED;
@@ -19,7 +19,7 @@ public class Cli{
     private Color clientColor;
 
 
-    public Cli() {
+    public Cli_copy() {
         this.colorCLIStandardClient = Color.ANSI_RED;
         this.keyboard = null;
     }
