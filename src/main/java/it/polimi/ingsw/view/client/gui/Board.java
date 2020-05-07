@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.client.gui;
 
+import it.polimi.ingsw.model.map.Square;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.utils.Observable;
 import javax.swing.*;
@@ -876,6 +877,9 @@ public class Board extends Observable {
     }
 
     public void showPlaceWorkers(String name, boolean bool){
+        if (placeWorkers != null){
+            internalFramePlaceWorkers.remove(placeWorkers);
+        }
         if (bool){
             try {
                 placeWorkers = new PlaceWorkers(internalFramePlaceWorkers, frameSize.width * 40/100, frameSize.height * 45/100, 0);
@@ -898,6 +902,22 @@ public class Board extends Observable {
         internalFramePlaceWorkers.setBounds((int) (frameSize.width * 29.5/100), (int) (frameSize.height * 25.5/100), frameSize.width * 40/100, frameSize.height * 45/100);
         internalFramePlaceWorkers.getContentPane().add(placeWorkers);
         internalFramePlaceWorkers.setVisible(true);
+    }
+
+    public void updateWorkers(List<Square> squares){
+        for (Square square : squares){
+            if(square.getPlayer().getColor().toString().equalsIgnoreCase("BLUE")){
+                mapButtons[square.getTile() - 1].setIcon(workerCyan.getIcon());
+            }
+            else if(square.getPlayer().getColor().toString().equalsIgnoreCase("WHITE")){
+                mapButtons[square.getTile() - 1].setIcon(workerWhite.getIcon());
+            }
+            else {
+                mapButtons[square.getTile() - 1].setIcon(workerPurple.getIcon());
+            }
+
+        }
+
     }
 
     private void showEndturn(){
@@ -1136,28 +1156,52 @@ public class Board extends Observable {
 
                 if (mapButtons[x] == c){
 
-                    switch (mapButtonslvl[x]) {
-
-                        case 0:
-                            c.setIcon(worker.getIcon());
-                            mapButtonsPlayer[x] = true;
-                            break;
-                        case 1:
-                            c.setIcon(lvl1Worker.getIcon());
-                            mapButtonsPlayer[x] = true;
-                            break;
-                        case 2:
-                            c.setIcon(lvl2Worker.getIcon());
-                            mapButtonsPlayer[x] = true;
-                            break;
-                        case 3:
-                            c.setIcon(lvl3Worker.getIcon());
-                            mapButtonsPlayer[x] = true;
-                            break;
-                        default:
+                    if (!mapButtonsPlayer[x]){
+                        switch (mapButtonslvl[x]) {
+                            case 0:
+                                c.setIcon(worker.getIcon());
+                                mapButtonsPlayer[x] = true;
+                                break;
+                            case 1:
+                                c.setIcon(lvl1Worker.getIcon());
+                                mapButtonsPlayer[x] = true;
+                                break;
+                            case 2:
+                                c.setIcon(lvl2Worker.getIcon());
+                                mapButtonsPlayer[x] = true;
+                                break;
+                            case 3:
+                                c.setIcon(lvl3Worker.getIcon());
+                                mapButtonsPlayer[x] = true;
+                                break;
+                            default:
+                        }
+                        placed++;
+                        mapWorker[x] = placed;
                     }
-                    placed++;
-                    mapWorker[x] = placed;
+                    else{
+                        switch (mapButtonslvl[x]) {
+                            case 0:
+                                c.setIcon(null);
+                                mapButtonsPlayer[x] = false;
+                                break;
+                            case 1:
+                                c.setIcon(lvl1.getIcon());
+                                mapButtonsPlayer[x] = false;
+                                break;
+                            case 2:
+                                c.setIcon(lvl2.getIcon());
+                                mapButtonsPlayer[x] = false;
+                                break;
+                            case 3:
+                                c.setIcon(lvl3.getIcon());
+                                mapButtonsPlayer[x] = false;
+                                break;
+                            default:
+                        }
+                        placed--;
+                        mapWorker[x] = 0;
+                    }
                 }
             }
             if (placed == 2){
@@ -1168,9 +1212,9 @@ public class Board extends Observable {
         private void removeMove() {
             for (int x = 0; x < 25; x++){
                 eliminateActionClass(mapButtons[x], Move.class);
-                buttonConfirmPlace.setEnabled(true);
-                buttonConfirmPlace.addActionListener(new ConfirmPlace());
             }
+            buttonConfirmPlace.setEnabled(true);
+            buttonConfirmPlace.addActionListener(new ConfirmPlace());
         }
     }
 
@@ -1179,7 +1223,7 @@ public class Board extends Observable {
         public void actionPerformed(ActionEvent e) {
             List<Integer> tiles;
             tiles = modifiedTles();
-            gui.placeWorkersResponse(tiles.get(0), tiles.get(1));
+            gui.placeWorkersResponse(tiles.get(0) + 1, tiles.get(1) + 1);
             buttonConfirmPlace.setVisible(false);
             labelConfirmPlace.setVisible(false);
             showEndturn();

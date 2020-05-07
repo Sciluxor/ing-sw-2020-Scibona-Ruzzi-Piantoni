@@ -238,13 +238,15 @@ public class Gui extends ClientGameController {
     public void placeWorker(String name, boolean bool) {
         SwingUtilities.invokeLater(() -> {
             board.showPlaceWorkers(name, bool);
-            System.out.println("qui Place");
         });
 
     }
 
     @Override
     public void updatePlacedWorkers(List<Square> squares) {
+        SwingUtilities.invokeLater(() -> {
+            board.updateWorkers(squares);
+        });
         System.out.println("stato updatePlaced");
     }
 
