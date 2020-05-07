@@ -4,6 +4,10 @@
     "next": ["BUILDWORKER","ENDTURN"]
   },
   {
+    "type": "NEWMOVE",
+    "next": ["MOVEWORKER","BUILDWORKER"]
+  },
+  {
     "type": "BUILDBEFORE",
     "next": ["BUILDWORKER","MOVEWORKER","WORKERCHOICE"]
   },

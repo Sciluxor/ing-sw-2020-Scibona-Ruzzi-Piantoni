@@ -105,6 +105,10 @@ public abstract class ClientGameController implements Runnable, FunctionListener
                 game.getCoordinatesFromTile(tile2)));
     }
 
+    public synchronized void cliPlaceWorkersResponse(Integer[] tile1,Integer[] tile2){
+
+    }
+
     public synchronized void endTurn(){
         client.sendMessage(new Message(client.getUserID(),client.getNickName(),MessageType.ENDTURN,MessageSubType.UPDATE));
     }
