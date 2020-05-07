@@ -25,6 +25,7 @@ public class ClientConnection implements ConnectionInterface,Runnable {
     private Timer pingTimer;
 
     private Socket clientSocket;
+    private final Object outLock = new Object();
     private ObjectInputStream in;
     private ObjectOutputStream out;
 
@@ -81,9 +82,11 @@ public class ClientConnection implements ConnectionInterface,Runnable {
     @Override
     public void sendMessage(Message message) {
         try {
-            out.writeObject(message);
-            out.flush();
-            out.reset();
+            synchronized (outLock) {
+                out.writeObject(message);
+                out.flush();
+                out.reset();
+            }
         }catch (IOException e){
             ClientGameController.LOGGER.severe(e.getMessage());
         }

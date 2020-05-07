@@ -104,6 +104,9 @@ public class Client {
             }).start();*/
 
             //client.closeClientForTimeAsynchronously(clientSocket);
+            while (!client.isGameStarted){
+
+            }
             while(Thread.currentThread().isAlive()){  //runnare il process del message in parallelo
                 Message output = (Message) in.readObject();
                 new Thread(()-> client.processMessage(client,output,out)).start();
@@ -264,6 +267,11 @@ public class Client {
             out.writeObject(new GameConfigMessage(client.getUserID(),nickname,MessageSubType.ANSWER,number,false,false,false));
             out.flush();
             Logger.info("");
+
+            while(!client.isGameStarted()){
+                out.writeObject(new Message(client.userID,client.nick,MessageType.PING,MessageSubType.UPDATE));
+                out.flush();
+            }
         }catch (IOException e){
             Logger.info("Error in Disconnetting");
         }

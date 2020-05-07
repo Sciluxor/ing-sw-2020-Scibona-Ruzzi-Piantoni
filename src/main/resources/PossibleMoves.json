@@ -8,6 +8,10 @@
     "next": ["BUILDWORKER","MOVEWORKER","WORKERCHOICE"]
   },
   {
+    "type": "STATUSERROR",
+    "next": ["BUILDWORKER","MOVEWORKER","WORKERCHOICE","PLACEWORKERS","ENDTURN","CHOOSECARD","CHALLENGERCHOICE"]
+  },
+  {
     "type": "BUILDEDBEFORE",
     "next": ["MOVEWORKER"]
   },
