@@ -53,6 +53,8 @@ public class Board extends Observable {
     JButton buttonExit = new JButton();
     JButton backgroundFrameChat = new JButton();
     JButton sfondoFramePower = new JButton();
+    JButton leftBoard = new JButton();
+    JButton leftGod = new JButton();
     JButton opponent1 = new JButton();
     JTextArea chat = new JTextArea();
     JTextField field = new JTextField();
@@ -64,9 +66,11 @@ public class Board extends Observable {
     JLabel nicknameLabel = new JLabel();
     JLabel nicknameLabel1 = new JLabel();
     JLabel gID = new JLabel();
-    JLabel cover;
-    JLabel cover1;
-    JLabel cover2;
+    JLabel coverBoard;
+    JLabel coverChat;
+    JLabel coverBackground;
+    JLabel coverLeftBoard;
+    JLabel coverLeftGod;
     JLabel background;
     JLabel opponents = new JLabel("Opponents:");
     JLabel worker;
@@ -166,14 +170,20 @@ public class Board extends Observable {
         buttonSize.setSize(sideSize.width * 20/100, sideSize.width * 20/100);
         scrollSize.setSize(sideSize.getWidth() * 14/100 , sideSize.getHeight() * 28/100);
 
-        JLabel cover = ImageHandler.setImage("resources/Graphics/board.png", 100, 100, width, height);
-        this.cover = new JLabel(cover.getIcon());
+        JLabel coverBoard = ImageHandler.setImage("resources/Graphics/board3.png", 100, 100, width, height);
+        this.coverBoard = new JLabel(coverBoard.getIcon());
 
-        JLabel cover1 = ImageHandler.setImage("resources/Graphics/panel_chat.png", 100, 100, sideSize.width, sideSize.height);
-        this.cover1 = new JLabel(cover1.getIcon());
+        JLabel coverChat = ImageHandler.setImage("resources/Graphics/panel_chat.png", 100, 100, sideSize.width, sideSize.height);
+        this.coverChat = new JLabel(coverChat.getIcon());
 
-        cover2 = ImageHandler.setImage("resources/Graphics/background.png", 100, 100, frameSize.width * 40/100, frameSize.height * 45/100);
-        background = new JLabel(cover2.getIcon());
+        coverBackground = ImageHandler.setImage("resources/Graphics/background.png", 100, 100, frameSize.width * 40/100, frameSize.height * 45/100);
+        background = new JLabel(coverBackground.getIcon());
+
+        JLabel coverLeftBoard = ImageHandler.setImage("resources/Graphics/left_board.png", 100, 100, frameSize.width, frameSize.height);
+        this.coverLeftBoard = new JLabel(coverLeftBoard.getIcon());
+
+        JLabel coverLeftGod = ImageHandler.setImage("resources/Graphics/left_god_board.png", 100, 100, frameSize.width, frameSize.height);
+        this.coverLeftGod = new JLabel(coverLeftGod.getIcon());
 
         felixSmall = new Font(Gui.FELIX, Font.PLAIN, (int) (13 * screen.getHeight() / 1080));
         felixNormal = new Font(Gui.FELIX, Font.PLAIN, (int) (20 * screen.getHeight() / 1080));
@@ -251,10 +261,26 @@ public class Board extends Observable {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                g.drawImage( ((ImageIcon)(Board.this.cover.getIcon())).getImage(), -7, -18, null);
+                g.drawImage( ((ImageIcon)(Board.this.coverBoard.getIcon())).getImage(), -7, -18, null);
             }};
 
         desktopPane.setPreferredSize(frameSize);
+
+        leftGod.setBounds(-7,-18, frameSize.width, frameSize.height);
+        leftGod.setOpaque(false);
+        leftGod.setContentAreaFilled(false);
+        leftGod.setBorderPainted(false);
+        leftGod.setIcon(coverLeftGod.getIcon());
+        leftGod.setVisible(true);
+
+
+        leftBoard.setBounds(-7,-18, frameSize.width, frameSize.height);
+        leftBoard.setOpaque(false);
+        leftBoard.setContentAreaFilled(false);
+        leftBoard.setBorderPainted(false);
+        leftBoard.setIcon(coverLeftBoard.getIcon());
+        leftBoard.setVisible(true);
+
 
 
 
@@ -314,7 +340,7 @@ public class Board extends Observable {
         chatStyleButtons(buttonExit, exit);
         frameChat.add(buttonExit);
 
-        chatStyleButtons(backgroundFrameChat, this.cover1);
+        chatStyleButtons(backgroundFrameChat, this.coverChat);
         frameChat.getContentPane().add(backgroundFrameChat);
 
 
@@ -586,6 +612,10 @@ public class Board extends Observable {
         desktopPane.add(internalFrameChallenger2);
         desktopPane.add(internalFrameChooseCards);
         desktopPane.add(internalFramePlaceWorkers);
+
+        desktopPane.add(leftBoard);
+        desktopPane.add(leftGod);
+
         f.setContentPane(desktopPane);
 
         SwingUtilities.updateComponentTreeUI(f);
@@ -813,6 +843,8 @@ public class Board extends Observable {
 
     public void showCardChoice(List<String> cards, String name, boolean bool){
 
+        internalFrameChallenger1.dispose();
+        internalFrameChallenger2.dispose();
         godCards = cards;
         nameChoosing = name;
 
@@ -850,6 +882,12 @@ public class Board extends Observable {
             buttonPower.setName(cardChosen);
             buttonPower.addActionListener(new ShowPower());
             buttonPower.setVisible(true);
+            try {
+                coverLeftGod = ImageHandler.setImage("resources/Graphics/gods/" + cardChosen + "_left.png", 100, 100, frameSize.width, frameSize.height);
+            } catch (IOException e) {
+                LOGGER.severe(e.getMessage());
+            }
+            leftGod.setIcon(coverLeftGod.getIcon());
             showEndturn();
         }
     }
@@ -875,6 +913,7 @@ public class Board extends Observable {
     }
 
     public void showPlaceWorkers(String name, boolean bool){
+        internalFrameChooseCards.dispose();
         if (placeWorkers != null){
             internalFramePlaceWorkers.remove(placeWorkers);
         }
@@ -1176,7 +1215,8 @@ public class Board extends Observable {
                             }
                             placed++;
                             mapWorker[x] = placed;
-                        } else {
+                        }
+                        else if (mapButtonsPlayer[x]){
                             switch (mapButtonslvl[x]) {
                                 case 0:
                                     c.setIcon(null);
@@ -1203,36 +1243,33 @@ public class Board extends Observable {
                     }
                 }
                 if (placed == 2) {
-                    //removeMove();
                     buttonBuild.setEnabled(true);
                     buttonConfirmPlace.setEnabled(true);
                     buttonConfirmPlace.addActionListener(new ConfirmPlace());
                 }
             }
         }
-            private void removeMove () {
-                for (int x = 0; x < 25; x++) {
-                    eliminateActionClass(mapButtons[x], PlaceWorker.class);
-                }
-            }
+    }
+    private void  removePlaceWorker(){
+        for (int x = 0; x < 25; x++) {
+            eliminateActionClass(mapButtons[x], PlaceWorker.class);
+        }
     }
 
     private class ConfirmPlace implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
             List<Integer> tiles;
-            tiles = modifiedTles();
+            tiles = modifiedTiles();
             gui.placeWorkersResponse(tiles.get(0) + 1, tiles.get(1) + 1);
             buttonConfirmPlace.setVisible(false);
             labelConfirmPlace.setVisible(false);
-            for (int x = 0; x < 25; x++) {
-                eliminateActionClass(mapButtons[x], PlaceWorker.class);
-            }
+            removePlaceWorker();
             showEndturn();
         }
     }
 
-    private List<Integer> modifiedTles(){
+    private List<Integer> modifiedTiles(){
         List<Integer> tiles = new ArrayList<>();
         for (int x = 0; x < 25; x++){
             if (mapWorker[x] != 0){
@@ -1350,11 +1387,11 @@ public class Board extends Observable {
             JButton c = (JButton)e.getSource();
             eliminateActionClass(c, Board.ShowPower.class);
             try {
-                cover2 = ImageHandler.setImage("resources/Graphics/gods/" + c.getName() + "_description.png", 100, 100, frameSize.width * 40/100, frameSize.height * 45/100);
+                coverBackground = ImageHandler.setImage("resources/Graphics/gods/" + c.getName() + "_description.png", 100, 100, frameSize.width * 40/100, frameSize.height * 45/100);
             } catch (IOException ioException) {
                 LOGGER.severe(ioException.getMessage());
             }
-            background = new JLabel(cover2.getIcon());
+            background = new JLabel(coverBackground.getIcon());
             windowPower.getContentPane().removeAll();
             chatStyleButtons(sfondoFramePower, background);
             windowPower.getContentPane().add(sfondoFramePower);
