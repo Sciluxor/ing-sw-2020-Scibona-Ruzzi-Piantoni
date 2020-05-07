@@ -13,7 +13,6 @@ import java.util.List;
 
 import static it.polimi.ingsw.view.client.gui.Gui.LOGGER;
 import static it.polimi.ingsw.view.client.gui.EliminateListeners.*;
-import static it.polimi.ingsw.view.client.gui.Gui.players;
 
 public class Board extends Observable {
     Gui gui;
@@ -523,7 +522,7 @@ public class Board extends Observable {
 
 
         buttonMove.setBounds(frameSize.width * 79/100, frameSize.height * 46/100, frameSize.width * 7/100, frameSize.height * 7/100);
-        buttonMove.addActionListener(new AddMove());
+        buttonMove.addActionListener(new AddPlaceWorker());
         consoleButtons(buttonMove, lButtonMove);
 
         buttonBuild.setBounds(frameSize.width * 85/100, frameSize.height * 46/100, frameSize.width * 7/100, frameSize.height * 7/100);
@@ -588,7 +587,6 @@ public class Board extends Observable {
         desktopPane.add(internalFrameChooseCards);
         desktopPane.add(internalFramePlaceWorkers);
         f.setContentPane(desktopPane);
-
 
         SwingUtilities.updateComponentTreeUI(f);
         f.pack();
@@ -1131,91 +1129,92 @@ public class Board extends Observable {
         buttonBuild.setEnabled(false);
         for (int x = 0; x < 25; x++){
             if (!mapButtonsPlayer[x] && mapButtonslvl[x] != 4)
-                mapButtons[x].addActionListener(new Move());
+                mapButtons[x].addActionListener(new PlaceWorker());
         }
     }
 
-    private class AddMove implements ActionListener{
+    private class AddPlaceWorker implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
 
             buttonBuild.setEnabled(false);
             for (int x = 0; x < 25; x++){
                 if (!mapButtonsPlayer[x] && mapButtonslvl[x] != 4)
-                        mapButtons[x].addActionListener(new Move());
+                        mapButtons[x].addActionListener(new PlaceWorker());
             }
         }
     }
 
-    private class Move implements ActionListener{
+    private class PlaceWorker implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
+            if (placed <= 2) {
+                JButton c = (JButton) e.getSource();
+                for (int x = 0; x < 25; x++) {
 
-            JButton c = (JButton) e.getSource();
-            for (int x = 0; x < 25; x++){
+                    if (mapButtons[x] == c) {
 
-                if (mapButtons[x] == c){
-
-                    if (!mapButtonsPlayer[x]){
-                        switch (mapButtonslvl[x]) {
-                            case 0:
-                                c.setIcon(worker.getIcon());
-                                mapButtonsPlayer[x] = true;
-                                break;
-                            case 1:
-                                c.setIcon(lvl1Worker.getIcon());
-                                mapButtonsPlayer[x] = true;
-                                break;
-                            case 2:
-                                c.setIcon(lvl2Worker.getIcon());
-                                mapButtonsPlayer[x] = true;
-                                break;
-                            case 3:
-                                c.setIcon(lvl3Worker.getIcon());
-                                mapButtonsPlayer[x] = true;
-                                break;
-                            default:
+                        if (!mapButtonsPlayer[x] && placed < 2) {
+                            switch (mapButtonslvl[x]) {
+                                case 0:
+                                    c.setIcon(worker.getIcon());
+                                    mapButtonsPlayer[x] = true;
+                                    break;
+                                case 1:
+                                    c.setIcon(lvl1Worker.getIcon());
+                                    mapButtonsPlayer[x] = true;
+                                    break;
+                                case 2:
+                                    c.setIcon(lvl2Worker.getIcon());
+                                    mapButtonsPlayer[x] = true;
+                                    break;
+                                case 3:
+                                    c.setIcon(lvl3Worker.getIcon());
+                                    mapButtonsPlayer[x] = true;
+                                    break;
+                                default:
+                            }
+                            placed++;
+                            mapWorker[x] = placed;
+                        } else {
+                            switch (mapButtonslvl[x]) {
+                                case 0:
+                                    c.setIcon(null);
+                                    mapButtonsPlayer[x] = false;
+                                    break;
+                                case 1:
+                                    c.setIcon(lvl1.getIcon());
+                                    mapButtonsPlayer[x] = false;
+                                    break;
+                                case 2:
+                                    c.setIcon(lvl2.getIcon());
+                                    mapButtonsPlayer[x] = false;
+                                    break;
+                                case 3:
+                                    c.setIcon(lvl3.getIcon());
+                                    mapButtonsPlayer[x] = false;
+                                    break;
+                                default:
+                            }
+                            placed--;
+                            mapWorker[x] = 0;
+                            buttonConfirmPlace.setEnabled(false);
                         }
-                        placed++;
-                        mapWorker[x] = placed;
-                    }
-                    else{
-                        switch (mapButtonslvl[x]) {
-                            case 0:
-                                c.setIcon(null);
-                                mapButtonsPlayer[x] = false;
-                                break;
-                            case 1:
-                                c.setIcon(lvl1.getIcon());
-                                mapButtonsPlayer[x] = false;
-                                break;
-                            case 2:
-                                c.setIcon(lvl2.getIcon());
-                                mapButtonsPlayer[x] = false;
-                                break;
-                            case 3:
-                                c.setIcon(lvl3.getIcon());
-                                mapButtonsPlayer[x] = false;
-                                break;
-                            default:
-                        }
-                        placed--;
-                        mapWorker[x] = 0;
                     }
                 }
-            }
-            if (placed == 2){
-                removeMove();
-                buttonBuild.setEnabled(true);
+                if (placed == 2) {
+                    //removeMove();
+                    buttonBuild.setEnabled(true);
+                    buttonConfirmPlace.setEnabled(true);
+                    buttonConfirmPlace.addActionListener(new ConfirmPlace());
+                }
             }
         }
-        private void removeMove() {
-            for (int x = 0; x < 25; x++){
-                eliminateActionClass(mapButtons[x], Move.class);
+            private void removeMove () {
+                for (int x = 0; x < 25; x++) {
+                    eliminateActionClass(mapButtons[x], PlaceWorker.class);
+                }
             }
-            buttonConfirmPlace.setEnabled(true);
-            buttonConfirmPlace.addActionListener(new ConfirmPlace());
-        }
     }
 
     private class ConfirmPlace implements ActionListener{
@@ -1226,6 +1225,9 @@ public class Board extends Observable {
             gui.placeWorkersResponse(tiles.get(0) + 1, tiles.get(1) + 1);
             buttonConfirmPlace.setVisible(false);
             labelConfirmPlace.setVisible(false);
+            for (int x = 0; x < 25; x++) {
+                eliminateActionClass(mapButtons[x], PlaceWorker.class);
+            }
             showEndturn();
         }
     }
