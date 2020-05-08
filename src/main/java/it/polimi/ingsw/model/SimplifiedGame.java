@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.player.Color;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.utils.ConstantsContainer;
 
+import java.sql.SQLClientInfoException;
 import java.util.*;
 
 public class SimplifiedGame{
@@ -53,6 +54,10 @@ public class SimplifiedGame{
         return hasWinner;
     }
 
+    public Map<String, Card> getDeck() {
+        return deck;
+    }
+
     public void setHasWinner(boolean hasWinner) {
         this.hasWinner = hasWinner;
     }
@@ -82,6 +87,14 @@ public class SimplifiedGame{
                 clientPlayer = newPlayer;
             }
         }
+    }
+
+    public void copySquare(Square oldSquare, Square newSquare){
+        oldSquare.setBuilding(newSquare.getBuilding());
+        oldSquare.setBuildingLevel(newSquare.getBuildingLevel());
+        oldSquare.setHasPlayer(newSquare.hasPlayer());
+        oldSquare.setPlayer(newSquare.getPlayer());
+        oldSquare.setWorker(newSquare.getWorker());
     }
     public List<String> getAvailableCards() {
         return availableCards;

@@ -29,6 +29,8 @@ public interface FunctionListener {
 
     void addConstraint(String name);
 
+    void onTurnDisconnection();
+
     void onLobbyDisconnection();
 
     void onPingDisconnection();

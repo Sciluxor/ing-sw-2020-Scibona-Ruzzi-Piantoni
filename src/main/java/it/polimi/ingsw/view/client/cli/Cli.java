@@ -379,6 +379,11 @@ public class Cli extends ClientGameController {
     }
 
     @Override
+    public void onTurnDisconnection() {
+
+    }
+
+    @Override
     public void onLobbyDisconnection() {
         clearShell();
         print("YOU ARE GOING TO BE DISCONNECTED FROM THE LOBBY. DO YOU WANT TO BE RECONNECTED (type REC) OR DO YOU WANT TO CLOSE THE APPLICATION (type CLOSE)?");

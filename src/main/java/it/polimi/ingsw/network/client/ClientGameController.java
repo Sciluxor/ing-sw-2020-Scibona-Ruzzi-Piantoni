@@ -8,18 +8,16 @@ import it.polimi.ingsw.model.cards.CardSubType;
 import it.polimi.ingsw.model.cards.CardType;
 import it.polimi.ingsw.model.map.Building;
 import it.polimi.ingsw.model.map.Directions;
+import it.polimi.ingsw.model.map.Square;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.model.player.WorkerName;
 import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.utils.ConfigLoader;
 import it.polimi.ingsw.utils.FlowStatutsLoader;
-import it.polimi.ingsw.view.client.cli.Cli;
 
 import java.net.ConnectException;
 
-
-import java.rmi.MarshalException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
@@ -108,7 +106,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
 
     public synchronized void cardChoiceResponse(String card){
         game.removeCard(card);
-        game.getCurrentPlayer().setPower(CardLoader.loadCards().get(card));
+        game.getCurrentPlayer().setPower(game.getDeck().get(card));
         client.sendMessage(new Message(client.getUserID(),MessageType.CHOOSECARD,MessageSubType.ANSWER,card));
     }
 
@@ -189,7 +187,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     public synchronized void addPermanentConstraint(Message message){
-       //da implementare
+       game.getClientPlayer().setConstraint(game.getDeck().get(message.getMessage()));
     }
 
     public synchronized List<Integer>  availableWorkers(){
@@ -340,11 +338,24 @@ public abstract class ClientGameController implements Runnable, FunctionListener
 
 
     public synchronized void handleUpdateBoard(Message message){
+        List<Square> modifiedSquares = new ArrayList<>();
+        if(message.getType().equals(MessageType.MOVEWORKER) && message.getSubType().equals(MessageSubType.UPDATE))
+            modifiedSquares = ((MoveWorkerMessage) message).getModifiedSquare();
+        else if(message.getType().equals(MessageType.BUILDWORKER) && message.getSubType().equals(MessageSubType.UPDATE))
+            modifiedSquares = ((BuildWorkerMessage) message).getModifiedSquare();
 
+        List<Square> finalModifiedSquares = modifiedSquares;
+
+        for(Square square: finalModifiedSquares){
+            game.copySquare(game.getGameMap().getMap().get(square.getTile() -1),square);
+        }
+
+        eventQueue.add(() -> updateBoard(message.getNickName(), finalModifiedSquares,message.getType()));
     }
 
     public synchronized void addNonPermanentConstraint(Message message){
-
+        game.getClientPlayer().setConstraint(game.getDeck().get(message.getMessage()));
+        eventQueue.add(() -> addConstraint(message.getMessage()));
     }
 
     public synchronized void handleDisconnection(Message message){
@@ -353,7 +364,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         LOGGER.info("lost connection");
         switch (message.getSubType()) {
             case TIMEENDED:
-                eventQueue.add(this::onLobbyDisconnection);
+                eventQueue.add(this::onLobbyDisconnection);  //si deve aggiungere anche la turn timer disconnection?
                 break;
             case PINGFAIL:
                 eventQueue.add(this::onPingDisconnection);
@@ -388,8 +399,16 @@ public abstract class ClientGameController implements Runnable, FunctionListener
             case STARTTURN:
                 handleStartTurn(message);
                 break;
+            case MOVEWORKER:
+            case BUILDWORKER:
+                handleUpdateBoard(message);
+                break;
+            case NONPERMCONSTRAINT:
+                addNonPermanentConstraint(message);
+                break;
+            case PERMCONSTRAINT:
+                addPermanentConstraint(message);   //mancano i case di WIN e LOSE
             default:
-
         }
     }
 }

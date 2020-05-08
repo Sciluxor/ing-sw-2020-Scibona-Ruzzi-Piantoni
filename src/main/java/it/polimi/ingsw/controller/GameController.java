@@ -312,6 +312,7 @@ public class GameController implements Observer<Message> {
                 case CARDCHOICEDONE:
                     if (game.getAvailableCards().isEmpty()) {
                         game.assignPermanentConstraint();
+                        game.setGameStatus(Response.ASSIGNEDPERMCONSTRAINT);
                         game.setGameStatus(Response.PLACEWORKERS);
                     } else {
                         game.setGameStatus(Response.CARDCHOICE);

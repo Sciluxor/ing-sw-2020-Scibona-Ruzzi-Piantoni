@@ -42,10 +42,16 @@ public class RoundController {
                     handleWorkerChoice(message);
                     break;
                 case MOVEWORKER:
-                    handleMovement(message);
+                    if(message.getSubType().equals(MessageSubType.ANSWER))
+                        handleMovement(message);
+                    else
+                        game.setGameStatus(Response.STATUSERROR);
                     break;
                 case BUILDWORKER:
-                    handleBuilding(message);
+                    if(message.getSubType().equals(MessageSubType.ANSWER))
+                        handleBuilding(message);
+                    else
+                        game.setGameStatus(Response.STATUSERROR);
                     break;
                 default:
                     throw new IllegalStateException("no Action");

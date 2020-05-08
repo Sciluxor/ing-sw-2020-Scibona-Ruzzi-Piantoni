@@ -36,6 +36,10 @@ public class Square implements Serializable{
         return buildingLevel;
     }
 
+    public void setBuildingLevel(int level){
+        this.buildingLevel = level;
+    }
+
     public void addBuildingLevel() {
         if(buildingLevel<=3)
             this.buildingLevel += 1;
