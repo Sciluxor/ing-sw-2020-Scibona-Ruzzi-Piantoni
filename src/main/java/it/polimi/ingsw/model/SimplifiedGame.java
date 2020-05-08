@@ -11,13 +11,13 @@ import it.polimi.ingsw.utils.ConstantsContainer;
 import java.util.*;
 
 public class SimplifiedGame{
-    private Integer numberOfPlayers;
+    private final Integer numberOfPlayers;
     private List<Player> settedPlayers;
     private Map<String, Card> deck;
     private List<String> availableCards;
     private Player currentPlayer;
     private Player clientPlayer;
-    private GameMap gameMap;
+    private final GameMap gameMap;
     private boolean isGameStarted;
     private String gameID;
     private Response gameStatus;

@@ -196,6 +196,9 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
         connection.sendMessage(new PlaceWorkersMessage(ConstantsContainer.SERVERNAME,MessageSubType.SETTED,controller.getModifiedSquares().get(0).getCoordinates(),controller.getModifiedSquares().get(1).getCoordinates()));
     }
 
+
+    //mandare i permanent constraint al client
+
     //
     //methods for both
     //

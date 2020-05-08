@@ -51,7 +51,7 @@ public class FlowStatutsLoader {
             return new ArrayList<>(Arrays.asList(types));
         }
 
-        private static ArrayList<MessageType> getNextMessageFromStatus(Response status){
+        public static ArrayList<MessageType> getNextMessageFromStatus(Response status){
             return nextMessageFromStatus.get(status);
         }
 
