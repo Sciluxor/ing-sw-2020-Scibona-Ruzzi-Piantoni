@@ -56,6 +56,7 @@ public class Board extends Observable {
     JButton leftBoard = new JButton();
     JButton leftGod = new JButton();
     JButton opponent1 = new JButton();
+    JButton opponent2;
     JTextArea chat = new JTextArea();
     JTextField field = new JTextField();
     private final JButton[] mapButtons = new JButton[25];
@@ -307,7 +308,7 @@ public class Board extends Observable {
         //opponent1.setName(returnGodChoosen().get(1).getName());
         opponentsButton(opponent1);
         if (numberOfPlayer == 3){
-            JButton opponent2 = new JButton(otherPlayers.get(1).getNickname());
+            opponent2 = new JButton(otherPlayers.get(1).getNickname());
             //opponent2.setName(returnGodChoosen().get(2).getName());
             opponent2.setBounds((frameSize.width * 3/100), (frameSize.height * 64/100), frameSize.width * 15/100, frameSize.height * 4/100);
             opponent2.setForeground(getColorPlayer(otherPlayers.get(1)));
@@ -687,7 +688,6 @@ public class Board extends Observable {
         button.setContentAreaFilled(false);
         button.setFocusPainted(false);
         button.setBorderPainted(false);
-        button.addMouseListener(new SeePower());
         desktopPane.add(button);
 
     }
@@ -885,7 +885,7 @@ public class Board extends Observable {
             buttonChoosePower.setVisible(false);
             labelChoosePower.setVisible(false);
             buttonPower.setName(cardChosen);
-            buttonPower.addActionListener(new ShowPower());
+            buttonPower.addActionListener(new ShowYourPower());
             buttonPower.setVisible(true);
             buttonChat.setBounds(frameSize.width * 89/100, frameSize.height * 58/100, frameSize.width * 5/100, frameSize.height * 7/100);
             labelSeePower.setVisible(true);
@@ -953,7 +953,6 @@ public class Board extends Observable {
             if(square.getPlayer().getColor().toString().equalsIgnoreCase("BLUE")){
                 mapButtons[square.getTile() - 1].setIcon(workerCyan.getIcon());
                 mapButtonsPlayer[square.getTile() - 1] = true;
-                //square.getPlayer().getPower().getName()
             }
             else if(square.getPlayer().getColor().toString().equalsIgnoreCase("WHITE")){
                 mapButtons[square.getTile() - 1].setIcon(workerWhite.getIcon());
@@ -962,13 +961,25 @@ public class Board extends Observable {
             else {
                 mapButtons[square.getTile() - 1].setIcon(workerPurple.getIcon());
                 mapButtonsPlayer[square.getTile() - 1] = true;
+
             }
 
         }
+        powerToOpponents(squares.get(0).getPlayer().getNickname(), squares.get(0).getPlayer().getPower().getName());
 
     }
 
     private void powerToOpponents(String player, String card){
+        if (opponent1.getText().equalsIgnoreCase(player)) {
+            opponent1.setName(card);
+            opponent1.addMouseListener(new SeeEnemyPower());
+        }
+        else if (numberOfPlayers == 3 && opponent2.getText().equalsIgnoreCase(player)){
+            opponent2.setName(card);
+            opponent2.addMouseListener(new SeeEnemyPower());
+            System.out.println(player);
+            System.out.println(card);
+        }
 
     }
 
@@ -1374,20 +1385,20 @@ public class Board extends Observable {
     }
 
 
-    private class SeePower extends MouseAdapter {
+    private class SeeEnemyPower extends MouseAdapter {
 
         @Override
         public void mouseEntered(MouseEvent e) {
             JButton c = (JButton)e.getSource();
-            /*try {
-                cover2 = ImageHandler.setImage("resources/Graphics/gods/" + c.getName() + "_description.png", 100, 100, frameSize.width * 40/100, frameSize.height * 45/100);
+            try {
+                coverBackground = ImageHandler.setImage("resources/Graphics/gods/" + c.getName() + "_description.png", 100, 100, frameSize.width * 40/100, frameSize.height * 45/100);
             } catch (IOException ioException) {
                 LOGGER.severe(ioException.getMessage());
             }
-            background = new JLabel(cover2.getIcon());
-            framePower.getContentPane().removeAll();
+            background = new JLabel(coverBackground.getIcon());
+            windowPower.getContentPane().removeAll();
             chatStyleButtons(sfondoFramePower, background);
-            framePower.getContentPane().add(sfondoFramePower);*/
+            windowPower.getContentPane().add(sfondoFramePower);
             windowPower.setVisible(true);
         }
         @Override
@@ -1396,11 +1407,11 @@ public class Board extends Observable {
         }
     }
 
-    private class ShowPower implements ActionListener{
+    private class ShowYourPower implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
             JButton c = (JButton)e.getSource();
-            eliminateActionClass(c, Board.ShowPower.class);
+            eliminateActionClass(c, ShowYourPower.class);
             try {
                 coverBackground = ImageHandler.setImage("resources/Graphics/gods/" + c.getName() + "_description.png", 100, 100, frameSize.width * 40/100, frameSize.height * 45/100);
             } catch (IOException ioException) {
@@ -1419,7 +1430,7 @@ public class Board extends Observable {
         public void actionPerformed(ActionEvent e) {
             JButton c = (JButton)e.getSource();
             eliminateActionClass(c, Board.HidePower.class);
-            c.addActionListener(new ShowPower());
+            c.addActionListener(new ShowYourPower());
             windowPower.setVisible(false);
         }
     }
