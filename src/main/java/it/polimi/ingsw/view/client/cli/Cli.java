@@ -5,10 +5,9 @@ import it.polimi.ingsw.model.cards.CardLoader;
 import it.polimi.ingsw.model.map.Square;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.client.ClientGameController;
+import it.polimi.ingsw.network.message.MessageType;
 
-import javax.print.DocFlavor;
 import java.util.*;
-import java.util.zip.CheckedOutputStream;
 
 import static it.polimi.ingsw.utils.ConstantsContainer.*;
 
@@ -360,17 +359,22 @@ public class Cli extends ClientGameController {
     }
 
     @Override
-    public void updateBoard() {
+    public void updateBoard(String nick, List<Square> squares, MessageType type) {
 
     }
 
     @Override
-    public void notifyWin() {
+    public void notifyWin(String nick) {
 
     }
 
     @Override
-    public void addConstraint() {
+    public void displayActions(List<MessageType> actions) {
+
+    }
+
+    @Override
+    public void addConstraint(String name) {
 
     }
 
@@ -412,7 +416,7 @@ public class Cli extends ClientGameController {
     }
 
     @Override
-    public void startTurn() {
+    public void startTurn(String nick, boolean isYourPlayer) {
 
     }
 }

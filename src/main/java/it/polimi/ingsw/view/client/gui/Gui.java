@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.map.Square;
 import it.polimi.ingsw.network.client.ClientGameController;
 import it.polimi.ingsw.model.player.Color;
 import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.network.message.MessageType;
 
 import javax.swing.*;
 import java.awt.*;
@@ -251,17 +252,22 @@ public class Gui extends ClientGameController {
     }
 
     @Override
-    public void updateBoard() {
-        System.out.println("stato updateBoard");
-    }
-
-    @Override
-    public void notifyWin() {
+    public void updateBoard(String nick, List<Square> squares, MessageType type) {
 
     }
 
     @Override
-    public void addConstraint() {
+    public void notifyWin(String nick) {
+
+    }
+
+    @Override
+    public void displayActions(List<MessageType> actions) {
+
+    }
+
+    @Override
+    public void addConstraint(String name) {
 
     }
 
@@ -276,8 +282,9 @@ public class Gui extends ClientGameController {
     }
 
     @Override
-    public void startTurn() {
+    public void startTurn(String nick, boolean isYourPlayer) {
 
     }
+
 
 }

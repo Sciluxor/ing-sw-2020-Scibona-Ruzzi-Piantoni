@@ -2,6 +2,8 @@ package it.polimi.ingsw.network.client;
 
 import it.polimi.ingsw.model.Response;
 import it.polimi.ingsw.model.SimplifiedGame;
+import it.polimi.ingsw.model.cards.CardLoader;
+import it.polimi.ingsw.model.map.Building;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.utils.ConfigLoader;
@@ -96,6 +98,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
 
     public synchronized void cardChoiceResponse(String card){
         game.removeCard(card);
+        game.getCurrentPlayer().setPower(CardLoader.loadCards().get(card));
         client.sendMessage(new Message(client.getUserID(),MessageType.CHOOSECARD,MessageSubType.ANSWER,card));
     }
 
@@ -137,6 +140,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
             eventQueue.add(() -> cardChoice(message.getMessage(), false));
         }
         else{
+             game.getCurrentPlayer().setPower(CardLoader.loadCards().get(message.getMessage()));
              game.removeCard(message.getMessage());
         }
     }
@@ -156,6 +160,50 @@ public abstract class ClientGameController implements Runnable, FunctionListener
             game.placeWorkersOnMap(tile1,tile2);
             eventQueue.add(() -> updatePlacedWorkers(game.getGameMap().getModifiedSquare()));
         }
+    }
+
+    public synchronized void handleStartTurn(){
+        //modificare lo stato del gioco
+        //chimare la start turn, acnhe per gli altri client
+        //il controllo se ha perso lo fa il server
+    }
+
+    public synchronized void availableWorkers(){
+        //mandarti i workers che possono muoversi
+    }
+
+    public synchronized void availableActions(int worker){
+        //ritornare le azioni disponibili per quel worker, fare il controllo se può muoversi o costruire
+        //e settare nel game il worker scelto
+        //chiamare display actions
+    }
+
+    public synchronized void availableMoveSquare(){
+        //ritornare una lista con il numero di caselle dove può muoversi
+    }
+
+    public synchronized void moveWorker(int tile){
+        //prendersi la direzione dalla tile
+        //muovo il worker sul client cambiando lo stato del gioco
+        //vedo se ha vinto
+        //invio il messaggio al server
+        //se ha vinto chiamo notifyWin sennò chiamo display actions
+    }
+
+    public synchronized void availableBuildSquare(){
+
+    }
+
+    public synchronized void buildWorker(int tile, Building building){
+        //prendersi la direzione dalla tile, mi serve anche il building
+        //buildo il worker sul client cambiando lo stato del gioco
+        //vedo se ha vinto qualcuno con crono
+        //invio il messaggio al server
+        //se ha vinto chiamo notifyWin sennò chiamo display actions
+    }
+
+    public synchronized void handleUpdateBoard(){
+
     }
 
     public synchronized void handleDisconnection(Message message){
