@@ -12,7 +12,6 @@ import it.polimi.ingsw.model.Response;
 import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.utils.FlowStatutsLoader;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -106,7 +105,7 @@ public class RoundController {
 
     public boolean checkFirstPlayerChoice(String firstPlayer){
         for(Player player : game.getPlayers()){
-            if(player.getNickname().equals(firstPlayer)){
+            if(player.getNickName().equals(firstPlayer)){
                 return true;
             }
         }
@@ -230,7 +229,7 @@ public class RoundController {
         if(response.equals(Response.WIN)) {
             game.setWinner(game.getCurrentPlayer());  // se c'è una vittoria bisogna settare prima la mossa e poi la vittoria per notificare in ordine
             game.setHasWinner(true);
-            return game.getCurrentPlayer().getNickname().equals(((MoveWorkerMessage) message).getWinnerPlayer().getNickname());
+            return game.getCurrentPlayer().getNickName().equals(((MoveWorkerMessage) message).getWinnerPlayer().getNickName());
         }
 
 
@@ -286,7 +285,7 @@ public class RoundController {
                     game.setWinner(player);
                     game.setHasWinner(true);
                     return response.equals(((BuildWorkerMessage) message).getWinResponse()) &&
-                            player.getNickname().equals(((BuildWorkerMessage) message).getWinnerPlayer().getNickname());
+                            player.getNickName().equals(((BuildWorkerMessage) message).getWinnerPlayer().getNickName());
                 }
             }
         }
@@ -344,7 +343,7 @@ public class RoundController {
         if(q1.getTile().equals(q2.getTile()) &&
                 q1.getBuildingLevel() == q2.getBuildingLevel() && q1.hasPlayer() == q2.hasPlayer() && q1.getBuilding().equals(q2.getBuilding())) {
                 if(q1.hasPlayer()) {
-                    return q1.getPlayer().getNickname().equals(q2.getPlayer().getNickname()) && q1.getWorker().getName().equals(q2.getWorker().getName());
+                    return q1.getPlayer().getNickName().equals(q2.getPlayer().getNickName()) && q1.getWorker().getName().equals(q2.getWorker().getName());
                 }
                 else return true;
         }

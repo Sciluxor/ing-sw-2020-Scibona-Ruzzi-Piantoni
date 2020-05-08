@@ -56,7 +56,7 @@ public class Player implements Serializable {
     //function that return the nickname of the player
     //
 
-    public String getNickname() {
+    public String getNickName() {
         return nickname;
     }
 

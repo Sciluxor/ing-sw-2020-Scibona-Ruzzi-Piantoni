@@ -297,12 +297,12 @@ public class Board extends Observable {
         opponents.setFont(felixNormal);
         desktopPane.add(opponents);
 
-        opponent1.setText(otherPlayers.get(0).getNickname());
+        opponent1.setText(otherPlayers.get(0).getNickName());
         opponent1.setBounds((frameSize.width * 3/100), (frameSize.height * 61/100), frameSize.width * 15/100, frameSize.height * 4/100);
         opponent1.setForeground(getColorPlayer(otherPlayers.get(0)));
         opponentsButton(opponent1);
         if (numberOfPlayer == 3){
-            opponent2 = new JButton(otherPlayers.get(1).getNickname());
+            opponent2 = new JButton(otherPlayers.get(1).getNickName());
             opponent2.setBounds((frameSize.width * 3/100), (frameSize.height * 64/100), frameSize.width * 15/100, frameSize.height * 4/100);
             opponent2.setForeground(getColorPlayer(otherPlayers.get(1)));
             opponentsButton(opponent2);
@@ -737,12 +737,12 @@ public class Board extends Observable {
     }
 
     private void removeNickFromOtherPlayers(){
-        otherPlayers.removeIf(player -> player.getNickname().equalsIgnoreCase(nickname));
+        otherPlayers.removeIf(player -> player.getNickName().equalsIgnoreCase(nickname));
     }
 
     private Player pickNickFromPlayers(){
         for (Player player : otherPlayers){
-            if (player.getNickname().equalsIgnoreCase(nickname))
+            if (player.getNickName().equalsIgnoreCase(nickname))
                 return player;
         }
         return null;
@@ -785,7 +785,7 @@ public class Board extends Observable {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (!field.getText().equals("")) {
-                chat.append(mePlayer.getNickname() + ": " + field.getText().toLowerCase() + "\n");
+                chat.append(mePlayer.getNickName() + ": " + field.getText().toLowerCase() + "\n");
                 chat.setCaretPosition(chat.getDocument().getLength());
                 field.setText("");
             }
@@ -958,7 +958,7 @@ public class Board extends Observable {
             }
 
         }
-        powerToOpponents(squares.get(0).getPlayer().getNickname(), squares.get(0).getPlayer().getPower().getName());
+        powerToOpponents(squares.get(0).getPlayer().getNickName(), squares.get(0).getPlayer().getPower().getName());
 
     }
 

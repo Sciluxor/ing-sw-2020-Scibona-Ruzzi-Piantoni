@@ -14,13 +14,18 @@ public class MoveWorkerMessage extends Message{
     private Response winResponse;
     private Player winnerPlayer;
 
-    public MoveWorkerMessage(String sender, String nickName, MessageSubType subType, Directions direction, Response winResponse, Player winnerPlayer
+    public MoveWorkerMessage(String sender, String nickName, Directions direction, Response winResponse, Player winnerPlayer
             , List<Square> squares) {
-        super(sender, nickName, MessageType.MOVEWORKER, subType);
+        super(sender, nickName, MessageType.MOVEWORKER,MessageSubType.ANSWER);
         this.direction = direction;
         this.winResponse = winResponse;
         this.modifiedSquare = squares;
         this.winnerPlayer = winnerPlayer;
+    }
+
+    public MoveWorkerMessage(String sender, String nickName,List<Square> squares) {
+        super(sender, nickName, MessageType.MOVEWORKER,MessageSubType.ANSWER);
+        this.modifiedSquare = squares;
     }
 
     public Directions getDirection() {

@@ -6,9 +6,7 @@ import it.polimi.ingsw.model.map.GameMap;
 import it.polimi.ingsw.model.map.Square;
 import it.polimi.ingsw.model.player.Color;
 import it.polimi.ingsw.model.player.Player;
-import it.polimi.ingsw.utils.ConstantsContainer;
 
-import java.sql.SQLClientInfoException;
 import java.util.*;
 
 public class SimplifiedGame{
@@ -83,7 +81,7 @@ public class SimplifiedGame{
             settedPlayers.add(newPlayer);
             newPlayer.setColor(colors.get(i));
 
-            if (newPlayer.getNickname().equals(clientName)) {
+            if (newPlayer.getNickName().equals(clientName)) {
                 clientPlayer = newPlayer;
             }
         }
@@ -117,7 +115,7 @@ public class SimplifiedGame{
             //throw new NullPointerException("null currentPlayer");
 
         for(Player player : settedPlayers)
-            if(player.getNickname().equals(playerName))
+            if(player.getNickName().equals(playerName))
                 this.currentPlayer = player;
     }
 

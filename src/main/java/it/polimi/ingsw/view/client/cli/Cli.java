@@ -198,7 +198,7 @@ public class Cli extends ClientGameController {
 
         if(isOnUpdateLobby) {
             for (Player p : getPlayers())
-                print(">>> " + p.getNickname() + "\n");
+                print(">>> " + p.getNickName() + "\n");
         }
         else {
             print(">>> " + getNickName() + "\n");

@@ -249,10 +249,10 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         Response newStatus = game.getCurrentPlayer().executeWorkerMove(game.getGameMap(),direction);
         game.setGameStatus(newStatus);
         Response winStatus = checkMoveVictory();
-        client.sendMessage(new MoveWorkerMessage(client.getUserID(),client.getNickName(),MessageSubType.ANSWER,direction,
+        client.sendMessage(new MoveWorkerMessage(client.getUserID(),client.getNickName(),direction,
                 winStatus,game.getWinner(),game.getGameMap().getModifiedSquare()));
         if(winStatus.equals(Response.WIN)){
-            eventQueue.add(() -> notifyWin(game.getWinner().getNickname()));
+            eventQueue.add(() -> notifyWin(game.getWinner().getNickName()));
         }
         else{
             availableActions();
@@ -297,10 +297,10 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         Response newStatus = game.getCurrentPlayer().executeBuild(game.getGameMap(),building,direction);
         game.setGameStatus(newStatus);
         Response winStatus = checkBuildVictory();
-        client.sendMessage(new BuildWorkerMessage(client.getUserID(),client.getNickName(),MessageSubType.ANSWER,direction
+        client.sendMessage(new BuildWorkerMessage(client.getUserID(),client.getNickName(),direction
                 ,building,winStatus,game.getWinner(),game.getGameMap().getModifiedSquare()));
         if(winStatus.equals(Response.BUILDWIN)){
-            eventQueue.add(() -> notifyWin(game.getWinner().getNickname()));
+            eventQueue.add(() -> notifyWin(game.getWinner().getNickName()));
         }
         else{
             if(newStatus.equals(Response.BUILD))
@@ -364,7 +364,10 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         LOGGER.info("lost connection");
         switch (message.getSubType()) {
             case TIMEENDED:
-                eventQueue.add(this::onLobbyDisconnection);  //si deve aggiungere anche la turn timer disconnection?
+                if(game.isGameStarted())
+                    eventQueue.add(this::onTurnDisconnection);
+                else
+                    eventQueue.add(this::onLobbyDisconnection);
                 break;
             case PINGFAIL:
                 eventQueue.add(this::onPingDisconnection);

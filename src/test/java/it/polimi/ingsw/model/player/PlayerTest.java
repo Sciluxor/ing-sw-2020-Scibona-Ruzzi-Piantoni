@@ -81,7 +81,7 @@ class PlayerTest {
 
     @Test
     void getNickname() {
-        assertEquals ("GoodPlayer",player.getNickname());
+        assertEquals ("GoodPlayer",player.getNickName());
     }
 
     @Test

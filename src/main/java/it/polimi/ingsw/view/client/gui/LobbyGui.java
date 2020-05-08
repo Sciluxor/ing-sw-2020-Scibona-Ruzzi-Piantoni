@@ -8,8 +8,6 @@ import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -153,7 +151,7 @@ public class LobbyGui{
                 StyleConstants.setForeground(colorStyle, Color.MAGENTA);
             }
             try{
-                doc.insertString(doc.getLength(), player.getNickname() + "\n \n", colorStyle);
+                doc.insertString(doc.getLength(), player.getNickName() + "\n \n", colorStyle);
             }catch (BadLocationException e){
                LOGGER.severe("InsertString Failed");
             }

@@ -123,7 +123,7 @@ public class Game extends Observable<Response> {
         addObservers(actualView);
 
         for(Player player1: settedPlayers){
-            if(player1.getNickname().equals(player.getNickname())){
+            if(player1.getNickName().equals(player.getNickName())){
                 configPlayer++;
                 return false;
             }
@@ -136,7 +136,7 @@ public class Game extends Observable<Response> {
 
     public void removeSettedPlayer(String nick){
         for(Player player:settedPlayers){
-            if(player.getNickname().equals(nick)){
+            if(player.getNickName().equals(nick)){
                 settedPlayers.remove(player);
                 availableColors.add(player.getColor());
                 break;
@@ -150,7 +150,7 @@ public class Game extends Observable<Response> {
 
     public boolean newNickName(Player player){
         for(Player player1: settedPlayers){
-            if(player1.getNickname().equals(player.getNickname())){
+            if(player1.getNickName().equals(player.getNickName())){
                 return false;
             }
         }
@@ -263,13 +263,13 @@ public class Game extends Observable<Response> {
         List<Player> queue = new ArrayList<>();
 
         for(Player player1: settedPlayers) {
-            if (player1.getNickname().equalsIgnoreCase(nickname)) {
+            if (player1.getNickName().equalsIgnoreCase(nickname)) {
                 queue.add(player1);
                 break;
             }
         }
         for(Player player1: settedPlayers) {
-            if(!player1.getNickname().equalsIgnoreCase(nickname)) {
+            if(!player1.getNickName().equalsIgnoreCase(nickname)) {
                 queue.add(player1);
             }
         }

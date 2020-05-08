@@ -3,7 +3,6 @@ package it.polimi.ingsw.view.client.gui;
 import it.polimi.ingsw.model.player.Player;
 
 import javax.swing.*;
-import javax.swing.text.StyleConstants;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -47,17 +46,17 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
         lpurplePress = ImageHandler.setImage("resources/Graphics/button_purple_press.png", 100, 100, frameSize.width * 30/100, frameSize.height * 10/100);
         lwhite = ImageHandler.setImage("resources/Graphics/button_white.png", 100, 100, frameSize.width * 30/100, frameSize.height * 10/100);
         lwhitePress = ImageHandler.setImage("resources/Graphics/button_white_press.png", 100, 100, frameSize.width * 30/100, frameSize.height * 10/100);
-        JLabel namePlayer1 = new JLabel(players.get(0).getNickname());
-        JLabel namePlayer2 = new JLabel(players.get(1).getNickname());
+        JLabel namePlayer1 = new JLabel(players.get(0).getNickName());
+        JLabel namePlayer2 = new JLabel(players.get(1).getNickName());
         JLabel namePlayer3 = null;
 
-        posx1 = (double) players.get(0).getNickname().length() / 2;
-        posx2 = (double) players.get(1).getNickname().length() / 2;
+        posx1 = (double) players.get(0).getNickName().length() / 2;
+        posx2 = (double) players.get(1).getNickName().length() / 2;
 
         JButton player1 = new JButton();
-        player1.setName(players.get(0).getNickname());
+        player1.setName(players.get(0).getNickName());
         JButton player2 = new JButton();
-        player2.setName(players.get(1).getNickname());
+        player2.setName(players.get(1).getNickName());
         JButton player3 = new JButton();
 
         addColorButton(player1);
@@ -88,9 +87,9 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
 
 
         if (numberOfPlayer == 3){
-            namePlayer3  = new JLabel(players.get(2).getNickname());
-            posx3 = (double) players.get(2).getNickname().length() / 2;
-            player3.setName(players.get(2).getNickname());
+            namePlayer3  = new JLabel(players.get(2).getNickName());
+            posx3 = (double) players.get(2).getNickName().length() / 2;
+            player3.setName(players.get(2).getNickName());
             namePlayer3.setBounds((int) ((frameSize.width * 45/100) - posx3), frameSize.height * 61/100, frameSize.width * 30/100, frameSize.height * 10/100);
             namePlayer3.setFont(felixBold);
             add(namePlayer3);
@@ -129,7 +128,7 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
 
     private void addColorButton(JButton buttonPlayer){
         for (Player player : board.allPlayer){
-            if (player.getNickname().equalsIgnoreCase(buttonPlayer.getName())){
+            if (player.getNickName().equalsIgnoreCase(buttonPlayer.getName())){
 
                 if(player.getColor().toString().equalsIgnoreCase("BLUE")){
                     buttonPlayer.setIcon(lblue.getIcon());
@@ -159,7 +158,7 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
             JButton c = (JButton)e.getSource();
 
             for (Player player : board.allPlayer){
-                if (player.getNickname().equalsIgnoreCase(c.getName())){
+                if (player.getNickName().equalsIgnoreCase(c.getName())){
                     if(player.getColor().toString().equalsIgnoreCase("BLUE")){
                         c.setIcon(lbluePress.getIcon());
                     }
@@ -178,7 +177,7 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
             JButton c = (JButton)e.getSource();
 
             for (Player player : board.allPlayer){
-                if (player.getNickname().equalsIgnoreCase(c.getName())){
+                if (player.getNickName().equalsIgnoreCase(c.getName())){
                     if(player.getColor().toString().equalsIgnoreCase("BLUE")){
                         c.setIcon(lblue.getIcon());
                     }

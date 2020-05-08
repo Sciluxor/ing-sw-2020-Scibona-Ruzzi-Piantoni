@@ -138,7 +138,7 @@ public class GameController implements Observer<Message> {
 
     public boolean isStillInGame(String nickName){
         for(Player player: getActualPlayers()){
-            if(player.getNickname().equals(nickName))
+            if(player.getNickName().equals(nickName))
                 return true;
         }
         return false;
@@ -162,7 +162,7 @@ public class GameController implements Observer<Message> {
         stopRoundTimer();                               //devo stoppare il  timer qui?
 
         for(Player player :getActualPlayers()){
-            VirtualView playerView = removeViewFromGame(player.getNickname());
+            VirtualView playerView = removeViewFromGame(player.getNickName());
             resetPlayer(playerView);
         }
 
@@ -181,7 +181,7 @@ public class GameController implements Observer<Message> {
     }
 
     public synchronized String  getUserIDFromPlayer(Player player){
-        return getViewFromNickName(player.getNickname()).getConnection().getUserID();
+        return getViewFromNickName(player.getNickName()).getConnection().getUserID();
     }
 
     public synchronized void handleLobbyTimerEnded(Message message){
@@ -193,7 +193,7 @@ public class GameController implements Observer<Message> {
     }
 
     public synchronized void eliminatePlayer(){
-        VirtualView view = clients.get(getCurrentPlayer().getNickname());
+        VirtualView view = clients.get(getCurrentPlayer().getNickName());
         view.setYourTurn(false);
         removePlayerFromBoard();
 
@@ -212,7 +212,7 @@ public class GameController implements Observer<Message> {
 
     public synchronized void removePlayerFromBoard(){
         game.removePlayerLose();
-        VirtualView newView = clients.get(getCurrentPlayer().getNickname());
+        VirtualView newView = clients.get(getCurrentPlayer().getNickName());
         newView.setYourTurn(true);
     }
 
@@ -253,7 +253,7 @@ public class GameController implements Observer<Message> {
         List<Player> players = game.getPlayers();
 
         for(Player player : players){
-            if(player.getNickname().equals(nick))
+            if(player.getNickName().equals(nick))
                 return false;
         }
 
@@ -272,7 +272,7 @@ public class GameController implements Observer<Message> {
 
     public synchronized void handleMatchBeginning(){
         Player challenger = game.pickChallenger();
-        getViewFromNickName(challenger.getNickname()).setYourTurn(true);
+        getViewFromNickName(challenger.getNickName()).setYourTurn(true);
         game.setGameStatus(Response.CHALLENGERCHOICE);
         startRoundTimer();
     }
@@ -280,7 +280,7 @@ public class GameController implements Observer<Message> {
     public synchronized void changeTurnPlayer(Message message){
         getViewFromNickName(message.getNickName()).setYourTurn(false);
         game.pickPlayer();
-        getViewFromNickName(game.getCurrentPlayer().getNickname()).setYourTurn(true);
+        getViewFromNickName(game.getCurrentPlayer().getNickName()).setYourTurn(true);
     }
 
     //
@@ -353,7 +353,7 @@ public class GameController implements Observer<Message> {
 
     public void startRoundTimer(){
       turnTimer = new Timer();
-      TurnTimerTask task = new TurnTimerTask(clients.get(getCurrentPlayer().getNickname()).getConnection());
+      TurnTimerTask task = new TurnTimerTask(clients.get(getCurrentPlayer().getNickName()).getConnection());
       turnTimer.schedule(task, (long) ConfigLoader.getTurnTimer()*1000);
     }
 
