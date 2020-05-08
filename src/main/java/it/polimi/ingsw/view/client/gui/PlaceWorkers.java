@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
+import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButtonPersonalized;
 import static it.polimi.ingsw.view.client.gui.Gui.getD;
 
 public class PlaceWorkers extends JDesktopPane{
@@ -40,7 +41,7 @@ public class PlaceWorkers extends JDesktopPane{
         close.setBounds((int) ((frameSize.width * 50/ 100) - ((getD().getWidth() * 13 / 100) * 50/100)), (int) (frameSize.height * 81 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
         add(close);
 
-        JButton back = backgroundButton(1 );
+        JButton back = backgroundButtonPersonalized(2, frameSize);
         back.setBounds(0, 0, frameSize.width, frameSize.height);
         add(back);
     }

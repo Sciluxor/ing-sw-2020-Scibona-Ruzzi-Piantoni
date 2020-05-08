@@ -213,7 +213,7 @@ public class Gui extends ClientGameController {
         SwingUtilities.invokeLater(() -> {
             frame.dispose();
             try {
-                board.show(this, screenSize, numberOfPlayers, getPlayers(), getPlayers(),"GID01", nickname);
+                board.show(this, screenSize, numberOfPlayers, getPlayers(), getPlayers(), nickname);
             } catch (IOException e) {
                 LOGGER.severe(e.getMessage());
             }

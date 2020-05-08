@@ -66,7 +66,6 @@ public class Board extends Observable {
     static JLabel playerpower = new JLabel();
     JLabel nicknameLabel = new JLabel();
     JLabel nicknameLabel1 = new JLabel();
-    JLabel gID = new JLabel();
     JLabel coverBoard;
     JLabel coverChat;
     JLabel coverBackground;
@@ -122,6 +121,7 @@ public class Board extends Observable {
     JLabel labelConfirmPlace = new JLabel("Confirm your positions");
     JLabel labelSeePower = new JLabel("See your power");
     JLabel labelEndturn = new JLabel("End Turn");
+    JLabel labelChooseWorker = new JLabel("End Turn");
     JLabel lbuttonEndturn;
     JLabel lbuttonEndturnPress;
     Dimension frameSize = new Dimension();
@@ -143,13 +143,12 @@ public class Board extends Observable {
     it.polimi.ingsw.model.player.Color myColor;
     int placed = 0;
 
-    public void show(Gui instance, Dimension screen, Integer numberOfPlayer, List<Player> players,List<Player> players2, String gameId, String nickname) throws IOException {
+    public void show(Gui instance, Dimension screen, Integer numberOfPlayer, List<Player> players,List<Player> players2, String nickname) throws IOException {
 
         f = new JFrame();
         gui = instance;
         nicknameLabel.setText("Nickname: ");
         nicknameLabel1.setText(nickname);
-        gID.setText("GameID: " + gameId);
         this.nickname = nickname;
         numberOfPlayers = numberOfPlayer;
         allPlayer = players;
@@ -172,13 +171,13 @@ public class Board extends Observable {
         buttonSize.setSize(sideSize.width * 20/100, sideSize.width * 20/100);
         scrollSize.setSize(sideSize.getWidth() * 14/100 , sideSize.getHeight() * 28/100);
 
-        JLabel coverBoard = ImageHandler.setImage("resources/Graphics/board3.png", 100, 100, width, height);
+        JLabel coverBoard = ImageHandler.setImage("resources/Graphics/board.png", 100, 100, width, height);
         this.coverBoard = new JLabel(coverBoard.getIcon());
 
         JLabel coverChat = ImageHandler.setImage("resources/Graphics/panel_chat.png", 100, 100, sideSize.width, sideSize.height);
         this.coverChat = new JLabel(coverChat.getIcon());
 
-        coverBackground = ImageHandler.setImage("resources/Graphics/background.png", 100, 100, frameSize.width * 40/100, frameSize.height * 45/100);
+        coverBackground = ImageHandler.setImage("resources/Graphics/background2.png", 100, 100, frameSize.width * 40/100, frameSize.height * 45/100);
         background = new JLabel(coverBackground.getIcon());
 
         JLabel coverLeftBoard = ImageHandler.setImage("resources/Graphics/left_board.png", 100, 100, frameSize.width, frameSize.height);
@@ -288,15 +287,11 @@ public class Board extends Observable {
 
         nicknameLabel.setBounds((int) (frameSize.width * 3.5/100), (int) (frameSize.height * 2.5/100), frameSize.width * 20/100, frameSize.width * 5/100);
         nicknameLabel.setFont(felixNormal);
-        nicknameLabel1.setBounds((int) (frameSize.width * 10.5/100), (int) (frameSize.height * 2.5/100), frameSize.width * 20/100, frameSize.width * 5/100);
+        nicknameLabel1.setBounds((int) (frameSize.width * 10.3/100), (int) (frameSize.height * 2.5/100), frameSize.width * 20/100, frameSize.width * 5/100);
         nicknameLabel1.setFont(felixNormal);
         nicknameLabel1.setForeground(getColorPlayer(mePlayer));
         desktopPane.add(nicknameLabel);
         desktopPane.add(nicknameLabel1);
-
-        gID.setBounds((int) (frameSize.width * 3.5/100), (int) (frameSize.height * 4.5/100), frameSize.width * 20/100, frameSize.width * 5/100);
-        gID.setFont(felixNormal);
-        desktopPane.add(gID);
 
         opponents.setBounds((frameSize.width * 2/100), (frameSize.height * 55/100), frameSize.width * 20/100, frameSize.width * 5/100);
         opponents.setFont(felixNormal);
@@ -305,11 +300,9 @@ public class Board extends Observable {
         opponent1.setText(otherPlayers.get(0).getNickname());
         opponent1.setBounds((frameSize.width * 3/100), (frameSize.height * 61/100), frameSize.width * 15/100, frameSize.height * 4/100);
         opponent1.setForeground(getColorPlayer(otherPlayers.get(0)));
-        //opponent1.setName(returnGodChoosen().get(1).getName());
         opponentsButton(opponent1);
         if (numberOfPlayer == 3){
             opponent2 = new JButton(otherPlayers.get(1).getNickname());
-            //opponent2.setName(returnGodChoosen().get(2).getName());
             opponent2.setBounds((frameSize.width * 3/100), (frameSize.height * 64/100), frameSize.width * 15/100, frameSize.height * 4/100);
             opponent2.setForeground(getColorPlayer(otherPlayers.get(1)));
             opponentsButton(opponent2);

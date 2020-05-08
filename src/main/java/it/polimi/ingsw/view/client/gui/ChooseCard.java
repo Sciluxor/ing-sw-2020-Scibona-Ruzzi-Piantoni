@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
+import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButtonPersonalized;
 import static it.polimi.ingsw.view.client.gui.Board.internalFrameSetUp;
 import static it.polimi.ingsw.view.client.gui.EliminateListeners.eliminateActionClass;
 import static it.polimi.ingsw.view.client.gui.EliminateListeners.eliminateMouseClass;
@@ -76,7 +77,7 @@ public class ChooseCard extends JDesktopPane{
         JLabel isChoosing = ImageHandler.setImage("resources/Graphics/Texts/is_choosing_the_god_power.png", 100, 100, frameSize.width * 85/100, frameSize.height * 25/100);
         JLabel first = ImageHandler.setImage("resources/Graphics/Texts/choose_your_god_power.png", 100, 100, frameSize.width * 85/100, frameSize.height * 25/100);
         JLabel otherName = new JLabel(name);
-        otherName.setBounds((int) ((frameSize.width * 40/100) - posx), (int) (frameSize.height * 10/100), frameSize.width * 50/100, frameSize.width * 5/100);
+        otherName.setBounds((int) ((frameSize.width * 40/100) - posx), (int) (frameSize.height * 25/100), frameSize.width * 50/100, frameSize.width * 5/100);
         otherName.setFont(felixBold);
 
         selectGodsChosen();
@@ -138,35 +139,35 @@ public class ChooseCard extends JDesktopPane{
             }
             else if (numberOfPanel == 4){
 
-                first.setBounds((int) (frameSize.width * 7.5/100), frameSize.height * 10/100, frameSize.width * 85/100, frameSize.height * 25/100);
+                first.setBounds((int) (frameSize.width * 7.5/100), frameSize.height * 25/100, frameSize.width * 85/100, frameSize.height * 25/100);
                 add(first);
 
                 close.addActionListener(new Close());
                 close.setBounds((int) ((frameSize.width * 50/ 100) - ((getD().getWidth() * 13 / 100) * 50/100)), (int) (frameSize.height * 81 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
                 add(close);
 
-                JButton back = backgroundButton(1);
+                JButton back = backgroundButtonPersonalized(2, frameSize);
                 back.setBounds(0, 0, frameSize.width, frameSize.height);
                 add(back);
             }
             else{
                 add(otherName);
 
-                isChoosing.setBounds((int) (frameSize.width * 7.5/100), frameSize.height * 15/100, frameSize.width * 85/100, frameSize.height * 25/100);
+                isChoosing.setBounds((int) (frameSize.width * 7.5/100), frameSize.height * 30/100, frameSize.width * 85/100, frameSize.height * 25/100);
                 add(isChoosing);
 
                 close.addActionListener(new Close());
                 close.setBounds((int) ((frameSize.width * 50/ 100) - ((getD().getWidth() * 13 / 100) * 50/100)), (int) (frameSize.height * 81 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
                 add(close);
 
-                JButton back = backgroundButton(1);
+                JButton back = backgroundButtonPersonalized(2, frameSize);
                 back.setBounds(0, 0, frameSize.width, frameSize.height);
                 add(back);
             }
         }
-        JButton back = backgroundButton(0);
+        /*JButton back = backgroundButton(0);
         back.setBounds(0, 0, frameSize.width, frameSize.height);
-        add(back);
+        add(back);*/
     }
 
     private class ShowPower extends MouseAdapter {
