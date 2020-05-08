@@ -1,7 +1,4 @@
 package it.polimi.ingsw.utils;
-
-import it.polimi.ingsw.controller.GameController;
-import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.message.Message;
 import it.polimi.ingsw.network.message.MessageSubType;
 import it.polimi.ingsw.network.message.MessageType;

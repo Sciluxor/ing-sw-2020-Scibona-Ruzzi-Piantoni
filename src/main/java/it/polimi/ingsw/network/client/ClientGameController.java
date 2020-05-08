@@ -7,6 +7,8 @@ import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.utils.ConfigLoader;
 
 import java.net.ConnectException;
+
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
@@ -101,6 +103,10 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         game.placeWorkersOnMap(tile1,tile2);
         client.sendMessage(new PlaceWorkersMessage(client.getUserID(),MessageSubType.ANSWER,game.getCoordinatesFromTile(tile1),
                 game.getCoordinatesFromTile(tile2)));
+    }
+
+    public synchronized void cliPlaceWorkersResponse(Integer[] tile1,Integer[] tile2){
+
     }
 
     public synchronized void endTurn(){

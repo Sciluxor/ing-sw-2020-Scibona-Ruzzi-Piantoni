@@ -4,8 +4,16 @@
     "next": ["BUILDWORKER","ENDTURN"]
   },
   {
+    "type": "NEWMOVE",
+    "next": ["MOVEWORKER","BUILDWORKER"]
+  },
+  {
     "type": "BUILDBEFORE",
     "next": ["BUILDWORKER","MOVEWORKER","WORKERCHOICE"]
+  },
+  {
+    "type": "STATUSERROR",
+    "next": ["BUILDWORKER","MOVEWORKER","WORKERCHOICE","PLACEWORKERS","ENDTURN","CHOOSECARD","CHALLENGERCHOICE"]
   },
   {
     "type": "BUILDEDBEFORE",
