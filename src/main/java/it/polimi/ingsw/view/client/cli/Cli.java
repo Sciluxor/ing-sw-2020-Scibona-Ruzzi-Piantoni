@@ -59,18 +59,15 @@ public class Cli extends ClientGameController {
 
     public void lobby() {
         Color.clearConsole();
-        int waiting = getNumberOfPlayers() - getPlayers().size();
-        print("WAITING FOR " + waiting + " PLAYERS\n\n");
-        for(Player player: getPlayers())
-            print(">>> " + player.getNickname());
 
-        print("INSERT \"BACK\" TO TURN BACK IN THE LOGIN WINDOW: ");
-        String keyboard = input();
+        print("WAITING LOBBY\n");
+        int waiting = getNumberOfPlayers() - 1;
 
-        if(keyboard.equalsIgnoreCase("BACK")) {
-            onBackCommand();
-            login(true);
-        }
+        print("WAITING FOR " + waiting + " PLAYERS\n" +
+                "PLAYERS ACTUALLY IN THE LOBBY:\n" +
+                    ">>> " + getNickName() + "\n");
+
+        checkBackCommand();
     }
 
     public void login(boolean lobbyCall) {
@@ -92,32 +89,9 @@ public class Cli extends ClientGameController {
 
         keyboard = input().toLowerCase();
         String[] cards = splitter(keyboard);
-        while(cards.length == 1)
-        {
-            Card card = deck.get(cards[0]);
-            if(card != null) {
-                print("THIS IS THE POWER OF ");
-                print(keyboard.toUpperCase(), Color.ANSI_YELLOW);
-                print(":\n");
-                if (keyboard.equalsIgnoreCase("ATHENA") || keyboard.equalsIgnoreCase("HERA"))
-                    print("OPPONENT'S TURN:", Color.ANSI_BLUE);
-                else if (keyboard.equalsIgnoreCase("HYPNUS"))
-                    print("START OF OPPONENT'S TURN:", Color.ANSI_BLUE);
-                else
-                    print(deck.get(keyboard).getType().toString() + ":", Color.ANSI_BLUE);
-                print(deck.get(keyboard).getDescription() + "\n\n");
-            }
-            else
-                print("WRONG CARD NAME. PLEASE, REINSERT NEW CARD NAME: ");
 
-            keyboard = input().toLowerCase();
-            cards = splitter(keyboard);
-        }
-        if(cards.length != getPlayers().size()) {
-            print("WRONG NUMBER OF CARDS. PLEASE, REINSERT " + getPlayers().size() + " CARDS:");
-            keyboard = input().toLowerCase();
-            cards = splitter(keyboard);
-        }
+        cards = printPower(cards, keyboard);
+
         for(int i=0; i<cards.length; i++) {
             Card card = deck.get(cards[i]);
             if(card == null) {
@@ -127,7 +101,7 @@ public class Cli extends ClientGameController {
             }
         }
 
-        Color.clearConsole();
+        clearShell();
         print("THE DECK OF THIS GAME IS COMPOSED BY: ");
         for (String card : cards) {
             print(card.toUpperCase() + " ", Color.ANSI_YELLOW);
@@ -137,27 +111,9 @@ public class Cli extends ClientGameController {
         return chosenCards;
     }
 
+    //-------------------------------
 
-    //---USEFUL FUNCTIONS------------------------------------
-
-    public static void print(String string) {
-        System.out.print(Color.ANSI_RED + string + Color.RESET);
-    }
-
-    public static void print(String string, Color color) {
-        System.out.print(color + string + Color.RESET);
-    }
-
-    public static String input() {
-        String keyboard;
-        Scanner input = new Scanner(System.in);
-        keyboard = input.nextLine();
-        return keyboard;
-    }
-
-    public static String[] splitter(String keyboard) {
-        return keyboard.split("\\s");
-    }
+    //---------- SETTER & GETTER ----------
 
     public int getPort() {
         return port;
@@ -182,7 +138,7 @@ public class Cli extends ClientGameController {
     public void setNickName() {
         String nickName;
 
-        print("\nINSERT YOUR NICKNAME:");
+        print("\nINSERT YOUR NICKNAME: ");
         nickName = input();
         while(nickName.length() < MIN_LENGHT_NICK || nickName.length() > MAX_LENGHT_NICK) {
             print("\nINVALID NICKNAME LENGHT. PLEASE, REINSERT YOUR NICKNAME: ");
@@ -203,7 +159,7 @@ public class Cli extends ClientGameController {
     public void setNumberOfPlayers() {
         String keyboard;
 
-        print("INSERT THE NUMBER OF PLAYERS:");
+        print("INSERT THE NUMBER OF PLAYERS: ");
         keyboard = input();
 
         //DEBUG
@@ -217,26 +173,127 @@ public class Cli extends ClientGameController {
         this.numberOfPlayers = Integer.parseInt(keyboard);
     }
 
+    //------------------------------
 
+    //---------- USEFUL FUNCTIONS ----------
 
-    ////---OVERRIDING FUNCTIONS------------------------------------
+    public static void print(String string) {
+        System.out.print(Color.ANSI_RED + string + Color.RESET);
+    }
+
+    public static void print(String string, Color color) {
+        System.out.print(color + string + Color.RESET);
+    }
+
+    public static String input() {
+        String keyboard;
+        Scanner input = new Scanner(System.in);
+        keyboard = input.nextLine();
+        return keyboard;
+    }
+
+    public static String[] splitter(String keyboard) {
+        return keyboard.split("\\s");
+    }
+
+    public void printPlayers() {
+        print("PLAYERS ACTUALLY IN THE LOBBY:\n");
+        for(Player p: getPlayers())
+            print(">>> " + p.getNickname() + "\n");
+    }
+
+    public void checkBackCommand() {
+        print("INSERT \"BACK\" TO TURN BACK IN THE LOGIN WINDOW: ");
+        String keyboard = input();
+
+        if(keyboard.equalsIgnoreCase("BACK")) {
+            onBackCommand();
+            login(true);
+        }
+    }
+
+    public String[] printPower(String[] cards, String keyboard) {
+        while(cards.length == 1)
+        {
+            Card card = deck.get(cards[0]);
+            if(card != null) {
+                print("THIS IS THE POWER OF ");
+                print(keyboard.toUpperCase(), Color.ANSI_YELLOW);
+                print(":\n");
+                if (keyboard.equalsIgnoreCase("ATHENA") || keyboard.equalsIgnoreCase("HERA"))
+                    print("OPPONENT'S TURN:", Color.ANSI_BLUE);
+                else if (keyboard.equalsIgnoreCase("HYPNUS"))
+                    print("START OF OPPONENT'S TURN:", Color.ANSI_BLUE);
+                else
+                    print(deck.get(keyboard).getType().toString() + ":", Color.ANSI_BLUE);
+                print(deck.get(keyboard).getDescription() + "\n\n");
+            }
+            else
+                print("WRONG CARD NAME. PLEASE, REINSERT NEW CARD NAME: ");
+
+            keyboard = input().toLowerCase();
+            cards = splitter(keyboard);
+        }
+        if(cards.length != getPlayers().size()) {
+            print("WRONG NUMBER OF CARDS. PLEASE, REINSERT " + getPlayers().size() + " CARDS: ");
+            keyboard = input().toLowerCase();
+            cards = splitter(keyboard);
+        }
+
+        return cards;
+    }
+
+    public Integer[] getCoordinates() {
+        String[] split = splitter(input());
+
+        split = controlCoordinates(split);
+
+        return new Integer[] {Integer.parseInt(split[0]), Integer.parseInt(split[1])};
+
+    }
+
+    public String[] controlCoordinates(String[] split) {
+        while(split.length != 2) {
+            print("WRONG NUMBER OF PARAMETERS!\nPLEASE, REINSERT COORDINATES (from 0 up to 4): ");
+            split = splitter(input());
+        }
+
+        while(!split[0].equals("0") && !split[0].equals("1") && !split[0].equals("2") && !split[0].equals("3") && !split[0].equals("4") && !split[1].equals("0") && !split[1].equals("1") && !split[1].equals("2") && !split[1].equals("3") && !split[1].equals("4")) {
+            print("WRONG VALUE!\nPLEASE, REINSERT COORDINATES (from 0 up to 4): ");
+            split = splitter(input());
+        }
+
+        return split;
+    }
+
+    public void clearShell() {
+        Color.clearConsole();
+    }
+
+    //------------------------------
+
+    //---------- OVERRIDING FUNCTIONS ----------
 
     @Override
     public void updateLobbyPlayer() {
+        int waiting = getNumberOfPlayers() - getPlayers().size();
+        print("WAITING FOR " + waiting + " PLAYERS\n");
 
+        printPlayers();
+        checkBackCommand();
     }
 
     @Override
     public void nickUsed() {
-        Color.clearConsole();
+        clearShell();
         print("NICKNAME ALREADY USED. PLEASE, REINSERT A NEW NICKNAME:");
         setNickName();
     }
 
     @Override
     public void startGame() {
-        Color.clearConsole();
-        print("GAME IS GOING TO START. PLEASE WAIT WHILE IS LOADING");
+        clearShell();
+        print("GAME IS GOING TO START. PLEASE WAIT WHILE IS LOADING\n\n");
 
         //INIZIO GIOCO (?)
 
@@ -244,7 +301,7 @@ public class Cli extends ClientGameController {
 
     @Override
     public void challengerChoice(String challengerNick, boolean isYourPlayer) {
-        Color.clearConsole();
+        clearShell();
         if(isYourPlayer) {
             print("YOU HAVE BEEN CHOSEN AS CHALLENGER!\nPLEASE, CHOOSE " + getPlayers().size() + " CARDS ");
             print("(insert ONLY ONE card to see its power)", Color.ANSI_BLUE);
@@ -256,18 +313,45 @@ public class Cli extends ClientGameController {
 
         }
         else {
-            print("PLAYER " + challengerNick + "IS CHOOSING CARDS");
+            print("PLAYER " + challengerNick + " IS CHOOSING CARDS");
         }
     }
 
     @Override
     public void cardChoice(String challengerNick, boolean isYourPlayer) {
+        clearShell();
+        if(isYourPlayer) {
+            print("AVAILABLE CARDS:\n");
+            for(String s: getAvailableCards())
+                print(s + "\n", Color.ANSI_YELLOW);
+            print("\nINSERT THE NAME OF THE CARD YOU WANT TO CHOOSE: ");
+            String choose = input();
+
+            //FARE CONTROLLO SCELTA CORRETTA
+
+            cardChoiceResponse(choose);
+        }
+        else {
+            print("PLAYER " + challengerNick + "IS CHOOSING HIS POWER");
+        }
 
     }
 
     @Override
     public void placeWorker(String challengerNick, boolean isYourPlayer) {
+        clearShell();
 
+        if(isYourPlayer) {
+            print("INSERT COORDINATES (from 0 up to 4) OF THE TILE IN WHICH YOU WANT TO PLACE FIRST WORKER: ");
+            Integer[] tile1 = getCoordinates();
+
+            print("INSERT COORDINATES (from 0 up to 4) OF THE TILE IN WHICH YOU WANT TO PLACE SECOND WORKER: ");
+            Integer[] tile2 = getCoordinates();
+
+            cliPlaceWorkersResponse(tile1, tile2);
+        }
+        else
+            print("PLAYER " + challengerNick + " IS PLACING HIS WORKERS\n");
     }
 
     @Override
@@ -292,7 +376,7 @@ public class Cli extends ClientGameController {
 
     @Override
     public void onLobbyDisconnection() {
-        Color.clearConsole();
+        clearShell();
         print("YOU ARE GOING TO BE DISCONNECTED FROM THE LOBBY. DO YOU WANT TO BE RECONNECTED (type REC) OR DO YOU WANT TO CLOSE THE APPLICATION (type CLOSE)?");
         String keyboard = input().toUpperCase();
 
