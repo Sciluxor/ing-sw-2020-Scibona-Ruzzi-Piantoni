@@ -5,6 +5,8 @@ import it.polimi.ingsw.view.client.gui.Gui;
 
 import java.util.Scanner;
 
+import static it.polimi.ingsw.view.client.cli.Cursor.*;
+
 public class App {
 
     private static final String TITLE = "\n\u001B[31m" +
@@ -15,10 +17,12 @@ public class App {
 
     public static void main(String[] args) {
 
-        //System.out.print(TITLE);
+        //setCursorHome();
 
         Scanner input = new Scanner(System.in);
-        System.out.print("Insert 1 to run CLI, insert 2 to run GUI: ");
+        System.out.print("INSERT:\n>>> [1] CLI\n>>> [2] GUI\n");
+        //moveCursorUP(2);
+
         String keyboard = input.nextLine();
         if(keyboard.equals("1")) {
             Cli cli = new Cli();
