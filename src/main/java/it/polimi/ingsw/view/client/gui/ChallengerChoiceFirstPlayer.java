@@ -13,8 +13,7 @@ import java.io.IOException;
 import java.util.List;
 
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
-import static it.polimi.ingsw.view.client.gui.Gui.d;
-import static it.polimi.ingsw.view.client.gui.Gui.getD;
+import static it.polimi.ingsw.view.client.gui.Gui.*;
 
 public class ChallengerChoiceFirstPlayer extends JDesktopPane{
 
@@ -29,6 +28,9 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
     JLabel lpurplePress;
     JLabel lwhite;
     JLabel lwhitePress;
+    double posx1;
+    double posx2;
+    double posx3;
 
     public ChallengerChoiceFirstPlayer(Gui istance, Board istance2, JInternalFrame frame, Dimension dimensionFrame, Integer numberOfPlayer, List<Player> players) throws IOException {
 
@@ -49,6 +51,9 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
         JLabel namePlayer2 = new JLabel(players.get(1).getNickname());
         JLabel namePlayer3 = null;
 
+        posx1 = (double) players.get(0).getNickname().length() / 2;
+        posx2 = (double) players.get(1).getNickname().length() / 2;
+
         JButton player1 = new JButton();
         player1.setName(players.get(0).getNickname());
         JButton player2 = new JButton();
@@ -64,13 +69,18 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
         choose.setBounds(frameSize.width * 30/100, frameSize.height * 10/100, frameSize.width * 40/100, frameSize.height * 10/100);
         add(choose);
 
-        namePlayer1.setBounds(frameSize.width * 35/100, frameSize.height * 38/100, frameSize.width * 30/100, frameSize.height * 10/100);
+        namePlayer1.setBounds((int) ((frameSize.width * 45/100) - posx1), frameSize.height * 37/100, frameSize.width * 30/100, frameSize.height * 10/100);
+        int i = (int) ((frameSize.width * 45/100) - posx1);
+        System.out.println(frameSize.width * 45/100);
+        System.out.println(i);
+        namePlayer1.setFont(felixBold);
         add(namePlayer1);
         player1.setBounds(frameSize.width * 35/100, frameSize.height * 38/100, frameSize.width * 30/100, frameSize.height * 10/100);
         add(player1);
         player1.addActionListener(new Choose());
 
-        namePlayer2.setBounds(frameSize.width * 35/100, frameSize.height * 50/100, frameSize.width * 30/100, frameSize.height * 10/100);
+        namePlayer2.setBounds((int) ((frameSize.width * 45/100) - posx2), frameSize.height * 49/100, frameSize.width * 30/100, frameSize.height * 10/100);
+        namePlayer2.setFont(felixBold);
         add(namePlayer2);
         player2.setBounds(frameSize.width * 35/100, frameSize.height * 50/100, frameSize.width * 30/100, frameSize.height * 10/100);
         add(player2);
@@ -79,7 +89,11 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
 
         if (numberOfPlayer == 3){
             namePlayer3  = new JLabel(players.get(2).getNickname());
+            posx3 = (double) players.get(2).getNickname().length() / 2;
             player3.setName(players.get(2).getNickname());
+            namePlayer3.setBounds((int) ((frameSize.width * 45/100) - posx3), frameSize.height * 61/100, frameSize.width * 30/100, frameSize.height * 10/100);
+            namePlayer3.setFont(felixBold);
+            add(namePlayer3);
             addColorButton(player3);
             buttonStyle(player3);
             player3.setBounds(frameSize.width * 35/100, frameSize.height * 62/100, frameSize.width * 30/100, frameSize.height * 10/100);

@@ -919,7 +919,7 @@ public class Board extends Observable {
         }
         if (bool){
             try {
-                placeWorkers = new PlaceWorkers(internalFramePlaceWorkers, frameSize.width * 40/100, frameSize.height * 45/100, 0);
+                placeWorkers = new PlaceWorkers(internalFramePlaceWorkers, frameSize.width * 40/100, frameSize.height * 45/100, 0, name);
             } catch (IOException e) {
                 LOGGER.severe(e.getMessage());
             }
@@ -930,7 +930,7 @@ public class Board extends Observable {
         }
         else{
             try {
-                placeWorkers = new PlaceWorkers(internalFramePlaceWorkers, frameSize.width * 40/100, frameSize.height * 45/100, 1);
+                placeWorkers = new PlaceWorkers(internalFramePlaceWorkers, frameSize.width * 40/100, frameSize.height * 45/100, 1, name);
             } catch (IOException e) {
                 LOGGER.severe(e.getMessage());
             }

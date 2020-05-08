@@ -8,6 +8,7 @@ import java.io.IOException;
 
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButtonPersonalized;
+import static it.polimi.ingsw.view.client.gui.Gui.felixBold;
 import static it.polimi.ingsw.view.client.gui.Gui.getD;
 
 public class PlaceWorkers extends JDesktopPane{
@@ -15,25 +16,33 @@ public class PlaceWorkers extends JDesktopPane{
     Dimension frameSize = new Dimension();
     MyButton close = new MyButton(3);
     JInternalFrame intFrame;
+    String nameChoosing;
+    double posx;
 
 
-    public PlaceWorkers(JInternalFrame frame, int wi, int he, int numberOfPanel) throws IOException {
+    public PlaceWorkers(JInternalFrame frame, int wi, int he, int numberOfPanel, String name) throws IOException {
 
         frameSize.setSize(wi, he);
         intFrame = frame;
+        nameChoosing = name;
+        System.out.println(nameChoosing.length());
+        posx = (double) nameChoosing.length() / 2;
         setPreferredSize(frameSize);
         setLayout(null);
         JLabel label = new JLabel();
+        JLabel otherName = new JLabel(nameChoosing);
+        otherName.setBounds((int) ((frameSize.width * 40/100) - posx), (int) (frameSize.height * 25/100), frameSize.width * 50/100, frameSize.width * 5/100);
+        otherName.setFont(felixBold);
 
         if (numberOfPanel == 0) {
-            //JLabel label = ImageHandler.setImage("resources/Graphics/Texts/waiting_for_challenger_to_choose_the_god.png", 99, 99, frameSize.width * 85/100, frameSize.height * 25/100);
-            label.setText("place workers");
+            label = ImageHandler.setImage("resources/Graphics/Texts/place_your_two_workers.png", 100, 100, frameSize.width * 85/100, frameSize.height * 25/100);
             label.setBounds((int) (frameSize.width * 7.5 / 100), frameSize.height * 30 / 100, frameSize.width * 85 / 100, frameSize.height * 25 / 100);
             add(label);
         }
         else if (numberOfPanel == 1){
-            label.setText("altro is placing");
-            label.setBounds((int) (frameSize.width * 7.5 / 100), frameSize.height * 30 / 100, frameSize.width * 85 / 100, frameSize.height * 25 / 100);
+            add(otherName);
+            label = ImageHandler.setImage("resources/Graphics/Texts/is_placing_the_workers.png", 100, 100, frameSize.width * 85/100, frameSize.height * 25/100);
+            label.setBounds((int) (frameSize.width * 7.5/100), frameSize.height * 30/100, frameSize.width * 85/100, frameSize.height * 25/100);
             add(label);
         }
 

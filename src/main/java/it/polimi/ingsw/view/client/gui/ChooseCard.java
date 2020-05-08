@@ -38,7 +38,7 @@ public class ChooseCard extends JDesktopPane{
     private int chosen = 0;
     String cardChosen = null;
     String nameChoosing;
-    int posx;
+    double posx;
 
     public ChooseCard(Board instance, JInternalFrame aframe, int wi, int he, List<String> cards, Integer numberOfPanel, String name) throws IOException {
 
@@ -49,7 +49,7 @@ public class ChooseCard extends JDesktopPane{
         setPreferredSize(frameSize);
 
         nameChoosing = name;
-        posx = nameChoosing.length() * 50/100;
+        posx = (double) nameChoosing.length() / 2;
         godCards = cards;
         costructor = new ButtonGodsList(frameSize, godList);
 
@@ -76,7 +76,7 @@ public class ChooseCard extends JDesktopPane{
         JLabel choise = ImageHandler.setImage("resources/Graphics/Texts/this_is_your_god.png", 100, 100, frameSize.width * 30/100, frameSize.height * 10/100);
         JLabel isChoosing = ImageHandler.setImage("resources/Graphics/Texts/is_choosing_the_god_power.png", 100, 100, frameSize.width * 85/100, frameSize.height * 25/100);
         JLabel first = ImageHandler.setImage("resources/Graphics/Texts/choose_your_god_power.png", 100, 100, frameSize.width * 85/100, frameSize.height * 25/100);
-        JLabel otherName = new JLabel(name);
+        JLabel otherName = new JLabel(nameChoosing);
         otherName.setBounds((int) ((frameSize.width * 40/100) - posx), (int) (frameSize.height * 25/100), frameSize.width * 50/100, frameSize.width * 5/100);
         otherName.setFont(felixBold);
 
