@@ -252,7 +252,7 @@ public class Gui extends ClientGameController {
 
     @Override
     public void updateBoard() {
-        System.out.println("stato updateBoard");
+
     }
 
     @Override

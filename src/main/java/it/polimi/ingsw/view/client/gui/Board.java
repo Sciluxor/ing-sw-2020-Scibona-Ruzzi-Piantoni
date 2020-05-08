@@ -119,6 +119,7 @@ public class Board extends Observable {
     JLabel lButtonChoosePower;
     JLabel lButtonChoosePowerPress;
     JLabel labelConfirmPlace = new JLabel("Confirm your positions");
+    JLabel labelSeePower = new JLabel("See your power");
     JLabel labelEndturn = new JLabel("End Turn");
     JLabel lbuttonEndturn;
     JLabel lbuttonEndturnPress;
@@ -555,10 +556,14 @@ public class Board extends Observable {
         buttonBuild.addActionListener(new AddBuildLvl());
         consoleButtons(buttonBuild, lButtonBuild);
 
+        labelSeePower.setBounds((int) (frameSize.width * 79/100), (int) (frameSize.height * 54.5/100), frameSize.width * 20/100, frameSize.height * 5/100);
+        labelSeePower.setFont(felixNormal);
+        labelSeePower.setVisible(false);
+        desktopPane.add(labelSeePower);
         buttonPower.setBounds(frameSize.width * 81/100, frameSize.height * 59/100, frameSize.width * 5/100, frameSize.height * 5/100);
         consoleButtons(buttonPower, lButtonPower);
 
-        buttonChat.setBounds(frameSize.width * 89/100, frameSize.height * 58/100, frameSize.width * 5/100, frameSize.height * 7/100);
+        buttonChat.setBounds(frameSize.width * 85/100, frameSize.height * 58/100, frameSize.width * 5/100, frameSize.height * 7/100);
         buttonChat.addActionListener(new Chat());
         consoleButtons(buttonChat, lButtonChat);
         buttonChat.setVisible(true);
@@ -882,6 +887,8 @@ public class Board extends Observable {
             buttonPower.setName(cardChosen);
             buttonPower.addActionListener(new ShowPower());
             buttonPower.setVisible(true);
+            buttonChat.setBounds(frameSize.width * 89/100, frameSize.height * 58/100, frameSize.width * 5/100, frameSize.height * 7/100);
+            labelSeePower.setVisible(true);
             try {
                 coverLeftGod = ImageHandler.setImage("resources/Graphics/gods/" + cardChosen + "_left.png", 100, 100, frameSize.width, frameSize.height);
             } catch (IOException e) {
@@ -945,15 +952,23 @@ public class Board extends Observable {
         for (Square square : squares){
             if(square.getPlayer().getColor().toString().equalsIgnoreCase("BLUE")){
                 mapButtons[square.getTile() - 1].setIcon(workerCyan.getIcon());
+                mapButtonsPlayer[square.getTile() - 1] = true;
+                //square.getPlayer().getPower().getName()
             }
             else if(square.getPlayer().getColor().toString().equalsIgnoreCase("WHITE")){
                 mapButtons[square.getTile() - 1].setIcon(workerWhite.getIcon());
+                mapButtonsPlayer[square.getTile() - 1] = true;
             }
             else {
                 mapButtons[square.getTile() - 1].setIcon(workerPurple.getIcon());
+                mapButtonsPlayer[square.getTile() - 1] = true;
             }
 
         }
+
+    }
+
+    private void powerToOpponents(String player, String card){
 
     }
 

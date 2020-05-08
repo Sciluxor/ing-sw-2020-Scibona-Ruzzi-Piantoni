@@ -96,7 +96,7 @@ public class PopUp {
                 button1 = new MyButton(2);
                 button1.setBounds((int) (intFrameSize.width * 29.12 / 100), (int) (intFrameSize.height * 79.5 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
                 button2 = new MyButton(3);
-                button2.setBounds((int) (intFrameSize.width * 56.12 / 100), (int) (intFrameSize.height * 79.5 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
+                button2.setBounds((int) (intFrameSize.width * 52.12 / 100), (int) (intFrameSize.height * 79.5 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
                 window.add(button1);
                 button1.addActionListener(new NewGame());
                 window.add(button2);
