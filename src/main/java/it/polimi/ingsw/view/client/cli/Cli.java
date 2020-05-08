@@ -5,10 +5,9 @@ import it.polimi.ingsw.model.cards.CardLoader;
 import it.polimi.ingsw.model.map.Square;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.client.ClientGameController;
+import it.polimi.ingsw.network.message.MessageType;
 
-import javax.print.DocFlavor;
 import java.util.*;
-import java.util.zip.CheckedOutputStream;
 
 import static it.polimi.ingsw.utils.ConstantsContainer.*;
 
@@ -31,6 +30,7 @@ public class Cli extends ClientGameController {
     public void start() {
         String keyboard;
 
+        clearShell();
         print(TITLE);
         login(false);
 
@@ -51,23 +51,27 @@ public class Cli extends ClientGameController {
             System.err.print("\n\nFAILED TO OPENING CONNECTION\n\n");
         }
 
-        lobby();
+        lobby(false);
 
         startGame();
 
     }
 
-    public void lobby() {
-        Color.clearConsole();
-
+    public void lobby(boolean isOnUpdateLobby) {
+        clearShell();
         print("WAITING LOBBY\n");
-        int waiting = getNumberOfPlayers() - 1;
+        int waitingPlayers;
 
-        print("WAITING FOR " + waiting + " PLAYERS\n" +
-                "PLAYERS ACTUALLY IN THE LOBBY:\n" +
-                    ">>> " + getNickName() + "\n");
-
-        checkBackCommand();
+        if(!isOnUpdateLobby) {
+            waitingPlayers = getNumberOfPlayers() - 1;
+            printPlayers(waitingPlayers, false);
+            checkBackCommand();
+        }
+        else {
+            waitingPlayers = getNumberOfPlayers() - getPlayers().size();
+            printPlayers(waitingPlayers,true);
+            checkBackCommand();
+        }
     }
 
     public void login(boolean lobbyCall) {
@@ -145,10 +149,6 @@ public class Cli extends ClientGameController {
             nickName = input();
         }
 
-        //DEBUG
-        print(nickName + "\n");
-        //------
-
         this.nickName = nickName;
     }
 
@@ -162,9 +162,6 @@ public class Cli extends ClientGameController {
         print("INSERT THE NUMBER OF PLAYERS: ");
         keyboard = input();
 
-        //DEBUG
-        print(keyboard + "\n");
-        //------
         while (!keyboard.equals("2") && !keyboard.equals("3")) {
             print("\nINVALID NUMBER OF PLAYERS. PLEASE, REINSERT THE NUMBER OF PLAYERS: ");
             keyboard = input();
@@ -196,10 +193,16 @@ public class Cli extends ClientGameController {
         return keyboard.split("\\s");
     }
 
-    public void printPlayers() {
-        print("PLAYERS ACTUALLY IN THE LOBBY:\n");
-        for(Player p: getPlayers())
-            print(">>> " + p.getNickname() + "\n");
+    public void printPlayers(int waitingPlayers, boolean isOnUpdateLobby) {
+        print("WAITING FOR " + waitingPlayers + " PLAYERS\nPLAYERS ACTUALLY IN THE LOBBY:\n");
+
+        if(isOnUpdateLobby) {
+            for (Player p : getPlayers())
+                print(">>> " + p.getNickname() + "\n");
+        }
+        else {
+            print(">>> " + getNickName() + "\n");
+        }
     }
 
     public void checkBackCommand() {
@@ -276,11 +279,7 @@ public class Cli extends ClientGameController {
 
     @Override
     public void updateLobbyPlayer() {
-        int waiting = getNumberOfPlayers() - getPlayers().size();
-        print("WAITING FOR " + waiting + " PLAYERS\n");
-
-        printPlayers();
-        checkBackCommand();
+        lobby(true);
     }
 
     @Override
@@ -360,17 +359,22 @@ public class Cli extends ClientGameController {
     }
 
     @Override
-    public void updateBoard() {
+    public void updateBoard(String nick, List<Square> squares, MessageType type) {
 
     }
 
     @Override
-    public void notifyWin() {
+    public void notifyWin(String nick) {
 
     }
 
     @Override
-    public void addConstraint() {
+    public void displayActions(List<MessageType> actions) {
+
+    }
+
+    @Override
+    public void addConstraint(String name) {
 
     }
 
@@ -412,7 +416,7 @@ public class Cli extends ClientGameController {
     }
 
     @Override
-    public void startTurn() {
+    public void startTurn(String nick, boolean isYourPlayer) {
 
     }
 }
