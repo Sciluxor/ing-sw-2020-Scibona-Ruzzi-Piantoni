@@ -248,7 +248,6 @@ public class Gui extends ClientGameController {
         SwingUtilities.invokeLater(() -> {
             board.updateWorkers(squares);
         });
-        System.out.println("stato updatePlaced");
     }
 
     @Override

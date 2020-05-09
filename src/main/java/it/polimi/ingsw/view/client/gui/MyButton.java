@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.client.gui;
 
 import javax.swing.*;
 
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -11,6 +12,7 @@ import static it.polimi.ingsw.view.client.gui.Gui.*;
 public class MyButton extends JButton{
 
     int type = 0;
+    Dimension labelSize = new Dimension(d.width * 13/100, d.height * 5/100);
     JLabel lconfirm;
     JLabel lconfirmPress;
     JLabel lback;
@@ -21,14 +23,14 @@ public class MyButton extends JButton{
     JLabel lclosePress;
     {
         try {
-            lconfirm = ImageHandler.setImage("resources/Graphics/button_confirm.png", 100, 100, d.width * 13/100, d.height * 5/100);
-            lconfirmPress = ImageHandler.setImage("resources/Graphics/button_confirm_press.png", 100, 100, (int) (d.width * 13/100), (int) (d.height * 5/100));
-            lback = ImageHandler.setImage("resources/Graphics/button_back.png", 100, 100, d.width * 13/100, d.height * 5/100);
-            lbackPress = ImageHandler.setImage("resources/Graphics/button_back_press.png", 100, 100, (int) (d.width * 13/100), (int) (d.height * 5/100));
-            lnewGame = ImageHandler.setImage("resources/Graphics/button_newgame.png", 100, 100, d.width * 13/100, d.height * 5/100);
-            lnewGamePress = ImageHandler.setImage("resources/Graphics/button_newgame_press.png", 100, 100, (int) (d.width * 13/100), (int) (d.height * 5/100));
-            lclose = ImageHandler.setImage("resources/Graphics/button_close.png", 100, 100, d.width * 13/100, d.height * 5/100);
-            lclosePress = ImageHandler.setImage("resources/Graphics/button_close_press.png", 100, 100, (int) (d.width * 13/100), (int) (d.height * 5/100));
+            lconfirm = ImageHandler.setImage("resources/Graphics/button_confirm.png", 100, 100, labelSize.width, labelSize.height);
+            lconfirmPress = ImageHandler.setImage("resources/Graphics/button_confirm_press.png", 100, 100, labelSize.width, labelSize.height);
+            lback = ImageHandler.setImage("resources/Graphics/button_back.png", 100, 100, labelSize.width, labelSize.height);
+            lbackPress = ImageHandler.setImage("resources/Graphics/button_back_press.png", 100, 100, labelSize.width, labelSize.height);
+            lnewGame = ImageHandler.setImage("resources/Graphics/button_newgame.png", 100, 100, labelSize.width, labelSize.height);
+            lnewGamePress = ImageHandler.setImage("resources/Graphics/button_newgame_press.png", 100, 100, labelSize.width, labelSize.height);
+            lclose = ImageHandler.setImage("resources/Graphics/button_close.png", 100, 100, labelSize.width, labelSize.height);
+            lclosePress = ImageHandler.setImage("resources/Graphics/button_close_press.png", 100, 100, labelSize.width, labelSize.height);
         } catch (IOException e) {
             LOGGER.severe(e.getMessage());
         }
@@ -36,7 +38,7 @@ public class MyButton extends JButton{
 
     public MyButton(int n) {
         type = n;
-        setBounds((int) (getD().getWidth() * 43.5 / 100), (int) (getD().getHeight() * 79.5 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
+        setBounds((int) (getD().getWidth() * 43.5 / 100), (int) (getD().getHeight() * 79.5 / 100), labelSize.width, labelSize.height);
         setOpaque(false);
         setContentAreaFilled(false);
         setFocusPainted(false);

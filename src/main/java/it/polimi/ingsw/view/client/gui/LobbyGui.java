@@ -18,7 +18,7 @@ import static it.polimi.ingsw.view.client.gui.Gui.*;
 
 public class LobbyGui{
     Gui gui;
-    static Dimension frameSize = new Dimension();
+    Dimension frameSize = new Dimension();
     Dimension intFrameSize = new Dimension();
     private JDesktopPane pane;
     private static JInternalFrame popUp;

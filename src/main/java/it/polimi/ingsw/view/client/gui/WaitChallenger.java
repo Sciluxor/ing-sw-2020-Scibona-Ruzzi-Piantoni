@@ -16,7 +16,7 @@ public class WaitChallenger extends JDesktopPane{
     JInternalFrame intFrame;
 
 
-    public WaitChallenger(JInternalFrame frame, int wi, int he) throws IOException {
+    public WaitChallenger(JInternalFrame frame, int wi, int he, String name) throws IOException {
 
         frameSize.setSize(wi, he);
         intFrame = frame;

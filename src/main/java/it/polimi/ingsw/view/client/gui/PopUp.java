@@ -15,6 +15,7 @@ public class PopUp {
     Gui gui;
     JPanel window;
     Dimension intFrameSize = new Dimension();
+    Dimension labelSize = new Dimension();
     MyButton button1;
     MyButton button2;
     JTextField nickname;
@@ -27,6 +28,7 @@ public class PopUp {
         gui = istance;
         window = new JPanel();
         intFrameSize.setSize(d.getWidth() * 70/100, d.getHeight() * 75/100);
+        labelSize.setSize(intFrameSize.width * 40/100,intFrameSize.height * 15/100);
         nickname = new JTextField(20);
         panel = new JPanel();
     }
@@ -65,11 +67,11 @@ public class PopUp {
 
                 label3 = new JLabel();
                 try {
-                    label3 = ImageHandler.setImage("resources/Graphics/Texts/change_your_nickname.png", 97, 100, intFrameSize.width * 40/100,intFrameSize.height * 15/100);
+                    label3 = ImageHandler.setImage("resources/Graphics/Texts/change_your_nickname.png", 97, 100, labelSize.width, labelSize.height);
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }
-                label3.setBounds((int) (intFrameSize.width * 30/100), (int) (intFrameSize.height * 25/100), intFrameSize.width * 40/100,intFrameSize.height * 15/100);
+                label3.setBounds((int) (intFrameSize.width * 30/100), (int) (intFrameSize.height * 25/100), labelSize.width, labelSize.height);
                 window.add(label3);
 
                 break;
@@ -77,20 +79,20 @@ public class PopUp {
             case 1:
                 label1 = new JLabel();
                 try {
-                    label1 = ImageHandler.setImage("resources/Graphics/Texts/you_have_been_disconnected.png", 97, 100, intFrameSize.width * 40/100,intFrameSize.height * 15/100);
+                    label1 = ImageHandler.setImage("resources/Graphics/Texts/you_have_been_disconnected.png", 97, 100, labelSize.width, labelSize.height);
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }
-                label1.setBounds((int) (intFrameSize.width * 30/100), (int) (intFrameSize.height * 20/100), intFrameSize.width * 40/100,intFrameSize.height * 15/100);
+                label1.setBounds((int) (intFrameSize.width * 30/100), (int) (intFrameSize.height * 20/100), labelSize.width, labelSize.height);
                 window.add(label1);
 
                 label2 = new JLabel();
                 try {
-                    label2 = ImageHandler.setImage("resources/Graphics/Texts/start_new_game_or_close.png", 97, 100, intFrameSize.width * 40/100,intFrameSize.height * 15/100);
+                    label2 = ImageHandler.setImage("resources/Graphics/Texts/start_new_game_or_close.png", 97, 100, labelSize.width, labelSize.height);
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }
-                label2.setBounds((int) (intFrameSize.width * 30/100), (int) (intFrameSize.height * 40/100), intFrameSize.width * 40/100,intFrameSize.height * 15/100);
+                label2.setBounds((int) (intFrameSize.width * 30/100), (int) (intFrameSize.height * 40/100), labelSize.width, labelSize.height);
                 window.add(label2);
 
                 button1 = new MyButton(2);
@@ -106,11 +108,11 @@ public class PopUp {
             case 2:
                 label1 = new JLabel();
                 try {
-                    label1 = ImageHandler.setImage("resources/Graphics/Texts/you_have_been_disconnected.png", 97, 100, intFrameSize.width * 40/100,intFrameSize.height * 15/100);
+                    label1 = ImageHandler.setImage("resources/Graphics/Texts/you_have_been_disconnected.png", 97, 100, labelSize.width, labelSize.height);
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }
-                label1.setBounds((int) (intFrameSize.width * 30/100), (int) (intFrameSize.height * 35/100), intFrameSize.width * 40/100,intFrameSize.height * 15/100);
+                label1.setBounds((int) (intFrameSize.width * 30/100), (int) (intFrameSize.height * 35/100), labelSize.width, labelSize.height);
                 window.add(label1);
                 button1 = new MyButton(3);
                 button1.setBounds((int) (intFrameSize.width * 41.12 / 100), (int) (intFrameSize.height * 79.5 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));

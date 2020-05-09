@@ -128,10 +128,15 @@ public class Board extends Observable {
     Dimension boardSize = new Dimension();
     Dimension bottomSize = new Dimension();
     Dimension sideSize = new Dimension();
-    Dimension buttonSize = new Dimension();
+    Dimension buttonMapSize13x13 = new Dimension();
     Dimension scrollSize = new Dimension();
-    Dimension internalFrameSize = new Dimension();
+    Dimension labelMapSize = new Dimension();
+    Dimension internalFrameSize90x90 = new Dimension();
     Dimension internalFrameSize2 = new Dimension();
+    Dimension internalFrameSize40x45 = new Dimension();
+    Dimension buttonSize7x7 = new Dimension();
+    Dimension buttonSize5x5 = new Dimension();
+    Dimension size20x5 = new Dimension();
     Font felixSmall;
     Font felixNormal;
     Font felixBold;
@@ -161,15 +166,21 @@ public class Board extends Observable {
         int width = (int) ((screen.getWidth() * 95 / 100) * (1.689999 / ratio));
         int height = (int) (screen.getHeight() * 91 / 100);
         frameSize.setSize(width, height);
-        internalFrameSize.setSize(frameSize.width * 90/100, frameSize.height * 90/100);
-        internalFrameSize2.setSize(internalFrameSize.width * 70/100, internalFrameSize.height * 70/100);
+        internalFrameSize90x90.setSize(frameSize.width * 90/100, frameSize.height * 90/100);
+        internalFrameSize2.setSize(internalFrameSize90x90.width * 70/100, internalFrameSize90x90.height * 70/100);
+        internalFrameSize40x45.setSize(frameSize.width * 40/100, frameSize.height * 45/100);
 
 
         boardSize.setSize(frameSize.height * 80/100, frameSize.height * 80/100);
         bottomSize.setSize(frameSize.width, frameSize.height * 20/100);
         sideSize.setSize(width * 27/100, height);
-        buttonSize.setSize(sideSize.width * 20/100, sideSize.width * 20/100);
+
         scrollSize.setSize(sideSize.getWidth() * 14/100 , sideSize.getHeight() * 28/100);
+        labelMapSize.setSize(height * 13/100, height * 13/100);
+        buttonMapSize13x13.setSize(frameSize.height * 13/100, frameSize.height * 13/100);
+        buttonSize7x7.setSize(frameSize.width * 7/100, frameSize.height * 7/100);
+        buttonSize5x5.setSize(frameSize.width * 5/100, frameSize.width * 5/100);
+        size20x5.setSize(frameSize.width * 20/100, frameSize.width * 5/100);
 
         JLabel coverBoard = ImageHandler.setImage("resources/Graphics/board.png", 100, 100, width, height);
         this.coverBoard = new JLabel(coverBoard.getIcon());
@@ -177,7 +188,7 @@ public class Board extends Observable {
         JLabel coverChat = ImageHandler.setImage("resources/Graphics/panel_chat.png", 100, 100, sideSize.width, sideSize.height);
         this.coverChat = new JLabel(coverChat.getIcon());
 
-        coverBackground = ImageHandler.setImage("resources/Graphics/background2.png", 100, 100, frameSize.width * 40/100, frameSize.height * 45/100);
+        coverBackground = ImageHandler.setImage("resources/Graphics/background2.png", 100, 100, internalFrameSize40x45.width, internalFrameSize40x45.height);
         background = new JLabel(coverBackground.getIcon());
 
         JLabel coverLeftBoard = ImageHandler.setImage("resources/Graphics/left_board.png", 100, 100, frameSize.width, frameSize.height);
@@ -191,51 +202,51 @@ public class Board extends Observable {
         felixBold = new Font(Gui.FELIX, Font.BOLD, (int) (25 * screen.getHeight() / 1080));
 
 
-        workerCyan = ImageHandler.setImage("resources/Graphics/worker_cyan.png", 100, 100, height * 13/100, height * 13/100);
-        workerWhite = ImageHandler.setImage("resources/Graphics/worker_white.png", 100, 100, height * 13/100, height * 13/100);
-        workerPurple = ImageHandler.setImage("resources/Graphics/worker_purple.png", 100, 100, height * 13/100, height * 13/100);
-        lvl1 = ImageHandler.setImage("resources/Graphics/lvl1.png", 85, 85, height * 13/100, height * 13/100);
-        lvl2 = ImageHandler.setImage("resources/Graphics/lvl2.png", 85, 85, height * 13/100, height * 13/100);
-        lvl3 = ImageHandler.setImage("resources/Graphics/lvl3.png", 85, 85, height * 13/100, height * 13/100);
-        lvl1Building = ImageHandler.setImage("resources/Graphics/lvl1_building.png", 100, 100, frameSize.width * 5/100, frameSize.width * 5/100);
-        lvl2Building = ImageHandler.setImage("resources/Graphics/lvl2_building.png", 100, 100, frameSize.width * 5/100, frameSize.width * 5/100);
-        lvl3Building = ImageHandler.setImage("resources/Graphics/lvl3_building.png", 100, 100, frameSize.width * 5/100, frameSize.width * 5/100);
-        domeBuilding = ImageHandler.setImage("resources/Graphics/dome_building.png", 100, 100, frameSize.width * 5/100, frameSize.width * 5/100);
-        lvl1Cyan = ImageHandler.setImage("resources/Graphics/lvl1_cyan.png", 85, 85, height * 13/100, height * 13/100);
-        lvl2Cyan = ImageHandler.setImage("resources/Graphics/lvl2_cyan.png", 85, 85, height * 13/100, height * 13/100);
-        lvl3Cyan = ImageHandler.setImage("resources/Graphics/lvl3_cyan.png", 85, 85, height * 13/100, height * 13/100);
-        lvl1Purple = ImageHandler.setImage("resources/Graphics/lvl1_purple.png", 85, 85, height * 13/100, height * 13/100);
-        lvl2Purple = ImageHandler.setImage("resources/Graphics/lvl2_purple.png", 85, 85, height * 13/100, height * 13/100);
-        lvl3Purple = ImageHandler.setImage("resources/Graphics/lvl3_purple.png", 85, 85, height * 13/100, height * 13/100);
-        lvl1White = ImageHandler.setImage("resources/Graphics/lvl1_white.png", 85, 85, height * 13/100, height * 13/100);
-        lvl2White = ImageHandler.setImage("resources/Graphics/lvl2_white.png", 85, 85, height * 13/100, height * 13/100);
-        lvl3White = ImageHandler.setImage("resources/Graphics/lvl3_white.png", 85, 85, height * 13/100, height * 13/100);
-        lvl1Dome = ImageHandler.setImage("resources/Graphics/lvl1_dome.png", 85, 85, height * 13/100, height * 13/100);
-        lvl2Dome = ImageHandler.setImage("resources/Graphics/lvl2_dome.png", 85, 85, height * 13/100, height * 13/100);
-        lvl3Dome = ImageHandler.setImage("resources/Graphics/lvl3_dome.png", 85, 85, height * 13/100, height * 13/100);
-        dome = ImageHandler.setImage("resources/Graphics/dome.png", 85, 85, frameSize.width * 5/100, frameSize.width * 5/100);
+        workerCyan = ImageHandler.setImage("resources/Graphics/worker_cyan.png", 100, 100, labelMapSize.width, labelMapSize.height);
+        workerWhite = ImageHandler.setImage("resources/Graphics/worker_white.png", 100, 100, labelMapSize.width, labelMapSize.height);
+        workerPurple = ImageHandler.setImage("resources/Graphics/worker_purple.png", 100, 100, labelMapSize.width, labelMapSize.height);
+        lvl1 = ImageHandler.setImage("resources/Graphics/lvl1.png", 85, 85, labelMapSize.width, labelMapSize.height);
+        lvl2 = ImageHandler.setImage("resources/Graphics/lvl2.png", 85, 85, labelMapSize.width, labelMapSize.height);
+        lvl3 = ImageHandler.setImage("resources/Graphics/lvl3.png", 85, 85, labelMapSize.width, labelMapSize.height);
+        lvl1Building = ImageHandler.setImage("resources/Graphics/lvl1_building.png", 100, 100, buttonSize5x5.width, buttonSize5x5.height);
+        lvl2Building = ImageHandler.setImage("resources/Graphics/lvl2_building.png", 100, 100, buttonSize5x5.width, buttonSize5x5.height);
+        lvl3Building = ImageHandler.setImage("resources/Graphics/lvl3_building.png", 100, 100, buttonSize5x5.width, buttonSize5x5.height);
+        domeBuilding = ImageHandler.setImage("resources/Graphics/dome_building.png", 100, 100, buttonSize5x5.width, buttonSize5x5.height);
+        lvl1Cyan = ImageHandler.setImage("resources/Graphics/lvl1_cyan.png", 85, 85, labelMapSize.width, labelMapSize.height);
+        lvl2Cyan = ImageHandler.setImage("resources/Graphics/lvl2_cyan.png", 85, 85, labelMapSize.width, labelMapSize.height);
+        lvl3Cyan = ImageHandler.setImage("resources/Graphics/lvl3_cyan.png", 85, 85, labelMapSize.width, labelMapSize.height);
+        lvl1Purple = ImageHandler.setImage("resources/Graphics/lvl1_purple.png", 85, 85, labelMapSize.width, labelMapSize.height);
+        lvl2Purple = ImageHandler.setImage("resources/Graphics/lvl2_purple.png", 85, 85, labelMapSize.width, labelMapSize.height);
+        lvl3Purple = ImageHandler.setImage("resources/Graphics/lvl3_purple.png", 85, 85, labelMapSize.width, labelMapSize.height);
+        lvl1White = ImageHandler.setImage("resources/Graphics/lvl1_white.png", 85, 85, labelMapSize.width, labelMapSize.height);
+        lvl2White = ImageHandler.setImage("resources/Graphics/lvl2_white.png", 85, 85, labelMapSize.width, labelMapSize.height);
+        lvl3White = ImageHandler.setImage("resources/Graphics/lvl3_white.png", 85, 85, labelMapSize.width, labelMapSize.height);
+        lvl1Dome = ImageHandler.setImage("resources/Graphics/lvl1_dome.png", 85, 85, labelMapSize.width, labelMapSize.height);
+        lvl2Dome = ImageHandler.setImage("resources/Graphics/lvl2_dome.png", 85, 85, labelMapSize.width, labelMapSize.height);
+        lvl3Dome = ImageHandler.setImage("resources/Graphics/lvl3_dome.png", 85, 85, labelMapSize.width, labelMapSize.height);
+        dome = ImageHandler.setImage("resources/Graphics/dome.png", 85, 85, buttonSize5x5.width, buttonSize5x5.height);
         exit = ImageHandler.setImage("resources/Graphics/exit.png", 75, 75, sideSize.width * 12/100, sideSize.width * 12/100);
-        lButtonBuild = ImageHandler.setImage("resources/Graphics/button_build.png", 100, 100, frameSize.width * 7/100, frameSize.height * 7/100);
-        lButtonMove = ImageHandler.setImage("resources/Graphics/button_move.png", 100, 100, frameSize.width * 7/100, frameSize.height * 7/100);
+        lButtonBuild = ImageHandler.setImage("resources/Graphics/button_build.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
+        lButtonMove = ImageHandler.setImage("resources/Graphics/button_move.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
         lButtonPower = ImageHandler.setImage("resources/Graphics/button_power.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
         lButtonChat = ImageHandler.setImage("resources/Graphics/button_chat.png", 100, 100, frameSize.width * 5/100, frameSize.height * 7/100);
-        lButtonChooseCards = ImageHandler.setImage("resources/Graphics/button_choose_cards.png", 100, 100, frameSize.width * 7/100, frameSize.height * 7/100);
-        lbuttonChooseFirst = ImageHandler.setImage("resources/Graphics/button_choose_first.png", 100, 100, frameSize.width * 7/100, frameSize.height * 7/100);
-        lButtonChoosePower = ImageHandler.setImage("resources/Graphics/button_power.png", 100, 100, frameSize.width * 7/100, frameSize.height * 7/100);
-        lbuttonEndturn = ImageHandler.setImage("resources/Graphics/button_endturn.png", 100, 100, frameSize.width * 7/100, frameSize.height * 7/100);
-        lButtonBuildPress = ImageHandler.setImage("resources/Graphics/button_build_press.png", 100, 100, frameSize.width * 7/100, frameSize.height * 7/100);
-        lButtonMovePress = ImageHandler.setImage("resources/Graphics/button_move_press.png", 100, 100, frameSize.width * 7/100, frameSize.height * 7/100);
+        lButtonChooseCards = ImageHandler.setImage("resources/Graphics/button_choose_cards.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
+        lbuttonChooseFirst = ImageHandler.setImage("resources/Graphics/button_choose_first.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
+        lButtonChoosePower = ImageHandler.setImage("resources/Graphics/button_power.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
+        lbuttonEndturn = ImageHandler.setImage("resources/Graphics/button_endturn.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
+        lButtonBuildPress = ImageHandler.setImage("resources/Graphics/button_build_press.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
+        lButtonMovePress = ImageHandler.setImage("resources/Graphics/button_move_press.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
         lButtonPowerPress = ImageHandler.setImage("resources/Graphics/button_power_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
         lButtonChatPress = ImageHandler.setImage("resources/Graphics/button_chat_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 7/100);
-        lButtonChooseCardsPress = ImageHandler.setImage("resources/Graphics/button_choose_cards_press.png", 100, 100, frameSize.width * 7/100, frameSize.height * 7/100);
-        lbuttonChooseFirstPress = ImageHandler.setImage("resources/Graphics/button_choose_first_press.png", 100, 100, frameSize.width * 7/100, frameSize.height * 7/100);
-        lButtonChoosePowerPress = ImageHandler.setImage("resources/Graphics/button_power_press.png", 100, 100, frameSize.width * 7/100, frameSize.height * 7/100);
-        lbuttonEndturnPress = ImageHandler.setImage("resources/Graphics/button_endturn_press.png", 100, 100, frameSize.width * 7/100, frameSize.height * 7/100);
+        lButtonChooseCardsPress = ImageHandler.setImage("resources/Graphics/button_choose_cards_press.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
+        lbuttonChooseFirstPress = ImageHandler.setImage("resources/Graphics/button_choose_first_press.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
+        lButtonChoosePowerPress = ImageHandler.setImage("resources/Graphics/button_power_press.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
+        lbuttonEndturnPress = ImageHandler.setImage("resources/Graphics/button_endturn_press.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
 
         setMyColorWorkers();
 
         windowPower = new JWindow();
-        windowPower.setBounds((int)(frameSize.width * 35.5/100), (int) (frameSize.height * 37/100), frameSize.width * 40/100, frameSize.height * 45/100);
+        windowPower.setBounds((int)(frameSize.width * 35.5/100), (int) (frameSize.height * 37/100), internalFrameSize40x45.width, internalFrameSize40x45.height);
 
         setInternalFrames(internalFrameChallenger1);
         BasicInternalFrameUI bi = (BasicInternalFrameUI) internalFrameChallenger1.getUI();
@@ -285,15 +296,15 @@ public class Board extends Observable {
 
 
 
-        nicknameLabel.setBounds((int) (frameSize.width * 3.5/100), (int) (frameSize.height * 2.5/100), frameSize.width * 20/100, frameSize.width * 5/100);
+        nicknameLabel.setBounds((int) (frameSize.width * 3.5/100), (int) (frameSize.height * 2.5/100), size20x5.width, size20x5.height);
         nicknameLabel.setFont(felixNormal);
-        nicknameLabel1.setBounds((int) (frameSize.width * 10.3/100), (int) (frameSize.height * 2.5/100), frameSize.width * 20/100, frameSize.width * 5/100);
+        nicknameLabel1.setBounds((int) (frameSize.width * 10.3/100), (int) (frameSize.height * 2.5/100), size20x5.width, size20x5.height);
         nicknameLabel1.setFont(felixNormal);
         nicknameLabel1.setForeground(getColorPlayer(mePlayer));
         desktopPane.add(nicknameLabel);
         desktopPane.add(nicknameLabel1);
 
-        opponents.setBounds((frameSize.width * 2/100), (frameSize.height * 55/100), frameSize.width * 20/100, frameSize.width * 5/100);
+        opponents.setBounds((frameSize.width * 2/100), (frameSize.height * 55/100), size20x5.width, size20x5.height);
         opponents.setFont(felixNormal);
         desktopPane.add(opponents);
 
@@ -359,156 +370,156 @@ public class Board extends Observable {
             if(os.contains("win")) {
                 //windows positions
                 mapButtons[0].setBounds((int) (frameSize.width * (29.5)/100) , frameSize.width * 7/100,
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
 
                 mapButtons[1].setBounds((int) (frameSize.width * (37.75)/100) , frameSize.width * 7/100,
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
 
                 mapButtons[2].setBounds(frameSize.width * 46/100 , frameSize.width * 7/100,
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
 
                 mapButtons[3].setBounds((int) (frameSize.width * (54.25)/100) , frameSize.width * 7/100,
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
 
                 mapButtons[4].setBounds((int) (frameSize.width * (62.5)/100) , frameSize.width * 7/100,
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
 
                 mapButtons[5].setBounds((int) (frameSize.width * (62.5)/100) , (int) (frameSize.width * (15.31)/100),
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
 
                 mapButtons[6].setBounds((int) (frameSize.width * (62.5)/100) , (int) (frameSize.width * (23.62)/100),
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
 
                 mapButtons[7].setBounds((int) (frameSize.width * (62.5)/100) , (int) (frameSize.width * (31.93)/100),
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
 
                 mapButtons[8].setBounds((int) (frameSize.width * (62.5)/100) , (int) (frameSize.width * (40.24)/100),
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
 
                 mapButtons[9].setBounds((int) (frameSize.width * (54.25)/100) , (int) (frameSize.width * (40.24)/100),
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
 
                 mapButtons[10].setBounds(frameSize.width * 46/100 , (int) (frameSize.width * (40.24)/100),
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
 
                 mapButtons[11].setBounds((int) (frameSize.width * (37.75)/100) , (int) (frameSize.width * (40.24)/100),
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
 
                 mapButtons[12].setBounds((int) (frameSize.width * (29.5)/100) , (int) (frameSize.width * (40.24)/100),
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
 
                 mapButtons[13].setBounds((int) (frameSize.width * (29.5)/100) , (int) (frameSize.width * (31.93)/100),
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
 
                 mapButtons[14].setBounds((int) (frameSize.width * (29.5)/100) , (int) (frameSize.width * (23.62)/100),
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
 
                 mapButtons[15].setBounds((int) (frameSize.width * (29.5)/100) , (int) (frameSize.width * (15.31)/100),
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
 
                 mapButtons[16].setBounds((int) (frameSize.width * (37.75)/100) , (int) (frameSize.width * (15.31)/100),
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
 
                 mapButtons[17].setBounds(frameSize.width * 46/100 , (int) (frameSize.width * (15.31)/100),
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
 
                 mapButtons[18].setBounds((int) (frameSize.width * (54.25)/100) , (int) (frameSize.width * (15.31)/100),
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
 
                 mapButtons[19].setBounds((int) (frameSize.width * (54.25)/100) , (int) (frameSize.width * (23.62)/100),
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
 
                 mapButtons[20].setBounds((int) (frameSize.width * (54.25)/100) , (int) (frameSize.width * (31.93)/100),
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
 
                 mapButtons[21].setBounds(frameSize.width * 46/100 , (int) (frameSize.width * (31.93)/100),
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
 
                 mapButtons[22].setBounds((int) (frameSize.width * (37.75)/100) , (int) (frameSize.width * (31.93)/100),
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
 
                 mapButtons[23].setBounds((int) (frameSize.width * (37.75)/100) , (int) (frameSize.width * (23.62)/100),
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
 
                 mapButtons[24].setBounds(frameSize.width * 46/100 , (int) (frameSize.width * (23.62)/100),
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
             }
             else {
                 //mac positions
                 mapButtons[0].setBounds((int) (frameSize.width * (29.5)/100) , (int) (frameSize.width * (7.6)/100),
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
 
                 mapButtons[1].setBounds((int) (frameSize.width * (37.8)/100) , (int) (frameSize.width * (7.6)/100),
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
 
                 mapButtons[2].setBounds((int) (frameSize.width * (46.1)/100) , (int) (frameSize.width * (7.6)/100),
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
 
                 mapButtons[3].setBounds((int) (frameSize.width * (54.4)/100) , (int) (frameSize.width * (7.6)/100),
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
 
                 mapButtons[4].setBounds((int) (frameSize.width * (62.7)/100) , (int) (frameSize.width * (7.6)/100),
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
 
                 mapButtons[5].setBounds((int) (frameSize.width * (62.7)/100) , (int) (frameSize.width * (15.9)/100),
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
 
                 mapButtons[6].setBounds((int) (frameSize.width * (62.7)/100) , (int) (frameSize.width * (24.2)/100),
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
 
                 mapButtons[7].setBounds((int) (frameSize.width * (62.7)/100) , (int) (frameSize.width * (32.5)/100),
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
 
                 mapButtons[8].setBounds((int) (frameSize.width * (62.7)/100) , (int) (frameSize.width * (40.8)/100),
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
 
                 mapButtons[9].setBounds((int) (frameSize.width * (54.4)/100) , (int) (frameSize.width * (40.8)/100),
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
 
                 mapButtons[10].setBounds((int) (frameSize.width * (46.1)/100) , (int) (frameSize.width * (40.8)/100),
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
 
                 mapButtons[11].setBounds((int) (frameSize.width * (37.8)/100) , (int) (frameSize.width * (40.8)/100),
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
 
                 mapButtons[12].setBounds((int) (frameSize.width * (29.5)/100) , (int) (frameSize.width * (40.8)/100),
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
 
                 mapButtons[13].setBounds((int) (frameSize.width * (29.5)/100) , (int) (frameSize.width * (32.5)/100),
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
 
                 mapButtons[14].setBounds((int) (frameSize.width * (29.5)/100) , (int) (frameSize.width * (24.2)/100),
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
 
                 mapButtons[15].setBounds((int) (frameSize.width * (29.5)/100) , (int) (frameSize.width * (15.9)/100),
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
 
                 mapButtons[16].setBounds((int) (frameSize.width * (37.8)/100) , (int) (frameSize.width * (15.9)/100),
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
 
                 mapButtons[17].setBounds((int) (frameSize.width * (46.1)/100) , (int) (frameSize.width * (15.9)/100),
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
 
                 mapButtons[18].setBounds((int) (frameSize.width * (54.4)/100) , (int) (frameSize.width * (15.9)/100),
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
 
                 mapButtons[19].setBounds((int) (frameSize.width * (54.4)/100) , (int) (frameSize.width * (24.2)/100),
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
 
                 mapButtons[20].setBounds((int) (frameSize.width * (54.4)/100) , (int) (frameSize.width * (32.5)/100),
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
 
                 mapButtons[21].setBounds((int) (frameSize.width * (46.1)/100) , (int) (frameSize.width * (32.5)/100),
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
 
                 mapButtons[22].setBounds((int) (frameSize.width * (37.8)/100) , (int) (frameSize.width * (32.5)/100),
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
 
                 mapButtons[23].setBounds((int) (frameSize.width * (37.8)/100) , (int) (frameSize.width * (24.2)/100),
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
 
                 mapButtons[24].setBounds((int) (frameSize.width * (46.1)/100) , (int) (frameSize.width * (24.2)/100),
-                        frameSize.height * 13/100, frameSize.height * 13/100);
+                        buttonMapSize13x13.width, buttonMapSize13x13.height);
             }
         }
         catch(Exception e) {
@@ -519,22 +530,22 @@ public class Board extends Observable {
         addMapButton();
 
 
-        buttonLv1.setBounds(frameSize.width * 81/100, frameSize.height * 19/100, frameSize.width * 5/100, frameSize.width * 5/100);
+        buttonLv1.setBounds(frameSize.width * 81/100, frameSize.height * 19/100, buttonSize5x5.width, buttonSize5x5.height);
         buttonLv1.setIcon(lvl1Building.getIcon());
         buttonLv1.setVisible(false);
         desktopPane.add(buttonLv1);
 
-        buttonLv2.setBounds(frameSize.width * 89/100, frameSize.height * 19/100, frameSize.width * 5/100, frameSize.width * 5/100);
+        buttonLv2.setBounds(frameSize.width * 89/100, frameSize.height * 19/100, buttonSize5x5.width, buttonSize5x5.height);
         buttonLv2.setIcon(lvl2Building.getIcon());
         buttonLv2.setVisible(false);
         desktopPane.add(buttonLv2);
 
-        buttonLv3.setBounds(frameSize.width * 81/100, frameSize.height * 31/100, frameSize.width * 5/100, frameSize.width * 5/100);
+        buttonLv3.setBounds(frameSize.width * 81/100, frameSize.height * 31/100, buttonSize5x5.width, buttonSize5x5.height);
         buttonLv3.setIcon(lvl3Building.getIcon());
         buttonLv3.setVisible(false);
         desktopPane.add(buttonLv3);
 
-        buttonDome.setBounds(frameSize.width * 89/100, frameSize.height * 31/100, frameSize.width * 5/100, frameSize.width * 5/100);
+        buttonDome.setBounds(frameSize.width * 89/100, frameSize.height * 31/100, buttonSize5x5.width, buttonSize5x5.height);
         buttonDome.setIcon(domeBuilding.getIcon());
         buttonDome.setVisible(false);
         buttonDome.setBorderPainted(false);
@@ -542,15 +553,15 @@ public class Board extends Observable {
         desktopPane.add(buttonDome);
 
 
-        buttonMove.setBounds(frameSize.width * 79/100, frameSize.height * 46/100, frameSize.width * 7/100, frameSize.height * 7/100);
+        buttonMove.setBounds(frameSize.width * 79/100, frameSize.height * 46/100, buttonSize7x7.width, buttonSize7x7.height);
         buttonMove.addActionListener(new AddPlaceWorker());
         consoleButtons(buttonMove, lButtonMove);
 
-        buttonBuild.setBounds(frameSize.width * 85/100, frameSize.height * 46/100, frameSize.width * 7/100, frameSize.height * 7/100);
+        buttonBuild.setBounds(frameSize.width * 85/100, frameSize.height * 46/100, buttonSize7x7.width, buttonSize7x7.height);
         buttonBuild.addActionListener(new AddBuildLvl());
         consoleButtons(buttonBuild, lButtonBuild);
 
-        labelSeePower.setBounds((int) (frameSize.width * 79/100), (int) (frameSize.height * 54.5/100), frameSize.width * 20/100, frameSize.height * 5/100);
+        labelSeePower.setBounds((int) (frameSize.width * 79/100), (int) (frameSize.height * 52.75/100), size20x5.width, size20x5.height);
         labelSeePower.setFont(felixNormal);
         labelSeePower.setVisible(false);
         desktopPane.add(labelSeePower);
@@ -562,41 +573,41 @@ public class Board extends Observable {
         consoleButtons(buttonChat, lButtonChat);
         buttonChat.setVisible(true);
 
-        labelChooseCards.setBounds((int) (frameSize.width * 82.5/100), (int) (frameSize.height * 15.5/100), frameSize.width * 20/100, frameSize.width * 5/100);
+        labelChooseCards.setBounds((int) (frameSize.width * 82.5/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
         labelChooseCards.setFont(felixNormal);
         labelChooseCards.setVisible(false);
         desktopPane.add(labelChooseCards);
-        buttonChooseCards.setBounds((int) (frameSize.width * 84/100), (int) (frameSize.height * 22/100), frameSize.width * 7/100, frameSize.height * 7/100);
+        buttonChooseCards.setBounds((int) (frameSize.width * 84/100), (int) (frameSize.height * 22/100), buttonSize7x7.width, buttonSize7x7.height);
         consoleButtons(buttonChooseCards, lButtonChooseCards);
 
-        labelChooseFirst.setBounds((int) (frameSize.width * 80/100), (int) (frameSize.height * 27.5/100), frameSize.width * 20/100, frameSize.width * 5/100);
+        labelChooseFirst.setBounds((int) (frameSize.width * 80/100), (int) (frameSize.height * 27.5/100), size20x5.width, size20x5.height);
         labelChooseFirst.setFont(felixNormal);
         labelChooseFirst.setVisible(false);
         desktopPane.add(labelChooseFirst);
-        buttonChooseFirst.setBounds((int) (frameSize.width * 84/100), (int) (frameSize.height * 34/100), frameSize.width * 7/100, frameSize.height * 7/100);
+        buttonChooseFirst.setBounds((int) (frameSize.width * 84/100), (int) (frameSize.height * 34/100), buttonSize7x7.width, buttonSize7x7.height);
         consoleButtons(buttonChooseFirst, lbuttonChooseFirst);
 
-        labelChoosePower.setBounds((int) (frameSize.width * 81/100), (int) (frameSize.height * 15.5/100), frameSize.width * 20/100, frameSize.width * 5/100);
+        labelChoosePower.setBounds((int) (frameSize.width * 81/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
         labelChoosePower.setFont(felixNormal);
         labelChoosePower.setVisible(false);
         desktopPane.add(labelChoosePower);
-        buttonChoosePower.setBounds((int) (frameSize.width * 84/100), (int) (frameSize.height * 22/100), frameSize.width * 7/100, frameSize.height * 7/100);
+        buttonChoosePower.setBounds((int) (frameSize.width * 84/100), (int) (frameSize.height * 22/100), buttonSize7x7.width, buttonSize7x7.height);
         consoleButtons(buttonChoosePower, lButtonChoosePower);
         buttonChoosePower.setVisible(false);
 
-        labelConfirmPlace.setBounds((int) (frameSize.width * 80/100), (int) (frameSize.height * 15.5/100), frameSize.width * 20/100, frameSize.width * 5/100);
+        labelConfirmPlace.setBounds((int) (frameSize.width * 80/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
         labelConfirmPlace.setFont(felixNormal);
         labelConfirmPlace.setVisible(false);
         desktopPane.add(labelConfirmPlace);
-        buttonConfirmPlace.setBounds((int) (frameSize.width * 84/100), (int) (frameSize.height * 22/100), frameSize.width * 7/100, frameSize.height * 7/100);
+        buttonConfirmPlace.setBounds((int) (frameSize.width * 84/100), (int) (frameSize.height * 22/100), buttonSize7x7.width, buttonSize7x7.height);
         consoleButtons(buttonConfirmPlace, lButtonMove);
 
 
-        labelEndturn.setBounds((int) (frameSize.width * 84.25/100), (int) (frameSize.height * 15.5/100), frameSize.width * 20/100, frameSize.width * 5/100);
+        labelEndturn.setBounds((int) (frameSize.width * 84.25/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
         labelEndturn.setFont(felixNormal);
         labelEndturn.setVisible(false);
         desktopPane.add(labelEndturn);
-        buttonEndturn.setBounds((int) (frameSize.width * 84/100), (int) (frameSize.height * 22/100), frameSize.width * 7/100, frameSize.height * 7/100);
+        buttonEndturn.setBounds((int) (frameSize.width * 84/100), (int) (frameSize.height * 22/100), buttonSize7x7.width, buttonSize7x7.height);
         consoleButtons(buttonEndturn, lbuttonEndturn);
         buttonEndturn.addActionListener(new EndTurn());
 
@@ -649,7 +660,7 @@ public class Board extends Observable {
 
     private void setInternalFrames(JInternalFrame i){
         i.setPreferredSize(sideSize);
-        i.setBounds((int)((frameSize.width * 50/100) - (internalFrameSize.width * 50/100)), (int) ((frameSize.height * 46/100) - (internalFrameSize.height * 50/100)), internalFrameSize.width, internalFrameSize.height);
+        i.setBounds((int)((frameSize.width * 50/100) - (internalFrameSize90x90.width * 50/100)), (int) ((frameSize.height * 46/100) - (internalFrameSize90x90.height * 50/100)), internalFrameSize90x90.width, internalFrameSize90x90.height);
         internalFrameSetUp(i);
 
     }
@@ -768,11 +779,11 @@ public class Board extends Observable {
         }
         else{
             try {
-                waitChallenger = new WaitChallenger(internalFrameChallenger1, frameSize.width * 40/100, frameSize.height * 45/100);
+                waitChallenger = new WaitChallenger(internalFrameChallenger1, internalFrameSize40x45.width, internalFrameSize40x45.height, name);
             } catch (IOException e) {
                 LOGGER.severe(e.getMessage());
             }
-            internalFrameChallenger1.setBounds((int) (frameSize.width * 29.5/100), (int) (frameSize.height * 25.5/100), frameSize.width * 40/100, frameSize.height * 45/100);
+            internalFrameChallenger1.setBounds((int) (frameSize.width * 29.5/100), (int) (frameSize.height * 25.5/100), internalFrameSize40x45.width, internalFrameSize40x45.height);
             internalFrameChallenger1.getContentPane().add(waitChallenger);
             internalFrameChallenger1.setVisible(true);
         }
@@ -797,11 +808,11 @@ public class Board extends Observable {
         public void actionPerformed(ActionEvent e) {
             internalFrameChallenger1.remove(youChosen);
             try {
-                challengerChoiceCards = new ChallengerChoiceCards(gui, gui.board, internalFrameChallenger1, internalFrameSize, numberOfPlayers);
+                challengerChoiceCards = new ChallengerChoiceCards(gui, gui.board, internalFrameChallenger1, internalFrameSize90x90, numberOfPlayers);
             } catch (IOException ie) {
                 LOGGER.severe(ie.getMessage());
             }
-            internalFrameChallenger1.setBounds((int)((frameSize.width * 50/100) - (internalFrameSize.width * 50/100)), (int) ((frameSize.height * 46/100) - (internalFrameSize.height * 50/100)), internalFrameSize.width, internalFrameSize.height);
+            internalFrameChallenger1.setBounds((int)((frameSize.width * 50/100) - (internalFrameSize90x90.width * 50/100)), (int) ((frameSize.height * 46/100) - (internalFrameSize90x90.height * 50/100)), internalFrameSize90x90.width, internalFrameSize90x90.height);
             internalFrameChallenger1.getContentPane().add(challengerChoiceCards);
             internalFrameChallenger1.setVisible(true);
         }
@@ -811,7 +822,7 @@ public class Board extends Observable {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                challengerChoiceFirstPlayer = new ChallengerChoiceFirstPlayer(gui, gui.board, internalFrameChallenger2, internalFrameSize, numberOfPlayers, allPlayer);
+                challengerChoiceFirstPlayer = new ChallengerChoiceFirstPlayer(gui, gui.board, internalFrameChallenger2, internalFrameSize90x90, numberOfPlayers, allPlayer);
             } catch (IOException ie) {
                 LOGGER.severe(ie.getMessage());
             }
@@ -851,22 +862,22 @@ public class Board extends Observable {
         }
         if (bool) {
             try {
-                chooseCard = new ChooseCard(this, internalFrameChooseCards, frameSize.width * 40/100, frameSize.height * 45/100, cards, 4, name);
+                chooseCard = new ChooseCard(this, internalFrameChooseCards, internalFrameSize40x45.width, internalFrameSize40x45.height, cards, 4, name);
             } catch (IOException e) {
                 LOGGER.severe(e.getMessage());
             }
-            internalFrameChooseCards.setBounds((int) (frameSize.width * 29.5/100), (int) (frameSize.height * 25.5/100), frameSize.width * 40/100, frameSize.height * 45/100);
+            internalFrameChooseCards.setBounds((int) (frameSize.width * 29.5/100), (int) (frameSize.height * 25.5/100), internalFrameSize40x45.width, internalFrameSize40x45.height);
             buttonChoosePower.setVisible(true);
             labelChoosePower.setVisible(true);
             buttonChoosePower.addActionListener(new ChoosePower());
         }
         else {
             try {
-                chooseCard = new ChooseCard(this, internalFrameChooseCards, frameSize.width * 40/100, frameSize.height * 45/100, cards, 0, name);
+                chooseCard = new ChooseCard(this, internalFrameChooseCards, internalFrameSize40x45.width, internalFrameSize40x45.height, cards, 0, name);
             } catch (IOException e) {
                 LOGGER.severe(e.getMessage());
             }
-            internalFrameChooseCards.setBounds((int) (frameSize.width * 29.5/100), (int) (frameSize.height * 25.5/100), frameSize.width * 40/100, frameSize.height * 45/100);
+            internalFrameChooseCards.setBounds((int) (frameSize.width * 29.5/100), (int) (frameSize.height * 25.5/100), internalFrameSize40x45.width, internalFrameSize40x45.height);
         }
         internalFrameChooseCards.getContentPane().add(chooseCard);
         internalFrameChooseCards.setVisible(true);
@@ -902,11 +913,11 @@ public class Board extends Observable {
         public void actionPerformed(ActionEvent e) {
             internalFrameChooseCards.remove(chooseCard);
             try {
-                chooseCard = new ChooseCard(gui.board, internalFrameChooseCards, internalFrameSize.width, internalFrameSize.height, godCards, godCards.size(), nameChoosing);
+                chooseCard = new ChooseCard(gui.board, internalFrameChooseCards, internalFrameSize90x90.width, internalFrameSize90x90.height, godCards, godCards.size(), nameChoosing);
             } catch (IOException ie) {
                 LOGGER.severe(ie.getMessage());
             }
-            internalFrameChooseCards.setBounds((int)((frameSize.width * 50/100) - (internalFrameSize.width * 50/100)), (int) ((frameSize.height * 46/100) - (internalFrameSize.height * 50/100)), internalFrameSize.width, internalFrameSize.height);
+            internalFrameChooseCards.setBounds((int)((frameSize.width * 50/100) - (internalFrameSize90x90.width * 50/100)), (int) ((frameSize.height * 46/100) - (internalFrameSize90x90.height * 50/100)), internalFrameSize90x90.width, internalFrameSize90x90.height);
             internalFrameChooseCards.getContentPane().add(chooseCard);
             internalFrameChooseCards.setVisible(true);
         }
@@ -919,7 +930,7 @@ public class Board extends Observable {
         }
         if (bool){
             try {
-                placeWorkers = new PlaceWorkers(internalFramePlaceWorkers, frameSize.width * 40/100, frameSize.height * 45/100, 0, name);
+                placeWorkers = new PlaceWorkers(internalFramePlaceWorkers, internalFrameSize40x45.width, internalFrameSize40x45.height, 0, name);
             } catch (IOException e) {
                 LOGGER.severe(e.getMessage());
             }
@@ -930,18 +941,19 @@ public class Board extends Observable {
         }
         else{
             try {
-                placeWorkers = new PlaceWorkers(internalFramePlaceWorkers, frameSize.width * 40/100, frameSize.height * 45/100, 1, name);
+                placeWorkers = new PlaceWorkers(internalFramePlaceWorkers, internalFrameSize40x45.width, internalFrameSize40x45.height, 1, name);
             } catch (IOException e) {
                 LOGGER.severe(e.getMessage());
             }
 
         }
-        internalFramePlaceWorkers.setBounds((int) (frameSize.width * 29.5/100), (int) (frameSize.height * 25.5/100), frameSize.width * 40/100, frameSize.height * 45/100);
+        internalFramePlaceWorkers.setBounds((int) (frameSize.width * 29.5/100), (int) (frameSize.height * 25.5/100), internalFrameSize40x45.width, internalFrameSize40x45.height);
         internalFramePlaceWorkers.getContentPane().add(placeWorkers);
         internalFramePlaceWorkers.setVisible(true);
     }
 
     public void updateWorkers(List<Square> squares){
+        internalFramePlaceWorkers.setVisible(false);
         for (Square square : squares){
             if(square.getPlayer().getColor().toString().equalsIgnoreCase("BLUE")){
                 mapButtons[square.getTile() - 1].setIcon(workerCyan.getIcon());
@@ -954,9 +966,7 @@ public class Board extends Observable {
             else {
                 mapButtons[square.getTile() - 1].setIcon(workerPurple.getIcon());
                 mapButtonsPlayer[square.getTile() - 1] = true;
-
             }
-
         }
         powerToOpponents(squares.get(0).getPlayer().getNickName(), squares.get(0).getPlayer().getPower().getName());
 
@@ -970,8 +980,6 @@ public class Board extends Observable {
         else if (numberOfPlayers == 3 && opponent2.getText().equalsIgnoreCase(player)){
             opponent2.setName(card);
             opponent2.addMouseListener(new SeeEnemyPower());
-            System.out.println(player);
-            System.out.println(card);
         }
 
     }
@@ -1384,7 +1392,7 @@ public class Board extends Observable {
         public void mouseEntered(MouseEvent e) {
             JButton c = (JButton)e.getSource();
             try {
-                coverBackground = ImageHandler.setImage("resources/Graphics/gods/" + c.getName() + "_description.png", 100, 100, frameSize.width * 40/100, frameSize.height * 45/100);
+                coverBackground = ImageHandler.setImage("resources/Graphics/gods/" + c.getName() + "_description.png", 100, 100, internalFrameSize40x45.width, internalFrameSize40x45.height);
             } catch (IOException ioException) {
                 LOGGER.severe(ioException.getMessage());
             }
@@ -1406,7 +1414,7 @@ public class Board extends Observable {
             JButton c = (JButton)e.getSource();
             eliminateActionClass(c, ShowYourPower.class);
             try {
-                coverBackground = ImageHandler.setImage("resources/Graphics/gods/" + c.getName() + "_description.png", 100, 100, frameSize.width * 40/100, frameSize.height * 45/100);
+                coverBackground = ImageHandler.setImage("resources/Graphics/gods/" + c.getName() + "_description.png", 100, 100, internalFrameSize40x45.width, internalFrameSize40x45.height);
             } catch (IOException ioException) {
                 LOGGER.severe(ioException.getMessage());
             }

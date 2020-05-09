@@ -19,6 +19,7 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
     Gui gui;
     Board board;
     Dimension frameSize = new Dimension();
+    Dimension labelSize = new Dimension();
     MyButton backButton = new MyButton(1);
     JInternalFrame intFrame;
     JLabel lblue;
@@ -37,15 +38,16 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
         board = istance2;
         frameSize.setSize(dimensionFrame);
         intFrame = frame;
+        labelSize.setSize(frameSize.width * 30/100, frameSize.height * 10/100);
         setPreferredSize(frameSize);
         setLayout(null);
 
-        lblue = ImageHandler.setImage("resources/Graphics/button_blue.png", 100, 100, frameSize.width * 30/100, frameSize.height * 10/100);
-        lbluePress = ImageHandler.setImage("resources/Graphics/button_blue_press.png", 100, 100, frameSize.width * 30/100, frameSize.height * 10/100);
-        lpurple = ImageHandler.setImage("resources/Graphics/button_purple.png", 100, 100, frameSize.width * 30/100, frameSize.height * 10/100);
-        lpurplePress = ImageHandler.setImage("resources/Graphics/button_purple_press.png", 100, 100, frameSize.width * 30/100, frameSize.height * 10/100);
-        lwhite = ImageHandler.setImage("resources/Graphics/button_white.png", 100, 100, frameSize.width * 30/100, frameSize.height * 10/100);
-        lwhitePress = ImageHandler.setImage("resources/Graphics/button_white_press.png", 100, 100, frameSize.width * 30/100, frameSize.height * 10/100);
+        lblue = ImageHandler.setImage("resources/Graphics/button_blue.png", 100, 100, labelSize.width, labelSize.height);
+        lbluePress = ImageHandler.setImage("resources/Graphics/button_blue_press.png", 100, 100, labelSize.width, labelSize.height);
+        lpurple = ImageHandler.setImage("resources/Graphics/button_purple.png", 100, 100, labelSize.width, labelSize.height);
+        lpurplePress = ImageHandler.setImage("resources/Graphics/button_purple_press.png", 100, 100, labelSize.width, labelSize.height);
+        lwhite = ImageHandler.setImage("resources/Graphics/button_white.png", 100, 100, labelSize.width, labelSize.height);
+        lwhitePress = ImageHandler.setImage("resources/Graphics/button_white_press.png", 100, 100, labelSize.width, labelSize.height);
         JLabel namePlayer1 = new JLabel(players.get(0).getNickName());
         JLabel namePlayer2 = new JLabel(players.get(1).getNickName());
         JLabel namePlayer3 = null;
@@ -68,20 +70,20 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
         choose.setBounds(frameSize.width * 30/100, frameSize.height * 10/100, frameSize.width * 40/100, frameSize.height * 10/100);
         add(choose);
 
-        namePlayer1.setBounds((int) ((frameSize.width * 45/100) - posx1), frameSize.height * 37/100, frameSize.width * 30/100, frameSize.height * 10/100);
+        namePlayer1.setBounds((int) ((frameSize.width * 45/100) - posx1), frameSize.height * 37/100, labelSize.width, labelSize.height);
         int i = (int) ((frameSize.width * 45/100) - posx1);
         System.out.println(frameSize.width * 45/100);
         System.out.println(i);
         namePlayer1.setFont(felixBold);
         add(namePlayer1);
-        player1.setBounds(frameSize.width * 35/100, frameSize.height * 38/100, frameSize.width * 30/100, frameSize.height * 10/100);
+        player1.setBounds(frameSize.width * 35/100, frameSize.height * 38/100, labelSize.width, labelSize.height);
         add(player1);
         player1.addActionListener(new Choose());
 
-        namePlayer2.setBounds((int) ((frameSize.width * 45/100) - posx2), frameSize.height * 49/100, frameSize.width * 30/100, frameSize.height * 10/100);
+        namePlayer2.setBounds((int) ((frameSize.width * 45/100) - posx2), frameSize.height * 49/100, labelSize.width, labelSize.height);
         namePlayer2.setFont(felixBold);
         add(namePlayer2);
-        player2.setBounds(frameSize.width * 35/100, frameSize.height * 50/100, frameSize.width * 30/100, frameSize.height * 10/100);
+        player2.setBounds(frameSize.width * 35/100, frameSize.height * 50/100, labelSize.width, labelSize.height);
         add(player2);
         player2.addActionListener(new Choose());
 
@@ -90,12 +92,12 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
             namePlayer3  = new JLabel(players.get(2).getNickName());
             posx3 = (double) players.get(2).getNickName().length() / 2;
             player3.setName(players.get(2).getNickName());
-            namePlayer3.setBounds((int) ((frameSize.width * 45/100) - posx3), frameSize.height * 61/100, frameSize.width * 30/100, frameSize.height * 10/100);
+            namePlayer3.setBounds((int) ((frameSize.width * 45/100) - posx3), frameSize.height * 61/100, labelSize.width, labelSize.height);
             namePlayer3.setFont(felixBold);
             add(namePlayer3);
             addColorButton(player3);
             buttonStyle(player3);
-            player3.setBounds(frameSize.width * 35/100, frameSize.height * 62/100, frameSize.width * 30/100, frameSize.height * 10/100);
+            player3.setBounds(frameSize.width * 35/100, frameSize.height * 62/100, labelSize.width, labelSize.height);
             add(player3);
             player3.addActionListener(new Choose());
         }
