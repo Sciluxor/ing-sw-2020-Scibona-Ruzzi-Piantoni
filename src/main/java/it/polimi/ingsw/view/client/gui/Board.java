@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.client.gui;
 
 import it.polimi.ingsw.model.map.Square;
 import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.network.message.MessageType;
 import it.polimi.ingsw.utils.Observable;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
@@ -30,11 +31,13 @@ public class Board extends Observable {
     JDesktopPane youChosen;
     JDesktopPane chooseCard;
     JDesktopPane placeWorkers;
+    JDesktopPane startTurn;
     JInternalFrame frameChat = new JInternalFrame("", false, false, false, false);
     JInternalFrame internalFrameChallenger1 = new JInternalFrame("", false, false, false, false);
     JInternalFrame internalFrameChallenger2 = new JInternalFrame("", false, false, false, false);
     JInternalFrame internalFrameChooseCards = new JInternalFrame("", false, false, false, false);
     JInternalFrame internalFramePlaceWorkers = new JInternalFrame("", false, false, false, false);
+    JInternalFrame internalFrameStartTurn = new JInternalFrame("", false, false, false, false);
     JWindow windowPower;
     JScrollPane scrollPane;
     JButton buttonLv1 = new JButton();
@@ -49,7 +52,7 @@ public class Board extends Observable {
     JButton buttonChoosePower = new JButton();
     JButton buttonChat = new JButton();
     JButton buttonEndturn = new JButton();
-    JButton buttonConfirmPlace = new JButton();
+    JButton buttonMultiUse = new JButton();
     JButton buttonExit = new JButton();
     JButton backgroundFrameChat = new JButton();
     JButton sfondoFramePower = new JButton();
@@ -61,7 +64,7 @@ public class Board extends Observable {
     JTextField field = new JTextField();
     private final JButton[] mapButtons = new JButton[25];
     int[] mapButtonslvl = new int[25];
-    int[] mapWorker = new int[25];
+    int[] mapMyWorkers = new int[25];
     boolean[] mapButtonsPlayer = new boolean[25];
     static JLabel playerpower = new JLabel();
     JLabel nicknameLabel = new JLabel();
@@ -121,7 +124,9 @@ public class Board extends Observable {
     JLabel labelConfirmPlace = new JLabel("Confirm your positions");
     JLabel labelSeePower = new JLabel("See your power");
     JLabel labelEndturn = new JLabel("End Turn");
-    JLabel labelChooseWorker = new JLabel("End Turn");
+    JLabel labelChooseWorker = new JLabel("Choose the worker");
+    JLabel labelMove = new JLabel("Move");
+    JLabel labelBuild = new JLabel("Build");
     JLabel lbuttonEndturn;
     JLabel lbuttonEndturnPress;
     Dimension frameSize = new Dimension();
@@ -147,6 +152,8 @@ public class Board extends Observable {
     int numberOfPlayers = 2;
     it.polimi.ingsw.model.player.Color myColor;
     int placed = 0;
+    List<Integer> avaiableWorkers = new ArrayList<>();
+    List<Integer> avaiableWorkersPositions = new ArrayList<>();
 
     public void show(Gui instance, Dimension screen, Integer numberOfPlayer, List<Player> players,List<Player> players2, String nickname) throws IOException {
 
@@ -260,6 +267,9 @@ public class Board extends Observable {
         setInternalFrames(internalFramePlaceWorkers);
         BasicInternalFrameUI bi4 = (BasicInternalFrameUI) internalFrameChooseCards.getUI();
         bi4.setNorthPane(null);
+        setInternalFrames(internalFrameStartTurn);
+        BasicInternalFrameUI bi5 = (BasicInternalFrameUI) internalFrameStartTurn.getUI();
+        bi5.setNorthPane(null);
 
 
         frameChat.setPreferredSize(sideSize);
@@ -294,9 +304,6 @@ public class Board extends Observable {
         leftBoard.setVisible(true);
 
 
-
-
-
         nicknameLabel.setFont(felixNormal);
 
         nicknameLabel1.setFont(felixNormal);
@@ -306,12 +313,12 @@ public class Board extends Observable {
 
         opponent1.setText(otherPlayers.get(0).getNickName());
         opponent1.setForeground(getColorPlayer(otherPlayers.get(0)));
-        opponentsButton(opponent1);
+        opponentsStyleButtons(opponent1);
 
         if (numberOfPlayers == 3){
             opponent2 = new JButton(otherPlayers.get(1).getNickName());
             opponent2.setForeground(getColorPlayer(otherPlayers.get(1)));
-            opponentsButton(opponent2);
+            opponentsStyleButtons(opponent2);
         }
 
         chat.setBounds(frameChat.getWidth() * 22/100 , frameChat.getHeight() * 28/100, frameChat.getWidth() * 63/100, frameChat.getHeight() * 38/100);
@@ -348,16 +355,14 @@ public class Board extends Observable {
         chatStyleButtons(sfondoFramePower, background);
         windowPower.getContentPane().add(sfondoFramePower);
 
-        //windowChallenger.getContentPane().add(sfondoFramePower);
-
 
         resetLevel();
 
         resetPlayer();
 
-        resetWorkers();
+        resetMyWorkers();
 
-        mapButtonStyle();
+        mapStyleButtons();
 
         try{
             String os = System.getProperty("os.name").toLowerCase();
@@ -376,6 +381,9 @@ public class Board extends Observable {
                 labelEndturn.setBounds((int) (frameSize.width * 84.25/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
                 labelSeePower.setBounds((int) (frameSize.width * 78.75/100), (int) (frameSize.height * 52.75/100), size20x5.width, size20x5.height);
                 labelConfirmPlace.setBounds((int) (frameSize.width * 80/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
+                labelChooseWorker.setBounds((int) (frameSize.width * 81.5/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
+                labelMove.setBounds((int) (frameSize.width * 82/100), (int) (frameSize.height * 27.5/100), size20x5.width, size20x5.height);
+                labelBuild.setBounds((int) (frameSize.width * 80/100), (int) (frameSize.height * 39.5/100), size20x5.width, size20x5.height);
 
 
                 mapButtons[0].setBounds((int) (frameSize.width * (29.5)/100) , frameSize.width * 7/100,
@@ -454,7 +462,7 @@ public class Board extends Observable {
                         buttonMapSize13x13.width, buttonMapSize13x13.height);
             }
             else {//mac positions
-                nicknameLabel.setBounds((int) (frameSize.width * 4.5/100), (int) (frameSize.height * 2.5/100), size20x5.width, size20x5.height);
+                nicknameLabel.setBounds((int) (frameSize.width * 4/100), (int) (frameSize.height * 2.5/100), size20x5.width, size20x5.height);
                 nicknameLabel1.setBounds((int) (frameSize.width * 9.3/100), (int) (frameSize.height * 2.5/100), size20x5.width, size20x5.height);
                 opponents.setBounds((frameSize.width * 3/100), (frameSize.height * 55/100), size20x5.width, size20x5.height);
                 opponent1.setBounds((frameSize.width * 4/100), (frameSize.height * 61/100), frameSize.width * 15/100, frameSize.height * 4/100);
@@ -467,6 +475,9 @@ public class Board extends Observable {
                 labelEndturn.setBounds((int) (frameSize.width * 85/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
                 labelSeePower.setBounds((int) (frameSize.width * 79.5/100), (int) (frameSize.height * 52.75/100), size20x5.width, size20x5.height);
                 labelConfirmPlace.setBounds((int) (frameSize.width * 81.5/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
+                labelChooseWorker.setBounds((int) (frameSize.width * 83/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
+                labelMove.setBounds((int) (frameSize.width * 81.5/100), (int) (frameSize.height * 27.5/100), size20x5.width, size20x5.height);
+                labelBuild.setBounds((int) (frameSize.width * 81.5/100), (int) (frameSize.height * 39.5/100), size20x5.width, size20x5.height);
 
 
                 mapButtons[0].setBounds((int) (frameSize.width * (29.5)/100) , (int) (frameSize.width * (7.6)/100),
@@ -557,7 +568,7 @@ public class Board extends Observable {
             desktopPane.add(opponent2);
         }
 
-        addMapButton();
+        addMapButtons();
 
 
         buttonLv1.setBounds(frameSize.width * 81/100, frameSize.height * 19/100, buttonSize5x5.width, buttonSize5x5.height);
@@ -583,24 +594,29 @@ public class Board extends Observable {
         desktopPane.add(buttonDome);
 
 
-        buttonMove.setBounds(frameSize.width * 79/100, frameSize.height * 46/100, buttonSize7x7.width, buttonSize7x7.height);
-        buttonMove.addActionListener(new AddPlaceWorker());
-        consoleButtons(buttonMove, lButtonMove);
+        labelMove.setFont(felixNormal);
+        labelMove.setVisible(false);
+        desktopPane.add(labelMove);
+        buttonMove.setBounds(frameSize.width * 84/100, frameSize.height * 34/100, buttonSize7x7.width, buttonSize7x7.height);
+        consoleStyleButtons(buttonMove, lButtonMove);
 
-        buttonBuild.setBounds(frameSize.width * 85/100, frameSize.height * 46/100, buttonSize7x7.width, buttonSize7x7.height);
+        labelBuild.setFont(felixNormal);
+        labelBuild.setVisible(false);
+        desktopPane.add(labelBuild);
+        buttonBuild.setBounds(frameSize.width * 84/100, frameSize.height * 46/100, buttonSize7x7.width, buttonSize7x7.height);
         buttonBuild.addActionListener(new AddBuildLvl());
-        consoleButtons(buttonBuild, lButtonBuild);
+        consoleStyleButtons(buttonBuild, lButtonBuild);
 
 
         labelSeePower.setFont(felixNormal);
         labelSeePower.setVisible(false);
         desktopPane.add(labelSeePower);
         buttonPower.setBounds(frameSize.width * 81/100, frameSize.height * 59/100, frameSize.width * 5/100, frameSize.height * 5/100);
-        consoleButtons(buttonPower, lButtonPower);
+        consoleStyleButtons(buttonPower, lButtonPower);
 
         buttonChat.setBounds(frameSize.width * 85/100, frameSize.height * 58/100, frameSize.width * 5/100, frameSize.height * 7/100);
         buttonChat.addActionListener(new Chat());
-        consoleButtons(buttonChat, lButtonChat);
+        consoleStyleButtons(buttonChat, lButtonChat);
         buttonChat.setVisible(true);
 
 
@@ -608,28 +624,32 @@ public class Board extends Observable {
         labelChooseCards.setVisible(false);
         desktopPane.add(labelChooseCards);
         buttonChooseCards.setBounds((int) (frameSize.width * 84/100), (int) (frameSize.height * 22/100), buttonSize7x7.width, buttonSize7x7.height);
-        consoleButtons(buttonChooseCards, lButtonChooseCards);
+        consoleStyleButtons(buttonChooseCards, lButtonChooseCards);
 
 
         labelChooseFirst.setFont(felixNormal);
         labelChooseFirst.setVisible(false);
         desktopPane.add(labelChooseFirst);
         buttonChooseFirst.setBounds((int) (frameSize.width * 84/100), (int) (frameSize.height * 34/100), buttonSize7x7.width, buttonSize7x7.height);
-        consoleButtons(buttonChooseFirst, lbuttonChooseFirst);
+        consoleStyleButtons(buttonChooseFirst, lbuttonChooseFirst);
 
         labelChoosePower.setFont(felixNormal);
         labelChoosePower.setVisible(false);
         desktopPane.add(labelChoosePower);
         buttonChoosePower.setBounds((int) (frameSize.width * 84/100), (int) (frameSize.height * 22/100), buttonSize7x7.width, buttonSize7x7.height);
-        consoleButtons(buttonChoosePower, lButtonChoosePower);
+        consoleStyleButtons(buttonChoosePower, lButtonChoosePower);
         buttonChoosePower.setVisible(false);
 
 
         labelConfirmPlace.setFont(felixNormal);
         labelConfirmPlace.setVisible(false);
         desktopPane.add(labelConfirmPlace);
-        buttonConfirmPlace.setBounds((int) (frameSize.width * 84/100), (int) (frameSize.height * 22/100), buttonSize7x7.width, buttonSize7x7.height);
-        consoleButtons(buttonConfirmPlace, lButtonMove);
+        buttonMultiUse.setBounds((int) (frameSize.width * 84/100), (int) (frameSize.height * 22/100), buttonSize7x7.width, buttonSize7x7.height);
+        consoleStyleButtons(buttonMultiUse, lButtonMove);
+
+        labelChooseWorker.setFont(felixNormal);
+        labelChooseWorker.setVisible(false);
+        desktopPane.add(labelChooseWorker);
 
 
 
@@ -637,7 +657,7 @@ public class Board extends Observable {
         labelEndturn.setVisible(false);
         desktopPane.add(labelEndturn);
         buttonEndturn.setBounds((int) (frameSize.width * 84/100), (int) (frameSize.height * 22/100), buttonSize7x7.width, buttonSize7x7.height);
-        consoleButtons(buttonEndturn, lbuttonEndturn);
+        consoleStyleButtons(buttonEndturn, lbuttonEndturn);
         buttonEndturn.addActionListener(new EndTurn());
 
 
@@ -651,6 +671,7 @@ public class Board extends Observable {
         desktopPane.add(internalFrameChallenger2);
         desktopPane.add(internalFrameChooseCards);
         desktopPane.add(internalFramePlaceWorkers);
+        desktopPane.add(internalFrameStartTurn);
 
         desktopPane.add(leftBoard);
         desktopPane.add(leftGod);
@@ -664,6 +685,18 @@ public class Board extends Observable {
         f.setLocationRelativeTo(null);
         f.setVisible(true);
 
+    }
+
+    private Color getColorPlayer(Player player){
+        if(player.getColor().toString().equalsIgnoreCase("BLUE")){
+            return Color.BLUE;
+        }
+        else if(player.getColor().toString().equalsIgnoreCase("WHITE")){
+            return Color.WHITE;
+        }
+        else {
+            return Color.MAGENTA;
+        }
     }
 
     private void setMyColorWorkers(){
@@ -694,17 +727,6 @@ public class Board extends Observable {
 
     }
 
-    private Color getColorPlayer(Player player){
-        if(player.getColor().toString().equalsIgnoreCase("BLUE")){
-            return Color.BLUE;
-        }
-        else if(player.getColor().toString().equalsIgnoreCase("WHITE")){
-            return Color.WHITE;
-        }
-        else {
-            return Color.MAGENTA;
-        }
-    }
 
     public static void internalFrameSetUp(JInternalFrame intFrame){
         intFrame.putClientProperty(PALETTE, Boolean.TRUE);
@@ -714,14 +736,13 @@ public class Board extends Observable {
         intFrame.setBorder(null);
     }
 
-    private void opponentsButton(JButton button){
+    private void opponentsStyleButtons(JButton button){
         button.setFont(felixNormal);
         button.setHorizontalAlignment(SwingConstants.LEFT);
         button.setOpaque(false);
         button.setContentAreaFilled(false);
         button.setFocusPainted(false);
         button.setBorderPainted(false);
-        //desktopPane.add(button);
 
     }
 
@@ -732,9 +753,30 @@ public class Board extends Observable {
         button.setIcon(label.getIcon());
     }
 
-    private void addMapButton(){
+    private void consoleStyleButtons(JButton button, JLabel label){
+        button.setOpaque(false);
+        button.setContentAreaFilled(false);
+        button.setBorderPainted(false);
+        button.setIcon(label.getIcon());
+        button.addMouseListener(new ButtonPress());
+        button.setVisible(false);
+        desktopPane.add(button);
+    }
+
+    private void mapStyleButtons(){
+        for (int x = 0; x < 25; x++){
+            mapButtons[x] = new JButton();
+            mapButtons[x].setContentAreaFilled(false);
+            mapButtons[x].setOpaque(false);
+            mapButtons[x].setBorderPainted(false);
+            mapButtons[x].addMouseListener(new ColorBorder());
+        }
+    }
+
+    private void addMapButtons(){
         for (int x = 0; x < 25; x++){
             desktopPane.add(mapButtons[x]);
+            mapButtons[x].setName(String.valueOf(x));
         }
     }
 
@@ -750,29 +792,9 @@ public class Board extends Observable {
         }
     }
 
-    private void resetWorkers(){
+    private void resetMyWorkers(){
         for (int x = 0; x < 25; x++){
-            mapWorker[x] = 0;
-        }
-    }
-
-    private void consoleButtons(JButton button, JLabel label){
-        button.setOpaque(false);
-        button.setContentAreaFilled(false);
-        button.setBorderPainted(false);
-        button.setIcon(label.getIcon());
-        button.addMouseListener(new ButtonPress());
-        button.setVisible(false);
-        desktopPane.add(button);
-    }
-
-    private void mapButtonStyle(){
-        for (int x = 0; x < 25; x++){
-            mapButtons[x] = new JButton();
-            mapButtons[x].setContentAreaFilled(false);
-            mapButtons[x].setOpaque(false);
-            mapButtons[x].setBorderPainted(false);
-            mapButtons[x].addMouseListener(new ColorBorder());
+            mapMyWorkers[x] = 0;
         }
     }
 
@@ -790,7 +812,6 @@ public class Board extends Observable {
 
     public void showChallenger(String name, boolean bool) {
         if (bool){
-            //internalFrameChallenger.getContentPane().add(challengerChoiceCards);
             try {
                 youChosen = new YouHaveBeenChosen(internalFrameChallenger1, internalFrameSize2);
             } catch (IOException e) {
@@ -815,20 +836,6 @@ public class Board extends Observable {
             internalFrameChallenger1.setBounds((int) (frameSize.width * 29.5/100), (int) (frameSize.height * 25.5/100), internalFrameSize40x45.width, internalFrameSize40x45.height);
             internalFrameChallenger1.getContentPane().add(waitChallenger);
             internalFrameChallenger1.setVisible(true);
-        }
-
-
-        //buttonChooseFirst.setEnabled(false);
-    }
-
-    private class Write implements ActionListener{
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            if (!field.getText().equals("")) {
-                chat.append(mePlayer.getNickName() + ": " + field.getText().toLowerCase() + "\n");
-                chat.setCaretPosition(chat.getDocument().getLength());
-                field.setText("");
-            }
         }
     }
 
@@ -860,12 +867,12 @@ public class Board extends Observable {
         }
     }
 
-    public void setFirstPlayer(String firstPlayer) {
-        this.firstPlayer = firstPlayer;
-    }
-
     public void setCardsChosen(List<String> cardsChosen) {
         this.cardsChosen = cardsChosen;
+    }
+
+    public void setFirstPlayer(String firstPlayer) {
+        this.firstPlayer = firstPlayer;
     }
 
     public void callChallengerResponse(){
@@ -912,7 +919,7 @@ public class Board extends Observable {
         internalFrameChooseCards.setVisible(true);
     }
 
-    public void callCardChoiseResponse(){
+    public void callCardChoiceResponse(){
         if (cardChosen != null){
             gui.cardChoiceResponse(cardChosen);
             buttonChoosePower.setVisible(false);
@@ -931,7 +938,6 @@ public class Board extends Observable {
             showEndturn();
         }
     }
-
 
     public void setCardChosen(String cardChosen) {
         this.cardChosen = cardChosen;
@@ -952,6 +958,37 @@ public class Board extends Observable {
         }
     }
 
+    private class ShowYourPower implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JButton c = (JButton)e.getSource();
+            eliminateActionClass(c, ShowYourPower.class);
+            try {
+                coverBackground = ImageHandler.setImage("resources/Graphics/gods/" + c.getName() + "_description.png", 100, 100, internalFrameSize40x45.width, internalFrameSize40x45.height);
+            } catch (IOException ioException) {
+                LOGGER.severe(ioException.getMessage());
+            }
+            c.setIcon(lButtonPowerPress.getIcon());
+            background = new JLabel(coverBackground.getIcon());
+            windowPower.getContentPane().removeAll();
+            chatStyleButtons(sfondoFramePower, background);
+            windowPower.getContentPane().add(sfondoFramePower);
+            c.addActionListener(new HidePower());
+            windowPower.setVisible(true);
+        }
+    }
+
+    private class HidePower implements  ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JButton c = (JButton)e.getSource();
+            eliminateActionClass(c, HidePower.class);
+            c.setIcon(lButtonPower.getIcon());
+            c.addActionListener(new ShowYourPower());
+            windowPower.setVisible(false);
+        }
+    }
+
     public void showPlaceWorkers(String name, boolean bool){
         internalFrameChooseCards.dispose();
         if (placeWorkers != null){
@@ -959,18 +996,18 @@ public class Board extends Observable {
         }
         if (bool){
             try {
-                placeWorkers = new PlaceWorkers(internalFramePlaceWorkers, internalFrameSize40x45.width, internalFrameSize40x45.height, 0, name);
+                placeWorkers = new PlaceWorkers(internalFramePlaceWorkers, internalFrameSize40x45, 0, name);
             } catch (IOException e) {
                 LOGGER.severe(e.getMessage());
             }
             labelConfirmPlace.setVisible(true);
-            buttonConfirmPlace.setVisible(true);
-            buttonConfirmPlace.setEnabled(false);
+            buttonMultiUse.setVisible(true);
+            buttonMultiUse.setEnabled(false);
             addPlaceMove();
         }
         else{
             try {
-                placeWorkers = new PlaceWorkers(internalFramePlaceWorkers, internalFrameSize40x45.width, internalFrameSize40x45.height, 1, name);
+                placeWorkers = new PlaceWorkers(internalFramePlaceWorkers, internalFrameSize40x45, 1, name);
             } catch (IOException e) {
                 LOGGER.severe(e.getMessage());
             }
@@ -981,7 +1018,100 @@ public class Board extends Observable {
         internalFramePlaceWorkers.setVisible(true);
     }
 
-    public void updateWorkers(List<Square> squares){
+    private void addPlaceMove(){
+        buttonBuild.setEnabled(false);
+        for (int x = 0; x < 25; x++){
+            if (!mapButtonsPlayer[x] && mapButtonslvl[x] != 4)
+                mapButtons[x].addActionListener(new PlaceWorker());
+        }
+    }
+
+    private class PlaceWorker implements ActionListener{
+        int x;
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (placed <= 2) {
+                JButton c = (JButton) e.getSource();
+                x = Integer.parseInt(c.getName());
+
+                        if (!mapButtonsPlayer[x] && placed < 2) {
+                            switch (mapButtonslvl[x]) {
+                                case 0:
+                                    c.setIcon(worker.getIcon());
+                                    mapButtonsPlayer[x] = true;
+                                    break;
+                                case 1:
+                                    c.setIcon(lvl1Worker.getIcon());
+                                    mapButtonsPlayer[x] = true;
+                                    break;
+                                case 2:
+                                    c.setIcon(lvl2Worker.getIcon());
+                                    mapButtonsPlayer[x] = true;
+                                    break;
+                                case 3:
+                                    c.setIcon(lvl3Worker.getIcon());
+                                    mapButtonsPlayer[x] = true;
+                                    break;
+                                default:
+                            }
+                            placed++;
+                            mapMyWorkers[x] = placed;
+                        }
+
+                        else if (mapButtonsPlayer[x]){
+                            switch (mapButtonslvl[x]) {
+                                case 0:
+                                    c.setIcon(null);
+                                    mapButtonsPlayer[x] = false;
+                                    break;
+                                case 1:
+                                    c.setIcon(lvl1.getIcon());
+                                    mapButtonsPlayer[x] = false;
+                                    break;
+                                case 2:
+                                    c.setIcon(lvl2.getIcon());
+                                    mapButtonsPlayer[x] = false;
+                                    break;
+                                case 3:
+                                    c.setIcon(lvl3.getIcon());
+                                    mapButtonsPlayer[x] = false;
+                                    break;
+                                default:
+                            }
+                            placed--;
+                            mapMyWorkers[x] = 0;
+                            buttonMultiUse.setEnabled(false);
+                        }
+                if (placed == 2) {
+                    buttonBuild.setEnabled(true);
+                    buttonMultiUse.setEnabled(true);
+                    buttonMultiUse.addActionListener(new ConfirmPlace());
+                }
+            }
+        }
+    }
+
+    private class ConfirmPlace implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            List<Integer> tiles;
+            tiles = modifiedTiles();
+            gui.placeWorkersResponse(tiles.get(0) + 1, tiles.get(1) + 1);
+            buttonMultiUse.setVisible(false);
+            labelConfirmPlace.setVisible(false);
+            eliminateActionClass(buttonMultiUse, ConfirmPlace.class);
+            removePlaceWorker();
+            showEndturn();
+        }
+    }
+
+    private void  removePlaceWorker(){
+        for (int x = 0; x < 25; x++) {
+            eliminateActionClass(mapButtons[x], PlaceWorker.class);
+        }
+    }
+
+    public void updatePlacedWorkers(List<Square> squares){
         internalFramePlaceWorkers.setVisible(false);
         for (Square square : squares){
             if(square.getPlayer().getColor().toString().equalsIgnoreCase("BLUE")){
@@ -998,7 +1128,6 @@ public class Board extends Observable {
             }
         }
         powerToOpponents(squares.get(0).getPlayer().getNickName(), squares.get(0).getPlayer().getPower().getName());
-
     }
 
     private void powerToOpponents(String player, String card){
@@ -1013,14 +1142,108 @@ public class Board extends Observable {
 
     }
 
-    private void showEndturn(){
-        labelEndturn.setVisible(true);
-        buttonEndturn.setVisible(true);
+    private class SeeEnemyPower extends MouseAdapter {
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            JButton c = (JButton)e.getSource();
+            try {
+                coverBackground = ImageHandler.setImage("resources/Graphics/gods/" + c.getName() + "_description.png", 100, 100, internalFrameSize40x45.width, internalFrameSize40x45.height);
+            } catch (IOException ioException) {
+                LOGGER.severe(ioException.getMessage());
+            }
+            background = new JLabel(coverBackground.getIcon());
+            windowPower.getContentPane().removeAll();
+            chatStyleButtons(sfondoFramePower, background);
+            windowPower.getContentPane().add(sfondoFramePower);
+            windowPower.setVisible(true);
+        }
+        @Override
+        public void mouseExited(MouseEvent e) {
+            windowPower.setVisible(false);
+        }
     }
 
-    private void hideEndturn(){
-        labelEndturn.setVisible(false);
-        buttonEndturn.setVisible(false);
+    public void startTurn(String nick, boolean isYourPlayer){
+        internalFramePlaceWorkers.dispose();
+        if (startTurn != null){
+            internalFrameStartTurn.remove(startTurn);
+        }
+        if (isYourPlayer){
+            try {
+                startTurn = new StartTurn(internalFrameStartTurn, internalFrameSize40x45, 0, nick);
+            } catch (IOException e) {
+                LOGGER.severe(e.getMessage());
+            }
+            labelChooseWorker.setVisible(true);
+            buttonMultiUse.setVisible(true);
+            buttonMultiUse.addActionListener(new AvaiableWorkers());
+        }
+        else{
+            try {
+                startTurn = new StartTurn(internalFrameStartTurn, internalFrameSize40x45, 1, nick);
+            } catch (IOException e) {
+                LOGGER.severe(e.getMessage());
+            }
+
+        }
+        internalFrameStartTurn.setBounds((int) (frameSize.width * 29.5/100), (int) (frameSize.height * 25.5/100), internalFrameSize40x45.width, internalFrameSize40x45.height);
+        internalFrameStartTurn.getContentPane().add(startTurn);
+        internalFrameStartTurn.setVisible(true);
+    }
+    private class AvaiableWorkers implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            avaiableWorkers = gui.availableWorkers();
+            for (Integer x : avaiableWorkers){
+                for (int y = 0; y < 25; y++){
+                    if (mapMyWorkers[y] == x){
+                        eliminateMouseClass(mapButtons[y], ColorBorder.class);
+                        mapButtons[y].setBorder(BorderFactory.createLineBorder(Color.CYAN, 5));
+                        mapButtons[y].setBorderPainted(true);
+                        mapButtons[y].addActionListener(new SelectWorker());
+                        avaiableWorkersPositions.add(y);
+                        y = 24;
+                    }
+                }
+            }
+        }
+    }
+
+    private class SelectWorker implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JButton c = (JButton) e.getSource();
+            gui.setWorker(mapMyWorkers[Integer.parseInt(c.getName())]);
+            for (Integer k : avaiableWorkersPositions){
+                eliminateActionClass(mapButtons[k], SelectWorker.class);
+                mapButtons[k].setBorderPainted(false);
+                mapButtons[k].addMouseListener(new ColorBorder());
+            }
+            labelChooseWorker.setVisible(false);
+            buttonMultiUse.setVisible(false);
+        }
+    }
+
+    public void displayButtons(List<MessageType> actions){
+        for (MessageType mess : actions){
+            System.out.println(mess);
+            switch (mess){
+                case MOVEWORKER:
+                    labelMove.setVisible(true);
+                    buttonMove.setVisible(true);
+                    break;
+
+                case BUILDWORKER:
+                    labelBuild.setVisible(true);
+                    buttonBuild.setVisible(true);
+                    break;
+
+                case WORKERCHOICE:
+                    labelChooseWorker.setVisible(true);
+                    buttonMultiUse.setVisible(true);
+                    break;
+            }
+        }
     }
 
 
@@ -1030,6 +1253,16 @@ public class Board extends Observable {
             gui.endTurn();
             hideEndturn();
         }
+    }
+
+    private void showEndturn(){
+        labelEndturn.setVisible(true);
+        buttonEndturn.setVisible(true);
+    }
+
+    private void hideEndturn(){
+        labelEndturn.setVisible(false);
+        buttonEndturn.setVisible(false);
     }
 
     private class Chat implements ActionListener{
@@ -1220,115 +1453,11 @@ public class Board extends Observable {
         buttonMove.setEnabled(true);
     }
 
-    private void addPlaceMove(){
-        buttonBuild.setEnabled(false);
-        for (int x = 0; x < 25; x++){
-            if (!mapButtonsPlayer[x] && mapButtonslvl[x] != 4)
-                mapButtons[x].addActionListener(new PlaceWorker());
-        }
-    }
-
-    private class AddPlaceWorker implements ActionListener{
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-            buttonBuild.setEnabled(false);
-            for (int x = 0; x < 25; x++){
-                if (!mapButtonsPlayer[x] && mapButtonslvl[x] != 4)
-                        mapButtons[x].addActionListener(new PlaceWorker());
-            }
-        }
-    }
-
-    private class PlaceWorker implements ActionListener{
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            if (placed <= 2) {
-                JButton c = (JButton) e.getSource();
-                for (int x = 0; x < 25; x++) {
-
-                    if (mapButtons[x] == c) {
-
-                        if (!mapButtonsPlayer[x] && placed < 2) {
-                            switch (mapButtonslvl[x]) {
-                                case 0:
-                                    c.setIcon(worker.getIcon());
-                                    mapButtonsPlayer[x] = true;
-                                    break;
-                                case 1:
-                                    c.setIcon(lvl1Worker.getIcon());
-                                    mapButtonsPlayer[x] = true;
-                                    break;
-                                case 2:
-                                    c.setIcon(lvl2Worker.getIcon());
-                                    mapButtonsPlayer[x] = true;
-                                    break;
-                                case 3:
-                                    c.setIcon(lvl3Worker.getIcon());
-                                    mapButtonsPlayer[x] = true;
-                                    break;
-                                default:
-                            }
-                            placed++;
-                            mapWorker[x] = placed;
-                        }
-                        else if (mapButtonsPlayer[x]){
-                            switch (mapButtonslvl[x]) {
-                                case 0:
-                                    c.setIcon(null);
-                                    mapButtonsPlayer[x] = false;
-                                    break;
-                                case 1:
-                                    c.setIcon(lvl1.getIcon());
-                                    mapButtonsPlayer[x] = false;
-                                    break;
-                                case 2:
-                                    c.setIcon(lvl2.getIcon());
-                                    mapButtonsPlayer[x] = false;
-                                    break;
-                                case 3:
-                                    c.setIcon(lvl3.getIcon());
-                                    mapButtonsPlayer[x] = false;
-                                    break;
-                                default:
-                            }
-                            placed--;
-                            mapWorker[x] = 0;
-                            buttonConfirmPlace.setEnabled(false);
-                        }
-                    }
-                }
-                if (placed == 2) {
-                    buttonBuild.setEnabled(true);
-                    buttonConfirmPlace.setEnabled(true);
-                    buttonConfirmPlace.addActionListener(new ConfirmPlace());
-                }
-            }
-        }
-    }
-    private void  removePlaceWorker(){
-        for (int x = 0; x < 25; x++) {
-            eliminateActionClass(mapButtons[x], PlaceWorker.class);
-        }
-    }
-
-    private class ConfirmPlace implements ActionListener{
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            List<Integer> tiles;
-            tiles = modifiedTiles();
-            gui.placeWorkersResponse(tiles.get(0) + 1, tiles.get(1) + 1);
-            buttonConfirmPlace.setVisible(false);
-            labelConfirmPlace.setVisible(false);
-            removePlaceWorker();
-            showEndturn();
-        }
-    }
 
     private List<Integer> modifiedTiles(){
         List<Integer> tiles = new ArrayList<>();
         for (int x = 0; x < 25; x++){
-            if (mapWorker[x] != 0){
+            if (mapMyWorkers[x] != 0){
                 tiles.add(x);
             }
         }
@@ -1336,7 +1465,6 @@ public class Board extends Observable {
     }
 
     private static class ColorBorder extends MouseAdapter {
-
         @Override
         public void mouseEntered(MouseEvent e) {
             JButton c = (JButton)e.getSource();
@@ -1356,15 +1484,18 @@ public class Board extends Observable {
         @Override
         public void mousePressed(MouseEvent e) {
             JButton c = (JButton) e.getSource();
-            if (buttonMove == c || buttonConfirmPlace == c) {
+            if (buttonMove == c) {
                 buttonMove.setIcon(lButtonMovePress.getIcon());
+            }
+            else if (buttonMultiUse == c){
+                buttonMultiUse.setIcon(lButtonMovePress.getIcon());
             }
             else if (buttonBuild == c) {
                 buttonBuild.setIcon(lButtonBuildPress.getIcon());
             }
-            else if (buttonPower == c) {
+            /*else if (buttonPower == c) {
                 buttonPower.setIcon(lButtonPowerPress.getIcon());
-            }
+            }*/
             else if (buttonChat == c){
                 buttonChat.setIcon(lButtonChatPress.getIcon());
             }
@@ -1387,15 +1518,18 @@ public class Board extends Observable {
         public void mouseReleased(MouseEvent e) {
             JButton c = (JButton)e.getSource();
 
-            if (buttonMove == c || buttonConfirmPlace == c){
+            if (buttonMove == c){
                 buttonMove.setIcon(lButtonMove.getIcon());
+            }
+            else if (buttonMultiUse == c){
+                buttonMultiUse.setIcon(lButtonMove.getIcon());
             }
             else if (buttonBuild == c){
                 buttonBuild.setIcon(lButtonBuild.getIcon());
             }
-            else if (buttonPower == c){
+            /*else if (buttonPower == c){
                 buttonPower.setIcon(lButtonPower.getIcon());
-            }
+            }*/
             else if(buttonChat == c) {
                 buttonChat.setIcon(lButtonChat.getIcon());
             }
@@ -1414,54 +1548,14 @@ public class Board extends Observable {
         }
     }
 
-
-    private class SeeEnemyPower extends MouseAdapter {
-
-        @Override
-        public void mouseEntered(MouseEvent e) {
-            JButton c = (JButton)e.getSource();
-            try {
-                coverBackground = ImageHandler.setImage("resources/Graphics/gods/" + c.getName() + "_description.png", 100, 100, internalFrameSize40x45.width, internalFrameSize40x45.height);
-            } catch (IOException ioException) {
-                LOGGER.severe(ioException.getMessage());
-            }
-            background = new JLabel(coverBackground.getIcon());
-            windowPower.getContentPane().removeAll();
-            chatStyleButtons(sfondoFramePower, background);
-            windowPower.getContentPane().add(sfondoFramePower);
-            windowPower.setVisible(true);
-        }
-        @Override
-        public void mouseExited(MouseEvent e) {
-            windowPower.setVisible(false);
-        }
-    }
-
-    private class ShowYourPower implements ActionListener{
+    private class Write implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-            JButton c = (JButton)e.getSource();
-            eliminateActionClass(c, ShowYourPower.class);
-            try {
-                coverBackground = ImageHandler.setImage("resources/Graphics/gods/" + c.getName() + "_description.png", 100, 100, internalFrameSize40x45.width, internalFrameSize40x45.height);
-            } catch (IOException ioException) {
-                LOGGER.severe(ioException.getMessage());
+            if (!field.getText().equals("")) {
+                chat.append(mePlayer.getNickName() + ": " + field.getText().toLowerCase() + "\n");
+                chat.setCaretPosition(chat.getDocument().getLength());
+                field.setText("");
             }
-            background = new JLabel(coverBackground.getIcon());
-            windowPower.getContentPane().removeAll();
-            chatStyleButtons(sfondoFramePower, background);
-            windowPower.getContentPane().add(sfondoFramePower);
-            c.addActionListener(new HidePower());
-            windowPower.setVisible(true);
-        }
-    }
-    private class HidePower implements  ActionListener{
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            JButton c = (JButton)e.getSource();
-            eliminateActionClass(c, Board.HidePower.class);
-            c.addActionListener(new ShowYourPower());
-            windowPower.setVisible(false);
         }
     }
 }

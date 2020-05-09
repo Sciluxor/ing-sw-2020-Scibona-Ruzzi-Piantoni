@@ -262,7 +262,7 @@ public class ChooseCard extends JDesktopPane{
         @Override
         public void actionPerformed(ActionEvent e) {
             board.setCardChosen(cardChosen);
-            board.callCardChoiseResponse();
+            board.callCardChoiceResponse();
             guiIntFrame.setVisible(false);
         }
     }

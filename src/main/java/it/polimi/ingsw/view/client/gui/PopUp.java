@@ -46,7 +46,7 @@ public class PopUp {
                 window.add(button1);
 
                 nickname.setBounds((int) (intFrameSize.width * 35/100), (int) (intFrameSize.height * 60/100), intFrameSize.width * 30/100,intFrameSize.height * 4/100);
-                nickname.setText("Another nic");
+                nickname.setText("AnotherNic");
                 window.add(nickname);
 
                 label1 = new JLabel();

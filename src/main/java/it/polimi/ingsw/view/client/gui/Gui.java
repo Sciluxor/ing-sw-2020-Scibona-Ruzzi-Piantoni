@@ -229,7 +229,7 @@ public class Gui extends ClientGameController {
     @Override
     public void updatePlacedWorkers(List<Square> squares) {
         SwingUtilities.invokeLater(() -> {
-            board.updateWorkers(squares);
+            board.updatePlacedWorkers(squares);
         });
     }
 
@@ -245,7 +245,9 @@ public class Gui extends ClientGameController {
 
     @Override
     public void displayActions(List<MessageType> actions) {
-
+        SwingUtilities.invokeLater(() -> {
+            board.displayButtons(actions);
+        });
     }
 
     @Override
@@ -270,7 +272,9 @@ public class Gui extends ClientGameController {
 
     @Override
     public void startTurn(String nick, boolean isYourPlayer) {
-
+        SwingUtilities.invokeLater(() -> {
+            board.startTurn(nick, isYourPlayer);
+        });
     }
 
 

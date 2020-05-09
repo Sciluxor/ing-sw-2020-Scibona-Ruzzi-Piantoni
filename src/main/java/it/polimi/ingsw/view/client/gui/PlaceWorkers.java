@@ -19,9 +19,9 @@ public class PlaceWorkers extends JDesktopPane{
     double posx;
 
 
-    public PlaceWorkers(JInternalFrame frame, int wi, int he, int numberOfPanel, String name) throws IOException {
+    public PlaceWorkers(JInternalFrame frame, Dimension size, int numberOfPanel, String name) throws IOException {
 
-        frameSize.setSize(wi, he);
+        frameSize.setSize(size);
         intFrame = frame;
         nameChoosing = name;
         posx = (double) nameChoosing.length() / 2;

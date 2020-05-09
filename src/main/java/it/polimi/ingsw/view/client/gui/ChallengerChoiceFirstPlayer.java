@@ -72,8 +72,6 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
 
         namePlayer1.setBounds((int) ((frameSize.width * 45/100) - posx1), frameSize.height * 37/100, labelSize.width, labelSize.height);
         int i = (int) ((frameSize.width * 45/100) - posx1);
-        System.out.println(frameSize.width * 45/100);
-        System.out.println(i);
         namePlayer1.setFont(felixBold);
         add(namePlayer1);
         player1.setBounds(((frameSize.width * 50/100) - (labelSize.width / 2)), frameSize.height * 38/100, labelSize.width, labelSize.height);
