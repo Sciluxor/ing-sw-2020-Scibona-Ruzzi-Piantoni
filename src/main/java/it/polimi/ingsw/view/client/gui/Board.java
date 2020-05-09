@@ -296,25 +296,20 @@ public class Board extends Observable {
 
 
 
-        nicknameLabel.setBounds((int) (frameSize.width * 3.5/100), (int) (frameSize.height * 2.5/100), size20x5.width, size20x5.height);
+
         nicknameLabel.setFont(felixNormal);
-        nicknameLabel1.setBounds((int) (frameSize.width * 10.3/100), (int) (frameSize.height * 2.5/100), size20x5.width, size20x5.height);
+
         nicknameLabel1.setFont(felixNormal);
         nicknameLabel1.setForeground(getColorPlayer(mePlayer));
-        desktopPane.add(nicknameLabel);
-        desktopPane.add(nicknameLabel1);
 
-        opponents.setBounds((frameSize.width * 2/100), (frameSize.height * 55/100), size20x5.width, size20x5.height);
         opponents.setFont(felixNormal);
-        desktopPane.add(opponents);
 
         opponent1.setText(otherPlayers.get(0).getNickName());
-        opponent1.setBounds((frameSize.width * 3/100), (frameSize.height * 61/100), frameSize.width * 15/100, frameSize.height * 4/100);
         opponent1.setForeground(getColorPlayer(otherPlayers.get(0)));
         opponentsButton(opponent1);
-        if (numberOfPlayer == 3){
+
+        if (numberOfPlayers == 3){
             opponent2 = new JButton(otherPlayers.get(1).getNickName());
-            opponent2.setBounds((frameSize.width * 3/100), (frameSize.height * 64/100), frameSize.width * 15/100, frameSize.height * 4/100);
             opponent2.setForeground(getColorPlayer(otherPlayers.get(1)));
             opponentsButton(opponent2);
         }
@@ -367,8 +362,22 @@ public class Board extends Observable {
         try{
             String os = System.getProperty("os.name").toLowerCase();
 
-            if(os.contains("win")) {
-                //windows positions
+            if(os.contains("win")) { //windows positions
+                nicknameLabel.setBounds((int) (frameSize.width * 3.5/100), (int) (frameSize.height * 2.5/100), size20x5.width, size20x5.height);
+                nicknameLabel1.setBounds((int) (frameSize.width * 10.3/100), (int) (frameSize.height * 2.5/100), size20x5.width, size20x5.height);
+                opponents.setBounds((frameSize.width * 2/100), (frameSize.height * 55/100), size20x5.width, size20x5.height);
+                opponent1.setBounds((frameSize.width * 3/100), (frameSize.height * 61/100), frameSize.width * 15/100, frameSize.height * 4/100);
+                if (numberOfPlayers == 3){
+                    opponent2.setBounds((frameSize.width * 3/100), (frameSize.height * 64/100), frameSize.width * 15/100, frameSize.height * 4/100);
+                }
+                labelChooseCards.setBounds((int) (frameSize.width * 82.5/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
+                labelChooseFirst.setBounds((int) (frameSize.width * 80/100), (int) (frameSize.height * 27.5/100), size20x5.width, size20x5.height);
+                labelChoosePower.setBounds((int) (frameSize.width * 81/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
+                labelEndturn.setBounds((int) (frameSize.width * 84.25/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
+                labelSeePower.setBounds((int) (frameSize.width * 78.75/100), (int) (frameSize.height * 52.75/100), size20x5.width, size20x5.height);
+                labelConfirmPlace.setBounds((int) (frameSize.width * 80/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
+
+
                 mapButtons[0].setBounds((int) (frameSize.width * (29.5)/100) , frameSize.width * 7/100,
                         buttonMapSize13x13.width, buttonMapSize13x13.height);
 
@@ -444,8 +453,22 @@ public class Board extends Observable {
                 mapButtons[24].setBounds(frameSize.width * 46/100 , (int) (frameSize.width * (23.62)/100),
                         buttonMapSize13x13.width, buttonMapSize13x13.height);
             }
-            else {
-                //mac positions
+            else {//mac positions
+                nicknameLabel.setBounds((int) (frameSize.width * 4.5/100), (int) (frameSize.height * 2.5/100), size20x5.width, size20x5.height);
+                nicknameLabel1.setBounds((int) (frameSize.width * 9.3/100), (int) (frameSize.height * 2.5/100), size20x5.width, size20x5.height);
+                opponents.setBounds((frameSize.width * 3/100), (frameSize.height * 55/100), size20x5.width, size20x5.height);
+                opponent1.setBounds((frameSize.width * 4/100), (frameSize.height * 61/100), frameSize.width * 15/100, frameSize.height * 4/100);
+                if (numberOfPlayers == 3){
+                    opponent2.setBounds((frameSize.width * 4/100), (frameSize.height * 64/100), frameSize.width * 15/100, frameSize.height * 4/100);
+                }
+                labelChooseCards.setBounds((int) (frameSize.width * 84/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
+                labelChooseFirst.setBounds((int) (frameSize.width * 81.5/100), (int) (frameSize.height * 27.5/100), size20x5.width, size20x5.height);
+                labelChoosePower.setBounds((int) (frameSize.width * 82.5/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
+                labelEndturn.setBounds((int) (frameSize.width * 85/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
+                labelSeePower.setBounds((int) (frameSize.width * 79.5/100), (int) (frameSize.height * 52.75/100), size20x5.width, size20x5.height);
+                labelConfirmPlace.setBounds((int) (frameSize.width * 81.5/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
+
+
                 mapButtons[0].setBounds((int) (frameSize.width * (29.5)/100) , (int) (frameSize.width * (7.6)/100),
                         buttonMapSize13x13.width, buttonMapSize13x13.height);
 
@@ -526,6 +549,13 @@ public class Board extends Observable {
             LOGGER.severe(e.getMessage());
         }
 
+        desktopPane.add(nicknameLabel);
+        desktopPane.add(nicknameLabel1);
+        desktopPane.add(opponents);
+        desktopPane.add(opponent1);
+        if (numberOfPlayers == 3){
+            desktopPane.add(opponent2);
+        }
 
         addMapButton();
 
@@ -561,7 +591,7 @@ public class Board extends Observable {
         buttonBuild.addActionListener(new AddBuildLvl());
         consoleButtons(buttonBuild, lButtonBuild);
 
-        labelSeePower.setBounds((int) (frameSize.width * 79/100), (int) (frameSize.height * 52.75/100), size20x5.width, size20x5.height);
+
         labelSeePower.setFont(felixNormal);
         labelSeePower.setVisible(false);
         desktopPane.add(labelSeePower);
@@ -573,21 +603,20 @@ public class Board extends Observable {
         consoleButtons(buttonChat, lButtonChat);
         buttonChat.setVisible(true);
 
-        labelChooseCards.setBounds((int) (frameSize.width * 82.5/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
+
         labelChooseCards.setFont(felixNormal);
         labelChooseCards.setVisible(false);
         desktopPane.add(labelChooseCards);
         buttonChooseCards.setBounds((int) (frameSize.width * 84/100), (int) (frameSize.height * 22/100), buttonSize7x7.width, buttonSize7x7.height);
         consoleButtons(buttonChooseCards, lButtonChooseCards);
 
-        labelChooseFirst.setBounds((int) (frameSize.width * 80/100), (int) (frameSize.height * 27.5/100), size20x5.width, size20x5.height);
+
         labelChooseFirst.setFont(felixNormal);
         labelChooseFirst.setVisible(false);
         desktopPane.add(labelChooseFirst);
         buttonChooseFirst.setBounds((int) (frameSize.width * 84/100), (int) (frameSize.height * 34/100), buttonSize7x7.width, buttonSize7x7.height);
         consoleButtons(buttonChooseFirst, lbuttonChooseFirst);
 
-        labelChoosePower.setBounds((int) (frameSize.width * 81/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
         labelChoosePower.setFont(felixNormal);
         labelChoosePower.setVisible(false);
         desktopPane.add(labelChoosePower);
@@ -595,7 +624,7 @@ public class Board extends Observable {
         consoleButtons(buttonChoosePower, lButtonChoosePower);
         buttonChoosePower.setVisible(false);
 
-        labelConfirmPlace.setBounds((int) (frameSize.width * 80/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
+
         labelConfirmPlace.setFont(felixNormal);
         labelConfirmPlace.setVisible(false);
         desktopPane.add(labelConfirmPlace);
@@ -603,7 +632,7 @@ public class Board extends Observable {
         consoleButtons(buttonConfirmPlace, lButtonMove);
 
 
-        labelEndturn.setBounds((int) (frameSize.width * 84.25/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
+
         labelEndturn.setFont(felixNormal);
         labelEndturn.setVisible(false);
         desktopPane.add(labelEndturn);
@@ -692,7 +721,7 @@ public class Board extends Observable {
         button.setContentAreaFilled(false);
         button.setFocusPainted(false);
         button.setBorderPainted(false);
-        desktopPane.add(button);
+        //desktopPane.add(button);
 
     }
 
