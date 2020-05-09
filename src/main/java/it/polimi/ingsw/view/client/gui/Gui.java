@@ -24,7 +24,7 @@ public class Gui extends ClientGameController {
     static int width = (int)(screenSize.getWidth());
     static int height = (int)(screenSize.getHeight());
     static Dimension d = new Dimension(width * 95/100, height * 95/100);
-    Dimension intFrameSize = new Dimension(d.width * 70/100, d.height * 75/100);
+    Dimension intFrameSize = new Dimension(d.width * 55/100, d.height * 60/100);
     JFrame frame = new JFrame("Santorini");
     JPanel login = null;
     LobbyGui lobby = null;
@@ -54,7 +54,6 @@ public class Gui extends ClientGameController {
 
     private void show() throws IOException {
 
-
         Player ale = new Player("Alessandro");
         Player edo = new Player("Edoardo");
         Player lui = new Player("Luigi");
@@ -62,39 +61,24 @@ public class Gui extends ClientGameController {
         edo.setColor(Color.WHITE);
         lui.setColor(Color.PURPLE);
 
-
         constructorPopUp = new PopUp(this, d);
         newPopUp();
 
-
         board = new Board();
-
-        login = new Login(this, d, true);                                                                                      //schermata 0 sistemata
-        //lobby = new LobbyGui(this, d, numberOfPlayers);                                                       //schermata 1  sistemata
-        //challengerChoiseCards2 = new ChallengerChoiceCards(d, numberOfPlayers, background_panel);                              //schermata 2 sistemata
-        //challengerChoiseCards3 = new ChallengerChoiceCards(d, numberOfPlayers, background_panel);                              //schermata 3 sistemata
-       // waitChallenger = new WaitChallenger(d);                                                                                 //schermata 4 sistemata
-        //challengerChoiseFirst2 = new ChallengerChoiceFirstPlayer(d, numberOfPlayers, players, background_panel);              //schermata 5 sistemata
-        //challengerChoiseFirst3 = new ChallengerChoiceFirstPlayer(d, numberOfPlayers, players, background_panel);              //schermata 6 sistemata
-        //chooseCard3 = new ChooseCard(screenSize, d, 3);                                                             //schermata 7 sistemata
-        //chooseCard2 = new ChooseCard(screenSize, d, 2);                                                             //schermata 8 sistemata
-        //chooseCard1 = new ChooseCard(screenSize, d, 1);                                                             //schermata 9 sistemata
-        //chooseCard0 = new ChooseCard(screenSize, d, 0);                                                             //schermata 10 sistemata
-        //board2 = new Board(screenSize, d, 2, players, "GID01");                                                                   //schermata 11
-        //board3 = new Board(screenSize, d, 3, players, "GID01");                                                                   //schermata 12
-
+        login = new Login(this, d, true);
 
         buttonBackground.setBounds(0, 0,intFrameSize.width, intFrameSize.height);
         buttonBackground.setOpaque(false);
         buttonBackground.setContentAreaFilled(false);
         buttonBackground.setBorderPainted(false);
-        //popUp.add(buttonBackground);
+
         popUp.setPreferredSize(intFrameSize);
         popUp.setUndecorated(true);
         popUp.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         SwingUtilities.updateComponentTreeUI(popUp);
+        popUp.setBounds((int) ((d.width * 53/100) - (intFrameSize.width / 2)), (int) ((d.height * 60/100) - (intFrameSize.height / 2)), intFrameSize.width, intFrameSize.height);
         popUp.pack();
-        popUp.setLocationRelativeTo(null);
+        //popUp.setLocationRelativeTo(null);
         popUp.setResizable(false);
         popUp.setVisible(false);
 
@@ -119,7 +103,6 @@ public class Gui extends ClientGameController {
             } catch (IOException e) {
                 LOGGER.severe(e.getMessage());
             }
-
         });
     }
 
@@ -134,7 +117,6 @@ public class Gui extends ClientGameController {
         frame.repaint();
         frame.validate();
     }
-
 
     public void setNumberOfPlayers(int numberOfPlayers) {
         this.numberOfPlayers = numberOfPlayers;
@@ -200,6 +182,7 @@ public class Gui extends ClientGameController {
     @Override
     public void onPingDisconnection() {
         SwingUtilities.invokeLater(() -> {
+            this.lobby.backButton.setEnabled(false);
             popUp.remove(lobbyPanel);
             lobbyPanel = constructorPopUp.lobbyPopUp(2);
             popUp.add(lobbyPanel);

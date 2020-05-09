@@ -76,14 +76,14 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
         System.out.println(i);
         namePlayer1.setFont(felixBold);
         add(namePlayer1);
-        player1.setBounds(frameSize.width * 35/100, frameSize.height * 38/100, labelSize.width, labelSize.height);
+        player1.setBounds(((frameSize.width * 50/100) - (labelSize.width / 2)), frameSize.height * 38/100, labelSize.width, labelSize.height);
         add(player1);
         player1.addActionListener(new Choose());
 
         namePlayer2.setBounds((int) ((frameSize.width * 45/100) - posx2), frameSize.height * 49/100, labelSize.width, labelSize.height);
         namePlayer2.setFont(felixBold);
         add(namePlayer2);
-        player2.setBounds(frameSize.width * 35/100, frameSize.height * 50/100, labelSize.width, labelSize.height);
+        player2.setBounds(((frameSize.width * 50/100) - (labelSize.width / 2)), frameSize.height * 50/100, labelSize.width, labelSize.height);
         add(player2);
         player2.addActionListener(new Choose());
 
@@ -97,7 +97,7 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
             add(namePlayer3);
             addColorButton(player3);
             buttonStyle(player3);
-            player3.setBounds(frameSize.width * 35/100, frameSize.height * 62/100, labelSize.width, labelSize.height);
+            player3.setBounds(((frameSize.width * 50/100) - (labelSize.width / 2)), frameSize.height * 62/100, labelSize.width, labelSize.height);
             add(player3);
             player3.addActionListener(new Choose());
         }

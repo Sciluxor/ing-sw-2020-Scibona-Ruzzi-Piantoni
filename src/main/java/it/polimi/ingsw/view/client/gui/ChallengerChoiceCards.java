@@ -20,6 +20,7 @@ public class ChallengerChoiceCards extends JDesktopPane{
     Dimension frameSize = new Dimension();
     Dimension intFrameSize = new Dimension();
     Dimension cardSize = new Dimension();
+    Dimension size30x10 = new Dimension();
     JInternalFrame intFrame;
     JInternalFrame guiIntFrame;
     JButton buttonBackground = new JButton();
@@ -43,6 +44,9 @@ public class ChallengerChoiceCards extends JDesktopPane{
         frameSize.setSize(dimensionFrame);
         numberPlayers = numberOfPlayer;
         intFrameSize.setSize(frameSize.getWidth() * 48/100, frameSize.getHeight() * 54/100);
+        cardSize.setSize((int) (frameSize.getWidth() * 9/100), (int) (frameSize.getHeight() * 23.15/100)); //(9, 22)
+        size30x10.setSize(frameSize.width * 30 / 100, frameSize.height * 10 / 100);
+
         final int xconst = frameSize.width * 9/100;
         final int yconst = frameSize.height * 24/100;
         int x = xconst;
@@ -67,7 +71,7 @@ public class ChallengerChoiceCards extends JDesktopPane{
 
 
 
-        cardSize.setSize((int) (frameSize.getWidth() * 9/100), (int) (frameSize.getHeight() * 23.15/100)); //(9, 22)
+
         setPreferredSize(frameSize);
 
         JButton chronus = new JButton();
@@ -77,12 +81,12 @@ public class ChallengerChoiceCards extends JDesktopPane{
 
         JLabel choise;
         if (numberOfPlayer == 2){
-            choise = ImageHandler.setImage("resources/Graphics/Texts/choose_2_gods.png", 100, 100, frameSize.width * 30 / 100, frameSize.height * 10 / 100);
+            choise = ImageHandler.setImage("resources/Graphics/Texts/choose_2_gods.png", 100, 100, size30x10.width, size30x10.height);
         }
         else{
-            choise = ImageHandler.setImage("resources/Graphics/Texts/choose_3_gods.png", 100, 100, frameSize.width * 30 / 100, frameSize.height * 10 / 100);
+            choise = ImageHandler.setImage("resources/Graphics/Texts/choose_3_gods.png", 100, 100, size30x10.width, size30x10.height);
         }
-        choise.setBounds(frameSize.width * 35/100, frameSize.height * 10/100, frameSize.width * 30/100, frameSize.height * 10/100);
+        choise.setBounds(((frameSize.width * 50/100) - (size30x10.width / 2)), frameSize.height * 10/100, size30x10.width, size30x10.height);
         add(choise);
 
         confirm.setBounds((int) (frameSize.width * 31.5/ 100), (int) (frameSize.height * 81 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));

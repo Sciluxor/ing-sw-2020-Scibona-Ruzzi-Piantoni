@@ -16,6 +16,7 @@ public class PopUp {
     JPanel window;
     Dimension intFrameSize = new Dimension();
     Dimension labelSize = new Dimension();
+    Dimension buttonSize = new Dimension();
     MyButton button1;
     MyButton button2;
     JTextField nickname;
@@ -27,8 +28,9 @@ public class PopUp {
     public PopUp(Gui istance, Dimension d){
         gui = istance;
         window = new JPanel();
-        intFrameSize.setSize(d.getWidth() * 70/100, d.getHeight() * 75/100);
-        labelSize.setSize(intFrameSize.width * 40/100,intFrameSize.height * 15/100);
+        intFrameSize.setSize(d.getWidth() * 55/100, d.getHeight() * 60/100);
+        labelSize.setSize(intFrameSize.width * 55/100,intFrameSize.height * 20/100);
+        buttonSize.setSize((getD().getWidth() * 13 / 100), (getD().getHeight() * 5 / 100));
         nickname = new JTextField(20);
         panel = new JPanel();
     }
@@ -39,7 +41,7 @@ public class PopUp {
         switch (n){
             case 0:
                 button1 = new MyButton(0);
-                button1.setBounds((int) (intFrameSize.width * 41.12 / 100), (int) (intFrameSize.height * 79.5 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
+                button1.setBounds((int) ((intFrameSize.width * 50/100) - (buttonSize.width / 2)), (int) (intFrameSize.height * 79.5 / 100), buttonSize.width, buttonSize.height);
                 button1.addActionListener(new Send());
                 window.add(button1);
 
@@ -58,11 +60,11 @@ public class PopUp {
 
                 label2 = new JLabel();
                 try {
-                    label2 = ImageHandler.setImage("resources/Graphics/Texts/your_nickname_is_already_used.png", 97, 100, intFrameSize.width * 50/100,intFrameSize.height * 15/100);
+                    label2 = ImageHandler.setImage("resources/Graphics/Texts/your_nickname_is_already_used.png", 97, 100, labelSize.width, labelSize.height);
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }
-                label2.setBounds((int) (intFrameSize.width * 25/100), (int) (intFrameSize.height * 10/100), intFrameSize.width * 50/100,intFrameSize.height * 15/100);
+                label2.setBounds((int) ((intFrameSize.width * 50/100) - (labelSize.width / 2)), (int) (intFrameSize.height * 10/100), labelSize.width, labelSize.height);
                 window.add(label2);
 
                 label3 = new JLabel();
@@ -71,7 +73,7 @@ public class PopUp {
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }
-                label3.setBounds((int) (intFrameSize.width * 30/100), (int) (intFrameSize.height * 25/100), labelSize.width, labelSize.height);
+                label3.setBounds((int) ((intFrameSize.width * 50/100) - (labelSize.width / 2)), (int) (intFrameSize.height * 25/100), labelSize.width, labelSize.height);
                 window.add(label3);
 
                 break;
@@ -83,7 +85,7 @@ public class PopUp {
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }
-                label1.setBounds((int) (intFrameSize.width * 30/100), (int) (intFrameSize.height * 20/100), labelSize.width, labelSize.height);
+                label1.setBounds((int) ((intFrameSize.width * 50/100) - (labelSize.width / 2)), (int) (intFrameSize.height * 20/100), labelSize.width, labelSize.height);
                 window.add(label1);
 
                 label2 = new JLabel();
@@ -92,13 +94,13 @@ public class PopUp {
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }
-                label2.setBounds((int) (intFrameSize.width * 30/100), (int) (intFrameSize.height * 40/100), labelSize.width, labelSize.height);
+                label2.setBounds((int) ((intFrameSize.width * 50/100) - (labelSize.width / 2)), (int) (intFrameSize.height * 40/100), labelSize.width, labelSize.height);
                 window.add(label2);
 
                 button1 = new MyButton(2);
-                button1.setBounds((int) (intFrameSize.width * 29.12 / 100), (int) (intFrameSize.height * 79.5 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
+                button1.setBounds((int) ((intFrameSize.width * 35/100) - (buttonSize.width / 2)), (int) (intFrameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
                 button2 = new MyButton(3);
-                button2.setBounds((int) (intFrameSize.width * 52.12 / 100), (int) (intFrameSize.height * 79.5 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
+                button2.setBounds((int) ((intFrameSize.width * 65/100) - (buttonSize.width / 2)), (int) (intFrameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
                 window.add(button1);
                 button1.addActionListener(new NewGame());
                 window.add(button2);
@@ -112,7 +114,7 @@ public class PopUp {
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }
-                label1.setBounds((int) (intFrameSize.width * 30/100), (int) (intFrameSize.height * 35/100), labelSize.width, labelSize.height);
+                label1.setBounds((int) ((intFrameSize.width * 50/100) - (labelSize.width / 2)), (int) (intFrameSize.height * 35/100), labelSize.width, labelSize.height);
                 window.add(label1);
                 button1 = new MyButton(3);
                 button1.setBounds((int) (intFrameSize.width * 41.12 / 100), (int) (intFrameSize.height * 79.5 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
@@ -134,6 +136,7 @@ public class PopUp {
                 gui.setNamePlayer(nickname.getText());
                 gui.updateNickName(nickname.getText());
                 gui.popUp.setVisible(false);
+                gui.lobby.backButton.setEnabled(true);
             }
         }
     }
@@ -145,6 +148,7 @@ public class PopUp {
             gui.popUp.dispose();
             gui.popUp.getContentPane().removeAll();
             gui.newPopUp();
+            gui.lobby.backButton.setEnabled(true);
 
         }
     }

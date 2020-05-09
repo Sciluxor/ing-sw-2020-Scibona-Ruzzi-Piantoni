@@ -67,6 +67,7 @@ public class LobbyGui{
         pane.add(popUp);
 
         backButton = new MyButton(1);
+        backButton.setBounds((int) (getD().getWidth() * 43.5 / 100), (int) (getD().getHeight() * 70 / 100), d.width * 13/100, d.height * 5/100);
         backButton.setEnabled(true);
         backButton.addActionListener(new BackToLogin());
         pane.add(backButton);

@@ -165,9 +165,6 @@ public class ChooseCard extends JDesktopPane{
                 add(back);
             }
         }
-        /*JButton back = backgroundButton(0);
-        back.setBounds(0, 0, frameSize.width, frameSize.height);
-        add(back);*/
     }
 
     private class ShowPower extends MouseAdapter {
