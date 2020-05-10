@@ -244,7 +244,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         return availableTile;
     }
 
-    public synchronized void moveWorker(int tile){
+    public synchronized Response moveWorker(int tile){
         Directions direction = null;
         for(Directions possibleDirection : Directions.values()){
             if(game.getCurrentPlayer().getCurrentWorker().getBoardPosition().getCanAccess().get(possibleDirection) == tile) {
@@ -257,7 +257,13 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         Response winStatus = checkMoveVictory();
         client.sendMessage(new MoveWorkerMessage(client.getUserID(),client.getNickName(),direction,
                 winStatus,game.getWinner(),game.getGameMap().getModifiedSquare()));
-        if(winStatus.equals(Response.WIN)){
+
+        return winStatus;
+
+    }
+
+    public synchronized void mapNextAction(Response winStatus){
+        if(winStatus.equals(Response.WIN) || winStatus.equals(Response.BUILDWIN)){       //problema per la win, bisogna cambiare l'ordine delle chiamate
             eventQueue.add(() -> notifyWin(game.getWinner().getNickName()));
         }
         else{
@@ -292,7 +298,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         return availableTile;
     }
 
-    public synchronized void buildWorker(int tile, Building building){
+    public synchronized Response buildWorker(int tile, Building building){
         Directions direction = null;
         for(Directions possibleDirection : Directions.values()){
             if(game.getCurrentPlayer().getCurrentWorker().getBoardPosition().getCanAccess().get(possibleDirection) == tile) {
@@ -305,14 +311,9 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         Response winStatus = checkBuildVictory();
         client.sendMessage(new BuildWorkerMessage(client.getUserID(),client.getNickName(),direction
                 ,building,winStatus,game.getWinner(),game.getGameMap().getModifiedSquare()));
-        if(winStatus.equals(Response.BUILDWIN)){
-            eventQueue.add(() -> notifyWin(game.getWinner().getNickName()));
-        }
-        else{
-            if(newStatus.equals(Response.BUILD))
-                removeNonPermanentConstraint();
-            availableActions();
-        }
+        if(newStatus.equals(Response.BUILD))
+            removeNonPermanentConstraint();
+        return winStatus;
     }
 
     public synchronized Response checkBuildVictory(){
