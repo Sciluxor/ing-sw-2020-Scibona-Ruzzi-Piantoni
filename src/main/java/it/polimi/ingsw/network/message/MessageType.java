@@ -8,6 +8,6 @@ public enum MessageType {
     //roundcontroller messages
     WORKERCHOICE,MOVEWORKER, BUILDWORKER, WIN,NONPERMCONSTRAINT,PERMCONSTRAINT,
 
-    PING
+    PING,CHAT
 
 }

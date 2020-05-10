@@ -13,6 +13,8 @@ public interface FunctionListener {
 
     void startGame();
 
+    void startTurn(String nick,boolean isYourPlayer);
+
     void challengerChoice(String challengerNick,boolean isYourPlayer);
 
     void cardChoice(String challengerNick,boolean isYourPlayer);
@@ -35,9 +37,7 @@ public interface FunctionListener {
 
     void onPingDisconnection();
 
-    void onDisconnection();
+    void newChatMessage();
 
     void errorMessage();
-
-    void startTurn(String nick,boolean isYourPlayer);
 }

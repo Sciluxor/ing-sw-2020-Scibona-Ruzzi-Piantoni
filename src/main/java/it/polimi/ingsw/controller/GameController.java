@@ -361,6 +361,17 @@ public class GameController implements Observer<Message> {
         turnTimer.cancel();
     }
 
+    //
+    //methods to send the new chat message to the other players
+    //
+
+    public synchronized void broadcastMessage(Message message){
+        for(Player player: game.getPlayers()){
+            if(!player.getNickName().equals(message.getNickName()))
+                getViewFromNickName(player.getNickName()).handleChatMessage(message);
+        }
+    }
+
 
     //
     //method to dispatch the new messagge to the right place
@@ -374,6 +385,9 @@ public class GameController implements Observer<Message> {
                     handleNewPlayer(message);
                 else if (message.getSubType().equals(MessageSubType.UPDATE))
                     handleNewNickname(message);
+                break;
+            case CHAT:
+                broadcastMessage(message);
                 break;
             case ENDTURN:
                 if(!getViewFromUserID(message.getSender()).isYourTurn()){

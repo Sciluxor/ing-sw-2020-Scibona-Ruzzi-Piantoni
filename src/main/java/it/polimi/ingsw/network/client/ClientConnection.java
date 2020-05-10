@@ -16,11 +16,11 @@ import java.util.Timer;
 public class ClientConnection implements ConnectionInterface,Runnable {
 
     private boolean isConnectionActive;
-    private ClientGameController clientController;
+    private final ClientGameController clientController;
     private String userID = ConstantsContainer.USERDIDDEF;
     private String nickName;
-    private String address;
-    private int port;
+    private final String address;
+    private final int port;
     private Thread messageListener;
     private Timer pingTimer;
 
@@ -68,10 +68,6 @@ public class ClientConnection implements ConnectionInterface,Runnable {
         }
 
 
-    }
-
-    public void updateNickName(String name){
-        this.nickName = name;
     }
 
     @Override

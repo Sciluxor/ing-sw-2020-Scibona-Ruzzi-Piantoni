@@ -17,6 +17,7 @@ public class ConstantsContainer {
     public static final String USERIDPREFIX = "UID";
     public static final String USERDIDDEF = "default";
     public static final String NICKDEF = "def";
+    public static final int MAXCHATSIZE = 10;
 
     //LobbyGui
     public static final int MAX_LENGHT_NICK = 13;

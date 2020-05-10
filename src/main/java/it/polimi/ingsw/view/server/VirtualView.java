@@ -59,7 +59,7 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
             case GAMESTARTED:
                 handleStartGame();
                 break;
-            case PLACEWORKERSERROR:
+            case PLACEWORKERSERROR:        //vedere bene gli errori
             case STATUSERROR:
             case CARDCHOICEERROR:
             case CHALLENGERCHOICEERROR:
@@ -258,6 +258,10 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
     public void sendPermConstraint(Player player){
         for(Card card: player.getConstraint())
             connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.PERMCONSTRAINT,MessageSubType.UPDATE,card.getName()));
+    }
+
+    public void handleChatMessage(Message message){
+        connection.sendMessage(message);
     }
 
 

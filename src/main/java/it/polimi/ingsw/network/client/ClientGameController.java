@@ -14,8 +14,9 @@ import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.model.player.WorkerName;
 import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.utils.ConfigLoader;
+import it.polimi.ingsw.utils.ConstantsContainer;
 import it.polimi.ingsw.utils.FlowStatutsLoader;
-import it.polimi.ingsw.view.client.cli.Cli;
+import javafx.util.Pair;
 
 import java.net.ConnectException;
 
@@ -31,6 +32,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     private SimplifiedGame game;
     private final BlockingQueue<Runnable> eventQueue = new LinkedBlockingQueue<>();
     private ClientConnection client;
+    private final List<Pair<String,String>> chatMessages = new ArrayList<>();
 
 
     public ClientGameController(){
@@ -385,6 +387,23 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         }
     }
 
+    public synchronized void sendChatMessage(String chatMessage){
+        client.sendMessage(new Message(client.getUserID(),client.getNickName(),MessageType.CHAT,MessageSubType.UPDATE,chatMessage));
+    }
+
+    public synchronized void handleChatMessage(Message message){
+        if(chatMessages.size() > ConstantsContainer.MAXCHATSIZE)
+            chatMessages.remove(0);
+        Pair<String,String> newChatMessage = new Pair<>(message.getNickName(),message.getMessage());
+        chatMessages.add(newChatMessage);
+
+        eventQueue.add(this::newChatMessage);  //se si vuole fare diventare rossa la notifica di chat
+    }
+
+    public synchronized List<Pair<String, String>> getChatMessages(){
+        return chatMessages;
+    }
+
     public synchronized void onUpdate(Message message){
         switch (message.getType()){
             case WAITPLAYER:
@@ -420,6 +439,9 @@ public abstract class ClientGameController implements Runnable, FunctionListener
                 break;
             case PERMCONSTRAINT:
                 addPermanentConstraint(message);   //mancano i case di WIN e LOSE
+                break;
+            case CHAT:
+                handleChatMessage(message);
                 break;
             default:
         }

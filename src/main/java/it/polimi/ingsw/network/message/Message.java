@@ -33,6 +33,14 @@ public class Message implements Serializable {
      this.nickName = nickName;
     }
 
+    public Message(String sender,String nickName,MessageType type,MessageSubType subType,String message){
+        this.sender = sender;
+        this.type = type;
+        this.nickName = nickName;
+        this.subType = subType;
+        this.message = message;
+    }
+
     public void setMessageSubType(MessageSubType subType){
         this.subType = subType;
     }
