@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.client.gui;
 
 import it.polimi.ingsw.model.Response;
+import it.polimi.ingsw.model.map.Building;
 import it.polimi.ingsw.model.map.Square;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.message.MessageType;
@@ -12,6 +13,7 @@ import java.awt.event.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static it.polimi.ingsw.view.client.gui.Gui.LOGGER;
 import static it.polimi.ingsw.view.client.gui.EliminateListeners.*;
@@ -176,6 +178,8 @@ public class Board extends Observable {
     int worker1 = 0;
     int worker2 = 0;
     Response responce = null;
+    List<JLabel> opponents1Labels = new ArrayList<>();
+    List<JLabel> opponents2Labels = new ArrayList<>();
 
     public void show(Gui instance, Dimension screen, Integer numberOfPlayer, List<Player> players,List<Player> players2, String nickname) throws IOException {
 
@@ -766,6 +770,10 @@ public class Board extends Observable {
             lvl2WorkerOpponents1 = lvl2Purple;
             lvl3WorkerOpponents1 = lvl3Purple;
         }
+        opponents1Labels.add(workerOpponents1);
+        opponents1Labels.add(lvl1WorkerOpponents1);
+        opponents1Labels.add(lvl2WorkerOpponents1);
+        opponents1Labels.add(lvl3WorkerOpponents1);
     }
 
     private void setColorWorkers2(){
@@ -787,6 +795,26 @@ public class Board extends Observable {
             lvl2WorkerOpponents2 = lvl2Purple;
             lvl3WorkerOpponents2 = lvl3Purple;
         }
+        opponents2Labels.add(workerOpponents2);
+        opponents2Labels.add(lvl1WorkerOpponents2);
+        opponents2Labels.add(lvl2WorkerOpponents2);
+        opponents2Labels.add(lvl3WorkerOpponents2);
+    }
+
+    private JLabel getLabelFromBuildLvl(List<JLabel> list, Building build){
+        if (build.equals(Building.GROUND)) {
+            return list.get(0);
+        }
+        else if (build.equals(Building.LVL1)) {
+            return list.get(1);
+        }
+        else if (build.equals(Building.LVL2)) {
+            return list.get(2);
+        }
+        else if (build.equals(Building.LVL3)){
+            return list.get(3);
+        }
+        return null;
     }
 
     private void setInternalFrames(JInternalFrame i){
@@ -1399,7 +1427,6 @@ public class Board extends Observable {
             displayChoose(false);
             displayMove(false);
             displayBuild(false);
-            System.out.println(responce);
             gui.mapNextAction(responce);
         }
     }
@@ -1456,18 +1483,57 @@ public class Board extends Observable {
 
     public void updateBoard(String nick, List<Square> squares, MessageType type){
         System.out.println(squares.size());
+        List<JLabel> list = null;
+        if (nick.equalsIgnoreCase(opponent1.getText())){
+            list = opponents1Labels;
+        }
+        else {
+            list = opponents2Labels;
+        }
+        switch (type){
+            case MOVEWORKER:
+            case BUILDWORKER:
+                displayModifications(list, squares);
+                break;
+
+            default:
+        }
+    }
+
+    private void displayModifications(List<JLabel> list, List<Square> squares){
         for (Square square : squares){
-            if(square.getPlayer().getColor().toString().equalsIgnoreCase("BLUE")){
-                mapButtons[square.getTile() - 1].setIcon(workerCyan.getIcon());
-                mapButtonsPlayer[square.getTile() - 1] = true;
-            }
-            else if(square.getPlayer().getColor().toString().equalsIgnoreCase("WHITE")){
-                mapButtons[square.getTile() - 1].setIcon(workerWhite.getIcon());
-                mapButtonsPlayer[square.getTile() - 1] = true;
+            if (square.hasPlayer()) {
+                if (square.getBuilding().equals(Building.GROUND)) {
+                    mapButtons[square.getTile() - 1].setIcon(Objects.requireNonNull(getLabelFromBuildLvl(list, Building.GROUND)).getIcon());
+                    mapButtonsPlayer[square.getTile() - 1] = true;
+                } else if (square.getBuilding().equals(Building.LVL1)) {
+                    mapButtons[square.getTile() - 1].setIcon(Objects.requireNonNull(getLabelFromBuildLvl(list, Building.LVL1)).getIcon());
+                    mapButtonsPlayer[square.getTile() - 1] = true;
+                } else if (square.getBuilding().equals(Building.LVL2)) {
+                    mapButtons[square.getTile() - 1].setIcon(Objects.requireNonNull(getLabelFromBuildLvl(list, Building.LVL2)).getIcon());
+                    mapButtonsPlayer[square.getTile() - 1] = true;
+                } else if (square.getBuilding().equals(Building.LVL3)) {
+                    mapButtons[square.getTile() - 1].setIcon(Objects.requireNonNull(getLabelFromBuildLvl(list, Building.LVL3)).getIcon());
+                    mapButtonsPlayer[square.getTile() - 1] = true;
+                }
             }
             else {
-                mapButtons[square.getTile() - 1].setIcon(workerPurple.getIcon());
-                mapButtonsPlayer[square.getTile() - 1] = true;
+                if (square.getBuilding().equals(Building.GROUND)) {
+                    mapButtons[square.getTile() - 1].setIcon(null);
+                    mapButtonsPlayer[square.getTile() - 1] = false;
+                } else if (square.getBuilding().equals(Building.LVL1)) {
+                    mapButtons[square.getTile() - 1].setIcon(lvl1.getIcon());
+                    mapButtonsPlayer[square.getTile() - 1] = false;
+                } else if (square.getBuilding().equals(Building.LVL2)) {
+                    mapButtons[square.getTile() - 1].setIcon(lvl2.getIcon());
+                    mapButtonsPlayer[square.getTile() - 1] = false;
+                } else if (square.getBuilding().equals(Building.LVL3)) {
+                    mapButtons[square.getTile() - 1].setIcon(lvl3.getIcon());
+                    mapButtonsPlayer[square.getTile() - 1] = false;
+                } else {
+                    mapButtons[square.getTile() - 1].setIcon(dome.getIcon());
+                    mapButtonsPlayer[square.getTile() - 1] = false;
+                }
             }
         }
     }
@@ -1580,9 +1646,11 @@ public class Board extends Observable {
                 if (mapButtons[x] == c){
                     c.setIcon(lvl1.getIcon());
                     mapButtonslvl[x] = 1;
+                    gui.buildWorker(x + 1, Building.LVL1);
                 }
 
             }
+
             removeBuild();
             removeBuildLvl();
         }
@@ -1697,8 +1765,9 @@ public class Board extends Observable {
                         mapButtons[x].getActionListeners()[y].getClass().equals(BuildLvl3.class)  || mapButtons[x].getActionListeners()[y].getClass().equals(BuildDome.class))
                     mapButtons[x].removeActionListener(mapButtons[x].getActionListeners()[y]);
             }
+            mapButtons[x].setBorderPainted(false);
+            mapButtons[x].addMouseListener(new ColorBorder());
         }
-        buttonMove.setEnabled(true);
     }
 
     private static class ColorBorder extends MouseAdapter {

@@ -353,9 +353,6 @@ public abstract class ClientGameController implements Runnable, FunctionListener
 
         List<Square> finalModifiedSquares = modifiedSquares;
 
-        System.out.println(modifiedSquares.size());
-        System.out.println(finalModifiedSquares.size());
-
         for(Square square: finalModifiedSquares){
             game.copySquare(game.getGameMap().getMap().get(square.getTile() -1),square);
         }
