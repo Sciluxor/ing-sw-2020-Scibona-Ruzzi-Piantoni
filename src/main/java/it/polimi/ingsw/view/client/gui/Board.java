@@ -154,6 +154,15 @@ public class Board extends Observable {
     int placed = 0;
     List<Integer> avaiableWorkers = new ArrayList<>();
     List<Integer> avaiableWorkersPositions = new ArrayList<>();
+    List<Integer> avaiableMovePositions = new ArrayList<>();
+    List<Integer> avaiableBuildPositions = new ArrayList<>();
+    int workerChoosen = 0;
+    int tileWorkerChosen = 0;
+    Color selectWorkerBorder = Color.CYAN;
+    Color moveBorder = Color.WHITE;
+    Color buildBorder = Color.WHITE;
+    int worker1 = 0;
+    int worker2 = 0;
 
     public void show(Gui instance, Dimension screen, Integer numberOfPlayer, List<Player> players,List<Player> players2, String nickname) throws IOException {
 
@@ -381,9 +390,9 @@ public class Board extends Observable {
                 labelEndturn.setBounds((int) (frameSize.width * 84.25/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
                 labelSeePower.setBounds((int) (frameSize.width * 78.75/100), (int) (frameSize.height * 52.75/100), size20x5.width, size20x5.height);
                 labelConfirmPlace.setBounds((int) (frameSize.width * 80/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
-                labelChooseWorker.setBounds((int) (frameSize.width * 81.5/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
-                labelMove.setBounds((int) (frameSize.width * 82/100), (int) (frameSize.height * 27.5/100), size20x5.width, size20x5.height);
-                labelBuild.setBounds((int) (frameSize.width * 80/100), (int) (frameSize.height * 39.5/100), size20x5.width, size20x5.height);
+                labelChooseWorker.setBounds((int) (frameSize.width * 81/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
+                labelMove.setBounds((int) (frameSize.width * 86/100), (int) (frameSize.height * 27.5/100), size20x5.width, size20x5.height);
+                labelBuild.setBounds((int) (frameSize.width * 86/100), (int) (frameSize.height * 39.5/100), size20x5.width, size20x5.height);
 
 
                 mapButtons[0].setBounds((int) (frameSize.width * (29.5)/100) , frameSize.width * 7/100,
@@ -476,8 +485,8 @@ public class Board extends Observable {
                 labelSeePower.setBounds((int) (frameSize.width * 79.5/100), (int) (frameSize.height * 52.75/100), size20x5.width, size20x5.height);
                 labelConfirmPlace.setBounds((int) (frameSize.width * 81.5/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
                 labelChooseWorker.setBounds((int) (frameSize.width * 83/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
-                labelMove.setBounds((int) (frameSize.width * 81.5/100), (int) (frameSize.height * 27.5/100), size20x5.width, size20x5.height);
-                labelBuild.setBounds((int) (frameSize.width * 81.5/100), (int) (frameSize.height * 39.5/100), size20x5.width, size20x5.height);
+                labelMove.setBounds((int) (frameSize.width * 86.5/100), (int) (frameSize.height * 27.5/100), size20x5.width, size20x5.height);
+                labelBuild.setBounds((int) (frameSize.width * 88.5/100), (int) (frameSize.height * 39.5/100), size20x5.width, size20x5.height);
 
 
                 mapButtons[0].setBounds((int) (frameSize.width * (29.5)/100) , (int) (frameSize.width * (7.6)/100),
@@ -598,6 +607,7 @@ public class Board extends Observable {
         labelMove.setVisible(false);
         desktopPane.add(labelMove);
         buttonMove.setBounds(frameSize.width * 84/100, frameSize.height * 34/100, buttonSize7x7.width, buttonSize7x7.height);
+        buttonMove.addActionListener(new SeeMove());
         consoleStyleButtons(buttonMove, lButtonMove);
 
         labelBuild.setFont(felixNormal);
@@ -882,7 +892,7 @@ public class Board extends Observable {
             labelChooseCards.setVisible(false);
             buttonChooseFirst.setVisible(false);
             labelChooseFirst.setVisible(false);
-            showEndturn();
+            displayEndturn(true);
         }
     }
 
@@ -935,7 +945,7 @@ public class Board extends Observable {
                 LOGGER.severe(e.getMessage());
             }
             leftGod.setIcon(coverLeftGod.getIcon());
-            showEndturn();
+            displayEndturn(true);
         }
     }
 
@@ -1019,9 +1029,8 @@ public class Board extends Observable {
     }
 
     private void addPlaceMove(){
-        buttonBuild.setEnabled(false);
         for (int x = 0; x < 25; x++){
-            if (!mapButtonsPlayer[x] && mapButtonslvl[x] != 4)
+            if (!mapButtonsPlayer[x])
                 mapButtons[x].addActionListener(new PlaceWorker());
         }
     }
@@ -1034,56 +1043,77 @@ public class Board extends Observable {
                 JButton c = (JButton) e.getSource();
                 x = Integer.parseInt(c.getName());
 
+                if (worker1 == 0){
+                    if (worker2 == 0) {
+                        c.setIcon(worker.getIcon());
+                        mapButtonsPlayer[x] = true;
+                        placed++;
+                        mapMyWorkers[x] = 1;
+                        worker1 = 1;
+                    }
+
+                    else if (worker2 == 2){
                         if (!mapButtonsPlayer[x] && placed < 2) {
-                            switch (mapButtonslvl[x]) {
-                                case 0:
-                                    c.setIcon(worker.getIcon());
-                                    mapButtonsPlayer[x] = true;
-                                    break;
-                                case 1:
-                                    c.setIcon(lvl1Worker.getIcon());
-                                    mapButtonsPlayer[x] = true;
-                                    break;
-                                case 2:
-                                    c.setIcon(lvl2Worker.getIcon());
-                                    mapButtonsPlayer[x] = true;
-                                    break;
-                                case 3:
-                                    c.setIcon(lvl3Worker.getIcon());
-                                    mapButtonsPlayer[x] = true;
-                                    break;
-                                default:
-                            }
+                            c.setIcon(worker.getIcon());
+                            mapButtonsPlayer[x] = true;
                             placed++;
-                            mapMyWorkers[x] = placed;
+                            mapMyWorkers[x] = 1;
+                            worker1 = 1;
                         }
 
                         else if (mapButtonsPlayer[x]){
-                            switch (mapButtonslvl[x]) {
-                                case 0:
-                                    c.setIcon(null);
-                                    mapButtonsPlayer[x] = false;
-                                    break;
-                                case 1:
-                                    c.setIcon(lvl1.getIcon());
-                                    mapButtonsPlayer[x] = false;
-                                    break;
-                                case 2:
-                                    c.setIcon(lvl2.getIcon());
-                                    mapButtonsPlayer[x] = false;
-                                    break;
-                                case 3:
-                                    c.setIcon(lvl3.getIcon());
-                                    mapButtonsPlayer[x] = false;
-                                    break;
-                                default:
-                            }
+                            c.setIcon(null);
+                            mapButtonsPlayer[x] = false;
                             placed--;
                             mapMyWorkers[x] = 0;
+                            worker2 = 0;
                             buttonMultiUse.setEnabled(false);
+                            eliminateActionClass(buttonMultiUse, ConfirmPlace.class);
                         }
+                    }
+                }
+                else if (worker1 == 1){
+                    if (worker2 == 0){
+                        if (!mapButtonsPlayer[x] && placed < 2) {
+                            c.setIcon(worker.getIcon());
+                            mapButtonsPlayer[x] = true;
+                            placed++;
+                            mapMyWorkers[x] = 2;
+                            worker2 = 2;
+                        }
+
+                        else if (mapButtonsPlayer[x]){
+                            c.setIcon(null);
+                            mapButtonsPlayer[x] = false;
+                            placed--;
+                            mapMyWorkers[x] = 0;
+                            worker1 = 0;
+                            buttonMultiUse.setEnabled(false);
+                            eliminateActionClass(buttonMultiUse, ConfirmPlace.class);
+                        }
+                    }
+                    else if (worker2 == 2){
+                        if (mapMyWorkers[x] == 1) {
+                            c.setIcon(null);
+                            mapButtonsPlayer[x] = false;
+                            placed--;
+                            mapMyWorkers[x] = 0;
+                            worker1 = 0;
+                            buttonMultiUse.setEnabled(false);
+                            eliminateActionClass(buttonMultiUse, ConfirmPlace.class);
+                        }
+                        else if (mapMyWorkers[x] == 2){
+                            c.setIcon(null);
+                            mapButtonsPlayer[x] = false;
+                            placed--;
+                            mapMyWorkers[x] = 0;
+                            worker2 = 0;
+                            buttonMultiUse.setEnabled(false);
+                            eliminateActionClass(buttonMultiUse, ConfirmPlace.class);
+                        }
+                    }
+                }
                 if (placed == 2) {
-                    buttonBuild.setEnabled(true);
                     buttonMultiUse.setEnabled(true);
                     buttonMultiUse.addActionListener(new ConfirmPlace());
                 }
@@ -1101,8 +1131,22 @@ public class Board extends Observable {
             labelConfirmPlace.setVisible(false);
             eliminateActionClass(buttonMultiUse, ConfirmPlace.class);
             removePlaceWorker();
-            showEndturn();
+            displayEndturn(true);
         }
+    }
+
+    private List<Integer> modifiedTiles(){
+        List<Integer> tiles = new ArrayList<>();
+        for (int y = 1; y < 3; y++) {
+            for (int x = 0; x < 25; x++) {
+                if (mapMyWorkers[x] == y) {
+                    System.out.println("Aggiunta tile: " + x);
+                    tiles.add(x);
+                    x = 24;
+                }
+            }
+        }
+        return tiles;
     }
 
     private void  removePlaceWorker(){
@@ -1193,12 +1237,15 @@ public class Board extends Observable {
     private class AvaiableWorkers implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
+            if (avaiableMovePositions.size() != 0){
+                eliminatePreviousPositionsActions(avaiableMovePositions);
+            }
             avaiableWorkers = gui.availableWorkers();
             for (Integer x : avaiableWorkers){
                 for (int y = 0; y < 25; y++){
                     if (mapMyWorkers[y] == x){
                         eliminateMouseClass(mapButtons[y], ColorBorder.class);
-                        mapButtons[y].setBorder(BorderFactory.createLineBorder(Color.CYAN, 5));
+                        mapButtons[y].setBorder(BorderFactory.createLineBorder(selectWorkerBorder, 5));
                         mapButtons[y].setBorderPainted(true);
                         mapButtons[y].addActionListener(new SelectWorker());
                         avaiableWorkersPositions.add(y);
@@ -1206,6 +1253,14 @@ public class Board extends Observable {
                     }
                 }
             }
+        }
+    }
+
+    private void eliminatePreviousPositionsActions(List<Integer> previousPositions){
+        for (Integer x : previousPositions){
+            eliminateActionClass(mapButtons[x - 1], Move.class);
+            mapButtons[x - 1].setBorderPainted(false);
+            mapButtons[x - 1].addMouseListener(new ColorBorder());
         }
     }
 
@@ -1221,28 +1276,107 @@ public class Board extends Observable {
             }
             labelChooseWorker.setVisible(false);
             buttonMultiUse.setVisible(false);
+            workerChoosen = mapMyWorkers[Integer.parseInt(c.getName())];
+            tileWorkerChosen = Integer.parseInt(c.getName());
         }
     }
 
     public void displayButtons(List<MessageType> actions){
         for (MessageType mess : actions){
-            System.out.println(mess);
             switch (mess){
                 case MOVEWORKER:
-                    labelMove.setVisible(true);
-                    buttonMove.setVisible(true);
+                    displayMove(true);
                     break;
 
                 case BUILDWORKER:
-                    labelBuild.setVisible(true);
-                    buttonBuild.setVisible(true);
+                    displayBuild(true);
                     break;
 
                 case WORKERCHOICE:
-                    labelChooseWorker.setVisible(true);
-                    buttonMultiUse.setVisible(true);
+                    displayChoose(true);
                     break;
+                default:
             }
+        }
+    }
+
+    private class SeeMove implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            avaiableMovePositions = gui.availableMoveSquare();
+
+            for (Integer x : avaiableMovePositions){
+                eliminateMouseClass(mapButtons[x - 1], ColorBorder.class);
+                mapButtons[x - 1].setBorder(BorderFactory.createLineBorder(moveBorder, 5));
+                mapButtons[x - 1].setBorderPainted(true);
+                mapButtons[x - 1].addActionListener(new Move());
+            }
+        }
+    }
+
+    private class Move implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JButton c = (JButton) e.getSource();
+            gui.moveWorker(Integer.parseInt(c.getName()) + 1);
+            System.out.println("qui move su: " + Integer.parseInt(c.getName()) + 1);
+            for (Integer x : avaiableMovePositions){
+                eliminateActionClass(mapButtons[x - 1], Move.class);
+                mapButtons[x - 1].setBorderPainted(false);
+                mapButtons[x - 1].addMouseListener(new ColorBorder());
+            }
+            moveWorkerToTile(Integer.parseInt(c.getName()));
+            displayChoose(false);
+            displayMove(false);
+            displayBuild(false);
+        }
+    }
+
+    private void moveWorkerToTile(Integer tile){
+        changePreviousIcon();
+
+        switch (mapButtonslvl[tile]) {
+            case 0:
+                mapButtons[tile].setIcon(worker.getIcon());
+                mapButtonsPlayer[tile] = true;
+                break;
+            case 1:
+                mapButtons[tile].setIcon(lvl1Worker.getIcon());
+                mapButtonsPlayer[tile] = true;
+                break;
+            case 2:
+                mapButtons[tile].setIcon(lvl2Worker.getIcon());
+                mapButtonsPlayer[tile] = true;
+                break;
+            case 3:
+                mapButtons[tile].setIcon(lvl3Worker.getIcon());
+                mapButtonsPlayer[tile] = true;
+                break;
+            default:
+        }
+        mapMyWorkers[tile] = workerChoosen;
+    }
+
+    private void changePreviousIcon(){
+        mapMyWorkers[tileWorkerChosen] = 0;
+        switch (mapButtonslvl[tileWorkerChosen]) {
+            case 0:
+                mapButtons[tileWorkerChosen].setIcon(null);
+                mapButtonsPlayer[tileWorkerChosen] = false;
+                break;
+            case 1:
+                mapButtons[tileWorkerChosen].setIcon(lvl1.getIcon());
+                mapButtonsPlayer[tileWorkerChosen] = false;
+                break;
+            case 2:
+                mapButtons[tileWorkerChosen].setIcon(lvl2.getIcon());
+                mapButtonsPlayer[tileWorkerChosen] = false;
+                break;
+            case 3:
+                mapButtons[tileWorkerChosen].setIcon(lvl3.getIcon());
+                mapButtonsPlayer[tileWorkerChosen] = false;
+                break;
+            default:
         }
     }
 
@@ -1251,18 +1385,32 @@ public class Board extends Observable {
         @Override
         public void actionPerformed(ActionEvent e) {
             gui.endTurn();
-            hideEndturn();
+            displayEndturn(false);
         }
     }
 
-    private void showEndturn(){
-        labelEndturn.setVisible(true);
-        buttonEndturn.setVisible(true);
+    private void displayEndturn(boolean bool){
+        labelEndturn.setVisible(bool);
+        buttonEndturn.setVisible(bool);
     }
 
-    private void hideEndturn(){
-        labelEndturn.setVisible(false);
-        buttonEndturn.setVisible(false);
+    private void displayMove(boolean bool){
+        labelMove.setVisible(bool);
+        buttonMove.setVisible(bool);
+    }
+
+    private void displayBuild(boolean bool){
+        labelBuild.setVisible(bool);
+        buttonBuild.setVisible(bool);
+    }
+
+    private void displayChoose(boolean bool){
+        labelChooseWorker.setVisible(bool);
+        buttonMultiUse.setVisible(bool);
+    }
+
+    private void enableChoose(boolean bool){
+        buttonMultiUse.setEnabled(bool);
     }
 
     private class Chat implements ActionListener{
@@ -1283,6 +1431,8 @@ public class Board extends Observable {
         @Override
         public void actionPerformed(ActionEvent e) {
 
+            avaiableBuildPositions = gui.availableBuildSquare();
+
             buttonLv1.addActionListener(new AddBuildLvl1());
             buttonLv2.addActionListener(new AddBuildLvl2());
             buttonLv3.addActionListener(new AddBuildLvl3());
@@ -1296,36 +1446,34 @@ public class Board extends Observable {
     }
 
     private void removeBuildLvl() {
-        for (int y = 0; y < buttonLv1.getActionListeners().length; y++){
-            if (buttonLv1.getActionListeners()[y].getClass().equals(BuildLvl1.class))
-                buttonLv1.addActionListener(new BuildLvl1());
+        eliminateActionClass(buttonLv1, BuildLvl1.class);
+        eliminateActionClass(buttonLv2, BuildLvl2.class);
+        eliminateActionClass(buttonLv3, BuildLvl3.class);
+        eliminateActionClass(buttonDome, BuildDome.class);
+    }
 
-        }
-        for (int y = 0; y < buttonLv2.getActionListeners().length; y++){
-            if (buttonLv2.getActionListeners()[y].getClass().equals(BuildLvl2.class))
-                buttonLv2.addActionListener(new BuildLvl2());
-
-        }
-        for (int y = 0; y < buttonLv3.getActionListeners().length; y++){
-            if (buttonLv3.getActionListeners()[y].getClass().equals(BuildLvl3.class))
-                buttonLv3.addActionListener(new BuildLvl3());
-
-        }
-        for (int y = 0; y < buttonDome.getActionListeners().length; y++){
-            if (buttonDome.getActionListeners()[y].getClass().equals(BuildDome.class))
-                buttonDome.addActionListener(new BuildDome());
-
+    private void removeBuildBorder(List<Integer> positions){
+        for (Integer x : positions){
+            mapButtons[x - 1].setBorderPainted(false);
+            eliminateActionClass(mapButtons[x - 1], BuildLvl1.class);
+            eliminateActionClass(mapButtons[x - 1], BuildLvl2.class);
+            eliminateActionClass(mapButtons[x - 1], BuildLvl3.class);
+            eliminateActionClass(mapButtons[x - 1], BuildDome.class);
         }
     }
 
     private class AddBuildLvl1 implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
+            removeBuildBorder(avaiableBuildPositions);
 
-            for (int x = 0; x < 25; x++){
+            for (Integer x : avaiableBuildPositions){
 
-                if (mapButtonslvl[x] == 0 && !mapButtonsPlayer[x]){
-                    mapButtons[x].addActionListener(new BuildLvl1());
+                if (mapButtonslvl[x - 1] == 0 && !mapButtonsPlayer[x - 1]){
+                    eliminateMouseClass(mapButtons[x - 1], ColorBorder.class);
+                    mapButtons[x - 1].setBorder(BorderFactory.createLineBorder(buildBorder, 5));
+                    mapButtons[x - 1].setBorderPainted(true);
+                    mapButtons[x - 1].addActionListener(new BuildLvl1());
                 }
             }
         }
@@ -1352,11 +1500,14 @@ public class Board extends Observable {
     private class AddBuildLvl2 implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
+            removeBuildBorder(avaiableBuildPositions);
 
-            for (int x = 0; x < 25; x++){
+            for (Integer x : avaiableBuildPositions){
 
-                if (mapButtonslvl[x] == 1 && !mapButtonsPlayer[x]){
-                    mapButtons[x].addActionListener(new BuildLvl2());
+                if (mapButtonslvl[x - 1] == 1 && !mapButtonsPlayer[x - 1]){
+                    mapButtons[x - 1].setBorder(BorderFactory.createLineBorder(buildBorder, 5));
+                    mapButtons[x - 1].setBorderPainted(true);
+                    mapButtons[x - 1].addActionListener(new BuildLvl2());
                 }
             }
         }
@@ -1383,11 +1534,14 @@ public class Board extends Observable {
     private class AddBuildLvl3 implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
+            removeBuildBorder(avaiableBuildPositions);
 
-            for (int x = 0; x < 25; x++){
+            for (Integer x : avaiableBuildPositions){
 
-                if (mapButtonslvl[x] == 2 && !mapButtonsPlayer[x]){
-                    mapButtons[x].addActionListener(new BuildLvl3());
+                if (mapButtonslvl[x - 1] == 2 && !mapButtonsPlayer[x - 1]){
+                    mapButtons[x - 1].setBorder(BorderFactory.createLineBorder(buildBorder, 5));
+                    mapButtons[x - 1].setBorderPainted(true);
+                    mapButtons[x - 1].addActionListener(new BuildLvl3());
                 }
             }
         }
@@ -1414,11 +1568,14 @@ public class Board extends Observable {
     private class AddBuildDome implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
+            removeBuildBorder(avaiableBuildPositions);
 
-            for (int x = 0; x < 25; x++){
+            for (Integer x : avaiableBuildPositions){
 
-                if (mapButtonslvl[x] == 3 && !mapButtonsPlayer[x]){
-                    mapButtons[x].addActionListener(new BuildDome());
+                if (mapButtonslvl[x - 1] == 3 && !mapButtonsPlayer[x - 1]){
+                    mapButtons[x - 1].setBorder(BorderFactory.createLineBorder(buildBorder, 5));
+                    mapButtons[x - 1].setBorderPainted(true);
+                    mapButtons[x - 1].addActionListener(new BuildDome());
                 }
             }
         }
@@ -1451,17 +1608,6 @@ public class Board extends Observable {
             }
         }
         buttonMove.setEnabled(true);
-    }
-
-
-    private List<Integer> modifiedTiles(){
-        List<Integer> tiles = new ArrayList<>();
-        for (int x = 0; x < 25; x++){
-            if (mapMyWorkers[x] != 0){
-                tiles.add(x);
-            }
-        }
-        return tiles;
     }
 
     private static class ColorBorder extends MouseAdapter {
