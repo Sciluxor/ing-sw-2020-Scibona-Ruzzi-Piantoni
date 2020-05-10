@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.client.gui;
 
+import it.polimi.ingsw.model.Response;
 import it.polimi.ingsw.model.map.Square;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.message.MessageType;
@@ -77,6 +78,8 @@ public class Board extends Observable {
     JLabel background;
     JLabel opponents = new JLabel("Opponents:");
     JLabel worker;
+    JLabel workerOpponents1;
+    JLabel workerOpponents2;
     JLabel workerCyan;
     JLabel workerWhite;
     JLabel workerPurple;
@@ -90,6 +93,12 @@ public class Board extends Observable {
     JLabel lvl1Worker;
     JLabel lvl2Worker;
     JLabel lvl3Worker;
+    JLabel lvl1WorkerOpponents1;
+    JLabel lvl2WorkerOpponents1;
+    JLabel lvl3WorkerOpponents1;
+    JLabel lvl1WorkerOpponents2;
+    JLabel lvl2WorkerOpponents2;
+    JLabel lvl3WorkerOpponents2;
     JLabel lvl1Cyan;
     JLabel lvl2Cyan;
     JLabel lvl3Cyan;
@@ -151,6 +160,8 @@ public class Board extends Observable {
     String nameChoosing;
     int numberOfPlayers = 2;
     it.polimi.ingsw.model.player.Color myColor;
+    it.polimi.ingsw.model.player.Color colorOpponent1;
+    it.polimi.ingsw.model.player.Color colorOpponent2;
     int placed = 0;
     List<Integer> avaiableWorkers = new ArrayList<>();
     List<Integer> avaiableWorkersPositions = new ArrayList<>();
@@ -164,6 +175,7 @@ public class Board extends Observable {
     Color buildBorder = Color.WHITE;
     int worker1 = 0;
     int worker2 = 0;
+    Response responce = null;
 
     public void show(Gui instance, Dimension screen, Integer numberOfPlayer, List<Player> players,List<Player> players2, String nickname) throws IOException {
 
@@ -178,6 +190,7 @@ public class Board extends Observable {
         mePlayer = pickNickFromPlayers();
         removeNickFromOtherPlayers();
         myColor = mePlayer.getColor();
+        colorOpponent1 = otherPlayers.get(0).getColor();
 
         double ratio= (screen.getWidth()/screen.getHeight());
         int width = (int) ((screen.getWidth() * 95 / 100) * (1.689999 / ratio));
@@ -261,6 +274,7 @@ public class Board extends Observable {
         lbuttonEndturnPress = ImageHandler.setImage("resources/Graphics/button_endturn_press.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
 
         setMyColorWorkers();
+        setColorWorkers1();
 
         windowPower = new JWindow();
         windowPower.setBounds((int)(frameSize.width * 35.5/100), (int) (frameSize.height * 37/100), internalFrameSize40x45.width, internalFrameSize40x45.height);
@@ -328,7 +342,9 @@ public class Board extends Observable {
         if (numberOfPlayers == 3){
             opponent2 = new JButton(otherPlayers.get(1).getNickName());
             opponent2.setForeground(getColorPlayer(otherPlayers.get(1)));
+            colorOpponent2 = otherPlayers.get(1).getColor();
             opponentsStyleButtons(opponent2);
+            setColorWorkers2();
         }
 
         chat.setBounds(frameChat.getWidth() * 22/100 , frameChat.getHeight() * 28/100, frameChat.getWidth() * 63/100, frameChat.getHeight() * 38/100);
@@ -392,7 +408,7 @@ public class Board extends Observable {
                 labelSeePower.setBounds((int) (frameSize.width * 78.75/100), (int) (frameSize.height * 52.75/100), size20x5.width, size20x5.height);
                 labelConfirmPlace.setBounds((int) (frameSize.width * 80/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
                 labelChooseWorker.setBounds((int) (frameSize.width * 81/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
-                labelMove.setBounds((int) (frameSize.width * 86/100), (int) (frameSize.height * 27.5/100), size20x5.width, size20x5.height);
+                labelMove.setBounds((int) (frameSize.width * 85.75/100), (int) (frameSize.height * 27.5/100), size20x5.width, size20x5.height);
                 labelBuild.setBounds((int) (frameSize.width * 85.75/100), (int) (frameSize.height * 39.5/100), size20x5.width, size20x5.height);
 
 
@@ -731,13 +747,54 @@ public class Board extends Observable {
         }
     }
 
+    private void setColorWorkers1(){
+        if (colorOpponent1.toString().equalsIgnoreCase("BLUE")){
+            workerOpponents1 = workerCyan;
+            lvl1WorkerOpponents1 = lvl1Cyan;
+            lvl2WorkerOpponents1 = lvl2Cyan;
+            lvl3WorkerOpponents1 = lvl3Cyan;
+        }
+        else if (colorOpponent1.toString().equalsIgnoreCase("WHITE")){
+            workerOpponents1 = workerWhite;
+            lvl1WorkerOpponents1 = lvl1White;
+            lvl2WorkerOpponents1 = lvl2White;
+            lvl3WorkerOpponents1 = lvl3White;
+        }
+        else if (colorOpponent1.toString().equalsIgnoreCase("PURPLE")){
+            workerOpponents1 = workerPurple;
+            lvl1WorkerOpponents1 = lvl1Purple;
+            lvl2WorkerOpponents1 = lvl2Purple;
+            lvl3WorkerOpponents1 = lvl3Purple;
+        }
+    }
+
+    private void setColorWorkers2(){
+        if (colorOpponent2.toString().equalsIgnoreCase("BLUE")){
+            workerOpponents2 = workerCyan;
+            lvl1WorkerOpponents2 = lvl1Cyan;
+            lvl2WorkerOpponents2 = lvl2Cyan;
+            lvl3WorkerOpponents2 = lvl3Cyan;
+        }
+        else if (colorOpponent2.toString().equalsIgnoreCase("WHITE")){
+            workerOpponents2 = workerWhite;
+            lvl1WorkerOpponents2 = lvl1White;
+            lvl2WorkerOpponents2 = lvl2White;
+            lvl3WorkerOpponents2 = lvl3White;
+        }
+        else if (colorOpponent2.toString().equalsIgnoreCase("PURPLE")){
+            workerOpponents2 = workerPurple;
+            lvl1WorkerOpponents2 = lvl1Purple;
+            lvl2WorkerOpponents2 = lvl2Purple;
+            lvl3WorkerOpponents2 = lvl3Purple;
+        }
+    }
+
     private void setInternalFrames(JInternalFrame i){
         i.setPreferredSize(sideSize);
         i.setBounds((int)((frameSize.width * 50/100) - (internalFrameSize90x90.width * 50/100)), (int) ((frameSize.height * 46/100) - (internalFrameSize90x90.height * 50/100)), internalFrameSize90x90.width, internalFrameSize90x90.height);
         internalFrameSetUp(i);
 
     }
-
 
     public static void internalFrameSetUp(JInternalFrame intFrame){
         intFrame.putClientProperty(PALETTE, Boolean.TRUE);
@@ -1237,6 +1294,7 @@ public class Board extends Observable {
         internalFrameStartTurn.getContentPane().add(startTurn);
         internalFrameStartTurn.setVisible(true);
     }
+
     private class AvaiableWorkers implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -1248,6 +1306,7 @@ public class Board extends Observable {
                 for (int y = 0; y < 25; y++){
                     if (mapMyWorkers[y] == x){
                         eliminateMouseClass(mapButtons[y], ColorBorder.class);
+                        eliminateActionClass(mapButtons[y], SelectWorker.class);
                         mapButtons[y].setBorder(BorderFactory.createLineBorder(selectWorkerBorder, 5));
                         mapButtons[y].setBorderPainted(true);
                         mapButtons[y].addActionListener(new SelectWorker());
@@ -1265,6 +1324,7 @@ public class Board extends Observable {
             mapButtons[x - 1].setBorderPainted(false);
             mapButtons[x - 1].addMouseListener(new ColorBorder());
         }
+        avaiableMovePositions.clear();
     }
 
     private class SelectWorker implements ActionListener{
@@ -1276,6 +1336,7 @@ public class Board extends Observable {
             for (Integer k : avaiableWorkersPositions){
                 eliminateActionClass(mapButtons[k], SelectWorker.class);
                 mapButtons[k].setBorderPainted(false);
+
                 if (pos != k){
                     mapButtons[k].addMouseListener(new ColorBorder());
                 }
@@ -1286,6 +1347,7 @@ public class Board extends Observable {
             buttonMultiUse.setVisible(false);
             workerChoosen = mapMyWorkers[pos];
             tileWorkerChosen = pos;
+            avaiableWorkersPositions.clear();
         }
     }
 
@@ -1326,17 +1388,19 @@ public class Board extends Observable {
         @Override
         public void actionPerformed(ActionEvent e) {
             JButton c = (JButton) e.getSource();
-            gui.moveWorker(Integer.parseInt(c.getName()) + 1);
-            System.out.println("qui move su: " + Integer.parseInt(c.getName()) + 1);
+            responce = gui.moveWorker(Integer.parseInt(c.getName()) + 1);
             for (Integer x : avaiableMovePositions){
                 eliminateActionClass(mapButtons[x - 1], Move.class);
                 mapButtons[x - 1].setBorderPainted(false);
                 mapButtons[x - 1].addMouseListener(new ColorBorder());
+
             }
             moveWorkerToTile(Integer.parseInt(c.getName()));
             displayChoose(false);
             displayMove(false);
             displayBuild(false);
+            System.out.println(responce);
+            gui.mapNextAction(responce);
         }
     }
 
@@ -1367,6 +1431,8 @@ public class Board extends Observable {
 
     private void changePreviousIcon(){
         mapMyWorkers[tileWorkerChosen] = 0;
+        mapButtons[tileWorkerChosen].setBorderPainted(false);
+        mapButtons[tileWorkerChosen].addMouseListener(new ColorBorder());
         switch (mapButtonslvl[tileWorkerChosen]) {
             case 0:
                 mapButtons[tileWorkerChosen].setIcon(null);
@@ -1388,6 +1454,23 @@ public class Board extends Observable {
         }
     }
 
+    public void updateBoard(String nick, List<Square> squares, MessageType type){
+        System.out.println(squares.size());
+        for (Square square : squares){
+            if(square.getPlayer().getColor().toString().equalsIgnoreCase("BLUE")){
+                mapButtons[square.getTile() - 1].setIcon(workerCyan.getIcon());
+                mapButtonsPlayer[square.getTile() - 1] = true;
+            }
+            else if(square.getPlayer().getColor().toString().equalsIgnoreCase("WHITE")){
+                mapButtons[square.getTile() - 1].setIcon(workerWhite.getIcon());
+                mapButtonsPlayer[square.getTile() - 1] = true;
+            }
+            else {
+                mapButtons[square.getTile() - 1].setIcon(workerPurple.getIcon());
+                mapButtonsPlayer[square.getTile() - 1] = true;
+            }
+        }
+    }
 
     private class EndTurn implements ActionListener{
         @Override

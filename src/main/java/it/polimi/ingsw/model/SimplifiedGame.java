@@ -21,7 +21,7 @@ public class SimplifiedGame{
     private String gameID;
     private Response gameStatus;
     private boolean hasWinner;
-    private Player winner = null;
+    private Player winner;
 
     public SimplifiedGame(int numberOfPlayers) {
 

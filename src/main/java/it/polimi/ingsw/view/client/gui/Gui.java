@@ -236,13 +236,8 @@ public class Gui extends ClientGameController {
     @Override
     public void updateBoard(String nick, List<Square> squares, MessageType type) {
         SwingUtilities.invokeLater(() -> {
-            System.out.println(nick);
-            for (Square s : squares){
-                System.out.println(s.getTile());
-            }
-            System.out.println(type);
+            board.updateBoard(nick, squares, type);
         });
-
     }
 
     @Override
