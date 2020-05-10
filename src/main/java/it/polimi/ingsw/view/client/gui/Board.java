@@ -159,6 +159,7 @@ public class Board extends Observable {
     int workerChoosen = 0;
     int tileWorkerChosen = 0;
     Color selectWorkerBorder = Color.CYAN;
+    Color selectedWorkerBorder = Color.RED;
     Color moveBorder = Color.WHITE;
     Color buildBorder = Color.WHITE;
     int worker1 = 0;
@@ -392,7 +393,7 @@ public class Board extends Observable {
                 labelConfirmPlace.setBounds((int) (frameSize.width * 80/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
                 labelChooseWorker.setBounds((int) (frameSize.width * 81/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
                 labelMove.setBounds((int) (frameSize.width * 86/100), (int) (frameSize.height * 27.5/100), size20x5.width, size20x5.height);
-                labelBuild.setBounds((int) (frameSize.width * 86/100), (int) (frameSize.height * 39.5/100), size20x5.width, size20x5.height);
+                labelBuild.setBounds((int) (frameSize.width * 85.75/100), (int) (frameSize.height * 39.5/100), size20x5.width, size20x5.height);
 
 
                 mapButtons[0].setBounds((int) (frameSize.width * (29.5)/100) , frameSize.width * 7/100,
@@ -1050,6 +1051,7 @@ public class Board extends Observable {
                         placed++;
                         mapMyWorkers[x] = 1;
                         worker1 = 1;
+                        eliminateActionClass(buttonMultiUse, ConfirmPlace.class);
                     }
 
                     else if (worker2 == 2){
@@ -1059,6 +1061,7 @@ public class Board extends Observable {
                             placed++;
                             mapMyWorkers[x] = 1;
                             worker1 = 1;
+                            eliminateActionClass(buttonMultiUse, ConfirmPlace.class);
                         }
 
                         else if (mapButtonsPlayer[x]){
@@ -1080,6 +1083,7 @@ public class Board extends Observable {
                             placed++;
                             mapMyWorkers[x] = 2;
                             worker2 = 2;
+                            eliminateActionClass(buttonMultiUse, ConfirmPlace.class);
                         }
 
                         else if (mapButtonsPlayer[x]){
@@ -1140,7 +1144,6 @@ public class Board extends Observable {
         for (int y = 1; y < 3; y++) {
             for (int x = 0; x < 25; x++) {
                 if (mapMyWorkers[x] == y) {
-                    System.out.println("Aggiunta tile: " + x);
                     tiles.add(x);
                     x = 24;
                 }
@@ -1268,16 +1271,21 @@ public class Board extends Observable {
         @Override
         public void actionPerformed(ActionEvent e) {
             JButton c = (JButton) e.getSource();
-            gui.setWorker(mapMyWorkers[Integer.parseInt(c.getName())]);
+            int pos = Integer.parseInt(c.getName());
+            gui.setWorker(mapMyWorkers[pos]);
             for (Integer k : avaiableWorkersPositions){
                 eliminateActionClass(mapButtons[k], SelectWorker.class);
                 mapButtons[k].setBorderPainted(false);
-                mapButtons[k].addMouseListener(new ColorBorder());
+                if (pos != k){
+                    mapButtons[k].addMouseListener(new ColorBorder());
+                }
             }
+            mapButtons[pos].setBorder(BorderFactory.createLineBorder(selectedWorkerBorder, 5));
+            mapButtons[pos].setBorderPainted(true);
             labelChooseWorker.setVisible(false);
             buttonMultiUse.setVisible(false);
-            workerChoosen = mapMyWorkers[Integer.parseInt(c.getName())];
-            tileWorkerChosen = Integer.parseInt(c.getName());
+            workerChoosen = mapMyWorkers[pos];
+            tileWorkerChosen = pos;
         }
     }
 
