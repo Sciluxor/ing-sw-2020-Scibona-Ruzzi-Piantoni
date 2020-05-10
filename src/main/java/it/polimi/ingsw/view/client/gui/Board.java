@@ -392,7 +392,7 @@ public class Board extends Observable {
                 labelSeePower.setBounds((int) (frameSize.width * 78.75/100), (int) (frameSize.height * 52.75/100), size20x5.width, size20x5.height);
                 labelConfirmPlace.setBounds((int) (frameSize.width * 80/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
                 labelChooseWorker.setBounds((int) (frameSize.width * 81/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
-                labelMove.setBounds((int) (frameSize.width * 86/100), (int) (frameSize.height * 27.5/100), size20x5.width, size20x5.height);
+                labelMove.setBounds((int) (frameSize.width * 85.75/100), (int) (frameSize.height * 27.5/100), size20x5.width, size20x5.height);
                 labelBuild.setBounds((int) (frameSize.width * 85.75/100), (int) (frameSize.height * 39.5/100), size20x5.width, size20x5.height);
 
 
@@ -1265,6 +1265,7 @@ public class Board extends Observable {
             mapButtons[x - 1].setBorderPainted(false);
             mapButtons[x - 1].addMouseListener(new ColorBorder());
         }
+        avaiableMovePositions.clear();
     }
 
     private class SelectWorker implements ActionListener{
@@ -1276,6 +1277,7 @@ public class Board extends Observable {
             for (Integer k : avaiableWorkersPositions){
                 eliminateActionClass(mapButtons[k], SelectWorker.class);
                 mapButtons[k].setBorderPainted(false);
+
                 if (pos != k){
                     mapButtons[k].addMouseListener(new ColorBorder());
                 }
@@ -1286,6 +1288,7 @@ public class Board extends Observable {
             buttonMultiUse.setVisible(false);
             workerChoosen = mapMyWorkers[pos];
             tileWorkerChosen = pos;
+            avaiableWorkersPositions.clear();
         }
     }
 
@@ -1327,11 +1330,11 @@ public class Board extends Observable {
         public void actionPerformed(ActionEvent e) {
             JButton c = (JButton) e.getSource();
             gui.moveWorker(Integer.parseInt(c.getName()) + 1);
-            System.out.println("qui move su: " + Integer.parseInt(c.getName()) + 1);
             for (Integer x : avaiableMovePositions){
                 eliminateActionClass(mapButtons[x - 1], Move.class);
                 mapButtons[x - 1].setBorderPainted(false);
                 mapButtons[x - 1].addMouseListener(new ColorBorder());
+
             }
             moveWorkerToTile(Integer.parseInt(c.getName()));
             displayChoose(false);
