@@ -235,6 +235,15 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         eventQueue.add(() -> displayActions(actions));
     }
 
+    public synchronized void mapNextAction(Response winStatus){
+        if(winStatus.equals(Response.WIN) || winStatus.equals(Response.BUILDWIN)){       //problema per la win, bisogna cambiare l'ordine delle chiamate
+            eventQueue.add(() -> notifyWin(game.getWinner().getNickName()));
+        }
+        else{
+            availableActions();
+        }
+    }
+
     public synchronized List<Integer> availableMoveSquare(){
         List<Directions> directions = game.getCurrentPlayer().findWorkerMove(game.getGameMap(),game.getCurrentPlayer().getCurrentWorker());
         List<Integer> availableTile = new ArrayList<>();
@@ -262,14 +271,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
 
     }
 
-    public synchronized void mapNextAction(Response winStatus){
-        if(winStatus.equals(Response.WIN) || winStatus.equals(Response.BUILDWIN)){       //problema per la win, bisogna cambiare l'ordine delle chiamate
-            eventQueue.add(() -> notifyWin(game.getWinner().getNickName()));
-        }
-        else{
-            availableActions();
-        }
-    }
+
 
     public synchronized Response checkMoveVictory(){
         Response response = game.getCurrentPlayer().checkVictory(game.getGameMap());
@@ -418,6 +420,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
                 break;
             case PERMCONSTRAINT:
                 addPermanentConstraint(message);   //mancano i case di WIN e LOSE
+                break;
             default:
         }
     }
