@@ -24,7 +24,7 @@ public class MoveWorkerMessage extends Message{
     }
 
     public MoveWorkerMessage(String sender, String nickName,List<Square> squares) {
-        super(sender, nickName, MessageType.MOVEWORKER,MessageSubType.ANSWER);
+        super(sender, nickName, MessageType.MOVEWORKER,MessageSubType.UPDATE);
         this.modifiedSquare = squares;
     }
 

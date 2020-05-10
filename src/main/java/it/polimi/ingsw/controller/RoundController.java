@@ -172,25 +172,22 @@ public class RoundController {
         Directions direction = ((MoveWorkerMessage) message).getDirection();
         Response response = Response.NOTMOVED;
 
-
         for (Card constraint : game.getCurrentPlayer().getConstraint()) {
             if (constraint.getType().equals(CardType.YOURMOVE) && !constraint.getSubType().equals(CardSubType.NORMAL))
                 possibleMoveSquare = constraint.eliminateInvalidMove(game.getGameMap(), game.getCurrentPlayer().getCurrentWorker(), possibleMoveSquare);
         }
-
         for (Directions possibleDir : possibleMoveSquare) {
             if (possibleDir.equals(direction)) {
                 response = game.getCurrentPlayer().executeWorkerMove(game.getGameMap(), direction);
                 break;
             }
         }
-
         if(!response.equals(Response.NOTMOVED) && !areRightSquares(((MoveWorkerMessage)message).getModifiedSquare())) {
             game.setGameStatus(Response.WRONGSQUAREMOVE);  //come faccio a tornare indietro? ormai ho già modificato, magari mettere una response diversa
             mapNextAction(response);
+            System.out.println(response.toString());
             return;
         }
-
         if (!(checkMoveVictory(message)))
             game.setGameStatus(Response.MOVEWINMISMATCH);
 

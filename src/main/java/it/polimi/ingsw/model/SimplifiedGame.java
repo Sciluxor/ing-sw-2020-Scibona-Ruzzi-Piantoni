@@ -91,9 +91,12 @@ public class SimplifiedGame{
         oldSquare.setBuilding(newSquare.getBuilding());
         oldSquare.setBuildingLevel(newSquare.getBuildingLevel());
         oldSquare.setHasPlayer(newSquare.hasPlayer());
-        oldSquare.setPlayer(newSquare.getPlayer());
-        oldSquare.setWorker(newSquare.getWorker());
+        if(newSquare.hasPlayer()) {
+            oldSquare.setPlayer(newSquare.getPlayer());
+            oldSquare.setWorker(newSquare.getWorker());
+        }
     }
+
     public List<String> getAvailableCards() {
         return availableCards;
     }

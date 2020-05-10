@@ -15,6 +15,7 @@ import it.polimi.ingsw.model.player.WorkerName;
 import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.utils.ConfigLoader;
 import it.polimi.ingsw.utils.FlowStatutsLoader;
+import it.polimi.ingsw.view.client.cli.Cli;
 
 import java.net.ConnectException;
 
@@ -24,7 +25,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.logging.Logger;
 
-public abstract class ClientGameController implements Runnable, FunctionListener{ //rimettere implements
+public abstract class ClientGameController implements Runnable, FunctionListener{
     public static final Logger LOGGER = Logger.getLogger("Client");
 
     private SimplifiedGame game;
@@ -186,6 +187,10 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         //da implementare
     }
 
+    public synchronized List<Square> getModifiedsquare(){
+        return game.getGameMap().getModifiedSquare();
+    }
+
     public synchronized void addPermanentConstraint(Message message){
        game.getClientPlayer().setConstraint(game.getDeck().get(message.getMessage()));
     }
@@ -206,6 +211,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
 
     public synchronized void setWorker(int worker){
         game.getCurrentPlayer().setCurrentWorker(game.getCurrentPlayer().getWorkers().get(worker-1));
+        client.sendMessage(new Message(client.getUserID(),MessageType.WORKERCHOICE,MessageSubType.ANSWER,worker==1 ? "worker1" : "worker2"));
         availableActions();
     }
 
