@@ -125,6 +125,8 @@ public class Board extends Observable {
     JLabel lButtonPowerPress;
     JLabel lButtonChat;
     JLabel lButtonChatPress;
+    JLabel lButtonChatPing;
+    JLabel lButtonChatPressPing;
     JLabel labelChooseCards = new JLabel("Choose Cards");
     JLabel lButtonChooseCards;
     JLabel lButtonChooseCardsPress;
@@ -183,6 +185,7 @@ public class Board extends Observable {
     List<JLabel> myLabels = new ArrayList<>();
     List<JLabel> opponents1Labels = new ArrayList<>();
     List<JLabel> opponents2Labels = new ArrayList<>();
+    boolean chatOpen = false;
 
     public void show(Gui instance, Dimension screen, Integer numberOfPlayer, List<Player> players,List<Player> players2, String nickname) throws IOException {
 
@@ -267,6 +270,7 @@ public class Board extends Observable {
         lButtonMove = ImageHandler.setImage("resources/Graphics/button_move.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
         lButtonPower = ImageHandler.setImage("resources/Graphics/button_power.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
         lButtonChat = ImageHandler.setImage("resources/Graphics/button_chat.png", 100, 100, frameSize.width * 5/100, frameSize.height * 7/100);
+        lButtonChatPing = ImageHandler.setImage("resources/Graphics/button_chat_ping.png", 100, 100, frameSize.width * 5/100, frameSize.height * 7/100);
         lButtonChooseCards = ImageHandler.setImage("resources/Graphics/button_choose_cards.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
         lbuttonChooseFirst = ImageHandler.setImage("resources/Graphics/button_choose_first.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
         lButtonChoosePower = ImageHandler.setImage("resources/Graphics/button_power.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
@@ -275,6 +279,7 @@ public class Board extends Observable {
         lButtonMovePress = ImageHandler.setImage("resources/Graphics/button_move_press.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
         lButtonPowerPress = ImageHandler.setImage("resources/Graphics/button_power_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
         lButtonChatPress = ImageHandler.setImage("resources/Graphics/button_chat_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 7/100);
+        lButtonChatPressPing = ImageHandler.setImage("resources/Graphics/button_chat_press_ping.png", 100, 100, frameSize.width * 5/100, frameSize.height * 7/100);
         lButtonChooseCardsPress = ImageHandler.setImage("resources/Graphics/button_choose_cards_press.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
         lbuttonChooseFirstPress = ImageHandler.setImage("resources/Graphics/button_choose_first_press.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
         lButtonChoosePowerPress = ImageHandler.setImage("resources/Graphics/button_power_press.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
@@ -1633,6 +1638,7 @@ public class Board extends Observable {
         @Override
         public void actionPerformed(ActionEvent e) {
             frameChat.setVisible(true);
+            chatOpen = true;
         }
     }
 
@@ -1640,6 +1646,7 @@ public class Board extends Observable {
         @Override
         public void actionPerformed(ActionEvent e) {
             frameChat.setVisible(false);
+            chatOpen = false;
         }
     }
 
@@ -1949,6 +1956,9 @@ public class Board extends Observable {
     }
 
     public void writeInChat(String name, String mess){
+        if (!chatOpen){
+            buttonChat.setIcon(lButtonChatPing.getIcon());
+        }
         chat.append(name + ": " + mess + "\n");
         chat.setCaretPosition(chat.getDocument().getLength());
         field.setText("");
