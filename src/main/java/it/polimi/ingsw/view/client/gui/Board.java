@@ -35,12 +35,14 @@ public class Board extends Observable {
     JDesktopPane chooseCard;
     JDesktopPane placeWorkers;
     JDesktopPane startTurn;
+    JDesktopPane updateBoard;
     JInternalFrame frameChat = new JInternalFrame("", false, false, false, false);
     JInternalFrame internalFrameChallenger1 = new JInternalFrame("", false, false, false, false);
     JInternalFrame internalFrameChallenger2 = new JInternalFrame("", false, false, false, false);
     JInternalFrame internalFrameChooseCards = new JInternalFrame("", false, false, false, false);
     JInternalFrame internalFramePlaceWorkers = new JInternalFrame("", false, false, false, false);
     JInternalFrame internalFrameStartTurn = new JInternalFrame("", false, false, false, false);
+    JInternalFrame internalFrameUpdateBoard = new JInternalFrame("", false, false, false, false);
     JWindow windowPower;
     JScrollPane scrollPane;
     JButton buttonLv1 = new JButton();
@@ -178,6 +180,7 @@ public class Board extends Observable {
     int worker1 = 0;
     int worker2 = 0;
     Response responce = null;
+    List<JLabel> myLabels = new ArrayList<>();
     List<JLabel> opponents1Labels = new ArrayList<>();
     List<JLabel> opponents2Labels = new ArrayList<>();
 
@@ -298,6 +301,9 @@ public class Board extends Observable {
         setInternalFrames(internalFrameStartTurn);
         BasicInternalFrameUI bi5 = (BasicInternalFrameUI) internalFrameStartTurn.getUI();
         bi5.setNorthPane(null);
+        setInternalFrames(internalFrameUpdateBoard);
+        BasicInternalFrameUI bi6 = (BasicInternalFrameUI) internalFrameUpdateBoard.getUI();
+        bi6.setNorthPane(null);
 
 
         frameChat.setPreferredSize(sideSize);
@@ -703,6 +709,7 @@ public class Board extends Observable {
         desktopPane.add(internalFrameChooseCards);
         desktopPane.add(internalFramePlaceWorkers);
         desktopPane.add(internalFrameStartTurn);
+        desktopPane.add(internalFrameUpdateBoard);
 
         desktopPane.add(leftBoard);
         desktopPane.add(leftGod);
@@ -749,6 +756,10 @@ public class Board extends Observable {
             lvl2Worker = lvl2Purple;
             lvl3Worker = lvl3Purple;
         }
+        myLabels.add(worker);
+        myLabels.add(lvl1Worker);
+        myLabels.add(lvl2Worker);
+        myLabels.add(lvl3Worker);
     }
 
     private void setColorWorkers1(){
@@ -821,7 +832,6 @@ public class Board extends Observable {
         i.setPreferredSize(sideSize);
         i.setBounds((int)((frameSize.width * 50/100) - (internalFrameSize90x90.width * 50/100)), (int) ((frameSize.height * 46/100) - (internalFrameSize90x90.height * 50/100)), internalFrameSize90x90.width, internalFrameSize90x90.height);
         internalFrameSetUp(i);
-
     }
 
     public static void internalFrameSetUp(JInternalFrame intFrame){
@@ -839,7 +849,6 @@ public class Board extends Observable {
         button.setContentAreaFilled(false);
         button.setFocusPainted(false);
         button.setBorderPainted(false);
-
     }
 
     private void chatStyleButtons(JButton button, JLabel label){
@@ -909,7 +918,7 @@ public class Board extends Observable {
     public void showChallenger(String name, boolean bool) {
         if (bool){
             try {
-                youChosen = new YouHaveBeenChosen(internalFrameChallenger1, internalFrameSize2);
+                youChosen = new YouHaveBeenChosen(this, internalFrameChallenger1, internalFrameSize2);
             } catch (IOException e) {
                 LOGGER.severe(e.getMessage());
             }
@@ -922,10 +931,11 @@ public class Board extends Observable {
             buttonChooseFirst.setVisible(true);
             labelChooseFirst.setVisible(true);
             buttonChooseFirst.addActionListener(new ChooseFirst());
+            enableCardsFirst(false);
         }
         else{
             try {
-                waitChallenger = new WaitChallenger(internalFrameChallenger1, internalFrameSize40x45.width, internalFrameSize40x45.height, name);
+                waitChallenger = new WaitChallenger(internalFrameChallenger1, internalFrameSize40x45, name);
             } catch (IOException e) {
                 LOGGER.severe(e.getMessage());
             }
@@ -933,6 +943,11 @@ public class Board extends Observable {
             internalFrameChallenger1.getContentPane().add(waitChallenger);
             internalFrameChallenger1.setVisible(true);
         }
+    }
+
+    public void enableCardsFirst(boolean bool){
+        buttonChooseCards.setEnabled(bool);
+        buttonChooseFirst.setEnabled(bool);
     }
 
     private class ChooseCards implements ActionListener{
@@ -1000,6 +1015,7 @@ public class Board extends Observable {
             }
             internalFrameChooseCards.setBounds((int) (frameSize.width * 29.5/100), (int) (frameSize.height * 25.5/100), internalFrameSize40x45.width, internalFrameSize40x45.height);
             buttonChoosePower.setVisible(true);
+            enablePower(false);
             labelChoosePower.setVisible(true);
             buttonChoosePower.addActionListener(new ChoosePower());
         }
@@ -1013,6 +1029,10 @@ public class Board extends Observable {
         }
         internalFrameChooseCards.getContentPane().add(chooseCard);
         internalFrameChooseCards.setVisible(true);
+    }
+
+    public void enablePower(boolean bool){
+        buttonChoosePower.setEnabled(bool);
     }
 
     public void callCardChoiceResponse(){
@@ -1380,6 +1400,7 @@ public class Board extends Observable {
     }
 
     public void displayButtons(List<MessageType> actions){
+        System.out.println(actions.toString());
         for (MessageType mess : actions){
             switch (mess){
                 case MOVEWORKER:
@@ -1484,6 +1505,20 @@ public class Board extends Observable {
     public void updateBoard(String nick, List<Square> squares, MessageType type){
         System.out.println(squares.size());
         List<JLabel> list = null;
+
+        if (updateBoard != null) {
+            internalFrameUpdateBoard.remove(updateBoard);
+        }
+        try {
+            updateBoard = new UpdateBoard(this, internalFrameUpdateBoard, internalFrameSize40x45, nick, type);
+        } catch (IOException e) {
+            LOGGER.severe(e.getMessage());
+        }
+        internalFrameUpdateBoard.setBounds((int) (frameSize.width * 29.5/100), (int) (frameSize.height * 25.5/100), internalFrameSize40x45.width, internalFrameSize40x45.height);
+        internalFrameUpdateBoard.getContentPane().add(updateBoard);
+        internalFrameUpdateBoard.setVisible(true);
+
+
         if (nick.equalsIgnoreCase(opponent1.getText())){
             list = opponents1Labels;
         }
@@ -1603,10 +1638,10 @@ public class Board extends Observable {
     }
 
     private void removeBuildLvl() {
-        eliminateActionClass(buttonLv1, BuildLvl1.class);
-        eliminateActionClass(buttonLv2, BuildLvl2.class);
-        eliminateActionClass(buttonLv3, BuildLvl3.class);
-        eliminateActionClass(buttonDome, BuildDome.class);
+        eliminateActionClass(buttonLv1, AddBuildLvl1.class);
+        eliminateActionClass(buttonLv2, AddBuildLvl2.class);
+        eliminateActionClass(buttonLv3, AddBuildLvl3.class);
+        eliminateActionClass(buttonDome, AddBuildDome.class);
     }
 
     private void removeBuildBorder(List<Integer> positions){
@@ -1650,7 +1685,7 @@ public class Board extends Observable {
                 }
 
             }
-
+            removeBuildBorder(avaiableBuildPositions);
             removeBuild();
             removeBuildLvl();
         }
@@ -1682,9 +1717,11 @@ public class Board extends Observable {
                 if (mapButtons[x] == c){
                     c.setIcon(lvl2.getIcon());
                     mapButtonslvl[x] = 2;
+                    gui.buildWorker(x + 1, Building.LVL2);
                 }
 
             }
+            removeBuildBorder(avaiableBuildPositions);
             removeBuild();
             removeBuildLvl();
         }
@@ -1716,9 +1753,11 @@ public class Board extends Observable {
                 if (mapButtons[x] == c){
                     c.setIcon(lvl3.getIcon());
                     mapButtonslvl[x] = 3;
+                    gui.buildWorker(x + 1, Building.LVL3);
                 }
 
             }
+            removeBuildBorder(avaiableBuildPositions);
             removeBuild();
             removeBuildLvl();
         }
@@ -1749,10 +1788,12 @@ public class Board extends Observable {
 
                 if (mapButtons[x] == c && !mapButtonsPlayer[x]){
                     c.setIcon(lvl3Dome.getIcon());
-                    mapButtonslvl[x] = 4;
+                    mapButtonslvl[x]++;
+                    gui.buildWorker(x + 1, Building.DOME);
                 }
 
             }
+            removeBuildBorder(avaiableBuildPositions);
             removeBuild();
             removeBuildLvl();
         }
@@ -1854,6 +1895,13 @@ public class Board extends Observable {
         }
     }
 
+    public void writeInChat(String name, String mess){
+        System.out.println("write:" + mess);
+        chat.append(name + ": " + mess + "\n");
+        chat.setCaretPosition(chat.getDocument().getLength());
+        field.setText("");
+    }
+
     private class Write implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -1861,6 +1909,7 @@ public class Board extends Observable {
                 chat.append(mePlayer.getNickName() + ": " + field.getText().toLowerCase() + "\n");
                 chat.setCaretPosition(chat.getDocument().getLength());
                 field.setText("");
+                gui.sendChatMessage(field.getText().toLowerCase());
             }
         }
     }

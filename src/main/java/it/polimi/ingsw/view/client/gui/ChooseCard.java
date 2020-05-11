@@ -221,6 +221,7 @@ public class ChooseCard extends JDesktopPane{
         @Override
         public void actionPerformed(ActionEvent e) {
             guiIntFrame.setVisible(false);
+            board.enablePower(true);
         }
     }
 

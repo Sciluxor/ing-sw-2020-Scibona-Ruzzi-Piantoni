@@ -1,5 +1,7 @@
 package it.polimi.ingsw.view.client.gui;
 
+import it.polimi.ingsw.network.message.MessageType;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -9,14 +11,14 @@ import java.io.IOException;
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButtonPersonalized;
 import static it.polimi.ingsw.view.client.gui.Gui.getD;
 
-public class YouHaveBeenChosen extends JDesktopPane {
+public class UpdateBoard extends JDesktopPane {
 
     Board board;
     Dimension frameSize = new Dimension();
     MyButton close = new MyButton(3);
     JInternalFrame intFrame;
 
-    public YouHaveBeenChosen(Board istance, JInternalFrame frame, Dimension dimensionFrame) throws IOException {
+    public UpdateBoard(Board istance, JInternalFrame frame, Dimension dimensionFrame, String name, MessageType type) throws IOException {
 
         frameSize.setSize(dimensionFrame);
         intFrame = frame;
@@ -49,7 +51,6 @@ public class YouHaveBeenChosen extends JDesktopPane {
         @Override
         public void actionPerformed(ActionEvent e) {
             intFrame.setVisible(false);
-            board.enableCardsFirst(true);
         }
     }
 }

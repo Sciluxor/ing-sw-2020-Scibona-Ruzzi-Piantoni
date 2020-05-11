@@ -16,15 +16,19 @@ public class WaitChallenger extends JDesktopPane{
     JInternalFrame intFrame;
 
 
-    public WaitChallenger(JInternalFrame frame, int wi, int he, String name) throws IOException {
+    public WaitChallenger(JInternalFrame frame, Dimension dim, String name) throws IOException {
 
-        frameSize.setSize(wi, he);
+        frameSize.setSize(dim);
         intFrame = frame;
         setPreferredSize(frameSize);
         setLayout(null);
 
-        JLabel label = ImageHandler.setImage("resources/Graphics/Texts/waiting_for_challenger_to_choose_the_god.png", 99, 99, frameSize.width * 85/100, frameSize.height * 22/100);
+        JLabel label = ImageHandler.setImage("resources/Graphics/Texts/wait_for.png", 99, 99, frameSize.width * 85/100, frameSize.height * 22/100);
+        JLabel label2 = ImageHandler.setImage("resources/Graphics/Texts/as_challenger_to_choose_the_gods.png", 99, 99, frameSize.width * 85/100, frameSize.height * 22/100);
+        JLabel label3 = ImageHandler.setImage("resources/Graphics/Texts/and_the_first_player.png", 99, 99, frameSize.width * 85/100, frameSize.height * 22/100);
         label.setBounds((int) (frameSize.width * 7.5/100), frameSize.height * 39/100, frameSize.width * 85/100, frameSize.height * 22/100);
+        label2.setBounds((int) (frameSize.width * 7.5/100), frameSize.height * 45/100, frameSize.width * 85/100, frameSize.height * 22/100);
+        label3.setBounds((int) (frameSize.width * 7.5/100), frameSize.height * 60/100, frameSize.width * 85/100, frameSize.height * 22/100);
         add(label);
 
         close.addActionListener(new Close());

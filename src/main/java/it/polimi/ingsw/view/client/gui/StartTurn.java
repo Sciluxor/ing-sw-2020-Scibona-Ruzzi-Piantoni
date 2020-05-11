@@ -26,9 +26,10 @@ public class StartTurn extends JDesktopPane{
         setPreferredSize(frameSize);
         setLayout(null);
 
-        JLabel label = new JLabel("start your turn");
-        JLabel label2 = new JLabel("other is starting the turn");
-        //JLabel label = ImageHandler.setImage("resources/Graphics/Texts/waiting_for_challenger_to_choose_the_god.png", 99, 99, frameSize.width * 85/100, frameSize.height * 22/100);
+
+
+        JLabel label = ImageHandler.setImage("resources/Graphics/Texts/is_starting_the_turn.png", 99, 99, frameSize.width * 85/100, frameSize.height * 22/100);
+        JLabel label2 = ImageHandler.setImage("resources/Graphics/Texts/it's_your_turn.png", 99, 99, frameSize.width * 85/100, frameSize.height * 22/100);
         label.setBounds((int) (frameSize.width * 7.5/100), frameSize.height * 39/100, frameSize.width * 85/100, frameSize.height * 22/100);
         label2.setBounds((int) (frameSize.width * 7.5/100), frameSize.height * 39/100, frameSize.width * 85/100, frameSize.height * 22/100);
 

@@ -390,6 +390,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     public synchronized void handleChatMessage(Message message){
+        System.out.println("client:" + message.getMessage());
         eventQueue.add(() -> newChatMessage(message.getNickName(),message.getMessage()));
     }
 
