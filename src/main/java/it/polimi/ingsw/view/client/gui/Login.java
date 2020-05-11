@@ -101,6 +101,7 @@ public class Login extends JPanel{
                     gui.logginToLobby();
                 } catch (ConnectException connectException) {
                     LOGGER.severe(connectException.getMessage());
+                    gui.backToLogin(true);
                 }
             }
             else{

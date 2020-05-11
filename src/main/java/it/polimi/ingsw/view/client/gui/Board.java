@@ -1255,6 +1255,7 @@ public class Board extends Observable {
             }
         }
         return tiles;
+
     }
 
     private void  removePlaceWorker(){
@@ -1317,6 +1318,7 @@ public class Board extends Observable {
 
     public void startTurn(String nick, boolean isYourPlayer){
         internalFramePlaceWorkers.dispose();
+        internalFrameUpdateBoard.setVisible(false);
         if (startTurn != null){
             internalFrameStartTurn.remove(startTurn);
         }
@@ -1395,6 +1397,7 @@ public class Board extends Observable {
             buttonMultiUse.setVisible(false);
             workerChoosen = mapMyWorkers[pos];
             tileWorkerChosen = pos;
+            System.out.println(tileWorkerChosen);
             avaiableWorkersPositions.clear();
         }
     }
@@ -1448,7 +1451,7 @@ public class Board extends Observable {
                 mapButtons[x - 1].addMouseListener(new ColorBorder());
 
             }
-            displayModifications(gui.getModifiedsquare());
+            displayModifications(gui.getModifiedsquare(), true);
             displayChoose(false);
             displayMove(false);
             displayBuild(false);
@@ -1457,7 +1460,6 @@ public class Board extends Observable {
     }
 
     public void updateBoard(String nick, List<Square> squares, MessageType type){
-        System.out.println(squares.size());
         List<JLabel> list = null;
 
         if (updateBoard != null) {
@@ -1476,14 +1478,40 @@ public class Board extends Observable {
         switch (type){
             case MOVEWORKER:
             case BUILDWORKER:
-                displayModifications(squares);
+                displayModifications(squares, false);
                 break;
 
             default:
         }
     }
 
-    private void displayModifications(List<Square> squares){
+    private void changePreviousIcon(){
+        mapButtons[tileWorkerChosen].setBorderPainted(false);
+        mapButtons[tileWorkerChosen].addMouseListener(new ColorBorder());
+        switch (mapButtonslvl[tileWorkerChosen]) {
+            case 0:
+                mapButtons[tileWorkerChosen].setIcon(null);
+                mapButtonsPlayer[tileWorkerChosen] = false;
+                break;
+            case 1:
+                mapButtons[tileWorkerChosen].setIcon(lvl1.getIcon());
+                mapButtonsPlayer[tileWorkerChosen] = false;
+                break;
+            case 2:
+                mapButtons[tileWorkerChosen].setIcon(lvl2.getIcon());
+                mapButtonsPlayer[tileWorkerChosen] = false;
+                break;
+            case 3:
+                mapButtons[tileWorkerChosen].setIcon(lvl3.getIcon());
+                mapButtonsPlayer[tileWorkerChosen] = false;
+                break;
+            default:
+        }
+    }
+
+
+    private void displayModifications(List<Square> squares, boolean isMe){
+        changePreviousIcon();
         List<JLabel> list = null;
         for (Square square : squares){
             if (square.hasPlayer()) {
@@ -1491,45 +1519,78 @@ public class Board extends Observable {
                 if (square.getPlayer().getNickName().equalsIgnoreCase(opponent1.getText())){
                     list = opponents1Labels;
                 }
-                else if (square.getPlayer().getNickName().equalsIgnoreCase(opponent1.getText())){
+                else if (numberOfPlayers == 3 && square.getPlayer().getNickName().equalsIgnoreCase(opponent2.getText())){
                     list = opponents2Labels;
                 }
-                else {
+                else if (square.getPlayer().getNickName().equalsIgnoreCase(mePlayer.getNickName())){
                     list = myLabels;
                 }
                 if (square.getBuilding().equals(Building.GROUND)) {
                     mapButtons[square.getTile() - 1].setIcon(Objects.requireNonNull(getLabelFromBuildLvl(list, Building.GROUND)).getIcon());
                     mapButtonsPlayer[square.getTile() - 1] = true;
+                    mapButtonslvl[square.getTile() - 1] = square.getBuildingLevel();
                 } else if (square.getBuilding().equals(Building.LVL1)) {
                     mapButtons[square.getTile() - 1].setIcon(Objects.requireNonNull(getLabelFromBuildLvl(list, Building.LVL1)).getIcon());
                     mapButtonsPlayer[square.getTile() - 1] = true;
+                    mapButtonslvl[square.getTile() - 1] = square.getBuildingLevel();
                 } else if (square.getBuilding().equals(Building.LVL2)) {
                     mapButtons[square.getTile() - 1].setIcon(Objects.requireNonNull(getLabelFromBuildLvl(list, Building.LVL2)).getIcon());
                     mapButtonsPlayer[square.getTile() - 1] = true;
+                    mapButtonslvl[square.getTile() - 1] = square.getBuildingLevel();
                 } else if (square.getBuilding().equals(Building.LVL3)) {
                     mapButtons[square.getTile() - 1].setIcon(Objects.requireNonNull(getLabelFromBuildLvl(list, Building.LVL3)).getIcon());
                     mapButtonsPlayer[square.getTile() - 1] = true;
+                    mapButtonslvl[square.getTile() - 1] = square.getBuildingLevel();
                 }
             }
             else {
                 if (square.getBuilding().equals(Building.GROUND)) {
                     mapButtons[square.getTile() - 1].setIcon(null);
                     mapButtonsPlayer[square.getTile() - 1] = false;
+                    mapButtonslvl[square.getTile() - 1] = square.getBuildingLevel();
+
                 } else if (square.getBuilding().equals(Building.LVL1)) {
                     mapButtons[square.getTile() - 1].setIcon(lvl1.getIcon());
                     mapButtonsPlayer[square.getTile() - 1] = false;
+                    mapButtonslvl[square.getTile() - 1] = square.getBuildingLevel();
+
                 } else if (square.getBuilding().equals(Building.LVL2)) {
                     mapButtons[square.getTile() - 1].setIcon(lvl2.getIcon());
                     mapButtonsPlayer[square.getTile() - 1] = false;
+                    mapButtonslvl[square.getTile() - 1] = square.getBuildingLevel();
+
                 } else if (square.getBuilding().equals(Building.LVL3)) {
                     mapButtons[square.getTile() - 1].setIcon(lvl3.getIcon());
                     mapButtonsPlayer[square.getTile() - 1] = false;
+                    mapButtonslvl[square.getTile() - 1] = square.getBuildingLevel();
+
                 } else {
                     mapButtons[square.getTile() - 1].setIcon(lvl3Dome.getIcon());
                     mapButtonsPlayer[square.getTile() - 1] = false;
+                    mapButtonslvl[square.getTile() - 1] = square.getBuildingLevel();
                 }
             }
         }
+        if (squares.size() == 3){
+            int pushPosition = squares.get(2).getTile() - 1;
+            int finalPosition = squares.get(1).getTile() - 1;
+            int previousPosition = squares.get(0).getTile() - 1;
+            if (isMe) {
+                mapMyWorkers[finalPosition] = mapMyWorkers[previousPosition];
+                mapMyWorkers[previousPosition] = 0;
+            }
+            else {
+                mapMyWorkers[pushPosition] = mapMyWorkers[finalPosition];
+                mapMyWorkers[finalPosition] = 0;
+            }
+        }
+        else if (squares.size() == 2 && isMe){
+            int finalPosition = squares.get(1).getTile() - 1;
+            int previousPosition = squares.get(0).getTile() - 1;
+            mapMyWorkers[finalPosition] = mapMyWorkers[previousPosition];
+            mapMyWorkers[previousPosition] = 0;
+        }
+
     }
 
     private class EndTurn implements ActionListener{
@@ -1537,6 +1598,10 @@ public class Board extends Observable {
         public void actionPerformed(ActionEvent e) {
             gui.endTurn();
             displayEndturn(false);
+            displayChoose(false);
+            displayMove(false);
+            displayBuild(false);
+            displayLevel(false);
         }
     }
 

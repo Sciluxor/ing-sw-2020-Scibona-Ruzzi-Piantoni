@@ -29,7 +29,7 @@ public class Hestia extends Card {
         if(hasBuilt)
             return notPerimeterBuild(gameMap, worker);
 
-        return gameMap.reachableSquares(worker);
+        return gameMap.buildableSquare(worker);
     }
 
     public List<Directions> notPerimeterBuild(GameMap gameMap, Worker worker) {

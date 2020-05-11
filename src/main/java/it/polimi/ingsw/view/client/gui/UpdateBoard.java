@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButtonPersonalized;
+import static it.polimi.ingsw.view.client.gui.Gui.felixBold;
 import static it.polimi.ingsw.view.client.gui.Gui.getD;
 
 public class UpdateBoard extends JDesktopPane {
@@ -18,25 +19,32 @@ public class UpdateBoard extends JDesktopPane {
     MyButton close = new MyButton(3);
     JInternalFrame intFrame;
 
+    String nameChoosing;
+
     public UpdateBoard(Board istance, JInternalFrame frame, Dimension dimensionFrame, String name, MessageType type) throws IOException {
 
         frameSize.setSize(dimensionFrame);
         intFrame = frame;
         board = istance;
+        nameChoosing = name;
         setPreferredSize(frameSize);
         setLayout(null);
 
-        JLabel label = ImageHandler.setImage("resources/Graphics/Texts/you_have_been_chosen_as_challenger.png", 100, 100, frameSize.width * 70/100, frameSize.height * 20/100);
-        label.setBounds(frameSize.width * 15/100, frameSize.height * 25/100, frameSize.width * 70/100, frameSize.height * 20/100);
-        add(label);
+        if (type.toString().equalsIgnoreCase("moveworker")){
+            JLabel label = ImageHandler.setImage("resources/Graphics/Texts/moved.png", 100, 100, frameSize.width * 25/100, frameSize.height * 20/100);
+            label.setBounds(frameSize.width * 45/100, frameSize.height * 35/100, frameSize.width * 25/100, frameSize.height * 20/100);
+            add(label);
+        }
+        else if (type.toString().equalsIgnoreCase("buildworker")) {
+            JLabel label1 = ImageHandler.setImage("resources/Graphics/Texts/builded.png", 100, 100, frameSize.width * 25 / 100, frameSize.height * 20 / 100);
+            label1.setBounds(frameSize.width * 45 / 100, frameSize.height * 35 / 100, frameSize.width * 25 / 100, frameSize.height * 20 / 100);
+            add(label1);
+        }
 
-        JLabel label1 = ImageHandler.setImage("resources/Graphics/Texts/please_chose_the_gods_and.png", 100, 100, frameSize.width * 60/100, frameSize.height * 20/100);
-        label1.setBounds(frameSize.width * 20/100, frameSize.height * 40/100, frameSize.width * 60/100, frameSize.height * 20/100);
-        add(label1);
-
-        JLabel label2 = ImageHandler.setImage("resources/Graphics/Texts/the_first_player_that_start.png", 100, 100, frameSize.width * 60/100, frameSize.height * 20/100);
-        label2.setBounds(frameSize.width * 20/100, frameSize.height * 55/100, frameSize.width * 60/100, frameSize.height * 20/100);
-        add(label2);
+        JLabel otherName = new JLabel(nameChoosing);
+        otherName.setBounds((int) ((frameSize.width * 15/100)), (int) (frameSize.height * 37/100), frameSize.width * 50/100, frameSize.width * 5/100);
+        otherName.setFont(felixBold);
+        add(otherName);
 
         close.addActionListener(new Close());
         close.setBounds((int) ((frameSize.width * 50/ 100) - ((getD().getWidth() * 13 / 100) * 50/100)), (int) (frameSize.height * 83 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
