@@ -117,6 +117,10 @@ public class Card implements Serializable {
         return true;
     }
 
+    public void resetCard(){
+
+    }
+
     @Override
     public String toString() {
         String result = "Card Name -> " + name + "\nCard Description -> " + description;

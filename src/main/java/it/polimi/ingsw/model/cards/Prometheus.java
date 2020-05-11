@@ -87,4 +87,10 @@ public class Prometheus extends Card {
             else return Response.NOTBUILD;
         }
     }
+
+    @Override
+    public void resetCard() {
+        hasBuiltBefore=false;
+        hasMoved=false;
+    }
 }

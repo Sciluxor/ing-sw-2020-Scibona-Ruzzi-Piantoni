@@ -29,7 +29,7 @@ public class Hephaestus extends Card {
         if(hasBuilt)
             return buildOnTop(gameMap, worker);
 
-        return gameMap.reachableSquares(worker);
+        return gameMap.buildableSquare(worker);
     }
 
     public List<Directions> buildOnTop(GameMap gameMap, Worker worker) {
@@ -75,4 +75,8 @@ public class Hephaestus extends Card {
             return Response.NOTBUILD;
     }
 
+    @Override
+    public void resetCard() {
+        hasBuilt=false;
+    }
 }
