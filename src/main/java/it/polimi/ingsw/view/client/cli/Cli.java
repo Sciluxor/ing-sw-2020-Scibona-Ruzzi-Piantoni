@@ -184,10 +184,13 @@ public class Cli extends ClientGameController {
         switch (color) {
             case BLUE:
                 returnedColor = Color.ANSI_BLUE;
+                break;
             case WHITE:
                 returnedColor = Color.ANSI_WHITE;
+                break;
             case PURPLE:
                 returnedColor = Color.ANSI_PURPLE;
+                break;
             default:
                 returnedColor = Color.ANSI_YELLOW;
                 System.err.print("WRONG PLAYER COLOR PASSED\n");
