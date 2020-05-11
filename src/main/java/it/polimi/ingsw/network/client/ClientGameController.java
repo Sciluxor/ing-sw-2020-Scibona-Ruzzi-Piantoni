@@ -10,12 +10,12 @@ import it.polimi.ingsw.model.map.Building;
 import it.polimi.ingsw.model.map.Directions;
 import it.polimi.ingsw.model.map.Square;
 import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.model.player.TurnStatus;
 import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.model.player.WorkerName;
 import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.utils.ConfigLoader;
 import it.polimi.ingsw.utils.FlowStatutsLoader;
-import javafx.util.Pair;
 
 import java.net.ConnectException;
 
@@ -122,6 +122,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     public synchronized void endTurn(){
+        game.getCurrentPlayer().setTurnStatus(TurnStatus.IDLE);
         client.sendMessage(new Message(client.getUserID(),client.getNickName(),MessageType.ENDTURN,MessageSubType.UPDATE));
     }
 
@@ -141,11 +142,15 @@ public abstract class ClientGameController implements Runnable, FunctionListener
 
     public synchronized void handleCardChoice(Message message){
         if(message.getSubType().equals(MessageSubType.REQUEST)) {
+            game.getCurrentPlayer().setTurnStatus(TurnStatus.IDLE);
             game.setCurrentPlayer(message.getMessage());
+            game.getCurrentPlayer().setTurnStatus(TurnStatus.PLAYTURN);
             eventQueue.add(() -> cardChoice(message.getMessage(), true));
         }
         else if(message.getSubType().equals(MessageSubType.UPDATE)) {
+            game.getCurrentPlayer().setTurnStatus(TurnStatus.IDLE);
             game.setCurrentPlayer(message.getMessage());
+            game.getCurrentPlayer().setTurnStatus(TurnStatus.PLAYTURN);
             eventQueue.add(() -> cardChoice(message.getMessage(), false));
         }
         else{
@@ -156,11 +161,15 @@ public abstract class ClientGameController implements Runnable, FunctionListener
 
     public synchronized void handlePlaceWorkers(Message message){
         if(message.getSubType().equals(MessageSubType.REQUEST)) {
+            game.getCurrentPlayer().setTurnStatus(TurnStatus.IDLE);
             game.setCurrentPlayer(message.getMessage());
+            game.getCurrentPlayer().setTurnStatus(TurnStatus.PLAYTURN);
             eventQueue.add(() -> placeWorker(message.getMessage(), true));
         }
         else if(message.getSubType().equals(MessageSubType.UPDATE)) {
+            game.getCurrentPlayer().setTurnStatus(TurnStatus.IDLE);
             game.setCurrentPlayer(message.getMessage());
+            game.getCurrentPlayer().setTurnStatus(TurnStatus.PLAYTURN);
             eventQueue.add(() -> placeWorker(message.getMessage(), false));
         }
         else {
@@ -172,13 +181,14 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     public synchronized void handleStartTurn(Message message){
+        game.getCurrentPlayer().setTurnStatus(TurnStatus.IDLE);
+        game.setCurrentPlayer(message.getMessage());
         game.setGameStatus(game.getCurrentPlayer().getPower().getFirstAction());
+        game.getCurrentPlayer().setTurnStatus(TurnStatus.PLAYTURN);
         if(message.getSubType().equals(MessageSubType.REQUEST)) {
-            game.setCurrentPlayer(message.getMessage());
             eventQueue.add(() -> startTurn(message.getMessage(), true));
         }
         else if(message.getSubType().equals(MessageSubType.UPDATE)) {
-            game.setCurrentPlayer(message.getMessage());
             eventQueue.add(() -> startTurn(message.getMessage(), false));
         }
     }
