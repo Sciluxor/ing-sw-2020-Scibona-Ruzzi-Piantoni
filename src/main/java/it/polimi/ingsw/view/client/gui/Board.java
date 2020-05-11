@@ -225,7 +225,7 @@ public class Board extends Observable {
         JLabel coverBoard = ImageHandler.setImage("resources/Graphics/board.png", 100, 100, width, height);
         this.coverBoard = new JLabel(coverBoard.getIcon());
 
-        JLabel coverChat = ImageHandler.setImage("resources/Graphics/panel_chat.png", 100, 100, sideSize.width, sideSize.height);
+        JLabel coverChat = ImageHandler.setImage("resources/Graphics/panel_chat1.png", 100, 100, sideSize.width, sideSize.height);
         this.coverChat = new JLabel(coverChat.getIcon());
 
         coverBackground = ImageHandler.setImage("resources/Graphics/background2.png", 100, 100, internalFrameSize40x45.width, internalFrameSize40x45.height);
@@ -312,7 +312,7 @@ public class Board extends Observable {
 
 
         frameChat.setPreferredSize(sideSize);
-        frameChat.setBounds(frameSize.width * 73/100, -20, sideSize.width, sideSize.height);
+        frameChat.setBounds(frameSize.width * 73/100, -25, sideSize.width, sideSize.height);
         internalFrameSetUp(frameChat);
         BasicInternalFrameUI bii = (BasicInternalFrameUI)frameChat.getUI();
         bii.setNorthPane(null);
@@ -362,7 +362,7 @@ public class Board extends Observable {
             setColorWorkers2();
         }
 
-        chat.setBounds(frameChat.getWidth() * 22/100 , frameChat.getHeight() * 28/100, frameChat.getWidth() * 63/100, frameChat.getHeight() * 38/100);
+        chat.setBounds(frameChat.getWidth() * 23/100 , frameChat.getHeight() * 28/100, frameChat.getWidth() * 63/100, frameChat.getHeight() * 38/100);
         chat.setEditable(false);
         chat.setBackground(new Color(232, 222, 208));
         chat.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -372,11 +372,11 @@ public class Board extends Observable {
         chat.setVisible(true);
         scrollPane = new JScrollPane(chat);
         scrollPane.setPreferredSize(scrollSize);
-        scrollPane.setBounds(frameChat.getWidth() * 22/100 , frameChat.getHeight() * 28/100, frameChat.getWidth() * 63/100, frameChat.getHeight() * 38/100);
+        scrollPane.setBounds(frameChat.getWidth() * 23/100 , frameChat.getHeight() * 28/100, frameChat.getWidth() * 63/100, frameChat.getHeight() * 38/100);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         frameChat.add(scrollPane);
 
-        field.setBounds(frameChat.getWidth() * 22/100, frameChat.getHeight() * 66/100, frameChat.getWidth() * 63/100, frameChat.getHeight() * 4/100);
+        field.setBounds(frameChat.getWidth() * 23/100, frameChat.getHeight() * 66/100, frameChat.getWidth() * 63/100, frameChat.getHeight() * 4/100);
         field.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         field.setBackground(new Color(232, 222, 208));
         field.addActionListener(new Write());
