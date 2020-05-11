@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.client;
 
 import it.polimi.ingsw.model.map.Square;
 import it.polimi.ingsw.network.message.MessageType;
+import javafx.util.Pair;
 
 import java.util.List;
 
@@ -37,7 +38,7 @@ public interface FunctionListener {
 
     void onPingDisconnection();
 
-    void newChatMessage();
+    void newChatMessage(String nick,String message);
 
     void errorMessage();
 }

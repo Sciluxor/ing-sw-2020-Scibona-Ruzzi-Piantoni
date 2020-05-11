@@ -192,6 +192,11 @@ public class Gui extends ClientGameController {
     }
 
     @Override
+    public void newChatMessage(String nick, String message) {
+
+    }
+
+    @Override
     public void startGame() {
         SwingUtilities.invokeLater(() -> {
             frame.dispose();
@@ -259,11 +264,6 @@ public class Gui extends ClientGameController {
 
     @Override
     public void onTurnDisconnection() {
-
-    }
-
-    @Override
-    public void onDisconnection() {
 
     }
 

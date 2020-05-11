@@ -411,9 +411,10 @@ public class Cli extends ClientGameController {
     }
 
     @Override
-    public void onDisconnection() {
+    public void newChatMessage(String nick, String message) {
 
     }
+
 
     @Override
     public void errorMessage() {
