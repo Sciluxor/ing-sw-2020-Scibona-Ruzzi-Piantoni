@@ -29,7 +29,7 @@ public class Demeter extends Card {
         if(hasBuilt)
             return notPreviousBuild(gameMap, worker);
 
-        return gameMap.reachableSquares(worker);
+        return gameMap.buildableSquare(worker);
     }
 
     public List<Directions> notPreviousBuild(GameMap gameMap, Worker worker) {
@@ -73,4 +73,8 @@ public class Demeter extends Card {
             return Response.NOTBUILD;
     }
 
+    @Override
+    public void resetCard() {
+        hasBuilt=false;
+    }
 }

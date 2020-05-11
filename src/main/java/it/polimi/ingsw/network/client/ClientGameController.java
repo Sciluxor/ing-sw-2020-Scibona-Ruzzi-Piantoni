@@ -122,6 +122,9 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     public synchronized void endTurn(){
+        if(game.getCurrentPlayer().getPower() != null)
+            game.getCurrentPlayer().getPower().resetCard();
+
         game.getCurrentPlayer().setTurnStatus(TurnStatus.IDLE);
         client.sendMessage(new Message(client.getUserID(),client.getNickName(),MessageType.ENDTURN,MessageSubType.UPDATE));
     }

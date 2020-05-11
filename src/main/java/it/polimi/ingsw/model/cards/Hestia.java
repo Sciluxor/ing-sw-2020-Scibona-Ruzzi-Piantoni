@@ -53,24 +53,27 @@ public class Hestia extends Card {
 
     @Override
     public Response executeBuild(GameMap gameMap, Building building, Directions directions, Worker worker) {
-        if(gameMap == null || worker == null || building == null || directions == null)
+        if (gameMap == null || worker == null || building == null || directions == null)
             throw new NullPointerException("null gameMap or worker or building or direction");
 
-        if(!hasBuilt) {
-            if(gameMap.buildInSquare(worker, directions, building)) {
+        if (!hasBuilt) {
+            if (gameMap.buildInSquare(worker, directions, building)) {
                 hasBuilt = true;
                 return Response.NEWBUILD;
-            }
-            else
+            } else
+                return Response.NOTBUILD;
+        } else {
+
+            if (gameMap.buildInSquare(worker, directions, building)) {
+                hasBuilt = false;
+                return Response.BUILD;
+            } else
                 return Response.NOTBUILD;
         }
-
-        if(gameMap.buildInSquare(worker, directions, building)) {
-            hasBuilt = false;
-            return Response.BUILD;
-        }
-        else
-            return Response.NOTBUILD;
     }
 
+    @Override
+    public void resetCard() {
+       hasBuilt = false;
+    }
 }

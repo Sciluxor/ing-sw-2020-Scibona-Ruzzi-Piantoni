@@ -67,4 +67,9 @@ public class Artemis extends Card {
         this.hasMoved = false;
         return Response.MOVED;
     }
+
+    @Override
+    public void resetCard() {
+        hasMoved = false;
+    }
 }
