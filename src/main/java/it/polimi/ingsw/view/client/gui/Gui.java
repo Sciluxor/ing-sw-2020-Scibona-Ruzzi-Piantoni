@@ -193,7 +193,6 @@ public class Gui extends ClientGameController {
 
     @Override
     public void newChatMessage(String nick, String message) {
-        System.out.println("newChat");
         SwingUtilities.invokeLater(() -> {
             board.writeInChat(nick, message);
         });
@@ -245,7 +244,6 @@ public class Gui extends ClientGameController {
     public void updateBoard(String nick, List<Square> squares, MessageType type) {
         SwingUtilities.invokeLater(() -> {
             board.updateBoard(nick, squares, type);
-            System.out.println("updateBord GUI");
         });
     }
 

@@ -30,14 +30,14 @@ public class StartTurn extends JDesktopPane{
 
         JLabel label = ImageHandler.setImage("resources/Graphics/Texts/is_starting_the_turn.png", 99, 99, frameSize.width * 85/100, frameSize.height * 22/100);
         JLabel label2 = ImageHandler.setImage("resources/Graphics/Texts/it's_your_turn.png", 99, 99, frameSize.width * 85/100, frameSize.height * 22/100);
-        label.setBounds((int) (frameSize.width * 7.5/100), frameSize.height * 39/100, frameSize.width * 85/100, frameSize.height * 22/100);
+        label.setBounds((int) (frameSize.width * 7.5/100), frameSize.height * 45/100, frameSize.width * 85/100, frameSize.height * 22/100);
         label2.setBounds((int) (frameSize.width * 7.5/100), frameSize.height * 39/100, frameSize.width * 85/100, frameSize.height * 22/100);
 
         if (numberOfPanel == 0){
-            add(label);
+            add(label2);
         }
         else if (numberOfPanel == 1){
-            add(label2);
+            add(label);
         }
 
 
