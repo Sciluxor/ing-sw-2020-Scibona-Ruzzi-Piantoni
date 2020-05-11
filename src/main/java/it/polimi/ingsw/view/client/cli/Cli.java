@@ -51,27 +51,23 @@ public class Cli extends ClientGameController {
             System.err.print("\n\nFAILED TO OPENING CONNECTION\n\n");
         }
 
-        lobby(false);
+        lobby();
 
         startGame();
 
     }
 
-    public void lobby(boolean isOnUpdateLobby) {
+    public void lobby() {
         clearShell();
         print("WAITING LOBBY\n");
         int waitingPlayers;
 
-        if(!isOnUpdateLobby) {
-            waitingPlayers = getNumberOfPlayers() - 1;
-            printPlayers(waitingPlayers, false);
-            checkBackCommand();
-        }
-        else {
-            waitingPlayers = getNumberOfPlayers() - getPlayers().size();
-            printPlayers(waitingPlayers,true);
-            checkBackCommand();
-        }
+        waitingPlayers = getNumberOfPlayers() - 1;
+        print("WAITING FOR " + waitingPlayers + " PLAYERS\nPLAYERS ACTUALLY IN THE LOBBY:\n");
+
+        print(">>> " + getNickName() + "\n");
+        checkBackCommand();
+
     }
 
     public void login(boolean lobbyCall) {
@@ -182,6 +178,26 @@ public class Cli extends ClientGameController {
         System.out.print(color + string + Color.RESET);
     }
 
+    public Color getColorCliFromPlayer(it.polimi.ingsw.model.player.Color color) {
+        Color returnedColor;
+
+        switch (color) {
+            case BLUE:
+                returnedColor = Color.ANSI_BLUE;
+                break;
+            case WHITE:
+                returnedColor = Color.ANSI_WHITE;
+                break;
+            case PURPLE:
+                returnedColor = Color.ANSI_PURPLE;
+                break;
+            default:
+                returnedColor = Color.ANSI_YELLOW;
+                System.err.print("WRONG PLAYER COLOR PASSED\n");
+        }
+        return returnedColor;
+    }
+
     public static String input() {
         String keyboard;
         Scanner input = new Scanner(System.in);
@@ -191,18 +207,6 @@ public class Cli extends ClientGameController {
 
     public static String[] splitter(String keyboard) {
         return keyboard.split("\\s");
-    }
-
-    public void printPlayers(int waitingPlayers, boolean isOnUpdateLobby) {
-        print("WAITING FOR " + waitingPlayers + " PLAYERS\nPLAYERS ACTUALLY IN THE LOBBY:\n");
-
-        if(isOnUpdateLobby) {
-            for (Player p : getPlayers())
-                print(">>> " + p.getNickName() + "\n");
-        }
-        else {
-            print(">>> " + getNickName() + "\n");
-        }
     }
 
     public void checkBackCommand() {
@@ -279,7 +283,16 @@ public class Cli extends ClientGameController {
 
     @Override
     public void updateLobbyPlayer() {
-        lobby(true);
+        clearShell();
+        print("WAITING LOBBY\n");
+        int waitingPlayers;
+
+        waitingPlayers = getNumberOfPlayers() - getPlayers().size();
+        print("WAITING FOR " + waitingPlayers + " PLAYERS\nPLAYERS ACTUALLY IN THE LOBBY:\n");
+
+        for (Player p : getPlayers())
+            print(">>> " + p.getNickName() + "\n", getColorCliFromPlayer(p.getColor()));
+        checkBackCommand();
     }
 
     @Override
