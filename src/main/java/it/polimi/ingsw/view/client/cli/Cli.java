@@ -18,6 +18,9 @@ public class Cli extends ClientGameController {
     private String nickName;
     private int numberOfPlayers;
 
+    private Thread backThread = new Thread();
+    private Thread mainThread = new Thread();
+
     private Map<String, Card> deck = CardLoader.loadCards();
 
     private static final String TITLE = "\n\u001B[31m" +
@@ -50,11 +53,6 @@ public class Cli extends ClientGameController {
         }catch (Exception e) {
             System.err.print("\n\nFAILED TO OPENING CONNECTION\n\n");
         }
-
-        lobby();
-
-        startGame();
-
     }
 
     public void lobby() {
@@ -66,7 +64,9 @@ public class Cli extends ClientGameController {
         print("WAITING FOR " + waitingPlayers + " PLAYERS\nPLAYERS ACTUALLY IN THE LOBBY:\n");
 
         print(">>> " + getNickName() + "\n");
-        checkBackCommand();
+
+        backThread = new Thread(this::checkBackCommand);
+        backThread.start();
 
     }
 
@@ -213,10 +213,11 @@ public class Cli extends ClientGameController {
         print("INSERT \"BACK\" TO TURN BACK IN THE LOGIN WINDOW: ");
         String keyboard = input();
 
-        if(keyboard.equalsIgnoreCase("BACK")) {
+        if (keyboard.equalsIgnoreCase("BACK")) {
             onBackCommand();
             login(true);
         }
+
     }
 
     public String[] printPower(String[] cards, String keyboard) {
@@ -277,12 +278,27 @@ public class Cli extends ClientGameController {
         Color.clearConsole();
     }
 
+    public void printMenu() {
+        System.out.println("[CHAT]  [BOARD]  [ACTIONS]  [OPPONENTS]  [POWER]\n\n\n");
+    }
+
+    public void printYourTurn() {
+        print("IT'S YOUR TURN!\nCHOOSE YOUR POWER\n\n");
+    }
+
+    public void printActions(String role) {
+
+    }
+
     //------------------------------
 
     //---------- OVERRIDING FUNCTIONS ----------
 
     @Override
-    public void updateLobbyPlayer() {
+    public synchronized void updateLobbyPlayer() {
+
+        backThread.interrupt();
+
         clearShell();
         print("WAITING LOBBY\n");
         int waitingPlayers;
@@ -292,7 +308,9 @@ public class Cli extends ClientGameController {
 
         for (Player p : getPlayers())
             print(">>> " + p.getNickName() + "\n", getColorCliFromPlayer(p.getColor()));
-        checkBackCommand();
+
+        backThread = new Thread(this::checkBackCommand);
+        backThread.start();
     }
 
     @Override
@@ -303,11 +321,11 @@ public class Cli extends ClientGameController {
     }
 
     @Override
-    public void startGame() {
+    public synchronized void startGame() {
+
+        backThread.interrupt();
         clearShell();
         print("GAME IS GOING TO START. PLEASE WAIT WHILE IS LOADING\n\n");
-
-        //INIZIO GIOCO (?)
 
     }
 
@@ -315,23 +333,35 @@ public class Cli extends ClientGameController {
     public void challengerChoice(String challengerNick, boolean isYourPlayer) {
         clearShell();
         if(isYourPlayer) {
-            print("YOU HAVE BEEN CHOSEN AS CHALLENGER!\nPLEASE, CHOOSE " + getPlayers().size() + " CARDS ");
+            print("YOU HAVE BEEN CHOSEN AS CHALLENGER!\nINSERT SOMETHING TO GO ON: ");
+            input();
+
+
+            //STAMPE DA METTERE IN ACTION
+            print("PLEASE, CHOOSE " + getPlayers().size() + " CARDS ");
             print("(insert ONLY ONE card to see its power)", Color.ANSI_BLUE);
             print(":\n");
 
             List<String> cards = challengerChooseCards();
 
             challengerResponse(challengerNick, cards);
-
         }
         else {
-            print("PLAYER " + challengerNick + " IS CHOOSING CARDS");
+            print("PLAYER " + challengerNick + " IS CHOOSING CARDS\nINSERT SOMETHING TO GO ON: ");
+            input();
         }
+
+        mainThread = new Thread(this::printMenu);
+        mainThread.start();
     }
 
     @Override
     public void cardChoice(String challengerNick, boolean isYourPlayer) {
+        mainThread.interrupt();
         clearShell();
+        printYourTurn();
+        mainThread.start();
+
         if(isYourPlayer) {
             print("AVAILABLE CARDS:\n");
             for(String s: getAvailableCards())
