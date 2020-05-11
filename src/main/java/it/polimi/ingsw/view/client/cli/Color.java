@@ -10,7 +10,7 @@ public enum Color {
 
     CLEAR_LINE("\33[1A\33[2K"), CLEAR_CONSOLE("\033[H\033[2J");
 
-    static final String RESET = "\u001B[0m";
+    public static final String RESET = "\u001B[0m";
     private String escape;
 
     Color(String escape) {
@@ -27,7 +27,6 @@ public enum Color {
 
     public static void clearConsole() {
         System.out.println(CLEAR_CONSOLE);
-        System.out.println("[CHAT]  [BOARD]  [OPPONENTS]  [POWER]\n\n\n");
     }
 
     @Override
