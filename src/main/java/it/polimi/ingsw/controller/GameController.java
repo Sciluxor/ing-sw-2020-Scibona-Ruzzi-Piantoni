@@ -302,7 +302,10 @@ public class GameController implements Observer<Message> {
         stopRoundTimer();
         if(FlowStatutsLoader.isRightMessage(game.getGameStatus(),message.getType())) {
             game.getCurrentPlayer().setTurnStatus(TurnStatus.IDLE);
-            game.getCurrentPlayer().getPower().resetCard();
+            
+            if(game.getCurrentPlayer().getPower() != null)
+                game.getCurrentPlayer().getPower().resetCard();
+
             changeTurnPlayer(message);
             startRoundTimer();
 
@@ -391,7 +394,7 @@ public class GameController implements Observer<Message> {
                 broadcastMessage(message);
                 break;
             case ENDTURN:
-                if(!getViewFromUserID(message.getSender()).isYourTurn()){
+                if(!getViewFromUserID(message.getSender()).isYourTurn()){   //manca il controllo del flow
                     getViewFromUserID(message.getSender()).handleNotYourTurn();
                 }else {
                     handleEndTun(message);
