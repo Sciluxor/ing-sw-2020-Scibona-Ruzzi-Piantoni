@@ -94,6 +94,12 @@ public class SimplifiedGame{
         if(newSquare.hasPlayer()) {
             oldSquare.setPlayer(newSquare.getPlayer());
             oldSquare.setWorker(newSquare.getWorker());
+            if(newSquare.getWorker().getBoardPosition() != null)
+                oldSquare.getWorker().setBoardPosition(newSquare.getWorker().getBoardPosition());
+            if(newSquare.getWorker().getPreviousBoardPosition() != null)
+                oldSquare.getWorker().setPreviousBoardPosition(newSquare.getWorker().getPreviousBoardPosition());
+            if(newSquare.getWorker().getPreviousBuildPosition() != null)
+                oldSquare.getWorker().setPreviousBuildPosition(newSquare.getWorker().getPreviousBuildPosition());
         }
     }
 

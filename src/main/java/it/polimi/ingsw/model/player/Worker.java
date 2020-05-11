@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 public class Worker implements Serializable {
 
-    private WorkerName name;
+    private final WorkerName name;
     private transient Square boardPosition;
     private transient Square previousBoardPosition;
     private transient Square previousBuildPosition;
