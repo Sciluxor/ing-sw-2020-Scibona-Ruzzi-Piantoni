@@ -366,6 +366,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
 
     public synchronized void handleUpdateBoard(Message message){
         List<Square> modifiedSquares = new ArrayList<>();
+        List<Square> toSendSquare = new ArrayList<>();
         if(message.getType().equals(MessageType.MOVEWORKER) && message.getSubType().equals(MessageSubType.UPDATE))
             modifiedSquares = ((MoveWorkerMessage) message).getModifiedSquare();
         else if(message.getType().equals(MessageType.BUILDWORKER) && message.getSubType().equals(MessageSubType.UPDATE))
@@ -375,9 +376,10 @@ public abstract class ClientGameController implements Runnable, FunctionListener
 
         for(Square square: finalModifiedSquares){
             game.copySquare(game.getGameMap().getMap().get(square.getTile() -1),square);
+            toSendSquare.add(game.getGameMap().getMap().get(square.getTile()-1));
         }
 
-        eventQueue.add(() -> updateBoard(message.getNickName(), finalModifiedSquares,message.getType()));
+        eventQueue.add(() -> updateBoard(message.getNickName(),toSendSquare,message.getType()));
     }
 
     public synchronized void addNonPermanentConstraint(Message message){

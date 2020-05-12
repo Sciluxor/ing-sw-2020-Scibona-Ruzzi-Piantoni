@@ -96,6 +96,9 @@ public class SimplifiedGame{
             for(Player player: settedPlayers) {
                 if (player.getNickName().equals(newSquare.getPlayer().getNickName())) {
                     oldSquare.setPlayer(player);
+                    System.out.println("----" + oldSquare.getTile() + "---" + newSquare.getTile());
+                    System.out.println("----" + player.getNickName() + "---" + newSquare.getPlayer().getNickName());
+                    System.out.println("----" + newSquare.getWorker().getName().toString());
                     oldSquare.setWorker(player.getWorkers().get(WorkerName.getNumberWorker(newSquare.getWorker().getName()) -1));
                     oldSquare.getWorker().setPreviousBoardPosition(oldSquare.getWorker().getBoardPosition());
                     oldSquare.getWorker().setBoardPosition(oldSquare);
