@@ -366,7 +366,7 @@ public class Board extends Observable {
         chat.setEditable(false);
         chat.setBackground(new Color(232, 222, 208));
         chat.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        chat.setFont(felixSmall);
+        chat.setFont(felixNormal);
         chat.setLineWrap(true);
         chat.setWrapStyleWord(true);
         chat.setVisible(true);
