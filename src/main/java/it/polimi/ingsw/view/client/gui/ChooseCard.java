@@ -77,7 +77,7 @@ public class ChooseCard extends JDesktopPane{
         JLabel isChoosing = ImageHandler.setImage("resources/Graphics/Texts/is_choosing_the_god_power.png", 100, 100, frameSize.width * 85/100, frameSize.height * 25/100);
         JLabel first = ImageHandler.setImage("resources/Graphics/Texts/choose_your_god_power.png", 100, 100, frameSize.width * 85/100, frameSize.height * 25/100);
         JLabel otherName = new JLabel(nameChoosing);
-        otherName.setBounds((int) ((frameSize.width * 38/100)), (int) (frameSize.height * 36.5/100), frameSize.width * 50/100, frameSize.width * 5/100);
+        otherName.setBounds((int) ((frameSize.width * 35/100)), (int) (frameSize.height * 36.5/100), frameSize.width * 50/100, frameSize.width * 5/100);
         otherName.setFont(felixBold);
 
         selectGodsChosen();

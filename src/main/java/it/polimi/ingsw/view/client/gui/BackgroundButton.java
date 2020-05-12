@@ -75,6 +75,14 @@ public class BackgroundButton {
                     LOGGER.severe(e.getMessage());
                 }
                 break;
+
+            case 3:
+                try {
+                    cover11 = ImageHandler.setImage("resources/Graphics/panel_buildings.png", 100, 100, frame.width, frame.height);
+                } catch (IOException e) {
+                    LOGGER.severe(e.getMessage());
+                }
+                break;
             default:
         }
         backgroundPanel = new JLabel(cover11.getIcon());

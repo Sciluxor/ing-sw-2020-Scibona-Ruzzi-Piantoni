@@ -28,11 +28,11 @@ public class StartTurn extends JDesktopPane{
 
 
         JLabel label = ImageHandler.setImage("resources/Graphics/Texts/is_starting_the_turn.png", 99, 99, frameSize.width * 85/100, frameSize.height * 22/100);
-        JLabel label2 = ImageHandler.setImage("resources/Graphics/Texts/it's_your_turn.png", 99, 99, frameSize.width * 85/100, frameSize.height * 22/100);
+        JLabel label2 = ImageHandler.setImage("resources/Graphics/Texts/it's_your_turn.png", 99, 99, frameSize.width * 60/100, frameSize.height * 22/100);
         label.setBounds((int) (frameSize.width * 7.5/100), (int) (frameSize.height * 39.5/100), frameSize.width * 85/100, frameSize.height * 22/100);
-        label2.setBounds((int) (frameSize.width * 7.5/100), frameSize.height * 39/100, frameSize.width * 85/100, frameSize.height * 22/100);
+        label2.setBounds((int) (frameSize.width * 20/100), frameSize.height * 39/100, frameSize.width * 60/100, frameSize.height * 22/100);
         JLabel otherName = new JLabel(nameChoosing);
-        otherName.setBounds((int) ((frameSize.width * 40/100)), (int) (frameSize.height * 34.5/100), frameSize.width * 50/100, frameSize.width * 5/100);
+        otherName.setBounds((int) ((frameSize.width * 35/100)), (int) (frameSize.height * 34.5/100), frameSize.width * 50/100, frameSize.width * 5/100);
         otherName.setFont(felixBold);
 
         if (numberOfPanel == 0){

@@ -65,14 +65,14 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
         choose.setBounds(frameSize.width * 30/100, frameSize.height * 10/100, frameSize.width * 40/100, frameSize.height * 10/100);
         add(choose);
 
-        namePlayer1.setBounds((int) ((frameSize.width * 45.75/100)), frameSize.height * 37/100, labelSize.width, labelSize.height);
+        namePlayer1.setBounds((int) ((frameSize.width * 40/100)), frameSize.height * 37/100, labelSize.width, labelSize.height);
         namePlayer1.setFont(felixBold);
         add(namePlayer1);
         player1.setBounds(((frameSize.width * 50/100) - (labelSize.width / 2)), frameSize.height * 38/100, labelSize.width, labelSize.height);
         add(player1);
         player1.addActionListener(new Choose());
 
-        namePlayer2.setBounds((int) ((frameSize.width * 45.75/100)), frameSize.height * 49/100, labelSize.width, labelSize.height);
+        namePlayer2.setBounds((int) ((frameSize.width * 40/100)), frameSize.height * 49/100, labelSize.width, labelSize.height);
         namePlayer2.setFont(felixBold);
         add(namePlayer2);
         player2.setBounds(((frameSize.width * 50/100) - (labelSize.width / 2)), frameSize.height * 50/100, labelSize.width, labelSize.height);
@@ -83,7 +83,7 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
         if (numberOfPlayer == 3){
             namePlayer3  = new JLabel(players.get(2).getNickName());
             player3.setName(players.get(2).getNickName());
-            namePlayer3.setBounds((int) ((frameSize.width * 45.75/100)), frameSize.height * 61/100, labelSize.width, labelSize.height);
+            namePlayer3.setBounds((int) ((frameSize.width * 40/100)), frameSize.height * 61/100, labelSize.width, labelSize.height);
             namePlayer3.setFont(felixBold);
             add(namePlayer3);
             addColorButton(player3);

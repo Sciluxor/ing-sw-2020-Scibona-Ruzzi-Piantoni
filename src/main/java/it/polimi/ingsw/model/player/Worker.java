@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.player;
 
+import it.polimi.ingsw.model.map.Building;
 import it.polimi.ingsw.model.map.Square;
 
 import java.io.Serializable;
@@ -43,4 +44,5 @@ public class Worker implements Serializable {
     }
 
     public WorkerName getName() { return name;}
+
 }

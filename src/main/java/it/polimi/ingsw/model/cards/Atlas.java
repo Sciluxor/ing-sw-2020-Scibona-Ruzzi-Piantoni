@@ -17,7 +17,7 @@ public class Atlas extends Card {
             throw new NullPointerException("null gameMap or worker or building or direction");
 
         Square buildingSquare = gameMap.getMap().get(worker.getBoardPosition().getCanAccess().get(directions) - 1);
-        if(building.equals(Building.mapNext(buildingSquare.getBuilding())) || building.equals(Building.DOME)){
+        if(building.equals(Building.DOME) || building.equals(Building.mapNext(buildingSquare.getBuilding())) ){
             worker.setPreviousBuildPosition(buildingSquare);
             buildingSquare.setBuilding(building);
             buildingSquare.addBuildingLevel();

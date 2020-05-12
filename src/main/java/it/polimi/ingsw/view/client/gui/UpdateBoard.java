@@ -32,17 +32,17 @@ public class UpdateBoard extends JDesktopPane {
 
         if (type.toString().equalsIgnoreCase("moveworker")){
             JLabel label = ImageHandler.setImage("resources/Graphics/Texts/moved.png", 100, 100, frameSize.width * 25/100, frameSize.height * 20/100);
-            label.setBounds(frameSize.width * 45/100, frameSize.height * 35/100, frameSize.width * 25/100, frameSize.height * 20/100);
+            label.setBounds(frameSize.width * 55/100, frameSize.height * 35/100, frameSize.width * 25/100, frameSize.height * 20/100);
             add(label);
         }
         else if (type.toString().equalsIgnoreCase("buildworker")) {
             JLabel label1 = ImageHandler.setImage("resources/Graphics/Texts/builded.png", 100, 100, frameSize.width * 25 / 100, frameSize.height * 20 / 100);
-            label1.setBounds(frameSize.width * 45 / 100, frameSize.height * 35 / 100, frameSize.width * 25 / 100, frameSize.height * 20 / 100);
+            label1.setBounds(frameSize.width * 55 / 100, frameSize.height * 35 / 100, frameSize.width * 25 / 100, frameSize.height * 20 / 100);
             add(label1);
         }
 
         JLabel otherName = new JLabel(nameChoosing);
-        otherName.setBounds((int) ((frameSize.width * 15/100)), (int) (frameSize.height * 37/100), frameSize.width * 50/100, frameSize.width * 5/100);
+        otherName.setBounds((int) ((frameSize.width * 10/100)), (int) (frameSize.height * 41.5/100), frameSize.width * 50/100, frameSize.width * 5/100);
         otherName.setFont(felixBold);
         add(otherName);
 

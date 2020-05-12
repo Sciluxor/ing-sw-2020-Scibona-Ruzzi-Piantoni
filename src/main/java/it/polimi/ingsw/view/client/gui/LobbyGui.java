@@ -103,7 +103,7 @@ public class LobbyGui{
         pane.add(lnumber);
 
 
-        textPane.setBounds((int) (frameSize.width * 30/100), frameSize.height * 45/100, frameSize.width * 40/100, frameSize.height * 20/100);
+        textPane.setBounds((int) (frameSize.width * 30/100), frameSize.height * 43/100, frameSize.width * 40/100, frameSize.height * 20/100);
         textPane.setOpaque(false);
         textPane.setFont(Gui.felixBold);
         pane.add(textPane);

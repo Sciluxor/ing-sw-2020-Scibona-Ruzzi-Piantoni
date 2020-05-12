@@ -29,7 +29,7 @@ public class PlaceWorkers extends JDesktopPane{
         setLayout(null);
         JLabel label = new JLabel();
         JLabel otherName = new JLabel(nameChoosing);
-        otherName.setBounds((int) ((frameSize.width * 40/100) - posx), (int) (frameSize.height * 32.5/100), frameSize.width * 50/100, frameSize.width * 5/100);
+        otherName.setBounds((int) ((frameSize.width * 35/100) - posx), (int) (frameSize.height * 32.5/100), frameSize.width * 50/100, frameSize.width * 5/100);
         otherName.setFont(felixBold);
 
         if (numberOfPanel == 0) {
