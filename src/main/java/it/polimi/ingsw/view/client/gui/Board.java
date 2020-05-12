@@ -1601,14 +1601,14 @@ public class Board extends Observable {
                 } else if (square.getBuilding().equals(Building.LVL3)) {
                     mapButtons[square.getTile() - 1].setIcon(lvl3.getIcon());
 
-                }else if (square.getBuilding().equals(Building.DOME) && square.getBuildingLevel() == 0) {
+                }else if (square.getBuilding().equals(Building.DOME) && square.getBuildingLevel() == 1) {
                     mapButtons[square.getTile() - 1].setIcon(dome.getIcon());
 
                 }
-                else if (square.getBuilding().equals(Building.DOME) && square.getBuildingLevel() == 1) {
+                else if (square.getBuilding().equals(Building.DOME) && square.getBuildingLevel() == 2) {
                     mapButtons[square.getTile() - 1].setIcon(lvl1Dome.getIcon());
 
-                }else if (square.getBuilding().equals(Building.DOME) && square.getBuildingLevel() == 2) {
+                }else if (square.getBuilding().equals(Building.DOME) && square.getBuildingLevel() == 3) {
                     mapButtons[square.getTile() - 1].setIcon(lvl2Dome.getIcon());
 
                 } else {
