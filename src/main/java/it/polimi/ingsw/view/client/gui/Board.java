@@ -1746,8 +1746,13 @@ public class Board extends Observable {
         public void actionPerformed(ActionEvent e) {
 
             responce = gui.buildWorker(tileBuildChoosen + 1, Building.LVL1);
-            mapButtons[tileBuildChoosen].setIcon(lvl1.getIcon());
 
+            if (mePlayer.getPower().getName().equalsIgnoreCase("zeus")){
+                mapButtons[tileBuildChoosen].setIcon(myLabels.get(1).getIcon());
+            }
+            else {
+                mapButtons[tileBuildChoosen].setIcon(lvl1.getIcon());
+            }
 
             frameBuildings.setVisible(false);
             enableLevels(false);
@@ -1765,7 +1770,13 @@ public class Board extends Observable {
         public void actionPerformed(ActionEvent e) {
 
             responce = gui.buildWorker(tileBuildChoosen + 1, Building.LVL2);
-            mapButtons[tileBuildChoosen].setIcon(lvl2.getIcon());
+
+            if (mePlayer.getPower().getName().equalsIgnoreCase("zeus")){
+                mapButtons[tileBuildChoosen].setIcon(myLabels.get(2).getIcon());
+            }
+            else {
+                mapButtons[tileBuildChoosen].setIcon(lvl2.getIcon());
+            }
 
 
             frameBuildings.setVisible(false);
@@ -1784,7 +1795,13 @@ public class Board extends Observable {
         public void actionPerformed(ActionEvent e) {
 
             responce = gui.buildWorker(tileBuildChoosen + 1, Building.LVL3);
-            mapButtons[tileBuildChoosen].setIcon(lvl3.getIcon());
+
+            if (mePlayer.getPower().getName().equalsIgnoreCase("zeus")){
+                mapButtons[tileBuildChoosen].setIcon(myLabels.get(3).getIcon());
+            }
+            else {
+                mapButtons[tileBuildChoosen].setIcon(lvl3.getIcon());
+            }
 
             frameBuildings.setVisible(false);
             enableLevels(false);
