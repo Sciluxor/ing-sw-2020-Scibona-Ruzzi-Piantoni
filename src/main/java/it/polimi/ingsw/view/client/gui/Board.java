@@ -376,7 +376,7 @@ public class Board extends Observable {
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         frameChat.add(scrollPane);
 
-        field.setBounds(frameChat.getWidth() * 23/100, frameChat.getHeight() * 66/100, frameChat.getWidth() * 63/100, frameChat.getHeight() * 4/100);
+        field.setBounds((int) (frameChat.getWidth() * 23.4/100), frameChat.getHeight() * 66/100, (int) (frameChat.getWidth() * 62.8/100), frameChat.getHeight() * 4/100);
         field.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         field.setBackground(new Color(232, 222, 208));
         field.addActionListener(new Write());
