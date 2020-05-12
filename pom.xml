@@ -164,6 +164,24 @@
             </configuration>
           </execution>
 
+          <!-- Client TEST JAR -->
+          <execution>
+            <id>client_test</id>
+            <goals><goal>single</goal></goals>
+            <phase>package</phase>
+            <configuration>
+              <finalName>Client_test</finalName>
+              <archive>
+                <manifest>
+                  <mainClass>it.polimi.ingsw.App_copy</mainClass>
+                </manifest>
+              </archive>
+              <descriptorRefs>
+                <descriptorRef>jar-with-dependencies</descriptorRef>
+              </descriptorRefs>
+            </configuration>
+          </execution>
+
         </executions>
       </plugin>
 

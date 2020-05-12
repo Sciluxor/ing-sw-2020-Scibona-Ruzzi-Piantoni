@@ -23,7 +23,7 @@ public class Cli extends ClientGameController {
 
     private Map<String, Card> deck = CardLoader.loadCards();
 
-    private static final String TITLE = "\n\u001B[31m" +
+    private static final String TITLE = "\n\n\u001B[31m" +
             "             ___       ___  ___          ___    _____   ___      ___               _____  ___   ___                  |_|  |_|\n" +
             " \\   \\/   / |    |    |    |   | |\\  /| |         |    |   |    |       /\\   |\\  |   |   |   | |   | | |\\  | |     ___________\n" +
             "  \\  /\\  /  |--  |    |    |   | | \\/ | |--       |    |   |    |---|  /--\\  | \\ |   |   |   | |___| | | \\ | |     |   _|_   |\n" +
@@ -33,7 +33,6 @@ public class Cli extends ClientGameController {
     public void start() {
         String keyboard;
 
-        clearShell();
         print(TITLE);
         login(false);
 

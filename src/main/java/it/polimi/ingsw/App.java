@@ -3,6 +3,8 @@ package it.polimi.ingsw;
 import it.polimi.ingsw.view.client.cli.Cli;
 import it.polimi.ingsw.view.client.gui.Gui;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Scanner;
 
 public class App {
