@@ -587,10 +587,10 @@ public class Board extends Observable {
                 labelMove.setBounds((int) (frameSize.width * 86.5/100), (int) (frameSize.height * 27.5/100), size20x5.width, size20x5.height);
                 labelBuild.setBounds((int) (frameSize.width * 86.5/100), (int) (frameSize.height * 39.5/100), size20x5.width, size20x5.height);
 
-                lLvl1.setBounds((int) (sideSize.width * 40/100), (int) (sideSize.height * 23.5/100), size20x5.width, size20x5.height);
-                lLvl2.setBounds((int) (sideSize.width * 40/100), (int) (sideSize.height * 35.5/100), size20x5.width, size20x5.height);
-                lLvl3.setBounds((int) (sideSize.width * 40/100), (int) (sideSize.height * 47.5/100), size20x5.width, size20x5.height);
-                lDome.setBounds((int) (sideSize.width * 40/100), (int) (sideSize.height * 60.5/100), size20x5.width, size20x5.height);
+                lLvl1.setBounds((int) (sideSize.width * 35.5/100), (int) (sideSize.height * 21/100), size20x5.width, size20x5.height);
+                lLvl2.setBounds((int) (sideSize.width * 35.5/100), (int) (sideSize.height * 33/100), size20x5.width, size20x5.height);
+                lLvl3.setBounds((int) (sideSize.width * 35.5/100), (int) (sideSize.height * 45/100), size20x5.width, size20x5.height);
+                lDome.setBounds((int) (sideSize.width * 35.5/100), (int) (sideSize.height * 58/100), size20x5.width, size20x5.height);
 
                 windowPower.setBounds((int)(frameSize.width * 29/100), (int) (frameSize.height * 30.5/100), internalFrameSize40x45.width, internalFrameSize40x45.height);
 
