@@ -38,7 +38,7 @@ public class Minotaur extends Card {
                         if(canPush(gameMap, possibleSquare, dir))
                             reachableSquares.add(dir);
                     }
-                    else
+                    else if(!possibleSquare.hasPlayer())
                     {
                         reachableSquares.add(dir);
                     }
