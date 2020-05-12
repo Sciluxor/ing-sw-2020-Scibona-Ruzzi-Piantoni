@@ -48,6 +48,9 @@ public class Cli extends ClientGameController {
             setAddress(keyboard);
 
 
+        
+
+
         try {
             openConnection(getNickName(), getNumberOfPlayers(), getAddress(), getPort());
         }catch (Exception e) {
