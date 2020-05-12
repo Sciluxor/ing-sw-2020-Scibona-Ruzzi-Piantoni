@@ -1492,6 +1492,7 @@ public class Board extends Observable {
             for (Integer x : avaiableMovePositions){
                 eliminateMouseClass(mapButtons[x - 1], ColorBorder.class);
                 eliminateActionClass(mapButtons[x - 1], Move.class);
+                eliminateActionClass(mapButtons[x - 1], ShowButtonsBuild.class);
                 mapButtons[x - 1].setBorder(BorderFactory.createLineBorder(moveBorder, 5));
                 mapButtons[x - 1].setBorderPainted(true);
                 mapButtons[x - 1].addActionListener(new Move());
@@ -1661,22 +1662,6 @@ public class Board extends Observable {
         buttonDome.setEnabled(bool);
     }
 
-    private class Chat implements ActionListener{
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            frameChat.setVisible(true);
-            chatOpen = true;
-        }
-    }
-
-    private class ChatExit implements ActionListener{
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            frameChat.setVisible(false);
-            chatOpen = false;
-        }
-    }
-
     private class AddBuildLvl implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -1685,14 +1670,14 @@ public class Board extends Observable {
 
             for (Integer x : avaiableBuildPositions){
 
-                    eliminateMouseClass(mapButtons[x - 1], ColorBorder.class);
-                    eliminateActionClass(mapButtons[x - 1], ShowButtonsBuild.class);
-                    mapButtons[x - 1].setBorder(BorderFactory.createLineBorder(buildBorder, 5));
-                    mapButtons[x - 1].setBorderPainted(true);
-                    mapButtons[x - 1].addActionListener(new ShowButtonsBuild());
+                eliminateMouseClass(mapButtons[x - 1], ColorBorder.class);
+                eliminateActionClass(mapButtons[x - 1], ShowButtonsBuild.class);
+                eliminateActionClass(mapButtons[x - 1], Move.class);
+                mapButtons[x - 1].setBorder(BorderFactory.createLineBorder(buildBorder, 5));
+                mapButtons[x - 1].setBorderPainted(true);
+                mapButtons[x - 1].addActionListener(new ShowButtonsBuild());
 
             }
-            buttonMove.setVisible(false);
         }
     }
 
@@ -1946,6 +1931,22 @@ public class Board extends Observable {
             else if (buttonEndturn == c) {
                 buttonEndturn.setIcon(lbuttonEndturn.getIcon());
             }
+        }
+    }
+
+    private class Chat implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            frameChat.setVisible(true);
+            chatOpen = true;
+        }
+    }
+
+    private class ChatExit implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            frameChat.setVisible(false);
+            chatOpen = false;
         }
     }
 
