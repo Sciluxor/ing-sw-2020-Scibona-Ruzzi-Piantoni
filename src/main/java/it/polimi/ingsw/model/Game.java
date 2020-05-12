@@ -123,7 +123,7 @@ public class Game extends Observable<Response> {
         addObservers(actualView);
 
         for(Player player1: settedPlayers){
-            if(player1.getNickName().equals(player.getNickName())){
+            if(player1.getNickName().equalsIgnoreCase(player.getNickName())){
                 configPlayer++;
                 return false;
             }
