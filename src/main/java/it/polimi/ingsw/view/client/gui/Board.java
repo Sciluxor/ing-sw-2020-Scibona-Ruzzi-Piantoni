@@ -584,11 +584,13 @@ public class Board extends Observable {
                 labelConfirmPlace.setBounds((int) (frameSize.width * 81.5/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
                 labelChooseWorker.setBounds((int) (frameSize.width * 83/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
                 labelMove.setBounds((int) (frameSize.width * 86.5/100), (int) (frameSize.height * 27.5/100), size20x5.width, size20x5.height);
-                labelBuild.setBounds((int) (frameSize.width * 88.5/100), (int) (frameSize.height * 39.5/100), size20x5.width, size20x5.height);
+                labelBuild.setBounds((int) (frameSize.width * 86.5/100), (int) (frameSize.height * 39.5/100), size20x5.width, size20x5.height);
                 lLvl1.setBounds((int) (frameSize.width * 40/100), (int) (frameSize.height * 21/100), size20x5.width, size20x5.height);
                 lLvl2.setBounds((int) (frameSize.width * 40/100), (int) (frameSize.height * 33/100), size20x5.width, size20x5.height);
                 lLvl3.setBounds((int) (frameSize.width * 40/100), (int) (frameSize.height * 45/100), size20x5.width, size20x5.height);
                 lDome.setBounds((int) (frameSize.width * 40/100), (int) (frameSize.height * 61/100), size20x5.width, size20x5.height);
+
+                windowPower.setBounds((int)(frameSize.width * 30/100), (int) (frameSize.height * 27.5/100), internalFrameSize40x45.width, internalFrameSize40x45.height);
 
 
                 mapButtons[0].setBounds((int) (frameSize.width * (29.5)/100) , (int) (frameSize.width * (7.6)/100),
