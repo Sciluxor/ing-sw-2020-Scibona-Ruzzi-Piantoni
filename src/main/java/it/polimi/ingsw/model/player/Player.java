@@ -15,7 +15,7 @@ import java.util.List;
 public class Player implements Serializable {
 
     private String nickname;
-    private transient Card power;
+    private transient Card power = null ;
     private transient Color color;
     private transient TurnStatus turnStatus;
     private transient List<Card> constraint;

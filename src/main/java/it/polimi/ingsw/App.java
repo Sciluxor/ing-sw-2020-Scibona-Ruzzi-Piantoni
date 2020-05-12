@@ -19,11 +19,17 @@ public class App {
         System.out.print("INSERT:\n>>> [1] CLI\n>>> [2] GUI\n");
 
         String keyboard = input.nextLine();
+        while (!keyboard.equals("1") && !keyboard.equals("2"))
+        {
+            System.out.print("\nWRONG NUMBER. PLEASE, REINSERT YOUR CHOOSE: ");
+            keyboard = input.nextLine();
+        }
+
         if(keyboard.equals("1")) {
             Cli cli = new Cli();
             cli.start();
         }
-        else if(keyboard.equals("2")) {
+        else {
             Gui gui = new Gui();
             gui.avvio();
         }

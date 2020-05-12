@@ -29,18 +29,18 @@ public class PlaceWorkers extends JDesktopPane{
         setLayout(null);
         JLabel label = new JLabel();
         JLabel otherName = new JLabel(nameChoosing);
-        otherName.setBounds((int) ((frameSize.width * 40/100) - posx), (int) (frameSize.height * 25/100), frameSize.width * 50/100, frameSize.width * 5/100);
+        otherName.setBounds((int) ((frameSize.width * 40/100) - posx), (int) (frameSize.height * 32.5/100), frameSize.width * 50/100, frameSize.width * 5/100);
         otherName.setFont(felixBold);
 
         if (numberOfPanel == 0) {
             label = ImageHandler.setImage("resources/Graphics/Texts/place_your_two_workers.png", 100, 100, frameSize.width * 85/100, frameSize.height * 25/100);
-            label.setBounds((int) (frameSize.width * 7.5 / 100), frameSize.height * 30 / 100, frameSize.width * 85 / 100, frameSize.height * 25 / 100);
+            label.setBounds((int) (frameSize.width * 7.5 / 100), (int) (frameSize.height * 35 / 100), frameSize.width * 85 / 100, frameSize.height * 25 / 100);
             add(label);
         }
         else if (numberOfPanel == 1){
             add(otherName);
             label = ImageHandler.setImage("resources/Graphics/Texts/is_placing_the_workers.png", 100, 100, frameSize.width * 85/100, frameSize.height * 25/100);
-            label.setBounds((int) (frameSize.width * 7.5/100), frameSize.height * 30/100, frameSize.width * 85/100, frameSize.height * 25/100);
+            label.setBounds((int) (frameSize.width * 7.5/100), (int) (frameSize.height * 37.5/100), frameSize.width * 85/100, frameSize.height * 25/100);
             add(label);
         }
 

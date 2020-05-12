@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButtonPersonalized;
+import static it.polimi.ingsw.view.client.gui.Gui.felixBold;
 import static it.polimi.ingsw.view.client.gui.Gui.getD;
 
 public class WaitChallenger extends JDesktopPane{
@@ -14,6 +15,8 @@ public class WaitChallenger extends JDesktopPane{
     Dimension frameSize = new Dimension();
     MyButton close = new MyButton(3);
     JInternalFrame intFrame;
+    String nameChoosing;
+    double posx;
 
 
     public WaitChallenger(JInternalFrame frame, Dimension dim, String name) throws IOException {
@@ -22,14 +25,25 @@ public class WaitChallenger extends JDesktopPane{
         intFrame = frame;
         setPreferredSize(frameSize);
         setLayout(null);
+        nameChoosing = name;
+        posx = (double) nameChoosing.length() / 2;
 
-        JLabel label = ImageHandler.setImage("resources/Graphics/Texts/wait_for.png", 99, 99, frameSize.width * 85/100, frameSize.height * 22/100);
+        JLabel label = ImageHandler.setImage("resources/Graphics/Texts/wait_for.png", 99, 99, frameSize.width * 25/100, frameSize.height * 20/100);
         JLabel label2 = ImageHandler.setImage("resources/Graphics/Texts/as_challenger_to_choose_the_gods.png", 99, 99, frameSize.width * 85/100, frameSize.height * 22/100);
-        JLabel label3 = ImageHandler.setImage("resources/Graphics/Texts/and_the_first_player.png", 99, 99, frameSize.width * 85/100, frameSize.height * 22/100);
-        label.setBounds((int) (frameSize.width * 7.5/100), frameSize.height * 39/100, frameSize.width * 85/100, frameSize.height * 22/100);
-        label2.setBounds((int) (frameSize.width * 7.5/100), frameSize.height * 45/100, frameSize.width * 85/100, frameSize.height * 22/100);
-        label3.setBounds((int) (frameSize.width * 7.5/100), frameSize.height * 60/100, frameSize.width * 85/100, frameSize.height * 22/100);
+        JLabel label3 = ImageHandler.setImage("resources/Graphics/Texts/and_the_first_player.png", 99, 99, frameSize.width * 60/100, frameSize.height * 22/100);
+        label.setBounds((int) (frameSize.width * 18.5/100), (int) (frameSize.height * 25.5/100), frameSize.width * 25/100, frameSize.height * 20/100);
+        label2.setBounds((int) (frameSize.width * 7.5/100), (int) (frameSize.height * 39.5/100), frameSize.width * 85/100, frameSize.height * 22/100);
+        label3.setBounds((int) (frameSize.width * 20/100), (int) (frameSize.height * 54.5/100), frameSize.width * 60/100, frameSize.height * 22/100);
+
+        JLabel otherName = new JLabel(nameChoosing);
+        otherName.setBounds((int) ((frameSize.width * 45.75/100)), (int) (frameSize.height * 32.5/100), frameSize.width * 50/100, frameSize.width * 5/100);
+        otherName.setFont(felixBold);
+
         add(label);
+        add(label2);
+        add(label3);
+        add(otherName);
+
 
         close.addActionListener(new Close());
         close.setBounds((int) ((frameSize.width * 50/ 100) - ((getD().getWidth() * 13 / 100) * 50/100)), (int) (frameSize.height * 81 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
