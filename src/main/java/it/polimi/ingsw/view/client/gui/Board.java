@@ -261,10 +261,10 @@ public class Board extends Observable {
         lvl1 = ImageHandler.setImage("resources/Graphics/lvl1.png", 85, 85, labelMapSize.width, labelMapSize.height);
         lvl2 = ImageHandler.setImage("resources/Graphics/lvl2.png", 85, 85, labelMapSize.width, labelMapSize.height);
         lvl3 = ImageHandler.setImage("resources/Graphics/lvl3.png", 85, 85, labelMapSize.width, labelMapSize.height);
-        lvl1Building = ImageHandler.setImage("resources/Graphics/lvl1_building.png", 100, 100, buttonSize5x5.width, buttonSize5x5.height);
-        lvl2Building = ImageHandler.setImage("resources/Graphics/lvl2_building.png", 100, 100, buttonSize5x5.width, buttonSize5x5.height);
-        lvl3Building = ImageHandler.setImage("resources/Graphics/lvl3_building.png", 100, 100, buttonSize5x5.width, buttonSize5x5.height);
-        domeBuilding = ImageHandler.setImage("resources/Graphics/dome_building.png", 100, 100, buttonSize5x5.width, buttonSize5x5.height);
+        lvl1Building = ImageHandler.setImage("resources/Graphics/lvl1.png", 95, 95, buttonSize5x5.width, buttonSize5x5.height);
+        lvl2Building = ImageHandler.setImage("resources/Graphics/lvl2.png", 95, 95, buttonSize5x5.width, buttonSize5x5.height);
+        lvl3Building = ImageHandler.setImage("resources/Graphics/lvl3.png", 95, 95, buttonSize5x5.width, buttonSize5x5.height);
+        domeBuilding = ImageHandler.setImage("resources/Graphics/dome.png", 95, 95, buttonSize5x5.width, buttonSize5x5.height);
         lvl1Cyan = ImageHandler.setImage("resources/Graphics/lvl1_cyan.png", 85, 85, labelMapSize.width, labelMapSize.height);
         lvl2Cyan = ImageHandler.setImage("resources/Graphics/lvl2_cyan.png", 85, 85, labelMapSize.width, labelMapSize.height);
         lvl3Cyan = ImageHandler.setImage("resources/Graphics/lvl3_cyan.png", 85, 85, labelMapSize.width, labelMapSize.height);
@@ -379,17 +379,14 @@ public class Board extends Observable {
             setColorWorkers2();
         }
 
-        lLvl1.setBounds((int) (frameSize.width * 40/100), (int) (frameSize.height * 23.5/100), size20x5.width, size20x5.height);
-        lLvl2.setBounds((int) (frameSize.width * 40/100), (int) (frameSize.height * 35.5/100), size20x5.width, size20x5.height);
-        lLvl3.setBounds((int) (frameSize.width * 40/100), (int) (frameSize.height * 47.5/100), size20x5.width, size20x5.height);
-        lDome.setBounds((int) (frameSize.width * 40/100), (int) (frameSize.height * 60.5/100), size20x5.width, size20x5.height);
+
 
         lLvl1.setFont(felixNormal);
         lLvl1.setVisible(true);
         frameBuildings.add(lLvl1);
         buttonLv1.setBounds((int) (frameChat.getWidth() * 55/ 100), (int) (frameChat.getHeight() * 21 / 100), buttonSize5x5.width, buttonSize5x5.height);
         buttonLv1.setVisible(true);
-        chatStyleButtons(buttonLv1, lvl1);
+        chatStyleButtons(buttonLv1, lvl1Building);
         frameBuildings.add(buttonLv1);
 
         lLvl2.setFont(felixNormal);
@@ -397,7 +394,7 @@ public class Board extends Observable {
         frameBuildings.add(lLvl2);
         buttonLv2.setBounds((int) (frameChat.getWidth() * 55/ 100), (int) (frameChat.getHeight() * 33 / 100), buttonSize5x5.width, buttonSize5x5.height);
         buttonLv2.setVisible(true);
-        chatStyleButtons(buttonLv2, lvl2);
+        chatStyleButtons(buttonLv2, lvl2Building);
         frameBuildings.add(buttonLv2);
 
         lLvl3.setFont(felixNormal);
@@ -405,7 +402,7 @@ public class Board extends Observable {
         frameBuildings.add(lLvl3);
         buttonLv3.setBounds((int) (frameChat.getWidth() * 55/ 100), (int) (frameChat.getHeight() * 45 / 100), buttonSize5x5.width, buttonSize5x5.height);
         buttonLv3.setVisible(true);
-        chatStyleButtons(buttonLv3, lvl3);
+        chatStyleButtons(buttonLv3, lvl3Building);
         frameBuildings.add(buttonLv3);
 
         lDome.setFont(felixNormal);
@@ -413,7 +410,7 @@ public class Board extends Observable {
         frameBuildings.add(lDome);
         buttonDome.setBounds((int) (frameChat.getWidth() * 55/ 100), (int) (frameChat.getHeight() * 58 / 100), buttonSize5x5.width, buttonSize5x5.height);
         buttonDome.setVisible(true);
-        chatStyleButtons(buttonDome, dome);
+        chatStyleButtons(buttonDome, domeBuilding);
         frameBuildings.add(buttonDome);
 
         backButton.setBounds((int) ((frameChat.getWidth() * 55/ 100) - ((getD().getWidth() * 6 / 100))), (int) (frameChat.getHeight() * 71 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
@@ -461,7 +458,6 @@ public class Board extends Observable {
         windowPower.getContentPane().add(sfondoFramePower);
 
 
-
         resetPlayer();
 
         resetMyWorkers();
@@ -490,6 +486,11 @@ public class Board extends Observable {
                 labelChooseWorker.setBounds((int) (frameSize.width * 81/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
                 labelMove.setBounds((int) (frameSize.width * 85.75/100), (int) (frameSize.height * 27.5/100), size20x5.width, size20x5.height);
                 labelBuild.setBounds((int) (frameSize.width * 85.75/100), (int) (frameSize.height * 39.5/100), size20x5.width, size20x5.height);
+
+                lLvl1.setBounds((int) (frameSize.width * 40/100), (int) (frameSize.height * 23.5/100), size20x5.width, size20x5.height);
+                lLvl2.setBounds((int) (frameSize.width * 40/100), (int) (frameSize.height * 35.5/100), size20x5.width, size20x5.height);
+                lLvl3.setBounds((int) (frameSize.width * 40/100), (int) (frameSize.height * 47.5/100), size20x5.width, size20x5.height);
+                lDome.setBounds((int) (frameSize.width * 40/100), (int) (frameSize.height * 60.5/100), size20x5.width, size20x5.height);
 
 
 
@@ -585,12 +586,8 @@ public class Board extends Observable {
                 labelChooseWorker.setBounds((int) (frameSize.width * 83/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
                 labelMove.setBounds((int) (frameSize.width * 86.5/100), (int) (frameSize.height * 27.5/100), size20x5.width, size20x5.height);
                 labelBuild.setBounds((int) (frameSize.width * 86.5/100), (int) (frameSize.height * 39.5/100), size20x5.width, size20x5.height);
-                lLvl1.setBounds((int) (frameSize.width * 40/100), (int) (frameSize.height * 21/100), size20x5.width, size20x5.height);
-                lLvl2.setBounds((int) (frameSize.width * 40/100), (int) (frameSize.height * 33/100), size20x5.width, size20x5.height);
-                lLvl3.setBounds((int) (frameSize.width * 40/100), (int) (frameSize.height * 45/100), size20x5.width, size20x5.height);
-                lDome.setBounds((int) (frameSize.width * 40/100), (int) (frameSize.height * 61/100), size20x5.width, size20x5.height);
 
-                windowPower.setBounds((int)(frameSize.width * 30/100), (int) (frameSize.height * 27.5/100), internalFrameSize40x45.width, internalFrameSize40x45.height);
+                windowPower.setBounds((int)(frameSize.width * 29/100), (int) (frameSize.height * 30.5/100), internalFrameSize40x45.width, internalFrameSize40x45.height);
 
 
                 mapButtons[0].setBounds((int) (frameSize.width * (29.5)/100) , (int) (frameSize.width * (7.6)/100),
@@ -1736,7 +1733,7 @@ public class Board extends Observable {
 
             responce = gui.buildWorker(tileBuildChoosen + 1, Building.LVL1);
 
-            if (mePlayer.getPower().getName().equalsIgnoreCase("zeus")){
+            if (mePlayer.getPower().getName().equalsIgnoreCase("zeus") && mapMyWorkers[tileBuildChoosen] != 0){
                 mapButtons[tileBuildChoosen].setIcon(myLabels.get(1).getIcon());
             }
             else {
@@ -1760,7 +1757,7 @@ public class Board extends Observable {
 
             responce = gui.buildWorker(tileBuildChoosen + 1, Building.LVL2);
 
-            if (mePlayer.getPower().getName().equalsIgnoreCase("zeus")){
+            if (mePlayer.getPower().getName().equalsIgnoreCase("zeus") && mapMyWorkers[tileBuildChoosen] != 0){
                 mapButtons[tileBuildChoosen].setIcon(myLabels.get(2).getIcon());
             }
             else {
@@ -1785,7 +1782,7 @@ public class Board extends Observable {
 
             responce = gui.buildWorker(tileBuildChoosen + 1, Building.LVL3);
 
-            if (mePlayer.getPower().getName().equalsIgnoreCase("zeus")){
+            if (mePlayer.getPower().getName().equalsIgnoreCase("zeus") && mapMyWorkers[tileBuildChoosen] != 0){
                 mapButtons[tileBuildChoosen].setIcon(myLabels.get(3).getIcon());
             }
             else {
