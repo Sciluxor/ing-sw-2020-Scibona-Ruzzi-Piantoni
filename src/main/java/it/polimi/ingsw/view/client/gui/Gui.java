@@ -46,7 +46,7 @@ public class Gui extends ClientGameController {
 
     static Font felixSmall = new Font(FELIX, Font.PLAIN, (int) (13 * screenSize.getHeight() / 1080));
     static Font felixNormal = new Font(FELIX, Font.PLAIN, (int) (20 * screenSize.getHeight() / 1080));
-    static Font felixBold = new Font(FELIX, Font.BOLD, (int) (25 * screenSize.getHeight() / 1080));
+    static Font felixBold = new Font(FELIX, Font.BOLD, (int) (40 * screenSize.getHeight() / 1080));
     static List<Player> players = new ArrayList<>();
     String nickname;
     JButton buttonBackground = new JButton();
