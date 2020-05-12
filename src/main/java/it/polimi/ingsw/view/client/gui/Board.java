@@ -1563,9 +1563,11 @@ public class Board extends Observable {
             if (square.hasPlayer()) {
                 System.out.println("player: " + square.getPlayer().getNickName());
                 if (square.getPlayer().getNickName().equalsIgnoreCase(opponent1.getText())){
+                    mapMyWorkers[square.getTile() - 1] = 0;
                     list = opponents1Labels;
                 }
                 else if (numberOfPlayers == 3 && square.getPlayer().getNickName().equalsIgnoreCase(opponent2.getText())){
+                    mapMyWorkers[square.getTile() - 1] = 0;
                     list = opponents2Labels;
                 }
                 else if (square.getPlayer().getNickName().equalsIgnoreCase(mePlayer.getNickName())){
