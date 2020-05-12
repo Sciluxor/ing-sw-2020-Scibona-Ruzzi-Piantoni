@@ -504,7 +504,7 @@ public class Board extends Observable {
             }
             else {//mac positions
                 nicknameLabel.setBounds((int) (frameSize.width * 4/100), (int) (frameSize.height * 2.5/100), size20x5.width, size20x5.height);
-                nicknameLabel1.setBounds((int) (frameSize.width * 10/100), (int) (frameSize.height * 2.5/100), size20x5.width, size20x5.height);
+                nicknameLabel1.setBounds((int) (frameSize.width * 10.5/100), (int) (frameSize.height * 2.5/100), size20x5.width, size20x5.height);
                 opponents.setBounds((frameSize.width * 3/100), (frameSize.height * 55/100), size20x5.width, size20x5.height);
                 opponent1.setBounds((frameSize.width * 4/100), (frameSize.height * 61/100), frameSize.width * 15/100, frameSize.height * 4/100);
                 if (numberOfPlayers == 3){
