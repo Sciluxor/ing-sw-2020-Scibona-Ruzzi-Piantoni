@@ -48,9 +48,9 @@ public class Board extends Observable {
     JInternalFrame internalFrameUpdateBoard = new JInternalFrame("", false, false, false, false);
     JWindow windowPower;
     JScrollPane scrollPane;
-    JButton buttonLv1 = new JButton();
-    JButton buttonLv2 = new JButton();
-    JButton buttonLv3 = new JButton();
+    JButton buttonLvl1 = new JButton();
+    JButton buttonLvl2 = new JButton();
+    JButton buttonLvl3 = new JButton();
     JButton buttonDome = new JButton();
     JButton buttonMove = new JButton();
     JButton buttonBuild = new JButton();
@@ -147,9 +147,9 @@ public class Board extends Observable {
     JLabel labelChooseWorker = new JLabel("Choose the worker");
     JLabel labelMove = new JLabel("Move");
     JLabel labelBuild = new JLabel("Build");
-    JLabel lLvl1 = new JLabel("Lvl 1");
-    JLabel lLvl2 = new JLabel("Lvl 2");
-    JLabel lLvl3 = new JLabel("Lvl 3");
+    JLabel lLvl1 = new JLabel("Lvl1");
+    JLabel lLvl2 = new JLabel("Lvl2");
+    JLabel lLvl3 = new JLabel("Lvl3");
     JLabel lDome = new JLabel("Dome");
     JLabel lbuttonEndturn;
     JLabel lbuttonEndturnPress;
@@ -380,30 +380,29 @@ public class Board extends Observable {
         }
 
 
-
         lLvl1.setFont(felixNormal);
         lLvl1.setVisible(true);
         frameBuildings.add(lLvl1);
-        buttonLv1.setBounds((int) (frameChat.getWidth() * 55/ 100), (int) (frameChat.getHeight() * 21 / 100), buttonSize5x5.width, buttonSize5x5.height);
-        buttonLv1.setVisible(true);
-        chatStyleButtons(buttonLv1, lvl1Building);
-        frameBuildings.add(buttonLv1);
+        buttonLvl1.setBounds((int) (frameChat.getWidth() * 55/ 100), (int) (frameChat.getHeight() * 21 / 100), buttonSize5x5.width, buttonSize5x5.height);
+        buttonLvl1.setVisible(true);
+        chatStyleButtons(buttonLvl1, lvl1Building);
+        frameBuildings.add(buttonLvl1);
 
         lLvl2.setFont(felixNormal);
         lLvl2.setVisible(true);
         frameBuildings.add(lLvl2);
-        buttonLv2.setBounds((int) (frameChat.getWidth() * 55/ 100), (int) (frameChat.getHeight() * 33 / 100), buttonSize5x5.width, buttonSize5x5.height);
-        buttonLv2.setVisible(true);
-        chatStyleButtons(buttonLv2, lvl2Building);
-        frameBuildings.add(buttonLv2);
+        buttonLvl2.setBounds((int) (frameChat.getWidth() * 55/ 100), (int) (frameChat.getHeight() * 33 / 100), buttonSize5x5.width, buttonSize5x5.height);
+        buttonLvl2.setVisible(true);
+        chatStyleButtons(buttonLvl2, lvl2Building);
+        frameBuildings.add(buttonLvl2);
 
         lLvl3.setFont(felixNormal);
         lLvl3.setVisible(true);
         frameBuildings.add(lLvl3);
-        buttonLv3.setBounds((int) (frameChat.getWidth() * 55/ 100), (int) (frameChat.getHeight() * 45 / 100), buttonSize5x5.width, buttonSize5x5.height);
-        buttonLv3.setVisible(true);
-        chatStyleButtons(buttonLv3, lvl3Building);
-        frameBuildings.add(buttonLv3);
+        buttonLvl3.setBounds((int) (frameChat.getWidth() * 55/ 100), (int) (frameChat.getHeight() * 45 / 100), buttonSize5x5.width, buttonSize5x5.height);
+        buttonLvl3.setVisible(true);
+        chatStyleButtons(buttonLvl3, lvl3Building);
+        frameBuildings.add(buttonLvl3);
 
         lDome.setFont(felixNormal);
         lDome.setVisible(true);
@@ -487,10 +486,11 @@ public class Board extends Observable {
                 labelMove.setBounds((int) (frameSize.width * 85.75/100), (int) (frameSize.height * 27.5/100), size20x5.width, size20x5.height);
                 labelBuild.setBounds((int) (frameSize.width * 85.75/100), (int) (frameSize.height * 39.5/100), size20x5.width, size20x5.height);
 
-                lLvl1.setBounds((int) (frameSize.width * 40/100), (int) (frameSize.height * 23.5/100), size20x5.width, size20x5.height);
-                lLvl2.setBounds((int) (frameSize.width * 40/100), (int) (frameSize.height * 35.5/100), size20x5.width, size20x5.height);
-                lLvl3.setBounds((int) (frameSize.width * 40/100), (int) (frameSize.height * 47.5/100), size20x5.width, size20x5.height);
-                lDome.setBounds((int) (frameSize.width * 40/100), (int) (frameSize.height * 60.5/100), size20x5.width, size20x5.height);
+                lLvl1.setBounds((int) (sideSize.width * 35/100), (int) (sideSize.height * 21/100), size20x5.width, size20x5.height);
+                lLvl2.setBounds((int) (sideSize.width * 35/100), (int) (sideSize.height * 33/100), size20x5.width, size20x5.height);
+                lLvl3.setBounds((int) (sideSize.width * 35/100), (int) (sideSize.height * 45/100), size20x5.width, size20x5.height);
+                lDome.setBounds((int) (sideSize.width * 35/100), (int) (sideSize.height * 58/100), size20x5.width, size20x5.height);
+
 
 
 
@@ -587,6 +587,11 @@ public class Board extends Observable {
                 labelMove.setBounds((int) (frameSize.width * 86.5/100), (int) (frameSize.height * 27.5/100), size20x5.width, size20x5.height);
                 labelBuild.setBounds((int) (frameSize.width * 86.5/100), (int) (frameSize.height * 39.5/100), size20x5.width, size20x5.height);
 
+                lLvl1.setBounds((int) (sideSize.width * 40/100), (int) (sideSize.height * 23.5/100), size20x5.width, size20x5.height);
+                lLvl2.setBounds((int) (sideSize.width * 40/100), (int) (sideSize.height * 35.5/100), size20x5.width, size20x5.height);
+                lLvl3.setBounds((int) (sideSize.width * 40/100), (int) (sideSize.height * 47.5/100), size20x5.width, size20x5.height);
+                lDome.setBounds((int) (sideSize.width * 40/100), (int) (sideSize.height * 60.5/100), size20x5.width, size20x5.height);
+
                 windowPower.setBounds((int)(frameSize.width * 29/100), (int) (frameSize.height * 30.5/100), internalFrameSize40x45.width, internalFrameSize40x45.height);
 
 
@@ -679,8 +684,6 @@ public class Board extends Observable {
         }
 
         addMapButtons();
-
-
 
 
 
@@ -1657,9 +1660,9 @@ public class Board extends Observable {
     }
 
     private void enableLevels(boolean bool){
-        buttonLv1.setEnabled(bool);
-        buttonLv2.setEnabled(bool);
-        buttonLv3.setEnabled(bool);
+        buttonLvl1.setEnabled(bool);
+        buttonLvl2.setEnabled(bool);
+        buttonLvl3.setEnabled(bool);
         buttonDome.setEnabled(bool);
     }
 
@@ -1690,16 +1693,16 @@ public class Board extends Observable {
             tileBuildChoosen = Integer.parseInt(c.getName());
             frameBuildings.setVisible(true);
             if (gui.getLevel(Integer.parseInt(c.getName()) + 1) == 0){
-                buttonLv1.addActionListener(new BuildLvl1());
-                buttonLv1.setEnabled(true);
+                buttonLvl1.addActionListener(new BuildLvl1());
+                buttonLvl1.setEnabled(true);
             }
             if (gui.getLevel(Integer.parseInt(c.getName()) + 1) == 1){
-                buttonLv2.addActionListener(new BuildLvl2());
-                buttonLv2.setEnabled(true);
+                buttonLvl2.addActionListener(new BuildLvl2());
+                buttonLvl2.setEnabled(true);
             }
             if (gui.getLevel(Integer.parseInt(c.getName()) + 1) == 2){
-                buttonLv3.addActionListener(new BuildLvl3());
-                buttonLv3.setEnabled(true);
+                buttonLvl3.addActionListener(new BuildLvl3());
+                buttonLvl3.setEnabled(true);
             }
             if (gui.getLevel(Integer.parseInt(c.getName()) + 1) == 3 && !mePlayer.getPower().getName().equalsIgnoreCase("atlas")){
                 buttonDome.addActionListener(new BuildDome());
@@ -1713,9 +1716,9 @@ public class Board extends Observable {
     }
 
     private void removeBuildLvl() {
-        eliminateActionClass(buttonLv1, BuildLvl1.class);
-        eliminateActionClass(buttonLv2, BuildLvl2.class);
-        eliminateActionClass(buttonLv3, BuildLvl3.class);
+        eliminateActionClass(buttonLvl1, BuildLvl1.class);
+        eliminateActionClass(buttonLvl2, BuildLvl2.class);
+        eliminateActionClass(buttonLvl3, BuildLvl3.class);
         eliminateActionClass(buttonDome, BuildDome.class);
         eliminateActionClass(buttonDome, BuildDomeAtlas.class);
     }
