@@ -33,11 +33,11 @@ public class Apollo extends Card {
             throw new NullPointerException("null gameMap or player or direction");
 
         int wantToAccess = player.getCurrentWorker().getBoardPosition().getCanAccess().get(directions);
-        if(gameMap.getMap().get(wantToAccess).hasPlayer()){
+        if(gameMap.getMap().get(wantToAccess-1).hasPlayer()){
             gameMap.clearModifiedSquare();
             gameMap.addModifiedSquare(player.getCurrentWorker().getBoardPosition());
-            gameMap.addModifiedSquare(gameMap.getMap().get(wantToAccess- 1).getWorker().getBoardPosition());
-            swapWorker(player.getCurrentWorker().getBoardPosition(), gameMap.getMap().get(wantToAccess- 1).getWorker().getBoardPosition());
+            gameMap.addModifiedSquare(gameMap.getMap().get(wantToAccess- 1));
+            swapWorker(player.getCurrentWorker().getBoardPosition(), gameMap.getMap().get(wantToAccess- 1));
         }
         else
             gameMap.moveWorkerTo(player, directions);
@@ -56,7 +56,11 @@ public class Apollo extends Card {
                 Square possibleSquare = gameMap.getMap().get(squareTile- 1);
                 if((possibleSquare.getBuildingLevel() >= 0 && possibleSquare.getBuildingLevel() <= levelPosition +1 && !worker.getBoardPosition().equals(possibleSquare) )
                         && possibleSquare.getBuilding() != Building.DOME ){
-                    reachableSquares.add(dir);
+                    if(possibleSquare.hasPlayer() && !possibleSquare.getPlayer().getNickName().equals(worker.getBoardPosition().getPlayer().getNickName())){
+                        reachableSquares.add(dir);
+                    }
+                    else if(!possibleSquare.hasPlayer())
+                        reachableSquares.add(dir);
                 }
             }
         }
@@ -68,11 +72,13 @@ public class Apollo extends Card {
         Player playerTemp = square1.getPlayer();
         Worker workerTemp = square1.getWorker();
 
+        square1.setHasPlayer(true);
         square1.setWorker(square2.getWorker());
         square1.getWorker().setPreviousBoardPosition(square2);
         square1.getWorker().setBoardPosition(square1);
         square1.setPlayer(square2.getPlayer());
 
+        square2.setHasPlayer(true);
         square2.setWorker(workerTemp);
         square2.getWorker().setPreviousBoardPosition(square1);
         square2.getWorker().setBoardPosition(square2);
