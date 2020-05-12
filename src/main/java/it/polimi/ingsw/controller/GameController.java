@@ -302,7 +302,7 @@ public class GameController implements Observer<Message> {
         stopRoundTimer();
         if(FlowStatutsLoader.isRightMessage(game.getGameStatus(),message.getType())) {
             game.getCurrentPlayer().setTurnStatus(TurnStatus.IDLE);
-            
+
             if(game.getCurrentPlayer().getPower() != null)
                 game.getCurrentPlayer().getPower().resetCard();
 
