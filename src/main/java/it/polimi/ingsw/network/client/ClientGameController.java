@@ -264,6 +264,10 @@ public abstract class ClientGameController implements Runnable, FunctionListener
 
     public synchronized List<Integer> availableMoveSquare(){
         List<Directions> directions = game.getCurrentPlayer().findWorkerMove(game.getGameMap(),game.getCurrentPlayer().getCurrentWorker());
+        for (Card constraint : game.getCurrentPlayer().getConstraint()) {
+            if (constraint.getType().equals(CardType.YOURMOVE) && !constraint.getSubType().equals(CardSubType.NORMAL))
+                directions = constraint.eliminateInvalidMove(game.getGameMap(), game.getCurrentPlayer().getCurrentWorker(), directions);
+        }
         List<Integer> availableTile = new ArrayList<>();
         for(Directions direction: directions){
             availableTile.add(game.getCurrentPlayer().getCurrentWorker().getBoardPosition().getCanAccess().get(direction));
@@ -286,7 +290,6 @@ public abstract class ClientGameController implements Runnable, FunctionListener
                 winStatus,game.getWinner(),game.getGameMap().getModifiedSquare()));
 
         return winStatus;
-
     }
 
 
