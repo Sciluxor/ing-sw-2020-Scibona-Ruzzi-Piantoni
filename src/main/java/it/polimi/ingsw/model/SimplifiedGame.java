@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.map.GameMap;
 import it.polimi.ingsw.model.map.Square;
 import it.polimi.ingsw.model.player.Color;
 import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.model.player.WorkerName;
 
 import java.util.*;
 
@@ -92,14 +93,15 @@ public class SimplifiedGame{
         oldSquare.setBuildingLevel(newSquare.getBuildingLevel());
         oldSquare.setHasPlayer(newSquare.hasPlayer());
         if(newSquare.hasPlayer()) {
-            oldSquare.setPlayer(newSquare.getPlayer());
-            oldSquare.setWorker(newSquare.getWorker());
-            if(newSquare.getWorker().getBoardPosition() != null)
-                oldSquare.getWorker().setBoardPosition(newSquare.getWorker().getBoardPosition());
-            if(newSquare.getWorker().getPreviousBoardPosition() != null)
-                oldSquare.getWorker().setPreviousBoardPosition(newSquare.getWorker().getPreviousBoardPosition());
-            if(newSquare.getWorker().getPreviousBuildPosition() != null)
-                oldSquare.getWorker().setPreviousBuildPosition(newSquare.getWorker().getPreviousBuildPosition());
+            for(Player player: settedPlayers) {
+                if (player.getNickName().equals(newSquare.getPlayer().getNickName())) {
+                    oldSquare.setPlayer(player);
+                    oldSquare.setWorker(player.getWorkers().get(WorkerName.getNumberWorker(newSquare.getWorker().getName()) -1));
+                    oldSquare.getWorker().setPreviousBoardPosition(oldSquare.getWorker().getBoardPosition());
+                    oldSquare.getWorker().setBoardPosition(oldSquare);
+                    //oldSquare.getWorker().setPreviousBuildPosition(newSquare.getWorker().getPreviousBuildPosition());
+                }
+            }
         }
     }
 

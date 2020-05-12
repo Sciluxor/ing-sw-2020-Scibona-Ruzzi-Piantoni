@@ -9,7 +9,7 @@ import java.util.Map;
 public class Square implements Serializable{
 
 
-    private Integer tile;
+    private final Integer tile;
     private Integer[] coordinates;
     private int buildingLevel;
     private Building building;
