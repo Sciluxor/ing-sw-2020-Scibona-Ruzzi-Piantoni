@@ -121,6 +121,10 @@ public abstract class ClientGameController implements Runnable, FunctionListener
 
     }
 
+    public synchronized int getLevel(int tile){
+       return game.getGameMap().getMap().get(tile-1).getBuildingLevel();
+    }
+
     public synchronized void endTurn(){
         if(game.getCurrentPlayer().getPower() != null)
             game.getCurrentPlayer().getPower().resetCard();
