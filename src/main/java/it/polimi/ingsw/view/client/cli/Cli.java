@@ -106,6 +106,7 @@ public class Cli extends ClientGameController {
         for (String card : cards) {
             print(card.toUpperCase() + " ", Color.ANSI_YELLOW);
         }
+        print("\n");
 
         Collections.addAll(chosenCards, cards);
         return chosenCards;
@@ -279,7 +280,7 @@ public class Cli extends ClientGameController {
     }
 
     public void printMenu() {
-        System.out.println("[CHAT]  [BOARD]  [ACTIONS]  [OPPONENTS]  [POWER]\n\n\n");
+        System.out.println("[CHAT]  [BOARD]  [ACTIONS]  [OPPONENTS]  [POWER]\n");
     }
 
     public void printYourTurn() {
@@ -334,7 +335,7 @@ public class Cli extends ClientGameController {
         clearShell();
         if(isYourPlayer) {
             print("YOU HAVE BEEN CHOSEN AS CHALLENGER!\nINSERT SOMETHING TO GO ON: ");
-            input();
+
 
 
             //STAMPE DA METTERE IN ACTION
@@ -347,7 +348,7 @@ public class Cli extends ClientGameController {
             challengerResponse(challengerNick, cards);
         }
         else {
-            print("PLAYER " + challengerNick + " IS CHOOSING CARDS\nINSERT SOMETHING TO GO ON: ");
+            System.out.print(Color.ANSI_RED + "PLAYER " + Color.ANSI_YELLOW + challengerNick.toUpperCase() + Color.ANSI_RED + " IS CHOOSING CARDS\nINSERT SOMETHING TO GO ON: " + Color.RESET);
             input();
         }
 
@@ -413,7 +414,7 @@ public class Cli extends ClientGameController {
 
     @Override
     public void displayActions(List<MessageType> actions) {
-
+        print("CHOOSE YOUR POWER\n");
     }
 
     @Override
