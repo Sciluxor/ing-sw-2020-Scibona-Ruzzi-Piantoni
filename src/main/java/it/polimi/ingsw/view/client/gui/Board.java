@@ -50,6 +50,7 @@ public class Board extends Observable {
     JScrollPane scrollPane;
     MyButton newGame = new MyButton(2);
     MyButton close = new MyButton(3);
+    MyButton closeTutorial = new MyButton(3);
     MyButton keepWatching = new MyButton(4);
     JButton buttonLvl1 = new JButton();
     JButton buttonLvl2 = new JButton();
@@ -68,6 +69,7 @@ public class Board extends Observable {
     JButton backgroundFrameChat = new JButton();
     JButton backgroundFrameBuildings = new JButton();
     JButton sfondoFramePower = new JButton();
+    JButton tutorial = new JButton();
     JButton leftBoard = new JButton();
     JButton leftGod = new JButton();
     JButton winLose = new JButton();
@@ -166,6 +168,7 @@ public class Board extends Observable {
     JLabel lLoser1;
     JLabel lLoser2;
     JLabel lGlow;
+    JLabel lTutorial;
     Dimension frameSize = new Dimension();
     Dimension boardSize = new Dimension();
     Dimension bottomSize = new Dimension();
@@ -317,6 +320,8 @@ public class Board extends Observable {
         lLoser1 = ImageHandler.setImage("resources/Graphics/gods/podium/apollo.png", 100, 100, frameSize.width * 30/100, frameSize.height * 50/100);
         lLoser2 = ImageHandler.setImage("resources/Graphics/gods/podium/apollo.png", 100, 100, frameSize.width * 30/100, frameSize.height * 50/100);
         lGlow = ImageHandler.setImage("resources/Graphics/gods/podium/glow.png", 100, 100, frameSize.width * 15/100, frameSize.height * 35/100);
+        lTutorial = ImageHandler.setImage("resources/Graphics/tutorial.png", 100, 100, frameSize.width, frameSize.height);
+
 
         setMyColorWorkers();
         setColorWorkers1();
@@ -374,6 +379,16 @@ public class Board extends Observable {
         keepWatching.setBounds((int) ((frameSize.width * 50/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
         keepWatching.setVisible(false);
         keepWatching.addActionListener(new KeepWatching());
+        closeTutorial.setBounds((int) ((frameSize.width * 50/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
+        closeTutorial.setVisible(false);
+        closeTutorial.addActionListener(new CloseTutorial());
+
+        tutorial.setBounds(-7,-22, frameSize.width, frameSize.height);
+        tutorial.setOpaque(false);
+        tutorial.setContentAreaFilled(false);
+        tutorial.setBorderPainted(false);
+        tutorial.setIcon(lTutorial.getIcon());
+        tutorial.setVisible(false);
 
         winner.setBounds((int) (frameSize.width * 39/100),frameSize.height * 20/100, frameSize.width * 30/100, frameSize.height * 50/100);
         winner.setOpaque(false);
@@ -738,6 +753,9 @@ public class Board extends Observable {
         catch(Exception e) {
             LOGGER.severe(e.getMessage());
         }
+
+        desktopPane.add(closeTutorial);
+        desktopPane.add(tutorial);
         desktopPane.add(newGame);
         desktopPane.add(close);
         desktopPane.add(keepWatching);
@@ -1073,7 +1091,8 @@ public class Board extends Observable {
             }
             internalFrameChallenger1.setBounds((int)((frameSize.width * 50/100) - (internalFrameSize2.width * 50/100)), (int) ((frameSize.height * 46/100) - (internalFrameSize2.height * 50/100)), internalFrameSize2.width, internalFrameSize2.height);
             internalFrameChallenger1.getContentPane().add(youChosen);
-            internalFrameChallenger1.setVisible(true);
+            tutorial.setVisible(true);
+            closeTutorial.setVisible(true);
             buttonChooseCards.setVisible(true);
             labelChooseCards.setVisible(true);
             buttonChooseCards.addActionListener(new ChooseCards());
@@ -1090,7 +1109,8 @@ public class Board extends Observable {
             }
             internalFrameChallenger1.setBounds((int) (frameSize.width * 29.5/100), (int) (frameSize.height * 25.5/100), internalFrameSize40x45.width, internalFrameSize40x45.height);
             internalFrameChallenger1.getContentPane().add(waitChallenger);
-            internalFrameChallenger1.setVisible(true);
+            tutorial.setVisible(true);
+            closeTutorial.setVisible(true);
         }
     }
 
@@ -1639,7 +1659,6 @@ public class Board extends Observable {
         mapButtons[x].setBorderPainted(false);
         mapButtons[x].addMouseListener(new ColorBorder());
     }
-
 
     private void displayModifications(List<Square> squares, boolean isMe){
 
@@ -2190,6 +2209,15 @@ public class Board extends Observable {
         public void actionPerformed(ActionEvent e) {
             f.dispose();
             System.exit(0);
+        }
+    }
+
+    private class CloseTutorial implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            tutorial.setVisible(false);
+            closeTutorial.setVisible(false);
+            internalFrameChallenger1.setVisible(true);
         }
     }
 }
