@@ -33,15 +33,22 @@ public class EliminateListeners {
     }
 
     public static void eliminateAllActionClass(JButton button){
+        List<ActionListener> toRemove = new ArrayList<>();
         for (int x = 0; x < button.getActionListeners().length; x++){
-            button.removeActionListener(button.getActionListeners()[x]);
+            toRemove.add(button.getActionListeners()[x]);
+        }
+        for (ActionListener action : toRemove){
+            button.removeActionListener(action);
         }
     }
 
     public static void eliminateAllMouseClass(JButton button){
+        List<MouseListener> toRemove = new ArrayList<>();
         for (int x = 0; x < button.getMouseListeners().length; x++){
-            button.removeMouseListener(button.getMouseListeners()[x]);
+            toRemove.add(button.getMouseListeners()[x]);
         }
-
+        for (MouseListener mouse : toRemove){
+            button.removeMouseListener(mouse);
+        }
     }
 }
