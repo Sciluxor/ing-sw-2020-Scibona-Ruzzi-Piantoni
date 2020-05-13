@@ -156,6 +156,7 @@ public class Board extends Observable {
     JLabel lDome = new JLabel("Dome");
     JLabel lbuttonEndturn;
     JLabel lbuttonEndturnPress;
+    JLabel win;
     Dimension frameSize = new Dimension();
     Dimension boardSize = new Dimension();
     Dimension bottomSize = new Dimension();
@@ -302,7 +303,7 @@ public class Board extends Observable {
         lbuttonChooseFirstPress = ImageHandler.setImage("resources/Graphics/button_choose_first_press.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
         lButtonChoosePowerPress = ImageHandler.setImage("resources/Graphics/button_power_press.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
         lbuttonEndturnPress = ImageHandler.setImage("resources/Graphics/button_endturn_press.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
-        JLabel win = ImageHandler.setImage("resources/Graphics/gods/win_lose_podium/lose_apollo.png", 100, 100, frameSize.width * 50/100, frameSize.height * 80/100);
+        win = ImageHandler.setImage("resources/Graphics/gods/win_lose_podium/lose_apollo.png", 100, 100, frameSize.width * 50/100, frameSize.height * 80/100);
 
         setMyColorWorkers();
         setColorWorkers1();
@@ -1696,15 +1697,46 @@ public class Board extends Observable {
         buttonMultiUse.setVisible(bool);
     }
 
-    private void displayWinLose(){
+    private void displayWinLose(boolean winner){
         eliminateAllFromAll();
+        try {
+            if (winner) {
+                win = ImageHandler.setImage("resources/Graphics/gods/podium/win_" + mePlayer.getPower().getName() + ".png", 100, 100, internalFrameSize40x45.width, internalFrameSize40x45.height);
+            }
+            else {
+                win = ImageHandler.setImage("resources/Graphics/gods/podium/lose_" + mePlayer.getPower().getName() + ".png", 100, 100, internalFrameSize40x45.width, internalFrameSize40x45.height);
+            }
+        } catch (IOException ioException) {
+            LOGGER.severe(ioException.getMessage());
+        }
         winLose.setVisible(true);
         newGame.setVisible(true);
         close.setVisible(true);
     }
 
     private void eliminateAllFromAll(){
-
+        eliminateAllMouseClass(opponent1);
+        eliminateAllActionClass(opponent1);
+        if (numberOfPlayers == 3){
+            eliminateAllMouseClass(opponent2);
+            eliminateAllActionClass(opponent2);
+        }
+        eliminateAllMouseClass(buttonChat);
+        eliminateAllActionClass(buttonChat);
+        for (JButton button : mapButtons){
+            eliminateAllMouseClass(button);
+            eliminateAllActionClass(button);
+        }
+        eliminateAllMouseClass(buttonPower);
+        eliminateAllActionClass(buttonPower);
+        eliminateAllMouseClass(buttonMultiUse);
+        eliminateAllActionClass(buttonMultiUse);
+        eliminateAllMouseClass(buttonEndturn);
+        eliminateAllActionClass(buttonEndturn);
+        eliminateAllMouseClass(buttonMove);
+        eliminateAllActionClass(buttonMove);
+        eliminateAllMouseClass(buttonBuild);
+        eliminateAllActionClass(buttonBuild);
     }
 
     private void enableChoose(boolean bool){
