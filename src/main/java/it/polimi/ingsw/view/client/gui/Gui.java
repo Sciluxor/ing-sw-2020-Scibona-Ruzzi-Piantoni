@@ -257,7 +257,9 @@ public class Gui extends ClientGameController {
 
     @Override
     public void notifyLose(String nick, boolean isYourPlayer) {
-
+        SwingUtilities.invokeLater(() -> {
+            board.displayLose(nick, isYourPlayer);
+        });
     }
 
     @Override

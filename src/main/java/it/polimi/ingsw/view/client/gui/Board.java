@@ -1744,6 +1744,27 @@ public class Board extends Observable {
         buttonMultiUse.setVisible(bool);
     }
 
+    public void displayLose(String nick, boolean isYourPlayer){
+        newGame.addActionListener(new NewGameLoose());
+
+        newGame.setBounds((int) ((frameSize.width * 35/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
+        close.setBounds((int) ((frameSize.width * 65/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
+
+        try {
+            border = ImageHandler.setImage("resources/Graphics/gods/podium/lose_border.png", 100, 100, frameSize.width * 50/100, frameSize.height * 80/100);
+        } catch (IOException e) {
+            LOGGER.severe(e.getMessage());
+        }
+        displayModifications(gui.getModifiedsquare(), false);
+
+        winLose.setIcon(border.getIcon());
+        winLose.setVisible(true);
+        newGame.setVisible(true);
+        close.setVisible(true);
+        keepWatching.setVisible(true);
+
+    }
+
     public void displayWinLose(String nick){
         boolean winnerBool = false;
         if (nick.equalsIgnoreCase(mePlayer.getNickName())){
@@ -2150,8 +2171,9 @@ public class Board extends Observable {
         @Override
         public void actionPerformed(ActionEvent e) {
             f.dispose();
-            gui.avvio();
-
+            gui.backToLogin(false);
+            gui.frame.setVisible(true);
+            gui.handleLoseExit();
         }
     }
 
@@ -2159,6 +2181,7 @@ public class Board extends Observable {
         @Override
         public void actionPerformed(ActionEvent e) {
             displayWin(false, false);
+            keepWatching.setVisible(false);
         }
     }
 
