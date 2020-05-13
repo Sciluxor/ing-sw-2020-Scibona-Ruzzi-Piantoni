@@ -169,6 +169,7 @@ public class Board extends Observable {
     JLabel lLoser2;
     JLabel lGlow;
     JLabel lTutorial;
+    JLabel llost;
     Dimension frameSize = new Dimension();
     Dimension boardSize = new Dimension();
     Dimension bottomSize = new Dimension();
@@ -1664,7 +1665,6 @@ public class Board extends Observable {
 
         List<JLabel> list = null;
 
-
         for (Square square : squares){
             cleanIcon(square.getTile() - 1);
             if (square.hasPlayer()) {
@@ -1728,7 +1728,6 @@ public class Board extends Observable {
         if (!isMe){
             removeColorBorderToMap();
         }
-
     }
 
     private class EndTurn implements ActionListener{
@@ -1770,17 +1769,32 @@ public class Board extends Observable {
         close.setBounds((int) ((frameSize.width * 65/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
 
         try {
-            border = ImageHandler.setImage("resources/Graphics/gods/podium/lose_border.png", 100, 100, frameSize.width * 50/100, frameSize.height * 80/100);
+            if (isYourPlayer) {
+                border = ImageHandler.setImage("resources/Graphics/gods/podium/lose_border.png", 100, 100, frameSize.width * 50 / 100, frameSize.height * 80 / 100);
+            }
+            else {
+                border = ImageHandler.setImage("resources/Graphics/gods/podium/lost_border.png", 100, 100, frameSize.width * 50 / 100, frameSize.height * 80 / 100);
+            }
         } catch (IOException e) {
             LOGGER.severe(e.getMessage());
         }
         displayModifications(gui.getModifiedsquare(), false);
 
-        winLose.setIcon(border.getIcon());
-        winLose.setVisible(true);
-        newGame.setVisible(true);
-        close.setVisible(true);
-        keepWatching.setVisible(true);
+        if (isYourPlayer) {
+            winLose.setIcon(border.getIcon());
+            winLose.setVisible(true);
+            newGame.setVisible(true);
+            close.setVisible(true);
+            keepWatching.setVisible(true);
+        }
+        else {
+            winLose.setIcon(border.getIcon());
+            winLose.setVisible(true);
+            close.setBounds((int) ((frameSize.width * 50/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
+            eliminateActionClass(close, Close.class);
+            close.setVisible(true);
+            close.addActionListener(new CloseLost());
+        }
 
     }
 
@@ -1818,11 +1832,8 @@ public class Board extends Observable {
 
         if (numberOfPlayers == 3){
             winner.setBounds((int) (frameSize.width * 34/100),frameSize.height * 20/100, frameSize.width * 30/100, frameSize.height * 50/100);
-
             glow.setBounds((int) (frameSize.width * 41.5/100),frameSize.height * 33/100, frameSize.width * 15/100, frameSize.height * 35/100);
-
             loser1.setBounds((int) (frameSize.width * 24/100),frameSize.height * 30/100, frameSize.width * 30/100, frameSize.height * 50/100);
-
             loser2.setBounds((int) (frameSize.width * 44/100),frameSize.height * 30/100, frameSize.width * 30/100, frameSize.height * 50/100);
         }
         displayWin(true, numberOfPlayers == 3);
@@ -2070,7 +2081,6 @@ public class Board extends Observable {
     }
 
     private class ButtonPress extends MouseAdapter {
-
         @Override
         public void mousePressed(MouseEvent e) {
             JButton c = (JButton) e.getSource();
@@ -2182,7 +2192,6 @@ public class Board extends Observable {
             f.dispose();
             gui.backToLogin(false);
             gui.frame.setVisible(true);
-
         }
     }
 
@@ -2220,4 +2229,16 @@ public class Board extends Observable {
             internalFrameChallenger1.setVisible(true);
         }
     }
+
+    private class CloseLost implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            winLose.setVisible(false);
+            eliminateActionClass(close, CloseLost.class);
+            close.setBounds((int) ((frameSize.width * 60/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
+            close.setVisible(false);
+            close.addActionListener(new Close());
+        }
+    }
 }
+
