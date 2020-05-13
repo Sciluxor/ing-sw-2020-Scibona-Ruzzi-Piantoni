@@ -70,6 +70,10 @@ public class Board extends Observable {
     JButton leftBoard = new JButton();
     JButton leftGod = new JButton();
     JButton winLose = new JButton();
+    JButton winner = new JButton();
+    JButton loser1 = new JButton();
+    JButton loser2 = new JButton();
+    JButton glow = new JButton();
     JButton opponent1 = new JButton();
     JButton opponent2;
     MyButton backButton = new MyButton(1);
@@ -156,7 +160,11 @@ public class Board extends Observable {
     JLabel lDome = new JLabel("Dome");
     JLabel lbuttonEndturn;
     JLabel lbuttonEndturnPress;
-    JLabel win;
+    JLabel border;
+    JLabel lwinner;
+    JLabel lLoser1;
+    JLabel lLoser2;
+    JLabel lGlow;
     Dimension frameSize = new Dimension();
     Dimension boardSize = new Dimension();
     Dimension bottomSize = new Dimension();
@@ -303,7 +311,11 @@ public class Board extends Observable {
         lbuttonChooseFirstPress = ImageHandler.setImage("resources/Graphics/button_choose_first_press.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
         lButtonChoosePowerPress = ImageHandler.setImage("resources/Graphics/button_power_press.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
         lbuttonEndturnPress = ImageHandler.setImage("resources/Graphics/button_endturn_press.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
-        win = ImageHandler.setImage("resources/Graphics/gods/win_lose_podium/lose_apollo.png", 100, 100, frameSize.width * 50/100, frameSize.height * 80/100);
+        border = ImageHandler.setImage("resources/Graphics/gods/podium/lose_border.png", 100, 100, frameSize.width * 50/100, frameSize.height * 80/100);
+        lwinner = ImageHandler.setImage("resources/Graphics/gods/podium/apollo.png", 100, 100, frameSize.width * 30/100, frameSize.height * 50/100);
+        lLoser1 = ImageHandler.setImage("resources/Graphics/gods/podium/artemis.png", 100, 100, frameSize.width * 30/100, frameSize.height * 50/100);
+        lLoser2 = ImageHandler.setImage("resources/Graphics/gods/podium/athena.png", 100, 100, frameSize.width * 30/100, frameSize.height * 50/100);
+        lGlow = ImageHandler.setImage("resources/Graphics/gods/podium/glow.png", 100, 100, frameSize.width * 15/100, frameSize.height * 35/100);
 
         setMyColorWorkers();
         setColorWorkers1();
@@ -354,20 +366,47 @@ public class Board extends Observable {
         desktopPane.setPreferredSize(frameSize);
 
         newGame.setBounds((int) ((frameSize.width * 40/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
-        newGame.setVisible(true);
-        newGame.addActionListener(new NewGame());
+        newGame.setVisible(false);
         close.setBounds((int) ((frameSize.width * 60/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
-        close.setVisible(true);
+        close.setVisible(false);
         close.addActionListener(new Close());
+
+        winner.setBounds((int) (frameSize.width * 39/100),frameSize.height * 20/100, frameSize.width * 30/100, frameSize.height * 50/100);
+        winner.setOpaque(false);
+        winner.setContentAreaFilled(false);
+        winner.setBorderPainted(false);
+        winner.setIcon(lwinner.getIcon());
+        winner.setVisible(false);
+
+        glow.setBounds((int) (frameSize.width * 46.5/100),frameSize.height * 33/100, frameSize.width * 15/100, frameSize.height * 35/100);
+        glow.setOpaque(false);
+        glow.setContentAreaFilled(false);
+        glow.setBorderPainted(false);
+        glow.setIcon(lGlow.getIcon());
+        glow.setVisible(false);
+
+        loser1.setBounds((int) (frameSize.width * 29/100),frameSize.height * 30/100, frameSize.width * 30/100, frameSize.height * 50/100);
+        loser1.setOpaque(false);
+        loser1.setContentAreaFilled(false);
+        loser1.setBorderPainted(false);
+        loser1.setIcon(lLoser1.getIcon());
+        loser1.setVisible(false);
+
+        loser2.setBounds((int) (frameSize.width * 44/100),frameSize.height * 30/100, frameSize.width * 30/100, frameSize.height * 50/100);
+        loser2.setOpaque(false);
+        loser2.setContentAreaFilled(false);
+        loser2.setBorderPainted(false);
+        loser2.setIcon(lLoser2.getIcon());
+        loser2.setVisible(false);
 
         winLose.setBounds(-7,-22, frameSize.width, frameSize.height);
         winLose.setOpaque(false);
         winLose.setContentAreaFilled(false);
         winLose.setBorderPainted(false);
-        winLose.setIcon(win.getIcon());
-        winLose.setVisible(true);
+        winLose.setIcon(border.getIcon());
+        winLose.setVisible(false);
 
-        leftGod.setBounds(-7,-18, frameSize.width, frameSize.height);
+        leftGod.setBounds(-7,-22, frameSize.width, frameSize.height);
         leftGod.setOpaque(false);
         leftGod.setContentAreaFilled(false);
         leftGod.setBorderPainted(false);
@@ -794,7 +833,11 @@ public class Board extends Observable {
         desktopPane.add(internalFrameUpdateBoard);
 
 
-        //desktopPane.add(winLose);
+        desktopPane.add(winner);
+        desktopPane.add(glow);
+        desktopPane.add(loser1);
+        desktopPane.add(loser2);
+        desktopPane.add(winLose);
         desktopPane.add(leftBoard);
         desktopPane.add(leftGod);
 
@@ -1697,32 +1740,60 @@ public class Board extends Observable {
         buttonMultiUse.setVisible(bool);
     }
 
-    private void displayWinLose(boolean winner){
+    public void displayWinLose(String nick){
+        boolean winnerBool = false;
+        if (nick.equalsIgnoreCase(mePlayer.getNickName())){
+            winnerBool = true;
+        }
+        newGame.addActionListener(new NewGameWin());
         eliminateAllFromAll();
         try {
-            if (winner) {
-                win = ImageHandler.setImage("resources/Graphics/gods/podium/win_" + mePlayer.getPower().getName() + ".png", 100, 100, internalFrameSize40x45.width, internalFrameSize40x45.height);
+            if (winnerBool) {
+                border = ImageHandler.setImage("resources/Graphics/gods/podium/win_border.png", 100, 100, frameSize.width * 50/100, frameSize.height * 80/100);
+                lwinner = ImageHandler.setImage("resources/Graphics/gods/podium/" + mePlayer.getPower().getName() + ".png", 100, 100, frameSize.width * 30/100, frameSize.height * 50/100);
+                lLoser1 = ImageHandler.setImage("resources/Graphics/gods/podium/" + opponent1.getName() + ".png", 100, 100, frameSize.width * 30/100, frameSize.height * 50/100);
+                if (numberOfPlayers == 3){
+                    lLoser2 = ImageHandler.setImage("resources/Graphics/gods/podium/" + opponent2.getName() + ".png", 100, 100, frameSize.width * 30/100, frameSize.height * 50/100);
+                }
             }
             else {
-                win = ImageHandler.setImage("resources/Graphics/gods/podium/lose_" + mePlayer.getPower().getName() + ".png", 100, 100, internalFrameSize40x45.width, internalFrameSize40x45.height);
+                border = ImageHandler.setImage("resources/Graphics/gods/podium/lose_border.png", 100, 100, frameSize.width * 50/100, frameSize.height * 80/100);
+                lwinner = ImageHandler.setImage("resources/Graphics/gods/podium/" + opponent1.getName() + ".png", 100, 100, frameSize.width * 30/100, frameSize.height * 50/100);
+                lLoser1 = ImageHandler.setImage("resources/Graphics/gods/podium/" + mePlayer.getPower().getName() + ".png", 100, 100, frameSize.width * 30/100, frameSize.height * 50/100);
+                if (numberOfPlayers == 3){
+                    lLoser2 = ImageHandler.setImage("resources/Graphics/gods/podium/" + opponent2.getName() + ".png", 100, 100, frameSize.width * 30/100, frameSize.height * 50/100);
+                }
             }
         } catch (IOException ioException) {
             LOGGER.severe(ioException.getMessage());
         }
+        winLose.setIcon(border.getIcon());
+        winner.setIcon(lwinner.getIcon());
+        loser1.setIcon(lLoser1.getIcon());
+        loser2.setIcon(lLoser2.getIcon());
+
+        if (numberOfPlayers == 3){
+            winner.setBounds((int) (frameSize.width * 34/100),frameSize.height * 20/100, frameSize.width * 30/100, frameSize.height * 50/100);
+
+            glow.setBounds((int) (frameSize.width * 41.5/100),frameSize.height * 33/100, frameSize.width * 15/100, frameSize.height * 35/100);
+
+            loser1.setBounds((int) (frameSize.width * 24/100),frameSize.height * 30/100, frameSize.width * 30/100, frameSize.height * 50/100);
+
+            loser2.setBounds((int) (frameSize.width * 44/100),frameSize.height * 30/100, frameSize.width * 30/100, frameSize.height * 50/100);
+        }
+        displayWin(numberOfPlayers == 3);
+    }
+
+    private void displayWin(boolean isIn3){
         winLose.setVisible(true);
+        winner.setVisible(true);
+        loser1.setVisible(true);
+        loser2.setVisible(isIn3);
         newGame.setVisible(true);
         close.setVisible(true);
     }
 
     private void eliminateAllFromAll(){
-        eliminateAllMouseClass(opponent1);
-        eliminateAllActionClass(opponent1);
-        if (numberOfPlayers == 3){
-            eliminateAllMouseClass(opponent2);
-            eliminateAllActionClass(opponent2);
-        }
-        eliminateAllMouseClass(buttonChat);
-        eliminateAllActionClass(buttonChat);
         for (JButton button : mapButtons){
             eliminateAllMouseClass(button);
             eliminateAllActionClass(button);
@@ -2061,10 +2132,20 @@ public class Board extends Observable {
         }
     }
 
-    private class NewGame implements ActionListener {
+    private class NewGameWin implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             f.dispose();
+            gui.avvio();
+
+        }
+    }
+
+    private class NewGameLoose implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            f.dispose();
+
             gui.avvio();
 
         }
