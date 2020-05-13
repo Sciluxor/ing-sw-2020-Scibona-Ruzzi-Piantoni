@@ -52,7 +52,7 @@ public class Cli extends ClientGameController {
             openConnection(getNickName(), getNumberOfPlayers(), getAddress(), getPort());
         }catch (Exception e) {
             printErr("FAILED TO OPENING CONNECTION");
-            waitEnter();
+            controlWaitEnter("enter");
         }
     }
 
@@ -257,99 +257,75 @@ public class Cli extends ClientGameController {
     }
 
     public void printMenu() {
+        clearShell();
         printWhite("[CHAT]  [BOARD]  [ACTIONS]  [OPPONENTS]  [POWER]\n");
 
         int counter = 0;
-        boolean goOut = false;
+        boolean goOut = false, firstPosition = false, lastPosition = false;
         int keyboardIn = getArrowLeftRight();
 
         do {
             clearShell();
             switch (keyboardIn) {
                 case 185:
-                    if(counter == 0) {
-                        print("[CHAT]", Color.ANSI_PURPLE);
-                        printWhite("  [BOARD]  [ACTIONS]  [OPPONENTS]  [POWER]\n");
-                        //printCHAT
-
+                    if(!lastPosition)
                         counter++;
-                    }
-                    else if(counter == 1) {
-                        printWhite("[CHAT]  ");
-                        print("[BOARD]", Color.ANSI_PURPLE);
-                        printWhite("  [ACTIONS]  [OPPONENTS]  [POWER]\n");
-                        //printBOARD
-
-                        counter++;
-                    }
-                    else if(counter == 2) {
-                        printWhite("[CHAT]  [BOARD]  ");
-                        print("[ACTIONS]", Color.ANSI_PURPLE);
-                        printWhite("  [OPPONENTS]  [POWER]\n");
-                        //printACTIONS
-
-                        counter++;
-                    }
-                    else if(counter == 3) {
-                        printWhite("[CHAT]  [BOARD]  [ACTIONS]  ");
-                        print("[OPPONENTS]", Color.ANSI_PURPLE);
-                        printWhite("  [POWER]\n");
-                        //printOPPONENTS
-
-                        counter++;
-                    }
-                    else if(counter == 4) {
-                        printWhite("[CHAT]  [BOARD]  [ACTIONS]  [OPPONENTS]  ");
-                        print("[POWER]\n", Color.ANSI_PURPLE);
-                        //printPOWER
-                    }
-
-                    waitEnter();
                     break;
                 case 186:
-                    if(counter == 0) {
-                        print("[CHAT]", Color.ANSI_PURPLE);
-                        printWhite("  [BOARD]  [ACTIONS]  [OPPONENTS]  [POWER]\n");
-                        //printCHAT
-                    }
-                    else if(counter == 1) {
-                        printWhite("[CHAT]  ");
-                        print("[BOARD]", Color.ANSI_PURPLE);
-                        printWhite("  [ACTIONS]  [OPPONENTS]  [POWER]\n");
-                        //printBOARD
-
+                    if(!firstPosition || counter != 0)
                         counter--;
-                    }
-                    else if(counter == 2) {
-                        printWhite("[CHAT]  [BOARD]  ");
-                        print("[ACTIONS]", Color.ANSI_PURPLE);
-                        printWhite("  [OPPONENTS]  [POWER]\n");
-                        //printACTIONS
-
-                        counter--;
-                    }
-                    else if(counter == 3) {
-                        printWhite("[CHAT]  [BOARD]  [ACTIONS]  ");
-                        print("[OPPONENTS]", Color.ANSI_PURPLE);
-                        printWhite("  [POWER]\n");
-                        //printOPPONENTS
-
-                        counter--;
-                    }
-                    else if(counter == 4) {
-                        printWhite("[CHAT]  [BOARD]  [ACTIONS]  [OPPONENTS]  ");
-                        print("[POWER]\n", Color.ANSI_PURPLE);
-                        //printPOWER
-
-                        counter--;
-                    }
-
-                    waitEnter();
+                    else
+                        counter++;
                     break;
+
                 default:
                     goOut = true;
                     if(keyboardIn != 13)
                         printErr("NO KEYBOARD CATCHED");
+            }
+
+            if(counter == 1) {
+                firstPosition = true;
+                print("[CHAT]", Color.ANSI_PURPLE);
+                printWhite("  [BOARD]  [ACTIONS]  [OPPONENTS]  [POWER]\n");
+                //printCHAT
+
+            }
+            else if(counter == 2) {
+                firstPosition = false;
+                printWhite("[CHAT]  ");
+                print("[BOARD]", Color.ANSI_PURPLE);
+                printWhite("  [ACTIONS]  [OPPONENTS]  [POWER]\n");
+                //printBOARD
+
+            }
+            else if(counter == 3) {
+                printWhite("[CHAT]  [BOARD]  ");
+                print("[ACTIONS]", Color.ANSI_PURPLE);
+                printWhite("  [OPPONENTS]  [POWER]\n");
+                //printACTIONS
+
+            }
+            else if(counter == 4) {
+                lastPosition = false;
+                printWhite("[CHAT]  [BOARD]  [ACTIONS]  ");
+                print("[OPPONENTS]", Color.ANSI_PURPLE);
+                printWhite("  [POWER]\n");
+                //printOPPONENTS
+
+            }
+            else if(counter == 5) {
+                lastPosition = true;
+                printWhite("[CHAT]  [BOARD]  [ACTIONS]  [OPPONENTS]  ");
+                print("[POWER]\n", Color.ANSI_PURPLE);
+                //printPOWER
+            }
+
+            keyboardIn = controlWaitEnter("left&right");
+            if(keyboardIn == 0) {
+                goOut = true;
+                printErr("NO KEYBOARD CATCHED");
+                break;
             }
         }while(!goOut);
 
@@ -384,8 +360,6 @@ public class Cli extends ClientGameController {
 
         backThread = new Thread(this::checkBackCommand);
         backThread.start();
-
-        waitEnter();
     }
 
     @Override
@@ -401,7 +375,7 @@ public class Cli extends ClientGameController {
         backThread.interrupt();
         clearShell();
         printRed("GAME IS GOING TO START. PLEASE WAIT WHILE IS LOADING\n");
-        waitEnter();
+        controlWaitEnter("enter");
 
     }
 
@@ -409,9 +383,10 @@ public class Cli extends ClientGameController {
     public void challengerChoice(String challengerNick, boolean isYourPlayer) {
         clearShell();
         if(isYourPlayer) {
-            printRed("YOU HAVE BEEN CHOSEN AS CHALLENGER!\nINSERT SOMETHING TO GO ON: ");
+            printRed("YOU HAVE BEEN CHOSEN AS CHALLENGER!\n");
+            controlWaitEnter("enter");
 
-
+            clearShell();
             //STAMPE DA METTERE IN ACTION
             printRed("PLEASE, CHOOSE " + getPlayers().size() + " CARDS ");
             print("(insert ONLY ONE card to see its power)", Color.ANSI_BLUE);
@@ -425,7 +400,7 @@ public class Cli extends ClientGameController {
             printRed("PLAYER ");
             print(challengerNick.toUpperCase(), Color.ANSI_YELLOW);
             printRed(" IS CHOOSING CARDS\n");
-            waitEnter();
+            controlWaitEnter("enter");
         }
 
         mainThread = new Thread(this::printMenu);
@@ -518,12 +493,12 @@ public class Cli extends ClientGameController {
                 case 183:
                     print("> [RECONNECT]\n", Color.ANSI_YELLOW);
                     printRed("  [CLOSE]\n");
-                    waitEnter();
+                    controlWaitEnter("up&down");
                     break;
                 case 184:
                     printRed("  [RECONNECT]\n");
                     print("> [CLOSE]\n", Color.ANSI_YELLOW);
-                    waitEnter();
+                    controlWaitEnter("up&down");
                     break;
                 default:
                     goOut = true;

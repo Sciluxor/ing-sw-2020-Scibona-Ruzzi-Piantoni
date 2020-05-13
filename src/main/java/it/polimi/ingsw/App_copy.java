@@ -23,7 +23,14 @@ public class App_copy {
                     printRed("SELECTED:\n");
                     print("> [1] CLI\n", Color.ANSI_YELLOW);
                     printRed("  [2] GUI\n");
-                    keyboardIn = waitEnter();
+
+                    keyboardIn = controlWaitEnter("up&down");
+                    if(keyboardIn == 0) {
+                        goOut = true;
+                        printErr("NO KEYBOARD CATCHED");
+                        break;
+                    }
+
                     if (keyboardIn == 13) {
                         Cli cli = new Cli();
                         cli.start();
@@ -32,7 +39,14 @@ public class App_copy {
                 case 184:
                     printRed("SELECTED:\n  [1] CLI\n");
                     print("> [2] GUI\n", Color.ANSI_YELLOW);
-                    keyboardIn = waitEnter();
+
+                    keyboardIn = controlWaitEnter("up&down");
+                    if(keyboardIn == 0) {
+                        goOut = true;
+                        printErr("NO KEYBOARD CATCHED");
+                        break;
+                    }
+
                     if (keyboardIn == 13) {
                         Gui gui = new Gui();
                         gui.avvio();

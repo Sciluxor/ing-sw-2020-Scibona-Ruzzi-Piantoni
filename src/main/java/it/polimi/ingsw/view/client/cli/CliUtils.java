@@ -86,11 +86,35 @@ public class CliUtils {
         return keyboard;
     }
 
-    public synchronized static int waitEnter() {
+    private synchronized static int waitEnter() {
         int keyboardIn;
-
-        printRed("PRESS ENTER TO GO ON...");
         keyboardIn = getArrow();
+        return keyboardIn;
+    }
+
+    public static int controlWaitEnter(String type) {
+        int keyboardIn = 0;
+        printRed("PRESS ENTER TO GO ON...");
+
+        switch (type) {
+            case "up&down":
+                do {
+                    keyboardIn = waitEnter();
+                }while(keyboardIn != 13 && keyboardIn != 183 && keyboardIn != 184);
+                break;
+            case "left&right":
+                do {
+                    keyboardIn = waitEnter();
+                }while(keyboardIn != 13 && keyboardIn != 185 && keyboardIn != 186);
+                break;
+            case "enter":
+                do {
+                    keyboardIn = waitEnter();
+                }while(keyboardIn != 13);
+                break;
+            default:
+                printErr("NO KEYBOARD CATCHED");
+        }
         return keyboardIn;
     }
 
