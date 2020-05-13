@@ -138,23 +138,28 @@ public class Server implements Runnable{
     }
 
     public synchronized void removeGameEnded(){  // da chiamare dalle view quandi finisce la partita
-        List<Player> toRemovePlayers;
-        List<GameController> toRemoveController = new ArrayList<>();
-        for(GameController match: actualMatches){
-            if(match.hasWinner()){
-                toRemoveController.add(match);
+        synchronized (clientsLock) {
+            List<Player> toRemovePlayers;
+            List<GameController> toRemoveController = new ArrayList<>();
+            for (GameController match : actualMatches) {
+                if (match.hasWinner()) {
+                    toRemoveController.add(match);
+                }
             }
-        }
-        for(GameController match :toRemoveController){
+            for (GameController match : toRemoveController) {
                 actualMatches.remove(match);
                 toRemovePlayers = match.getActualPlayers();
                 controllerFromGameID.remove(match.getGameID());
-                for(Player player : toRemovePlayers){
+                for (Player player : toRemovePlayers) {
+                    match.getViewFromNickName(player.getNickName()).removeObserver(match);
                     controllerFromUserID.remove(match.getUserIDFromPlayer(player));
                 }
-                for(Player player : match.getLosePlayers()){
+                for (Player player : match.getLosePlayers()) {
+                    match.getViewFromNickName(player.getNickName()).removeObserver(match);
                     controllerFromUserID.remove(match.getUserIDFromPlayer(player));
                 }
+            }
+
         }
     }
 
@@ -225,7 +230,6 @@ public class Server implements Runnable{
         connection.setUserID(userID);
         controller.addUserID(view,userID);
         sendMsgToVirtualView(message,view);
-
     }
 
     public boolean isFull(GameController controller)
@@ -329,6 +333,7 @@ public class Server implements Runnable{
     public void run() {
             while (!Thread.currentThread().isInterrupted()){
                 synchronized (clientsLock){
+                    removeGameEnded();
                     for(ClientHandler connection : connections){
                         if(connection.isConnectionActive())
                             connection.ping();
