@@ -244,7 +244,6 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     public synchronized void mapNextAction(Response winStatus){
-        System.out.println(game.getGameStatus().toString());
         if(winStatus.equals(Response.WIN) || winStatus.equals(Response.BUILDWIN)){       //problema per la win, bisogna cambiare l'ordine delle chiamate
             eventQueue.add(() -> notifyWin(game.getWinner().getNickName()));
         }

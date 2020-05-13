@@ -50,6 +50,7 @@ public class Board extends Observable {
     JScrollPane scrollPane;
     MyButton newGame = new MyButton(2);
     MyButton close = new MyButton(3);
+    MyButton keepWatching = new MyButton(4);
     JButton buttonLvl1 = new JButton();
     JButton buttonLvl2 = new JButton();
     JButton buttonLvl3 = new JButton();
@@ -313,8 +314,8 @@ public class Board extends Observable {
         lbuttonEndturnPress = ImageHandler.setImage("resources/Graphics/button_endturn_press.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
         border = ImageHandler.setImage("resources/Graphics/gods/podium/lose_border.png", 100, 100, frameSize.width * 50/100, frameSize.height * 80/100);
         lwinner = ImageHandler.setImage("resources/Graphics/gods/podium/apollo.png", 100, 100, frameSize.width * 30/100, frameSize.height * 50/100);
-        lLoser1 = ImageHandler.setImage("resources/Graphics/gods/podium/artemis.png", 100, 100, frameSize.width * 30/100, frameSize.height * 50/100);
-        lLoser2 = ImageHandler.setImage("resources/Graphics/gods/podium/athena.png", 100, 100, frameSize.width * 30/100, frameSize.height * 50/100);
+        lLoser1 = ImageHandler.setImage("resources/Graphics/gods/podium/apollo.png", 100, 100, frameSize.width * 30/100, frameSize.height * 50/100);
+        lLoser2 = ImageHandler.setImage("resources/Graphics/gods/podium/apollo.png", 100, 100, frameSize.width * 30/100, frameSize.height * 50/100);
         lGlow = ImageHandler.setImage("resources/Graphics/gods/podium/glow.png", 100, 100, frameSize.width * 15/100, frameSize.height * 35/100);
 
         setMyColorWorkers();
@@ -370,6 +371,9 @@ public class Board extends Observable {
         close.setBounds((int) ((frameSize.width * 60/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
         close.setVisible(false);
         close.addActionListener(new Close());
+        keepWatching.setBounds((int) ((frameSize.width * 50/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
+        keepWatching.setVisible(false);
+        keepWatching.addActionListener(new KeepWatching());
 
         winner.setBounds((int) (frameSize.width * 39/100),frameSize.height * 20/100, frameSize.width * 30/100, frameSize.height * 50/100);
         winner.setOpaque(false);
@@ -736,6 +740,7 @@ public class Board extends Observable {
         }
         desktopPane.add(newGame);
         desktopPane.add(close);
+        desktopPane.add(keepWatching);
         desktopPane.add(nicknameLabel);
         desktopPane.add(nicknameLabel1);
         desktopPane.add(opponents);
@@ -744,7 +749,7 @@ public class Board extends Observable {
             desktopPane.add(opponent2);
         }
 
-        addMapButtons();
+
 
 
 
@@ -838,6 +843,9 @@ public class Board extends Observable {
         desktopPane.add(loser1);
         desktopPane.add(loser2);
         desktopPane.add(winLose);
+
+        addMapButtons();
+
         desktopPane.add(leftBoard);
         desktopPane.add(leftGod);
 
@@ -1538,8 +1546,6 @@ public class Board extends Observable {
             buttonMultiUse.setVisible(false);
             workerChoosen = mapMyWorkers[pos];
             tileWorkerChosen = pos;
-            System.out.println("tile scleta " + tileWorkerChosen);
-            System.out.println("worker scleta " + workerChoosen);
             avaiableWorkersPositions.clear();
         }
     }
@@ -1642,9 +1648,7 @@ public class Board extends Observable {
 
         for (Square square : squares){
             cleanIcon(square.getTile() - 1);
-            System.out.println("tile :" + square.getTile());
             if (square.hasPlayer()) {
-                System.out.println("player: " + square.getPlayer().getNickName());
                 if (square.getPlayer().getNickName().equalsIgnoreCase(opponent1.getText())){
                     mapMyWorkers[square.getTile() - 1] = 0;
                     list = opponents1Labels;
@@ -1781,16 +1785,17 @@ public class Board extends Observable {
 
             loser2.setBounds((int) (frameSize.width * 44/100),frameSize.height * 30/100, frameSize.width * 30/100, frameSize.height * 50/100);
         }
-        displayWin(numberOfPlayers == 3);
+        displayWin(true, numberOfPlayers == 3);
     }
 
-    private void displayWin(boolean isIn3){
-        winLose.setVisible(true);
-        winner.setVisible(true);
-        loser1.setVisible(true);
+    private void displayWin(boolean bool, boolean isIn3){
+        winLose.setVisible(bool);
+        winner.setVisible(bool);
+        glow.setVisible(bool);
+        loser1.setVisible(bool);
         loser2.setVisible(isIn3);
-        newGame.setVisible(true);
-        close.setVisible(true);
+        newGame.setVisible(bool);
+        close.setVisible(bool);
     }
 
     private void eliminateAllFromAll(){
@@ -2009,7 +2014,6 @@ public class Board extends Observable {
         }
     }
 
-
     private static class ColorBorder extends MouseAdapter {
         @Override
         public void mouseEntered(MouseEvent e) {
@@ -2136,7 +2140,8 @@ public class Board extends Observable {
         @Override
         public void actionPerformed(ActionEvent e) {
             f.dispose();
-            gui.avvio();
+            gui.backToLogin(false);
+            gui.frame.setVisible(true);
 
         }
     }
@@ -2145,9 +2150,15 @@ public class Board extends Observable {
         @Override
         public void actionPerformed(ActionEvent e) {
             f.dispose();
-
             gui.avvio();
 
+        }
+    }
+
+    private class KeepWatching implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            displayWin(false, false);
         }
     }
 

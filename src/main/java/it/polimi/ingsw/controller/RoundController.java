@@ -192,6 +192,7 @@ public class RoundController {
             game.setGameStatus(Response.MOVEWINMISMATCH);
 
         if(game.hasWinner()){
+            System.out.println("qui entro round controller");
             game.setGameStatus(response);
             game.setGameStatus(Response.WIN);
         }

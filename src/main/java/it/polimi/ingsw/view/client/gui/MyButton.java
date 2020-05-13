@@ -21,6 +21,8 @@ public class MyButton extends JButton{
     JLabel lnewGamePress;
     JLabel lclose;
     JLabel lclosePress;
+    JLabel lkeep;
+    JLabel lkeepPress;
     {
         try {
             lconfirm = ImageHandler.setImage("resources/Graphics/button_confirm.png", 100, 100, labelSize.width, labelSize.height);
@@ -31,6 +33,8 @@ public class MyButton extends JButton{
             lnewGamePress = ImageHandler.setImage("resources/Graphics/button_newgame_press.png", 100, 100, labelSize.width, labelSize.height);
             lclose = ImageHandler.setImage("resources/Graphics/button_close.png", 100, 100, labelSize.width, labelSize.height);
             lclosePress = ImageHandler.setImage("resources/Graphics/button_close_press.png", 100, 100, labelSize.width, labelSize.height);
+            lkeep = ImageHandler.setImage("resources/Graphics/button_keep.png", 100, 100, labelSize.width, labelSize.height);
+            lkeepPress = ImageHandler.setImage("resources/Graphics/button_keep_press.png", 100, 100, labelSize.width, labelSize.height);
         } catch (IOException e) {
             LOGGER.severe(e.getMessage());
         }
@@ -60,6 +64,12 @@ public class MyButton extends JButton{
             case 3:
                 setIcon(lclose.getIcon());
                 break;
+
+            case 4:
+                setIcon(lkeep.getIcon());
+                break;
+
+            default:
         }
     }
 
@@ -85,6 +95,10 @@ public class MyButton extends JButton{
                     c.setIcon(lclosePress.getIcon());
                     break;
 
+                case 4:
+                    setIcon(lkeepPress.getIcon());
+                    break;
+
                 default:
             }
 
@@ -108,6 +122,10 @@ public class MyButton extends JButton{
 
                 case 3:
                     c.setIcon(lclose.getIcon());
+                    break;
+
+                case 4:
+                    setIcon(lkeep.getIcon());
                     break;
 
                 default:

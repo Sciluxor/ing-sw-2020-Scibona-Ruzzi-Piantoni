@@ -201,7 +201,7 @@ public class Gui extends ClientGameController {
     @Override
     public void startGame() {
         SwingUtilities.invokeLater(() -> {
-            frame.dispose();
+            frame.setVisible(false);
             try {
                 board.show(this, screenSize, numberOfPlayers, getPlayers(), getPlayers(), nickname);
             } catch (IOException e) {
@@ -249,6 +249,7 @@ public class Gui extends ClientGameController {
 
     @Override
     public void notifyWin(String nick) {
+        System.out.println("notifyWin");
         SwingUtilities.invokeLater(() -> {
             board.displayWinLose(nick);
         });
