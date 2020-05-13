@@ -415,12 +415,22 @@ public class Cli extends ClientGameController {
     }
 
     @Override
+    public void notifyLose(String nick, boolean isYourPlayer) {
+
+    }
+
+    @Override
     public void displayActions(List<MessageType> actions) {
         print("CHOOSE YOUR POWER\n");
     }
 
     @Override
     public void addConstraint(String name) {
+
+    }
+
+    @Override
+    public void removeConstraint(String name) {
 
     }
 

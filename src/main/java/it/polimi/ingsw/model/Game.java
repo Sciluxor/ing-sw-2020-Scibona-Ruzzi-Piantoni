@@ -21,6 +21,8 @@ import java.util.*;
 public class Game extends Observable<Response> {
     private Integer numberOfPlayers;
     private List<Player> settedPlayers;
+    private String lastLosePlayer;
+    private List<Player> losePlayers = new ArrayList<>();
     private int configPlayer;
     private final Map<String, Card> deck;
     private Player currentPlayer;
@@ -71,6 +73,14 @@ public class Game extends Observable<Response> {
             throw new NullPointerException("null numberOfPlayers");
 
         this.numberOfPlayers = numberOfPlayers;
+    }
+
+    public String getLastLosePlayer() {
+        return lastLosePlayer;
+    }
+
+    public List<Player> getLosePlayers() {
+        return losePlayers;
     }
 
     public String getCardFromAvailableCards(String card) {
@@ -226,6 +236,8 @@ public class Game extends Observable<Response> {
 
     public void removePlayerLose(){
         Player toRemovePlayer = currentPlayer;
+        lastLosePlayer = toRemovePlayer.getNickName();
+        losePlayers.add(toRemovePlayer);
         settedPlayers.remove(toRemovePlayer);
         playerQueue.remove(toRemovePlayer);
         gameMap.removeWorkersOfPlayer(toRemovePlayer);

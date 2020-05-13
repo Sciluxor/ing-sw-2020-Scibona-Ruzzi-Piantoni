@@ -164,26 +164,13 @@ public class SimplifiedGame{
         return true;
 
     }
-/*
+
     public void removePlayerLose(){
         Player toRemovePlayer = currentPlayer;
         settedPlayers.remove(toRemovePlayer);
-        playerQueue.remove(toRemovePlayer);
         gameMap.removeWorkersOfPlayer(toRemovePlayer);
-        pickPlayer(); //implementare questa funzione
     }
 
-    public boolean assignCard(String card) {
-        if(card == null)
-            throw new NullPointerException("null card");
-
-        if(!checkCardIntoDeck(card))
-            return false;
-
-        currentPlayer.setPower(deck.get(card));
-        return true;
-    }
-*/
     public void setGameStatus(Response status){
         this.gameStatus = status;
     }
