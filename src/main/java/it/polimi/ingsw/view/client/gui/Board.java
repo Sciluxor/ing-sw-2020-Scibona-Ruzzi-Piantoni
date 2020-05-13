@@ -48,6 +48,8 @@ public class Board extends Observable {
     JInternalFrame internalFrameUpdateBoard = new JInternalFrame("", false, false, false, false);
     JWindow windowPower;
     JScrollPane scrollPane;
+    MyButton newGame = new MyButton(2);
+    MyButton close = new MyButton(3);
     JButton buttonLvl1 = new JButton();
     JButton buttonLvl2 = new JButton();
     JButton buttonLvl3 = new JButton();
@@ -67,6 +69,7 @@ public class Board extends Observable {
     JButton sfondoFramePower = new JButton();
     JButton leftBoard = new JButton();
     JButton leftGod = new JButton();
+    JButton winLose = new JButton();
     JButton opponent1 = new JButton();
     JButton opponent2;
     MyButton backButton = new MyButton(1);
@@ -163,6 +166,7 @@ public class Board extends Observable {
     Dimension internalFrameSize90x90 = new Dimension();
     Dimension internalFrameSize2 = new Dimension();
     Dimension internalFrameSize40x45 = new Dimension();
+    Dimension buttonSize = new Dimension();
     Dimension buttonSize7x7 = new Dimension();
     Dimension buttonSize5x5 = new Dimension();
     Dimension size20x5 = new Dimension();
@@ -227,6 +231,7 @@ public class Board extends Observable {
 
         scrollSize.setSize(sideSize.getWidth() * 14/100 , sideSize.getHeight() * 28/100);
         labelMapSize.setSize(height * 13/100, height * 13/100);
+        buttonSize.setSize((getD().getWidth() * 13 / 100), (getD().getHeight() * 5 / 100));
         buttonMapSize13x13.setSize(frameSize.height * 13/100, frameSize.height * 13/100);
         buttonSize7x7.setSize(frameSize.width * 7/100, frameSize.height * 7/100);
         buttonSize5x5.setSize(frameSize.width * 5/100, frameSize.width * 5/100);
@@ -297,6 +302,7 @@ public class Board extends Observable {
         lbuttonChooseFirstPress = ImageHandler.setImage("resources/Graphics/button_choose_first_press.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
         lButtonChoosePowerPress = ImageHandler.setImage("resources/Graphics/button_power_press.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
         lbuttonEndturnPress = ImageHandler.setImage("resources/Graphics/button_endturn_press.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
+        JLabel win = ImageHandler.setImage("resources/Graphics/gods/win_lose_podium/lose_apollo.png", 100, 100, frameSize.width * 50/100, frameSize.height * 80/100);
 
         setMyColorWorkers();
         setColorWorkers1();
@@ -345,6 +351,20 @@ public class Board extends Observable {
             }};
 
         desktopPane.setPreferredSize(frameSize);
+
+        newGame.setBounds((int) ((frameSize.width * 40/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
+        newGame.setVisible(true);
+        newGame.addActionListener(new NewGame());
+        close.setBounds((int) ((frameSize.width * 60/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
+        close.setVisible(true);
+        close.addActionListener(new Close());
+
+        winLose.setBounds(-7,-22, frameSize.width, frameSize.height);
+        winLose.setOpaque(false);
+        winLose.setContentAreaFilled(false);
+        winLose.setBorderPainted(false);
+        winLose.setIcon(win.getIcon());
+        winLose.setVisible(true);
 
         leftGod.setBounds(-7,-18, frameSize.width, frameSize.height);
         leftGod.setOpaque(false);
@@ -674,7 +694,8 @@ public class Board extends Observable {
         catch(Exception e) {
             LOGGER.severe(e.getMessage());
         }
-
+        desktopPane.add(newGame);
+        desktopPane.add(close);
         desktopPane.add(nicknameLabel);
         desktopPane.add(nicknameLabel1);
         desktopPane.add(opponents);
@@ -759,6 +780,7 @@ public class Board extends Observable {
         f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         f.setPreferredSize(frameSize);
 
+
         frameChat.setVisible(false);
         desktopPane.add(frameChat);
         frameBuildings.setVisible(false);
@@ -770,6 +792,8 @@ public class Board extends Observable {
         desktopPane.add(internalFrameStartTurn);
         desktopPane.add(internalFrameUpdateBoard);
 
+
+        //desktopPane.add(winLose);
         desktopPane.add(leftBoard);
         desktopPane.add(leftGod);
 
@@ -942,7 +966,18 @@ public class Board extends Observable {
             mapButtons[x].setContentAreaFilled(false);
             mapButtons[x].setOpaque(false);
             mapButtons[x].setBorderPainted(false);
+        }
+    }
+
+    private void addColorBorderToMap(){
+        for (int x = 0; x < 25; x++){
             mapButtons[x].addMouseListener(new ColorBorder());
+        }
+    }
+
+    private void removeColorBorderToMap(){
+        for (int x = 0; x < 25; x++){
+            eliminateMouseClass(mapButtons[x], ColorBorder.class);
         }
     }
 
@@ -1182,6 +1217,7 @@ public class Board extends Observable {
             buttonMultiUse.setVisible(true);
             buttonMultiUse.setEnabled(false);
             addPlaceMove();
+            addColorBorderToMap();
         }
         else{
             try {
@@ -1391,6 +1427,7 @@ public class Board extends Observable {
             labelChooseWorker.setVisible(true);
             buttonMultiUse.setVisible(true);
             buttonMultiUse.addActionListener(new AvaiableWorkers());
+            addColorBorderToMap();
         }
         else{
             try {
@@ -1621,6 +1658,9 @@ public class Board extends Observable {
                 }
             }
         }
+        if (!isMe){
+            removeColorBorderToMap();
+        }
 
     }
 
@@ -1632,6 +1672,7 @@ public class Board extends Observable {
             displayChoose(false);
             displayMove(false);
             displayBuild(false);
+            removeColorBorderToMap();
         }
     }
 
@@ -1653,6 +1694,17 @@ public class Board extends Observable {
     private void displayChoose(boolean bool){
         labelChooseWorker.setVisible(bool);
         buttonMultiUse.setVisible(bool);
+    }
+
+    private void displayWinLose(){
+        eliminateAllFromAll();
+        winLose.setVisible(true);
+        newGame.setVisible(true);
+        close.setVisible(true);
+    }
+
+    private void eliminateAllFromAll(){
+
     }
 
     private void enableChoose(boolean bool){
@@ -1727,6 +1779,7 @@ public class Board extends Observable {
         for (Integer x : positions){
             mapButtons[x - 1].setBorderPainted(false);
             eliminateActionClass(mapButtons[x - 1], ShowButtonsBuild.class);
+            mapButtons[x - 1].addMouseListener(new ColorBorder());
         }
     }
 
@@ -1973,6 +2026,23 @@ public class Board extends Observable {
                 field.setText("");
                 gui.sendChatMessage(stringa);
             }
+        }
+    }
+
+    private class NewGame implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            f.dispose();
+            gui.avvio();
+
+        }
+    }
+
+    private class Close implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            f.dispose();
+            System.exit(0);
         }
     }
 }
