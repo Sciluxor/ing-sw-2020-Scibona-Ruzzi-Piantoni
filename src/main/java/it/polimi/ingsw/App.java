@@ -2,15 +2,13 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.view.client.cli.Cli;
 import it.polimi.ingsw.view.client.gui.Gui;
+
+import java.io.IOException;
 import java.util.Scanner;
 
-public class App {
+import static it.polimi.ingsw.view.client.cli.CliUtils.printErr;
 
-    private static final String TITLE = "\n\u001B[31m" +
-            "             ___       ___  ___          ___    _____   ___      ___               _____  ___   ___                  |_|  |_|\n" +
-            " \\   \\/   / |    |    |    |   | |\\  /| |         |    |   |    |       /\\   |\\  |   |   |   | |   | | |\\  | |     ___________\n" +
-            "  \\  /\\  /  |--  |    |    |   | | \\/ | |--       |    |   |    |---|  /--\\  | \\ |   |   |   | |___| | | \\ | |     |   _|_   |\n" +
-            "   \\/  \\/   |___ |___ |___ |___| |    | |___      |    |___|     ___| /    \\ |  \\|   |   |___| |  \\  | |  \\| |      |_______|\n\n\u001B[0m";
+public class App {
 
     public static void main(String[] args) {
 
@@ -26,7 +24,13 @@ public class App {
 
         if(keyboard.equals("1")) {
             Cli cli = new Cli();
-            cli.start();
+            try {
+                cli.start();
+            } catch (IOException e) {
+                printErr("IOException");
+            } catch (InterruptedException e) {
+                printErr("InterruptedException");
+            }
         }
         else {
             Gui gui = new Gui();
