@@ -24,13 +24,7 @@ public class App {
 
         if(keyboard.equals("1")) {
             Cli cli = new Cli();
-            try {
-                cli.start();
-            } catch (IOException e) {
-                printErr("IOException");
-            } catch (InterruptedException e) {
-                printErr("InterruptedException");
-            }
+            cli.start();
         }
         else {
             Gui gui = new Gui();

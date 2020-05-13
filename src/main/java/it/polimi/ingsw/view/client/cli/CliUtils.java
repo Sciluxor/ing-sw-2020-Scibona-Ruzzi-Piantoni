@@ -2,11 +2,18 @@ package it.polimi.ingsw.view.client.cli;
 
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 public class CliUtils {
 
-    public static void print(String string) {
+    public static final java.util.logging.Logger LOGGER = Logger.getLogger("Cli");
+
+    public static void printRed(String string) {
         System.out.print(Color.ANSI_RED + string + Color.RESET);
+    }
+
+    public static void printWhite(String string) {
+        System.out.print(Color.ANSI_WHITE + string + Color.RESET);
     }
 
     public static void print(String string, Color color) {
@@ -14,7 +21,7 @@ public class CliUtils {
     }
 
     public static void printErr(String string) {
-        System.err.println(Color.ANSI_RED + string + Color.RESET);
+        System.err.println(Color.ANSI_CYAN + string + Color.RESET);
     }
 
     public static String input() {
@@ -34,28 +41,32 @@ public class CliUtils {
 
 
 
-    public static int getArrow() throws IOException, InterruptedException {
-        int keyboard, keyboard1 = 0, keyboard2 = 0;
+    public synchronized static int getArrow() {
+        int keyboard = 0, keyboard1 = 0, keyboard2 = 0;
 
-        String[] cmd = {"/bin/sh", "-c", "stty raw </dev/tty"};
-        Runtime.getRuntime().exec(cmd).waitFor();
+        try {
+            String[] cmd = {"/bin/sh", "-c", "stty raw </dev/tty"};
+            Runtime.getRuntime().exec(cmd).waitFor();
 
-        keyboard = System.in.read();
-        if (keyboard == 27) {
-            keyboard1 = System.in.read();
-            if (keyboard1 == 91)
-                keyboard2 = System.in.read();
+            keyboard = System.in.read();
+            if (keyboard == 27) {
+                keyboard1 = System.in.read();
+                if (keyboard1 == 91)
+                    keyboard2 = System.in.read();
+            }
+
+            keyboard = keyboard + keyboard1 + keyboard2;
+
+            cmd = new String[]{"/bin/sh", "-c", "stty sane </dev/tty"};
+            Runtime.getRuntime().exec(cmd).waitFor();
+        } catch (IOException | InterruptedException e) {
+            LOGGER.severe(e.getMessage());
         }
-
-        keyboard = keyboard + keyboard1 + keyboard2;
-
-        cmd = new String[] {"/bin/sh", "-c", "stty sane </dev/tty"};
-        Runtime.getRuntime().exec(cmd).waitFor();
 
         return keyboard;
     }
 
-    public static int getArrowUpDown() throws IOException, InterruptedException {
+    public static int getArrowUpDown() {
         int keyboard;
 
         do {
@@ -65,7 +76,7 @@ public class CliUtils {
         return keyboard;
     }
 
-    public static int getArrowLeftRight() throws IOException, InterruptedException {
+    public static int getArrowLeftRight() {
         int keyboard;
 
         do {
@@ -75,10 +86,10 @@ public class CliUtils {
         return keyboard;
     }
 
-    public static int waitEnter() throws IOException, InterruptedException {
+    public synchronized static int waitEnter() {
         int keyboardIn;
 
-        print("PRESS ENTER TO GO ON WITH THE SELECTED MODE...");
+        printRed("PRESS ENTER TO GO ON...");
         keyboardIn = getArrow();
         return keyboardIn;
     }
