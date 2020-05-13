@@ -255,6 +255,11 @@ public class Gui extends ClientGameController {
     }
 
     @Override
+    public void notifyLose(String nick, boolean isYourPlayer) {
+
+    }
+
+    @Override
     public void displayActions(List<MessageType> actions) {
         SwingUtilities.invokeLater(() -> {
             board.displayButtons(actions);
@@ -263,6 +268,11 @@ public class Gui extends ClientGameController {
 
     @Override
     public void addConstraint(String name) {
+
+    }
+
+    @Override
+    public void removeConstraint(String name) {
 
     }
 

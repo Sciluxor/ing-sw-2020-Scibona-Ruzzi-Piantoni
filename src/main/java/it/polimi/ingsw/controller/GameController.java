@@ -106,6 +106,14 @@ public class GameController implements Observer<Message> {
         return new Game(numberOfPlayers,gameID);
     }
 
+    public synchronized String getLastLosePlayer(){
+        return game.getLastLosePlayer();
+    }
+
+    public synchronized List<Player> getLosePlayers(){
+        return game.getLosePlayers();
+    }
+
     public synchronized List<String> getAvailableCards(){
         return game.getAvailableCards();
     }
@@ -142,6 +150,10 @@ public class GameController implements Observer<Message> {
                 return true;
         }
         return false;
+    }
+
+    public String getWinner(){
+        return game.getWinner().getNickName();
     }
 
     public String getGameID(){
@@ -196,8 +208,6 @@ public class GameController implements Observer<Message> {
         VirtualView view = clients.get(getCurrentPlayer().getNickName());
         view.setYourTurn(false);
         removePlayerFromBoard();
-
-        game.setGameStatus(Response.PLAYERLOSE);
         checkIfStillCorrectGame();
 
     }
@@ -219,13 +229,14 @@ public class GameController implements Observer<Message> {
     public synchronized void checkIfStillCorrectGame(){
         int numberOfPlayer = game.getPlayers().size();
         if( numberOfPlayer >= ConstantsContainer.MINPLAYERLOBBY && numberOfPlayer <= game.getNumberOfPlayers()){
+            game.setGameStatus(Response.PLAYERLOSE);
             startRoundTimer();
             handleTurnBeginning();
         }
         else{
             game.setWinner(getCurrentPlayer());
             game.setHasWinner(true);
-            game.setGameStatus(Response.WIN);
+            game.setGameStatus(Response.LOSEWIN);
         }
     }
 

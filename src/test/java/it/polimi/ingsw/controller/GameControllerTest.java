@@ -637,7 +637,7 @@ class GameControllerTest {
         assertTrue(controller.isStillInGame("terzo"));
 
         controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(message2);
-        assertEquals(Response.WIN,controller.getGameStatus());
+        assertEquals(Response.LOSEWIN,controller.getGameStatus());
         assertEquals("secondo",controller.getWinner());
 
         assertEquals(6,controller.getNumClients());

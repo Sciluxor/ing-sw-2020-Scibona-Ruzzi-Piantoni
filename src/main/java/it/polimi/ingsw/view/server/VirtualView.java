@@ -82,7 +82,13 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
                 handleStartTurn();
                 break;
             case PLAYERLOSE:
-                //handleYourPlayerLose(); //finire questi
+                handleYourPlayerLose();
+                break;
+            case WIN:
+                handleWin();
+                break;
+            case LOSEWIN:
+                handleLoseWin();
                 break;
             default:
         }
@@ -134,7 +140,13 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
                 handleNonPermConstraint();
                 break;
             case PLAYERLOSE:
-                // handleOtherPlayerLoose();
+                 handleOtherPlayerLoose();
+                break;
+            case WIN:
+                handleWin();
+                break;
+            case LOSEWIN:
+                handleLoseWin();
                 break;
             default:
         }
@@ -178,6 +190,10 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
 
     public void handleStartTurn(){
         connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.STARTTURN,MessageSubType.REQUEST,controller.getCurrentPlayer().getNickName()));
+    }
+
+    public void handleYourPlayerLose(){
+        connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.LOSE,MessageSubType.REQUEST,controller.getLastLosePlayer()));
     }
 
     public void handleClientError(){
@@ -243,6 +259,10 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
         connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.NONPERMCONSTRAINT,MessageSubType.UPDATE,controller.getCurrentPlayer().getPower().getName()));
     }
 
+    public void handleOtherPlayerLoose(){
+        connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.LOSE,MessageSubType.UPDATE,controller.getLastLosePlayer()));
+    }
+
     //
     //methods for both
     //
@@ -262,6 +282,25 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
 
     public void handleChatMessage(Message message){
         connection.sendMessage(message);
+    }
+
+    public void handleWin(){
+        if(!connection.getNickName().equals(controller.getCurrentPlayer().getNickName()))
+            connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.WIN,MessageSubType.UPDATE,controller.getWinner()));
+        else{
+            connection.removeGameEnded();
+        }
+        controller.resetPlayer(this);
+    }
+
+    public void handleLoseWin(){
+        if(!connection.getNickName().equals(controller.getCurrentPlayer().getNickName()))
+            connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.WIN,MessageSubType.UPDATE,controller.getWinner()));
+        else{
+            connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.WIN,MessageSubType.UPDATE,controller.getWinner()));
+            connection.removeGameEnded();
+        }
+        controller.resetPlayer(this);
     }
 
 

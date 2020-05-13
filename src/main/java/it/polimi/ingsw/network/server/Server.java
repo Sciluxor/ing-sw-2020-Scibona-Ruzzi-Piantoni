@@ -139,16 +139,22 @@ public class Server implements Runnable{
 
     public synchronized void removeGameEnded(){  // da chiamare dalle view quandi finisce la partita
         List<Player> toRemovePlayers;
+        List<GameController> toRemoveController = new ArrayList<>();
         for(GameController match: actualMatches){
             if(match.hasWinner()){
+                toRemoveController.add(match);
+            }
+        }
+        for(GameController match :toRemoveController){
                 actualMatches.remove(match);
                 toRemovePlayers = match.getActualPlayers();
                 controllerFromGameID.remove(match.getGameID());
                 for(Player player : toRemovePlayers){
                     controllerFromUserID.remove(match.getUserIDFromPlayer(player));
                 }
-                break;
-            }
+                for(Player player : match.getLosePlayers()){
+                    controllerFromUserID.remove(match.getUserIDFromPlayer(player));
+                }
         }
     }
 
@@ -248,7 +254,7 @@ public class Server implements Runnable{
 
     public void handleDisconnection(String userID,ClientHandler connection,Message message) {
         synchronized (clientsLock) {
-            if(message.getSubType().equals(MessageSubType.LOOSEEXITREQUEST)){
+            if(message.getSubType().equals(MessageSubType.LOSEEXITREQUEST)){
                 GameController controller = getControllerFromUserID(message.getSender());
                 controllerFromUserID.remove(message.getSender());
                 controller.removeViewFromGame(message.getNickName());
@@ -283,7 +289,7 @@ public class Server implements Runnable{
 
     public synchronized void  handleDisconnectionDuringGame(GameController controller,Message message,ClientHandler connection){
         synchronized (clientsLock) {
-            if(controller.isStillInGame(message.getNickName())){
+            if(!controller.isStillInGame(message.getNickName())){
                 controllerFromUserID.remove(message.getSender());
                 controller.removeViewFromGame(message.getNickName());
                 controller.resetPlayer(connection.getView());

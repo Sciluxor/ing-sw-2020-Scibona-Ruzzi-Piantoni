@@ -2,7 +2,6 @@ package it.polimi.ingsw.network.client;
 
 import it.polimi.ingsw.model.map.Square;
 import it.polimi.ingsw.network.message.MessageType;
-import javafx.util.Pair;
 
 import java.util.List;
 
@@ -28,9 +27,13 @@ public interface FunctionListener {
 
     void notifyWin(String nick);
 
+    void notifyLose(String nick,boolean isYourPlayer);
+
     void displayActions(List<MessageType> actions);
 
     void addConstraint(String name);
+
+    void removeConstraint(String name);
 
     void onTurnDisconnection();
 

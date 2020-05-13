@@ -16,7 +16,6 @@ import it.polimi.ingsw.model.player.WorkerName;
 import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.utils.ConfigLoader;
 import it.polimi.ingsw.utils.FlowStatutsLoader;
-
 import java.net.ConnectException;
 
 import java.util.ArrayList;
@@ -200,16 +199,8 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         }
     }
 
-    public synchronized void handleLoseEvent(){
-        //da implementare
-    }
-
     public synchronized List<Square> getModifiedsquare(){
         return game.getGameMap().getModifiedSquare();
-    }
-
-    public synchronized void addPermanentConstraint(Message message){
-       game.getClientPlayer().setConstraint(game.getDeck().get(message.getMessage()));
     }
 
     public synchronized List<Integer>  availableWorkers(){
@@ -362,6 +353,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
 
             for(Card constraint : nonPermanentConstraint){
                 game.getCurrentPlayer().removeConstraint(constraint);
+                eventQueue.add(() -> removeConstraint(constraint.getName()));
             }
         game.setGameStatus(Response.ENDTURN);
     }
@@ -385,7 +377,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         eventQueue.add(() -> updateBoard(message.getNickName(),toSendSquare,message.getType()));
     }
 
-    public synchronized void addNonPermanentConstraint(Message message){
+    public synchronized void addConstraint(Message message){
         game.getClientPlayer().setConstraint(game.getDeck().get(message.getMessage()));
         eventQueue.add(() -> addConstraint(message.getMessage()));
     }
@@ -414,6 +406,29 @@ public abstract class ClientGameController implements Runnable, FunctionListener
 
     public synchronized void handleChatMessage(Message message){
         eventQueue.add(() -> newChatMessage(message.getNickName(),message.getMessage()));
+    }
+
+    public synchronized void handleWin(Message message){
+        eventQueue.add(() -> notifyWin(message.getMessage()));
+    }
+
+    public synchronized void handleLose(Message message){
+        game.getCurrentPlayer().setTurnStatus(TurnStatus.IDLE);
+        game.setCurrentPlayer(message.getMessage());
+        game.setGameStatus(game.getCurrentPlayer().getPower().getFirstAction());
+        game.getCurrentPlayer().setTurnStatus(TurnStatus.PLAYTURN);
+        game.removePlayerLose();
+
+        if(message.getSubType().equals(MessageSubType.REQUEST)) {
+            eventQueue.add(() -> notifyLose(message.getMessage(), true));
+        }
+        else if(message.getSubType().equals(MessageSubType.UPDATE)) {
+            eventQueue.add(() -> notifyLose(message.getMessage(), false));
+        }
+    }
+
+    public synchronized void handleLoseExit(){
+        client.sendMessage(new Message(client.getUserID(),client.getNickName(),MessageType.DISCONNECTION,MessageSubType.LOSEEXITREQUEST));
     }
 
     public synchronized void onUpdate(Message message){
@@ -447,15 +462,20 @@ public abstract class ClientGameController implements Runnable, FunctionListener
                 handleUpdateBoard(message);
                 break;
             case NONPERMCONSTRAINT:
-                addNonPermanentConstraint(message);
-                break;
             case PERMCONSTRAINT:
-                addPermanentConstraint(message);   //mancano i case di WIN e LOSE
+                addConstraint(message);   //mancano i case di WIN e LOSE
                 break;
             case CHAT:
                 handleChatMessage(message);
                 break;
+            case WIN:
+                handleWin(message);
+                break;
+            case LOSE:
+                handleLose(message);
+                break;
             default:
+                throw new IllegalStateException("wrong message type");
         }
     }
 }
