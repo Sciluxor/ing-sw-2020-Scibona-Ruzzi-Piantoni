@@ -184,13 +184,16 @@ public class GameController implements Observer<Message> {
         stopRoundTimer();  //si può stoppare più volte il timer? per quando finisce il game e deve iniziarne un'altro
         playerView.getConnection().setUserID(ConstantsContainer.USERDIDDEF);
         playerView.getConnection().setNickName(ConstantsContainer.NICKDEF);
-        playerView.removeObserver(this);
-        game.removeObserver(playerView);
-
+        if(!game.hasWinner()) {
+            playerView.removeObserver(this);
+            game.removeObserver(playerView);
+        }
         if(playerView.getConnection().isConnectionActive()) {
             playerView.getConnection().startLobbyTimer();
         }
     }
+
+
 
     public synchronized String  getUserIDFromPlayer(Player player){
         return getViewFromNickName(player.getNickName()).getConnection().getUserID();
@@ -417,6 +420,14 @@ public class GameController implements Observer<Message> {
                     getViewFromUserID(message.getSender()).handleNotYourTurn(); //decidere come gestire questa eccezione e aggiungere al logger l'errore
                 }else {
                     sendToRoundController(message);
+                    if(game.getGameStatus().equals(Response.WIN) || game.getGameStatus().equals(Response.LOSEWIN)){
+                        for(Player player :getActualPlayers()){
+                            game.removeObserver(getViewFromNickName(player.getNickName()));
+                        }
+                        for(Player player :game.getLosePlayers()){
+                            game.removeObserver(getViewFromNickName(player.getNickName()));
+                        }
+                    }
                     break;
                 }
         }

@@ -1,6 +1,6 @@
 {
   "socketPort" : "4700",
-  "lobbyTimer": 20,
+  "lobbyTimer": 40,
   "turnTimer": 300,
   "pingTimer":15
 }

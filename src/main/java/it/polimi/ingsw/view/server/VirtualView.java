@@ -286,12 +286,7 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
 
     public void handleWin(){
         if(!connection.getNickName().equals(controller.getCurrentPlayer().getNickName())) {
-            System.out.println("stato dentro virtual view IF");
             connection.sendMessage(new Message(ConstantsContainer.SERVERNAME, MessageType.WIN, MessageSubType.UPDATE, controller.getWinner()));
-        }
-        else{
-            System.out.println("stato dentro virtual view ELSE");
-            connection.removeGameEnded();
         }
         controller.resetPlayer(this);
     }
@@ -301,7 +296,6 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
             connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.WIN,MessageSubType.UPDATE,controller.getWinner()));
         else{
             connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.WIN,MessageSubType.UPDATE,controller.getWinner()));
-            connection.removeGameEnded();
         }
         controller.resetPlayer(this);
     }
