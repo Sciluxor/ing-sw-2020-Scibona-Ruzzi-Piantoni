@@ -170,7 +170,7 @@ public class GameController implements Observer<Message> {
     public synchronized void stopStartedGame(Response newStatus){
 
         game.setGameStatus(newStatus);
-        stopRoundTimer();                               //devo stoppare il  timer qui?
+        stopRoundTimer();
 
         for(Player player :getActualPlayers()){
             VirtualView playerView = removeViewFromGame(player.getNickName());

@@ -33,7 +33,6 @@ public class Hephaestus extends Card {
     }
 
     public List<Directions> buildOnTop(GameMap gameMap, Worker worker) {
-        int levelPosition = worker.getBoardPosition().getBuildingLevel();
         Map<Directions,Integer> canAccess = worker.getBoardPosition().getCanAccess();
         List<Directions> reachableSquares = new ArrayList<>();
 
@@ -41,7 +40,7 @@ public class Hephaestus extends Card {
             int squareTile = canAccess.get(dir);
             if(squareTile > ConstantsContainer.MINMAPPOSITION && squareTile <= ConstantsContainer.MAXMAPPOSITION) { //rivedere questo if
                 Square possibleSquare = gameMap.getMap().get(squareTile- 1);
-                if(!possibleSquare.hasPlayer() && possibleSquare.getBuilding() != Building.DOME && possibleSquare.equals(worker.getPreviousBuildPosition())) {
+                if( possibleSquare.equals(worker.getPreviousBuildPosition()) && !possibleSquare.hasPlayer() && possibleSquare.getBuilding() != Building.DOME) {
                     reachableSquares.add(dir);
                 }
             }

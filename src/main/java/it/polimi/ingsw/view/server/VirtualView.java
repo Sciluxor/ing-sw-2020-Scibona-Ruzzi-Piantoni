@@ -88,7 +88,7 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
                 handleWin();
                 break;
             case LOSEWIN:
-                handleLoseWin();
+                handleLoseWin();  //mancano caso stoppedGame e playerTimerEnded
                 break;
             default:
         }
