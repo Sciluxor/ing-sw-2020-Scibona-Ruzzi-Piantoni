@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButtonPersonalized;
+import static it.polimi.ingsw.view.client.gui.Board.boldDimension;
 import static it.polimi.ingsw.view.client.gui.Gui.felixBold;
 import static it.polimi.ingsw.view.client.gui.Gui.getD;
 
@@ -16,7 +17,6 @@ public class PlaceWorkers extends JDesktopPane{
     MyButton close = new MyButton(3);
     JInternalFrame intFrame;
     String nameChoosing;
-    double posx;
 
 
     public PlaceWorkers(JInternalFrame frame, Dimension size, int numberOfPanel, String name) throws IOException {
@@ -24,12 +24,11 @@ public class PlaceWorkers extends JDesktopPane{
         frameSize.setSize(size);
         intFrame = frame;
         nameChoosing = name;
-        posx = (double) nameChoosing.length() / 2;
         setPreferredSize(frameSize);
         setLayout(null);
         JLabel label = new JLabel();
         JLabel otherName = new JLabel(nameChoosing);
-        otherName.setBounds((int) ((frameSize.width * 35/100) - posx), (int) (frameSize.height * 32.5/100), frameSize.width * 50/100, frameSize.width * 5/100);
+        otherName.setBounds((int) ((frameSize.width * 49/100) - ((otherName.getText().length() * boldDimension) / 2)), (int) (frameSize.height * 32.5/100), frameSize.width * 50/100, frameSize.width * 5/100);
         otherName.setFont(felixBold);
 
         if (numberOfPanel == 0) {
@@ -45,7 +44,7 @@ public class PlaceWorkers extends JDesktopPane{
         }
 
         close.addActionListener(new Close());
-        close.setBounds((int) ((frameSize.width * 50/ 100) - ((getD().getWidth() * 13 / 100) * 50/100)), (int) (frameSize.height * 81 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
+        close.setBounds((int) ((frameSize.width * 50/ 100) - ((getD().getWidth() * 13 / 100) / 2)), (int) (frameSize.height * 81 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
         add(close);
 
         JButton back = backgroundButtonPersonalized(2, frameSize);

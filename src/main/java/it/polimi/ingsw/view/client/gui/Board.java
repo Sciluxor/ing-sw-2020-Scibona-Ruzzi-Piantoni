@@ -215,6 +215,7 @@ public class Board extends Observable {
     List<JLabel> opponents2Labels = new ArrayList<>();
     boolean chatOpen = false;
     int tileBuildChoosen = 0;
+    static double boldDimension;
 
     public void show(Gui instance, Dimension screen, Integer numberOfPlayer, List<Player> players,List<Player> players2, String nickname) throws IOException {
 
@@ -269,6 +270,8 @@ public class Board extends Observable {
 
         JLabel coverLeftGod1 = ImageHandler.setImage("resources/Graphics/left_god_board.png", 100, 100, frameSize.width, frameSize.height);
         coverLeftGod = new JLabel(coverLeftGod1.getIcon());
+
+        boldDimension = (25 * screen.getHeight() / 1080);
 
         felixSmall = new Font(Gui.FELIX, Font.PLAIN, (int) (13 * screen.getHeight() / 1080));
         felixNormal = new Font(Gui.FELIX, Font.PLAIN, (int) (20 * screen.getHeight() / 1080));
@@ -433,7 +436,6 @@ public class Board extends Observable {
         leftGod.setBorderPainted(false);
         leftGod.setIcon(coverLeftGod.getIcon());
         leftGod.setVisible(true);
-
 
         leftBoard.setBounds(-7,-18, frameSize.width, frameSize.height);
         leftBoard.setOpaque(false);
@@ -1773,6 +1775,7 @@ public class Board extends Observable {
     }
 
     public void displayLose(String nick, boolean isYourPlayer){
+        internalFrameUpdateBoard.setVisible(false);
         newGame.addActionListener(new NewGameLoose());
         newGame.setBounds((int) ((frameSize.width * 35/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
         close.setBounds((int) ((frameSize.width * 65/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
@@ -1812,6 +1815,7 @@ public class Board extends Observable {
     }
 
     public void displayWinLose(String nick){
+        internalFrameUpdateBoard.setVisible(false);
         boolean winnerBool = false;
         if (nick.equalsIgnoreCase(mePlayer.getNickName())){
             winnerBool = true;

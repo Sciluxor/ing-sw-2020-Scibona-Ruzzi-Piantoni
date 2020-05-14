@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.List;
 
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
+import static it.polimi.ingsw.view.client.gui.Board.boldDimension;
 import static it.polimi.ingsw.view.client.gui.Gui.*;
 
 public class ChallengerChoiceFirstPlayer extends JDesktopPane{
@@ -65,17 +66,17 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
         choose.setBounds(frameSize.width * 30/100, frameSize.height * 10/100, frameSize.width * 40/100, frameSize.height * 10/100);
         add(choose);
 
-        namePlayer1.setBounds((int) ((frameSize.width * 40/100)), frameSize.height * 37/100, labelSize.width, labelSize.height);
+        namePlayer1.setBounds((int) ((frameSize.width * 49/100) - ((namePlayer1.getText().length() * boldDimension) / 2)), frameSize.height * 37/100, labelSize.width, labelSize.height);
         namePlayer1.setFont(felixBold);
         add(namePlayer1);
-        player1.setBounds(((frameSize.width * 50/100) - (labelSize.width / 2)), frameSize.height * 38/100, labelSize.width, labelSize.height);
+        player1.setBounds(((frameSize.width * 35/100)), frameSize.height * 38/100, labelSize.width, labelSize.height);
         add(player1);
         player1.addActionListener(new Choose());
 
-        namePlayer2.setBounds((int) ((frameSize.width * 40/100)), frameSize.height * 49/100, labelSize.width, labelSize.height);
+        namePlayer2.setBounds((int) ((frameSize.width * 49/100) - ((namePlayer2.getText().length() * boldDimension) / 2)), frameSize.height * 49/100, labelSize.width, labelSize.height);
         namePlayer2.setFont(felixBold);
         add(namePlayer2);
-        player2.setBounds(((frameSize.width * 50/100) - (labelSize.width / 2)), frameSize.height * 50/100, labelSize.width, labelSize.height);
+        player2.setBounds(((frameSize.width * 35/100)), frameSize.height * 50/100, labelSize.width, labelSize.height);
         add(player2);
         player2.addActionListener(new Choose());
 
@@ -83,16 +84,16 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
         if (numberOfPlayer == 3){
             namePlayer3  = new JLabel(players.get(2).getNickName());
             player3.setName(players.get(2).getNickName());
-            namePlayer3.setBounds((int) ((frameSize.width * 40/100)), frameSize.height * 61/100, labelSize.width, labelSize.height);
+            namePlayer3.setBounds((int) ((frameSize.width * 49/100) - ((namePlayer3.getText().length() * boldDimension) / 2)), frameSize.height * 61/100, labelSize.width, labelSize.height);
             namePlayer3.setFont(felixBold);
             add(namePlayer3);
             addColorButton(player3);
             buttonStyle(player3);
-            player3.setBounds(((frameSize.width * 50/100) - (labelSize.width / 2)), frameSize.height * 62/100, labelSize.width, labelSize.height);
+            player3.setBounds(((frameSize.width * 35/100)), frameSize.height * 62/100, labelSize.width, labelSize.height);
             add(player3);
             player3.addActionListener(new Choose());
         }
-        backButton.setBounds((int) (frameSize.width * 43.5/ 100), (int) (frameSize.height * 81 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
+        backButton.setBounds((int) ((frameSize.width * 50/ 100) - ((getD().getWidth() * 13 / 100) / 2)), (int) (frameSize.height * 81 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
         add(backButton);
         backButton.addActionListener(new Close());
 

@@ -12,7 +12,6 @@ import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
 import static it.polimi.ingsw.view.client.gui.Gui.*;
 
 public class PopUp {
-    Board board;
     Gui gui;
     JPanel window;
     Dimension intFrameSize = new Dimension();
@@ -37,10 +36,9 @@ public class PopUp {
         panel = new JPanel();
     }
 
-    public JPanel lobbyPopUp(Board istance, int n){
+    public JPanel lobbyPopUp(int n){
         window.removeAll();
         window.setLayout(null);
-        //board = istance;
         switch (n){
             case 0:
                 button1 = new MyButton(0);

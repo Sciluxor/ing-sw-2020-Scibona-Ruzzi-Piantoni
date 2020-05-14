@@ -133,7 +133,7 @@ public class Gui extends ClientGameController {
     }
 
     public void newPopUp(){
-        lobbyPanel = constructorPopUp.lobbyPopUp(null, 0);
+        lobbyPanel = constructorPopUp.lobbyPopUp(0);
         popUp.add(lobbyPanel);
     }
 
@@ -173,7 +173,7 @@ public class Gui extends ClientGameController {
     public void onLobbyDisconnection() {
         SwingUtilities.invokeLater(() -> {
             popUp.remove(lobbyPanel);
-            lobbyPanel = constructorPopUp.lobbyPopUp(null, 1);
+            lobbyPanel = constructorPopUp.lobbyPopUp(1);
             popUp.add(lobbyPanel);
             popUp.setVisible(true);
             popUp.repaint();
@@ -186,7 +186,7 @@ public class Gui extends ClientGameController {
         SwingUtilities.invokeLater(() -> {
             this.lobby.backButton.setEnabled(false);
             popUp.remove(lobbyPanel);
-            lobbyPanel = constructorPopUp.lobbyPopUp(null, 2);
+            lobbyPanel = constructorPopUp.lobbyPopUp(2);
             popUp.add(lobbyPanel);
             popUp.repaint();
             popUp.validate();
@@ -198,7 +198,7 @@ public class Gui extends ClientGameController {
         System.out.println("on EndDisconnection");
         SwingUtilities.invokeLater(() -> {
             popUp.remove(lobbyPanel);
-            lobbyPanel = constructorPopUp.lobbyPopUp(board, 3);
+            lobbyPanel = constructorPopUp.lobbyPopUp(3);
             popUp.add(lobbyPanel);
             popUp.setVisible(true);
             popUp.repaint();
