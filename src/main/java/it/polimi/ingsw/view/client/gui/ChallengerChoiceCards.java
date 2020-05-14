@@ -270,7 +270,6 @@ public class ChallengerChoiceCards extends JDesktopPane{
             }
             board.setCardsChosen(cardsChosen);
             guiIntFrame.setVisible(false);
-            //guiIntFrame.remove(board.challengerChoiceCards);
             board.callChallengerResponse();
             board.buttonChooseCards.setEnabled(false);
         }

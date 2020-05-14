@@ -38,6 +38,7 @@ public class Board extends Observable {
     JDesktopPane placeWorkers;
     JDesktopPane startTurn;
     JDesktopPane updateBoard;
+    JDesktopPane seeConstraint;
     JInternalFrame frameChat = new JInternalFrame("", false, false, false, false);
     JInternalFrame frameBuildings = new JInternalFrame("", false, false, false, false);
     JInternalFrame internalFrameChallenger1 = new JInternalFrame("", false, false, false, false);
@@ -46,6 +47,7 @@ public class Board extends Observable {
     JInternalFrame internalFramePlaceWorkers = new JInternalFrame("", false, false, false, false);
     JInternalFrame internalFrameStartTurn = new JInternalFrame("", false, false, false, false);
     JInternalFrame internalFrameUpdateBoard = new JInternalFrame("", false, false, false, false);
+    JInternalFrame internalFrameConstraint = new JInternalFrame("", false, false, false, false);
     JWindow windowPower;
     JScrollPane scrollPane;
     MyButton newGame = new MyButton(2);
@@ -137,7 +139,9 @@ public class Board extends Observable {
     JLabel lButtonMovePress;
     JLabel lButtonBuildPress;
     JLabel lButtonPower;
+    JLabel lButtonPowerPing;
     JLabel lButtonPowerPress;
+    JLabel lButtonPowerPressPing;
     JLabel lButtonChat;
     JLabel lButtonChatPress;
     JLabel lButtonChatPing;
@@ -216,6 +220,7 @@ public class Board extends Observable {
     boolean chatOpen = false;
     int tileBuildChoosen = 0;
     static double boldDimension;
+    List<String> constraint = new ArrayList<>();
 
     public void show(Gui instance, Dimension screen, Integer numberOfPlayer, List<Player> players,List<Player> players2, String nickname) throws IOException {
 
@@ -305,6 +310,7 @@ public class Board extends Observable {
         lButtonBuild = ImageHandler.setImage("resources/Graphics/button_build.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
         lButtonMove = ImageHandler.setImage("resources/Graphics/button_move.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
         lButtonPower = ImageHandler.setImage("resources/Graphics/button_power.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
+        lButtonPowerPing = ImageHandler.setImage("resources/Graphics/button_power_ping.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
         lButtonChat = ImageHandler.setImage("resources/Graphics/button_chat.png", 100, 100, frameSize.width * 5/100, frameSize.height * 7/100);
         lButtonChatPing = ImageHandler.setImage("resources/Graphics/button_chat_ping.png", 100, 100, frameSize.width * 5/100, frameSize.height * 7/100);
         lButtonChooseCards = ImageHandler.setImage("resources/Graphics/button_choose_cards.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
@@ -314,6 +320,7 @@ public class Board extends Observable {
         lButtonBuildPress = ImageHandler.setImage("resources/Graphics/button_build_press.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
         lButtonMovePress = ImageHandler.setImage("resources/Graphics/button_move_press.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
         lButtonPowerPress = ImageHandler.setImage("resources/Graphics/button_power_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
+        lButtonPowerPressPing = ImageHandler.setImage("resources/Graphics/button_power_press_ping.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
         lButtonChatPress = ImageHandler.setImage("resources/Graphics/button_chat_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 7/100);
         lButtonChatPressPing = ImageHandler.setImage("resources/Graphics/button_chat_press_ping.png", 100, 100, frameSize.width * 5/100, frameSize.height * 7/100);
         lButtonChooseCardsPress = ImageHandler.setImage("resources/Graphics/button_choose_cards_press.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
@@ -352,6 +359,11 @@ public class Board extends Observable {
         setInternalFrames(internalFrameUpdateBoard);
         BasicInternalFrameUI bi6 = (BasicInternalFrameUI) internalFrameUpdateBoard.getUI();
         bi6.setNorthPane(null);
+        setInternalFrames(internalFrameConstraint);
+        BasicInternalFrameUI bi7 = (BasicInternalFrameUI) internalFrameConstraint.getUI();
+        bi7.setNorthPane(null);
+
+        internalFrameConstraint.setPreferredSize(internalFrameSize2);
 
 
         frameChat.setPreferredSize(sideSize);
@@ -831,7 +843,6 @@ public class Board extends Observable {
         desktopPane.add(labelChooseWorker);
 
 
-
         labelEndturn.setFont(felixNormal);
         labelEndturn.setVisible(false);
         desktopPane.add(labelEndturn);
@@ -855,6 +866,7 @@ public class Board extends Observable {
         desktopPane.add(internalFramePlaceWorkers);
         desktopPane.add(internalFrameStartTurn);
         desktopPane.add(internalFrameUpdateBoard);
+        desktopPane.add(internalFrameConstraint);
 
 
         desktopPane.add(winner);
@@ -1234,6 +1246,7 @@ public class Board extends Observable {
 
     public void setCardChosen(String cardChosen) {
         this.cardChosen = cardChosen;
+        constraint.add(cardChosen);
     }
 
     private class ChoosePower implements ActionListener{
@@ -1856,8 +1869,56 @@ public class Board extends Observable {
         setVisibleWin(true, numberOfPlayers == 3);
     }
 
-    public void displayConstraint(String name){
-        
+    public void displayConstraint(String name, boolean isEliminated){
+
+        if (!isEliminated) {
+            constraint.add(name);
+        }
+        else {
+            constraint.remove(name);
+        }
+        if (constraint.size() == 1){
+            eliminateAllActionClass(buttonPower);
+            buttonPower.setIcon(lButtonPower.getIcon());
+            buttonPower.addActionListener(new ShowYourPower());
+        }
+        else {
+            if (seeConstraint != null){
+                internalFrameConstraint.remove(seeConstraint);
+            }
+            try {
+                seeConstraint = new SeeConstraint(internalFrameConstraint, internalFrameSize2, constraint);
+            } catch (IOException e) {
+                LOGGER.severe(e.getMessage());
+            }
+            internalFrameConstraint.setBounds((int) ((frameSize.width * 50 / 100) - (internalFrameSize2.width / 2)), (int) ((frameSize.height * 50 / 100) - (internalFrameSize2.height / 2)), internalFrameSize2.width, internalFrameSize2.height);
+            internalFrameConstraint.getContentPane().add(seeConstraint);
+            eliminateActionClass(buttonPower, ShowYourPower.class);
+            buttonPower.addActionListener(new ShowConstraint());
+            buttonPower.setIcon(lButtonPowerPing.getIcon());
+        }
+    }
+
+    private class ShowConstraint implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JButton c = (JButton)e.getSource();
+            eliminateActionClass(c, ShowConstraint.class);
+            internalFrameConstraint.setVisible(true);
+            c.setIcon(lButtonPowerPressPing.getIcon());
+            c.addActionListener(new HideConstraint());
+        }
+    }
+
+    private class HideConstraint implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JButton c = (JButton)e.getSource();
+            eliminateActionClass(c, HideConstraint.class);
+            c.setIcon(lButtonPowerPing.getIcon());
+            c.addActionListener(new ShowConstraint());
+            internalFrameConstraint.setVisible(false);
+        }
     }
 
     private void setVisibleWin(boolean bool, boolean isIn3){
@@ -1885,10 +1946,6 @@ public class Board extends Observable {
         eliminateAllActionClass(buttonMove);
         eliminateAllMouseClass(buttonBuild);
         eliminateAllActionClass(buttonBuild);
-    }
-
-    private void enableChoose(boolean bool){
-        buttonMultiUse.setEnabled(bool);
     }
 
     private void enableLevels(boolean bool){

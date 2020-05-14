@@ -195,7 +195,6 @@ public class Gui extends ClientGameController {
 
     @Override
     public void onEndGameDisconnection() {
-        System.out.println("on EndDisconnection");
         SwingUtilities.invokeLater(() -> {
             popUp.remove(lobbyPanel);
             lobbyPanel = constructorPopUp.lobbyPopUp(3);
@@ -287,13 +286,15 @@ public class Gui extends ClientGameController {
     @Override
     public void addConstraint(String name) {
         SwingUtilities.invokeLater(() -> {
-            board.displayConstraint(name);
+            board.displayConstraint(name, false);
         });
     }
 
     @Override
     public void removeConstraint(String name) {
-
+        SwingUtilities.invokeLater(() -> {
+            board.displayConstraint(name, true);
+        });
     }
 
     @Override
