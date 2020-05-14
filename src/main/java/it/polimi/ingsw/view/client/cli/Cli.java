@@ -52,6 +52,7 @@ public class Cli extends ClientGameController {
             openConnection(getNickName(), getNumberOfPlayers(), getAddress(), getPort());
         }catch (Exception e) {
             printErr("FAILED TO OPENING CONNECTION");
+            CliUtils.LOGGER.severe(e.getMessage());
             controlWaitEnter("enter");
         }
     }
@@ -272,10 +273,10 @@ public class Cli extends ClientGameController {
                         counter++;
                     break;
                 case 186:
-                    if(!firstPosition || counter != 0)
-                        counter--;
-                    else
+                    if(counter == 0)
                         counter++;
+                    else if(!firstPosition)
+                        counter--;
                     break;
 
                 default:
@@ -323,7 +324,6 @@ public class Cli extends ClientGameController {
 
             keyboardIn = controlWaitEnter("left&right");
             if(keyboardIn == 0) {
-                goOut = true;
                 printErr("NO KEYBOARD CATCHED");
                 break;
             }
