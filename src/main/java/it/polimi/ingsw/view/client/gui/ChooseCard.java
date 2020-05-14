@@ -13,6 +13,7 @@ import java.util.List;
 
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButtonPersonalized;
+import static it.polimi.ingsw.view.client.gui.Board.boldDimension;
 import static it.polimi.ingsw.view.client.gui.Board.internalFrameSetUp;
 import static it.polimi.ingsw.view.client.gui.EliminateListeners.eliminateActionClass;
 import static it.polimi.ingsw.view.client.gui.EliminateListeners.eliminateMouseClass;
@@ -77,7 +78,7 @@ public class ChooseCard extends JDesktopPane{
         JLabel isChoosing = ImageHandler.setImage("resources/Graphics/Texts/is_choosing_the_god_power.png", 100, 100, frameSize.width * 85/100, frameSize.height * 25/100);
         JLabel first = ImageHandler.setImage("resources/Graphics/Texts/choose_your_god_power.png", 100, 100, frameSize.width * 85/100, frameSize.height * 25/100);
         JLabel otherName = new JLabel(nameChoosing);
-        otherName.setBounds((int) ((frameSize.width * 50/ 100) - ((getD().getWidth() * 13 / 100) / 2)), (int) (frameSize.height * 36.5/100), frameSize.width * 50/100, frameSize.width * 5/100);
+        otherName.setBounds((int) ((frameSize.width * 50/ 100) - ((otherName.getText().length() * boldDimension) / 2)), (int) (frameSize.height * 36.5/100), frameSize.width * 60/100, frameSize.width * 5/100);
         otherName.setFont(felixBold);
 
         selectGodsChosen();
