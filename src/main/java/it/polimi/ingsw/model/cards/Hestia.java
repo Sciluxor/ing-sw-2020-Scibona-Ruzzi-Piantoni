@@ -57,7 +57,6 @@ public class Hestia extends Card {
         if (!hasBuilt) {
             if (gameMap.buildInSquare(worker, directions, building)) {
                 hasBuilt = true;
-                System.out.println("hestia :" + hasBuilt);
                 return Response.NEWBUILD;
             } else
                 return Response.NOTBUILD;
@@ -65,7 +64,6 @@ public class Hestia extends Card {
 
             if (gameMap.buildInSquare(worker, directions, building)) {
                 hasBuilt = false;
-                System.out.println("hestia :" + hasBuilt);
                 return Response.BUILD;
             } else
                 return Response.NOTBUILD;

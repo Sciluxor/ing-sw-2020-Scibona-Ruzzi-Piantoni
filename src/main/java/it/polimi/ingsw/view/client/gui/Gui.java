@@ -64,7 +64,7 @@ public class Gui extends ClientGameController {
         constructorPopUp = new PopUp(this, d);
         newPopUp();
 
-        board = new Board();
+
         login = new Login(this, d, true);
 
         buttonBackground.setBounds(0, 0,intFrameSize.width, intFrameSize.height);
@@ -131,8 +131,9 @@ public class Gui extends ClientGameController {
     public static Dimension getD() {
         return d;
     }
+
     public void newPopUp(){
-        lobbyPanel = constructorPopUp.lobbyPopUp(0);
+        lobbyPanel = constructorPopUp.lobbyPopUp(null, 0);
         popUp.add(lobbyPanel);
     }
 
@@ -172,8 +173,9 @@ public class Gui extends ClientGameController {
     public void onLobbyDisconnection() {
         SwingUtilities.invokeLater(() -> {
             popUp.remove(lobbyPanel);
-            lobbyPanel = constructorPopUp.lobbyPopUp(1);
+            lobbyPanel = constructorPopUp.lobbyPopUp(null, 1);
             popUp.add(lobbyPanel);
+            popUp.setVisible(true);
             popUp.repaint();
             popUp.validate();
         });
@@ -184,8 +186,21 @@ public class Gui extends ClientGameController {
         SwingUtilities.invokeLater(() -> {
             this.lobby.backButton.setEnabled(false);
             popUp.remove(lobbyPanel);
-            lobbyPanel = constructorPopUp.lobbyPopUp(2);
+            lobbyPanel = constructorPopUp.lobbyPopUp(null, 2);
             popUp.add(lobbyPanel);
+            popUp.repaint();
+            popUp.validate();
+        });
+    }
+
+    @Override
+    public void onEndGameDisconnection() {
+        System.out.println("on EndDisconnection");
+        SwingUtilities.invokeLater(() -> {
+            popUp.remove(lobbyPanel);
+            lobbyPanel = constructorPopUp.lobbyPopUp(board, 3);
+            popUp.add(lobbyPanel);
+            popUp.setVisible(true);
             popUp.repaint();
             popUp.validate();
         });
@@ -202,6 +217,7 @@ public class Gui extends ClientGameController {
     public void startGame() {
         SwingUtilities.invokeLater(() -> {
             frame.setVisible(false);
+            board = new Board();
             try {
                 board.show(this, screenSize, numberOfPlayers, getPlayers(), getPlayers(), nickname);
             } catch (IOException e) {
@@ -256,7 +272,6 @@ public class Gui extends ClientGameController {
 
     @Override
     public void notifyLose(String nick, boolean isYourPlayer) {
-        System.out.println("NotifyLose");
         SwingUtilities.invokeLater(() -> {
             board.displayLose(nick, isYourPlayer);
         });
@@ -265,13 +280,15 @@ public class Gui extends ClientGameController {
     @Override
     public void displayActions(List<MessageType> actions) {
         SwingUtilities.invokeLater(() -> {
-            board.displayButtons(actions);
+            board.setVisibleButtons(actions);
         });
     }
 
     @Override
     public void addConstraint(String name) {
-
+        SwingUtilities.invokeLater(() -> {
+            board.displayConstraint(name);
+        });
     }
 
     @Override

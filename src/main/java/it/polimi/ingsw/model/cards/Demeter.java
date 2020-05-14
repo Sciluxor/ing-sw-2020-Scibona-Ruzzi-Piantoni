@@ -58,7 +58,6 @@ public class Demeter extends Card {
         if(!hasBuilt) {
             if(gameMap.buildInSquare(worker, directions, building)) {
                 hasBuilt = true;
-                System.out.println("Demeter :" + hasBuilt);
                 return Response.NEWBUILD;
             }
             else
@@ -67,7 +66,6 @@ public class Demeter extends Card {
 
         if(gameMap.buildInSquare(worker, directions, building)) {
             hasBuilt = false;
-            System.out.println("Demeter :" + hasBuilt);
             return Response.BUILD;
         }
         else

@@ -1168,7 +1168,7 @@ public class Board extends Observable {
             labelChooseCards.setVisible(false);
             buttonChooseFirst.setVisible(false);
             labelChooseFirst.setVisible(false);
-            displayEndturn(true);
+            setVisibleEndturn(true);
         }
     }
 
@@ -1226,7 +1226,7 @@ public class Board extends Observable {
                 LOGGER.severe(e.getMessage());
             }
             leftGod.setIcon(coverLeftGod.getIcon());
-            displayEndturn(true);
+            setVisibleEndturn(true);
         }
     }
 
@@ -1416,7 +1416,7 @@ public class Board extends Observable {
             labelConfirmPlace.setVisible(false);
             eliminateActionClass(buttonMultiUse, ConfirmPlace.class);
             removePlaceWorker();
-            displayEndturn(true);
+            setVisibleEndturn(true);
         }
     }
 
@@ -1577,24 +1577,23 @@ public class Board extends Observable {
         }
     }
 
-    public void displayButtons(List<MessageType> actions){
-        System.out.println("Actions :" + actions);
+    public void setVisibleButtons(List<MessageType> actions){
         for (MessageType mess : actions){
             switch (mess){
                 case MOVEWORKER:
-                    displayMove(true);
+                    setVisibleMove(true);
                     break;
 
                 case BUILDWORKER:
-                    displayBuild(true);
+                    setVisibleBuild(true);
                     break;
 
                 case WORKERCHOICE:
-                    displayChoose(true);
+                    setVisibleChoose(true);
                     break;
 
                 case ENDTURN:
-                    displayEndturn(true);
+                    setVisibleEndturn(true);
                     break;
                 default:
             }
@@ -1629,9 +1628,9 @@ public class Board extends Observable {
 
             }
             displayModifications(gui.getModifiedsquare(), true);
-            displayChoose(false);
-            displayMove(false);
-            displayBuild(false);
+            setVisibleChoose(false);
+            setVisibleMove(false);
+            setVisibleBuild(false);
             gui.mapNextAction(responce);
         }
     }
@@ -1745,37 +1744,36 @@ public class Board extends Observable {
         @Override
         public void actionPerformed(ActionEvent e) {
             gui.endTurn();
-            displayEndturn(false);
-            displayChoose(false);
-            displayMove(false);
-            displayBuild(false);
+            setVisibleEndturn(false);
+            setVisibleChoose(false);
+            setVisibleMove(false);
+            setVisibleBuild(false);
             removeColorBorderToMap();
         }
     }
 
-    private void displayEndturn(boolean bool){
+    private void setVisibleEndturn(boolean bool){
         labelEndturn.setVisible(bool);
         buttonEndturn.setVisible(bool);
     }
 
-    private void displayMove(boolean bool){
+    private void setVisibleMove(boolean bool){
         labelMove.setVisible(bool);
         buttonMove.setVisible(bool);
     }
 
-    private void displayBuild(boolean bool){
+    private void setVisibleBuild(boolean bool){
         labelBuild.setVisible(bool);
         buttonBuild.setVisible(bool);
     }
 
-    private void displayChoose(boolean bool){
+    private void setVisibleChoose(boolean bool){
         labelChooseWorker.setVisible(bool);
         buttonMultiUse.setVisible(bool);
     }
 
     public void displayLose(String nick, boolean isYourPlayer){
         newGame.addActionListener(new NewGameLoose());
-        System.out.println("looser :" + nick);
         newGame.setBounds((int) ((frameSize.width * 35/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
         close.setBounds((int) ((frameSize.width * 65/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
 
@@ -1851,10 +1849,14 @@ public class Board extends Observable {
             loser1.setBounds((int) (frameSize.width * 24/100),frameSize.height * 30/100, frameSize.width * 30/100, frameSize.height * 50/100);
             loser2.setBounds((int) (frameSize.width * 44/100),frameSize.height * 30/100, frameSize.width * 30/100, frameSize.height * 50/100);
         }
-        displayWin(true, numberOfPlayers == 3);
+        setVisibleWin(true, numberOfPlayers == 3);
     }
 
-    private void displayWin(boolean bool, boolean isIn3){
+    public void displayConstraint(String name){
+        
+    }
+
+    private void setVisibleWin(boolean bool, boolean isIn3){
         winLose.setVisible(bool);
         winner.setVisible(bool);
         glow.setVisible(bool);
@@ -1973,9 +1975,9 @@ public class Board extends Observable {
 
             frameBuildings.setVisible(false);
             enableLevels(false);
-            displayChoose(false);
-            displayMove(false);
-            displayBuild(false);
+            setVisibleChoose(false);
+            setVisibleMove(false);
+            setVisibleBuild(false);
             removeBuildBorder(avaiableBuildPositions);
             removeBuildLvl();
             gui.mapNextAction(responce);
@@ -1998,9 +2000,9 @@ public class Board extends Observable {
 
             frameBuildings.setVisible(false);
             enableLevels(false);
-            displayChoose(false);
-            displayMove(false);
-            displayBuild(false);
+            setVisibleChoose(false);
+            setVisibleMove(false);
+            setVisibleBuild(false);
             removeBuildBorder(avaiableBuildPositions);
             removeBuildLvl();
             gui.mapNextAction(responce);
@@ -2022,9 +2024,9 @@ public class Board extends Observable {
 
             frameBuildings.setVisible(false);
             enableLevels(false);
-            displayChoose(false);
-            displayMove(false);
-            displayBuild(false);
+            setVisibleChoose(false);
+            setVisibleMove(false);
+            setVisibleBuild(false);
             removeBuildBorder(avaiableBuildPositions);
             removeBuildLvl();
             gui.mapNextAction(responce);
@@ -2041,9 +2043,9 @@ public class Board extends Observable {
 
             frameBuildings.setVisible(false);
             enableLevels(false);
-            displayChoose(false);
-            displayMove(false);
-            displayBuild(false);
+            setVisibleChoose(false);
+            setVisibleMove(false);
+            setVisibleBuild(false);
             removeBuildBorder(avaiableBuildPositions);
             removeBuildLvl();
             gui.mapNextAction(responce);
@@ -2071,9 +2073,9 @@ public class Board extends Observable {
 
             frameBuildings.setVisible(false);
             enableLevels(false);
-            displayChoose(false);
-            displayMove(false);
-            displayBuild(false);
+            setVisibleChoose(false);
+            setVisibleMove(false);
+            setVisibleBuild(false);
             removeBuildBorder(avaiableBuildPositions);
             removeBuildLvl();
             gui.mapNextAction(responce);
@@ -2223,7 +2225,7 @@ public class Board extends Observable {
     private class KeepWatching implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-            displayWin(false, false);
+            setVisibleWin(false, false);
             keepWatching.setVisible(false);
         }
     }

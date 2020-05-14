@@ -41,6 +41,8 @@ public interface FunctionListener {
 
     void onPingDisconnection();
 
+    void onEndGameDisconnection();
+
     void newChatMessage(String nick,String message);
 
     void errorMessage();

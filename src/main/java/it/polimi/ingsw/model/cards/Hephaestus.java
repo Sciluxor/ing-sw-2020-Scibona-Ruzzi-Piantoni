@@ -59,7 +59,6 @@ public class Hephaestus extends Card {
                 if(building.equals(Building.DOME) || building.equals(Building.LVL3))
                     return Response.BUILD;
                 hasBuilt = true;
-                System.out.println("Hephaestus :" + hasBuilt);
                 return Response.NEWBUILD;
             }
             else
@@ -68,7 +67,6 @@ public class Hephaestus extends Card {
 
         if(gameMap.buildInSquare(worker, directions, building)) {
             hasBuilt = false;
-            System.out.println("Hephaestus :" + hasBuilt);
             return Response.BUILD;
         }
         else

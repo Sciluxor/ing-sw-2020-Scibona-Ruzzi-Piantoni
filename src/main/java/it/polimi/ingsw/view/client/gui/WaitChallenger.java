@@ -58,6 +58,7 @@ public class WaitChallenger extends JDesktopPane{
         @Override
         public void actionPerformed(ActionEvent e) {
             intFrame.setVisible(false);
+            //intFrame.dispose();
         }
     }
 }

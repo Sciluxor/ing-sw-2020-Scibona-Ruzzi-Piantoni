@@ -265,6 +265,7 @@ public class ChooseCard extends JDesktopPane{
             board.setCardChosen(cardChosen);
             board.callCardChoiceResponse();
             guiIntFrame.setVisible(false);
+            //guiIntFrame.dispose();
         }
     }
 }
