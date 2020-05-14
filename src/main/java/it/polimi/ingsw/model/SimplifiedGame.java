@@ -13,6 +13,7 @@ import java.util.*;
 public class SimplifiedGame{
     private final Integer numberOfPlayers;
     private List<Player> settedPlayers;
+    private boolean hasStopper;
     private Map<String, Card> deck;
     private List<String> availableCards;
     private Player currentPlayer;
@@ -31,6 +32,15 @@ public class SimplifiedGame{
         deck = CardLoader.loadCards();
         isGameStarted = false;
         hasWinner = false;
+        hasStopper = false;
+    }
+
+    public boolean hasStopper() {
+        return hasStopper;
+    }
+
+    public void setHasStopper(boolean hasStopper) {
+        this.hasStopper = hasStopper;
     }
 
     public Player getClientPlayer() {
@@ -122,9 +132,6 @@ public class SimplifiedGame{
     }
 
     public void setCurrentPlayer(String playerName) {
-       // if(currentPlayer == null)
-            //throw new NullPointerException("null currentPlayer");
-
         for(Player player : settedPlayers)
             if(player.getNickName().equals(playerName))
                 this.currentPlayer = player;

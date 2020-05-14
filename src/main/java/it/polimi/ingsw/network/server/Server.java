@@ -1,6 +1,5 @@
 package it.polimi.ingsw.network.server;
 
-import com.sun.prism.shader.AlphaOne_RadialGradient_AlphaTest_Loader;
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.model.Response;
 import it.polimi.ingsw.model.player.Player;
@@ -9,8 +8,6 @@ import it.polimi.ingsw.utils.ConfigLoader;
 import it.polimi.ingsw.utils.ConstantsContainer;
 import it.polimi.ingsw.utils.FlowStatutsLoader;
 import it.polimi.ingsw.view.server.VirtualView;
-
-import javax.swing.*;
 import java.io.IOException;
 import java.util.*;
 
@@ -142,7 +139,7 @@ public class Server implements Runnable{
             List<Player> toRemovePlayers;
             List<GameController> toRemoveController = new ArrayList<>();
             for (GameController match : actualMatches) {
-                if (match.hasWinner() || !(match.getStopper() == null)) {
+                if (match.hasWinner() || match.hasStopper()) {
                     toRemoveController.add(match);
                 }
             }

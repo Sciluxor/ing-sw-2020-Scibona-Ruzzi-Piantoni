@@ -562,7 +562,12 @@ public class Cli extends ClientGameController {
     }
 
     @Override
-    public void onTurnDisconnection() {
+    public void onTurnTimerEnded(String stopper) {
+
+    }
+
+    @Override
+    public void onStoppedGame(String stopper) {
 
     }
 

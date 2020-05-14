@@ -23,6 +23,7 @@ public class Game extends Observable<Response> {
     private List<Player> settedPlayers;
     private String lastLosePlayer;
     private String stopper = null;
+    private boolean hasStopper;
     private List<Player> losePlayers = new ArrayList<>();
     private int configPlayer;
     private final Map<String, Card> deck;
@@ -48,9 +49,18 @@ public class Game extends Observable<Response> {
         gameMap = new GameMap();
         isGameStarted = false;
         hasWinner = false;
+        hasStopper = false;
         availableColors = new ArrayList<>();
         this.gameID = gameID;
         availableColors.addAll(Arrays.asList(Color.values()));
+    }
+
+    public boolean hasStopper() {
+        return hasStopper;
+    }
+
+    public void setHasStopper(boolean hasStopper) {
+        this.hasStopper = hasStopper;
     }
 
     public List<String> getAvailableCards() {

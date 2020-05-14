@@ -155,6 +155,8 @@ public class GameController implements Observer<Message> {
         return game.getStopper();
     }
 
+    public synchronized boolean hasStopper(){return game.hasStopper();}
+
     public String getWinner(){
         return game.getWinner().getNickName();
     }
@@ -174,6 +176,7 @@ public class GameController implements Observer<Message> {
     public synchronized void stopStartedGame(String stopper,Response newStatus){
 
         game.setStopper(stopper);
+        game.setHasStopper(true);
         game.setGameStatus(newStatus);
         stopRoundTimer();
 
