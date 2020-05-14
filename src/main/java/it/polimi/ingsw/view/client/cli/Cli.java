@@ -221,7 +221,6 @@ public class Cli extends ClientGameController {
     }
 
     public void selectCards() {
-        clearShell();
         printCards();
 
         int counter = 0;
@@ -273,9 +272,11 @@ public class Cli extends ClientGameController {
     }
 
     public void printCards(int counter) {
+        printRed("PLEASE, CHOOSE " + getPlayers().size() + " CARDS:\n");
         for(int i=0; i < deckOrdered.size(); i++) {
             if(counter == i) {
                 print("> " + deckOrdered.get(i).toUpperCase() + ":\n", Color.ANSI_PURPLE);
+                printPower(deckOrdered.get(i));
             }
             else
                 print("  " + deckOrdered.get(i).toUpperCase() + "\n", Color.ANSI_YELLOW);
@@ -283,40 +284,25 @@ public class Cli extends ClientGameController {
     }
 
     public void printCards() {
+        printRed("PLEASE, CHOOSE " + getPlayers().size() + " CARDS:\n");
         for (String s : deckOrdered) {
             print("  " + s.toUpperCase() + "\n", Color.ANSI_YELLOW);
         }
     }
 
-    public String[] printPower(String[] cards, String keyboard) {
-        while(cards.length == 1)
-        {
-            Card card = deck.get(cards[0]);
+    public void printPower(String cardName) {
+        Card card = deck.get(cardName.toLowerCase());
             if(card != null) {
-                printRed("THIS IS THE POWER OF ");
-                print(keyboard.toUpperCase(), Color.ANSI_YELLOW);
-                printRed(":\n");
-                if (keyboard.equalsIgnoreCase("ATHENA") || keyboard.equalsIgnoreCase("HERA"))
-                    print("OPPONENT'S TURN:", Color.ANSI_BLUE);
-                else if (keyboard.equalsIgnoreCase("HYPNUS"))
-                    print("START OF OPPONENT'S TURN:", Color.ANSI_BLUE);
+                if (cardName.equalsIgnoreCase("ATHENA") || cardName.equalsIgnoreCase("HERA"))
+                    print("  OPPONENT'S TURN: ", Color.ANSI_BLUE);
+                else if (cardName.equalsIgnoreCase("HYPNUS"))
+                    print("  START OF OPPONENT'S TURN: ", Color.ANSI_BLUE);
                 else
-                    print(deck.get(keyboard).getType().toString() + ":", Color.ANSI_BLUE);
-                printRed(deck.get(keyboard).getDescription() + "\n\n");
+                    print("  " + deck.get(cardName).getType().toString() + ": ", Color.ANSI_BLUE);
+                printRed(deck.get(cardName).getDescription() + "\n\n");
             }
             else
-                printRed("WRONG CARD NAME. PLEASE, REINSERT NEW CARD NAME: ");
-
-            keyboard = input().toLowerCase();
-            cards = splitter(keyboard);
-        }
-        if(cards.length != getPlayers().size()) {
-            printRed("WRONG NUMBER OF CARDS. PLEASE, REINSERT " + getPlayers().size() + " CARDS: ");
-            keyboard = input().toLowerCase();
-            cards = splitter(keyboard);
-        }
-
-        return cards;
+                printErr("WRONG CARD NAME");
     }
 
     public Integer[] getCoordinates() {
@@ -466,9 +452,7 @@ public class Cli extends ClientGameController {
 
             clearShell();
             //STAMPE DA METTERE IN ACTION
-            printRed("PLEASE, CHOOSE " + getPlayers().size() + " CARDS ");
-            print("(insert ONLY ONE card to see its power)", Color.ANSI_BLUE);
-            printRed(":\n");
+
 
             List<String> cards = challengerChooseCards();
 
