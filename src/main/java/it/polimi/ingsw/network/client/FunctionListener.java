@@ -35,9 +35,9 @@ public interface FunctionListener {
 
     void removeConstraint(String name);
 
-    void onTurnTimerEnded();
+    void onTurnTimerEnded(String stopper);
 
-    void onStoppedGame();
+    void onStoppedGame(String stopper);
 
     void onLobbyDisconnection();
 

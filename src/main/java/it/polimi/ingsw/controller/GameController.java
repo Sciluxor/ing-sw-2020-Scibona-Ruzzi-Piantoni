@@ -185,7 +185,7 @@ public class GameController implements Observer<Message> {
     }
 
     public synchronized void resetPlayer(VirtualView playerView){
-        stopRoundTimer();  //si può stoppare più volte il timer? per quando finisce il game e deve iniziarne un'altro
+        stopRoundTimer();
         playerView.getConnection().setUserID(ConstantsContainer.USERDIDDEF);
         playerView.getConnection().setNickName(ConstantsContainer.NICKDEF);
         if(!game.hasWinner()) {
