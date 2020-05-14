@@ -387,9 +387,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         LOGGER.info("lost connection");
         switch (message.getSubType()) {
             case TIMEENDED:
-                if(game.isGameStarted() && !game.hasWinner())
-                    eventQueue.add(this::onTurnDisconnection);
-                else if (game.isGameStarted() && game.hasWinner())
+                if (game.isGameStarted() && game.hasWinner())
                     eventQueue.add(this::onEndGameDisconnection);
                 else
                     eventQueue.add(this::onLobbyDisconnection);
@@ -429,6 +427,10 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         }
     }
 
+    public synchronized void handleGameStopped(Message message){
+
+    }
+
     public synchronized void handleLoseExit(){
         client.sendMessage(new Message(client.getUserID(),client.getNickName(),MessageType.DISCONNECTION,MessageSubType.LOSEEXITREQUEST));
     }
@@ -465,7 +467,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
                 break;
             case NONPERMCONSTRAINT:
             case PERMCONSTRAINT:
-                addConstraint(message);   //mancano i case di WIN e LOSE
+                addConstraint(message);
                 break;
             case CHAT:
                 handleChatMessage(message);

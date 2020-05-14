@@ -22,6 +22,7 @@ public class Game extends Observable<Response> {
     private Integer numberOfPlayers;
     private List<Player> settedPlayers;
     private String lastLosePlayer;
+    private String stopper = null;
     private List<Player> losePlayers = new ArrayList<>();
     private int configPlayer;
     private final Map<String, Card> deck;
@@ -73,6 +74,14 @@ public class Game extends Observable<Response> {
             throw new NullPointerException("null numberOfPlayers");
 
         this.numberOfPlayers = numberOfPlayers;
+    }
+
+    public String getStopper() {
+        return stopper;
+    }
+
+    public void setStopper(String stopper) {
+        this.stopper = stopper;
     }
 
     public String getLastLosePlayer() {

@@ -137,12 +137,12 @@ public class Server implements Runnable{
         }
     }
 
-    public synchronized void removeGameEnded(){  // da chiamare dalle view quandi finisce la partita
+    public synchronized void removeGameEnded(){
         synchronized (clientsLock) {
             List<Player> toRemovePlayers;
             List<GameController> toRemoveController = new ArrayList<>();
             for (GameController match : actualMatches) {
-                if (match.hasWinner()) {
+                if (match.hasWinner() || !(match.getStopper() == null)) {
                     toRemoveController.add(match);
                 }
             }
@@ -307,9 +307,9 @@ public class Server implements Runnable{
             }
             controllerFromGameID.remove(controller.getGameID());
             if(message.getSubType().equals(MessageSubType.TIMEENDED))
-                 controller.stopStartedGame(Response.PLAYERTIMERENDED);
+                 controller.stopStartedGame(connection.getNickName(),Response.PLAYERTIMERENDED);
             else
-                controller.stopStartedGame(Response.GAMESTOPPED);
+                controller.stopStartedGame(connection.getNickName(),Response.GAMESTOPPED);
         }
     }
 

@@ -163,7 +163,6 @@ public class ClientHandler implements Runnable, ConnectionInterface {
         server.handleDisconnection(userID,this,message);
     }
 
-    public void removeGameEnded(){server.removeGameEnded();}
 
     @Override
     public void run() {

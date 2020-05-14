@@ -296,10 +296,6 @@ public class Gui extends ClientGameController {
 
     }
 
-    @Override
-    public void onTurnDisconnection() {
-
-    }
 
     @Override
     public void errorMessage() {

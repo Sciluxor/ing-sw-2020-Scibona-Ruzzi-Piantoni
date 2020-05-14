@@ -143,12 +143,16 @@ public class GameController implements Observer<Message> {
         return (game.getPlayers().size()+game.getConfigPlayer()) == game.getNumberOfPlayers();
     }
 
-    public boolean isStillInGame(String nickName){
+    public synchronized boolean isStillInGame(String nickName){
         for(Player player: getActualPlayers()){
             if(player.getNickName().equals(nickName))
                 return true;
         }
         return false;
+    }
+
+    public synchronized String getStopper(){
+        return game.getStopper();
     }
 
     public String getWinner(){
@@ -167,8 +171,9 @@ public class GameController implements Observer<Message> {
     //methods for disconnection from the Game
     //
 
-    public synchronized void stopStartedGame(Response newStatus){
+    public synchronized void stopStartedGame(String stopper,Response newStatus){
 
+        game.setStopper(stopper);
         game.setGameStatus(newStatus);
         stopRoundTimer();
 
