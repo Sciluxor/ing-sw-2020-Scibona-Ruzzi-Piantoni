@@ -85,8 +85,10 @@ public class Cli extends ClientGameController {
         List<String> chosenCards = new ArrayList<>();
         String keyboard;
 
-        for(String s: deck.keySet())
-            print(s.toUpperCase() + "\n", Color.ANSI_YELLOW);
+        for(String cardName: deck.keySet())
+            printCards(cardName, false);
+
+        selectCards();
 
         keyboard = input().toLowerCase();
         String[] cards = splitter(keyboard);
@@ -203,6 +205,223 @@ public class Cli extends ClientGameController {
 
     }
 
+    public void selectCards() {
+        int counter = 0;
+        boolean goOut = false, firstPosition = false, lastPosition = false;
+        int keyboardIn = getArrowUpDown();
+
+        do {
+            int i=0;
+            clearShell();
+            switch (keyboardIn) {
+                case 183:
+                    if (counter == 0)
+                        counter++;
+                    else if (!firstPosition) {
+                        if(counter == 5 && getNumberOfPlayers()==2)
+                            counter--;
+                        counter--;
+                    }
+                    break;
+
+                case 184:
+                    if (!lastPosition) {
+                        if(counter==5 && getNumberOfPlayers()==2)
+                            counter++;
+                        counter++;
+                    }
+                    break;
+
+                default:
+                    goOut = true;
+                    if (keyboardIn != 13)
+                        printErr("NO KEYBOARD CATCHED");
+            }
+
+            switch (counter) {
+                case 1:
+                    firstPosition = true;
+                    for(String cardName: deck.keySet()) {
+                        if (i == 0) {
+                            printCards(cardName, true);
+
+                        }
+                        else
+                            printCards(cardName, false);
+                        i++;
+                    }
+                    break;
+                case 2:
+                    firstPosition = false;
+                    for(String cardName: deck.keySet()) {
+                        if (i == 1) {
+                            printCards(cardName, true);
+
+                        }
+                        else
+                            printCards(cardName, false);
+                        i++;
+                    }
+                    break;
+                case 3:
+                    for(String cardName: deck.keySet()) {
+                        if (i == 2) {
+                            printCards(cardName, true);
+
+                        }
+                        else
+                            printCards(cardName, false);
+                        i++;
+                    }
+                    break;
+                case 4:
+                    for(String cardName: deck.keySet()) {
+                        if (i == 3) {
+                            printCards(cardName, true);
+
+                        }
+                        else
+                            printCards(cardName, false);
+                        i++;
+                    }
+                    break;
+                case 5:
+                    for(String cardName: deck.keySet()) {
+                        if (i == 4) {
+                            printCards(cardName, true);
+
+                        } else
+                            printCards(cardName, false);
+                        i++;
+                    }
+                    break;
+                case 6:
+                    for(String cardName: deck.keySet()) {
+                        if (i == 5) {
+                            printCards(cardName, true);
+
+                        }
+                        else
+                            printCards(cardName, false);
+                        i++;
+                    }
+                    break;
+                case 7:
+                    for(String cardName: deck.keySet()) {
+                        if (i == 6) {
+                            printCards(cardName, true);
+
+                        }
+                        else
+                            printCards(cardName, false);
+                        i++;
+                    }
+                    break;
+                case 8:
+                    for(String cardName: deck.keySet()) {
+                        if (i == 7) {
+                            printCards(cardName, true);
+
+                        }
+                        else
+                            printCards(cardName, false);
+                        i++;
+                    }
+                    break;
+                case 9:
+                    for(String cardName: deck.keySet()) {
+                        if (i == 8) {
+                            printCards(cardName, true);
+
+                        }
+                        else
+                            printCards(cardName, false);
+                        i++;
+                    }
+                    break;
+                case 10:
+                    for(String cardName: deck.keySet()) {
+                        if (i == 9) {
+                            printCards(cardName, true);
+
+                        }
+                        else
+                            printCards(cardName, false);
+                        i++;
+                    }
+                    break;
+                case 11:
+                    for(String cardName: deck.keySet()) {
+                        if (i == 10) {
+                            printCards(cardName, true);
+
+                        }
+                        else
+                            printCards(cardName, false);
+                        i++;
+                    }
+                    break;
+                case 12:
+                    if(getNumberOfPlayers()==2)
+                        lastPosition = false;
+
+                    for(String cardName: deck.keySet()) {
+                        if (i == 11) {
+                            printCards(cardName, true);
+
+                        }
+                        else
+                            printCards(cardName, false);
+                    i++;
+                }
+                    break;
+                case 13:
+                    lastPosition = getNumberOfPlayers()==2;
+
+                    for(String cardName: deck.keySet()) {
+                        if (i == 12) {
+                            printCards(cardName, true);
+
+                        }
+                        else
+                            printCards(cardName, false);
+                        i++;
+                    }
+                    break;
+                case 14:
+                    lastPosition = true;
+                    for(String cardName: deck.keySet()) {
+                        if (i == 13) {
+                            printCards(cardName, true);
+
+                        }
+                        else
+                            printCards(cardName, false);
+                        i++;
+                    }
+                default:
+                    printErr("ERROR SHOWING CARDS");
+            }
+
+            keyboardIn = controlWaitEnter("up&down");
+        }while(!goOut);
+    }
+
+    public void printCards(String cardName, boolean selected) {
+        if(getNumberOfPlayers() == 2 && !cardName.equalsIgnoreCase("chronus")) {
+            if (selected)
+                print("> " + cardName.toUpperCase() + ":\n", Color.ANSI_PURPLE);
+            else
+                print("  " + cardName.toUpperCase() + "\n", Color.ANSI_YELLOW);
+        }
+        else if(getNumberOfPlayers() == 3) {
+            if (selected)
+                print("> " + cardName.toUpperCase() + ":\n", Color.ANSI_PURPLE);
+            else
+                print("  " + cardName.toUpperCase() + "\n", Color.ANSI_YELLOW);
+        }
+    }
+
     public String[] printPower(String[] cards, String keyboard) {
         while(cards.length == 1)
         {
@@ -269,64 +488,62 @@ public class Cli extends ClientGameController {
             clearShell();
             switch (keyboardIn) {
                 case 185:
-                    if(!lastPosition)
+                    if (!lastPosition)
                         counter++;
                     break;
                 case 186:
-                    if(counter == 0)
+                    if (counter == 0)
                         counter++;
-                    else if(!firstPosition)
+                    else if (!firstPosition)
                         counter--;
                     break;
 
                 default:
                     goOut = true;
-                    if(keyboardIn != 13)
+                    if (keyboardIn != 13)
                         printErr("NO KEYBOARD CATCHED");
             }
 
-            if(counter == 1) {
-                firstPosition = true;
-                print("[CHAT]", Color.ANSI_PURPLE);
-                printWhite("  [BOARD]  [ACTIONS]  [OPPONENTS]  [POWER]\n");
-                //printCHAT
+            switch (counter) {
+                case 1:
+                    firstPosition = true;
+                    print("[CHAT]", Color.ANSI_PURPLE);
+                    printWhite("  [BOARD]  [ACTIONS]  [OPPONENTS]  [POWER]\n");
+                    //printCHAT
+                    break;
 
-            }
-            else if(counter == 2) {
-                firstPosition = false;
-                printWhite("[CHAT]  ");
-                print("[BOARD]", Color.ANSI_PURPLE);
-                printWhite("  [ACTIONS]  [OPPONENTS]  [POWER]\n");
-                //printBOARD
+                case 2:
+                    firstPosition = false;
+                    printWhite("[CHAT]  ");
+                    print("[BOARD]", Color.ANSI_PURPLE);
+                    printWhite("  [ACTIONS]  [OPPONENTS]  [POWER]\n");
+                    //printBOARD
+                    break;
 
-            }
-            else if(counter == 3) {
-                printWhite("[CHAT]  [BOARD]  ");
-                print("[ACTIONS]", Color.ANSI_PURPLE);
-                printWhite("  [OPPONENTS]  [POWER]\n");
-                //printACTIONS
+                case 3:
+                    printWhite("[CHAT]  [BOARD]  ");
+                    print("[ACTIONS]", Color.ANSI_PURPLE);
+                    printWhite("  [OPPONENTS]  [POWER]\n");
+                    //printACTIONS
+                    break;
 
-            }
-            else if(counter == 4) {
-                lastPosition = false;
-                printWhite("[CHAT]  [BOARD]  [ACTIONS]  ");
-                print("[OPPONENTS]", Color.ANSI_PURPLE);
-                printWhite("  [POWER]\n");
-                //printOPPONENTS
+                case 4:
+                    lastPosition = false;
+                    printWhite("[CHAT]  [BOARD]  [ACTIONS]  ");
+                    print("[OPPONENTS]", Color.ANSI_PURPLE);
+                    printWhite("  [POWER]\n");
+                    //printOPPONENTS
+                    break;
 
-            }
-            else if(counter == 5) {
-                lastPosition = true;
-                printWhite("[CHAT]  [BOARD]  [ACTIONS]  [OPPONENTS]  ");
-                print("[POWER]\n", Color.ANSI_PURPLE);
-                //printPOWER
+                case 5:
+                    lastPosition = true;
+                    printWhite("[CHAT]  [BOARD]  [ACTIONS]  [OPPONENTS]  ");
+                    print("[POWER]\n", Color.ANSI_PURPLE);
+                    //printPOWER
+                    break;
             }
 
             keyboardIn = controlWaitEnter("left&right");
-            if(keyboardIn == 0) {
-                printErr("NO KEYBOARD CATCHED");
-                break;
-            }
         }while(!goOut);
 
     }
