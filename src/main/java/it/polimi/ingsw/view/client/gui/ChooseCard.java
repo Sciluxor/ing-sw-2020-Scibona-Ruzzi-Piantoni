@@ -39,7 +39,6 @@ public class ChooseCard extends JDesktopPane{
     private int chosen = 0;
     String cardChosen = null;
     String nameChoosing;
-    double posx;
 
     public ChooseCard(Board instance, JInternalFrame aframe, int wi, int he, List<String> cards, Integer numberOfPanel, String name) throws IOException {
 
@@ -50,7 +49,6 @@ public class ChooseCard extends JDesktopPane{
         setPreferredSize(frameSize);
 
         nameChoosing = name;
-        posx = (double) nameChoosing.length() / 2;
         godCards = cards;
         costructor = new ButtonGodsList(frameSize, godList);
 

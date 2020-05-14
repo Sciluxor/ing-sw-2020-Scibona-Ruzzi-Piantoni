@@ -5,7 +5,6 @@ import it.polimi.ingsw.utils.Logger;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 
