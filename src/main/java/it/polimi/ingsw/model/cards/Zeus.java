@@ -12,6 +12,7 @@ public class Zeus extends Card {
     public Zeus(String name, String description, boolean isPlayableIn3, CardType type, CardSubType subType) {
         super(name, description, isPlayableIn3, type, subType);
     }
+
     @Override
     public List<Directions> findPossibleBuild(GameMap gameMap, Worker worker) {
         if(gameMap == null || worker == null)

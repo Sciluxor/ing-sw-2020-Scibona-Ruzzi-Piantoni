@@ -389,7 +389,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         LOGGER.info("lost connection");
         switch (message.getSubType()) {
             case TIMEENDED:
-                if(game.isGameStarted())
+                if(game.isGameStarted() && !game.hasWinner())
                     eventQueue.add(this::onTurnDisconnection);
                 else
                     eventQueue.add(this::onLobbyDisconnection);
@@ -411,6 +411,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
 
     public synchronized void handleWin(Message message){
         eventQueue.add(() -> notifyWin(message.getMessage()));
+        game.setHasWinner(true);
     }
 
     public synchronized void handleLose(Message message){
