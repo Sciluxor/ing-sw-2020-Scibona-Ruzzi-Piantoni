@@ -41,8 +41,7 @@ public class Hephaestus extends Card {
             int squareTile = canAccess.get(dir);
             if(squareTile > ConstantsContainer.MINMAPPOSITION && squareTile <= ConstantsContainer.MAXMAPPOSITION) { //rivedere questo if
                 Square possibleSquare = gameMap.getMap().get(squareTile- 1);
-                if(!possibleSquare.hasPlayer() && (possibleSquare.getBuildingLevel() >= 0 && possibleSquare.getBuildingLevel() <= levelPosition +1)
-                        && possibleSquare.getBuilding() != Building.DOME && possibleSquare.equals(worker.getPreviousBuildPosition())) {
+                if(!possibleSquare.hasPlayer() && possibleSquare.getBuilding() != Building.DOME && possibleSquare.equals(worker.getPreviousBuildPosition())) {
                     reachableSquares.add(dir);
                 }
             }
@@ -61,6 +60,7 @@ public class Hephaestus extends Card {
                 if(building.equals(Building.DOME) || building.equals(Building.LVL3))
                     return Response.BUILD;
                 hasBuilt = true;
+                System.out.println("Hephaestus :" + hasBuilt);
                 return Response.NEWBUILD;
             }
             else
@@ -69,6 +69,7 @@ public class Hephaestus extends Card {
 
         if(gameMap.buildInSquare(worker, directions, building)) {
             hasBuilt = false;
+            System.out.println("Hephaestus :" + hasBuilt);
             return Response.BUILD;
         }
         else

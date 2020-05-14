@@ -169,7 +169,7 @@ public class Board extends Observable {
     JLabel lLoser2;
     JLabel lGlow;
     JLabel lTutorial;
-    JLabel llost;
+    JLabel llost = new JLabel();
     Dimension frameSize = new Dimension();
     Dimension boardSize = new Dimension();
     Dimension bottomSize = new Dimension();
@@ -206,6 +206,7 @@ public class Board extends Observable {
     Color selectedWorkerBorder = Color.RED;
     Color moveBorder = Color.WHITE;
     Color buildBorder = Color.WHITE;
+    Color modifiedBorder = Color.ORANGE;
     int worker1 = 0;
     int worker2 = 0;
     Response responce = null;
@@ -769,9 +770,6 @@ public class Board extends Observable {
         }
 
 
-
-
-
         labelMove.setFont(felixNormal);
         labelMove.setVisible(false);
         desktopPane.add(labelMove);
@@ -861,6 +859,7 @@ public class Board extends Observable {
         desktopPane.add(glow);
         desktopPane.add(loser1);
         desktopPane.add(loser2);
+        desktopPane.add(llost);
         desktopPane.add(winLose);
 
         addMapButtons();
@@ -1043,6 +1042,12 @@ public class Board extends Observable {
     private void addColorBorderToMap(){
         for (int x = 0; x < 25; x++){
             mapButtons[x].addMouseListener(new ColorBorder());
+        }
+    }
+
+    private void removeModifiedBorder(){
+        for (int x = 0; x < 25; x++){
+            mapButtons[x].setBorderPainted(false);
         }
     }
 
@@ -1510,6 +1515,7 @@ public class Board extends Observable {
             }
 
         }
+        removeModifiedBorder();
         internalFrameStartTurn.setBounds((int) (frameSize.width * 29.5/100), (int) (frameSize.height * 25.5/100), internalFrameSize40x45.width, internalFrameSize40x45.height);
         internalFrameStartTurn.getContentPane().add(startTurn);
         internalFrameStartTurn.setVisible(true);
@@ -1572,6 +1578,7 @@ public class Board extends Observable {
     }
 
     public void displayButtons(List<MessageType> actions){
+        System.out.println("Actions :" + actions);
         for (MessageType mess : actions){
             switch (mess){
                 case MOVEWORKER:
@@ -1644,7 +1651,6 @@ public class Board extends Observable {
         internalFrameUpdateBoard.getContentPane().add(updateBoard);
         internalFrameUpdateBoard.setVisible(true);
 
-
         switch (type){
             case MOVEWORKER:
             case BUILDWORKER:
@@ -1664,9 +1670,11 @@ public class Board extends Observable {
     private void displayModifications(List<Square> squares, boolean isMe){
 
         List<JLabel> list = null;
+        removeModifiedBorder();
 
         for (Square square : squares){
             cleanIcon(square.getTile() - 1);
+
             if (square.hasPlayer()) {
                 if (square.getPlayer().getNickName().equalsIgnoreCase(opponent1.getText())){
                     mapMyWorkers[square.getTile() - 1] = 0;
@@ -1700,29 +1708,32 @@ public class Board extends Observable {
 
                 if (square.getBuilding().equals(Building.GROUND)) {
                     mapButtons[square.getTile() - 1].setIcon(null);
-
-                } else if (square.getBuilding().equals(Building.LVL1)) {
+                }
+                else if (square.getBuilding().equals(Building.LVL1)) {
                     mapButtons[square.getTile() - 1].setIcon(lvl1.getIcon());
-
-                } else if (square.getBuilding().equals(Building.LVL2)) {
+                }
+                else if (square.getBuilding().equals(Building.LVL2)) {
                     mapButtons[square.getTile() - 1].setIcon(lvl2.getIcon());
-
-                } else if (square.getBuilding().equals(Building.LVL3)) {
+                }
+                else if (square.getBuilding().equals(Building.LVL3)) {
                     mapButtons[square.getTile() - 1].setIcon(lvl3.getIcon());
-
-                }else if (square.getBuilding().equals(Building.DOME) && square.getBuildingLevel() == 1) {
+                }
+                else if (square.getBuilding().equals(Building.DOME) && square.getBuildingLevel() == 1) {
                     mapButtons[square.getTile() - 1].setIcon(dome.getIcon());
-
                 }
                 else if (square.getBuilding().equals(Building.DOME) && square.getBuildingLevel() == 2) {
                     mapButtons[square.getTile() - 1].setIcon(lvl1Dome.getIcon());
-
-                }else if (square.getBuilding().equals(Building.DOME) && square.getBuildingLevel() == 3) {
+                }
+                else if (square.getBuilding().equals(Building.DOME) && square.getBuildingLevel() == 3) {
                     mapButtons[square.getTile() - 1].setIcon(lvl2Dome.getIcon());
-
-                } else {
+                }
+                else {
                     mapButtons[square.getTile() - 1].setIcon(lvl3Dome.getIcon());
                 }
+            }
+            if (!isMe) {
+                mapButtons[square.getTile() - 1].setBorder(BorderFactory.createLineBorder(modifiedBorder, 5));
+                mapButtons[square.getTile() - 1].setBorderPainted(true);
             }
         }
         if (!isMe){
@@ -1764,7 +1775,7 @@ public class Board extends Observable {
 
     public void displayLose(String nick, boolean isYourPlayer){
         newGame.addActionListener(new NewGameLoose());
-
+        System.out.println("looser :" + nick);
         newGame.setBounds((int) ((frameSize.width * 35/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
         close.setBounds((int) ((frameSize.width * 65/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
 
@@ -1790,7 +1801,11 @@ public class Board extends Observable {
         else {
             winLose.setIcon(border.getIcon());
             winLose.setVisible(true);
-            close.setBounds((int) ((frameSize.width * 50/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
+            llost = new JLabel(nick);
+            llost.setFont(felixBold);
+            llost.setBounds((int) ((frameSize.width * 45/100)), (int) (frameSize.height * 50 / 100), (int) frameSize.width * 50/100, frameSize.height * 5/100);
+            llost.setVisible(true);
+            close.setBounds((int) ((frameSize.width * 48/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
             eliminateActionClass(close, Close.class);
             close.setVisible(true);
             close.addActionListener(new CloseLost());
@@ -1927,6 +1942,7 @@ public class Board extends Observable {
     }
 
     private void removeBuildLvl() {
+        enableLevels(false);
         eliminateActionClass(buttonLvl1, BuildLvl1.class);
         eliminateActionClass(buttonLvl2, BuildLvl2.class);
         eliminateActionClass(buttonLvl3, BuildLvl3.class);
@@ -2037,7 +2053,6 @@ public class Board extends Observable {
     private class BuildDomeAtlas implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-
 
             if (gui.getLevel(tileBuildChoosen + 1) == 0){
                 mapButtons[tileBuildChoosen].setIcon(dome.getIcon());
@@ -2237,6 +2252,7 @@ public class Board extends Observable {
             eliminateActionClass(close, CloseLost.class);
             close.setBounds((int) ((frameSize.width * 60/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
             close.setVisible(false);
+            llost.setVisible(false);
             close.addActionListener(new Close());
         }
     }

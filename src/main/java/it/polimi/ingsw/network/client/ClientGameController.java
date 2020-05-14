@@ -237,9 +237,10 @@ public abstract class ClientGameController implements Runnable, FunctionListener
             }
         }
 
-        for(MessageType toRemove :toRemoveActions)
+        for(MessageType toRemove :toRemoveActions) {
             actions.remove(toRemove);
-
+            System.out.println("Client For: " + toRemove.toString());
+        }
         eventQueue.add(() -> displayActions(actions));
     }
 
@@ -320,6 +321,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
             }
         }
         Response newStatus = game.getCurrentPlayer().executeBuild(game.getGameMap(),building,direction);
+        System.out.println("client: " + newStatus);
         game.setGameStatus(newStatus);
         Response winStatus = checkBuildVictory();
         client.sendMessage(new BuildWorkerMessage(client.getUserID(),client.getNickName(),direction

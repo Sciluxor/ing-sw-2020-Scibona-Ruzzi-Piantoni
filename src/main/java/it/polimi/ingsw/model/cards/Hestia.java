@@ -55,10 +55,10 @@ public class Hestia extends Card {
     public Response executeBuild(GameMap gameMap, Building building, Directions directions, Worker worker) {
         if (gameMap == null || worker == null || building == null || directions == null)
             throw new NullPointerException("null gameMap or worker or building or direction");
-
         if (!hasBuilt) {
             if (gameMap.buildInSquare(worker, directions, building)) {
                 hasBuilt = true;
+                System.out.println("hestia :" + hasBuilt);
                 return Response.NEWBUILD;
             } else
                 return Response.NOTBUILD;
@@ -66,10 +66,12 @@ public class Hestia extends Card {
 
             if (gameMap.buildInSquare(worker, directions, building)) {
                 hasBuilt = false;
+                System.out.println("hestia :" + hasBuilt);
                 return Response.BUILD;
             } else
                 return Response.NOTBUILD;
         }
+
     }
 
     @Override
