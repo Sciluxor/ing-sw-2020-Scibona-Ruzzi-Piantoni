@@ -37,7 +37,6 @@ public class GameController implements Observer<Message> {
               return;
         }
         addPlayer(view,nick);
-
     }
 
     public synchronized void handleNewNickname(Message message){
