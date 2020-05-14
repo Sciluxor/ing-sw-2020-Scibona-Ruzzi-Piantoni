@@ -23,6 +23,7 @@ public class Cli extends ClientGameController {
     private Thread mainThread = new Thread();
 
     private Map<String, Card> deck = CardLoader.loadCards();
+    private List<String> deckOrdered = new ArrayList<>();
 
     private static final String TITLE = "\u001B[31m" +
             "             ___       ___  ___          ___    _____   ___      ___               _____  ___   ___                  |_|  |_|\n" +
@@ -52,6 +53,7 @@ public class Cli extends ClientGameController {
             openConnection(getNickName(), getNumberOfPlayers(), getAddress(), getPort());
         }catch (Exception e) {
             printErr("FAILED TO OPENING CONNECTION");
+            CliUtils.LOGGER.severe(e.getMessage());
             controlWaitEnter("enter");
         }
     }
@@ -85,9 +87,14 @@ public class Cli extends ClientGameController {
         String keyboard;
 
         for(String s: deck.keySet())
-            print(s.toUpperCase() + "\n", Color.ANSI_YELLOW);
+            orderCards(s);
 
-        keyboard = input().toLowerCase();
+        if(getNumberOfPlayers()==2)
+            deckOrdered.remove("chronus");
+
+        selectCards();
+
+        /*keyboard = input().toLowerCase();
         String[] cards = splitter(keyboard);
 
         cards = printPower(cards, keyboard);
@@ -109,7 +116,8 @@ public class Cli extends ClientGameController {
         printRed("\n");
 
         Collections.addAll(chosenCards, cards);
-        return chosenCards;
+        return chosenCards;*/
+        return null;
     }
 
     //-------------------------------
@@ -202,6 +210,84 @@ public class Cli extends ClientGameController {
 
     }
 
+    public void orderCards(String s) {
+        for(int x=0; x < deckOrdered.size(); x++) {
+            if (deckOrdered.get(x).compareTo(s) > 0) {
+                deckOrdered.add(x, s);
+                return;
+            }
+        }
+        deckOrdered.add(s);
+    }
+
+    public void selectCards() {
+        clearShell();
+        printCards();
+
+        int counter = 0;
+        boolean goOut = false, firstPosition = false, lastPosition = false;
+        int keyboardIn = getArrowUpDown();
+
+        do {
+            clearShell();
+            switch (keyboardIn) {
+                case 184:
+                    if (!lastPosition)
+                        counter++;
+                    break;
+                case 183:
+                    if (counter == 0)
+                        counter++;
+                    else if (!firstPosition)
+                        counter--;
+                    break;
+                default:
+                    goOut = true;
+                    if (keyboardIn != 13)
+                        printErr("NO KEYBOARD CATCHED");
+            }
+
+            if(counter == 1)
+                firstPosition = true;
+            else if(counter == 2)
+                firstPosition = false;
+            else if(getNumberOfPlayers()==2) {
+                if(counter == 12)
+                    lastPosition = false;
+                else if(counter == 13)
+                    lastPosition = true;
+            }
+            else if(getNumberOfPlayers() != 2) {
+                if(counter == 13)
+                    lastPosition = false;
+                else if(counter == 14)
+                    lastPosition = true;
+            }
+
+            if(counter!=0)
+                printCards(counter-1);
+
+
+            keyboardIn = controlWaitEnter("up&down");
+        }while(!goOut);
+    }
+
+    public void printCards(int counter) {
+        for(int i=0; i < deckOrdered.size(); i++) {
+            if(counter == i) {
+                print("> " + deckOrdered.get(i).toUpperCase() + ":\n", Color.ANSI_PURPLE);
+            }
+            else
+                print("  " + deckOrdered.get(i).toUpperCase() + "\n", Color.ANSI_YELLOW);
+        }
+    }
+
+    public void printCards() {
+        for (String s : deckOrdered) {
+            print("  " + s.toUpperCase() + "\n", Color.ANSI_YELLOW);
+        }
+    }
+
     public String[] printPower(String[] cards, String keyboard) {
         while(cards.length == 1)
         {
@@ -268,19 +354,19 @@ public class Cli extends ClientGameController {
             clearShell();
             switch (keyboardIn) {
                 case 185:
-                    if(!lastPosition)
+                    if (!lastPosition)
                         counter++;
                     break;
                 case 186:
-                    if(!firstPosition || counter != 0)
-                        counter--;
-                    else
+                    if (counter == 0)
                         counter++;
+                    else if (!firstPosition)
+                        counter--;
                     break;
 
                 default:
                     goOut = true;
-                    if(keyboardIn != 13)
+                    if (keyboardIn != 13)
                         printErr("NO KEYBOARD CATCHED");
             }
 
@@ -290,43 +376,35 @@ public class Cli extends ClientGameController {
                 printWhite("  [BOARD]  [ACTIONS]  [OPPONENTS]  [POWER]\n");
                 //printCHAT
 
-            }
-            else if(counter == 2) {
+            } else if(counter == 2) {
                 firstPosition = false;
                 printWhite("[CHAT]  ");
                 print("[BOARD]", Color.ANSI_PURPLE);
                 printWhite("  [ACTIONS]  [OPPONENTS]  [POWER]\n");
                 //printBOARD
 
-            }
-            else if(counter == 3) {
+            } else if(counter == 3) {
                 printWhite("[CHAT]  [BOARD]  ");
                 print("[ACTIONS]", Color.ANSI_PURPLE);
                 printWhite("  [OPPONENTS]  [POWER]\n");
                 //printACTIONS
 
-            }
-            else if(counter == 4) {
+            } else if(counter == 4) {
                 lastPosition = false;
                 printWhite("[CHAT]  [BOARD]  [ACTIONS]  ");
                 print("[OPPONENTS]", Color.ANSI_PURPLE);
                 printWhite("  [POWER]\n");
                 //printOPPONENTS
 
-            }
-            else if(counter == 5) {
+            } else if(counter == 5) {
                 lastPosition = true;
                 printWhite("[CHAT]  [BOARD]  [ACTIONS]  [OPPONENTS]  ");
                 print("[POWER]\n", Color.ANSI_PURPLE);
                 //printPOWER
+
             }
 
             keyboardIn = controlWaitEnter("left&right");
-            if(keyboardIn == 0) {
-                goOut = true;
-                printErr("NO KEYBOARD CATCHED");
-                break;
-            }
         }while(!goOut);
 
     }

@@ -21,7 +21,7 @@ public class CliUtils {
     }
 
     public static void printErr(String string) {
-        System.err.println(Color.ANSI_CYAN + string + Color.RESET);
+        System.err.println(string);
     }
 
     public static String input() {
@@ -41,7 +41,7 @@ public class CliUtils {
 
 
 
-    public synchronized static int getArrow() {
+    public static int getArrow() {
         int keyboard = 0, keyboard1 = 0, keyboard2 = 0;
 
         try {
@@ -53,6 +53,12 @@ public class CliUtils {
                 keyboard1 = System.in.read();
                 if (keyboard1 == 91)
                     keyboard2 = System.in.read();
+            } else if(keyboard == 8) {
+                cmd = new String[]{"/bin/sh", "-c", "stty sane </dev/tty"};
+                Runtime.getRuntime().exec(cmd).waitFor();
+
+                Scanner input = new Scanner(System.in);
+                String s = input.nextLine();
             }
 
             keyboard = keyboard + keyboard1 + keyboard2;
@@ -86,7 +92,7 @@ public class CliUtils {
         return keyboard;
     }
 
-    private synchronized static int waitEnter() {
+    private static int waitEnter() {
         int keyboardIn;
         keyboardIn = getArrow();
         return keyboardIn;
