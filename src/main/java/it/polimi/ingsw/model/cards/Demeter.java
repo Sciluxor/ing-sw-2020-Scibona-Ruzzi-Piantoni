@@ -41,7 +41,7 @@ public class Demeter extends Card {
             int squareTile = canAccess.get(dir);
             if(squareTile > ConstantsContainer.MINMAPPOSITION && squareTile <= ConstantsContainer.MAXMAPPOSITION) { //rivedere questo if
                 Square possibleSquare = gameMap.getMap().get(squareTile- 1);
-                if(!possibleSquare.hasPlayer() && (possibleSquare.getBuildingLevel() >= 0 && possibleSquare.getBuildingLevel() <= levelPosition +1)
+                if(!possibleSquare.hasPlayer() && !worker.getBoardPosition().equals(possibleSquare)
                         && possibleSquare.getBuilding() != Building.DOME && !(possibleSquare.equals(worker.getPreviousBuildPosition()))) {
                     reachableSquares.add(dir);
                 }

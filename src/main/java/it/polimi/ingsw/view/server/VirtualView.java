@@ -82,7 +82,7 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
                 handleStartTurn();
                 break;
             case PLAYERLOSE:
-                handleYourPlayerLose();
+                handleLose();
                 break;
             case WIN:
                 handleWin();
@@ -140,7 +140,7 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
                 handleNonPermConstraint();
                 break;
             case PLAYERLOSE:
-                 handleOtherPlayerLoose();
+                 handleLose();
                 break;
             case WIN:
                 handleWin();
@@ -190,10 +190,6 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
 
     public void handleStartTurn(){
         connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.STARTTURN,MessageSubType.REQUEST,controller.getCurrentPlayer().getNickName()));
-    }
-
-    public void handleYourPlayerLose(){
-        connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.LOSE,MessageSubType.REQUEST,controller.getLastLosePlayer()));
     }
 
     public void handleClientError(){
@@ -259,10 +255,6 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
         connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.NONPERMCONSTRAINT,MessageSubType.UPDATE,controller.getCurrentPlayer().getPower().getName()));
     }
 
-    public void handleOtherPlayerLoose(){
-        connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.LOSE,MessageSubType.UPDATE,controller.getLastLosePlayer()));
-    }
-
     //
     //methods for both
     //
@@ -298,6 +290,14 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
             connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.WIN,MessageSubType.UPDATE,controller.getWinner()));
         }
         controller.resetPlayer(this);
+    }
+
+    public void handleLose(){
+        if(connection.getNickName().equals(controller.getLastLosePlayer()))
+            connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.LOSE,MessageSubType.REQUEST,controller.getLastLosePlayer()));
+        else
+            connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.LOSE,MessageSubType.UPDATE,controller.getLastLosePlayer()));
+
     }
 
 
