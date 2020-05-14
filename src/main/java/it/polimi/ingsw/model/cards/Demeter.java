@@ -33,7 +33,6 @@ public class Demeter extends Card {
     }
 
     public List<Directions> notPreviousBuild(GameMap gameMap, Worker worker) {
-        int levelPosition = worker.getBoardPosition().getBuildingLevel();
         Map<Directions,Integer> canAccess = worker.getBoardPosition().getCanAccess();
         List<Directions> reachableSquares = new ArrayList<>();
 
