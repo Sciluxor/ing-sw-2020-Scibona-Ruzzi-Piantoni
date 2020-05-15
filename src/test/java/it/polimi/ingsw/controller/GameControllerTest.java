@@ -7,8 +7,10 @@ import it.polimi.ingsw.network.server.Server;
 import it.polimi.ingsw.utils.ConstantsContainer;
 import it.polimi.ingsw.utils.FlowStatutsLoader;
 import it.polimi.ingsw.view.server.VirtualView;
+import org.junit.Rule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.rules.Timeout;
 
 import java.net.Socket;
 import java.util.ArrayList;
@@ -18,6 +20,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 class GameControllerTest {
+
+    @Rule
+    public Timeout globalTimeout = Timeout.seconds(10);
 
     private static class StubVirtualView extends VirtualView{
 
@@ -163,7 +168,7 @@ class GameControllerTest {
         assertFalse(viewPlayer2.isYourTurn());
     }
 
-    @Test
+    @Test()
     void checkIfGameCanStart() {
         GameConfigMessage message = new GameConfigMessage("deafult", "primo", MessageSubType.ANSWER, 3, false, false, false);
         message.setView(viewPlayer1);
@@ -195,7 +200,12 @@ class GameControllerTest {
     }
 
     @Test
-    void testFirstStepGame() {
+    void testChallengerChoice() {
+
+        //
+        //setup phase for this test
+        //
+
         GameConfigMessage message = new GameConfigMessage("UID0", "primo", MessageSubType.ANSWER, 3, false, false, false);
         message.setView(viewPlayer1);
         viewPlayer1.notify(message);
@@ -211,6 +221,11 @@ class GameControllerTest {
         viewPlayer3.notify(message);
         controller.addUserID(viewPlayer3,"UID2");
         viewPlayer3.getConnection().setUserID("UID2");
+
+        //
+        //test phase
+        //
+
         ArrayList<String> choice = new ArrayList<>();
         choice.add("athena");
         choice.add("atlas");
@@ -241,6 +256,52 @@ class GameControllerTest {
         assertEquals(Response.CARDCHOICE,controller.getGameStatus());
         assertEquals("secondo",controller.getCurrentPlayer().getNickName());
         assertTrue(viewPlayer2.isYourTurn());
+
+        message2 = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID()
+                ,controller.getCurrentPlayer().getNickName(), MessageType.ENDTURN,MessageSubType.UPDATE);
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(message2);
+
+        assertEquals(Response.STATUSERROR,controller.getGameStatus());
+    }
+
+    @Test
+    void testChooseCard(){
+
+        //
+        //setup phase for this test
+        //
+
+        GameConfigMessage message = new GameConfigMessage("UID0", "primo", MessageSubType.ANSWER, 3, false, false, false);
+        message.setView(viewPlayer1);
+        viewPlayer1.notify(message);
+        controller.addUserID(viewPlayer1,"UID0");
+        viewPlayer1.getConnection().setUserID("UID0");
+        message = new GameConfigMessage("UID1", "secondo", MessageSubType.ANSWER, 3, false, false, false);
+        message.setView(viewPlayer2);
+        viewPlayer2.notify(message);
+        controller.addUserID(viewPlayer2,"UID1");
+        viewPlayer2.getConnection().setUserID("UID1");
+        message = new GameConfigMessage("UID2", "terzo", MessageSubType.ANSWER, 3, false, false, false);
+        message.setView(viewPlayer3);
+        viewPlayer3.notify(message);
+        controller.addUserID(viewPlayer3,"UID2");
+        viewPlayer3.getConnection().setUserID("UID2");
+        ArrayList<String> choice = new ArrayList<>();
+
+        choice.add("athena");
+        choice.add("atlas");
+        choice.add("apollo");
+        ChallengerChoiceMessage message1 = new ChallengerChoiceMessage(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID()
+                ,controller.getCurrentPlayer().getNickName(),MessageSubType.ANSWER,"secondo",choice);
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(message1);
+
+        Message message2 = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID()
+                ,controller.getCurrentPlayer().getNickName(), MessageType.ENDTURN,MessageSubType.UPDATE);
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(message2);
+
+        //
+        //test phase
+        //
 
         Message cardMessage = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID()
                 ,MessageType.CHOOSECARD,MessageSubType.ANSWER,"athrena");
@@ -282,6 +343,68 @@ class GameControllerTest {
         assertEquals(Response.PLACEWORKERS,controller.getGameStatus());
         assertEquals("secondo",controller.getCurrentPlayer().getNickName());
 
+
+    }
+
+    @Test
+    void testPlaceWorkers(){
+        //
+        //setup phase for this test
+        //
+
+        GameConfigMessage message = new GameConfigMessage("UID0", "primo", MessageSubType.ANSWER, 3, false, false, false);
+        message.setView(viewPlayer1);
+        viewPlayer1.notify(message);
+        controller.addUserID(viewPlayer1,"UID0");
+        viewPlayer1.getConnection().setUserID("UID0");
+        message = new GameConfigMessage("UID1", "secondo", MessageSubType.ANSWER, 3, false, false, false);
+        message.setView(viewPlayer2);
+        viewPlayer2.notify(message);
+        controller.addUserID(viewPlayer2,"UID1");
+        viewPlayer2.getConnection().setUserID("UID1");
+        message = new GameConfigMessage("UID2", "terzo", MessageSubType.ANSWER, 3, false, false, false);
+        message.setView(viewPlayer3);
+        viewPlayer3.notify(message);
+        controller.addUserID(viewPlayer3,"UID2");
+        viewPlayer3.getConnection().setUserID("UID2");
+        ArrayList<String> choice = new ArrayList<>();
+
+        choice.add("athena");
+        choice.add("atlas");
+        choice.add("apollo");
+        ChallengerChoiceMessage message1 = new ChallengerChoiceMessage(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID()
+                ,controller.getCurrentPlayer().getNickName(),MessageSubType.ANSWER,"secondo",choice);
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(message1);
+
+        Message message2 = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID()
+                ,controller.getCurrentPlayer().getNickName(), MessageType.ENDTURN,MessageSubType.UPDATE);
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(message2);
+
+        Message cardMessage = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID()
+                ,MessageType.CHOOSECARD,MessageSubType.ANSWER,"athena");
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(cardMessage);
+        message2 = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID()
+                ,controller.getCurrentPlayer().getNickName(), MessageType.ENDTURN,MessageSubType.UPDATE);
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(message2);
+
+        cardMessage = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID()
+                ,MessageType.CHOOSECARD,MessageSubType.ANSWER,"apollo");
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(cardMessage);
+        message2 = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID()
+                ,controller.getCurrentPlayer().getNickName(), MessageType.ENDTURN,MessageSubType.UPDATE);
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(message2);
+
+        cardMessage = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID()
+                ,MessageType.CHOOSECARD,MessageSubType.ANSWER,"atlas");
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(cardMessage);
+        message2 = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID()
+                ,controller.getCurrentPlayer().getNickName(), MessageType.ENDTURN,MessageSubType.UPDATE);
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(message2);
+
+        //
+        //test phase
+        //
+
         Integer[] tile1 = {0,0};
         Integer[] tile2 = {4,4};
         PlaceWorkersMessage placeMessage = new PlaceWorkersMessage(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID(),
@@ -302,21 +425,6 @@ class GameControllerTest {
         controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(placeMessage);
         assertFalse(controller.getCurrentPlayer().hasPlacedWorkers());
         assertEquals(Response.PLACEWORKERSERROR,controller.getGameStatus());
-        tile1 = new Integer[]{-1, 0};
-        tile2 = new Integer[]{3, 4};
-        placeMessage = new PlaceWorkersMessage(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID(),
-                MessageSubType.ANSWER,tile1,tile2);
-        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(placeMessage);
-        assertFalse(controller.getCurrentPlayer().hasPlacedWorkers());
-        assertEquals(Response.PLACEWORKERSERROR,controller.getGameStatus());
-
-        tile1 = new Integer[]{2, 0};
-        tile2 = new Integer[]{3, 5};
-        placeMessage = new PlaceWorkersMessage(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID(),
-                MessageSubType.ANSWER,tile1,tile2);
-        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(placeMessage);
-        assertFalse(controller.getCurrentPlayer().hasPlacedWorkers());
-        assertEquals(Response.PLACEWORKERSERROR,controller.getGameStatus());
 
         tile1 = new Integer[]{3, 2};
         tile2 = new Integer[]{4, 3};
@@ -330,22 +438,6 @@ class GameControllerTest {
         message2 = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID()
                 ,controller.getCurrentPlayer().getNickName(), MessageType.ENDTURN,MessageSubType.UPDATE);
         controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(message2);
-
-        tile1 = new Integer[]{2, 0};
-        tile2 = new Integer[]{-4, 2};
-        placeMessage = new PlaceWorkersMessage(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID(),
-                MessageSubType.ANSWER,tile1,tile2);
-        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(placeMessage);
-        assertFalse(controller.getCurrentPlayer().hasPlacedWorkers());
-        assertEquals(Response.PLACEWORKERSERROR,controller.getGameStatus());
-
-        tile1 = new Integer[]{2, 5};
-        tile2 = new Integer[]{4, 2};
-        placeMessage = new PlaceWorkersMessage(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID(),
-                MessageSubType.ANSWER,tile1,tile2);
-        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(placeMessage);
-        assertFalse(controller.getCurrentPlayer().hasPlacedWorkers());
-        assertEquals(Response.PLACEWORKERSERROR,controller.getGameStatus());
 
         tile1 = new Integer[]{1, 4};
         tile2 = new Integer[]{0, 3};
@@ -362,13 +454,6 @@ class GameControllerTest {
 
         assertEquals(Response.STARTTURN,controller.getGameStatus());
         assertEquals("secondo",controller.getCurrentPlayer().getNickName());
-
-        message2 = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID()
-                ,controller.getCurrentPlayer().getNickName(), MessageType.ENDTURN,MessageSubType.UPDATE);
-        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(message2);
-
-        assertEquals(Response.STATUSERROR,controller.getGameStatus());
-
 
     }
 
@@ -409,7 +494,7 @@ class GameControllerTest {
     }
 
     @Test
-    void disconnectPlayerBeforeGameStart() {
+    void disconnectTimerEnded() {
         GameConfigMessage message = new GameConfigMessage("UID1","primo", MessageSubType.ANSWER,3,false,false,false);
         message.setView(viewPlayer1);
         controller.addUserID(viewPlayer1,"UID1");
@@ -480,6 +565,23 @@ class GameControllerTest {
         assertFalse(controller.isFull());
         assertEquals(0,controller.getConfigPlayer());
         assertEquals(4,controller.getNumClients());
+    }
+
+    @Test
+    void disconnectBack(){
+        GameConfigMessage message = new GameConfigMessage("UID1","primo", MessageSubType.ANSWER,3,false,false,false);
+        message.setView(viewPlayer1);
+        controller.addUserID(viewPlayer1,"UID1");
+        viewPlayer1.notify(message);
+        assertFalse(controller.isGameStarted());
+        message = new GameConfigMessage("UID2","primo", MessageSubType.ANSWER,3,false,false,false);
+        message.setView(viewPlayer2);
+        controller.addUserID(viewPlayer2,"UID2");
+        viewPlayer2.notify(message);
+        assertEquals(1,controller.getConfigPlayer());
+        message = new GameConfigMessage("UID2","primo", MessageSubType.UPDATE,3,false,false,false);
+        message.setView(viewPlayer2);
+        viewPlayer2.notify(message);
     }
 
     @Test

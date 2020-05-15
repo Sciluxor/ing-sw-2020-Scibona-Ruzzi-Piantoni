@@ -8,8 +8,10 @@ import it.polimi.ingsw.network.server.ClientHandler;
 import it.polimi.ingsw.network.server.Server;
 import it.polimi.ingsw.utils.FlowStatutsLoader;
 import it.polimi.ingsw.view.server.VirtualView;
+import org.junit.Rule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.rules.Timeout;
 
 import java.net.Socket;
 import java.util.ArrayList;
@@ -18,6 +20,9 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class RoundControllerTest {
+
+    @Rule
+    public Timeout globalTimeout = Timeout.seconds(10);
 
     private static class StubVirtualView extends VirtualView {
 
