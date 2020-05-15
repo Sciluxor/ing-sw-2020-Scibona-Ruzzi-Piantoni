@@ -47,7 +47,7 @@ public class Board extends Observable {
     JInternalFrame internalFramePlaceWorkers = new JInternalFrame("", false, false, false, false);
     JInternalFrame internalFrameStartTurn = new JInternalFrame("", false, false, false, false);
     JInternalFrame internalFrameUpdateBoard = new JInternalFrame("", false, false, false, false);
-    JInternalFrame internalFrameConstraint = new JInternalFrame("", false, false, false, false);
+    static JInternalFrame internalFrameConstraint = new JInternalFrame("", false, false, false, false);
     JWindow windowPower;
     JScrollPane scrollPane;
     MyButton newGame = new MyButton(2);
@@ -139,9 +139,9 @@ public class Board extends Observable {
     JLabel lButtonMovePress;
     JLabel lButtonBuildPress;
     JLabel lButtonPower;
-    JLabel lButtonPowerPing;
+    static JLabel lButtonPowerPing;
     JLabel lButtonPowerPress;
-    JLabel lButtonPowerPressPing;
+    static JLabel lButtonPowerPressPing;
     JLabel lButtonChat;
     JLabel lButtonChatPress;
     JLabel lButtonChatPing;
@@ -182,7 +182,8 @@ public class Board extends Observable {
     Dimension scrollSize = new Dimension();
     Dimension labelMapSize = new Dimension();
     Dimension internalFrameSize90x90 = new Dimension();
-    Dimension internalFrameSize2 = new Dimension();
+    Dimension internalFrameSize80x80 = new Dimension();
+    Dimension internalFrameSize70x70 = new Dimension();
     Dimension internalFrameSize40x45 = new Dimension();
     Dimension buttonSize = new Dimension();
     Dimension buttonSize7x7 = new Dimension();
@@ -242,7 +243,8 @@ public class Board extends Observable {
         int height = (int) (screen.getHeight() * 91 / 100);
         frameSize.setSize(width, height);
         internalFrameSize90x90.setSize(frameSize.width * 90/100, frameSize.height * 90/100);
-        internalFrameSize2.setSize(internalFrameSize90x90.width * 70/100, internalFrameSize90x90.height * 70/100);
+        internalFrameSize80x80.setSize(frameSize.width * 80/100, frameSize.height * 80/100);
+        internalFrameSize70x70.setSize(internalFrameSize90x90.width * 70/100, internalFrameSize90x90.height * 70/100);
         internalFrameSize40x45.setSize(frameSize.width * 40/100, frameSize.height * 45/100);
 
 
@@ -363,7 +365,7 @@ public class Board extends Observable {
         BasicInternalFrameUI bi7 = (BasicInternalFrameUI) internalFrameConstraint.getUI();
         bi7.setNorthPane(null);
 
-        internalFrameConstraint.setPreferredSize(internalFrameSize2);
+        internalFrameConstraint.setPreferredSize(internalFrameSize70x70);
 
 
         frameChat.setPreferredSize(sideSize);
@@ -1105,11 +1107,11 @@ public class Board extends Observable {
     public void showChallenger(String name, boolean bool) {
         if (bool){
             try {
-                youChosen = new YouHaveBeenChosen(this, internalFrameChallenger1, internalFrameSize2);
+                youChosen = new YouHaveBeenChosen(this, internalFrameChallenger1, internalFrameSize70x70);
             } catch (IOException e) {
                 LOGGER.severe(e.getMessage());
             }
-            internalFrameChallenger1.setBounds((int)((frameSize.width * 50/100) - (internalFrameSize2.width * 50/100)), (int) ((frameSize.height * 46/100) - (internalFrameSize2.height * 50/100)), internalFrameSize2.width, internalFrameSize2.height);
+            internalFrameChallenger1.setBounds((int)((frameSize.width * 50/100) - (internalFrameSize70x70.width * 50/100)), (int) ((frameSize.height * 46/100) - (internalFrameSize70x70.height * 50/100)), internalFrameSize70x70.width, internalFrameSize70x70.height);
             internalFrameChallenger1.getContentPane().add(youChosen);
             tutorial.setVisible(true);
             closeTutorial.setVisible(true);
@@ -1887,11 +1889,11 @@ public class Board extends Observable {
                 internalFrameConstraint.remove(seeConstraint);
             }
             try {
-                seeConstraint = new SeeConstraint(internalFrameConstraint, internalFrameSize2, constraint);
+                seeConstraint = new SeeConstraint(this, internalFrameConstraint, internalFrameSize80x80, constraint);
             } catch (IOException e) {
                 LOGGER.severe(e.getMessage());
             }
-            internalFrameConstraint.setBounds((int) ((frameSize.width * 50 / 100) - (internalFrameSize2.width / 2)), (int) ((frameSize.height * 50 / 100) - (internalFrameSize2.height / 2)), internalFrameSize2.width, internalFrameSize2.height);
+            internalFrameConstraint.setBounds((int) ((frameSize.width * 50 / 100) - (internalFrameSize80x80.width / 2)), (int) ((frameSize.height * 46 / 100) - (internalFrameSize80x80.height / 2)), internalFrameSize80x80.width, internalFrameSize80x80.height);
             internalFrameConstraint.getContentPane().add(seeConstraint);
             eliminateActionClass(buttonPower, ShowYourPower.class);
             buttonPower.addActionListener(new ShowConstraint());
@@ -1899,24 +1901,24 @@ public class Board extends Observable {
         }
     }
 
-    private class ShowConstraint implements ActionListener{
+    public static class ShowConstraint implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
             JButton c = (JButton)e.getSource();
             eliminateActionClass(c, ShowConstraint.class);
-            internalFrameConstraint.setVisible(true);
             c.setIcon(lButtonPowerPressPing.getIcon());
+            internalFrameConstraint.setVisible(true);
             c.addActionListener(new HideConstraint());
         }
     }
 
-    private class HideConstraint implements ActionListener{
+    public static class HideConstraint implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
             JButton c = (JButton)e.getSource();
             eliminateActionClass(c, HideConstraint.class);
-            c.setIcon(lButtonPowerPing.getIcon());
             c.addActionListener(new ShowConstraint());
+            c.setIcon(lButtonPowerPing.getIcon());
             internalFrameConstraint.setVisible(false);
         }
     }

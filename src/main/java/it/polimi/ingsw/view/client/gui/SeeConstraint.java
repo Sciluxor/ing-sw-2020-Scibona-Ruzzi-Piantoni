@@ -13,11 +13,14 @@ import java.util.List;
 
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
 import static it.polimi.ingsw.view.client.gui.Board.internalFrameSetUp;
+import static it.polimi.ingsw.view.client.gui.Board.lButtonPowerPing;
+import static it.polimi.ingsw.view.client.gui.EliminateListeners.eliminateActionClass;
 import static it.polimi.ingsw.view.client.gui.Gui.LOGGER;
 import static it.polimi.ingsw.view.client.gui.Gui.getD;
 
 public class SeeConstraint extends JDesktopPane {
 
+    Board board;
     Dimension frameSize = new Dimension();
     Dimension intFrameSize = new Dimension();
     Dimension cardSize = new Dimension();
@@ -35,16 +38,15 @@ public class SeeConstraint extends JDesktopPane {
     JButton constraint1;
     JButton constraint2;
 
-    public SeeConstraint(JInternalFrame frame, Dimension dimensionFrame, List<String> constraint) throws IOException {
+    public SeeConstraint(Board istance, JInternalFrame frame, Dimension dimensionFrame, List<String> constraint) throws IOException {
 
         guiIntFrame = frame;
+        board = istance;
         frameSize.setSize(dimensionFrame);
         intFrameSize.setSize(frameSize.getWidth() * 48/100, frameSize.getHeight() * 54/100);
         cardSize.setSize((int) (frameSize.getWidth() * 9/100), (int) (frameSize.getHeight() * 23.15/100)); //(9, 22)
 
-        final int xconst = frameSize.width * 9/100;
-        final int yconst = frameSize.height * 24/100;
-        int x = xconst;
+        final int yconst = frameSize.height * 35/100;
         int y = yconst;
 
         costructor = new ButtonGodsList(frameSize, godList);
@@ -63,6 +65,13 @@ public class SeeConstraint extends JDesktopPane {
         buttonBackground.setBorderPainted(false);
         intFrame.add(buttonBackground);
 
+        /*power = ImageHandler.setImage("resources/Graphics/Texts/your_power.png", 99, 99, frameSize.width * 60/100, frameSize.height * 22/100);
+        power.setBounds(frameSize.width * 20/100, frameSize.height * 15/100, frameSize.width * 60/100, frameSize.height * 22/100);
+        add(power);
+        current = ImageHandler.setImage("resources/Graphics/Texts/current_constraint.png", 99, 99, frameSize.width * 60/100, frameSize.height * 22/100);
+        current.setBounds(frameSize.width * 50/100, frameSize.height * 15/100, frameSize.width * 60/100, frameSize.height * 22/100);
+        add(current);*/
+
         setPreferredSize(frameSize);
 
         buttonStyle();
@@ -70,19 +79,19 @@ public class SeeConstraint extends JDesktopPane {
         if (constraint.size() == 3){
             mePower = getButtonFromConstraint(constraint.get(0));
             if (mePower != null) {
-                mePower.setBounds(x, y, cardSize.width, cardSize.height);
+                mePower.setBounds(frameSize.width * 25/100, y, cardSize.width, cardSize.height);
             }
             this.add(mePower);
 
             constraint1 = getButtonFromConstraint(constraint.get(1));
             if (constraint1 != null) {
-                constraint1.setBounds(x + frameSize.width * 12/100, y, cardSize.width, cardSize.height);
+                constraint1.setBounds(frameSize.width * 57/100, y, cardSize.width, cardSize.height);
             }
             this.add(constraint1);
 
             constraint2 = getButtonFromConstraint(constraint.get(2));
             if (constraint2 != null) {
-                constraint2.setBounds(x + frameSize.width * 24/100, y, cardSize.width, cardSize.height);
+                constraint2.setBounds(frameSize.width * 69/100, y, cardSize.width, cardSize.height);
             }
             this.add(constraint2);
         }
@@ -90,13 +99,13 @@ public class SeeConstraint extends JDesktopPane {
         if (constraint.size() == 2){
             mePower = getButtonFromConstraint(constraint.get(0));
             if (mePower != null) {
-                mePower.setBounds(x + frameSize.width * 6/100, y, cardSize.width, cardSize.height);
+                mePower.setBounds(frameSize.width * 25/100, y, cardSize.width, cardSize.height);
             }
             this.add(mePower);
 
             constraint1 = getButtonFromConstraint(constraint.get(1));
             if (constraint1 != null) {
-                constraint1.setBounds(x + frameSize.width * 18/100, y, cardSize.width, cardSize.height);
+                constraint1.setBounds(frameSize.width * 63/100, y, cardSize.width, cardSize.height);
             }
             this.add(constraint1);
         }
@@ -159,6 +168,9 @@ public class SeeConstraint extends JDesktopPane {
         @Override
         public void actionPerformed(ActionEvent e) {
             guiIntFrame.setVisible(false);
+            eliminateActionClass(board.buttonPower, Board.HideConstraint.class);
+            board.buttonPower.addActionListener(new Board.ShowConstraint());
+            board.buttonPower.setIcon(lButtonPowerPing.getIcon());
         }
     }
 
