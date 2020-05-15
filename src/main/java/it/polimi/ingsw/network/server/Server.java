@@ -169,6 +169,7 @@ public class Server implements Runnable{
                 return;
 
             if(isFirstTime) {
+                connections.remove(connection);
                 connections.add(connection);
                 for (GameController match : lobby) {
                     if (getNumberOfPlayer(match) == numberOfPlayer && !isFull(match)) {
