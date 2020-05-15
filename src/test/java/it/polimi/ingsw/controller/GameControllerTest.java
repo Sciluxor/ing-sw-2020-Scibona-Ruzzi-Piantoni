@@ -517,29 +517,6 @@ class GameControllerTest {
         assertEquals(1,controller.getActualPlayers().size());
         assertEquals(2,controller.getNumClients());
 
-        message = new GameConfigMessage("UID3","secondo", MessageSubType.ANSWER,3,false,false,false);
-        message.setView(viewPlayer2);
-        viewPlayer2.addObservers(controller);
-        controller.addUserID(viewPlayer2,"UID3");
-        viewPlayer2.notify(message);
-
-        assertEquals(0,controller.getConfigPlayer());
-
-        assertEquals(2,controller.getActualPlayers().size());
-        assertEquals(4,controller.getNumClients());
-
-        controller.disconnectPlayerBeforeGameStart(new Message("UID3","secondo", MessageType.DISCONNECTION, MessageSubType.BACK));
-
-        assertEquals(0,controller.getConfigPlayer());
-        assertEquals(1,controller.getActualPlayers().size());
-        assertEquals(2,controller.getNumClients());
-        assertEquals(Response.REMOVEDPLAYER,controller.getGameStatus());
-        controller.resetPlayer(viewPlayer2);
-
-        assertEquals(2,controller.getNumClients());
-        assertEquals(ConstantsContainer.USERDIDDEF,connection2.getUserID());
-        assertEquals(ConstantsContainer.NICKDEF,connection2.getNickName());
-
         message = new GameConfigMessage("UID4","secondo", MessageSubType.ANSWER,3,false,false,false);
         message.setView(viewPlayer2);
         viewPlayer2.addObservers(controller);
@@ -549,6 +526,50 @@ class GameControllerTest {
         assertEquals(0,controller.getConfigPlayer());
         assertEquals(2,controller.getActualPlayers().size());
         assertEquals(4,controller.getNumClients());
+    }
+
+    @Test
+    void disconnectBack() {
+        GameConfigMessage message = new GameConfigMessage("UID1", "primo", MessageSubType.ANSWER, 3, false, false, false);
+        message.setView(viewPlayer1);
+        controller.addUserID(viewPlayer1, "UID1");
+        viewPlayer1.notify(message);
+        assertFalse(controller.isGameStarted());
+        message = new GameConfigMessage("UID2", "secondo", MessageSubType.ANSWER, 3, false, false, false);
+        message.setView(viewPlayer2);
+        controller.addUserID(viewPlayer2, "UID2");
+        viewPlayer2.notify(message);
+
+        assertEquals(0, controller.getConfigPlayer());
+
+        assertEquals(2, controller.getActualPlayers().size());
+        assertEquals(4, controller.getNumClients());
+
+        controller.disconnectPlayerBeforeGameStart(new Message("UID2", "secondo", MessageType.DISCONNECTION, MessageSubType.BACK));
+
+        assertEquals(0, controller.getConfigPlayer());
+        assertEquals(1, controller.getActualPlayers().size());
+        assertEquals(2, controller.getNumClients());
+        assertEquals(Response.REMOVEDPLAYER, controller.getGameStatus());
+        controller.resetPlayer(viewPlayer2);
+
+        assertEquals(2, controller.getNumClients());
+        assertEquals(ConstantsContainer.USERDIDDEF, connection2.getUserID());
+        assertEquals(ConstantsContainer.NICKDEF, connection2.getNickName());
+    }
+
+    @Test
+    void disconnectionNickMaxTry(){
+        GameConfigMessage message = new GameConfigMessage("UID1", "primo", MessageSubType.ANSWER, 3, false, false, false);
+        message.setView(viewPlayer1);
+        controller.addUserID(viewPlayer1, "UID1");
+        viewPlayer1.notify(message);
+        assertFalse(controller.isGameStarted());
+        message = new GameConfigMessage("UID2", "secondo", MessageSubType.ANSWER, 3, false, false, false);
+        message.setView(viewPlayer2);
+        controller.addUserID(viewPlayer2, "UID2");
+        viewPlayer2.notify(message);
+
 
         message = new GameConfigMessage("UID5","primo", MessageSubType.ANSWER,3,false,false,false);
         message.setView(viewPlayer3);
@@ -565,23 +586,6 @@ class GameControllerTest {
         assertFalse(controller.isFull());
         assertEquals(0,controller.getConfigPlayer());
         assertEquals(4,controller.getNumClients());
-    }
-
-    @Test
-    void disconnectBack(){
-        GameConfigMessage message = new GameConfigMessage("UID1","primo", MessageSubType.ANSWER,3,false,false,false);
-        message.setView(viewPlayer1);
-        controller.addUserID(viewPlayer1,"UID1");
-        viewPlayer1.notify(message);
-        assertFalse(controller.isGameStarted());
-        message = new GameConfigMessage("UID2","primo", MessageSubType.ANSWER,3,false,false,false);
-        message.setView(viewPlayer2);
-        controller.addUserID(viewPlayer2,"UID2");
-        viewPlayer2.notify(message);
-        assertEquals(1,controller.getConfigPlayer());
-        message = new GameConfigMessage("UID2","primo", MessageSubType.UPDATE,3,false,false,false);
-        message.setView(viewPlayer2);
-        viewPlayer2.notify(message);
     }
 
     @Test
