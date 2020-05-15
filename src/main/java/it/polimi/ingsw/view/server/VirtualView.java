@@ -90,6 +90,12 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
             case LOSEWIN:
                 handleLoseWin();  //mancano caso stoppedGame e playerTimerEnded
                 break;
+            case GAMESTOPPED:
+                handleGameStopped();
+                break;
+            case PLAYERTIMERENDED:
+                handlePlayerTimeEnded();
+                break;
             default:
         }
 
@@ -147,6 +153,12 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
                 break;
             case LOSEWIN:
                 handleLoseWin();
+                break;
+            case GAMESTOPPED:
+                handleGameStopped();
+                break;
+            case PLAYERTIMERENDED:
+                handlePlayerTimeEnded();
                 break;
             default:
         }
@@ -298,6 +310,16 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
         else
             connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.LOSE,MessageSubType.UPDATE,controller.getLastLosePlayer()));
 
+    }
+
+    public void handleGameStopped(){
+        if(connection.isConnectionActive()){
+            connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.STOPPEDGAME,MessageSubType.UPDATE,controller.getStopper()));
+        }
+    }
+
+    public void handlePlayerTimeEnded(){
+        connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.STOPPEDGAME,MessageSubType.TIMEENDED,controller.getStopper()));
     }
 
 

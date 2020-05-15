@@ -393,7 +393,7 @@ class GameControllerTest {
 
         assertEquals(6,controller.getNumClients());
 
-        controller.stopStartedGame(Response.GAMESTOPPED);
+        controller.stopStartedGame("terzo",Response.GAMESTOPPED);
 
         assertEquals(0,controller.getNumClients());
 

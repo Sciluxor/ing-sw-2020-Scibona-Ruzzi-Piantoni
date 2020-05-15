@@ -280,7 +280,7 @@ class RoundControllerTest {
                 controller.getCurrentPlayer().getNickName(), Directions.NORD_OVEST,Response.WIN,null,modSquare);
 
         controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(messageMove);
-        assertEquals(Response.ASSIGNEDCONSTRAINT,controller.getGameStatus());
+        assertEquals(Response.MOVED,controller.getGameStatus());
         assertEquals(18,controller.getCurrentPlayer().getWorkerFromString("worker1").getBoardPosition().getTile());
         assertEquals("athena",controller.getActualPlayers().get(0).getConstraint().get(1).getName());
         assertEquals("athena",controller.getActualPlayers().get(1).getConstraint().get(0).getName());

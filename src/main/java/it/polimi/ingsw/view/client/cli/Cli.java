@@ -18,12 +18,14 @@ public class Cli extends ClientGameController {
     private String address = "127.0.0.1";
     private String nickName;
     private int numberOfPlayers;
+    private SantoriniMap map = new SantoriniMap();
 
     private Thread backThread = new Thread();
     private Thread mainThread = new Thread();
 
     private Map<String, Card> deck = CardLoader.loadCards();
     private List<String> deckOrdered = new ArrayList<>();
+    private List<Player> opponents = new ArrayList<>();
 
     private static final String TITLE = "\u001B[31m" +
             "             ___       ___  ___          ___    _____   ___      ___               _____  ___   ___                  |_|  |_|\n" +
@@ -33,28 +35,17 @@ public class Cli extends ClientGameController {
 
 
     public void start() {
-        String keyboard;
+        //String keyboard;
 
         clearShell();
         printRed(TITLE);
         login(false);
-
-        printRed("INSERT THE PORT NUMBER (default as 4700): ");
-        keyboard = input();
-        if(!keyboard.equals(""))
-            setPort(Integer.parseInt(keyboard));
-
-        printRed("INSERT THE IP ADDRESS (default as 127.0.0.1 - localhost): ");
-        keyboard = input();
-        if(!keyboard.equals(""))
-            setAddress(keyboard);
 
         try {
             openConnection(getNickName(), getNumberOfPlayers(), getAddress(), getPort());
         }catch (Exception e) {
             printErr("FAILED TO OPENING CONNECTION");
             CliUtils.LOGGER.severe(e.getMessage());
-            controlWaitEnter("enter");
         }
     }
 
@@ -77,14 +68,16 @@ public class Cli extends ClientGameController {
 
         setNickName();
         setNumberOfPlayers();
+        setPort();
+        setAddress();
 
         if(lobbyCall)
             newGame(getNickName(), getNumberOfPlayers());
     }
 
     public List<String> challengerChooseCards() {
-        List<String> chosenCards = new ArrayList<>();
-        String keyboard;
+        //List<String> chosenCards = new ArrayList<>();
+        //String keyboard;
 
         for(String s: deck.keySet())
             orderCards(s);
@@ -92,32 +85,7 @@ public class Cli extends ClientGameController {
         if(getNumberOfPlayers()==2)
             deckOrdered.remove("chronus");
 
-        selectCards();
-
-        /*keyboard = input().toLowerCase();
-        String[] cards = splitter(keyboard);
-
-        cards = printPower(cards, keyboard);
-
-        for(int i=0; i<cards.length; i++) {
-            Card card = deck.get(cards[i]);
-            if(card == null) {
-                printRed("WRONG CARD NAME. PLEASE, REINSERT NEW CARD NAME: ");
-                keyboard = input().toLowerCase();
-                cards = splitter(keyboard);
-            }
-        }
-
-        clearShell();
-        printRed("THE DECK OF THIS GAME IS COMPOSED BY: ");
-        for (String card : cards) {
-            print(card.toUpperCase() + " ", Color.ANSI_YELLOW);
-        }
-        printRed("\n");
-
-        Collections.addAll(chosenCards, cards);
-        return chosenCards;*/
-        return null;
+        return selectCards();
     }
 
     //-------------------------------
@@ -128,16 +96,22 @@ public class Cli extends ClientGameController {
         return port;
     }
 
-    public void setPort(int port) {
-        this.port = port;
+    public void setPort() {
+        printRed("INSERT THE PORT NUMBER (default as 4700): ");
+        String port = input();
+        if(!port.equals(""))
+            this.port = Integer.parseInt(port);
     }
 
     public String getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setAddress() {
+        printRed("INSERT THE IP ADDRESS (default as 127.0.0.1 - localhost): ");
+        String address = input();
+        if(!address.equals(""))
+            this.address = address;
     }
 
     public String getNickName() {
@@ -199,6 +173,14 @@ public class Cli extends ClientGameController {
         return returnedColor;
     }
 
+    public Player getPlayerFromNickname() {
+        for(Player player: getPlayers()) {
+            if(player.getNickName().equalsIgnoreCase(getNickName()))
+                return player;
+        }
+        return null;
+    }
+
     public void checkBackCommand() {
         printRed("INSERT \"BACK\" TO TURN BACK IN THE LOGIN WINDOW: ");
         String keyboard = input();
@@ -210,6 +192,8 @@ public class Cli extends ClientGameController {
 
     }
 
+    //-----CARDS-----
+
     public void orderCards(String s) {
         for(int x=0; x < deckOrdered.size(); x++) {
             if (deckOrdered.get(x).compareTo(s) > 0) {
@@ -220,12 +204,24 @@ public class Cli extends ClientGameController {
         deckOrdered.add(s);
     }
 
-    public void selectCards() {
+    public List<String> selectCards() {
         printCards();
 
+        int cont = 0, numberOfCardsToChoose = getPlayers().size();
+        List<String> selectedCards = new ArrayList<>();
+
+        while (cont < getNumberOfPlayers() && numberOfCardsToChoose > 0) {
+            selectedCards.add(scrollCards(getArrowUpDown(), numberOfCardsToChoose));
+            cont++;
+            numberOfCardsToChoose--;
+        }
+
+        return selectedCards;
+    }
+
+    public String scrollCards(int keyboardIn, int numberOfCardsToChoose) {
         int counter = 0;
         boolean goOut = false, firstPosition = false, lastPosition = false;
-        int keyboardIn = getArrowUpDown();
 
         do {
             clearShell();
@@ -264,15 +260,17 @@ public class Cli extends ClientGameController {
             }
 
             if(counter!=0)
-                printCards(counter-1);
+                printCards(counter-1, numberOfCardsToChoose);
 
 
             keyboardIn = controlWaitEnter("up&down");
         }while(!goOut);
+
+        return deckOrdered.get(counter);
     }
 
-    public void printCards(int counter) {
-        printRed("PLEASE, CHOOSE " + getPlayers().size() + " CARDS:\n");
+    public void printCards(int counter, int numberOfCardsToChoose) {
+        printRed("PLEASE, CHOOSE " + numberOfCardsToChoose + " CARDS:\n");
         for(int i=0; i < deckOrdered.size(); i++) {
             if(counter == i) {
                 print("> " + deckOrdered.get(i).toUpperCase() + ":\n", Color.ANSI_PURPLE);
@@ -305,6 +303,8 @@ public class Cli extends ClientGameController {
                 printErr("WRONG CARD NAME");
     }
 
+    //---------------
+
     public Integer[] getCoordinates() {
         String[] split = splitter(input());
 
@@ -328,22 +328,28 @@ public class Cli extends ClientGameController {
         return split;
     }
 
-    public void printMenu() {
+    //-----MENU-----
+    public void printMenu(String role, String nick) {
         clearShell();
         printWhite("[CHAT]  [BOARD]  [ACTIONS]  [OPPONENTS]  [POWER]\n");
 
-        int counter = 0;
-        boolean goOut = false, firstPosition = false, lastPosition = false;
+        int counter = 0, isChoosen = 0;
+        boolean goOut = false, firstPosition = false, lastPosition = false, available = false, canGoOut = false;
         int keyboardIn = getArrowLeftRight();
+
+        if(!nick.isEmpty())
+            available = true;
 
         do {
             clearShell();
             switch (keyboardIn) {
                 case 185:
+                    canGoOut = false;
                     if (!lastPosition)
                         counter++;
                     break;
                 case 186:
+                    canGoOut = false;
                     if (counter == 0)
                         counter++;
                     else if (!firstPosition)
@@ -351,7 +357,8 @@ public class Cli extends ClientGameController {
                     break;
 
                 default:
-                    goOut = true;
+                    if(canGoOut)
+                        goOut = true;
                     if (keyboardIn != 13)
                         printErr("NO KEYBOARD CATCHED");
             }
@@ -360,48 +367,109 @@ public class Cli extends ClientGameController {
                 firstPosition = true;
                 print("[CHAT]", Color.ANSI_PURPLE);
                 printWhite("  [BOARD]  [ACTIONS]  [OPPONENTS]  [POWER]\n");
-                //printCHAT
+                canGoOut = true;
 
             } else if(counter == 2) {
                 firstPosition = false;
                 printWhite("[CHAT]  ");
                 print("[BOARD]", Color.ANSI_PURPLE);
                 printWhite("  [ACTIONS]  [OPPONENTS]  [POWER]\n");
-                //printBOARD
+                canGoOut = true;
 
             } else if(counter == 3) {
                 printWhite("[CHAT]  [BOARD]  ");
                 print("[ACTIONS]", Color.ANSI_PURPLE);
+                if(available)
+                    printWhite("                 " + printActions(role) + "\n");
                 printWhite("  [OPPONENTS]  [POWER]\n");
-                //printACTIONS
+                if(available) {
+                    isChoosen = getArrow();
+                    if (isChoosen == 184) {
+                        print("                 " + printActions(role) + "\n", Color.ANSI_PURPLE);
+                        int choice = getArrow();
+                        if (choice == 183)
+                            printWhite("                 " + printActions(role) + "\n");
+                        else if(choice == 13) {
+                            canGoOut = true;
+                            goOut = true;
+                            isChoosen = choice;
+                        }
+                    }
+                }
 
             } else if(counter == 4) {
                 lastPosition = false;
                 printWhite("[CHAT]  [BOARD]  [ACTIONS]  ");
                 print("[OPPONENTS]", Color.ANSI_PURPLE);
                 printWhite("  [POWER]\n");
-                //printOPPONENTS
+                for(Player p: opponents) {
+                    printWhite("                            [");
+                    print(p.getNickName(), getColorCliFromPlayer(p.getColor()));
+                    printWhite( "]\n");
+                }
 
             } else if(counter == 5) {
                 lastPosition = true;
                 printWhite("[CHAT]  [BOARD]  [ACTIONS]  [OPPONENTS]  ");
                 print("[POWER]\n", Color.ANSI_PURPLE);
-                //printPOWER
-
+                try {
+                    printPower(getPlayerFromNickname().getPower().getName());
+                } catch (NullPointerException e) {
+                    printRed("YOUR CARD DOESN'T ALREDAY CHOOSE\n");
+                }
             }
 
-            keyboardIn = controlWaitEnter("left&right");
+            if(available)
+                keyboardIn = isChoosen;
+            else
+                keyboardIn = controlWaitEnter("left&right");
         }while(!goOut);
 
+        selectMenu(counter, nick);
+    }
+
+    public void selectMenu(int counter, String nick) {
+        switch (counter) {
+            case 1:
+                //printChat
+                break;
+            case 2:
+                printWhite("\n");
+                map.printMap();
+                break;
+            case 3:
+                List<String> cards = challengerChooseCards();
+                challengerResponse(nick, cards);
+                break;
+            default:
+                printErr("ERROR IN CHOICE");
+        }
+    }
+
+    public /*List<String>*/ String printActions(String role) {
+        //List<String> actions = new ArrayList<>();
+
+        if(role.equalsIgnoreCase("challenger"))
+            //actions.add("[CHOOSE CARDS]");
+            return "[CHOOSE CARDS]";
+        else if(role.equalsIgnoreCase("firstPlayer"))
+            //actions.add("[PLACE WORKERS]");
+            return "[PLACE WORKERS]";
+        else if(role.equalsIgnoreCase("mover"))
+            //actions.add("[MOVE]");
+            return "[MOVE]";
+        else if (role.equalsIgnoreCase("builder"))
+            //actions.add("[BUILD]");
+            return "[BUILD]";
+
+        return null;
     }
 
     public void printYourTurn() {
         printRed("IT'S YOUR TURN!\nCHOOSE YOUR POWER\n");
     }
 
-    public void printActions(String role) {
-
-    }
+    //--------------
 
     //------------------------------
 
@@ -437,6 +505,9 @@ public class Cli extends ClientGameController {
     public synchronized void startGame() {
 
         backThread.interrupt();
+
+        opponents.addAll(getPlayers());
+
         clearShell();
         printRed("GAME IS GOING TO START. PLEASE WAIT WHILE IS LOADING\n");
         controlWaitEnter("enter");
@@ -449,23 +520,18 @@ public class Cli extends ClientGameController {
         if(isYourPlayer) {
             printRed("YOU HAVE BEEN CHOSEN AS CHALLENGER!\n");
             controlWaitEnter("enter");
-
-            clearShell();
-            //STAMPE DA METTERE IN ACTION
-
-
-            List<String> cards = challengerChooseCards();
-
-            challengerResponse(challengerNick, cards);
+            printMenu("challenger", challengerNick);
+            mainThread = new Thread(() -> printMenu("challenger", challengerNick));
         }
         else {
             printRed("PLAYER ");
             print(challengerNick.toUpperCase(), Color.ANSI_YELLOW);
             printRed(" IS CHOOSING CARDS\n");
             controlWaitEnter("enter");
+
+            mainThread = new Thread(() -> printMenu("opponent", ""));
         }
 
-        mainThread = new Thread(this::printMenu);
         mainThread.start();
     }
 
@@ -546,7 +612,12 @@ public class Cli extends ClientGameController {
     }
 
     @Override
-    public void onTurnDisconnection() {
+    public void onTurnTimerEnded(String stopper) {
+
+    }
+
+    @Override
+    public void onStoppedGame(String stopper) {
 
     }
 

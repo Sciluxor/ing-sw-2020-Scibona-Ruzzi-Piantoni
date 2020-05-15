@@ -143,13 +143,19 @@ public class GameController implements Observer<Message> {
         return (game.getPlayers().size()+game.getConfigPlayer()) == game.getNumberOfPlayers();
     }
 
-    public boolean isStillInGame(String nickName){
+    public synchronized boolean isStillInGame(String nickName){
         for(Player player: getActualPlayers()){
             if(player.getNickName().equals(nickName))
                 return true;
         }
         return false;
     }
+
+    public synchronized String getStopper(){
+        return game.getStopper();
+    }
+
+    public synchronized boolean hasStopper(){return game.hasStopper();}
 
     public String getWinner(){
         return game.getWinner().getNickName();
@@ -167,8 +173,10 @@ public class GameController implements Observer<Message> {
     //methods for disconnection from the Game
     //
 
-    public synchronized void stopStartedGame(Response newStatus){
+    public synchronized void stopStartedGame(String stopper,Response newStatus){
 
+        game.setStopper(stopper);
+        game.setHasStopper(true);
         game.setGameStatus(newStatus);
         stopRoundTimer();
 
@@ -180,7 +188,7 @@ public class GameController implements Observer<Message> {
     }
 
     public synchronized void resetPlayer(VirtualView playerView){
-        stopRoundTimer();  //si può stoppare più volte il timer? per quando finisce il game e deve iniziarne un'altro
+        stopRoundTimer();
         playerView.getConnection().setUserID(ConstantsContainer.USERDIDDEF);
         playerView.getConnection().setNickName(ConstantsContainer.NICKDEF);
         if(!game.hasWinner()) {

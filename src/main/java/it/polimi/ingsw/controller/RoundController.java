@@ -68,6 +68,9 @@ public class RoundController {
             case ASSIGNCONSTRAINT:
                 handleConstraint();
                 break;
+            case ASSIGNEDCONSTRAINT:
+                game.setGameStatus(Response.MOVED);
+                break;
             case BUILD:
             case WRONGSQUAREBUILD:
                 handleEndTurn();

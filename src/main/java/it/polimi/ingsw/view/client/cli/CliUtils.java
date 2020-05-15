@@ -53,12 +53,6 @@ public class CliUtils {
                 keyboard1 = System.in.read();
                 if (keyboard1 == 91)
                     keyboard2 = System.in.read();
-            } else if(keyboard == 8) {
-                cmd = new String[]{"/bin/sh", "-c", "stty sane </dev/tty"};
-                Runtime.getRuntime().exec(cmd).waitFor();
-
-                Scanner input = new Scanner(System.in);
-                String s = input.nextLine();
             }
 
             keyboard = keyboard + keyboard1 + keyboard2;

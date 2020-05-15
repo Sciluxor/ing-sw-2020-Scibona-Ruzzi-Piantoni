@@ -387,10 +387,8 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         LOGGER.info("lost connection");
         switch (message.getSubType()) {
             case TIMEENDED:
-                if(game.isGameStarted() && !game.hasWinner())
-                    eventQueue.add(this::onTurnDisconnection);
-                else if (game.isGameStarted() && game.hasWinner())
-                    eventQueue.add(this::onEndGameDisconnection);
+                if (game.isGameStarted() && ( game.hasWinner() || game.hasStopper() ))
+                    eventQueue.add(this::onEndGameDisconnection); //vederlo domani
                 else
                     eventQueue.add(this::onLobbyDisconnection);
                 break;
@@ -426,6 +424,16 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         }
         else if(message.getSubType().equals(MessageSubType.UPDATE)) {
             eventQueue.add(() -> notifyLose(message.getMessage(), false));
+        }
+    }
+
+    public synchronized void handleGameStopped(Message message){
+        game.setHasStopper(true);
+        if(message.getSubType().equals(MessageSubType.UPDATE)){
+            eventQueue.add(() -> onStoppedGame(message.getMessage()));
+        }
+        else if(message.getSubType().equals(MessageSubType.TIMEENDED)){
+            eventQueue.add(() -> onTurnTimerEnded(message.getMessage()));
         }
     }
 
@@ -465,7 +473,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
                 break;
             case NONPERMCONSTRAINT:
             case PERMCONSTRAINT:
-                addConstraint(message);   //mancano i case di WIN e LOSE
+                addConstraint(message);
                 break;
             case CHAT:
                 handleChatMessage(message);
@@ -475,6 +483,9 @@ public abstract class ClientGameController implements Runnable, FunctionListener
                 break;
             case LOSE:
                 handleLose(message);
+                break;
+            case STOPPEDGAME:
+                handleGameStopped(message);
                 break;
             default:
                 throw new IllegalStateException("wrong message type");
