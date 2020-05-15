@@ -6,6 +6,8 @@ import java.util.logging.Logger;
 
 public class CliUtils {
 
+    private static boolean debug = true;
+
     public static final java.util.logging.Logger LOGGER = Logger.getLogger("Cli");
 
     public static void printRed(String string) {
@@ -16,12 +18,21 @@ public class CliUtils {
         System.out.print(Color.ANSI_WHITE + string + Color.RESET);
     }
 
+    public static void printYellow(String string) {
+        System.out.print(Color.ANSI_YELLOW + string + Color.RESET);
+    }
+
     public static void print(String string, Color color) {
         System.out.print(color + string + Color.RESET);
     }
 
     public static void printErr(String string) {
         System.err.println(string);
+    }
+
+    public static void printDebug(String string) {
+        if(debug)
+            System.out.println(string);
     }
 
     public static String input() {
