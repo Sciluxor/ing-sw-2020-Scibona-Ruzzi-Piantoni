@@ -74,6 +74,8 @@ class GameControllerTest {
             return game.getConfigPlayer();
         }
 
+        public void setGamestatus(Response status){ game.setGameStatus(status);}
+
         @Override
         public void startRoundTimer() {
 
@@ -198,6 +200,7 @@ class GameControllerTest {
         assertTrue(controller.isFull());
         assertEquals(2,controller.getActualPlayers().size());
     }
+
 
     @Test
     void testChallengerChoice() {
@@ -516,16 +519,6 @@ class GameControllerTest {
         assertEquals(0,controller.getConfigPlayer());
         assertEquals(1,controller.getActualPlayers().size());
         assertEquals(2,controller.getNumClients());
-
-        message = new GameConfigMessage("UID4","secondo", MessageSubType.ANSWER,3,false,false,false);
-        message.setView(viewPlayer2);
-        viewPlayer2.addObservers(controller);
-        controller.addUserID(viewPlayer2,"UID4");
-        viewPlayer2.notify(message);
-
-        assertEquals(0,controller.getConfigPlayer());
-        assertEquals(2,controller.getActualPlayers().size());
-        assertEquals(4,controller.getNumClients());
     }
 
     @Test
@@ -559,7 +552,7 @@ class GameControllerTest {
     }
 
     @Test
-    void disconnectionNickMaxTry(){
+    void disconnectNickMaxTry(){
         GameConfigMessage message = new GameConfigMessage("UID1", "primo", MessageSubType.ANSWER, 3, false, false, false);
         message.setView(viewPlayer1);
         controller.addUserID(viewPlayer1, "UID1");
@@ -601,6 +594,11 @@ class GameControllerTest {
 
     @Test
     void eliminatePlayerGameEnded() {
+
+        //
+        //setup phase for this test
+        //
+
         GameConfigMessage message = new GameConfigMessage("UID0", "primo", MessageSubType.ANSWER, 3, false, false, false);
         message.setView(viewPlayer1);
         viewPlayer1.notify(message);
@@ -676,47 +674,9 @@ class GameControllerTest {
                 ,controller.getCurrentPlayer().getNickName(), MessageType.ENDTURN,MessageSubType.UPDATE);
         controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(message2);
 
-        Message workMessage = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID(),
-                MessageType.WORKERCHOICE, MessageSubType.ANSWER,"worker1");
-        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(workMessage);
+        controller.setGamestatus(Response.ENDTURN);
 
-        map.get(0).setHasPlayer(false);
-        map.get(1).setMovement(controller.getCurrentPlayer(),controller.getCurrentPlayer().getWorkerFromString("worker1"));
-
-        List<Square> modSquare = new ArrayList<>();
-        modSquare.add(map.get(0));
-        modSquare.add(map.get(1));
-
-        MoveWorkerMessage messageMove = new MoveWorkerMessage(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID(),
-                controller.getCurrentPlayer().getNickName(), Directions.EST,Response.NOTWIN,null,modSquare);
-
-        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(messageMove);
-        assertEquals(Response.MOVED,controller.getGameStatus());
-        assertEquals(2,controller.getCurrentPlayer().getWorkerFromString("worker1").getBoardPosition().getTile());
-
-
-
-        modSquare.clear();
-        map.get(2).setBuilding(Building.LVL2);
-        BuildWorkerMessage messageBuild = new BuildWorkerMessage(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID(),
-                controller.getCurrentPlayer().getNickName(), Directions.EST,Building.LVL2,Response.NOTWIN,null,modSquare);
-        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(messageBuild);
-        assertEquals(Response.NOTBUILD,controller.getGameStatus());
-
-        modSquare.clear();
-        map.get(2).setBuilding(Building.LVL1);
-        map.get(2).addBuildingLevel();
-        modSquare.add(map.get(2));
-        messageBuild = new BuildWorkerMessage(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID(),
-                controller.getCurrentPlayer().getNickName(),Directions.EST,Building.LVL1,Response.NOTWIN,null,modSquare);
-        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(messageBuild);
-        assertEquals(3,controller.getCurrentPlayer().getCurrentWorker().getPreviousBuildPosition().getTile());
-        assertEquals(Response.ENDTURN,controller.getGameStatus());
-        message2 = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID()
-                ,controller.getCurrentPlayer().getNickName(), MessageType.ENDTURN,MessageSubType.UPDATE);
-
-
-
+        controller.changeSquare(3);
         controller.changeSquare(18);
         controller.changeSquare(19);
         controller.changeSquare(6);
@@ -731,25 +691,21 @@ class GameControllerTest {
         controller.changeSquare(22);
         controller.changeSquare(10);
 
-        assertTrue(controller.hasPlayer(2));
-        assertTrue(controller.hasPlayer(9));
-        assertTrue(controller.hasPlayer(20));
-        assertTrue(controller.hasPlayer(21));
-        assertTrue(controller.hasPlayer(22));
-        assertTrue(controller.hasPlayer(10));
-        assertEquals(6,controller.getNumClients());
-
-        assertTrue(controller.isStillInGame("primo"));
-        assertTrue(controller.isStillInGame("terzo"));
-
+        message2 = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID()
+                ,controller.getCurrentPlayer().getNickName(), MessageType.ENDTURN,MessageSubType.UPDATE);
         controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(message2);
+
+        //
+        //test phase
+        //
+
         assertEquals(Response.LOSEWIN,controller.getGameStatus());
         assertEquals("secondo",controller.getWinner());
 
         assertEquals(6,controller.getNumClients());
         assertEquals(1,controller.getActualPlayers().size());
 
-        assertTrue(controller.hasPlayer(2));
+        assertTrue(controller.hasPlayer(1));
         assertTrue(controller.hasPlayer(9));
 
         assertFalse(controller.isStillInGame("primo"));
