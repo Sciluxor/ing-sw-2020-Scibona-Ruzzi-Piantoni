@@ -65,12 +65,12 @@ public class SeeConstraint extends JDesktopPane {
         buttonBackground.setBorderPainted(false);
         intFrame.add(buttonBackground);
 
-        /*power = ImageHandler.setImage("resources/Graphics/Texts/your_power.png", 99, 99, frameSize.width * 60/100, frameSize.height * 22/100);
-        power.setBounds(frameSize.width * 20/100, frameSize.height * 15/100, frameSize.width * 60/100, frameSize.height * 22/100);
+        power = ImageHandler.setImage("resources/Graphics/Texts/your_power.png", 99, 99, frameSize.width * 30/100, frameSize.height * 10/100);
+        power.setBounds(frameSize.width * 15/100, frameSize.height * 10/100, frameSize.width * 30/100, frameSize.height * 10/100);
         add(power);
-        current = ImageHandler.setImage("resources/Graphics/Texts/current_constraint.png", 99, 99, frameSize.width * 60/100, frameSize.height * 22/100);
-        current.setBounds(frameSize.width * 50/100, frameSize.height * 15/100, frameSize.width * 60/100, frameSize.height * 22/100);
-        add(current);*/
+        current = ImageHandler.setImage("resources/Graphics/Texts/current_constraints.png", 99, 99, frameSize.width * 40/100, frameSize.height * 10/100);
+        current.setBounds(frameSize.width * 50/100, frameSize.height * 10/100, frameSize.width * 40/100, frameSize.height * 10/100);
+        add(current);
 
         setPreferredSize(frameSize);
 

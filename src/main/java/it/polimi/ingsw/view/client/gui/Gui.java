@@ -61,7 +61,7 @@ public class Gui extends ClientGameController {
         edo.setColor(Color.WHITE);
         lui.setColor(Color.PURPLE);
 
-        constructorPopUp = new PopUp(this, d);
+        constructorPopUp = new PopUp(this, d, null);
         newPopUp();
 
 
@@ -196,6 +196,7 @@ public class Gui extends ClientGameController {
     @Override
     public void onEndGameDisconnection() {
         SwingUtilities.invokeLater(() -> {
+            System.out.println("on endGame");
             popUp.remove(lobbyPanel);
             lobbyPanel = constructorPopUp.lobbyPopUp(3);
             popUp.add(lobbyPanel);
@@ -299,12 +300,37 @@ public class Gui extends ClientGameController {
 
     @Override
     public void onTurnTimerEnded(String stopper) {
-
+        SwingUtilities.invokeLater(() -> {
+            System.out.println("on turn");
+            constructorPopUp = new PopUp(this, d, stopper);
+            board.eliminateAllFromAll();
+            popUp.remove(lobbyPanel);
+            if (board.getMyName().equalsIgnoreCase(stopper)){
+                lobbyPanel = constructorPopUp.lobbyPopUp(6);
+            }
+            else {
+                lobbyPanel = constructorPopUp.lobbyPopUp(5);
+            }
+            popUp.add(lobbyPanel);
+            popUp.setVisible(true);
+            popUp.repaint();
+            popUp.validate();
+        });
     }
 
     @Override
     public void onStoppedGame(String stopper) {
-
+        SwingUtilities.invokeLater(() -> {
+            System.out.println("on stopped");
+            constructorPopUp = new PopUp(this, d, stopper);
+            board.eliminateAllFromAll();
+            popUp.remove(lobbyPanel);
+            lobbyPanel = constructorPopUp.lobbyPopUp(4);
+            popUp.add(lobbyPanel);
+            popUp.setVisible(true);
+            popUp.repaint();
+            popUp.validate();
+        });
     }
 
 

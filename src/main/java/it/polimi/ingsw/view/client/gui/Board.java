@@ -87,7 +87,6 @@ public class Board extends Observable {
     private final JButton[] mapButtons = new JButton[25];
     int[] mapMyWorkers = new int[25];
     boolean[] mapButtonsPlayer = new boolean[25];
-    static JLabel playerpower = new JLabel();
     JLabel nicknameLabel = new JLabel();
     JLabel nicknameLabel1 = new JLabel();
     JLabel coverBoard;
@@ -1923,6 +1922,10 @@ public class Board extends Observable {
         }
     }
 
+    public String getMyName(){
+        return mePlayer.getNickName();
+    }
+
     private void setVisibleWin(boolean bool, boolean isIn3){
         winLose.setVisible(bool);
         winner.setVisible(bool);
@@ -1933,7 +1936,7 @@ public class Board extends Observable {
         close.setVisible(bool);
     }
 
-    private void eliminateAllFromAll(){
+    public void eliminateAllFromAll(){
         for (JButton button : mapButtons){
             eliminateAllMouseClass(button);
             eliminateAllActionClass(button);

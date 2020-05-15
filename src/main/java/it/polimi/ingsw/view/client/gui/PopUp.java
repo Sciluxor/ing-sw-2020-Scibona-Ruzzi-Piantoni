@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
+import static it.polimi.ingsw.view.client.gui.Board.boldDimension;
 import static it.polimi.ingsw.view.client.gui.Gui.*;
 
 public class PopUp {
@@ -24,8 +25,9 @@ public class PopUp {
     JLabel label2;
     JLabel label3;
     JPanel panel;
+    String name = null;
 
-    public PopUp(Gui istance2, Dimension d){
+    public PopUp(Gui istance2, Dimension d, String stopper){
 
         gui = istance2;
         window = new JPanel();
@@ -34,6 +36,7 @@ public class PopUp {
         buttonSize.setSize((getD().getWidth() * 13 / 100), (getD().getHeight() * 5 / 100));
         nickname = new JTextField(20);
         panel = new JPanel();
+        name = stopper;
     }
 
     public JPanel lobbyPopUp(int n){
@@ -94,7 +97,7 @@ public class PopUp {
                 label1.setBounds((int) ((intFrameSize.width * 50/100) - (labelSize.width / 2)), (int) (intFrameSize.height * 35/100), labelSize.width, labelSize.height);
                 window.add(label1);
                 button1 = new MyButton(3);
-                button1.setBounds((int) (intFrameSize.width * 41.12 / 100), (int) (intFrameSize.height * 79.5 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
+                button1.setBounds((int) ((intFrameSize.width * 50 / 100) -  ((getD().getWidth() * 13 / 100) / 2)), (int) (intFrameSize.height * 79.5 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
                 button1.addActionListener(new Close());
                 window.add(button1);
                 break;
@@ -102,6 +105,46 @@ public class PopUp {
             case 3:
                 setDisconnection();
                 button1.addActionListener(new NewGameEndGame());
+                break;
+
+            case 4:
+                label1 = new JLabel();
+                try {
+                    label1 = ImageHandler.setImage("resources/Graphics/Texts/has_disconnected.png", 97, 100, labelSize.width, labelSize.height);
+                } catch (IOException e) {
+                    LOGGER.severe(e.getMessage());
+                }
+                label1.setBounds((int) ((intFrameSize.width * 40/100)), (int) (intFrameSize.height * 35/100), labelSize.width, labelSize.height);
+                window.add(label1);
+
+                setDisconnectionTime();
+                break;
+
+            case 5:
+                label1 = new JLabel();
+                try {
+                    label1 = ImageHandler.setImage("resources/Graphics/Texts/did_not_play.png", 97, 100, labelSize.width, labelSize.height);
+                } catch (IOException e) {
+                    LOGGER.severe(e.getMessage());
+                }
+                label1.setBounds((int) ((intFrameSize.width * 40/100) ), (int) (intFrameSize.height * 35/100), labelSize.width, labelSize.height);
+                window.add(label1);
+
+                setDisconnectionTime();
+                break;
+
+            case 6:
+                label1 = new JLabel();
+                try {
+                    label1 = ImageHandler.setImage("resources/Graphics/Texts/time_is_up.png", 97, 100, labelSize.width, labelSize.height);
+                } catch (IOException e) {
+                    LOGGER.severe(e.getMessage());
+                }
+                label1.setBounds((int) ((intFrameSize.width * 50/100) - (labelSize.width / 2)), (int) (intFrameSize.height * 35/100), labelSize.width, labelSize.height);
+                window.add(label1);
+
+                setDisconnectionTime();
+                window.remove(label2);
                 break;
 
             default:
@@ -140,6 +183,22 @@ public class PopUp {
         button2.addActionListener(new Close());
     }
 
+    private void setDisconnectionTime(){
+        label2 = new JLabel(name);
+        label2.setBounds((int) ((intFrameSize.width * 30/100) - ((name.length() * boldDimension))), (int) (intFrameSize.height * 41.5/100), intFrameSize.width * 60/100, intFrameSize.width * 5/100);
+        label2.setFont(felixBold);
+        window.add(label2);
+
+        button1 = new MyButton(2);
+        button1.setBounds((int) ((intFrameSize.width * 35/100) - (buttonSize.width / 2)), (int) (intFrameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
+        button2 = new MyButton(3);
+        button2.setBounds((int) ((intFrameSize.width * 65/100) - (buttonSize.width / 2)), (int) (intFrameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
+        window.add(button1);
+        button1.addActionListener(new NewGameEndGame());
+        window.add(button2);
+        button2.addActionListener(new Close());
+    }
+
     private class Send implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -168,7 +227,7 @@ public class PopUp {
         @Override
         public void actionPerformed(ActionEvent e) {
             gui.board.f.dispose();
-            gui.backToLogin(true);
+            gui.backToLogin(false);
             gui.frame.setVisible(true);
             gui.popUp.dispose();
 
