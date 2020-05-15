@@ -54,6 +54,16 @@ class RoundControllerTest {
             game.getGameMap().getMap().get(tile-1).addBuildingLevel();
         }
 
+        public void setGameStatus(Response status){ game.setGameStatus(status);}
+
+        public boolean hasPlayer(int tile){
+            return game.getGameMap().getMap().get(tile-1).hasPlayer();
+        }
+
+        public int getNumClients(){
+            return clients.size();
+        }
+
         public void setBuilding(int tile,Building building){
             game.getGameMap().getMap().get(tile-1).setBuilding(building);
         }
@@ -195,7 +205,8 @@ class RoundControllerTest {
     }
 
     @Test
-    void handleCompleteTurn() {
+    void handleMove() {
+        /*
         Message workMessage = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID(),
                 MessageType.WORKERCHOICE, MessageSubType.ANSWER,"worker1");
         controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(workMessage);
@@ -216,38 +227,8 @@ class RoundControllerTest {
 
 
 
-        modSquare.clear();
-        map.get(2).setBuilding(Building.LVL2);
-        BuildWorkerMessage messageBuild = new BuildWorkerMessage(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID(),
-                controller.getCurrentPlayer().getNickName(), Directions.EST,Building.LVL2,Response.NOTWIN,null,modSquare);
-        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(messageBuild);
-        assertEquals(Response.NOTBUILD,controller.getGameStatus());
 
-        modSquare.clear();
-        map.get(2).setBuilding(Building.LVL1);
-        map.get(2).addBuildingLevel();
-        modSquare.add(map.get(2));
-        messageBuild = new BuildWorkerMessage(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID(),
-                controller.getCurrentPlayer().getNickName(), Directions.EST,Building.LVL1,Response.NOTWIN,null,modSquare);
-        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(messageBuild);
-        assertEquals(3,controller.getCurrentPlayer().getCurrentWorker().getPreviousBuildPosition().getTile());
-        assertEquals(Response.ENDTURN,controller.getGameStatus());
-        Message message2 = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID()
-                ,controller.getCurrentPlayer().getNickName(), MessageType.ENDTURN,MessageSubType.UPDATE);
-        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(message2);
-
-
-
-       workMessage = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID(),
-                MessageType.WORKERCHOICE, MessageSubType.ANSWER,"worker1");
-        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(workMessage);
-
-        map.get(21).setHasPlayer(false);
-        map.get(24).setMovement(controller.getCurrentPlayer(),controller.getCurrentPlayer().getWorkerFromString("worker1"));
-
-        modSquare = new ArrayList<>();
-        modSquare.add(map.get(21));
-        modSquare.add(map.get(24));
+        //------seconda move
 
         messageMove = new MoveWorkerMessage(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID(),
                 controller.getCurrentPlayer().getNickName(), Directions.NORD,Response.NOTWIN,null,modSquare);
@@ -256,6 +237,7 @@ class RoundControllerTest {
         assertEquals(Response.MOVED,controller.getGameStatus());
         assertEquals(25,controller.getCurrentPlayer().getWorkerFromString("worker1").getBoardPosition().getTile());
 
+        //------seconda build
         modSquare.clear();
         map.get(17).setBuilding(Building.LVL1);
         map.get(17).addBuildingLevel();
@@ -281,6 +263,8 @@ class RoundControllerTest {
         modSquare.add(map.get(19));
         modSquare.add(map.get(17));
 
+        //------terza move
+
         messageMove = new MoveWorkerMessage(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID(),
                 controller.getCurrentPlayer().getNickName(), Directions.NORD_OVEST,Response.WIN,null,modSquare);
 
@@ -289,6 +273,9 @@ class RoundControllerTest {
         assertEquals(18,controller.getCurrentPlayer().getWorkerFromString("worker1").getBoardPosition().getTile());
         assertEquals("athena",controller.getActualPlayers().get(0).getConstraint().get(1).getName());
         assertEquals("athena",controller.getActualPlayers().get(1).getConstraint().get(0).getName());
+
+
+        //-----terza build
 
         modSquare.clear();
         map.get(18).setBuilding(Building.LVL1);
@@ -303,37 +290,7 @@ class RoundControllerTest {
                 ,controller.getCurrentPlayer().getNickName(), MessageType.ENDTURN,MessageSubType.UPDATE);
         controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(message2);
 
-        workMessage = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID(),
-                MessageType.WORKERCHOICE, MessageSubType.ANSWER,"worker1");
-        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(workMessage);
 
-        map.get(1).setHasPlayer(false);
-        map.get(16).setMovement(controller.getCurrentPlayer(),controller.getCurrentPlayer().getWorkerFromString("worker1"));
-
-        modSquare = new ArrayList<>();
-        modSquare.add(map.get(19));
-        modSquare.add(map.get(17));
-
-        messageMove = new MoveWorkerMessage(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID(),
-                controller.getCurrentPlayer().getNickName(), Directions.SUD,Response.NOTWIN,null,modSquare);
-
-        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(messageMove);
-        assertEquals(Response.WRONGSQUAREMOVE,controller.getGameStatus());
-        assertEquals(17,controller.getCurrentPlayer().getWorkerFromString("worker1").getBoardPosition().getTile());
-
-        modSquare.clear();
-        map.get(2).setBuilding(Building.LVL2);
-        map.get(2).addBuildingLevel();
-        assertEquals(1,controller.getCurrentPlayer().getConstraint().size());
-        messageBuild = new BuildWorkerMessage(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID(),
-                controller.getCurrentPlayer().getNickName(), Directions.NORD_EST,Building.LVL2,Response.NOTWIN,null,modSquare);
-        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(messageBuild);
-        assertEquals(Response.ENDTURN,controller.getGameStatus());
-        assertEquals(3,controller.getCurrentPlayer().getCurrentWorker().getPreviousBuildPosition().getTile());
-        assertEquals(0,controller.getCurrentPlayer().getConstraint().size());
-        message2 = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID()
-                ,controller.getCurrentPlayer().getNickName(), MessageType.ENDTURN,MessageSubType.UPDATE);
-        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(message2);
 
         controller.addLevel(25);
         controller.addLevel(25);
@@ -368,8 +325,123 @@ class RoundControllerTest {
         assertEquals(Response.WIN,controller.getGameStatus());
         assertTrue(controller.hasWinner());
 
+*/
+    }
+
+    @Test
+    void handleConstraint(){
+        controller.setGameStatus(Response.ENDTURN);
+        Message message2 = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID()
+                ,controller.getCurrentPlayer().getNickName(), MessageType.ENDTURN,MessageSubType.UPDATE);
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(message2);
+        controller.setGameStatus(Response.ENDTURN);
+        message2 = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID()
+                ,controller.getCurrentPlayer().getNickName(), MessageType.ENDTURN,MessageSubType.UPDATE);
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(message2);
+
+        assertEquals("athena",controller.getCurrentPlayer().getPower().getName());
+
+        Message workMessage = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID(),
+                MessageType.WORKERCHOICE, MessageSubType.ANSWER,"worker1");
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(workMessage);
+
+        controller.setBuilding(18,Building.LVL1);
+        controller.addLevel(18);
+        controller.setBuilding(20,Building.GROUND);
+        map.get(19).setBuilding(Building.GROUND);
+        map.get(19).setHasPlayer(false);
+        map.get(17).setBuilding(Building.LVL1);
+        map.get(17).addBuildingLevel();
+        map.get(17).setMovement(controller.getCurrentPlayer(),controller.getCurrentPlayer().getWorkerFromString("worker1"));
+
+        List<Square> modSquare = new ArrayList<>();
+        modSquare.add(map.get(19));
+        modSquare.add(map.get(17));
+
+        MoveWorkerMessage messageMove = new MoveWorkerMessage(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID(),
+                controller.getCurrentPlayer().getNickName(), Directions.NORD_OVEST,Response.NOTWIN,null,modSquare);
+
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(messageMove);
+        assertEquals(Response.MOVED,controller.getGameStatus());
+        assertEquals(18,controller.getCurrentPlayer().getWorkerFromString("worker1").getBoardPosition().getTile());
+        assertEquals("athena",controller.getActualPlayers().get(0).getConstraint().get(1).getName());
+        assertEquals("athena",controller.getActualPlayers().get(1).getConstraint().get(0).getName());
+
+        controller.setGameStatus(Response.ENDTURN);
+
+        message2 = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID()
+                ,controller.getCurrentPlayer().getNickName(), MessageType.ENDTURN,MessageSubType.UPDATE);
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(message2);
+
+        workMessage = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID(),
+                MessageType.WORKERCHOICE, MessageSubType.ANSWER,"worker1");
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(workMessage);
+
+        controller.setGameStatus(Response.MOVED);
+
+        modSquare.clear();
+        map.get(1).setBuilding(Building.LVL1);
+        map.get(1).addBuildingLevel();
+        assertEquals(1,controller.getCurrentPlayer().getConstraint().size());
+        BuildWorkerMessage messageBuild = new BuildWorkerMessage(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID(),
+                controller.getCurrentPlayer().getNickName(), Directions.EST,Building.LVL1,Response.NOTWIN,null,modSquare);
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(messageBuild);
+        assertEquals(Response.ENDTURN,controller.getGameStatus());
+        assertEquals(2,controller.getCurrentPlayer().getCurrentWorker().getPreviousBuildPosition().getTile());
+        assertEquals(0,controller.getCurrentPlayer().getConstraint().size());
+
 
     }
+
+    @Test
+    void handleWrongSquare(){
+        Message workMessage = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID(),
+                MessageType.WORKERCHOICE, MessageSubType.ANSWER,"worker1");
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(workMessage);
+
+        map.get(0).setHasPlayer(false);
+        map.get(1).setMovement(controller.getCurrentPlayer(),controller.getCurrentPlayer().getWorkerFromString("worker1"));
+
+
+        List<Square> modSquare = new ArrayList<>();
+        modSquare.add(map.get(1));
+        modSquare.add(map.get(16));
+
+        MoveWorkerMessage messageMove = new MoveWorkerMessage(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID(),
+                controller.getCurrentPlayer().getNickName(), Directions.EST,Response.NOTWIN,null,modSquare);
+
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(messageMove);
+        assertEquals(Response.WRONGSQUAREMOVE,controller.getGameStatus());
+        assertEquals(2,controller.getCurrentPlayer().getWorkerFromString("worker1").getBoardPosition().getTile());
+    }
+
+    @Test
+    void handleBuild(){
+        Message workMessage = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID(),
+                MessageType.WORKERCHOICE, MessageSubType.ANSWER,"worker1");
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(workMessage);
+        controller.setGameStatus(Response.MOVED);
+
+
+        List<Square> modSquare = new ArrayList<>();
+        map.get(2).setBuilding(Building.LVL2);
+        BuildWorkerMessage messageBuild = new BuildWorkerMessage(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID(),
+                controller.getCurrentPlayer().getNickName(), Directions.EST,Building.LVL2,Response.NOTWIN,null,modSquare);
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(messageBuild);
+        assertEquals(Response.NOTBUILD,controller.getGameStatus());
+
+        modSquare.clear();
+        map.get(1).setBuilding(Building.LVL1);
+        map.get(1).addBuildingLevel();
+        modSquare.add(map.get(1));
+        messageBuild = new BuildWorkerMessage(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID(),
+                controller.getCurrentPlayer().getNickName(), Directions.EST,Building.LVL1,Response.NOTWIN,null,modSquare);
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(messageBuild);
+        assertEquals(2,controller.getCurrentPlayer().getCurrentWorker().getPreviousBuildPosition().getTile());
+        assertEquals(Response.ENDTURN,controller.getGameStatus());
+    }
+
+
 
     @Test
     void checkMoveVictory() {
@@ -557,6 +629,52 @@ class RoundControllerTest {
 
         controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(messageMove);
         assertEquals(Response.STATUSERROR,controller.getGameStatus());
+    }
+
+    @Test
+    void eliminatePlayerGameEnded() {
+        controller.setGameStatus(Response.ENDTURN);
+
+        controller.changeSquare(3);
+        controller.changeSquare(18);
+        controller.changeSquare(19);
+        controller.changeSquare(6);
+        controller.changeSquare(25);
+        controller.changeSquare(7);
+        controller.changeSquare(8);
+        controller.changeSquare(11);
+        controller.changeSquare(12);
+        controller.changeSquare(23);
+        controller.changeSquare(24);
+
+        controller.changeSquare(22);
+        controller.changeSquare(10);
+
+        Message message2 = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID()
+                ,controller.getCurrentPlayer().getNickName(), MessageType.ENDTURN,MessageSubType.UPDATE);
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(message2);
+
+        //
+        //test phase
+        //
+
+        assertEquals(Response.LOSEWIN,controller.getGameStatus());
+        assertEquals("secondo",controller.getWinner());
+
+        assertEquals(6,controller.getNumClients());
+        assertEquals(1,controller.getActualPlayers().size());
+
+        assertTrue(controller.hasPlayer(1));
+        assertTrue(controller.hasPlayer(9));
+
+        assertFalse(controller.isStillInGame("primo"));
+        assertFalse(controller.isStillInGame("terzo"));
+
+        assertFalse(controller.hasPlayer(20));
+        assertFalse(controller.hasPlayer(21));
+        assertFalse(controller.hasPlayer(22));
+        assertFalse(controller.hasPlayer(10));
+
     }
 
     }
