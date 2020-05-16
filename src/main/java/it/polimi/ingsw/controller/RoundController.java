@@ -17,7 +17,7 @@ import java.util.List;
 
 public class RoundController {
 
-    private Game game;
+    private final Game game;
 
     public RoundController(Game game){
         this.game = game;

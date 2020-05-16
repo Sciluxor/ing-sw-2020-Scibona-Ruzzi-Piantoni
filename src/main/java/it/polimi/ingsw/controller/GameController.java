@@ -282,12 +282,6 @@ public class GameController implements Observer<Message> {
     }
 
     //
-    //methods for reconnection
-    //
-
-    //inserire metodi
-
-    //
     //methods for Game beginning handling
     //
 

@@ -126,19 +126,18 @@ public class ClientConnection implements ConnectionInterface,Runnable {
             try {
                 Message received = receiveMessage();
 
-                if (received != null && received.getType() == MessageType.PING) { // si deve controllare il ping anche lato server?
+                if (received != null && received.getType() == MessageType.PING) {
                     stopPingTimer();
                     sendMessage(new Message(userID,nickName,MessageType.PING,MessageSubType.UPDATE));
-                    startPingTimer();      //testare su due pc separati
-                    //fare due config sepratati per client e server?
+                    startPingTimer();
                 } else if (received != null) {
                     new Thread(() -> clientController.onUpdate(received)).start();
                 }
             } catch (IOException e) {
                 closeConnection();
             } catch (ClassNotFoundException e) {
-                Logger.info("it.polimi.ingsw.App Disconnected");
-                ClientGameController.LOGGER.severe(e.getMessage());  //mettere una finally?
+                Logger.info("App Disconnected");
+                ClientGameController.LOGGER.severe(e.getMessage());
             }
         }
     }

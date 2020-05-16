@@ -97,7 +97,6 @@ class GameControllerTest {
     VirtualView viewPlayer1, viewPlayer2, viewPlayer3, viewPlayer4;
     StubGameController controller;
     Server server;
-    List<Square> map = MapLoader.loadMap();
 
     @BeforeEach
     void setup(){
@@ -246,6 +245,7 @@ class GameControllerTest {
                 ,controller.getCurrentPlayer().getNickName(),MessageSubType.ANSWER,"secondo",choice);
         controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(message1);
         assertEquals(Response.CHALLENGERCHOICEDONE,controller.getGameStatus());
+        assertEquals(3,controller.getAvailableCards().size());
         Message message2 = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID()
                 ,controller.getCurrentPlayer().getNickName(), MessageType.ENDTURN,MessageSubType.UPDATE);
         controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(message2);
@@ -493,6 +493,12 @@ class GameControllerTest {
 
         assertFalse(controller.isFreeNick("primo"));
         assertTrue(controller.isFreeNick("secondo"));
+    }
+
+    @Test
+    void stopper(){
+        assertNull(controller.getStopper());
+        assertFalse(controller.hasStopper());
     }
 
 }

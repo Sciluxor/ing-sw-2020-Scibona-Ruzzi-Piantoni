@@ -227,12 +227,14 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         ArrayList<MessageType> actions = FlowStatutsLoader.getNextMessageFromStatus(game.getGameStatus());
         ArrayList<MessageType> toRemoveActions = new ArrayList<>();
         for(MessageType action: actions){
-            if(action.equals(MessageType.MOVEWORKER)){
-                if(game.getCurrentPlayer().findWorkerMove(game.getGameMap(),game.getCurrentPlayer().getCurrentWorker()).size() <= 0)
+            if(action.equals(MessageType.MOVEWORKER) &&
+                    game.getCurrentPlayer().findWorkerMove(game.getGameMap(),game.getCurrentPlayer().getCurrentWorker()).isEmpty()){
+
                     toRemoveActions.add(action);
             }
-            else if(action.equals(MessageType.BUILDWORKER)){
-                if(game.getCurrentPlayer().findPossibleBuild(game.getGameMap(),game.getCurrentPlayer().getCurrentWorker()).size() <= 0)
+            else if(action.equals(MessageType.BUILDWORKER) &&
+                    game.getCurrentPlayer().findPossibleBuild(game.getGameMap(),game.getCurrentPlayer().getCurrentWorker()).isEmpty()){
+
                     toRemoveActions.add(action);
             }
         }
