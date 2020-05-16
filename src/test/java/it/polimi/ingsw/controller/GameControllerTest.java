@@ -1,6 +1,9 @@
 package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.Response;
+import it.polimi.ingsw.model.cards.Card;
+import it.polimi.ingsw.model.cards.CardLoader;
 import it.polimi.ingsw.model.map.*;
+import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.network.server.ClientHandler;
 import it.polimi.ingsw.network.server.Server;
@@ -12,9 +15,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.rules.Timeout;
 
+import javax.swing.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -72,8 +77,17 @@ class GameControllerTest {
             return game.getGameMap();
         }
 
+        public void createQueue(){
+            game.createQueue("secondo");
+        }
+
+        public void setCurrPlayer(Player player){game.setCurrentPlayer(player);
+        }
         public int getConfigPlayer(){
             return game.getConfigPlayer();
+        }
+
+        public void setCard(){game.setAvailableCards(new ArrayList<>());
         }
 
         @Override
@@ -97,6 +111,7 @@ class GameControllerTest {
     VirtualView viewPlayer1, viewPlayer2, viewPlayer3, viewPlayer4;
     StubGameController controller;
     Server server;
+    Map<String, Card> deck = CardLoader.loadCards();
 
     @BeforeEach
     void setup(){
@@ -117,6 +132,10 @@ class GameControllerTest {
 
     @Test
     void handleNewPlayer() {
+        //
+        //test to see the controller add correctly 3 players
+        //
+
         assertEquals(3,controller.getNumberOfPlayers());
         GameConfigMessage message = new GameConfigMessage("deafult","primo", MessageSubType.ANSWER,3,false,false,false);
         message.setView(viewPlayer1);
@@ -137,6 +156,10 @@ class GameControllerTest {
 
     @Test
     void handleNewNickname() {
+        //
+        //test to see if the controller handle well a nick already in use
+        //
+
         GameConfigMessage message = new GameConfigMessage("UID1","primo", MessageSubType.ANSWER,3,false,false,false);
         message.setView(viewPlayer1);
         controller.addUserID(viewPlayer1,"UID1");
@@ -164,6 +187,10 @@ class GameControllerTest {
 
     @Test()
     void checkIfGameCanStart() {
+        //
+        //test to see if the controller start the game when the lobbyis full
+        //
+
         GameConfigMessage message = new GameConfigMessage("deafult", "primo", MessageSubType.ANSWER, 3, false, false, false);
         message.setView(viewPlayer1);
         viewPlayer1.notify(message);
@@ -180,6 +207,10 @@ class GameControllerTest {
 
     @Test
     void isFull() {
+        //
+        //test to see if the controller knows correctly when the game is full
+        //
+
         GameConfigMessage message = new GameConfigMessage("deafult","primo", MessageSubType.ANSWER,3,false,false,false);
         message.setView(viewPlayer1);
         viewPlayer1.notify(message);
@@ -196,9 +227,8 @@ class GameControllerTest {
 
     @Test
     void testChallengerChoice() {
-
         //
-        //setup phase for this test
+        //setup phase for this test, to check if the challeger phase works correctly
         //
 
         GameConfigMessage message = new GameConfigMessage("UID0", "primo", MessageSubType.ANSWER, 3, false, false, false);
@@ -262,9 +292,8 @@ class GameControllerTest {
 
     @Test
     void testChooseCard(){
-
         //
-        //setup phase for this test
+        //setup phase for this test, to see if the players can choose the card correctly, and if the card are assigned correctly
         //
 
         GameConfigMessage message = new GameConfigMessage("UID0", "primo", MessageSubType.ANSWER, 3, false, false, false);
@@ -309,15 +338,21 @@ class GameControllerTest {
         controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(cardMessage);
         assertEquals(Response.CARDCHOICEDONE,controller.getGameStatus());
         assertEquals("atlas",controller.getCurrentPlayer().getPower().getName());
+        controller.setCard();
+        controller.getActualPlayers().get(1).setPower(deck.get("hera"));
+        controller.getActualPlayers().get(0).setPower(deck.get("chronus"));
+        controller.getActualPlayers().get(2).setPower(deck.get("athena"));
         message2 = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID()
                 ,controller.getCurrentPlayer().getNickName(), MessageType.ENDTURN,MessageSubType.UPDATE);
         controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(message2);
+
+        assertEquals(Response.PLACEWORKERS,controller.getGameStatus());
     }
 
     @Test
-    void testPlaceWorkers(){
+    void testChooseCardDone(){
         //
-        //setup phase for this test
+        //setup phase for this test, to see if the players can choose the card correctly, and if the card are assigned correctly
         //
 
         GameConfigMessage message = new GameConfigMessage("UID0", "primo", MessageSubType.ANSWER, 3, false, false, false);
@@ -337,7 +372,56 @@ class GameControllerTest {
         viewPlayer3.getConnection().setUserID("UID2");
         ArrayList<String> choice = new ArrayList<>();
 
+        choice.add("athena");
+        choice.add("atlas");
+        choice.add("apollo");
+        ChallengerChoiceMessage message1 = new ChallengerChoiceMessage(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID()
+                ,controller.getCurrentPlayer().getNickName(),MessageSubType.ANSWER,"secondo",choice);
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(message1);
+
+        Message message2 = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID()
+                ,controller.getCurrentPlayer().getNickName(), MessageType.ENDTURN,MessageSubType.UPDATE);
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(message2);
+
+        //
+        //test phase
+        //
+
+        Message cardMessage = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID()
+                ,MessageType.CHOOSECARD,MessageSubType.ANSWER,"atlas");
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(cardMessage);
+        assertEquals(Response.CARDCHOICEDONE,controller.getGameStatus());
+        assertEquals("atlas",controller.getCurrentPlayer().getPower().getName());
+        message2 = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID()
+                ,controller.getCurrentPlayer().getNickName(), MessageType.ENDTURN,MessageSubType.UPDATE);
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(message2);
+
+        assertEquals(Response.CARDCHOICE,controller.getGameStatus());
+    }
+
+    @Test
+    void testPlaceWorkers(){
+        //
+        //setup phase for this test to see if the workers are placed correctly in the tiles selected by the player
+        //
+
+        GameConfigMessage message = new GameConfigMessage("UID0", "primo", MessageSubType.ANSWER, 3, false, false, false);
+        message.setView(viewPlayer1);
+        viewPlayer1.notify(message);
+        controller.addUserID(viewPlayer1,"UID0");
+        viewPlayer1.getConnection().setUserID("UID0");
+        message = new GameConfigMessage("UID1", "secondo", MessageSubType.ANSWER, 3, false, false, false);
+        message.setView(viewPlayer2);
+        viewPlayer2.notify(message);
+        controller.addUserID(viewPlayer2,"UID1");
+        viewPlayer2.getConnection().setUserID("UID1");
+        message = new GameConfigMessage("UID2", "terzo", MessageSubType.ANSWER, 3, false, false, false);
+        message.setView(viewPlayer3);
+        viewPlayer3.notify(message);
+        controller.addUserID(viewPlayer3,"UID2");
+        viewPlayer3.getConnection().setUserID("UID2");
         controller.setGameStatus(Response.PLACEWORKERS);
+        controller.createQueue();
 
         //
         //test phase
@@ -360,11 +444,62 @@ class GameControllerTest {
         assertEquals(1,controller.getCurrentPlayer().getWorkers().get(0).getBoardPosition().getTile());
         assertEquals(9,controller.getCurrentPlayer().getWorkers().get(1).getBoardPosition().getTile());
         assertTrue(controller.getCurrentPlayer().hasPlacedWorkers());
+        controller.setCurrPlayer(controller.getActualPlayers().get(1));
+        viewPlayer2.setYourTurn(true);
+        Message message2 = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID()
+                ,controller.getCurrentPlayer().getNickName(), MessageType.ENDTURN,MessageSubType.UPDATE);
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(message2);
+
+        assertEquals(Response.PLACEWORKERS,controller.getGameStatus());
+
+    }
+
+    @Test
+    void testStartTurn(){
+        //
+        //setup phase for this test to see if the turn starts correctly after all workers are placed
+        //
+
+        GameConfigMessage message = new GameConfigMessage("UID0", "primo", MessageSubType.ANSWER, 3, false, false, false);
+        message.setView(viewPlayer1);
+        viewPlayer1.notify(message);
+        controller.addUserID(viewPlayer1,"UID0");
+        viewPlayer1.getConnection().setUserID("UID0");
+        message = new GameConfigMessage("UID1", "secondo", MessageSubType.ANSWER, 3, false, false, false);
+        message.setView(viewPlayer2);
+        viewPlayer2.notify(message);
+        controller.addUserID(viewPlayer2,"UID1");
+        viewPlayer2.getConnection().setUserID("UID1");
+        message = new GameConfigMessage("UID2", "terzo", MessageSubType.ANSWER, 3, false, false, false);
+        message.setView(viewPlayer3);
+        viewPlayer3.notify(message);
+        controller.addUserID(viewPlayer3,"UID2");
+        viewPlayer3.getConnection().setUserID("UID2");
+        controller.setGameStatus(Response.PLACEWORKERSDONE);
+        controller.createQueue();
+
+        //
+        //test phase
+        //
+
+        controller.getActualPlayers().get(0).setHasPlacedWorkers(true);
+        controller.getActualPlayers().get(1).setHasPlacedWorkers(true);
+        controller.getActualPlayers().get(2).setHasPlacedWorkers(true);
+
+        controller.setCurrPlayer(controller.getActualPlayers().get(2));
+        viewPlayer3.setYourTurn(true);
+        Message message2 = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID()
+                ,controller.getCurrentPlayer().getNickName(), MessageType.ENDTURN,MessageSubType.UPDATE);
+        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(message2);
+        assertEquals(Response.STARTTURN,controller.getGameStatus());
 
     }
 
     @Test
     void stopStartedGame() {
+        //
+        //test to see if the game is stopped after a disconnection or a lose
+        //
 
         GameConfigMessage message = new GameConfigMessage("UID0", "primo", MessageSubType.ANSWER, 3, false, false, false);
         message.setView(viewPlayer1);
@@ -401,6 +536,10 @@ class GameControllerTest {
 
     @Test
     void disconnectTimerEnded() {
+        //
+        //test to see if a player is disconnected when the timer for the lobby end
+        //
+
         GameConfigMessage message = new GameConfigMessage("UID1","primo", MessageSubType.ANSWER,3,false,false,false);
         message.setView(viewPlayer1);
         controller.addUserID(viewPlayer1,"UID1");
@@ -426,6 +565,10 @@ class GameControllerTest {
 
     @Test
     void disconnectBack() {
+        //
+        //test to see if the player is removed from the lobby when he press back
+        //
+
         GameConfigMessage message = new GameConfigMessage("UID1", "primo", MessageSubType.ANSWER, 3, false, false, false);
         message.setView(viewPlayer1);
         controller.addUserID(viewPlayer1, "UID1");
@@ -456,6 +599,10 @@ class GameControllerTest {
 
     @Test
     void disconnectNickMaxTry(){
+        //
+        //test to see if the player is moved on another game after he puts the same nick for 3 times
+        //
+
         GameConfigMessage message = new GameConfigMessage("UID1", "primo", MessageSubType.ANSWER, 3, false, false, false);
         message.setView(viewPlayer1);
         controller.addUserID(viewPlayer1, "UID1");
@@ -486,6 +633,10 @@ class GameControllerTest {
 
     @Test
     void isFreeNick() {
+        //
+        //test to see if the controller could check correctly the presence of a nickname
+        //
+
         GameConfigMessage message = new GameConfigMessage("UID1","primo", MessageSubType.ANSWER,3,false,false,false);
         message.setView(viewPlayer1);
         controller.addUserID(viewPlayer1,"UID1");
@@ -497,6 +648,10 @@ class GameControllerTest {
 
     @Test
     void stopper(){
+        //
+        //test to see if the game don't have a stopper at the beginning of the match
+        //
+
         assertNull(controller.getStopper());
         assertFalse(controller.hasStopper());
     }

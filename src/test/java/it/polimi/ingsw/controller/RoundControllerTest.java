@@ -1,8 +1,11 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.Response;
+import it.polimi.ingsw.model.cards.Card;
+import it.polimi.ingsw.model.cards.CardLoader;
 import it.polimi.ingsw.model.map.*;
 import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.model.player.TurnStatus;
 import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.network.server.ClientHandler;
 import it.polimi.ingsw.network.server.Server;
@@ -14,8 +17,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.rules.Timeout;
 
 import java.net.Socket;
+import java.nio.charset.IllegalCharsetNameException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -56,6 +62,15 @@ class RoundControllerTest {
 
         public void setGameStatus(Response status){ game.setGameStatus(status);}
 
+        public void setCurrPlayer(Player player){game.setCurrentPlayer(player);
+        }
+
+        public void placeWork(Integer[] tile1,Integer[] tile2){
+            game.placeWorkersOnMap(tile1,tile2);
+        }
+
+        public void assignPermCon(){game.assignPermanentConstraint();}
+
         public boolean hasPlayer(int tile){
             return game.getGameMap().getMap().get(tile-1).hasPlayer();
         }
@@ -85,11 +100,14 @@ class RoundControllerTest {
     StubGameController controller;
     Server server;
     List<Square> map = MapLoader.loadMap();
+    Map<String,Card> deck = CardLoader.loadCards();
 
     @BeforeEach
     void setup(){
-
+        //
         //setup to start the game until the very first turn.
+        //
+
         controller = new StubGameController(3,"GID01");
         connection1 = new ClientHandler(server,new Socket());
         connection2 = new ClientHandler(server,new Socket());
@@ -129,60 +147,41 @@ class RoundControllerTest {
                 ,controller.getCurrentPlayer().getNickName(), MessageType.ENDTURN,MessageSubType.UPDATE);
         controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(message2);
 
-        Message cardMessage = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID()
-                ,MessageType.CHOOSECARD,MessageSubType.ANSWER,"hera");
-        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(cardMessage);
-        message2 = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID()
-                ,controller.getCurrentPlayer().getNickName(), MessageType.ENDTURN,MessageSubType.UPDATE);
-        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(message2);
-
-        cardMessage = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID()
-                ,MessageType.CHOOSECARD,MessageSubType.ANSWER,"chronus");
-        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(cardMessage);
-        message2 = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID()
-                ,controller.getCurrentPlayer().getNickName(), MessageType.ENDTURN,MessageSubType.UPDATE);
-        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(message2);
-
-        cardMessage = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID()
-                ,MessageType.CHOOSECARD,MessageSubType.ANSWER,"athena");
-        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(cardMessage);
-        message2 = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID()
-                ,controller.getCurrentPlayer().getNickName(), MessageType.ENDTURN,MessageSubType.UPDATE);
-        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(message2);
+        controller.getActualPlayers().get(1).setPower(deck.get("hera"));
+        controller.getActualPlayers().get(0).setPower(deck.get("chronus"));
+        controller.getActualPlayers().get(2).setPower(deck.get("athena"));
+        controller.assignPermCon();
 
         Integer[] tile1 = {0,0};
         Integer[] tile2 = {4,4};
-        PlaceWorkersMessage placeMessage = new PlaceWorkersMessage(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID(),
-                MessageSubType.ANSWER,tile1,tile2);
-        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(placeMessage);
-        message2 = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID()
-                ,controller.getCurrentPlayer().getNickName(), MessageType.ENDTURN,MessageSubType.UPDATE);
-        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(message2);
+        controller.setCurrPlayer(controller.getActualPlayers().get(1));
+        controller.placeWork(tile1,tile2);
 
         tile1 = new Integer[]{3, 2};
         tile2 = new Integer[]{4, 3};
-        placeMessage = new PlaceWorkersMessage(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID(),
-                MessageSubType.ANSWER,tile1,tile2);
-        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(placeMessage);
-        message2 = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID()
-                ,controller.getCurrentPlayer().getNickName(), MessageType.ENDTURN,MessageSubType.UPDATE);
-        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(message2);
+        controller.setCurrPlayer(controller.getActualPlayers().get(0));
+        controller.placeWork(tile1,tile2);
 
         tile1 = new Integer[]{2, 3};
         tile2 = new Integer[]{3, 3};
-        placeMessage = new PlaceWorkersMessage(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID(),
-                MessageSubType.ANSWER,tile1,tile2);
-        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(placeMessage);
-        message2 = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID()
-                ,controller.getCurrentPlayer().getNickName(), MessageType.ENDTURN,MessageSubType.UPDATE);
-        controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(message2);
+        controller.setCurrPlayer(controller.getActualPlayers().get(2));
+        controller.placeWork(tile1,tile2);
 
         controller.changeSquare(8);
+        controller.setGameStatus(Response.STARTTURN);
+        controller.setCurrPlayer(controller.getActualPlayers().get(1));
+        controller.getActualPlayers().get(1).setTurnStatus(TurnStatus.PLAYTURN);
+        controller.getActualPlayers().get(0).setTurnStatus(TurnStatus.IDLE);
+        controller.getActualPlayers().get(2).setTurnStatus(TurnStatus.IDLE);
 
     }
 
     @Test
     void handleWorkerChoice() {
+        //
+        //test to see the controller add correctly 3 players
+        //
+
         Message workMessage = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID(),
                 MessageType.WORKERCHOICE, MessageSubType.ANSWER,"worde");
         controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(workMessage);
@@ -199,6 +198,10 @@ class RoundControllerTest {
 
     @Test
     void permanentConstraint() {
+        //
+        //test to see the permanent constraint are assigned to the right players
+        //
+
         assertEquals(0,controller.getActualPlayers().get(1).getConstraint().size());
         assertEquals("hera",controller.getActualPlayers().get(0).getConstraint().get(0).getName());
         assertEquals("hera",controller.getActualPlayers().get(2).getConstraint().get(0).getName());
@@ -206,6 +209,10 @@ class RoundControllerTest {
 
     @Test
     void handleMove() {
+        //
+        //test to see if the move works correctly and if are modified the right squares
+        //
+
         Message workMessage = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID(),
                 MessageType.WORKERCHOICE, MessageSubType.ANSWER,"worker1");
         controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(workMessage);
@@ -230,6 +237,10 @@ class RoundControllerTest {
 
     @Test
     void handleConstraint(){
+        //
+        //test to see if non Permanent constraint(athena) are assigned and removed at the end of the turn correctly
+        //
+
         controller.setGameStatus(Response.ENDTURN);
         Message message2 = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID()
                 ,controller.getCurrentPlayer().getNickName(), MessageType.ENDTURN,MessageSubType.UPDATE);
@@ -295,6 +306,10 @@ class RoundControllerTest {
 
     @Test
     void handleWrongSquare(){
+        //
+        //test to see if the controller recognise when the client send wrong squares
+        //
+
         Message workMessage = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID(),
                 MessageType.WORKERCHOICE, MessageSubType.ANSWER,"worker1");
         controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(workMessage);
@@ -317,6 +332,10 @@ class RoundControllerTest {
 
     @Test
     void handleBuild(){
+        //
+        //test to see if the build works correctly
+        //
+
         Message workMessage = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID(),
                 MessageType.WORKERCHOICE, MessageSubType.ANSWER,"worker1");
         controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(workMessage);
@@ -345,6 +364,10 @@ class RoundControllerTest {
 
     @Test
     void checkMoveVictory() {
+        //
+        //test to see if the win is notified in the correct moment
+        //
+
         Message workMessage = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID(),
                 MessageType.WORKERCHOICE, MessageSubType.ANSWER,"worker1");
         controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(workMessage);
@@ -423,6 +446,10 @@ class RoundControllerTest {
 
     @Test
     void checkMoveMismatch(){
+        //
+        //test to see if the controller notify when there is an error in what the client has done
+        //
+
         Message workMessage = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID(),
                 MessageType.WORKERCHOICE, MessageSubType.ANSWER,"worker1");
         controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(workMessage);
@@ -459,6 +486,10 @@ class RoundControllerTest {
 
     @Test
     void checkBuildVictory() {
+        //
+        //test to see if the build victory is notified correctly
+        //
+
         Message workMessage = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID(),
                 MessageType.WORKERCHOICE, MessageSubType.ANSWER,"worker1");
         controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(workMessage);
@@ -524,6 +555,10 @@ class RoundControllerTest {
 
     @Test
     void flowError(){
+        //
+        //test to see if the controller handle well wrong messages in wrong status of the game
+        //
+
         MoveWorkerMessage messageMove = new MoveWorkerMessage(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID(),
                 controller.getCurrentPlayer().getNickName(), Directions.EST,Response.NOTWIN,null,null);
 
@@ -533,6 +568,10 @@ class RoundControllerTest {
 
     @Test
     void eliminatePlayerGameEnded() {
+        //
+        //test to see if the controller correctly remove a player that lose
+        //
+
         controller.setGameStatus(Response.ENDTURN);
 
         controller.changeSquare(3);
@@ -580,6 +619,10 @@ class RoundControllerTest {
 
     @Test
     void getUserIdFromPlayer(){
+        //
+        //test to the userID is returned correctly
+        //
+
         assertEquals("UID0",controller.getUserIDFromPlayer(controller.getActualPlayers().get(0)));
     }
 
