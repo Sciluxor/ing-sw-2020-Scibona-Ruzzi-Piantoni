@@ -52,7 +52,7 @@ public class FlowStatutsLoader {
         }
 
         public static ArrayList<MessageType> getNextMessageFromStatus(Response status){
-            return nextMessageFromStatus.get(status);
+            return new ArrayList<>(nextMessageFromStatus.get(status));
         }
 
         public static boolean isRightMessage(Response status, MessageType type){
