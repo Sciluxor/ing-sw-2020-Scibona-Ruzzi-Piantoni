@@ -301,7 +301,6 @@ public class Gui extends ClientGameController {
     @Override
     public void onTurnTimerEnded(String stopper) {
         SwingUtilities.invokeLater(() -> {
-            System.out.println("on turn");
             constructorPopUp = new PopUp(this, d, stopper);
             board.eliminateAllFromAll();
             popUp.remove(lobbyPanel);
@@ -321,7 +320,6 @@ public class Gui extends ClientGameController {
     @Override
     public void onStoppedGame(String stopper) {
         SwingUtilities.invokeLater(() -> {
-            System.out.println("on stopped");
             constructorPopUp = new PopUp(this, d, stopper);
             board.eliminateAllFromAll();
             popUp.remove(lobbyPanel);

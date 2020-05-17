@@ -200,10 +200,10 @@ public class Board extends Observable {
     it.polimi.ingsw.model.player.Color colorOpponent1;
     it.polimi.ingsw.model.player.Color colorOpponent2;
     int placed = 0;
-    List<Integer> avaiableWorkers = new ArrayList<>();
-    List<Integer> avaiableWorkersPositions = new ArrayList<>();
-    List<Integer> avaiableMovePositions = new ArrayList<>();
-    List<Integer> avaiableBuildPositions = new ArrayList<>();
+    List<Integer> availableWorkers = new ArrayList<>();
+    List<Integer> availableWorkersPositions = new ArrayList<>();
+    List<Integer> availableMovePositions = new ArrayList<>();
+    List<Integer> availableBuildPositions = new ArrayList<>();
     int workerChoosen = 0;
     int tileWorkerChosen = 0;
     Color selectWorkerBorder = Color.CYAN;
@@ -1540,11 +1540,16 @@ public class Board extends Observable {
     private class AvaiableWorkers implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (avaiableMovePositions.size() != 0){
-                eliminatePreviousPositionsActions(avaiableMovePositions);
+            if (availableMovePositions.size() != 0){
+                eliminatePreviousPositionsActions(availableMovePositions);
             }
-            avaiableWorkers = gui.availableWorkers();
-            for (Integer x : avaiableWorkers){
+            if (availableBuildPositions.size() != 0){
+                removeBuildBorder(availableBuildPositions);
+                availableBuildPositions.clear();
+            }
+
+            availableWorkers = gui.availableWorkers();
+            for (Integer x : availableWorkers){
                 for (int y = 0; y < 25; y++){
                     if (mapMyWorkers[y] == x){
                         eliminateMouseClass(mapButtons[y], ColorBorder.class);
@@ -1552,7 +1557,7 @@ public class Board extends Observable {
                         mapButtons[y].setBorder(BorderFactory.createLineBorder(selectWorkerBorder, 5));
                         mapButtons[y].setBorderPainted(true);
                         mapButtons[y].addActionListener(new SelectWorker());
-                        avaiableWorkersPositions.add(y);
+                        availableWorkersPositions.add(y);
                         y = 24;
                     }
                 }
@@ -1566,7 +1571,7 @@ public class Board extends Observable {
             mapButtons[x - 1].setBorderPainted(false);
             mapButtons[x - 1].addMouseListener(new ColorBorder());
         }
-        avaiableMovePositions.clear();
+        availableMovePositions.clear();
     }
 
     private class SelectWorker implements ActionListener{
@@ -1575,7 +1580,7 @@ public class Board extends Observable {
             JButton c = (JButton) e.getSource();
             int pos = Integer.parseInt(c.getName());
             gui.setWorker(mapMyWorkers[pos]);
-            for (Integer k : avaiableWorkersPositions){
+            for (Integer k : availableWorkersPositions){
                 eliminateActionClass(mapButtons[k], SelectWorker.class);
                 mapButtons[k].setBorderPainted(false);
 
@@ -1589,19 +1594,25 @@ public class Board extends Observable {
             buttonMultiUse.setVisible(false);
             workerChoosen = mapMyWorkers[pos];
             tileWorkerChosen = pos;
-            avaiableWorkersPositions.clear();
+            availableWorkersPositions.clear();
         }
     }
 
     public void setVisibleButtons(List<MessageType> actions){
+        setVisibleMove(true);
+        setVisibleBuild(true);
+        setEnableMove(false);
+        setEnableBuild(false);
+        setEnableEndturn(false);
+        System.out.println("Board :" + actions);
         for (MessageType mess : actions){
             switch (mess){
-                case MOVEWORKER:
-                    setVisibleMove(true);
+                case BUILDWORKER:
+                    setEnableBuild(true);
                     break;
 
-                case BUILDWORKER:
-                    setVisibleBuild(true);
+                case MOVEWORKER:
+                    setEnableMove(true);
                     break;
 
                 case WORKERCHOICE:
@@ -1609,7 +1620,7 @@ public class Board extends Observable {
                     break;
 
                 case ENDTURN:
-                    setVisibleEndturn(true);
+                    setEnableEndturn(true);
                     break;
                 default:
             }
@@ -1619,9 +1630,9 @@ public class Board extends Observable {
     private class SeeMove implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-            avaiableMovePositions = gui.availableMoveSquare();
+            availableMovePositions = gui.availableMoveSquare();
 
-            for (Integer x : avaiableMovePositions){
+            for (Integer x : availableMovePositions){
                 eliminateMouseClass(mapButtons[x - 1], ColorBorder.class);
                 eliminateActionClass(mapButtons[x - 1], Move.class);
                 eliminateActionClass(mapButtons[x - 1], ShowButtonsBuild.class);
@@ -1637,7 +1648,7 @@ public class Board extends Observable {
         public void actionPerformed(ActionEvent e) {
             JButton c = (JButton) e.getSource();
             responce = gui.moveWorker(Integer.parseInt(c.getName()) + 1);
-            for (Integer x : avaiableMovePositions){
+            for (Integer x : availableMovePositions){
                 eliminateActionClass(mapButtons[x - 1], Move.class);
                 mapButtons[x - 1].setBorderPainted(false);
                 mapButtons[x - 1].addMouseListener(new ColorBorder());
@@ -1647,6 +1658,7 @@ public class Board extends Observable {
             setVisibleChoose(false);
             setVisibleMove(false);
             setVisibleBuild(false);
+            setVisibleEndturn(true);
             gui.mapNextAction(responce);
         }
     }
@@ -1786,6 +1798,22 @@ public class Board extends Observable {
     private void setVisibleChoose(boolean bool){
         labelChooseWorker.setVisible(bool);
         buttonMultiUse.setVisible(bool);
+    }
+
+    private void setEnableEndturn(boolean bool){
+        buttonEndturn.setEnabled(bool);
+    }
+
+    private void setEnableMove(boolean bool){
+        buttonMove.setEnabled(bool);
+    }
+
+    private void setEnableBuild(boolean bool){
+        buttonBuild.setEnabled(bool);
+    }
+
+    private void setEnableChoose(boolean bool){
+        buttonMultiUse.setEnabled(bool);
     }
 
     public void displayLose(String nick, boolean isYourPlayer){
@@ -1964,9 +1992,9 @@ public class Board extends Observable {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            avaiableBuildPositions = gui.availableBuildSquare();
+            availableBuildPositions = gui.availableBuildSquare();
 
-            for (Integer x : avaiableBuildPositions){
+            for (Integer x : availableBuildPositions){
 
                 eliminateMouseClass(mapButtons[x - 1], ColorBorder.class);
                 eliminateActionClass(mapButtons[x - 1], ShowButtonsBuild.class);
@@ -2044,7 +2072,8 @@ public class Board extends Observable {
             setVisibleChoose(false);
             setVisibleMove(false);
             setVisibleBuild(false);
-            removeBuildBorder(avaiableBuildPositions);
+            setVisibleEndturn(true);
+            removeBuildBorder(availableBuildPositions);
             removeBuildLvl();
             gui.mapNextAction(responce);
         }
@@ -2069,7 +2098,8 @@ public class Board extends Observable {
             setVisibleChoose(false);
             setVisibleMove(false);
             setVisibleBuild(false);
-            removeBuildBorder(avaiableBuildPositions);
+            setVisibleEndturn(true);
+            removeBuildBorder(availableBuildPositions);
             removeBuildLvl();
             gui.mapNextAction(responce);
         }
@@ -2093,7 +2123,8 @@ public class Board extends Observable {
             setVisibleChoose(false);
             setVisibleMove(false);
             setVisibleBuild(false);
-            removeBuildBorder(avaiableBuildPositions);
+            setVisibleEndturn(true);
+            removeBuildBorder(availableBuildPositions);
             removeBuildLvl();
             gui.mapNextAction(responce);
         }
@@ -2112,7 +2143,8 @@ public class Board extends Observable {
             setVisibleChoose(false);
             setVisibleMove(false);
             setVisibleBuild(false);
-            removeBuildBorder(avaiableBuildPositions);
+            setVisibleEndturn(true);
+            removeBuildBorder(availableBuildPositions);
             removeBuildLvl();
             gui.mapNextAction(responce);
         }
@@ -2142,7 +2174,8 @@ public class Board extends Observable {
             setVisibleChoose(false);
             setVisibleMove(false);
             setVisibleBuild(false);
-            removeBuildBorder(avaiableBuildPositions);
+            setVisibleEndturn(true);
+            removeBuildBorder(availableBuildPositions);
             removeBuildLvl();
             gui.mapNextAction(responce);
         }
