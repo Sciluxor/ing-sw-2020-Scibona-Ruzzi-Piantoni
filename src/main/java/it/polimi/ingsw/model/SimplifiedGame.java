@@ -14,7 +14,7 @@ public class SimplifiedGame{
     private final Integer numberOfPlayers;
     private List<Player> settedPlayers;
     private boolean hasStopper;
-    private Map<String, Card> deck;
+    private final Map<String, Card> deck;
     private List<String> availableCards;
     private Player currentPlayer;
     private Player clientPlayer;
@@ -109,7 +109,6 @@ public class SimplifiedGame{
                     oldSquare.setWorker(player.getWorkers().get(WorkerName.getNumberWorker(newSquare.getWorker().getName()) -1));
                     oldSquare.getWorker().setPreviousBoardPosition(oldSquare.getWorker().getBoardPosition());
                     oldSquare.getWorker().setBoardPosition(oldSquare);
-                    //oldSquare.getWorker().setPreviousBuildPosition(newSquare.getWorker().getPreviousBuildPosition());
                 }
             }
         }

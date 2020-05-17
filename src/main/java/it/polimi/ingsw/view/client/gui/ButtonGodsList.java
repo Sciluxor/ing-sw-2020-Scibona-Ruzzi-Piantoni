@@ -1,7 +1,5 @@
 package it.polimi.ingsw.view.client.gui;
 
-import it.polimi.ingsw.utils.Logger;
-
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;

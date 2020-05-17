@@ -5,7 +5,6 @@ import it.polimi.ingsw.network.message.*;
 import it.polimi.ingsw.utils.ClientPingTimerTask;
 import it.polimi.ingsw.utils.ConfigLoader;
 import it.polimi.ingsw.utils.ConstantsContainer;
-import it.polimi.ingsw.utils.Logger;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -135,8 +134,8 @@ public class ClientConnection implements ConnectionInterface,Runnable {
                 }
             } catch (IOException e) {
                 closeConnection();
+                ClientGameController.LOGGER.info("App Disconnected");
             } catch (ClassNotFoundException e) {
-                Logger.info("App Disconnected");
                 ClientGameController.LOGGER.severe(e.getMessage());
             }
         }

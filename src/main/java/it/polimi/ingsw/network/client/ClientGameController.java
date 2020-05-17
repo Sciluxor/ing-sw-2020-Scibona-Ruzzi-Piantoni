@@ -224,19 +224,12 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     public synchronized void availableActions(){
-        ArrayList<MessageType> actions = FlowStatutsLoader.getNextMessageFromStatus(game.getGameStatus());
-        ArrayList<MessageType> toRemoveActions = new ArrayList<>();
-        System.out.println("Pee Cliebt :" + actions);
+        List<MessageType> actions = FlowStatutsLoader.getNextMessageFromStatus(game.getGameStatus());
+        List<MessageType> toRemoveActions = new ArrayList<>();
         for(MessageType action: actions){
-            if(action.equals(MessageType.MOVEWORKER) &&
-                    game.getCurrentPlayer().findWorkerMove(game.getGameMap(),game.getCurrentPlayer().getCurrentWorker()).isEmpty()){
-                System.out.println(game.getCurrentPlayer().getCurrentWorker());
-                    toRemoveActions.add(action);
-            }
-            else if(action.equals(MessageType.BUILDWORKER) &&
-                    game.getCurrentPlayer().findPossibleBuild(game.getGameMap(),game.getCurrentPlayer().getCurrentWorker()).isEmpty()){
-                System.out.println(game.getCurrentPlayer().getCurrentWorker());
-                System.out.println(game.getCurrentPlayer().findPossibleBuild(game.getGameMap(),game.getCurrentPlayer().getCurrentWorker()).size());
+            if((action.equals(MessageType.MOVEWORKER) && game.getCurrentPlayer().findWorkerMove(game.getGameMap(),game.getCurrentPlayer().getCurrentWorker()).isEmpty()) ||
+                    (action.equals(MessageType.BUILDWORKER) && game.getCurrentPlayer().findPossibleBuild(game.getGameMap(),game.getCurrentPlayer().getCurrentWorker()).isEmpty())){
+
                     toRemoveActions.add(action);
             }
         }
@@ -244,7 +237,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         for(MessageType toRemove :toRemoveActions) {
             actions.remove(toRemove);
         }
-        System.out.println("Pot Cliebt :" + actions);
+
         eventQueue.add(() -> displayActions(actions));
     }
 

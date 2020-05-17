@@ -14,7 +14,7 @@ public class FlowStatutsLoader {
             throw new IllegalStateException("FLowStatusLoader class cannot be instantiated");
         }
 
-        private static final Map<Response,ArrayList<MessageType>> nextMessageFromStatus = new EnumMap<>(Response.class);
+        private static final Map<Response,List<MessageType>> nextMessageFromStatus = new EnumMap<>(Response.class);
 
         private static class FlowContainer{
             Response type;
@@ -39,24 +39,24 @@ public class FlowStatutsLoader {
 
 
             for(FlowContainer container: containers){
-                ArrayList<MessageType> arrayList = createArrayListFromArray(container.next);
+                List<MessageType> arrayList = createArrayListFromArray(container.next);
                 nextMessageFromStatus.put(container.type,arrayList);
 
             }
 
         }
 
-        private static ArrayList<MessageType> createArrayListFromArray(MessageType[] types) {
+        private static List<MessageType> createArrayListFromArray(MessageType[] types) {
 
             return new ArrayList<>(Arrays.asList(types));
         }
 
-        public static ArrayList<MessageType> getNextMessageFromStatus(Response status){
+        public static List<MessageType> getNextMessageFromStatus(Response status){
             return new ArrayList<>(nextMessageFromStatus.get(status));
         }
 
         public static boolean isRightMessage(Response status, MessageType type){
-            ArrayList<MessageType> possibleType = getNextMessageFromStatus(status);
+            List<MessageType> possibleType = getNextMessageFromStatus(status);
             for(MessageType messageType: possibleType){
                 if(type.equals(messageType)){
                     return true;

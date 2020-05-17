@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.Response;
 import it.polimi.ingsw.model.map.Building;
 import it.polimi.ingsw.model.map.Directions;
 import it.polimi.ingsw.model.map.GameMap;
+import it.polimi.ingsw.utils.ConstantsContainer;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -72,7 +73,7 @@ public class Player implements Serializable {
 
     public void setPower(Card power){
         if (power == null)
-            throw new NullPointerException("power == null");
+            throw new NullPointerException(ConstantsContainer.NULLPARAMETERS);
 
         this.power = power;
     }
@@ -85,7 +86,7 @@ public class Player implements Serializable {
 
     public void setTurnStatus(TurnStatus turnStatus) {
         if (turnStatus == null)
-            throw new NullPointerException("turnStatus == null");
+            throw new NullPointerException(ConstantsContainer.NULLPARAMETERS);
 
         this.turnStatus = turnStatus;
     }
@@ -94,14 +95,14 @@ public class Player implements Serializable {
 
     public void setConstraint(Card constraint) {
         if (constraint == null)
-            throw new NullPointerException("constraint == null");
+            throw new NullPointerException(ConstantsContainer.NULLPARAMETERS);
 
         this.constraint.add(constraint);
     }
 
     public void removeConstraint(Card constraint){
         if (constraint == null)
-            throw new NullPointerException("constraint == null");
+            throw new NullPointerException(ConstantsContainer.NULLPARAMETERS);
 
         this.constraint.remove(constraint);
     }
@@ -111,7 +112,7 @@ public class Player implements Serializable {
 
     public void setCurrentWorker(Worker currentWorker) {
         if (currentWorker == null)
-            throw new NullPointerException("currentWorker == null");
+            throw new NullPointerException(ConstantsContainer.NULLPARAMETERS);
 
         this.currentWorker = currentWorker;
     }
@@ -120,7 +121,7 @@ public class Player implements Serializable {
 
     public void setUnmovedWorker(Worker unmovedWorker) {
         if (unmovedWorker == null)
-            throw new NullPointerException("unmovedWorker == null");
+            throw new NullPointerException(ConstantsContainer.NULLPARAMETERS);
 
         this.unmovedWorker = unmovedWorker;
     }
@@ -133,18 +134,18 @@ public class Player implements Serializable {
 
     public Worker getWorkerFromString (String worker){
         if (worker == null)
-            throw new NullPointerException("worker == null");
+            throw new NullPointerException(ConstantsContainer.NULLPARAMETERS);
 
         WorkerName name = WorkerName.parseInput(worker);
         for (Worker work : workers)
             if(work.getName().equals(name))
                 return work;
-        throw new IllegalArgumentException("Wrong name");
+        throw new IllegalArgumentException(ConstantsContainer.NULLPARAMETERS);
     }
 
     public boolean selectCurrentWorker(GameMap gameMap, String worker){
         if (gameMap == null || worker == null)
-            throw new NullPointerException("gameMap or worker == null");
+            throw new NullPointerException(ConstantsContainer.NULLPARAMETERS);
 
         Worker worker1 = getWorkerFromString(worker);
         if (!checkIfCanMove(gameMap, worker1)){
@@ -156,7 +157,7 @@ public class Player implements Serializable {
 
     public boolean checkIfCanMove(GameMap gameMap, Worker worker){
         if (gameMap == null || worker == null)
-            throw new NullPointerException("gameMap or worker == null");
+            throw new NullPointerException(ConstantsContainer.NULLPARAMETERS);
 
         List<Directions> direction = findWorkerMove(gameMap, worker);
         if(!direction.isEmpty()){
@@ -182,7 +183,7 @@ public class Player implements Serializable {
 
     public boolean checkIfLoose(GameMap gameMap){
         if (gameMap == null)
-            throw new NullPointerException("gameMap  == null");
+            throw new NullPointerException(ConstantsContainer.NULLPARAMETERS);
 
 
         return !checkIfCanMove(gameMap, workers.get(0)) && !checkIfCanMove(gameMap, workers.get(1));
@@ -194,35 +195,35 @@ public class Player implements Serializable {
 
     public List<Directions> findWorkerMove(GameMap gameMap, Worker worker){
         if (gameMap == null || worker == null)
-            throw new NullPointerException("gameMap or worker == null");
+            throw new NullPointerException(ConstantsContainer.NULLPARAMETERS);
 
         return power.findWorkerMove(gameMap, worker);
     }
 
     public Response executeWorkerMove(GameMap gameMap, Directions direction){
         if (gameMap == null || direction == null)
-            throw new NullPointerException("gameMap or direction == null");
+            throw new NullPointerException(ConstantsContainer.NULLPARAMETERS);
 
         return power.executeWorkerMove(gameMap, direction, this);
     }
 
     public List<Directions> findPossibleBuild(GameMap gameMap, Worker worker){
         if (gameMap == null || worker == null)
-            throw new NullPointerException("gameMap or worker == null");
+            throw new NullPointerException(ConstantsContainer.NULLPARAMETERS);
 
         return power.findPossibleBuild(gameMap, worker);
     }
 
     public Response executeBuild(GameMap gameMap, Building building, Directions direction){
         if (gameMap == null || building == null || direction == null)
-            throw new NullPointerException("gameMap or building or direction == null");
+            throw new NullPointerException(ConstantsContainer.NULLPARAMETERS);
 
         return power.executeBuild(gameMap, building, direction, this.currentWorker);
     }
 
     public Response checkVictory(GameMap gameMap){
         if (gameMap == null)
-            throw new NullPointerException("gameMap == null");
+            throw new NullPointerException(ConstantsContainer.NULLPARAMETERS);
 
         return  power.checkVictory(gameMap, this);
     }
@@ -230,7 +231,7 @@ public class Player implements Serializable {
 
     public void assignConstraint(List<Player> playerList){
         if(playerList == null)
-            throw new NullPointerException("null playerArrayList");
+            throw new NullPointerException(ConstantsContainer.NULLPARAMETERS);
 
         for(Player player: playerList){
             if(!player.equals(this))

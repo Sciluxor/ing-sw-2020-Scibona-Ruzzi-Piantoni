@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.Response;
 import it.polimi.ingsw.model.player.TurnStatus;
 import it.polimi.ingsw.network.message.*;
+import it.polimi.ingsw.network.server.Server;
 import it.polimi.ingsw.utils.*;
 import it.polimi.ingsw.utils.Observer;
 import it.polimi.ingsw.view.server.VirtualView;
@@ -391,6 +392,17 @@ public class GameController implements Observer<Message> {
         }
     }
 
+    public synchronized void checkIfToReset(){
+        if(game.getGameStatus().equals(Response.WIN) || game.getGameStatus().equals(Response.LOSEWIN)){
+            for(Player player :getActualPlayers()){
+                game.removeObserver(getViewFromNickName(player.getNickName()));
+            }
+            for(Player player :game.getLosePlayers()){
+                game.removeObserver(getViewFromNickName(player.getNickName()));
+            }
+        }
+    }
+
 
     //
     //method to dispatch the new messagge to the right place
@@ -409,7 +421,7 @@ public class GameController implements Observer<Message> {
                 broadcastMessage(message);
                 break;
             case ENDTURN:
-                if(!getViewFromUserID(message.getSender()).isYourTurn()){   //manca il controllo del flow
+                if(!getViewFromUserID(message.getSender()).isYourTurn()){
                     getViewFromUserID(message.getSender()).handleNotYourTurn();
                 }else {
                     handleEndTun(message);
@@ -421,14 +433,7 @@ public class GameController implements Observer<Message> {
                     getViewFromUserID(message.getSender()).handleNotYourTurn(); //decidere come gestire questa eccezione e aggiungere al logger l'errore
                 }else {
                     sendToRoundController(message);
-                    if(game.getGameStatus().equals(Response.WIN) || game.getGameStatus().equals(Response.LOSEWIN)){
-                        for(Player player :getActualPlayers()){
-                            game.removeObserver(getViewFromNickName(player.getNickName()));
-                        }
-                        for(Player player :game.getLosePlayers()){
-                            game.removeObserver(getViewFromNickName(player.getNickName()));
-                        }
-                    }
+                    checkIfToReset();
                     break;
                 }
         }
@@ -441,7 +446,7 @@ public class GameController implements Observer<Message> {
         try{
             processMessage(message);
         }catch (IllegalStateException ill){
-            Logger.info(ill.getMessage());
+            Server.LOGGER.severe(ill.getMessage());
         }
     }
 
