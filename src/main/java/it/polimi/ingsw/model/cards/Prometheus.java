@@ -58,6 +58,22 @@ public class Prometheus extends Card {
     }
 
     @Override
+    public List<Directions> findPossibleBuild(GameMap gameMap, Worker worker) {
+        List<Directions> possibleBuild = gameMap.buildableSquare(worker);
+        if(hasBuiltBefore)
+            return possibleBuild;
+        else{
+            possibleBuild.removeIf(dir -> wrongBuild(gameMap,worker,dir));
+            return possibleBuild;
+        }
+    }
+
+    public boolean wrongBuild(GameMap gameMap,Worker worker,Directions directions){
+        List<Directions> possibleMove = notUpMove(gameMap,worker);
+        return possibleMove.size() <= 1 && (possibleMove.size() != 1 || possibleMove.get(0).equals(directions));
+    }
+
+    @Override
     public Response executeWorkerMove(GameMap gameMap, Directions directions, Player player) {
         if (gameMap == null || player == null || directions == null)
             throw new NullPointerException("null gameMap or player or direction");

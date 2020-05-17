@@ -56,7 +56,8 @@ public class Apollo extends Card {
                 Square possibleSquare = gameMap.getMap().get(squareTile- 1);
                 if((possibleSquare.getBuildingLevel() >= 0 && possibleSquare.getBuildingLevel() <= levelPosition +1 && !worker.getBoardPosition().equals(possibleSquare) )
                         && possibleSquare.getBuilding() != Building.DOME ){
-                    if(possibleSquare.hasPlayer() && !possibleSquare.getPlayer().getNickName().equals(worker.getBoardPosition().getPlayer().getNickName())){
+                    if(possibleSquare.hasPlayer() && !possibleSquare.getPlayer().getNickName().equals(worker.getBoardPosition().getPlayer().getNickName())
+                         && !gameMap.buildableSquare(possibleSquare.getWorker()).isEmpty() ){
                         reachableSquares.add(dir);
                     }
                     else if(!possibleSquare.hasPlayer())
