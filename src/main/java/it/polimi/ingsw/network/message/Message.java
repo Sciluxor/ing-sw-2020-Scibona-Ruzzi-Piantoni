@@ -11,13 +11,13 @@ public class Message implements Serializable {
     private final MessageType type;
     private  MessageSubType subType;
 
-    private String message = "standard message";
+    private String info = "standard message";
 
     public Message(String sender,MessageType type,MessageSubType subType,String message){
         this.sender = sender;
         this.type = type;
         this.subType = subType;
-        this.message = message;
+        this.info= message;
     }
 
     public Message(String sender,MessageType type,MessageSubType subType){
@@ -38,7 +38,7 @@ public class Message implements Serializable {
         this.type = type;
         this.nickName = nickName;
         this.subType = subType;
-        this.message = message;
+        this.info = message;
     }
 
     public void setMessageSubType(MessageSubType subType){
@@ -59,6 +59,6 @@ public class Message implements Serializable {
     public String getNickName(){return nickName;}
 
     public String getMessage() {
-        return message;
+        return info;
     }
 }

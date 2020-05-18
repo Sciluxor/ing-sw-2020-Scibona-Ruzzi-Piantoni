@@ -188,7 +188,6 @@ public class RoundController {
         if(!response.equals(Response.NOTMOVED) && !areRightSquares(((MoveWorkerMessage)message).getModifiedSquare())) {
             game.setGameStatus(Response.WRONGSQUAREMOVE);  //come faccio a tornare indietro? ormai ho già modificato, magari mettere una response diversa
             mapNextAction(response);
-            System.out.println(response.toString());
             return;
         }
         if (!response.equals(Response.NOTMOVED) && !(checkMoveVictory(message)))

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model.player;
 
-import it.polimi.ingsw.model.map.Building;
 
 public enum WorkerName {
     WORKER1, WORKER2;

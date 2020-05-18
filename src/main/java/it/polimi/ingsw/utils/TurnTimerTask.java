@@ -16,6 +16,6 @@ public class TurnTimerTask extends TimerTask {
 
     @Override
     public void run() {
-        connection.TurnTimerEnded(new Message(connection.getUserID(),connection.getNickName(), MessageType.DISCONNECTION, MessageSubType.TIMEENDED));
+        connection.turnTimerEnded(new Message(connection.getUserID(),connection.getNickName(), MessageType.DISCONNECTION, MessageSubType.TIMEENDED));
     }
 }

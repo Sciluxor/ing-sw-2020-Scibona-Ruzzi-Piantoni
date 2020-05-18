@@ -13,7 +13,6 @@ import it.polimi.ingsw.view.server.VirtualView;
 import java.io.*;
 import java.net.Socket;
 import java.util.Timer;
-import java.util.TimerTask;
 
 public class ClientHandler implements Runnable, ConnectionInterface {
 
@@ -159,7 +158,7 @@ public class ClientHandler implements Runnable, ConnectionInterface {
         sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.PING,MessageSubType.UPDATE));
     }
 
-    public void TurnTimerEnded(Message message){
+    public void turnTimerEnded(Message message){
         server.handleDisconnection(userID,this,message);
     }
 

@@ -224,15 +224,12 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     public synchronized void availableActions(){
-        ArrayList<MessageType> actions = FlowStatutsLoader.getNextMessageFromStatus(game.getGameStatus());
-        ArrayList<MessageType> toRemoveActions = new ArrayList<>();
+        List<MessageType> actions = FlowStatutsLoader.getNextMessageFromStatus(game.getGameStatus());
+        List<MessageType> toRemoveActions = new ArrayList<>();
         for(MessageType action: actions){
-            if(action.equals(MessageType.MOVEWORKER) &&
-                    game.getCurrentPlayer().findWorkerMove(game.getGameMap(),game.getCurrentPlayer().getCurrentWorker()).isEmpty()){
-                    toRemoveActions.add(action);
-            }
-            else if(action.equals(MessageType.BUILDWORKER) &&
-                    game.getCurrentPlayer().findPossibleBuild(game.getGameMap(),game.getCurrentPlayer().getCurrentWorker()).isEmpty()){
+            if((action.equals(MessageType.MOVEWORKER) && game.getCurrentPlayer().findWorkerMove(game.getGameMap(),game.getCurrentPlayer().getCurrentWorker()).isEmpty()) ||
+                    (action.equals(MessageType.BUILDWORKER) && game.getCurrentPlayer().findPossibleBuild(game.getGameMap(),game.getCurrentPlayer().getCurrentWorker()).isEmpty())){
+
                     toRemoveActions.add(action);
             }
         }
@@ -240,6 +237,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         for(MessageType toRemove :toRemoveActions) {
             actions.remove(toRemove);
         }
+
         eventQueue.add(() -> displayActions(actions));
     }
 
