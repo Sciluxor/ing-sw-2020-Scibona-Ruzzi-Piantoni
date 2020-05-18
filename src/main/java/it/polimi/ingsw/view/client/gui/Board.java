@@ -14,7 +14,6 @@ import javax.swing.plaf.basic.BasicInternalFrameUI;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -224,7 +223,9 @@ public class Board extends Observable {
     int tileBuildChoosen = 0;
     static double boldDimension;
     List<String> constraint = new ArrayList<>();
-    MP3 music;
+    static MP3 click;
+    MP3 place;
+    MP3 build;
     MP3 music2;
 
     public void show(Gui instance, Dimension screen, Integer numberOfPlayer, List<Player> players,List<Player> players2, String nickname) throws IOException {
@@ -341,7 +342,10 @@ public class Board extends Observable {
         lTutorial = ImageHandler.setImage("resources/Graphics/tutorial.png", 100, 100, frameSize.width, frameSize.height);
 
         music2 = new MP3("resources/Music/Fruits.mp3");
-        //music2 = new MP3("resources/Music/Atlantis.mp3");
+        click = new MP3("resources/Music/Click.mp3");
+        place = new MP3("resources/Music/Place.mp3");
+        build = new MP3("resources/Music/Build.mp3");
+
         music2.playLoop();
 
         setMyColorWorkers();
@@ -1351,11 +1355,13 @@ public class Board extends Observable {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (placed <= 2) {
+
                 JButton c = (JButton) e.getSource();
                 x = Integer.parseInt(c.getName());
 
                 if (worker1 == 0){
                     if (worker2 == 0) {
+                        place.play();
                         c.setIcon(worker.getIcon());
                         mapButtonsPlayer[x] = true;
                         placed++;
@@ -1366,6 +1372,7 @@ public class Board extends Observable {
 
                     else if (worker2 == 2){
                         if (!mapButtonsPlayer[x] && placed < 2) {
+                            place.play();
                             c.setIcon(worker.getIcon());
                             mapButtonsPlayer[x] = true;
                             placed++;
@@ -1388,6 +1395,7 @@ public class Board extends Observable {
                 else if (worker1 == 1){
                     if (worker2 == 0){
                         if (!mapButtonsPlayer[x] && placed < 2) {
+                            place.play();
                             c.setIcon(worker.getIcon());
                             mapButtonsPlayer[x] = true;
                             placed++;
@@ -1658,6 +1666,7 @@ public class Board extends Observable {
     private class Move implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
+            place.play();
             JButton c = (JButton) e.getSource();
             responce = gui.moveWorker(Integer.parseInt(c.getName()) + 1);
             for (Integer x : availableMovePositions){
@@ -2069,7 +2078,7 @@ public class Board extends Observable {
     private class BuildLvl1 implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            build.play();
             responce = gui.buildWorker(tileBuildChoosen + 1, Building.LVL1);
 
             if (mePlayer.getPower().getName().equalsIgnoreCase("zeus") && mapMyWorkers[tileBuildChoosen] != 0){
@@ -2094,7 +2103,7 @@ public class Board extends Observable {
     private class BuildLvl2 implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            build.play();
             responce = gui.buildWorker(tileBuildChoosen + 1, Building.LVL2);
 
             if (mePlayer.getPower().getName().equalsIgnoreCase("zeus") && mapMyWorkers[tileBuildChoosen] != 0){
@@ -2120,7 +2129,7 @@ public class Board extends Observable {
     private class BuildLvl3 implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            build.play();
             responce = gui.buildWorker(tileBuildChoosen + 1, Building.LVL3);
 
             if (mePlayer.getPower().getName().equalsIgnoreCase("zeus") && mapMyWorkers[tileBuildChoosen] != 0){
@@ -2145,7 +2154,7 @@ public class Board extends Observable {
     private class BuildDome implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            build.play();
             responce = gui.buildWorker(tileBuildChoosen + 1, Building.DOME);
             mapButtons[tileBuildChoosen].setIcon(lvl3Dome.getIcon());
 
@@ -2165,7 +2174,7 @@ public class Board extends Observable {
     private class BuildDomeAtlas implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            build.play();
             if (gui.getLevel(tileBuildChoosen + 1) == 0){
                 mapButtons[tileBuildChoosen].setIcon(dome.getIcon());
             }
@@ -2211,6 +2220,7 @@ public class Board extends Observable {
     private class ButtonPress extends MouseAdapter {
         @Override
         public void mousePressed(MouseEvent e) {
+            click.play();
             JButton c = (JButton) e.getSource();
             if (buttonMove == c) {
                 buttonMove.setIcon(lButtonMovePress.getIcon());

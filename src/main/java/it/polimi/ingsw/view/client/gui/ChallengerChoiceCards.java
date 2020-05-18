@@ -35,6 +35,7 @@ public class ChallengerChoiceCards extends JDesktopPane{
     List<String> cardsChosen = new ArrayList<>();
     List<JButton> godList = new ArrayList<>();
     ButtonGodsList costructor;
+    MP3 click;
 
     public ChallengerChoiceCards(Gui instance, Board instance2, JInternalFrame aframe, Dimension dimensionFrame, Integer numberOfPlayer) throws IOException {
 
@@ -46,6 +47,7 @@ public class ChallengerChoiceCards extends JDesktopPane{
         intFrameSize.setSize(frameSize.getWidth() * 48/100, frameSize.getHeight() * 54/100);
         cardSize.setSize((int) (frameSize.getWidth() * 9/100), (int) (frameSize.getHeight() * 23.15/100)); //(9, 22)
         size30x10.setSize(frameSize.width * 30 / 100, frameSize.height * 10 / 100);
+        click = new MP3("resources/Music/Click.mp3");
 
         final int xconst = frameSize.width * 9/100;
         final int yconst = frameSize.height * 24/100;
@@ -213,6 +215,7 @@ public class ChallengerChoiceCards extends JDesktopPane{
     private class ChooseGod implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
+            click.play();
             JButton c = (JButton)e.getSource();
             if (0 <= chosen && chosen < numberPlayers){
 
@@ -232,6 +235,7 @@ public class ChallengerChoiceCards extends JDesktopPane{
     private class RemoveGod implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
+            click.play();
             JButton c = (JButton)e.getSource();
             eliminateActionClass(c, RemoveGod.class);
             c.setBorder(null);

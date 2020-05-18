@@ -39,6 +39,7 @@ public class MyButton extends JButton{
             LOGGER.severe(e.getMessage());
         }
     }
+    MP3 click = new MP3("resources/Music/Click.mp3");
 
     public MyButton(int n) {
         type = n;
@@ -77,6 +78,7 @@ public class MyButton extends JButton{
 
         @Override
         public void mousePressed(MouseEvent e) {
+            click.play();
             JButton c = (JButton)e.getSource();
             switch (type){
                 case 0:

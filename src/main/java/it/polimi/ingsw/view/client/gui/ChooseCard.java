@@ -39,6 +39,7 @@ public class ChooseCard extends JDesktopPane{
     private int chosen = 0;
     String cardChosen = null;
     String nameChoosing;
+    MP3 click;
 
     public ChooseCard(Board instance, JInternalFrame aframe, int wi, int he, List<String> cards, Integer numberOfPanel, String name) throws IOException {
 
@@ -51,6 +52,7 @@ public class ChooseCard extends JDesktopPane{
         nameChoosing = name;
         godCards = cards;
         costructor = new ButtonGodsList(frameSize, godList);
+        click = new MP3("resources/Music/Click.mp3");
 
         intFrame = new JInternalFrame("", false, false, false, false);
         intFrame.setPreferredSize(intFrameSize);
@@ -227,6 +229,7 @@ public class ChooseCard extends JDesktopPane{
     private class ChooseGod implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
+            click.play();
             JButton c = (JButton)e.getSource();
             if (chosen == 0){
 
@@ -246,6 +249,7 @@ public class ChooseCard extends JDesktopPane{
     private class RemoveGod implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
+            click.play();
             JButton c = (JButton)e.getSource();
             eliminateActionClass(c, ChooseCard.RemoveGod.class);
             c.setBorder(null);

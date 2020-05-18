@@ -17,7 +17,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="ing-sw-2020-Scibona-Ruzzi-Piantoni" options="--add-exports java.base/sun=ALL-UNNAMED" />
+      <module name="ing-sw-2020-Scibona-Ruzzi-Piantoni" options="" />
     </option>
   </component>
 </project>

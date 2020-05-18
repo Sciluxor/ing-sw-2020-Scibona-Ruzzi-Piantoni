@@ -29,6 +29,7 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
     JLabel lpurplePress;
     JLabel lwhite;
     JLabel lwhitePress;
+    MP3 click;
 
     public ChallengerChoiceFirstPlayer(Gui istance, Board istance2, JInternalFrame frame, Dimension dimensionFrame, Integer numberOfPlayer, List<Player> players) throws IOException {
 
@@ -39,6 +40,7 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
         labelSize.setSize(frameSize.width * 30/100, frameSize.height * 10/100);
         setPreferredSize(frameSize);
         setLayout(null);
+        click = new MP3("resources/Music/Click.mp3");
 
         lblue = ImageHandler.setImage("resources/Graphics/button_blue.png", 100, 100, labelSize.width, labelSize.height);
         lbluePress = ImageHandler.setImage("resources/Graphics/button_blue_press.png", 100, 100, labelSize.width, labelSize.height);
@@ -149,6 +151,7 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
 
         @Override
         public void mousePressed(MouseEvent e) {
+            click.play();
             JButton c = (JButton)e.getSource();
 
             for (Player player : board.allPlayer){
