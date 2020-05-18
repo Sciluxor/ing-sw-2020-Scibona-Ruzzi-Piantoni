@@ -239,6 +239,7 @@ public class PopUp {
             gui.newPopUp();
             gui.lobby.backButton.setEnabled(true);
 
+
         }
     }
 
@@ -249,6 +250,7 @@ public class PopUp {
             gui.backToLogin(false);
             gui.frame.setVisible(true);
             gui.popUp.dispose();
+            gui.board.stopMusic();
 
         }
     }

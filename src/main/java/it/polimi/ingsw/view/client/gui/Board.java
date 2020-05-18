@@ -340,8 +340,9 @@ public class Board extends Observable {
         lGlow = ImageHandler.setImage("resources/Graphics/gods/podium/glow.png", 100, 100, frameSize.width * 15/100, frameSize.height * 35/100);
         lTutorial = ImageHandler.setImage("resources/Graphics/tutorial.png", 100, 100, frameSize.width, frameSize.height);
 
-        music = new MP3("resources/Music/Fruits.mp3");
-        music2 = new MP3("resources/Music/Atlantis.mp3");
+        music2 = new MP3("resources/Music/Fruits.mp3");
+        //music2 = new MP3("resources/Music/Atlantis.mp3");
+        music2.playLoop();
 
         setMyColorWorkers();
         setColorWorkers1();
@@ -900,6 +901,11 @@ public class Board extends Observable {
 
     }
 
+    public void stopMusic(){
+        //music2.close();
+        music2.stop();
+    }
+
     private class BackLevel implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -1159,7 +1165,6 @@ public class Board extends Observable {
             internalFrameChallenger1.setBounds((int)((frameSize.width * 50/100) - (internalFrameSize90x90.width * 50/100)), (int) ((frameSize.height * 46/100) - (internalFrameSize90x90.height * 50/100)), internalFrameSize90x90.width, internalFrameSize90x90.height);
             internalFrameChallenger1.getContentPane().add(challengerChoiceCards);
             internalFrameChallenger1.setVisible(true);
-            music.playLoop();
         }
     }
 
@@ -1270,7 +1275,6 @@ public class Board extends Observable {
             internalFrameChooseCards.setBounds((int)((frameSize.width * 50/100) - (internalFrameSize90x90.width * 50/100)), (int) ((frameSize.height * 46/100) - (internalFrameSize90x90.height * 50/100)), internalFrameSize90x90.width, internalFrameSize90x90.height);
             internalFrameChooseCards.getContentPane().add(chooseCard);
             internalFrameChooseCards.setVisible(true);
-            music.close();
         }
     }
 
@@ -2316,6 +2320,7 @@ public class Board extends Observable {
             f.dispose();
             gui.backToLogin(false);
             gui.frame.setVisible(true);
+            music2.stop();
         }
     }
 
@@ -2326,6 +2331,7 @@ public class Board extends Observable {
             gui.backToLogin(false);
             gui.frame.setVisible(true);
             gui.handleLoseExit();
+            music2.stop();
         }
     }
 
