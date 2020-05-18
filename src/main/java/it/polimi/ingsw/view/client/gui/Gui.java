@@ -50,16 +50,12 @@ public class Gui extends ClientGameController {
     static List<Player> players = new ArrayList<>();
     String nickname;
     JButton buttonBackground = new JButton();
+    MP3 sound;
 
 
     private void show() throws IOException {
 
-        Player ale = new Player("Alessandro");
-        Player edo = new Player("Edoardo");
-        Player lui = new Player("Luigi");
-        ale.setColor(Color.BLUE);
-        edo.setColor(Color.WHITE);
-        lui.setColor(Color.PURPLE);
+        sound = new MP3("resources/Music/Fruits.mp3");
 
         constructorPopUp = new PopUp(this, d, null);
         newPopUp();
@@ -78,9 +74,10 @@ public class Gui extends ClientGameController {
         SwingUtilities.updateComponentTreeUI(popUp);
         popUp.setBounds((int) ((d.width * 53/100) - (intFrameSize.width / 2)), (int) ((d.height * 60/100) - (intFrameSize.height / 2)), intFrameSize.width, intFrameSize.height);
         popUp.pack();
-        //popUp.setLocationRelativeTo(null);
         popUp.setResizable(false);
         popUp.setVisible(false);
+
+        sound.playLoop();
 
         frame.setPreferredSize(d);
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -138,6 +135,7 @@ public class Gui extends ClientGameController {
     }
 
     public void backToLogin(boolean bool){
+        sound.playLoop();
         frame.getContentPane().removeAll();
         panelInUse = 0;
         try {
@@ -196,7 +194,6 @@ public class Gui extends ClientGameController {
     @Override
     public void onEndGameDisconnection() {
         SwingUtilities.invokeLater(() -> {
-            System.out.println("on endGame");
             popUp.remove(lobbyPanel);
             lobbyPanel = constructorPopUp.lobbyPopUp(3);
             popUp.add(lobbyPanel);
@@ -216,6 +213,7 @@ public class Gui extends ClientGameController {
     @Override
     public void startGame() {
         SwingUtilities.invokeLater(() -> {
+            sound.stop();
             frame.setVisible(false);
             board = new Board();
             try {

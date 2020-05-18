@@ -226,7 +226,7 @@ public class Board extends Observable {
     static MP3 click;
     MP3 place;
     MP3 build;
-    MP3 music2;
+    MP3 Atlantis;
 
     public void show(Gui instance, Dimension screen, Integer numberOfPlayer, List<Player> players,List<Player> players2, String nickname) throws IOException {
 
@@ -341,12 +341,12 @@ public class Board extends Observable {
         lGlow = ImageHandler.setImage("resources/Graphics/gods/podium/glow.png", 100, 100, frameSize.width * 15/100, frameSize.height * 35/100);
         lTutorial = ImageHandler.setImage("resources/Graphics/tutorial.png", 100, 100, frameSize.width, frameSize.height);
 
-        music2 = new MP3("resources/Music/Fruits.mp3");
+        Atlantis = new MP3("resources/Music/Atlantis.mp3");
         click = new MP3("resources/Music/Click.mp3");
         place = new MP3("resources/Music/Place.mp3");
         build = new MP3("resources/Music/Build.mp3");
 
-        music2.playLoop();
+
 
         setMyColorWorkers();
         setColorWorkers1();
@@ -796,6 +796,7 @@ public class Board extends Observable {
             desktopPane.add(opponent2);
         }
 
+        Atlantis.playLoop();
 
         labelMove.setFont(felixNormal);
         labelMove.setVisible(false);
@@ -907,7 +908,7 @@ public class Board extends Observable {
 
     public void stopMusic(){
         //music2.close();
-        music2.stop();
+        Atlantis.stop();
     }
 
     private class BackLevel implements ActionListener {
@@ -2330,7 +2331,7 @@ public class Board extends Observable {
             f.dispose();
             gui.backToLogin(false);
             gui.frame.setVisible(true);
-            music2.stop();
+            Atlantis.stop();
         }
     }
 
@@ -2341,7 +2342,7 @@ public class Board extends Observable {
             gui.backToLogin(false);
             gui.frame.setVisible(true);
             gui.handleLoseExit();
-            music2.stop();
+            Atlantis.stop();
         }
     }
 
