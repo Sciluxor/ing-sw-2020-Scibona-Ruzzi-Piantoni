@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
+    <option name="USE_RELEASE_OPTION" value="false" />
     <annotationProcessing>
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -13,5 +14,10 @@
         <module name="ing-sw-2020-Scibona-Ruzzi-Piantoni-3" />
       </profile>
     </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="ing-sw-2020-Scibona-Ruzzi-Piantoni" options="--add-exports java.base/sun=ALL-UNNAMED" />
+    </option>
   </component>
 </project>

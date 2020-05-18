@@ -7,11 +7,14 @@ import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.WorkerName;
 import it.polimi.ingsw.network.message.MessageType;
 import it.polimi.ingsw.utils.Observable;
+
+
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -221,6 +224,8 @@ public class Board extends Observable {
     int tileBuildChoosen = 0;
     static double boldDimension;
     List<String> constraint = new ArrayList<>();
+    MP3 music;
+    MP3 music2;
 
     public void show(Gui instance, Dimension screen, Integer numberOfPlayer, List<Player> players,List<Player> players2, String nickname) throws IOException {
 
@@ -335,6 +340,8 @@ public class Board extends Observable {
         lGlow = ImageHandler.setImage("resources/Graphics/gods/podium/glow.png", 100, 100, frameSize.width * 15/100, frameSize.height * 35/100);
         lTutorial = ImageHandler.setImage("resources/Graphics/tutorial.png", 100, 100, frameSize.width, frameSize.height);
 
+        music = new MP3("resources/Music/Fruits.mp3");
+        music2 = new MP3("resources/Music/Atlantis.mp3");
 
         setMyColorWorkers();
         setColorWorkers1();
@@ -1152,6 +1159,7 @@ public class Board extends Observable {
             internalFrameChallenger1.setBounds((int)((frameSize.width * 50/100) - (internalFrameSize90x90.width * 50/100)), (int) ((frameSize.height * 46/100) - (internalFrameSize90x90.height * 50/100)), internalFrameSize90x90.width, internalFrameSize90x90.height);
             internalFrameChallenger1.getContentPane().add(challengerChoiceCards);
             internalFrameChallenger1.setVisible(true);
+            music.playLoop();
         }
     }
 
@@ -1262,6 +1270,7 @@ public class Board extends Observable {
             internalFrameChooseCards.setBounds((int)((frameSize.width * 50/100) - (internalFrameSize90x90.width * 50/100)), (int) ((frameSize.height * 46/100) - (internalFrameSize90x90.height * 50/100)), internalFrameSize90x90.width, internalFrameSize90x90.height);
             internalFrameChooseCards.getContentPane().add(chooseCard);
             internalFrameChooseCards.setVisible(true);
+            music.close();
         }
     }
 
@@ -1604,7 +1613,6 @@ public class Board extends Observable {
         setEnableMove(false);
         setEnableBuild(false);
         setEnableEndturn(false);
-        System.out.println("Board :" + actions);
         for (MessageType mess : actions){
             switch (mess){
                 case BUILDWORKER:

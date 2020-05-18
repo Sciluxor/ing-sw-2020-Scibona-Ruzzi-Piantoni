@@ -20,6 +20,7 @@ public class PopUp {
     Dimension buttonSize = new Dimension();
     MyButton button1;
     MyButton button2;
+    JButton back = backgroundButton(1);
     JTextField nickname;
     JLabel label1;
     JLabel label2;
@@ -80,11 +81,16 @@ public class PopUp {
                 label3.setBounds((int) ((intFrameSize.width * 50/100) - (labelSize.width / 2)), (int) (intFrameSize.height * 25/100), labelSize.width, labelSize.height);
                 window.add(label3);
 
+                back.setBounds(0, 0, intFrameSize.width, intFrameSize.height);
+                window.add(back);
                 break;
 
             case 1:
                 setDisconnection();
                 button1.addActionListener(new NewGame());
+
+                back.setBounds(0, 0, intFrameSize.width, intFrameSize.height);
+                window.add(back);
                 break;
 
             case 2:
@@ -100,11 +106,17 @@ public class PopUp {
                 button1.setBounds((int) ((intFrameSize.width * 50 / 100) -  ((getD().getWidth() * 13 / 100) / 2)), (int) (intFrameSize.height * 79.5 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
                 button1.addActionListener(new Close());
                 window.add(button1);
+
+                back.setBounds(0, 0, intFrameSize.width, intFrameSize.height);
+                window.add(back);
                 break;
 
             case 3:
                 setDisconnection();
                 button1.addActionListener(new NewGameEndGame());
+
+                back.setBounds(0, 0, intFrameSize.width, intFrameSize.height);
+                window.add(back);
                 break;
 
             case 4:
@@ -118,6 +130,10 @@ public class PopUp {
                 window.add(label1);
 
                 setDisconnectionTime();
+
+                back = backgroundButton(2);
+                back.setBounds(0, 0, intFrameSize.width, intFrameSize.height);
+                window.add(back);
                 break;
 
             case 5:
@@ -131,6 +147,9 @@ public class PopUp {
                 window.add(label1);
 
                 setDisconnectionTime();
+
+                back.setBounds(0, 0, intFrameSize.width, intFrameSize.height);
+                window.add(back);
                 break;
 
             case 6:
@@ -145,13 +164,13 @@ public class PopUp {
 
                 setDisconnectionTime();
                 window.remove(label2);
+
+                back.setBounds(0, 0, intFrameSize.width, intFrameSize.height);
+                window.add(back);
                 break;
 
             default:
         }
-        JButton back = backgroundButton(1);
-        back.setBounds(0, 0, intFrameSize.width, intFrameSize.height);
-        window.add(back);
         return window;
     }
 
