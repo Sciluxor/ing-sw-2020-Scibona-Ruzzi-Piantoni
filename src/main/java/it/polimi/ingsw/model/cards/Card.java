@@ -118,7 +118,7 @@ public class Card implements Serializable {
     }
 
     public void resetCard(){
-
+       //used only in some specific cards
     }
 
     @Override

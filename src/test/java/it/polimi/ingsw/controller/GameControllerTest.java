@@ -14,8 +14,6 @@ import org.junit.Rule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.rules.Timeout;
-
-import javax.swing.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;

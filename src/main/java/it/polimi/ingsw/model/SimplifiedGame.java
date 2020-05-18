@@ -47,10 +47,6 @@ public class SimplifiedGame{
         return clientPlayer;
     }
 
-    public void setClientPlayer(Player clientPlayer) {
-        this.clientPlayer = clientPlayer;
-    }
-
     public  Integer getNumberOfPlayers() {
         return numberOfPlayers;
     }
@@ -165,7 +161,6 @@ public class SimplifiedGame{
         currentPlayer.setHasPlacedWorkers(true);
 
         return true;
-
     }
 
     public void removePlayerLose(){
