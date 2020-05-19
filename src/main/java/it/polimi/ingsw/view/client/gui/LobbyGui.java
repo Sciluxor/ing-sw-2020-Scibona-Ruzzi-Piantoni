@@ -142,10 +142,10 @@ public class LobbyGui{
     public void stamp(List<Player> players){
         clean();
         for (Player player : players){
-            if(player.getColor().toString().equalsIgnoreCase("BLUE")){
+            if(player.getColor().equals(it.polimi.ingsw.model.player.Color.BLUE)){
                 StyleConstants.setForeground(colorStyle, Color.BLUE);
             }
-            else if(player.getColor().toString().equalsIgnoreCase("WHITE")){
+            else if(player.getColor().equals(it.polimi.ingsw.model.player.Color.WHITE)){
                 StyleConstants.setForeground(colorStyle, Color.WHITE);
             }
             else {
