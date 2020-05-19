@@ -2,12 +2,15 @@ package it.polimi.ingsw.view.client.gui;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
 public class EliminateListeners {
+
+    private EliminateListeners() {
+        throw new IllegalStateException("BackgroundButton class cannot be instantiated");
+    }
 
     public static void eliminateActionClass(JButton button, Class clas){
         List<ActionListener> toRemove = new ArrayList<>();
