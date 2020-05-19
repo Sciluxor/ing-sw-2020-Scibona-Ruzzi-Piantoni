@@ -9,17 +9,17 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButtonPersonalized;
-import static it.polimi.ingsw.view.client.gui.Board.boldDimension;
+import static it.polimi.ingsw.view.client.gui.Board.getBoldDimension;
 import static it.polimi.ingsw.view.client.gui.Gui.felixBold;
 import static it.polimi.ingsw.view.client.gui.Gui.getD;
 
 public class UpdateBoard extends JDesktopPane {
 
-    Board board;
+    transient Board board;
     Dimension frameSize = new Dimension();
     MyButton close = new MyButton(3);
     JInternalFrame intFrame;
-
+    double bold = getBoldDimension();
     String nameChoosing;
 
     public UpdateBoard(Board istance, JInternalFrame frame, Dimension dimensionFrame, String name, MessageType type) throws IOException {
@@ -43,7 +43,7 @@ public class UpdateBoard extends JDesktopPane {
         }
 
         JLabel otherName = new JLabel(nameChoosing);
-        otherName.setBounds((int) ((frameSize.width * 48/100) - ((otherName.getText().length() * boldDimension))), (int) (frameSize.height * 41.5/100), frameSize.width * 60/100, frameSize.width * 5/100);
+        otherName.setBounds((int) ((frameSize.width * 48/100) - (otherName.getText().length() * bold)), (int) (frameSize.height * 41.5/100), frameSize.width * 60/100, frameSize.width * 5/100);
         otherName.setFont(felixBold);
         add(otherName);
 

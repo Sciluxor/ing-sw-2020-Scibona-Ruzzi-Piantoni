@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButtonPersonalized;
-import static it.polimi.ingsw.view.client.gui.Board.boldDimension;
+import static it.polimi.ingsw.view.client.gui.Board.getBoldDimension;
 import static it.polimi.ingsw.view.client.gui.Gui.felixBold;
 import static it.polimi.ingsw.view.client.gui.Gui.getD;
 
@@ -17,6 +17,7 @@ public class StartTurn extends JDesktopPane{
     MyButton close = new MyButton(3);
     JInternalFrame intFrame;
     String nameChoosing;
+    double bold = getBoldDimension();
 
     public StartTurn(JInternalFrame frame, Dimension size, int numberOfPanel, String name) throws IOException {
         frameSize.setSize(size);
@@ -33,7 +34,7 @@ public class StartTurn extends JDesktopPane{
         label.setBounds((int) (frameSize.width * 7.5/100), (int) (frameSize.height * 39.5/100), frameSize.width * 85/100, frameSize.height * 22/100);
         label2.setBounds((int) (frameSize.width * 20/100), frameSize.height * 39/100, frameSize.width * 60/100, frameSize.height * 22/100);
         JLabel otherName = new JLabel(nameChoosing);
-        otherName.setBounds((int) ((frameSize.width * 48/100) - ((otherName.getText().length() * boldDimension) / 2)), (int) (frameSize.height * 34.5/100), frameSize.width * 60/100, frameSize.width * 5/100);
+        otherName.setBounds((int) ((frameSize.width * 48/100) - ((otherName.getText().length() * bold) / 2)), (int) (frameSize.height * 34.5/100), frameSize.width * 60/100, frameSize.width * 5/100);
         otherName.setFont(felixBold);
 
         if (numberOfPanel == 0){
