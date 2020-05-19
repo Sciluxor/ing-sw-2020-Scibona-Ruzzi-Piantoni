@@ -26,7 +26,7 @@ public class Cli extends ClientGameController {
     private Map<String, Card> deck = CardLoader.loadCards();
     private List<String> deckOrdered = new ArrayList<>();
     private List<Player> opponents = new ArrayList<>();
-    List<String> actions = new ArrayList<>();
+    List<String> availableActions;
 
     private static final String TITLE = "\u001B[31m" +
             "             ___       ___  ___          ___    _____   ___      ___               _____  ___   ___                  |_|  |_|\n" +
@@ -274,6 +274,7 @@ public class Cli extends ClientGameController {
     }
 
     public void printCards(int counter, int numberOfCardsToChoose) {
+        clearShell();
         printRed("PLEASE, CHOOSE " + numberOfCardsToChoose + " CARDS:\n");
         for(int i=0; i < deckOrdered.size(); i++) {
             if(counter == i) {
@@ -286,6 +287,7 @@ public class Cli extends ClientGameController {
     }
 
     public void printCards() {
+        clearShell();
         printRed("PLEASE, CHOOSE " + getPlayers().size() + " CARDS:\n");
         for (String s : deckOrdered) {
             print("  " + s.toUpperCase() + "\n", Color.ANSI_YELLOW);
@@ -333,29 +335,29 @@ public class Cli extends ClientGameController {
     }
 
     //-----MENU-----
-    public void printMenu(boolean isFirstPlayer) {
+    public void printMenu(boolean isFirstPlayer, boolean constraint) {
         clearShell();
-        printWhite("[CHAT]  [BOARD]  [ACTIONS]  [OPPONENTS]  [POWER]\n");
+        if(constraint) {
+            printWhite("[CHAT]  [BOARD]  [ACTIONS]  [OPPONENTS]  ");
+            print("[POWER]\n", Color.ANSI_CYAN);
+        } else
+            printWhite("[CHAT]  [BOARD]  [ACTIONS]  [OPPONENTS]  [POWER]\n");
 
-        int counter = 0, isChoosen = 0;
-        boolean goOut = false, firstPosition = false, lastPosition = false, canGoOut = false;
+        int counter = 0;
+        boolean goOut = false, firstPosition = false, lastPosition = false;
 
         int keyboardIn = getArrowLeftRight();
-
-        //printDebug("HERE");
 
         do {
             clearShell();
             switch (keyboardIn) {
                 case 185:
                     printDebug("HERE");
-                    canGoOut = false;
                     if (!lastPosition)
                         counter++;
                     break;
                 case 186:
                     printDebug("HERE");
-                    canGoOut = false;
                     if (counter == 0)
                         counter++;
                     else if (!firstPosition)
@@ -363,78 +365,63 @@ public class Cli extends ClientGameController {
                     break;
 
                 default:
-                    if(canGoOut)
-                        goOut = true;
+                    goOut = true;
                     if (keyboardIn != 13) {
                         printErr("NO KEYBOARD CATCHED");
                         counter = 0;
                     }
             }
 
-            if(counter == 1) {
-                firstPosition = true;
-                printYellow("[CHAT]");
-                printWhite("  [BOARD]  [ACTIONS]  [OPPONENTS]  [POWER]\n");
-                canGoOut = true;
+            if(!goOut) {
+                if (counter == 1) {
+                    firstPosition = true;
+                    printYellow("[CHAT]");
+                    printWhite("  [BOARD]  [ACTIONS]  [OPPONENTS]  [POWER]\n");
 
-            } else if(counter == 2) {
-                firstPosition = false;
-                printWhite("[CHAT]  ");
-                printYellow("[BOARD]");
-                printWhite("  [ACTIONS]  [OPPONENTS]  [POWER]\n");
-                canGoOut = true;
+                } else if (counter == 2) {
+                    firstPosition = false;
+                    printWhite("[CHAT]  ");
+                    printYellow("[BOARD]");
+                    printWhite("  [ACTIONS]  [OPPONENTS]  [POWER]\n");
 
-            } else if(counter == 3) {
-                printWhite("[CHAT]  [BOARD]  ");
-                printYellow("[ACTIONS]");
-                printWhite("  [OPPONENTS]  [POWER]\n");
-                if(isFirstPlayer)
-                    printWhite("                 " + printActions() + "\n");
+                } else if (counter == 3) {
+                    printWhite("[CHAT]  [BOARD]  ");
+                    printYellow("[ACTIONS]");
+                    printWhite("  [OPPONENTS]  [POWER]\n");
+                    if (isFirstPlayer)
+                        printActions();
 
-                if(available) {
-                    isChoosen = getArrow();
-                    if (isChoosen == 184) {
-                        printYellow("\n                 " + "[CHOOSE CARDS]" + "\n");
-                        int choice = getArrow();
-                        if (choice == 183)
-                            printWhite("                 " + "[CHOOSE CARDS]" + "\n");
-                        else if(choice == 13) {
-                            canGoOut = true;
-                            goOut = true;
-                            isChoosen = choice;
-                        }
+                } else if (counter == 4) {
+                    lastPosition = false;
+                    printWhite("[CHAT]  [BOARD]  [ACTIONS]  ");
+                    printYellow("[OPPONENTS]");
+                    printWhite("  [POWER]\n");
+                    for (Player p : opponents) {
+                        printWhite("                            [");
+                        print(p.getNickName(), getColorCliFromPlayer(p.getColor()));
+                        printWhite("]\n");
                     }
+
+                } else if (counter == 5) {
+                    lastPosition = true;
+                    printWhite("[CHAT]  [BOARD]  [ACTIONS]  [OPPONENTS]  ");
+                    printYellow("[POWER]\n");
+                    try {
+                        printPower(getPlayerFromNickname(getNickName()).getPower().getName());
+                    } catch (NullPointerException e) {
+                        printRed("YOUR CARD DOESN'T ALREADY CHOOSE\n");
+                    }
+                    //printConstraint
                 }
 
-            } else if(counter == 4) {
-                lastPosition = false;
-                printWhite("[CHAT]  [BOARD]  [ACTIONS]  ");
-                printYellow("[OPPONENTS]");
-                printWhite("  [POWER]\n");
-                for(Player p: opponents) {
-                    printWhite("\n                            [");
-                    print(p.getNickName(), getColorCliFromPlayer(p.getColor()));
-                    printWhite( "]\n");
-                }
-
-            } else if(counter == 5) {
-                lastPosition = true;
-                printWhite("[CHAT]  [BOARD]  [ACTIONS]  [OPPONENTS]  ");
-                printYellow("[POWER]\n");
-                try {
-                    printPower(getPlayerFromNickname(getNickName()).getPower().getName());
-                } catch (NullPointerException e) {
-                    printRed("YOUR CARD DOESN'T ALREADY CHOOSE\n");
-                }
+                keyboardIn = controlWaitEnter("left&right");
             }
-
-            keyboardIn = controlWaitEnter("left&right");
         }while(!goOut);
 
-        selectMenu(counter);
+        selectMenu(counter, isFirstPlayer);
     }
 
-    public void selectMenu(int counter) {
+    public void selectMenu(int counter, boolean isFirstPlayer) {
         switch (counter) {
             case 1:
                 //printChat
@@ -444,19 +431,103 @@ public class Cli extends ClientGameController {
                 map.printMap();
                 break;
             case 3:
-                List<String> cards = challengerChooseCards();
-                challengerResponse(getNickName(), cards);
+                int choice;
+                if(isFirstPlayer) {
+                    choice = selectActions();
+                    startSelectedActions(choice);
+                }
                 break;
             default:
                 printErr("ERROR IN CHOICE");
         }
     }
 
-    public /*List<String>*/ String printActions() {
-        //List<String> actions = new ArrayList<>();
+    public int selectActions() {
+        int counter = 0, size = availableActions.size();
+        boolean goOut = false, firstPosition = true, lastPosition = false;
 
+        clearShell();
+        printWhite("[CHAT]  [BOARD]  ");
+        printYellow("[ACTIONS]");
+        printWhite("  [OPPONENTS]  [POWER]\n");
+        for(String s: availableActions)
+            printWhite("                 [" + s + "]\n");
 
-        return null;
+        int keyboard = getArrowUpDown();
+
+        do {
+            switch (keyboard) {
+                case 184:
+                    //printDebug("HERE");
+                    if (!lastPosition)
+                        counter++;
+                    break;
+                case 183:
+                    //printDebug("HERE");
+                    if (!firstPosition)
+                        counter--;
+                    break;
+
+                default:
+                    goOut = true;
+                    if (keyboard != 13) {
+                        printErr("NO KEYBOARD CATCHED");
+                    }
+            }
+
+            if(!goOut) {
+                clearShell();
+                printWhite("[CHAT]  [BOARD]  ");
+                printYellow("[ACTIONS]");
+                printWhite("  [OPPONENTS]  [POWER]\n");
+
+                firstPosition = counter == 0;
+
+                for (int i = 1; i <= size; i++) {
+                    if (i == counter) {
+                        printYellow("                 [" + availableActions.get(counter - 1) + "]\n");
+                    } else
+                        printWhite("                 [" + availableActions.get(i - 1) + "]\n");
+                    lastPosition = counter == size;
+                }
+
+                keyboard = controlWaitEnter("up&down");
+            }
+        }while (!goOut);
+
+        return counter;
+    }
+
+    public void startSelectedActions(int choice) {
+        String choiceString = availableActions.get(choice-1);
+        switch (choiceString) {
+            case "CHOOSE CARDS":
+                challengerChooseCards();
+                break;
+            case "MOVE":
+                //move
+                break;
+            case "BUILD":
+                //build;
+                break;
+            case "SELECT WORKER":
+                //setWorker();
+                break;
+            case "CHALLENGER CHOICE":
+                //challengerchoice
+                break;
+            case "CHOOSE CARD":
+                //choosecard
+                break;
+            default:
+                printErr("ERRORE IN SELECTED ACTION");
+        }
+    }
+
+    public void printActions() {
+        for(String s: availableActions) {
+            printWhite("                 [" + s + "]\n");
+        }
     }
 
     public void printYourTurn() {
@@ -513,12 +584,12 @@ public class Cli extends ClientGameController {
 
     @Override
     public void challengerChoice(String challengerNick, boolean isYourPlayer) {
-        String role = "";
         clearShell();
         if (isYourPlayer) {
             printRed("YOU HAVE BEEN CHOSEN AS CHALLENGER!\n");
             controlWaitEnter("enter");
-            //printMenu("challenger");
+            availableActions = new ArrayList<>();
+            availableActions.add("CHOOSE CARDS");
 
         } else {
             printRed("PLAYER ");
@@ -526,10 +597,9 @@ public class Cli extends ClientGameController {
             printRed(" IS CHOOSING CARDS\n");
             controlWaitEnter("enter");
 
-            //mainThread = new Thread(() -> printMenu("opponent", ""));
         }
 
-        mainThread = new Thread(() -> printMenu(isYourPlayer));
+        mainThread = new Thread(() -> printMenu(isYourPlayer, false));
         mainThread.start();
     }
 
@@ -596,7 +666,26 @@ public class Cli extends ClientGameController {
 
     @Override
     public void displayActions(List<MessageType> actions) {
-        printRed("CHOOSE YOUR POWER\n");
+        availableActions = new ArrayList<>();
+        for(MessageType m: actions) {
+            switch (m) {
+                case BUILDWORKER:
+                    availableActions.add("BUILD");
+                    break;
+                case MOVEWORKER:
+                    availableActions.add("MOVE");
+                    break;
+                case CHALLENGERCHOICE:
+                    availableActions.add("CHALLENGER CHOICE");
+                    break;
+                case CHOOSECARD:
+                    availableActions.add("CHOOSE CARD");
+                    break;
+                case WORKERCHOICE:
+                    availableActions.add("SELECT WORKER");
+                    break;
+            }
+        }
     }
 
     @Override
