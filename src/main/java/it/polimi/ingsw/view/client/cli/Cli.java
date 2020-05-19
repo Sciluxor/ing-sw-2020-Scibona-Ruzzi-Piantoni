@@ -26,6 +26,7 @@ public class Cli extends ClientGameController {
     private Map<String, Card> deck = CardLoader.loadCards();
     private List<String> deckOrdered = new ArrayList<>();
     private List<Player> opponents = new ArrayList<>();
+    List<String> actions = new ArrayList<>();
 
     private static final String TITLE = "\u001B[31m" +
             "             ___       ___  ___          ___    _____   ___      ___               _____  ___   ___                  |_|  |_|\n" +
@@ -337,10 +338,7 @@ public class Cli extends ClientGameController {
         printWhite("[CHAT]  [BOARD]  [ACTIONS]  [OPPONENTS]  [POWER]\n");
 
         int counter = 0, isChoosen = 0;
-        boolean goOut = false, firstPosition = false, lastPosition = false, available = false, canGoOut = false;
-
-        if(isFirstPlayer)
-            available = true;
+        boolean goOut = false, firstPosition = false, lastPosition = false, canGoOut = false;
 
         int keyboardIn = getArrowLeftRight();
 
@@ -367,8 +365,10 @@ public class Cli extends ClientGameController {
                 default:
                     if(canGoOut)
                         goOut = true;
-                    if (keyboardIn != 13)
+                    if (keyboardIn != 13) {
                         printErr("NO KEYBOARD CATCHED");
+                        counter = 0;
+                    }
             }
 
             if(counter == 1) {
@@ -388,23 +388,23 @@ public class Cli extends ClientGameController {
                 printWhite("[CHAT]  [BOARD]  ");
                 printYellow("[ACTIONS]");
                 printWhite("  [OPPONENTS]  [POWER]\n");
-                if(available)
-                printWhite("                 " + printActions() + "\n");
+                if(isFirstPlayer)
+                    printWhite("                 " + printActions() + "\n");
 
-                /*if(available) {
+                if(available) {
                     isChoosen = getArrow();
                     if (isChoosen == 184) {
-                        printYellow("                 " + printActions(role) + "\n");
+                        printYellow("\n                 " + "[CHOOSE CARDS]" + "\n");
                         int choice = getArrow();
                         if (choice == 183)
-                            printWhite("                 " + printActions(role) + "\n");
+                            printWhite("                 " + "[CHOOSE CARDS]" + "\n");
                         else if(choice == 13) {
                             canGoOut = true;
                             goOut = true;
                             isChoosen = choice;
                         }
                     }
-                }*/
+                }
 
             } else if(counter == 4) {
                 lastPosition = false;
@@ -428,10 +428,7 @@ public class Cli extends ClientGameController {
                 }
             }
 
-            if(available)
-                keyboardIn = isChoosen;
-            else
-                keyboardIn = controlWaitEnter("left&right");
+            keyboardIn = controlWaitEnter("left&right");
         }while(!goOut);
 
         selectMenu(counter);
@@ -487,7 +484,7 @@ public class Cli extends ClientGameController {
             print(">>> " + p.getNickName() + "\n", getColorCliFromPlayer(p.getColor()));
 
         backThread = new Thread(this::checkBackCommand);
-        backThread.start();
+        //backThread.start();
     }
 
     @Override
