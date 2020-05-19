@@ -42,7 +42,6 @@ public class Gui extends ClientGameController {
     JFrame popUp = new JFrame();
     int panelInUse = 0;
     private int numberOfPlayers = 2;
-    private static int actualPlayers = 1;
 
     static Font felixSmall = new Font(FELIX, Font.PLAIN, (int) (13 * screenSize.getHeight() / 1080));
     static Font felixNormal = new Font(FELIX, Font.PLAIN, (int) (20 * screenSize.getHeight() / 1080));
@@ -70,7 +69,7 @@ public class Gui extends ClientGameController {
 
         popUp.setPreferredSize(intFrameSize);
         popUp.setUndecorated(true);
-        popUp.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        popUp.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         SwingUtilities.updateComponentTreeUI(popUp);
         popUp.setBounds((int) ((d.width * 53/100) - (intFrameSize.width / 2)), (int) ((d.height * 60/100) - (intFrameSize.height / 2)), intFrameSize.width, intFrameSize.height);
         popUp.pack();
