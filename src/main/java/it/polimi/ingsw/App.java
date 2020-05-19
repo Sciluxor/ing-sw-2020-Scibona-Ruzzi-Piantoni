@@ -1,12 +1,9 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.view.client.cli.Cli;
+import it.polimi.ingsw.view.client.cli.Cli_text_version;
 import it.polimi.ingsw.view.client.gui.Gui;
-
-import java.io.IOException;
 import java.util.Scanner;
 
-import static it.polimi.ingsw.view.client.cli.CliUtils.printErr;
 
 public class App {
 
@@ -23,8 +20,8 @@ public class App {
         }
 
         if(keyboard.equals("1")) {
-            Cli cli = new Cli();
-            cli.start();
+            Cli_text_version cli_text_version = new Cli_text_version();
+            cli_text_version.start();
         }
         else {
             Gui gui = new Gui();
