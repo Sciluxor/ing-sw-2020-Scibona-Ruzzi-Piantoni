@@ -13,22 +13,21 @@ import java.util.List;
 
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
 import static it.polimi.ingsw.view.client.gui.Board.internalFrameSetUp;
-import static it.polimi.ingsw.view.client.gui.Board.lButtonPowerPing;
 import static it.polimi.ingsw.view.client.gui.EliminateListeners.eliminateActionClass;
 import static it.polimi.ingsw.view.client.gui.Gui.LOGGER;
 import static it.polimi.ingsw.view.client.gui.Gui.getD;
 
 public class SeeConstraint extends JDesktopPane {
 
-    Board board;
+    transient Board board;
     Dimension frameSize = new Dimension();
     Dimension intFrameSize = new Dimension();
     Dimension cardSize = new Dimension();
     JInternalFrame intFrame;
     JInternalFrame guiIntFrame;
     JButton buttonBackground = new JButton();
-    List<JButton> godList = new ArrayList<>();
-    ButtonGodsList costructor;
+    private List<JButton> godList = new ArrayList<>();
+    transient ButtonGodsList costructor;
     MyButton back = new MyButton(1);
     JLabel cover =new JLabel();
     JLabel label =new JLabel();
@@ -137,16 +136,16 @@ public class SeeConstraint extends JDesktopPane {
         public void mouseEntered(MouseEvent e) {
             JButton c = (JButton)e.getSource();
             if (c.getX() < frameSize.width * 50/100 && c.getY() < frameSize.height * 40/100) {
-                intFrame.setBounds((int) ((frameSize.width * 9 / 100) + c.getX()), (int) ((frameSize.height * 8.5 / 100)), intFrameSize.width, intFrameSize.height);
+                intFrame.setBounds((int) ((frameSize.width * 9 / 100) + c.getX()), (int) (frameSize.height * 8.5 / 100), intFrameSize.width, intFrameSize.height);
             }
             else if (c.getX() >= frameSize.width * 50/100 && c.getY() < frameSize.height * 40/100){
-                intFrame.setBounds((int) (c.getX() - (frameSize.width * 48 / 100)), (int) ((frameSize.height * 8.5 / 100)), intFrameSize.width, intFrameSize.height);
+                intFrame.setBounds((int) (c.getX() - (frameSize.width * 48 / 100)), (int) (frameSize.height * 8.5 / 100), intFrameSize.width, intFrameSize.height);
             }
             else if (c.getX() < frameSize.width * 50/100 && c.getY() >= frameSize.height * 40/100){
-                intFrame.setBounds((int) ((frameSize.width * 9 / 100) + c.getX()), (int) ((frameSize.height * 33 / 100)), intFrameSize.width, intFrameSize.height);
+                intFrame.setBounds((int) ((frameSize.width * 9 / 100) + c.getX()), (int) (frameSize.height * 33 / 100), intFrameSize.width, intFrameSize.height);
             }
             else
-                intFrame.setBounds((int) (c.getX() - (frameSize.width * 48 / 100)), (int) ((frameSize.height * 33 / 100)), intFrameSize.width, intFrameSize.height);
+                intFrame.setBounds((int) (c.getX() - (frameSize.width * 48 / 100)), (int) (frameSize.height * 33 / 100), intFrameSize.width, intFrameSize.height);
 
             buttonBackground.setIcon(null);
             try {

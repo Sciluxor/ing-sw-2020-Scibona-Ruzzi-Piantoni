@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButtonPersonalized;
-import static it.polimi.ingsw.view.client.gui.Board.boldDimension;
+import static it.polimi.ingsw.view.client.gui.Board.getBoldDimension;
 import static it.polimi.ingsw.view.client.gui.Gui.felixBold;
 import static it.polimi.ingsw.view.client.gui.Gui.getD;
 
@@ -17,6 +17,7 @@ public class PlaceWorkers extends JDesktopPane{
     MyButton close = new MyButton(3);
     JInternalFrame intFrame;
     String nameChoosing;
+    double bold = getBoldDimension();
 
 
     public PlaceWorkers(JInternalFrame frame, Dimension size, int numberOfPanel, String name) throws IOException {
@@ -28,7 +29,7 @@ public class PlaceWorkers extends JDesktopPane{
         setLayout(null);
         JLabel label = new JLabel();
         JLabel otherName = new JLabel(nameChoosing);
-        otherName.setBounds((int) ((frameSize.width * 48/100) - ((otherName.getText().length() * boldDimension) / 2)), (int) (frameSize.height * 32.5/100), frameSize.width * 60/100, frameSize.width * 5/100);
+        otherName.setBounds((int) ((frameSize.width * 48/100) - ((otherName.getText().length() * bold) / 2)), (int) (frameSize.height * 32.5/100), frameSize.width * 60/100, frameSize.width * 5/100);
         otherName.setFont(felixBold);
 
         if (numberOfPanel == 0) {
