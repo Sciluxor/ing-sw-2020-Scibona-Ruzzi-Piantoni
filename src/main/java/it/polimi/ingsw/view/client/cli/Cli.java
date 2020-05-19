@@ -332,15 +332,15 @@ public class Cli extends ClientGameController {
     }
 
     //-----MENU-----
-    public void printMenu(String role, String nick) {
+    public void printMenu(boolean isFirstPlayer) {
         clearShell();
         printWhite("[CHAT]  [BOARD]  [ACTIONS]  [OPPONENTS]  [POWER]\n");
 
         int counter = 0, isChoosen = 0;
         boolean goOut = false, firstPosition = false, lastPosition = false, available = false, canGoOut = false;
 
-        //if(!nick.equalsIgnoreCase(""))
-        //    available = true;
+        if(isFirstPlayer)
+            available = true;
 
         int keyboardIn = getArrowLeftRight();
 
@@ -387,9 +387,9 @@ public class Cli extends ClientGameController {
             } else if(counter == 3) {
                 printWhite("[CHAT]  [BOARD]  ");
                 printYellow("[ACTIONS]");
-                //if(available)
-                    printWhite("                 " + printActions(role) + "\n");
                 printWhite("  [OPPONENTS]  [POWER]\n");
+                if(available)
+                printWhite("                 " + printActions() + "\n");
 
                 /*if(available) {
                     isChoosen = getArrow();
@@ -412,7 +412,7 @@ public class Cli extends ClientGameController {
                 printYellow("[OPPONENTS]");
                 printWhite("  [POWER]\n");
                 for(Player p: opponents) {
-                    printWhite("                            [");
+                    printWhite("\n                            [");
                     print(p.getNickName(), getColorCliFromPlayer(p.getColor()));
                     printWhite( "]\n");
                 }
@@ -434,10 +434,10 @@ public class Cli extends ClientGameController {
                 keyboardIn = controlWaitEnter("left&right");
         }while(!goOut);
 
-        selectMenu(counter, nick);
+        selectMenu(counter);
     }
 
-    public void selectMenu(int counter, String nick) {
+    public void selectMenu(int counter) {
         switch (counter) {
             case 1:
                 //printChat
@@ -448,28 +448,16 @@ public class Cli extends ClientGameController {
                 break;
             case 3:
                 List<String> cards = challengerChooseCards();
-                challengerResponse(nick, cards);
+                challengerResponse(getNickName(), cards);
                 break;
             default:
                 printErr("ERROR IN CHOICE");
         }
     }
 
-    public /*List<String>*/ String printActions(String role) {
+    public /*List<String>*/ String printActions() {
         //List<String> actions = new ArrayList<>();
 
-        if(role.equalsIgnoreCase("challenger"))
-            //actions.add("[CHOOSE CARDS]");
-            return "[CHOOSE CARDS]";
-        else if(role.equalsIgnoreCase("firstPlayer"))
-            //actions.add("[PLACE WORKERS]");
-            return "[PLACE WORKERS]";
-        else if(role.equalsIgnoreCase("mover"))
-            //actions.add("[MOVE]");
-            return "[MOVE]";
-        else if (role.equalsIgnoreCase("builder"))
-            //actions.add("[BUILD]");
-            return "[BUILD]";
 
         return null;
     }
@@ -486,22 +474,20 @@ public class Cli extends ClientGameController {
 
     @Override
     public void updateLobbyPlayer() {
-        synchronized (this) {
-            backThread.interrupt();
+        backThread.interrupt();
 
-            clearShell();
-            printRed("WAITING LOBBY\n");
-            int waitingPlayers;
+        clearShell();
+        printRed("WAITING LOBBY\n");
+        int waitingPlayers;
 
-            waitingPlayers = getNumberOfPlayers() - getPlayers().size();
-            printRed("WAITING FOR " + waitingPlayers + " PLAYERS\nPLAYERS ACTUALLY IN THE LOBBY:\n");
+        waitingPlayers = getNumberOfPlayers() - getPlayers().size();
+        printRed("WAITING FOR " + waitingPlayers + " PLAYERS\nPLAYERS ACTUALLY IN THE LOBBY:\n");
 
-            for (Player p : getPlayers())
-                print(">>> " + p.getNickName() + "\n", getColorCliFromPlayer(p.getColor()));
+        for (Player p : getPlayers())
+            print(">>> " + p.getNickName() + "\n", getColorCliFromPlayer(p.getColor()));
 
-            backThread = new Thread(this::checkBackCommand);
-            backThread.start();
-        }
+        backThread = new Thread(this::checkBackCommand);
+        backThread.start();
     }
 
     @Override
@@ -509,47 +495,45 @@ public class Cli extends ClientGameController {
         clearShell();
         printRed("NICKNAME ALREADY USED. PLEASE, REINSERT A NEW NICKNAME: ");
         setNickName();
+        updateNickName(getNickName());
     }
 
     @Override
     public void startGame() {
 
-        synchronized (this) {
-            backThread.interrupt();
+        backThread.interrupt();
 
-            for (Player player : getPlayers()) {
-                if (!player.getNickName().equalsIgnoreCase(getNickName()))
-                    opponents.add(player);
-            }
-
-            clearShell();
-            printRed("GAME IS GOING TO START. PLEASE WAIT WHILE IS LOADING\n");
-            controlWaitEnter("enter");
+        for (Player player : getPlayers()) {
+            if (!player.getNickName().equalsIgnoreCase(getNickName()))
+                opponents.add(player);
         }
+
+        clearShell();
+        printRed("GAME IS GOING TO START. PLEASE WAIT WHILE IS LOADING\n");
+        controlWaitEnter("enter");
 
     }
 
     @Override
     public void challengerChoice(String challengerNick, boolean isYourPlayer) {
-        synchronized (this) {
-            clearShell();
-            if (isYourPlayer) {
-                printRed("YOU HAVE BEEN CHOSEN AS CHALLENGER!\n");
-                controlWaitEnter("enter");
-                printMenu("challenger", challengerNick);
+        String role = "";
+        clearShell();
+        if (isYourPlayer) {
+            printRed("YOU HAVE BEEN CHOSEN AS CHALLENGER!\n");
+            controlWaitEnter("enter");
+            //printMenu("challenger");
 
-            } else {
-                printRed("PLAYER ");
-                print(challengerNick.toUpperCase(), getColorCliFromPlayer(getPlayerFromNickname(challengerNick).getColor()));
-                printRed(" IS CHOOSING CARDS\n");
-                controlWaitEnter("enter");
+        } else {
+            printRed("PLAYER ");
+            print(challengerNick.toUpperCase(), getColorCliFromPlayer(getPlayerFromNickname(challengerNick).getColor()));
+            printRed(" IS CHOOSING CARDS\n");
+            controlWaitEnter("enter");
 
-                //mainThread = new Thread(() -> printMenu("opponent", ""));
-            }
-
-            mainThread = new Thread(() -> printMenu("challenger", challengerNick));
-            mainThread.start();
+            //mainThread = new Thread(() -> printMenu("opponent", ""));
         }
+
+        mainThread = new Thread(() -> printMenu(isYourPlayer));
+        mainThread.start();
     }
 
     @Override

@@ -132,7 +132,7 @@ public class Cli_text_version extends ClientGameController {
 
     //---------- USEFUL FUNCTIONS ----------
 
-    public void checkBackCommand() {
+    public synchronized void checkBackCommand() {
         printRed("INSERT \"BACK\" TO TURN BACK IN THE LOGIN WINDOW: ");
         String keyboard = input();
 
@@ -453,7 +453,7 @@ public class Cli_text_version extends ClientGameController {
             }
 
             backThread = new Thread(this::checkBackCommand);
-            backThread.start();
+            //backThread.start();
         }
     }
 
@@ -462,45 +462,42 @@ public class Cli_text_version extends ClientGameController {
         clearShell();
         printRed("NICKNAME ALREADY USED. PLEASE, REINSERT NEW NICKNAME: ");
         setNickName();
+
+        updateNickName(getNickName());
     }
 
     @Override
-    public void startGame() {
+    public synchronized void startGame() {
+        backThread.interrupt();
 
-        synchronized (this) {
-            backThread.interrupt();
+        for (Player player : getPlayers()) {
+            if (!player.getNickName().equalsIgnoreCase(getNickName()))
+                opponents.add(player);
+        }
 
-            for (Player player : getPlayers()) {
-                if (!player.getNickName().equalsIgnoreCase(getNickName()))
-                    opponents.add(player);
-            }
+        clearShell();
+        printRed("GAME IS GOING TO START. PLEASE WAIT WHILE IS LOADING\nINSERT SOMETHING TO GO ON: ");
+        input();
 
-            clearShell();
-            printRed("GAME IS GOING TO START. PLEASE WAIT WHILE IS LOADING\nINSERT SOMETHING TO GO ON: ");
+    }
+
+    @Override
+    public synchronized void challengerChoice(String challengerNick, boolean isYourPlayer) {
+        String role;
+        clearShell();
+        if (isYourPlayer) {
+            printRed("YOU HAVE BEEN CHOSEN AS CHALLENGER!\n");
+            role = "CHALLENGER";
+        } else {
+            printRed("PLAYER ");
+            printPlayer(challengerNick);
+            printRed(" IS CHOOSING CARDS\nINSERT SOMETHING TO GO ON: ");
             input();
+            role = "";
         }
 
-    }
-
-    @Override
-    public void challengerChoice(String challengerNick, boolean isYourPlayer) {
-        synchronized (this) {
-            String role;
-            clearShell();
-            if (isYourPlayer) {
-                printRed("YOU HAVE BEEN CHOSEN AS CHALLENGER!\n");
-                role = "CHALLENGER";
-            } else {
-                printRed("PLAYER ");
-                printPlayer(challengerNick);
-                printRed(" IS CHOOSING CARDS\nINSERT SOMETHING TO GO ON: ");
-                input();
-                role = "";
-            }
-
-            mainThread = new Thread(() -> printMenu(role));
-            mainThread.start();
-        }
+        mainThread = new Thread(() -> printMenu(role));
+        mainThread.start();
     }
 
     @Override

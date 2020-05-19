@@ -67,6 +67,7 @@ public class CliUtils {
             }
 
             keyboard = keyboard + keyboard1 + keyboard2;
+            printDebug(Integer.toString(keyboard));
 
             cmd = new String[]{"/bin/sh", "-c", "stty sane </dev/tty"};
             Runtime.getRuntime().exec(cmd).waitFor();
