@@ -2235,6 +2235,10 @@ public class Board extends Observable {
         return click;
     }
 
+    public static double getBoldDimension() {
+        return boldDimension;
+    }
+
     private class ButtonPress extends MouseAdapter {
         @Override
         public void mousePressed(MouseEvent e) {
