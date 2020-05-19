@@ -104,7 +104,7 @@ public class PopUp {
                 label1.setBounds((int) ((intFrameSize.width * 50/100) - (labelSize.width / 2)), (int) (intFrameSize.height * 35/100), labelSize.width, labelSize.height);
                 window.add(label1);
                 button1 = new MyButton(3);
-                button1.setBounds((int) ((intFrameSize.width * 50 / 100) -  ((getD().getWidth() * 13 / 100) / 2)), (int) (intFrameSize.height * 79.5 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
+                button1.setBounds((int) ((double)(intFrameSize.width * 50 / 100) -  ((getD().getWidth() * 13 / 100) / 2)), (int) (intFrameSize.height * 79.5 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
                 button1.addActionListener(new Close());
                 window.add(button1);
 
@@ -205,7 +205,7 @@ public class PopUp {
 
     private void setDisconnectionTime(){
         label2 = new JLabel(name);
-        label2.setBounds((int) ((intFrameSize.width * 30/100) - (name.length() * bold)), (int) (intFrameSize.height * 41.5/100), intFrameSize.width * 60/100, intFrameSize.width * 5/100);
+        label2.setBounds((int) ((double)(intFrameSize.width * 30/100) - (name.length() * bold)), (int) (intFrameSize.height * 41.5/100), intFrameSize.width * 60/100, intFrameSize.width * 5/100);
         label2.setFont(felixBold);
         window.add(label2);
 

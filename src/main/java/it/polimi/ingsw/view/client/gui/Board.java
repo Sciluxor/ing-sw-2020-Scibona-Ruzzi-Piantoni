@@ -227,9 +227,9 @@ public class Board extends Observable {
     List<JLabel> opponents2Labels = new ArrayList<>();
     boolean chatOpen = false;
     int tileBuildChoosen = 0;
-    double boldDimension;
+    private static double boldDimension;
     List<String> constraint = new ArrayList<>();
-    static MP3 click;
+    private static MP3 click;
     MP3 place;
     MP3 build;
     MP3 Atlantis;
@@ -521,7 +521,7 @@ public class Board extends Observable {
         chatStyleButtons(buttonDome, domeBuilding);
         frameBuildings.add(buttonDome);
 
-        backButton.setBounds((int) ((frameChat.getWidth() * 55/ 100) - (getD().getWidth() * 6 / 100)), (int) (frameChat.getHeight() * 71 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
+        backButton.setBounds((int) ((double)(frameChat.getWidth() * 55/ 100) - (getD().getWidth() * 6 / 100)), (int) (frameChat.getHeight() * 71 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
         frameBuildings.add(backButton);
         backButton.addActionListener(new BackLevel());
 

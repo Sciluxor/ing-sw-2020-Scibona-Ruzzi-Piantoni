@@ -43,12 +43,12 @@ public class UpdateBoard extends JDesktopPane {
         }
 
         JLabel otherName = new JLabel(nameChoosing);
-        otherName.setBounds((int) ((frameSize.width * 48/100) - (otherName.getText().length() * bold)), (int) (frameSize.height * 41.5/100), frameSize.width * 60/100, frameSize.width * 5/100);
+        otherName.setBounds((int) ((double)(frameSize.width * 48/100) - (otherName.getText().length() * bold)), (int) (frameSize.height * 41.5/100), frameSize.width * 60/100, frameSize.width * 5/100);
         otherName.setFont(felixBold);
         add(otherName);
 
         close.addActionListener(new Close());
-        close.setBounds((int) ((frameSize.width * 50/ 100) - ((getD().getWidth() * 13 / 100) * 50/100)), (int) (frameSize.height * 83 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
+        close.setBounds((int) ((double)(frameSize.width * 50/ 100) - ((getD().getWidth() * 13 / 100) * 50/100)), (int) (frameSize.height * 83 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
         add(close);
 
         JButton back = backgroundButtonPersonalized(2, frameSize );
