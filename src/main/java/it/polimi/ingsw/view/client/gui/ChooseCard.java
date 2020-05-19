@@ -13,7 +13,6 @@ import java.util.List;
 
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButtonPersonalized;
-import static it.polimi.ingsw.view.client.gui.Board.boldDimension;
 import static it.polimi.ingsw.view.client.gui.Board.internalFrameSetUp;
 import static it.polimi.ingsw.view.client.gui.EliminateListeners.eliminateActionClass;
 import static it.polimi.ingsw.view.client.gui.EliminateListeners.eliminateMouseClass;
@@ -21,7 +20,7 @@ import static it.polimi.ingsw.view.client.gui.Gui.*;
 
 public class ChooseCard extends JDesktopPane{
 
-    Board board;
+    transient Board board;
     Dimension frameSize = new Dimension();
     Dimension intFrameSize = new Dimension();
     JInternalFrame intFrame;
@@ -29,17 +28,17 @@ public class ChooseCard extends JDesktopPane{
     JButton buttonBackground = new JButton();
     JLabel cover = new JLabel();
     JLabel label = new JLabel();
-    List<String> godCards = null;
-    List<JButton> godChoosen = new ArrayList<>();
+    private List<String> godCards = null;
+    private List<JButton> godChoosen = new ArrayList<>();
     List<JButton> godList = new ArrayList<>();
-    ButtonGodsList costructor;
+    transient ButtonGodsList costructor;
     MyButton confirm = new MyButton(0);
     MyButton backButton = new MyButton(1);
     MyButton close = new MyButton(3);
     private int chosen = 0;
     String cardChosen = null;
     String nameChoosing;
-    MP3 click;
+    transient MP3 click;
 
     public ChooseCard(Board instance, JInternalFrame aframe, int wi, int he, List<String> cards, Integer numberOfPanel, String name) throws IOException {
 
@@ -174,10 +173,10 @@ public class ChooseCard extends JDesktopPane{
         public void mouseEntered(MouseEvent e) {
             JButton c = (JButton)e.getSource();
             if (c.getX() < frameSize.width * 50/100 && c.getY() < frameSize.height * 40/100) {
-                intFrame.setBounds((int) ((frameSize.width * 11 / 100) + c.getX()), (int) ((frameSize.height * 25 / 100)), intFrameSize.width, intFrameSize.height);
+                intFrame.setBounds((int) ((frameSize.width * 11 / 100) + c.getX()), (int) (frameSize.height * 25 / 100), intFrameSize.width, intFrameSize.height);
             }
             else
-                intFrame.setBounds((int) (c.getX() - (frameSize.width * 41.5 / 100)), (int) ((frameSize.height * 25 / 100)), intFrameSize.width, intFrameSize.height);
+                intFrame.setBounds((int) (c.getX() - (frameSize.width * 41.5 / 100)), (int) (frameSize.height * 25 / 100), intFrameSize.width, intFrameSize.height);
 
             buttonBackground.setIcon(null);
             try {
@@ -268,7 +267,6 @@ public class ChooseCard extends JDesktopPane{
             board.setCardChosen(cardChosen);
             board.callCardChoiceResponse();
             guiIntFrame.setVisible(false);
-            //guiIntFrame.dispose();
         }
     }
 }
