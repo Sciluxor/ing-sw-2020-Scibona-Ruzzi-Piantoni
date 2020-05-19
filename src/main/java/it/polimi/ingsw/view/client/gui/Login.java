@@ -13,7 +13,7 @@ import static it.polimi.ingsw.view.client.gui.Gui.LOGGER;
 
 public class Login extends JPanel{
 
-    private final Gui gui;
+    private final transient Gui gui;
     Dimension frameSize = new Dimension();
     private final JTextField nickname;
     JTextField numberPlayers;

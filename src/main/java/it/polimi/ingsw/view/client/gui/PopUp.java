@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
-import static it.polimi.ingsw.view.client.gui.Board.boldDimension;
+import static it.polimi.ingsw.view.client.gui.Board.getBoldDimension;
 import static it.polimi.ingsw.view.client.gui.Gui.*;
 
 public class PopUp {
@@ -27,6 +27,7 @@ public class PopUp {
     JLabel label3;
     JPanel panel;
     String name = null;
+    double bold = getBoldDimension();
 
     public PopUp(Gui istance2, Dimension d, String stopper){
 
@@ -126,7 +127,7 @@ public class PopUp {
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }
-                label1.setBounds((int) ((intFrameSize.width * 40/100)), (int) (intFrameSize.height * 35/100), labelSize.width, labelSize.height);
+                label1.setBounds((int) (intFrameSize.width * 40/100), (int) (intFrameSize.height * 35/100), labelSize.width, labelSize.height);
                 window.add(label1);
 
                 setDisconnectionTime();
@@ -143,7 +144,7 @@ public class PopUp {
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }
-                label1.setBounds((int) ((intFrameSize.width * 40/100) ), (int) (intFrameSize.height * 35/100), labelSize.width, labelSize.height);
+                label1.setBounds((int) (intFrameSize.width * 40/100), (int) (intFrameSize.height * 35/100), labelSize.width, labelSize.height);
                 window.add(label1);
 
                 setDisconnectionTime();
@@ -204,7 +205,7 @@ public class PopUp {
 
     private void setDisconnectionTime(){
         label2 = new JLabel(name);
-        label2.setBounds((int) ((intFrameSize.width * 30/100) - ((name.length() * boldDimension))), (int) (intFrameSize.height * 41.5/100), intFrameSize.width * 60/100, intFrameSize.width * 5/100);
+        label2.setBounds((int) ((intFrameSize.width * 30/100) - (name.length() * bold)), (int) (intFrameSize.height * 41.5/100), intFrameSize.width * 60/100, intFrameSize.width * 5/100);
         label2.setFont(felixBold);
         window.add(label2);
 

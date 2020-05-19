@@ -23,7 +23,11 @@ public class MyButton extends JButton{
     JLabel lclosePress;
     JLabel lkeep;
     JLabel lkeepPress;
-    {
+    transient MP3 click = new MP3("resources/Music/Click.mp3");
+
+    public MyButton(int n) {
+        type = n;
+
         try {
             lconfirm = ImageHandler.setImage("resources/Graphics/button_confirm.png", 100, 100, labelSize.width, labelSize.height);
             lconfirmPress = ImageHandler.setImage("resources/Graphics/button_confirm_press.png", 100, 100, labelSize.width, labelSize.height);
@@ -38,11 +42,7 @@ public class MyButton extends JButton{
         } catch (IOException e) {
             LOGGER.severe(e.getMessage());
         }
-    }
-    MP3 click = new MP3("resources/Music/Click.mp3");
 
-    public MyButton(int n) {
-        type = n;
         setBounds((int) (getD().getWidth() * 43.5 / 100), (int) (getD().getHeight() * 79.5 / 100), labelSize.width, labelSize.height);
         setOpaque(false);
         setContentAreaFilled(false);
