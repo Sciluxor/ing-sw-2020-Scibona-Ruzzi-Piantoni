@@ -18,11 +18,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static it.polimi.ingsw.utils.ConstantsContainer.*;
 import static it.polimi.ingsw.view.client.gui.Gui.LOGGER;
 import static it.polimi.ingsw.view.client.gui.EliminateListeners.*;
 import static it.polimi.ingsw.view.client.gui.Gui.getD;
 
 public class Board extends Observable {
+
+    Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+    double ratio= (screen.getWidth()/screen.getHeight());
+    int width = (int) ((screen.getWidth() * 95 / 100) * (1.689999 / ratio));
+    int height = (int) (screen.getHeight() * 91 / 100);
     Gui gui;
     List<Player> allPlayer = new ArrayList<>();
     List<Player> otherPlayers = new ArrayList<>();
@@ -49,7 +55,7 @@ public class Board extends Observable {
     JInternalFrame internalFramePlaceWorkers = new JInternalFrame("", false, false, false, false);
     JInternalFrame internalFrameStartTurn = new JInternalFrame("", false, false, false, false);
     JInternalFrame internalFrameUpdateBoard = new JInternalFrame("", false, false, false, false);
-    static JInternalFrame internalFrameConstraint = new JInternalFrame("", false, false, false, false);
+    JInternalFrame internalFrameConstraint = new JInternalFrame("", false, false, false, false);
     JWindow windowPower;
     JScrollPane scrollPane;
     MyButton newGame = new MyButton(2);
@@ -140,9 +146,9 @@ public class Board extends Observable {
     JLabel lButtonMovePress;
     JLabel lButtonBuildPress;
     JLabel lButtonPower;
-    static JLabel lButtonPowerPing;
+    JLabel lButtonPowerPing;
     JLabel lButtonPowerPress;
-    static JLabel lButtonPowerPressPing;
+    JLabel lButtonPowerPressPing;
     JLabel lButtonChat;
     JLabel lButtonChatPress;
     JLabel lButtonChatPing;
@@ -169,9 +175,9 @@ public class Board extends Observable {
     JLabel lbuttonEndturn;
     JLabel lbuttonEndturnPress;
     JLabel border;
-    JLabel lwinner;
-    JLabel lLoser1;
-    JLabel lLoser2;
+    JLabel lwinner = null;
+    JLabel lLoser1 = null;
+    JLabel lLoser2 = null;
     JLabel lGlow;
     JLabel lTutorial;
     JLabel llost = new JLabel();
@@ -221,7 +227,7 @@ public class Board extends Observable {
     List<JLabel> opponents2Labels = new ArrayList<>();
     boolean chatOpen = false;
     int tileBuildChoosen = 0;
-    static double boldDimension;
+    double boldDimension;
     List<String> constraint = new ArrayList<>();
     static MP3 click;
     MP3 place;
@@ -243,9 +249,7 @@ public class Board extends Observable {
         myColor = mePlayer.getColor();
         colorOpponent1 = otherPlayers.get(0).getColor();
 
-        double ratio= (screen.getWidth()/screen.getHeight());
-        int width = (int) ((screen.getWidth() * 95 / 100) * (1.689999 / ratio));
-        int height = (int) (screen.getHeight() * 91 / 100);
+
         frameSize.setSize(width, height);
         internalFrameSize90x90.setSize(frameSize.width * 90/100, frameSize.height * 90/100);
         internalFrameSize80x80.setSize(frameSize.width * 80/100, frameSize.height * 80/100);
@@ -334,10 +338,7 @@ public class Board extends Observable {
         lbuttonChooseFirstPress = ImageHandler.setImage("resources/Graphics/button_choose_first_press.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
         lButtonChoosePowerPress = ImageHandler.setImage("resources/Graphics/button_power_press.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
         lbuttonEndturnPress = ImageHandler.setImage("resources/Graphics/button_endturn_press.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
-        border = ImageHandler.setImage("resources/Graphics/gods/podium/lose_border.png", 100, 100, frameSize.width * 50/100, frameSize.height * 80/100);
-        lwinner = ImageHandler.setImage("resources/Graphics/gods/podium/apollo.png", 100, 100, frameSize.width * 30/100, frameSize.height * 50/100);
-        lLoser1 = ImageHandler.setImage("resources/Graphics/gods/podium/apollo.png", 100, 100, frameSize.width * 30/100, frameSize.height * 50/100);
-        lLoser2 = ImageHandler.setImage("resources/Graphics/gods/podium/apollo.png", 100, 100, frameSize.width * 30/100, frameSize.height * 50/100);
+        border = ImageHandler.setImage(LOSEBORDER, 100, 100, frameSize.width * 50/100, frameSize.height * 80/100);
         lGlow = ImageHandler.setImage("resources/Graphics/gods/podium/glow.png", 100, 100, frameSize.width * 15/100, frameSize.height * 35/100);
         lTutorial = ImageHandler.setImage("resources/Graphics/tutorial.png", 100, 100, frameSize.width, frameSize.height);
 
@@ -520,7 +521,7 @@ public class Board extends Observable {
         chatStyleButtons(buttonDome, domeBuilding);
         frameBuildings.add(buttonDome);
 
-        backButton.setBounds((int) ((frameChat.getWidth() * 55/ 100) - ((getD().getWidth() * 6 / 100))), (int) (frameChat.getHeight() * 71 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
+        backButton.setBounds((int) ((frameChat.getWidth() * 55/ 100) - (getD().getWidth() * 6 / 100)), (int) (frameChat.getHeight() * 71 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
         frameBuildings.add(backButton);
         backButton.addActionListener(new BackLevel());
 
@@ -907,7 +908,6 @@ public class Board extends Observable {
     }
 
     public void stopMusic(){
-        //music2.close();
         Atlantis.stop();
     }
 
@@ -921,10 +921,10 @@ public class Board extends Observable {
     }
 
     private Color getColorPlayer(Player player){
-        if(player.getColor().toString().equalsIgnoreCase("BLUE")){
+        if(player.getColor().equals(it.polimi.ingsw.model.player.Color.BLUE)){
             return Color.BLUE;
         }
-        else if(player.getColor().toString().equalsIgnoreCase("WHITE")){
+        else if(player.getColor().equals(it.polimi.ingsw.model.player.Color.WHITE)){
             return Color.WHITE;
         }
         else {
@@ -933,19 +933,19 @@ public class Board extends Observable {
     }
 
     private void setMyColorWorkers(){
-        if (myColor.toString().equalsIgnoreCase("BLUE")){
+        if (myColor.equals(it.polimi.ingsw.model.player.Color.BLUE)){
             worker = workerCyan;
             lvl1Worker = lvl1Cyan;
             lvl2Worker = lvl2Cyan;
             lvl3Worker = lvl3Cyan;
         }
-        else if (myColor.toString().equalsIgnoreCase("WHITE")){
+        else if (myColor.equals(it.polimi.ingsw.model.player.Color.WHITE)){
             worker = workerWhite;
             lvl1Worker = lvl1White;
             lvl2Worker = lvl2White;
             lvl3Worker = lvl3White;
         }
-        else if (myColor.toString().equalsIgnoreCase("PURPLE")){
+        else if (myColor.equals(it.polimi.ingsw.model.player.Color.PURPLE)){
             worker = workerPurple;
             lvl1Worker = lvl1Purple;
             lvl2Worker = lvl2Purple;
@@ -958,19 +958,19 @@ public class Board extends Observable {
     }
 
     private void setColorWorkers1(){
-        if (colorOpponent1.toString().equalsIgnoreCase("BLUE")){
+        if (colorOpponent1.equals(it.polimi.ingsw.model.player.Color.BLUE)){
             workerOpponents1 = workerCyan;
             lvl1WorkerOpponents1 = lvl1Cyan;
             lvl2WorkerOpponents1 = lvl2Cyan;
             lvl3WorkerOpponents1 = lvl3Cyan;
         }
-        else if (colorOpponent1.toString().equalsIgnoreCase("WHITE")){
+        else if (colorOpponent1.equals(it.polimi.ingsw.model.player.Color.WHITE)){
             workerOpponents1 = workerWhite;
             lvl1WorkerOpponents1 = lvl1White;
             lvl2WorkerOpponents1 = lvl2White;
             lvl3WorkerOpponents1 = lvl3White;
         }
-        else if (colorOpponent1.toString().equalsIgnoreCase("PURPLE")){
+        else if (colorOpponent1.equals(it.polimi.ingsw.model.player.Color.PURPLE)){
             workerOpponents1 = workerPurple;
             lvl1WorkerOpponents1 = lvl1Purple;
             lvl2WorkerOpponents1 = lvl2Purple;
@@ -983,19 +983,19 @@ public class Board extends Observable {
     }
 
     private void setColorWorkers2(){
-        if (colorOpponent2.toString().equalsIgnoreCase("BLUE")){
+        if (colorOpponent2.equals(it.polimi.ingsw.model.player.Color.BLUE)){
             workerOpponents2 = workerCyan;
             lvl1WorkerOpponents2 = lvl1Cyan;
             lvl2WorkerOpponents2 = lvl2Cyan;
             lvl3WorkerOpponents2 = lvl3Cyan;
         }
-        else if (colorOpponent2.toString().equalsIgnoreCase("WHITE")){
+        else if (colorOpponent2.equals(it.polimi.ingsw.model.player.Color.WHITE)){
             workerOpponents2 = workerWhite;
             lvl1WorkerOpponents2 = lvl1White;
             lvl2WorkerOpponents2 = lvl2White;
             lvl3WorkerOpponents2 = lvl3White;
         }
-        else if (colorOpponent2.toString().equalsIgnoreCase("PURPLE")){
+        else if (colorOpponent2.equals(it.polimi.ingsw.model.player.Color.PURPLE)){
             workerOpponents2 = workerPurple;
             lvl1WorkerOpponents2 = lvl1Purple;
             lvl2WorkerOpponents2 = lvl2Purple;
@@ -1195,7 +1195,7 @@ public class Board extends Observable {
     }
 
     public void callChallengerResponse(){
-        if (cardsChosen.size()!=0 && firstPlayer != null){
+        if (!cardsChosen.isEmpty() && firstPlayer != null){
             gui.challengerResponse(firstPlayer, cardsChosen);
             buttonChooseCards.setVisible(false);
             labelChooseCards.setVisible(false);
@@ -1254,7 +1254,7 @@ public class Board extends Observable {
             buttonChat.setBounds(frameSize.width * 89/100, frameSize.height * 58/100, frameSize.width * 5/100, frameSize.height * 7/100);
             labelSeePower.setVisible(true);
             try {
-                coverLeftGod = ImageHandler.setImage("resources/Graphics/gods/" + cardChosen + "_left.png", 100, 100, frameSize.width, frameSize.height);
+                coverLeftGod = ImageHandler.setImage(GODS + cardChosen + "_left.png", 100, 100, frameSize.width, frameSize.height);
             } catch (IOException e) {
                 LOGGER.severe(e.getMessage());
             }
@@ -1289,7 +1289,7 @@ public class Board extends Observable {
             JButton c = (JButton)e.getSource();
             eliminateActionClass(c, ShowYourPower.class);
             try {
-                coverBackground = ImageHandler.setImage("resources/Graphics/gods/" + c.getName() + "_description.png", 100, 100, internalFrameSize40x45.width, internalFrameSize40x45.height);
+                coverBackground = ImageHandler.setImage(GODS + c.getName() + DESCRIPTION, 100, 100, internalFrameSize40x45.width, internalFrameSize40x45.height);
             } catch (IOException ioException) {
                 LOGGER.severe(ioException.getMessage());
             }
@@ -1456,24 +1456,26 @@ public class Board extends Observable {
             removePlaceWorker();
             setVisibleEndturn(true);
         }
-    }
 
-    private List<Integer> modifiedTiles(){
-        List<Integer> tiles = new ArrayList<>();
-        for (int y = 1; y < 3; y++) {
-            for (int x = 0; x < 25; x++) {
-                if (mapMyWorkers[x] == y) {
-                    tiles.add(x);
-                    x = 24;
+        private List<Integer> modifiedTiles(){
+            boolean exit;
+            List<Integer> tiles = new ArrayList<>();
+            for (int y = 1; y < 3; y++) {
+                exit = false;
+                for (int x = 0; x < 25 && !exit; x++) {
+                    if (mapMyWorkers[x] == y) {
+                        tiles.add(x);
+                        exit = true;
+                    }
                 }
             }
+            return tiles;
         }
-        return tiles;
-    }
 
-    private void  removePlaceWorker(){
-        for (int x = 0; x < 25; x++) {
-            eliminateActionClass(mapButtons[x], PlaceWorker.class);
+        private void  removePlaceWorker(){
+            for (int x = 0; x < 25; x++) {
+                eliminateActionClass(mapButtons[x], PlaceWorker.class);
+            }
         }
     }
 
@@ -1512,7 +1514,7 @@ public class Board extends Observable {
         public void mouseEntered(MouseEvent e) {
             JButton c = (JButton)e.getSource();
             try {
-                coverBackground = ImageHandler.setImage("resources/Graphics/gods/" + c.getName() + "_description.png", 100, 100, internalFrameSize40x45.width, internalFrameSize40x45.height);
+                coverBackground = ImageHandler.setImage(GODS + c.getName() + DESCRIPTION, 100, 100, internalFrameSize40x45.width, internalFrameSize40x45.height);
             } catch (IOException ioException) {
                 LOGGER.severe(ioException.getMessage());
             }
@@ -1562,17 +1564,19 @@ public class Board extends Observable {
     private class AvaiableWorkers implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (availableMovePositions.size() != 0){
+            if (!availableMovePositions.isEmpty()){
                 eliminatePreviousPositionsActions(availableMovePositions);
             }
-            if (availableBuildPositions.size() != 0){
+            if (!availableBuildPositions.isEmpty()){
                 removeBuildBorder(availableBuildPositions);
                 availableBuildPositions.clear();
             }
 
             availableWorkers = gui.availableWorkers();
+            boolean exit;
             for (Integer x : availableWorkers){
-                for (int y = 0; y < 25; y++){
+                exit = false;
+                for (int y = 0; y < 25 && !exit; y++){
                     if (mapMyWorkers[y] == x){
                         eliminateMouseClass(mapButtons[y], ColorBorder.class);
                         eliminateActionClass(mapButtons[y], SelectWorker.class);
@@ -1580,20 +1584,20 @@ public class Board extends Observable {
                         mapButtons[y].setBorderPainted(true);
                         mapButtons[y].addActionListener(new SelectWorker());
                         availableWorkersPositions.add(y);
-                        y = 24;
+                        exit = true;
                     }
                 }
             }
         }
-    }
 
-    private void eliminatePreviousPositionsActions(List<Integer> previousPositions){
-        for (Integer x : previousPositions){
-            eliminateActionClass(mapButtons[x - 1], Move.class);
-            mapButtons[x - 1].setBorderPainted(false);
-            mapButtons[x - 1].addMouseListener(new ColorBorder());
+        private void eliminatePreviousPositionsActions(List<Integer> previousPositions){
+            for (Integer x : previousPositions){
+                eliminateActionClass(mapButtons[x - 1], Move.class);
+                mapButtons[x - 1].setBorderPainted(false);
+                mapButtons[x - 1].addMouseListener(new ColorBorder());
+            }
+            availableMovePositions.clear();
         }
-        availableMovePositions.clear();
     }
 
     private class SelectWorker implements ActionListener{
@@ -1686,7 +1690,6 @@ public class Board extends Observable {
     }
 
     public void updateBoard(String nick, List<Square> squares, MessageType type){
-        List<JLabel> list = null;
 
         if (updateBoard != null) {
             internalFrameUpdateBoard.remove(updateBoard);
@@ -1725,60 +1728,19 @@ public class Board extends Observable {
             cleanIcon(square.getTile() - 1);
 
             if (square.hasPlayer()) {
-                if (square.getPlayer().getNickName().equalsIgnoreCase(opponent1.getText())){
-                    mapMyWorkers[square.getTile() - 1] = 0;
-                    list = opponents1Labels;
-                }
-                else if (numberOfPlayers == 3 && square.getPlayer().getNickName().equalsIgnoreCase(opponent2.getText())){
-                    mapMyWorkers[square.getTile() - 1] = 0;
-                    list = opponents2Labels;
-                }
-                else if (square.getPlayer().getNickName().equalsIgnoreCase(mePlayer.getNickName())){
-                    list = myLabels;
-                    mapMyWorkers[square.getTile() - 1] = WorkerName.getNumberWorker(square.getWorker().getName());
-                }
+
+                list = setPlayerIconsList(square);
 
                 mapButtonsPlayer[square.getTile() - 1] = true;
 
-                if (square.getBuilding().equals(Building.GROUND)) {
-                    mapButtons[square.getTile() - 1].setIcon(Objects.requireNonNull(getLabelFromBuildLvl(list, Building.GROUND)).getIcon());
-                } else if (square.getBuilding().equals(Building.LVL1)) {
-                    mapButtons[square.getTile() - 1].setIcon(Objects.requireNonNull(getLabelFromBuildLvl(list, Building.LVL1)).getIcon());
-                } else if (square.getBuilding().equals(Building.LVL2)) {
-                    mapButtons[square.getTile() - 1].setIcon(Objects.requireNonNull(getLabelFromBuildLvl(list, Building.LVL2)).getIcon());
-                } else if (square.getBuilding().equals(Building.LVL3)) {
-                    mapButtons[square.getTile() - 1].setIcon(Objects.requireNonNull(getLabelFromBuildLvl(list, Building.LVL3)).getIcon());
-                }
+                setPlayerIconToMap(square, list);
             }
             else {
 
                 mapMyWorkers[square.getTile() - 1] = 0;
                 mapButtonsPlayer[square.getTile() - 1] = false;
 
-                if (square.getBuilding().equals(Building.GROUND)) {
-                    mapButtons[square.getTile() - 1].setIcon(null);
-                }
-                else if (square.getBuilding().equals(Building.LVL1)) {
-                    mapButtons[square.getTile() - 1].setIcon(lvl1.getIcon());
-                }
-                else if (square.getBuilding().equals(Building.LVL2)) {
-                    mapButtons[square.getTile() - 1].setIcon(lvl2.getIcon());
-                }
-                else if (square.getBuilding().equals(Building.LVL3)) {
-                    mapButtons[square.getTile() - 1].setIcon(lvl3.getIcon());
-                }
-                else if (square.getBuilding().equals(Building.DOME) && square.getBuildingLevel() == 1) {
-                    mapButtons[square.getTile() - 1].setIcon(dome.getIcon());
-                }
-                else if (square.getBuilding().equals(Building.DOME) && square.getBuildingLevel() == 2) {
-                    mapButtons[square.getTile() - 1].setIcon(lvl1Dome.getIcon());
-                }
-                else if (square.getBuilding().equals(Building.DOME) && square.getBuildingLevel() == 3) {
-                    mapButtons[square.getTile() - 1].setIcon(lvl2Dome.getIcon());
-                }
-                else {
-                    mapButtons[square.getTile() - 1].setIcon(lvl3Dome.getIcon());
-                }
+                setEmptyIconToMap(square);
             }
             if (!isMe) {
                 mapButtons[square.getTile() - 1].setBorder(BorderFactory.createLineBorder(modifiedBorder, 5));
@@ -1787,6 +1749,61 @@ public class Board extends Observable {
         }
         if (!isMe){
             removeColorBorderToMap();
+        }
+    }
+
+    private List<JLabel> setPlayerIconsList(Square square){
+        if (square.getPlayer().getNickName().equalsIgnoreCase(opponent1.getText())){
+            mapMyWorkers[square.getTile() - 1] = 0;
+            return opponents1Labels;
+        }
+        else if (numberOfPlayers == 3 && square.getPlayer().getNickName().equalsIgnoreCase(opponent2.getText())){
+            mapMyWorkers[square.getTile() - 1] = 0;
+            return opponents2Labels;
+        }
+        else if (square.getPlayer().getNickName().equalsIgnoreCase(mePlayer.getNickName())){
+            mapMyWorkers[square.getTile() - 1] = WorkerName.getNumberWorker(square.getWorker().getName());
+            return myLabels;
+        }
+        else return null;
+    }
+
+    private void setPlayerIconToMap(Square square, List<JLabel> list){
+        if (square.getBuilding().equals(Building.GROUND)) {
+            mapButtons[square.getTile() - 1].setIcon(Objects.requireNonNull(getLabelFromBuildLvl(list, Building.GROUND)).getIcon());
+        } else if (square.getBuilding().equals(Building.LVL1)) {
+            mapButtons[square.getTile() - 1].setIcon(Objects.requireNonNull(getLabelFromBuildLvl(list, Building.LVL1)).getIcon());
+        } else if (square.getBuilding().equals(Building.LVL2)) {
+            mapButtons[square.getTile() - 1].setIcon(Objects.requireNonNull(getLabelFromBuildLvl(list, Building.LVL2)).getIcon());
+        } else if (square.getBuilding().equals(Building.LVL3)) {
+            mapButtons[square.getTile() - 1].setIcon(Objects.requireNonNull(getLabelFromBuildLvl(list, Building.LVL3)).getIcon());
+        }
+    }
+
+    private void setEmptyIconToMap(Square square){
+        if (square.getBuilding().equals(Building.GROUND)) {
+            mapButtons[square.getTile() - 1].setIcon(null);
+        }
+        else if (square.getBuilding().equals(Building.LVL1)) {
+            mapButtons[square.getTile() - 1].setIcon(lvl1.getIcon());
+        }
+        else if (square.getBuilding().equals(Building.LVL2)) {
+            mapButtons[square.getTile() - 1].setIcon(lvl2.getIcon());
+        }
+        else if (square.getBuilding().equals(Building.LVL3)) {
+            mapButtons[square.getTile() - 1].setIcon(lvl3.getIcon());
+        }
+        else if (square.getBuilding().equals(Building.DOME) && square.getBuildingLevel() == 1) {
+            mapButtons[square.getTile() - 1].setIcon(dome.getIcon());
+        }
+        else if (square.getBuilding().equals(Building.DOME) && square.getBuildingLevel() == 2) {
+            mapButtons[square.getTile() - 1].setIcon(lvl1Dome.getIcon());
+        }
+        else if (square.getBuilding().equals(Building.DOME) && square.getBuildingLevel() == 3) {
+            mapButtons[square.getTile() - 1].setIcon(lvl2Dome.getIcon());
+        }
+        else {
+            mapButtons[square.getTile() - 1].setIcon(lvl3Dome.getIcon());
         }
     }
 
@@ -1834,10 +1851,6 @@ public class Board extends Observable {
         buttonBuild.setEnabled(bool);
     }
 
-    private void setEnableChoose(boolean bool){
-        buttonMultiUse.setEnabled(bool);
-    }
-
     public void displayLose(String nick, boolean isYourPlayer){
         internalFrameUpdateBoard.setVisible(false);
         newGame.addActionListener(new NewGameLoose());
@@ -1846,7 +1859,7 @@ public class Board extends Observable {
 
         try {
             if (isYourPlayer) {
-                border = ImageHandler.setImage("resources/Graphics/gods/podium/lose_border.png", 100, 100, frameSize.width * 50 / 100, frameSize.height * 80 / 100);
+                border = ImageHandler.setImage(LOSEBORDER, 100, 100, frameSize.width * 50 / 100, frameSize.height * 80 / 100);
             }
             else {
                 border = ImageHandler.setImage("resources/Graphics/gods/podium/lost_border.png", 100, 100, frameSize.width * 50 / 100, frameSize.height * 80 / 100);
@@ -1868,7 +1881,7 @@ public class Board extends Observable {
             winLose.setVisible(true);
             llost = new JLabel(nick);
             llost.setFont(felixBold);
-            llost.setBounds((int) ((frameSize.width * 45/100)), (int) (frameSize.height * 50 / 100), (int) frameSize.width * 50/100, frameSize.height * 5/100);
+            llost.setBounds((int) (frameSize.width * 45/100), (int) (frameSize.height * 50 / 100), (int) frameSize.width * 50/100, frameSize.height * 5/100);
             llost.setVisible(true);
             close.setBounds((int) ((frameSize.width * 48/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
             eliminateActionClass(close, Close.class);
@@ -1889,18 +1902,18 @@ public class Board extends Observable {
         try {
             if (winnerBool) {
                 border = ImageHandler.setImage("resources/Graphics/gods/podium/win_border.png", 100, 100, frameSize.width * 50/100, frameSize.height * 80/100);
-                lwinner = ImageHandler.setImage("resources/Graphics/gods/podium/" + mePlayer.getPower().getName() + ".png", 100, 100, frameSize.width * 30/100, frameSize.height * 50/100);
-                lLoser1 = ImageHandler.setImage("resources/Graphics/gods/podium/" + opponent1.getName() + ".png", 100, 100, frameSize.width * 30/100, frameSize.height * 50/100);
+                lwinner = ImageHandler.setImage(PODIUM + mePlayer.getPower().getName() + PNG, 100, 100, frameSize.width * 30/100, frameSize.height * 50/100);
+                lLoser1 = ImageHandler.setImage(PODIUM + opponent1.getName() + PNG, 100, 100, frameSize.width * 30/100, frameSize.height * 50/100);
                 if (numberOfPlayers == 3){
-                    lLoser2 = ImageHandler.setImage("resources/Graphics/gods/podium/" + opponent2.getName() + ".png", 100, 100, frameSize.width * 30/100, frameSize.height * 50/100);
+                    lLoser2 = ImageHandler.setImage(PODIUM + opponent2.getName() + PNG, 100, 100, frameSize.width * 30/100, frameSize.height * 50/100);
                 }
             }
             else {
-                border = ImageHandler.setImage("resources/Graphics/gods/podium/lose_border.png", 100, 100, frameSize.width * 50/100, frameSize.height * 80/100);
-                lwinner = ImageHandler.setImage("resources/Graphics/gods/podium/" + opponent1.getName() + ".png", 100, 100, frameSize.width * 30/100, frameSize.height * 50/100);
-                lLoser1 = ImageHandler.setImage("resources/Graphics/gods/podium/" + mePlayer.getPower().getName() + ".png", 100, 100, frameSize.width * 30/100, frameSize.height * 50/100);
+                border = ImageHandler.setImage(LOSEBORDER, 100, 100, frameSize.width * 50/100, frameSize.height * 80/100);
+                lwinner = ImageHandler.setImage(PODIUM + opponent1.getName() + PNG, 100, 100, frameSize.width * 30/100, frameSize.height * 50/100);
+                lLoser1 = ImageHandler.setImage(PODIUM + mePlayer.getPower().getName() + PNG, 100, 100, frameSize.width * 30/100, frameSize.height * 50/100);
                 if (numberOfPlayers == 3){
-                    lLoser2 = ImageHandler.setImage("resources/Graphics/gods/podium/" + opponent2.getName() + ".png", 100, 100, frameSize.width * 30/100, frameSize.height * 50/100);
+                    lLoser2 = ImageHandler.setImage(PODIUM + opponent2.getName() + PNG, 100, 100, frameSize.width * 30/100, frameSize.height * 50/100);
                 }
             }
         } catch (IOException ioException) {
@@ -1950,7 +1963,7 @@ public class Board extends Observable {
         }
     }
 
-    public static class ShowConstraint implements ActionListener{
+    public class ShowConstraint implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
             JButton c = (JButton)e.getSource();
@@ -1961,7 +1974,7 @@ public class Board extends Observable {
         }
     }
 
-    public static class HideConstraint implements ActionListener{
+    public class HideConstraint implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
             JButton c = (JButton)e.getSource();
@@ -2218,10 +2231,14 @@ public class Board extends Observable {
         }
     }
 
+    public static MP3 getClick() {
+        return click;
+    }
+
     private class ButtonPress extends MouseAdapter {
         @Override
         public void mousePressed(MouseEvent e) {
-            click.play();
+            getClick().play();
             JButton c = (JButton) e.getSource();
             if (buttonMove == c) {
                 buttonMove.setIcon(lButtonMovePress.getIcon());
@@ -2232,9 +2249,6 @@ public class Board extends Observable {
             else if (buttonBuild == c) {
                 buttonBuild.setIcon(lButtonBuildPress.getIcon());
             }
-            /*else if (buttonPower == c) {
-                buttonPower.setIcon(lButtonPowerPress.getIcon());
-            }*/
             else if (buttonChat == c){
                 buttonChat.setIcon(lButtonChatPress.getIcon());
             }
@@ -2266,9 +2280,6 @@ public class Board extends Observable {
             else if (buttonBuild == c){
                 buttonBuild.setIcon(lButtonBuild.getIcon());
             }
-            /*else if (buttonPower == c){
-                buttonPower.setIcon(lButtonPower.getIcon());
-            }*/
             else if(buttonChat == c) {
                 buttonChat.setIcon(lButtonChat.getIcon());
             }

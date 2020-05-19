@@ -1,15 +1,11 @@
 package it.polimi.ingsw.view.client.gui;
 
-import it.polimi.ingsw.model.map.MapLoader;
 
 import javax.imageio.ImageIO;
-import javax.imageio.stream.FileImageInputStream;
-import javax.imageio.stream.ImageInputStream;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.net.URL;
 
 public class ImageHandler {
 
@@ -19,10 +15,6 @@ public class ImageHandler {
 
     public static JLabel setImage(String s, double xMod, double yMod, int width, int height) throws IOException {
 
-       /* URL url = ImageHandler.class.getClassLoader().getResource(s);
-        File file = new File(s);*/
-        //FileInputStream f = new FileInputStream(s);
-        //InputStream f = ImageHandler.class.getClassLoader().getResourceAsStream(s);
         s = s.replaceFirst("resources", "");
 
         BufferedImage image = ImageIO.read(ImageHandler.class.getResourceAsStream(s));

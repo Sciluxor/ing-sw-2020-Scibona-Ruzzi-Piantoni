@@ -115,9 +115,9 @@ public class SeeConstraint extends JDesktopPane {
         add(back);
         back.addActionListener(new Close());
 
-        JButton back = backgroundButton(0);
-        back.setBounds(0, 0, frameSize.width, frameSize.height);
-        add(back);
+        JButton backBack = backgroundButton(0);
+        backBack.setBounds(0, 0, frameSize.width, frameSize.height);
+        add(backBack);
 
     }
 
@@ -169,8 +169,30 @@ public class SeeConstraint extends JDesktopPane {
         public void actionPerformed(ActionEvent e) {
             guiIntFrame.setVisible(false);
             eliminateActionClass(board.buttonPower, Board.HideConstraint.class);
-            board.buttonPower.addActionListener(new Board.ShowConstraint());
-            board.buttonPower.setIcon(lButtonPowerPing.getIcon());
+            board.buttonPower.addActionListener(new ShowConstraint());
+            board.buttonPower.setIcon(board.lButtonPowerPing.getIcon());
+        }
+    }
+
+    public class ShowConstraint implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JButton c = (JButton)e.getSource();
+            eliminateActionClass(c, Board.ShowConstraint.class);
+            c.setIcon(board.lButtonPowerPressPing.getIcon());
+            board.internalFrameConstraint.setVisible(true);
+            c.addActionListener(new HideConstraint());
+        }
+    }
+
+    public class HideConstraint implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JButton c = (JButton)e.getSource();
+            eliminateActionClass(c, Board.HideConstraint.class);
+            c.addActionListener(new ShowConstraint());
+            c.setIcon(board.lButtonPowerPing.getIcon());
+            board.internalFrameConstraint.setVisible(false);
         }
     }
 

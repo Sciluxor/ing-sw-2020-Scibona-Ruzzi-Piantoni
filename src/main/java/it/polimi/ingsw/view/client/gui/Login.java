@@ -4,7 +4,6 @@ import it.polimi.ingsw.utils.ConstantsContainer;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.desktop.SystemEventListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -16,7 +15,7 @@ public class Login extends JPanel{
 
     private final Gui gui;
     Dimension frameSize = new Dimension();
-    private static JTextField nickname;
+    private final JTextField nickname;
     JTextField numberPlayers;
     JTextField port;
     JTextField address;

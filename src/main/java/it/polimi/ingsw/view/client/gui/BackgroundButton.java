@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view.client.gui;
 
-import it.polimi.ingsw.network.client.ClientGameController;
 
 import javax.swing.*;
 
@@ -11,6 +10,7 @@ import static it.polimi.ingsw.view.client.gui.Gui.*;
 
 public class BackgroundButton {
 
+    private static Dimension d = getD();
     static JLabel cover;
     static JLabel cover2;
     static JLabel cover3;
@@ -26,6 +26,10 @@ public class BackgroundButton {
     static JLabel backgroundPanel = new JLabel(cover.getIcon());
     static JLabel internalBackgroundPanel = new JLabel(cover2.getIcon());
     static JLabel internalBackgroundPanel2 = new JLabel(cover3.getIcon());
+
+    private BackgroundButton() {
+        throw new IllegalStateException("BackgroundButton class cannot be instantiated");
+    }
 
     public static JButton backgroundButton(int n){
         JButton back = new JButton();

@@ -40,7 +40,7 @@ public class Gui extends ClientGameController {
     Board board;
     PopUp constructorPopUp = null;
     JFrame popUp = new JFrame();
-    static int panelInUse = 0;
+    int panelInUse = 0;
     private int numberOfPlayers = 2;
     private static int actualPlayers = 1;
 
@@ -151,9 +151,7 @@ public class Gui extends ClientGameController {
 
     @Override
     public void updateLobbyPlayer() {
-        SwingUtilities.invokeLater(() -> {
-            lobby.stamp(getPlayers());
-        });
+        SwingUtilities.invokeLater(() -> lobby.stamp(getPlayers()));
     }
 
     @Override
@@ -205,9 +203,7 @@ public class Gui extends ClientGameController {
 
     @Override
     public void newChatMessage(String nick, String message) {
-        SwingUtilities.invokeLater(() -> {
-            board.writeInChat(nick, message);
-        });
+        SwingUtilities.invokeLater(() -> board.writeInChat(nick, message));
     }
 
     @Override
@@ -226,74 +222,54 @@ public class Gui extends ClientGameController {
 
     @Override
     public void challengerChoice(String name, boolean bool) {
-        SwingUtilities.invokeLater(() -> {
-            board.showChallenger(name, bool);
-        });
+        SwingUtilities.invokeLater(() -> board.showChallenger(name, bool));
 
     }
 
     @Override
     public void cardChoice(String name, boolean bool) {
-        SwingUtilities.invokeLater(() -> {
-            board.showCardChoice(getAvailableCards(), name, bool);
-        });
+        SwingUtilities.invokeLater(() -> board.showCardChoice(getAvailableCards(), name, bool));
     }
 
     @Override
     public void placeWorker(String name, boolean bool) {
-        SwingUtilities.invokeLater(() -> {
-            board.showPlaceWorkers(name, bool);
-        });
+        SwingUtilities.invokeLater(() -> board.showPlaceWorkers(name, bool));
 
     }
 
     @Override
     public void updatePlacedWorkers(List<Square> squares) {
-        SwingUtilities.invokeLater(() -> {
-            board.updatePlacedWorkers(squares);
-        });
+        SwingUtilities.invokeLater(() -> board.updatePlacedWorkers(squares));
     }
 
     @Override
     public void updateBoard(String nick, List<Square> squares, MessageType type) {
-        SwingUtilities.invokeLater(() -> {
-            board.updateBoard(nick, squares, type);
-        });
+        SwingUtilities.invokeLater(() -> board.updateBoard(nick, squares, type));
     }
 
     @Override
     public void notifyWin(String nick) {
-        SwingUtilities.invokeLater(() -> {
-            board.displayWinLose(nick);
-        });
+        SwingUtilities.invokeLater(() -> board.displayWinLose(nick));
     }
 
     @Override
     public void notifyLose(String nick, boolean isYourPlayer) {
-        SwingUtilities.invokeLater(() -> {
-            board.displayLose(nick, isYourPlayer);
-        });
+        SwingUtilities.invokeLater(() -> board.displayLose(nick, isYourPlayer));
     }
 
     @Override
     public void displayActions(List<MessageType> actions) {
-        SwingUtilities.invokeLater(() -> {
-            board.setVisibleButtons(actions);
-        });
+        SwingUtilities.invokeLater(() -> board.setVisibleButtons(actions));
     }
 
     @Override
     public void addConstraint(String name) {
-        SwingUtilities.invokeLater(() -> {
-            board.displayConstraint(name, false);
-        });
+        SwingUtilities.invokeLater(() -> board.displayConstraint(name, false));
     }
 
     @Override
     public void removeConstraint(String name) {
-        SwingUtilities.invokeLater(() -> {
-            board.displayConstraint(name, true);
-        });
+        SwingUtilities.invokeLater(() -> board.displayConstraint(name, true));
     }
 
     @Override
@@ -332,14 +308,12 @@ public class Gui extends ClientGameController {
 
     @Override
     public void errorMessage() {
-
+        //da implementare
     }
 
     @Override
     public void startTurn(String nick, boolean isYourPlayer) {
-        SwingUtilities.invokeLater(() -> {
-            board.startTurn(nick, isYourPlayer);
-        });
+        SwingUtilities.invokeLater(() -> board.startTurn(nick, isYourPlayer));
     }
 
 

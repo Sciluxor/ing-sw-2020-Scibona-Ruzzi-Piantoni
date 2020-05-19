@@ -21,23 +21,23 @@ public class LobbyGui{
     Dimension frameSize = new Dimension();
     Dimension intFrameSize = new Dimension();
     private JDesktopPane pane;
-    private static JInternalFrame popUp;
+    private JInternalFrame popUp;
     PopUp constructorPopUp = null;
     MyButton backButton = null;
     MyButton confirm = null;
     static JLabel lactualNumber = new JLabel();
-    static JLabel lnumber = new JLabel();
+    JLabel lnumber = new JLabel();
     static JLabel lback;
     static JLabel lbackPress;
     JLabel nicknameLabel;
     JTextField nickname = new JTextField(20);
-    static Style colorStyle;
-    static StyledDocument doc;
-    static Style numberStyle;
-    static MutableAttributeSet fontSize;
-    static StyledDocument numberDoc;
-    static int num = 2;
-    static List<Player> players = new ArrayList<>();
+    Style colorStyle;
+    StyledDocument doc;
+    Style numberStyle;
+    MutableAttributeSet fontSize;
+    StyledDocument numberDoc;
+    int num;
+    List<Player> players;
 
     public LobbyGui(Gui instance, Dimension frame, Integer numberOfPlayer, List<Player> actualPlayers) throws IOException {
 
