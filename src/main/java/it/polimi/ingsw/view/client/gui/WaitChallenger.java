@@ -36,7 +36,7 @@ public class WaitChallenger extends JDesktopPane{
         label3.setBounds((int) (frameSize.width * 20/100), (int) (frameSize.height * 54.5/100), frameSize.width * 60/100, frameSize.height * 22/100);
 
         JLabel otherName = new JLabel(nameChoosing);
-        otherName.setBounds((int) ((frameSize.width * 45.75/100)), (int) (frameSize.height * 32.5/100), frameSize.width * 50/100, frameSize.width * 5/100);
+        otherName.setBounds((int) (frameSize.width * 45.75/100), (int) (frameSize.height * 32.5/100), frameSize.width * 50/100, frameSize.width * 5/100);
         otherName.setFont(felixBold);
 
         add(label);
@@ -58,7 +58,6 @@ public class WaitChallenger extends JDesktopPane{
         @Override
         public void actionPerformed(ActionEvent e) {
             intFrame.setVisible(false);
-            //intFrame.dispose();
         }
     }
 }

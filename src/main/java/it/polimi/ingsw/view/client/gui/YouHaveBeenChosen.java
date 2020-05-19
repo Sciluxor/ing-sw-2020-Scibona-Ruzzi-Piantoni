@@ -11,7 +11,7 @@ import static it.polimi.ingsw.view.client.gui.Gui.getD;
 
 public class YouHaveBeenChosen extends JDesktopPane {
 
-    Board board;
+    transient Board board;
     Dimension frameSize = new Dimension();
     MyButton close = new MyButton(3);
     JInternalFrame intFrame;
