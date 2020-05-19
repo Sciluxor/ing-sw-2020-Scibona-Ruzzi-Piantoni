@@ -15,8 +15,8 @@ import static it.polimi.ingsw.view.client.gui.Gui.*;
 
 public class ChallengerChoiceCards extends JDesktopPane{
 
-    Gui gui;
-    Board board;
+    transient Gui gui;
+    transient Board board;
     Dimension frameSize = new Dimension();
     Dimension intFrameSize = new Dimension();
     Dimension cardSize = new Dimension();
@@ -32,10 +32,10 @@ public class ChallengerChoiceCards extends JDesktopPane{
     private final List<JButton> godChosen = new ArrayList<>();
     MyButton confirm = new MyButton(0);
     MyButton back = new MyButton(1);
-    List<String> cardsChosen = new ArrayList<>();
-    List<JButton> godList = new ArrayList<>();
-    ButtonGodsList costructor;
-    MP3 click;
+    private final List<String> cardsChosen = new ArrayList<>();
+    private final List<JButton> godList = new ArrayList<>();
+    transient ButtonGodsList costructor;
+    transient MP3 click;
 
     public ChallengerChoiceCards(Gui instance, Board instance2, JInternalFrame aframe, Dimension dimensionFrame, Integer numberOfPlayer) throws IOException {
 
@@ -182,16 +182,16 @@ public class ChallengerChoiceCards extends JDesktopPane{
         public void mouseEntered(MouseEvent e) {
             JButton c = (JButton)e.getSource();
             if (c.getX() < frameSize.width * 50/100 && c.getY() < frameSize.height * 40/100) {
-                intFrame.setBounds((int) ((frameSize.width * 9 / 100) + c.getX()), (int) ((frameSize.height * 8.5 / 100)), intFrameSize.width, intFrameSize.height);
+                intFrame.setBounds((int) ((frameSize.width * 9 / 100) + c.getX()), (int) (frameSize.height * 8.5 / 100), intFrameSize.width, intFrameSize.height);
             }
             else if (c.getX() >= frameSize.width * 50/100 && c.getY() < frameSize.height * 40/100){
-                intFrame.setBounds((int) (c.getX() - (frameSize.width * 48 / 100)), (int) ((frameSize.height * 8.5 / 100)), intFrameSize.width, intFrameSize.height);
+                intFrame.setBounds((int) (c.getX() - (frameSize.width * 48 / 100)), (int) (frameSize.height * 8.5 / 100), intFrameSize.width, intFrameSize.height);
             }
             else if (c.getX() < frameSize.width * 50/100 && c.getY() >= frameSize.height * 40/100){
-                intFrame.setBounds((int) ((frameSize.width * 9 / 100) + c.getX()), (int) ((frameSize.height * 33 / 100)), intFrameSize.width, intFrameSize.height);
+                intFrame.setBounds((int) ((frameSize.width * 9 / 100) + c.getX()), (int) (frameSize.height * 33 / 100), intFrameSize.width, intFrameSize.height);
             }
             else
-                intFrame.setBounds((int) (c.getX() - (frameSize.width * 48 / 100)), (int) ((frameSize.height * 33 / 100)), intFrameSize.width, intFrameSize.height);
+                intFrame.setBounds((int) (c.getX() - (frameSize.width * 48 / 100)), (int) (frameSize.height * 33 / 100), intFrameSize.width, intFrameSize.height);
 
             buttonBackground.setIcon(null);
             try {
@@ -231,6 +231,17 @@ public class ChallengerChoiceCards extends JDesktopPane{
                 confirm.addActionListener(new Confirm());
             }
         }
+
+        private void addGod(JButton god){
+
+            for (int x = 0; x < godChosen.size(); x++){
+                if (godChosen.get(x).getName().compareTo(god.getName()) > 0){
+                    godChosen.add(x, god);
+                    return;
+                }
+            }
+            godChosen.add(god);
+        }
     }
     private class RemoveGod implements ActionListener{
         @Override
@@ -246,17 +257,6 @@ public class ChallengerChoiceCards extends JDesktopPane{
             c.addActionListener(new ChooseGod());
             eliminateActionClass(confirm, ChallengerChoiceCards.Confirm.class);
         }
-    }
-
-    private void addGod(JButton god){
-
-        for (int x = 0; x < godChosen.size(); x++){
-            if (godChosen.get(x).getName().compareTo(god.getName()) > 0){
-                godChosen.add(x, god);
-                return;
-            }
-        }
-        godChosen.add(god);
     }
 
     private class Close implements ActionListener {
