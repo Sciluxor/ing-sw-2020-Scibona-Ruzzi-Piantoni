@@ -51,7 +51,8 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
     public void onUpdatedStatus(Response status){
         switch (status) {
             case PLAYERADDED:
-                handleYourPlayerAdded();
+            case REMOVEDPLAYER:
+                handlePlayerAdded();
                 break;
             case NICKUSED:
                 handleNickUsed();
@@ -69,14 +70,26 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
             case CHALLENGERCHOICE:
                 handleChallengerChoice();
                 break;
+            case CHALLENGERCHOICEDONE:
+                handleChallengerChoiceDone();
+                break;
             case CARDCHOICE:
                 handleCardChoice();
+                break;
+            case CARDCHOICEDONE:
+                handleCardChoiceDone();
                 break;
             case PLACEWORKERS:
                 handlePlaceWorkers();
                 break;
+            case PLACEWORKERSDONE:
+                handlePlaceWorkersDone();
+                break;
             case ASSIGNEDPERMCONSTRAINT:
-                handleYourPermConstraint();
+                handlePermConstraint();
+                break;
+            case ASSIGNEDCONSTRAINT:
+                handleNonPermConstraint();
                 break;
             case STARTTURN:
                 handleStartTurn();
@@ -104,34 +117,34 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
     public void onUpdatedInstance(Response status){
         switch (status){
             case PLAYERADDED:
-                handleNewPlayerAdded();
+                //handleNewPlayerAdded();
                 break;
             case REMOVEDPLAYER:
-                handleRemovedPlayer();
+                //handleRemovedPlayer();
                 break;
             case CHALLENGERCHOICE:
-                handleOtherChallengerChoice();
+                //handleOtherChallengerChoice();
                 break;
             case CHALLENGERCHOICEDONE:
-                handleChallengerChoiceDone();
+                //handleChallengerChoiceDone();
                 break;
             case CARDCHOICE:
-                handleOtherCardChoice();
+                //handleOtherCardChoice();
                 break;
             case CARDCHOICEDONE:
-                handleOtherCardChoiceDone();
+                //handleOtherCardChoiceDone();
                 break;
             case PLACEWORKERS:
-                handleOtherPlaceWorkers();
+                //handleOtherPlaceWorkers();
                 break;
             case PLACEWORKERSDONE:
-                handleOtherPlaceWorkersDone();
+                //handleOtherPlaceWorkersDone();
                 break;
             case ASSIGNEDPERMCONSTRAINT:
-                handleOtherPermConstraint();
+                //handleOtherPermConstraint();
                 break;
             case STARTTURN:
-                handleOtherTurnStarted();
+                //handleOtherTurnStarted();
                 break;
             case MOVED:
             case NEWMOVE:
@@ -143,7 +156,7 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
                 handleOtherBuild();
                 break;
             case ASSIGNEDCONSTRAINT:
-                handleNonPermConstraint();
+                //handleNonPermConstraint();
                 break;
             case PLAYERLOSE:
                  handleLose();
@@ -168,16 +181,26 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
     // methods for the turn of player
     //
 
-    public void handleYourPlayerAdded(){
+    public void handlePlayerAdded(){
         WaitPlayerMessage message = new WaitPlayerMessage(ConstantsContainer.SERVERNAME,MessageSubType.UPDATE,connection.getUserID());
         connection.sendMessage(buildWaitLobbyMessage(message));
     }
 
+    public Message buildWaitLobbyMessage(WaitPlayerMessage message){
+        for(Player player: controller.getActualPlayers()){
+            message.addColor(player.getColor());
+            message.addNickName(player.getNickName());
+        }
+        return message;
+    }
+
     public void handleNickUsed(){
-        WaitPlayerMessage message = new WaitPlayerMessage(ConstantsContainer.SERVERNAME,MessageSubType.UPDATE,connection.getUserID());
-        connection.sendMessage(buildWaitLobbyMessage(message));
-        connection.sendMessage(new Message(ConstantsContainer.SERVERNAME, MessageType.CONFIG,MessageSubType.NICKUSED,connection.getUserID()));
-        connection.startLobbyTimer();
+        if(isYourTurn) {
+            WaitPlayerMessage message = new WaitPlayerMessage(ConstantsContainer.SERVERNAME, MessageSubType.UPDATE, connection.getUserID());
+            connection.sendMessage(buildWaitLobbyMessage(message));
+            connection.sendMessage(new Message(ConstantsContainer.SERVERNAME, MessageType.CONFIG, MessageSubType.NICKUSED, connection.getUserID()));
+            connection.startLobbyTimer();
+        }
     }
 
     public void handleStartGame(){
@@ -188,16 +211,38 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
         connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.CHALLENGERCHOICE,MessageSubType.REQUEST,controller.getCurrentPlayer().getNickName()));
     }
 
+    public void handleChallengerChoiceDone(){
+        connection.sendMessage(new ChallengerChoiceMessage(ConstantsContainer.SERVERNAME,controller.getCurrentPlayer().getNickName(),MessageSubType.SETTED,null,controller.getAvailableCards()));
+    }
+
     public void  handleCardChoice(){
         connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.CHOOSECARD,MessageSubType.REQUEST,controller.getCurrentPlayer().getNickName()));
+    }
+
+    public void handleCardChoiceDone(){
+        connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.CHOOSECARD,MessageSubType.SETTED,controller.getCurrentPlayer().getPower().getName()));
     }
 
     public void handlePlaceWorkers(){
         connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.PLACEWORKERS,MessageSubType.REQUEST,controller.getCurrentPlayer().getNickName()));
     }
 
-    public void handleYourPermConstraint(){
-        sendPermConstraint(controller.getCurrentPlayer());
+    public void handlePlaceWorkersDone(){
+        connection.sendMessage(new PlaceWorkersMessage(ConstantsContainer.SERVERNAME,MessageSubType.SETTED,controller.getModifiedSquares().get(0).getCoordinates(),controller.getModifiedSquares().get(1).getCoordinates()));
+    }
+
+    public void handlePermConstraint(){
+        for(Player player: controller.getActualPlayers())
+                sendPermConstraint(player);
+    }
+
+    public void sendPermConstraint(Player player){
+        for(Card card: player.getConstraint())
+            connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,player.getNickName(),MessageType.PERMCONSTRAINT,MessageSubType.UPDATE,card.getName()));
+    }
+
+    public void handleNonPermConstraint(){
+        connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.NONPERMCONSTRAINT,MessageSubType.UPDATE,controller.getCurrentPlayer().getPower().getName()));
     }
 
     public void handleStartTurn(){
@@ -212,48 +257,14 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
     //methods for the idle turn of the player
     //
 
-    public void handleNewPlayerAdded(){
-        WaitPlayerMessage message =  new WaitPlayerMessage(ConstantsContainer.SERVERNAME,MessageSubType.NEWPLAYER,connection.getUserID());
-        connection.sendMessage(buildWaitLobbyMessage(message));
-    }
-    public void handleRemovedPlayer(){
-        WaitPlayerMessage message =  new WaitPlayerMessage(ConstantsContainer.SERVERNAME,MessageSubType.REMOVEDPLAYER,connection.getUserID());
-        connection.sendMessage(buildWaitLobbyMessage(message));
-    }
+
 
     public void handleNotYourTurn(){
         connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.NOTYOURTURN,MessageSubType.ERROR));
     }
 
-    public void handleOtherChallengerChoice(){
-        connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.CHALLENGERCHOICE,MessageSubType.UPDATE,controller.getCurrentPlayer().getNickName()));
-    }
 
-    public void handleChallengerChoiceDone(){
-        connection.sendMessage(new ChallengerChoiceMessage(ConstantsContainer.SERVERNAME,controller.getCurrentPlayer().getNickName(),MessageSubType.SETTED,null,controller.getAvailableCards()));
-    }
-    public void handleOtherCardChoice(){
-        connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.CHOOSECARD,MessageSubType.UPDATE,controller.getCurrentPlayer().getNickName()));
-    }
-    public void handleOtherCardChoiceDone(){
-        connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.CHOOSECARD,MessageSubType.SETTED,controller.getCurrentPlayer().getPower().getName()));
-    }
-    public void  handleOtherPlaceWorkers(){
-        connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.PLACEWORKERS,MessageSubType.UPDATE,controller.getCurrentPlayer().getNickName()));
-    }
-    public void handleOtherPlaceWorkersDone(){
-        connection.sendMessage(new PlaceWorkersMessage(ConstantsContainer.SERVERNAME,MessageSubType.SETTED,controller.getModifiedSquares().get(0).getCoordinates(),controller.getModifiedSquares().get(1).getCoordinates()));
-    }
 
-    public void handleOtherPermConstraint(){
-        for(Player player: controller.getActualPlayers())
-            if(player.getNickName().equals(connection.getNickName()))
-                sendPermConstraint(player);
-    }
-
-    public void handleOtherTurnStarted(){
-        connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.STARTTURN,MessageSubType.UPDATE,controller.getCurrentPlayer().getNickName()));
-    }
 
     public void handleOtherMove(){
         connection.sendMessage(new MoveWorkerMessage(ConstantsContainer.SERVERNAME,controller.getCurrentPlayer().getNickName(),controller.getModifiedSquares()));
@@ -263,26 +274,9 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
         connection.sendMessage(new BuildWorkerMessage(ConstantsContainer.SERVERNAME,controller.getCurrentPlayer().getNickName(),controller.getModifiedSquares()));
     }
 
-    public void handleNonPermConstraint(){
-        connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.NONPERMCONSTRAINT,MessageSubType.UPDATE,controller.getCurrentPlayer().getPower().getName()));
-    }
-
     //
     //methods for both
     //
-
-    public Message buildWaitLobbyMessage(WaitPlayerMessage message){
-        for(Player player: controller.getActualPlayers()){
-            message.addColor(player.getColor());
-            message.addNickName(player.getNickName());
-        }
-        return message;
-    }
-
-    public void sendPermConstraint(Player player){
-        for(Card card: player.getConstraint())
-            connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.PERMCONSTRAINT,MessageSubType.UPDATE,card.getName()));
-    }
 
     public void handleChatMessage(Message message){
         connection.sendMessage(message);
@@ -325,8 +319,6 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
 
     @Override
     public void update(Response status) {
-        if(isYourTurn)
-            onUpdatedStatus(status);
-        else onUpdatedInstance(status);
+        onUpdatedStatus(status);
     }
 }

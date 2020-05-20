@@ -134,55 +134,47 @@ public abstract class ClientGameController implements Runnable, FunctionListener
 
     public synchronized void handleChallengerChoice(Message message){
         if(message.getSubType().equals(MessageSubType.REQUEST)) {
+            boolean isYourPlayer = message.getMessage().equals(client.getNickName());
             game.setCurrentPlayer(message.getMessage());
-            eventQueue.add(() -> challengerChoice(message.getMessage(), true));
-        }
-        else if(message.getSubType().equals(MessageSubType.UPDATE)) {
-            game.setCurrentPlayer(message.getMessage());
-            eventQueue.add(() -> challengerChoice(message.getMessage(), false));
+            eventQueue.add(() -> challengerChoice(message.getMessage(),isYourPlayer));
         }
         else{
-            game.setAvailableCards(((ChallengerChoiceMessage) message).getCards());
+            if(!game.getCurrentPlayer().getNickName().equals(client.getNickName()))
+                game.setAvailableCards(((ChallengerChoiceMessage) message).getCards());
         }
     }
 
     public synchronized void handleCardChoice(Message message){
         if(message.getSubType().equals(MessageSubType.REQUEST)) {
+            boolean isYourPlayer = message.getMessage().equals(client.getNickName());
             game.getCurrentPlayer().setTurnStatus(TurnStatus.IDLE);
             game.setCurrentPlayer(message.getMessage());
             game.getCurrentPlayer().setTurnStatus(TurnStatus.PLAYTURN);
-            eventQueue.add(() -> cardChoice(message.getMessage(), true));
-        }
-        else if(message.getSubType().equals(MessageSubType.UPDATE)) {
-            game.getCurrentPlayer().setTurnStatus(TurnStatus.IDLE);
-            game.setCurrentPlayer(message.getMessage());
-            game.getCurrentPlayer().setTurnStatus(TurnStatus.PLAYTURN);
-            eventQueue.add(() -> cardChoice(message.getMessage(), false));
+            eventQueue.add(() -> cardChoice(message.getMessage(), isYourPlayer));
         }
         else{
-             game.getCurrentPlayer().setPower(CardLoader.loadCards().get(message.getMessage()));
-             game.removeCard(message.getMessage());
+            if(!game.getCurrentPlayer().getNickName().equals(client.getNickName())) {
+                game.getCurrentPlayer().setPower(CardLoader.loadCards().get(message.getMessage()));
+                game.removeCard(message.getMessage());
+            }
         }
     }
 
     public synchronized void handlePlaceWorkers(Message message){
         if(message.getSubType().equals(MessageSubType.REQUEST)) {
+            boolean isYourPlayer = message.getMessage().equals(client.getNickName());
             game.getCurrentPlayer().setTurnStatus(TurnStatus.IDLE);
             game.setCurrentPlayer(message.getMessage());
             game.getCurrentPlayer().setTurnStatus(TurnStatus.PLAYTURN);
-            eventQueue.add(() -> placeWorker(message.getMessage(), true));
-        }
-        else if(message.getSubType().equals(MessageSubType.UPDATE)) {
-            game.getCurrentPlayer().setTurnStatus(TurnStatus.IDLE);
-            game.setCurrentPlayer(message.getMessage());
-            game.getCurrentPlayer().setTurnStatus(TurnStatus.PLAYTURN);
-            eventQueue.add(() -> placeWorker(message.getMessage(), false));
+            eventQueue.add(() -> placeWorker(message.getMessage(), isYourPlayer));
         }
         else {
-            int tile1 = game.getGameMap().getTileFromCoordinates(((PlaceWorkersMessage) message).getTile1()).getTile();
-            int tile2 = game.getGameMap().getTileFromCoordinates(((PlaceWorkersMessage) message).getTile2()).getTile();
-            game.placeWorkersOnMap(tile1,tile2);
-            eventQueue.add(() -> updatePlacedWorkers(game.getGameMap().getModifiedSquare()));
+            if(!game.getCurrentPlayer().getNickName().equals(client.getNickName())) {
+                int tile1 = game.getGameMap().getTileFromCoordinates(((PlaceWorkersMessage) message).getTile1()).getTile();
+                int tile2 = game.getGameMap().getTileFromCoordinates(((PlaceWorkersMessage) message).getTile2()).getTile();
+                game.placeWorkersOnMap(tile1, tile2);
+                eventQueue.add(() -> updatePlacedWorkers(game.getGameMap().getModifiedSquare()));
+            }
         }
     }
 
@@ -191,12 +183,8 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         game.setCurrentPlayer(message.getMessage());
         game.setGameStatus(game.getCurrentPlayer().getPower().getFirstAction());
         game.getCurrentPlayer().setTurnStatus(TurnStatus.PLAYTURN);
-        if(message.getSubType().equals(MessageSubType.REQUEST)) {
-            eventQueue.add(() -> startTurn(message.getMessage(), true));
-        }
-        else if(message.getSubType().equals(MessageSubType.UPDATE)) {
-            eventQueue.add(() -> startTurn(message.getMessage(), false));
-        }
+        boolean isYourPlayer = message.getMessage().equals(client.getNickName());
+        eventQueue.add(() -> startTurn(message.getMessage(), isYourPlayer));
     }
 
     public synchronized List<Square> getModifiedsquare(){
@@ -374,9 +362,18 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         eventQueue.add(() -> updateBoard(message.getNickName(),toSendSquare,message.getType()));
     }
 
-    public synchronized void addConstraint(Message message){
-        game.getClientPlayer().setConstraint(game.getDeck().get(message.getMessage()));
-        eventQueue.add(() -> addConstraint(message.getMessage()));
+    public synchronized void addPermConstraint(Message message){
+        if(client.getNickName().equals(message.getNickName())) {
+            game.getClientPlayer().setConstraint(game.getDeck().get(message.getMessage()));
+            eventQueue.add(() -> addConstraint(message.getMessage()));
+        }
+    }
+
+    public synchronized void addNonPermConstraint(Message message){
+        if(!game.getClientPlayer().getPower().getName().equals(message.getMessage())) {
+            game.getClientPlayer().setConstraint(game.getDeck().get(message.getMessage()));
+            eventQueue.add(() -> addConstraint(message.getMessage()));
+        }
     }
 
     public synchronized void handleDisconnection(Message message){
@@ -470,8 +467,10 @@ public abstract class ClientGameController implements Runnable, FunctionListener
                 handleUpdateBoard(message);
                 break;
             case NONPERMCONSTRAINT:
+                addNonPermConstraint(message);
+                break;
             case PERMCONSTRAINT:
-                addConstraint(message);
+                addPermConstraint(message);
                 break;
             case CHAT:
                 handleChatMessage(message);
