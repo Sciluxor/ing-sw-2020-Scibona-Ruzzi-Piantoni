@@ -418,13 +418,8 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         game.setGameStatus(game.getCurrentPlayer().getPower().getFirstAction());
         game.getCurrentPlayer().setTurnStatus(TurnStatus.PLAYTURN);
         game.removePlayerLose();
-
-        if(message.getSubType().equals(MessageSubType.REQUEST)) {
-            eventQueue.add(() -> notifyLose(message.getMessage(), true));
-        }
-        else if(message.getSubType().equals(MessageSubType.UPDATE)) {
-            eventQueue.add(() -> notifyLose(message.getMessage(), false));
-        }
+        boolean isYourPlayer = message.getMessage().equals(client.getNickName());
+        eventQueue.add(() -> notifyLose(message.getMessage(), isYourPlayer));
     }
 
     public synchronized void handleGameStopped(Message message){

@@ -16,7 +16,6 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
 
     private final ClientHandler connection;
     private final GameController controller;
-    private boolean isGameStarted = false;
     private boolean isYourTurn = false;
 
     public VirtualView(ClientHandler connection,GameController controller) {
@@ -34,14 +33,6 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
 
     public void setYourTurn(boolean yourTurn) {
         isYourTurn = yourTurn;
-    }
-
-    public boolean isGameStarted() {
-        return isGameStarted;
-    }
-
-    public void setGameStarted(boolean gameStarted) {
-        isGameStarted = gameStarted;
     }
 
     public void processMessageReceived(Message message){
@@ -123,71 +114,8 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
 
     }
 
-    public void onUpdatedInstance(Response status){
-        switch (status){
-            case PLAYERADDED:
-                //handleNewPlayerAdded();
-                break;
-            case REMOVEDPLAYER:
-                //handleRemovedPlayer();
-                break;
-            case CHALLENGERCHOICE:
-                //handleOtherChallengerChoice();
-                break;
-            case CHALLENGERCHOICEDONE:
-                //handleChallengerChoiceDone();
-                break;
-            case CARDCHOICE:
-                //handleOtherCardChoice();
-                break;
-            case CARDCHOICEDONE:
-                //handleOtherCardChoiceDone();
-                break;
-            case PLACEWORKERS:
-                //handleOtherPlaceWorkers();
-                break;
-            case PLACEWORKERSDONE:
-                //handleOtherPlaceWorkersDone();
-                break;
-            case ASSIGNEDPERMCONSTRAINT:
-                //handleOtherPermConstraint();
-                break;
-            case STARTTURN:
-                //handleOtherTurnStarted();
-                break;
-            case MOVED:
-            case NEWMOVE:
-                //handleOtherMove();
-                break;
-            case BUILD:
-            case BUILDEDBEFORE:
-            case NEWBUILD:
-                //handleOtherBuild();
-                break;
-            case ASSIGNEDCONSTRAINT:
-                //handleNonPermConstraint();
-                break;
-            case PLAYERLOSE:
-                 handleLose();
-                break;
-            case WIN:
-                //handleWin();
-                break;
-            case LOSEWIN:
-                handleLoseWin();
-                break;
-            case GAMESTOPPED:
-                handleGameStopped();
-                break;
-            case PLAYERTIMERENDED:
-                handlePlayerTimeEnded();
-                break;
-            default:
-        }
-    }
-
     //
-    // methods for the turn of player
+    // methods for sending message to all the player connected
     //
 
     public void handlePlayerAdded(){
@@ -276,36 +204,8 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
         controller.resetPlayer(this);
     }
 
-    public void handleClientError(){
-        //connection.sendMessage(new Message());
-    }
-
-    //
-    //methods for the idle turn of the player
-    //
-
-
-
-    public void handleNotYourTurn(){
-        connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.NOTYOURTURN,MessageSubType.ERROR));
-    }
-
-    //
-    //methods for both
-    //
-
-    public void handleChatMessage(Message message){
-        connection.sendMessage(message);
-    }
-
-
-
     public void handleLose(){
-        if(connection.getNickName().equals(controller.getLastLosePlayer()))
-            connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.LOSE,MessageSubType.REQUEST,controller.getLastLosePlayer()));
-        else
-            connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.LOSE,MessageSubType.UPDATE,controller.getLastLosePlayer()));
-
+        connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.LOSE,MessageSubType.UPDATE,controller.getLastLosePlayer()));
     }
 
     public void handleGameStopped(){
@@ -316,6 +216,22 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
 
     public void handlePlayerTimeEnded(){
         connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.STOPPEDGAME,MessageSubType.TIMEENDED,controller.getStopper()));
+    }
+
+    public void handleClientError(){
+        //connection.sendMessage(new Message());
+    }
+
+    //
+    //methods for the idle turn of the player or current player
+    //
+
+    public void handleChatMessage(Message message){
+        connection.sendMessage(message);
+    }
+
+    public void handleNotYourTurn(){
+        connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.NOTYOURTURN,MessageSubType.ERROR));
     }
 
 
