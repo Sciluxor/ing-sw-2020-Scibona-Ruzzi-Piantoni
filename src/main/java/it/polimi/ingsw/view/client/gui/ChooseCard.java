@@ -79,7 +79,7 @@ public class ChooseCard extends JDesktopPane{
         JLabel isChoosing = ImageHandler.setImage("resources/Graphics/Texts/is_choosing_the_god_power.png", 100, 100, frameSize.width * 85/100, frameSize.height * 25/100);
         JLabel first = ImageHandler.setImage("resources/Graphics/Texts/choose_your_god_power.png", 100, 100, frameSize.width * 85/100, frameSize.height * 25/100);
         JLabel otherName = new JLabel(nameChoosing);
-        otherName.setBounds((int) ((double)(frameSize.width * 50/ 100) - ((otherName.getText().length() * bold) / 2)), (int) (frameSize.height * 36.5/100), frameSize.width * 60/100, frameSize.width * 5/100);
+        otherName.setBounds((int) (((double)frameSize.width * 50/ 100) - ((otherName.getText().length() * bold) / 2)), (int) (frameSize.height * 36.5/100), frameSize.width * 60/100, frameSize.width * 5/100);
         otherName.setFont(felixBold);
 
         selectGodsChosen();
@@ -132,7 +132,7 @@ public class ChooseCard extends JDesktopPane{
                 godChoosen.get(0).setBounds((int) (frameSize.width * 45.5/100), y, cardSize.width, cardSize.height);
                 this.add(godChoosen.get(0));
 
-                confirm.setBounds((int) ((double)(frameSize.width * 50/ 100) - ((getD().getWidth() * 13 / 100) * 50/100)), (int) (frameSize.height * 81 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
+                confirm.setBounds((int) (((double)frameSize.width * 50/ 100) - ((getD().getWidth() * 13 / 100) * 50/100)), (int) (frameSize.height * 81 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
                 add(confirm);
 
                 JButton back = backgroundButton(0);
@@ -145,7 +145,7 @@ public class ChooseCard extends JDesktopPane{
                 add(first);
 
                 close.addActionListener(new Close());
-                close.setBounds((int) ((double)(frameSize.width * 50/ 100) - ((getD().getWidth() * 13 / 100) * 50/100)), (int) (frameSize.height * 81 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
+                close.setBounds((int) (((double)frameSize.width * 50/ 100) - ((getD().getWidth() * 13 / 100) * 50/100)), (int) (frameSize.height * 81 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
                 add(close);
 
                 JButton back = backgroundButtonPersonalized(2, frameSize);
@@ -159,7 +159,7 @@ public class ChooseCard extends JDesktopPane{
                 add(isChoosing);
 
                 close.addActionListener(new Close());
-                close.setBounds((int) ((double)(frameSize.width * 50/ 100) - ((getD().getWidth() * 13 / 100) * 50/100)), (int) (frameSize.height * 81 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
+                close.setBounds((int) (((double)frameSize.width * 50/ 100) - ((getD().getWidth() * 13 / 100) * 50/100)), (int) (frameSize.height * 81 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
                 add(close);
 
                 JButton back = backgroundButtonPersonalized(2, frameSize);

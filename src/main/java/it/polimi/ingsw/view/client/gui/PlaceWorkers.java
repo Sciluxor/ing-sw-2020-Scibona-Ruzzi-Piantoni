@@ -29,7 +29,7 @@ public class PlaceWorkers extends JDesktopPane{
         setLayout(null);
         JLabel label = new JLabel();
         JLabel otherName = new JLabel(nameChoosing);
-        otherName.setBounds((int) ((double)(frameSize.width * 48/100) - ((otherName.getText().length() * bold) / 2)), (int) (frameSize.height * 32.5/100), frameSize.width * 60/100, frameSize.width * 5/100);
+        otherName.setBounds((int) (((double)frameSize.width * 48/100) - ((otherName.getText().length() * bold) / 2)), (int) (frameSize.height * 32.5/100), frameSize.width * 60/100, frameSize.width * 5/100);
         otherName.setFont(felixBold);
 
         if (numberOfPanel == 0) {
@@ -45,7 +45,7 @@ public class PlaceWorkers extends JDesktopPane{
         }
 
         close.addActionListener(new Close());
-        close.setBounds((int) ((double)(frameSize.width * 50/ 100) - ((getD().getWidth() * 13 / 100) / 2)), (int) (frameSize.height * 81 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
+        close.setBounds((int) (((double)frameSize.width * 50/ 100) - ((getD().getWidth() * 13 / 100) / 2)), (int) (frameSize.height * 81 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
         add(close);
 
         JButton back = backgroundButtonPersonalized(2, frameSize);
