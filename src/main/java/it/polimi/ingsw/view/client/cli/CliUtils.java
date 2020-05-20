@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 
 public class CliUtils {
 
-    private static boolean debug = false;
+    public static boolean debug = true;
 
     public static final java.util.logging.Logger LOGGER = Logger.getLogger("Cli");
 

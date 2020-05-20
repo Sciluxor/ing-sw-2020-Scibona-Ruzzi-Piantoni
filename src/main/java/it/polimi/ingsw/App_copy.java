@@ -13,6 +13,7 @@ public class App_copy {
         int keyboardIn;
         boolean goOut = false;
 
+        clearShell();
         printRed("USE ARROWS TO SELECT:\n  [1] CLI\n  [2] GUI\n");
         keyboardIn = getArrowUpDown();
 
@@ -27,7 +28,7 @@ public class App_copy {
                     keyboardIn = controlWaitEnter("up&down");
                     if(keyboardIn == 0) {
                         goOut = true;
-                        printErr("NO KEYBOARD CATCHED");
+                        printErr("NO KEYBOARD CAUGHT");
                         break;
                     }
 
@@ -43,7 +44,7 @@ public class App_copy {
                     keyboardIn = controlWaitEnter("up&down");
                     if(keyboardIn == 0) {
                         goOut = true;
-                        printErr("NO KEYBOARD CATCHED");
+                        printErr("NO KEYBOARD CAUGHT");
                         break;
                     }
 
@@ -55,7 +56,7 @@ public class App_copy {
                 default:
                     goOut = true;
                     if (keyboardIn != 13)
-                        printErr("NO KEYBOARD CATCHED");
+                        printErr("NO KEYBOARD CAUGHT");
             }
         } while (!goOut);
 
