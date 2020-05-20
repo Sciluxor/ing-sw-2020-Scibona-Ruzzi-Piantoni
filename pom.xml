@@ -212,6 +212,23 @@
             </configuration>
           </execution>
 
+          <!-- Map Arrows JAR -->
+          <execution>
+            <id>map_test</id>
+            <goals><goal>single</goal></goals>
+            <phase>package</phase>
+            <configuration>
+              <finalName>map_test</finalName>
+              <archive>
+                <manifest>
+                  <mainClass>it.polimi.ingsw.MainTestPrintMapCli</mainClass>
+                </manifest>
+              </archive>
+              <descriptorRefs>
+                <descriptorRef>jar-with-dependencies</descriptorRef>
+              </descriptorRefs>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
 

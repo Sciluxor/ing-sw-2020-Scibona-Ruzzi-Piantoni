@@ -75,17 +75,12 @@ public class Cli extends ClientGameController {
         selectCards();
         String firstPlayer = selectFirstPlayer();
 
-        if(debug) {
-            clearShell();
-            printErr("SELECTED CARDS:  ");
-            for (String s : selectedCards)
-                printErr(s);
-            printErr("SELECTED AS FIRST PLAYER:  ");
-            printPlayer(firstPlayer);
-        }
-
+        printDebug("\nFIRSTPLAYER: " + firstPlayer + "\nSELECTED CARDS:\n" + selectedCards);
 
         challengerResponse(firstPlayer, selectedCards);
+        printDebug("CHALLENGERRESPONSE");
+        endTurn();
+        printDebug("AFTER INTERRAPT");
     }
 
     //-------------------------------
@@ -460,7 +455,7 @@ public class Cli extends ClientGameController {
                     printYellow("[BOARD]");
                     printWhite("  [ACTIONS]  [OPPONENTS]  [POWER]\n\n");
 
-                    canGoOut = true;
+                    //canGoOut = true;
                 } else if (counter == 3) {
                     printWhite("[CHAT]  [BOARD]  ");
                     printYellow("[ACTIONS]");
@@ -470,7 +465,7 @@ public class Cli extends ClientGameController {
                     else
                         printRed("\n");
 
-                    canGoOut = isFirstPlayer;
+                    //canGoOut = isFirstPlayer;
                 } else if (counter == 4) {
                     lastPosition = false;
                     printWhite("[CHAT]  [BOARD]  [ACTIONS]  ");
@@ -482,7 +477,7 @@ public class Cli extends ClientGameController {
                         printWhite("]\n");
                     }
 
-                    canGoOut = false;
+                    //canGoOut = false;
                 } else if (counter == 5) {
                     lastPosition = true;
                     printWhite("[CHAT]  [BOARD]  [ACTIONS]  [OPPONENTS]  ");
@@ -494,12 +489,12 @@ public class Cli extends ClientGameController {
                     }
                     //printConstraint
 
-                    canGoOut = false;
+                    //canGoOut = false;
                 }
 
                 keyboardIn = controlWaitEnter("left&right");
             }
-        }while(!goOut && !canGoOut);
+        }while(!goOut /*&& !canGoOut*/);
 
         selectMenu(counter, isFirstPlayer);
     }
@@ -596,7 +591,7 @@ public class Cli extends ClientGameController {
             case "CHALLENGER CHOICE":
                 //challengerchoice
                 break;
-            case "CHOOSE CARD":
+            case "CHOOSE POWER":
                 //choosecard
                 break;
             default:
@@ -689,12 +684,30 @@ public class Cli extends ClientGameController {
 
     @Override
     public void cardChoice(String challengerNick, boolean isYourPlayer) {
-        mainThread.interrupt();
-        clearShell();
-        printYourTurn();
-        mainThread.start();
+        printDebug("CARDCHOICE");
 
-        if(isYourPlayer) {
+        //mainThread.interrupt();
+        clearShell();
+        //printYourTurn();
+        //mainThread.start();
+
+        if (isYourPlayer) {
+            printRed("YOU HAVE BEEN CHOSEN AS FIRST PLAYER!\n");
+            controlWaitEnter("enter");
+            availableActions = new ArrayList<>();
+            availableActions.add("CHOOSE POWER");
+
+        } else {
+            printRed("PLAYER ");
+            printPlayer(challengerNick);
+            printRed(" IS CHOOSING HIS POWER\n");
+            controlWaitEnter("enter");
+        }
+
+        printMenu(isYourPlayer, false);
+
+
+        /*if(isYourPlayer) {
             printRed("AVAILABLE CARDS:\n");
             for(String s: getAvailableCards())
                 printYellow(s + "\n");
@@ -707,7 +720,7 @@ public class Cli extends ClientGameController {
         }
         else {
             printRed("PLAYER " + challengerNick + "IS CHOOSING HIS POWER");
-        }
+        }*/
 
     }
 
@@ -837,7 +850,6 @@ public class Cli extends ClientGameController {
     public void newChatMessage(String nick, String message) {
 
     }
-
 
     @Override
     public void errorMessage() {

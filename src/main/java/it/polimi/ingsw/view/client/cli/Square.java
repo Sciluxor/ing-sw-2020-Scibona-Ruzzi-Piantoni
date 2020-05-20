@@ -1,5 +1,7 @@
 package it.polimi.ingsw.view.client.cli;
 
+import it.polimi.ingsw.model.map.Building;
+
 public class Square {
 
     private boolean hasPlayer;

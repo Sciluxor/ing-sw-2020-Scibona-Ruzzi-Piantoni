@@ -119,6 +119,11 @@ public class CliUtils {
                     keyboardIn = waitEnter();
                 }while(keyboardIn != 13 && keyboardIn != 185 && keyboardIn != 186);
                 break;
+            case "all":
+                do {
+                    keyboardIn = waitEnter();
+                }while(keyboardIn != 13 && keyboardIn != 183 && keyboardIn != 184 && keyboardIn != 185 && keyboardIn != 186);
+                break;
             case "enter":
                 do {
                     keyboardIn = waitEnter();
