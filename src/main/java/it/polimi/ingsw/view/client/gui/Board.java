@@ -1919,9 +1919,10 @@ public class Board extends Observable {
         winLose.setIcon(border.getIcon());
         winner.setIcon(lwinner.getIcon());
         loser1.setIcon(lLoser1.getIcon());
-        loser2.setIcon(lLoser2.getIcon());
+
 
         if (numberOfPlayers == 3){
+            loser2.setIcon(lLoser2.getIcon());
             winner.setBounds((int) (frameSize.width * 34/100),frameSize.height * 20/100, frameSize.width * 30/100, frameSize.height * 50/100);
             glow.setBounds((int) (frameSize.width * 41.5/100),frameSize.height * 33/100, frameSize.width * 15/100, frameSize.height * 35/100);
             loser1.setBounds((int) (frameSize.width * 24/100),frameSize.height * 30/100, frameSize.width * 30/100, frameSize.height * 50/100);
