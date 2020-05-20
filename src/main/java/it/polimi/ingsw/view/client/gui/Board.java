@@ -425,7 +425,6 @@ public class Board extends Observable {
         winner.setOpaque(false);
         winner.setContentAreaFilled(false);
         winner.setBorderPainted(false);
-        winner.setIcon(lwinner.getIcon());
         winner.setVisible(false);
 
         glow.setBounds((int) (frameSize.width * 46.5/100),frameSize.height * 33/100, frameSize.width * 15/100, frameSize.height * 35/100);
@@ -439,14 +438,12 @@ public class Board extends Observable {
         loser1.setOpaque(false);
         loser1.setContentAreaFilled(false);
         loser1.setBorderPainted(false);
-        loser1.setIcon(lLoser1.getIcon());
         loser1.setVisible(false);
 
         loser2.setBounds((int) (frameSize.width * 44/100),frameSize.height * 30/100, frameSize.width * 30/100, frameSize.height * 50/100);
         loser2.setOpaque(false);
         loser2.setContentAreaFilled(false);
         loser2.setBorderPainted(false);
-        loser2.setIcon(lLoser2.getIcon());
         loser2.setVisible(false);
 
         winLose.setBounds(-7,-22, frameSize.width, frameSize.height);
