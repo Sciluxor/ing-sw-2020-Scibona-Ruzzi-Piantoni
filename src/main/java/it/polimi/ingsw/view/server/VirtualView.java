@@ -94,6 +94,15 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
             case STARTTURN:
                 handleStartTurn();
                 break;
+            case MOVED:
+            case NEWMOVE:
+                handleMove();
+                break;
+            case BUILD:
+            case BUILDEDBEFORE:
+            case NEWBUILD:
+                handleBuild();
+                break;
             case PLAYERLOSE:
                 handleLose();
                 break;
@@ -101,7 +110,7 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
                 handleWin();
                 break;
             case LOSEWIN:
-                handleLoseWin();  //mancano caso stoppedGame e playerTimerEnded
+                handleLoseWin();
                 break;
             case GAMESTOPPED:
                 handleGameStopped();
@@ -148,12 +157,12 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
                 break;
             case MOVED:
             case NEWMOVE:
-                handleOtherMove();
+                //handleOtherMove();
                 break;
             case BUILD:
             case BUILDEDBEFORE:
             case NEWBUILD:
-                handleOtherBuild();
+                //handleOtherBuild();
                 break;
             case ASSIGNEDCONSTRAINT:
                 //handleNonPermConstraint();
@@ -162,7 +171,7 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
                  handleLose();
                 break;
             case WIN:
-                handleWin();
+                //handleWin();
                 break;
             case LOSEWIN:
                 handleLoseWin();
@@ -249,6 +258,24 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
         connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.STARTTURN,MessageSubType.REQUEST,controller.getCurrentPlayer().getNickName()));
     }
 
+    public void handleMove(){
+        connection.sendMessage(new MoveWorkerMessage(ConstantsContainer.SERVERNAME,controller.getCurrentPlayer().getNickName(),controller.getModifiedSquares()));
+    }
+
+    public void handleBuild(){
+        connection.sendMessage(new BuildWorkerMessage(ConstantsContainer.SERVERNAME,controller.getCurrentPlayer().getNickName(),controller.getModifiedSquares()));
+    }
+
+    public void handleWin(){
+        connection.sendMessage(new Message(ConstantsContainer.SERVERNAME, MessageType.WIN, MessageSubType.UPDATE, controller.getWinner()));
+        controller.resetPlayer(this);
+    }
+
+    public void handleLoseWin(){
+        connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.WIN,MessageSubType.REQUEST,controller.getWinner()));
+        controller.resetPlayer(this);
+    }
+
     public void handleClientError(){
         //connection.sendMessage(new Message());
     }
@@ -263,17 +290,6 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
         connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.NOTYOURTURN,MessageSubType.ERROR));
     }
 
-
-
-
-    public void handleOtherMove(){
-        connection.sendMessage(new MoveWorkerMessage(ConstantsContainer.SERVERNAME,controller.getCurrentPlayer().getNickName(),controller.getModifiedSquares()));
-    }
-
-    public void handleOtherBuild(){
-        connection.sendMessage(new BuildWorkerMessage(ConstantsContainer.SERVERNAME,controller.getCurrentPlayer().getNickName(),controller.getModifiedSquares()));
-    }
-
     //
     //methods for both
     //
@@ -282,21 +298,7 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
         connection.sendMessage(message);
     }
 
-    public void handleWin(){
-        if(!connection.getNickName().equals(controller.getCurrentPlayer().getNickName())) {
-            connection.sendMessage(new Message(ConstantsContainer.SERVERNAME, MessageType.WIN, MessageSubType.UPDATE, controller.getWinner()));
-        }
-        controller.resetPlayer(this);
-    }
 
-    public void handleLoseWin(){
-        if(!connection.getNickName().equals(controller.getCurrentPlayer().getNickName()))
-            connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.WIN,MessageSubType.UPDATE,controller.getWinner()));
-        else{
-            connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.WIN,MessageSubType.UPDATE,controller.getWinner()));
-        }
-        controller.resetPlayer(this);
-    }
 
     public void handleLose(){
         if(connection.getNickName().equals(controller.getLastLosePlayer()))

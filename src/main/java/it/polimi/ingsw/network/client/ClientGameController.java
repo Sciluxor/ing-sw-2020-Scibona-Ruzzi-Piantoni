@@ -345,21 +345,23 @@ public abstract class ClientGameController implements Runnable, FunctionListener
 
 
     public synchronized void handleUpdateBoard(Message message){
-        List<Square> modifiedSquares = new ArrayList<>();
-        List<Square> toSendSquare = new ArrayList<>();
-        if(message.getType().equals(MessageType.MOVEWORKER) && message.getSubType().equals(MessageSubType.UPDATE))
-            modifiedSquares = ((MoveWorkerMessage) message).getModifiedSquare();
-        else if(message.getType().equals(MessageType.BUILDWORKER) && message.getSubType().equals(MessageSubType.UPDATE))
-            modifiedSquares = ((BuildWorkerMessage) message).getModifiedSquare();
+        if(!message.getNickName().equals(client.getNickName())) {
+            List<Square> modifiedSquares = new ArrayList<>();
+            List<Square> toSendSquare = new ArrayList<>();
+            if (message.getType().equals(MessageType.MOVEWORKER) && message.getSubType().equals(MessageSubType.UPDATE))
+                modifiedSquares = ((MoveWorkerMessage) message).getModifiedSquare();
+            else if (message.getType().equals(MessageType.BUILDWORKER) && message.getSubType().equals(MessageSubType.UPDATE))
+                modifiedSquares = ((BuildWorkerMessage) message).getModifiedSquare();
 
-        List<Square> finalModifiedSquares = modifiedSquares;
+            List<Square> finalModifiedSquares = modifiedSquares;
 
-        for(Square square: finalModifiedSquares){
-            game.copySquare(game.getGameMap().getMap().get(square.getTile() -1),square);
-            toSendSquare.add(game.getGameMap().getMap().get(square.getTile()-1));
+            for (Square square : finalModifiedSquares) {
+                game.copySquare(game.getGameMap().getMap().get(square.getTile() - 1), square);
+                toSendSquare.add(game.getGameMap().getMap().get(square.getTile() - 1));
+            }
+
+            eventQueue.add(() -> updateBoard(message.getNickName(), toSendSquare, message.getType()));
         }
-
-        eventQueue.add(() -> updateBoard(message.getNickName(),toSendSquare,message.getType()));
     }
 
     public synchronized void addPermConstraint(Message message){
@@ -403,8 +405,11 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     public synchronized void handleWin(Message message){
-        eventQueue.add(() -> notifyWin(message.getMessage()));
-        game.setHasWinner(true);
+        if((message.getSubType().equals(MessageSubType.UPDATE) && !game.getCurrentPlayer().getNickName().equals(client.getNickName())) ||
+                (message.getSubType().equals(MessageSubType.REQUEST))) {
+            eventQueue.add(() -> notifyWin(message.getMessage()));
+            game.setHasWinner(true);
+        }
     }
 
     public synchronized void handleLose(Message message){
