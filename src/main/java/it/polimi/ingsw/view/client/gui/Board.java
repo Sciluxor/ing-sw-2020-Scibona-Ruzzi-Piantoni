@@ -232,7 +232,10 @@ public class Board extends Observable {
     private static MP3 click;
     MP3 place;
     MP3 build;
-    MP3 Atlantis;
+    MP3 loopSound;
+    MP3 win;
+    MP3 lose;
+    MP3 yourTurn;
 
     public void show(Gui instance, Dimension screen, Integer numberOfPlayer, List<Player> players,List<Player> players2, String nickname) throws IOException {
 
@@ -342,10 +345,13 @@ public class Board extends Observable {
         lGlow = ImageHandler.setImage("resources/Graphics/gods/podium/glow.png", 100, 100, frameSize.width * 15/100, frameSize.height * 35/100);
         lTutorial = ImageHandler.setImage("resources/Graphics/tutorial.png", 100, 100, frameSize.width, frameSize.height);
 
-        Atlantis = new MP3("resources/Music/Atlantis.mp3");
+        loopSound = new MP3("resources/Music/Atlantis.mp3");
         click = new MP3("resources/Music/Click.mp3");
         place = new MP3("resources/Music/Place.mp3");
         build = new MP3("resources/Music/Build.mp3");
+        win = new MP3("resources/Music/win.mp3");
+        lose = new MP3("resources/Music/lose.mp3");
+        yourTurn = new MP3("resources/Music/your-turn.mp3");
 
 
 
@@ -404,7 +410,7 @@ public class Board extends Observable {
 
         newGame.setBounds((int) ((frameSize.width * 40/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
         newGame.setVisible(false);
-        close.setBounds((int) ((frameSize.width * 60/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
+        close.setBounds((int) ((frameSize.width * 58/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
         close.setVisible(false);
         close.addActionListener(new Close());
         keepWatching.setBounds((int) ((frameSize.width * 50/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
@@ -794,7 +800,7 @@ public class Board extends Observable {
             desktopPane.add(opponent2);
         }
 
-        Atlantis.playLoop();
+        loopSound.playLoop();
 
         labelMove.setFont(felixNormal);
         labelMove.setVisible(false);
@@ -905,7 +911,7 @@ public class Board extends Observable {
     }
 
     public void stopMusic(){
-        Atlantis.stop();
+        loopSound.stop();
     }
 
     private class BackLevel implements ActionListener {
@@ -1539,6 +1545,7 @@ public class Board extends Observable {
             } catch (IOException e) {
                 LOGGER.severe(e.getMessage());
             }
+            yourTurn.play();
             labelChooseWorker.setVisible(true);
             buttonMultiUse.setVisible(true);
             buttonMultiUse.addActionListener(new AvaiableWorkers());
@@ -1848,7 +1855,7 @@ public class Board extends Observable {
         buttonBuild.setEnabled(bool);
     }
 
-    public void displayLose(String nick, boolean isYourPlayer){
+    public void displayLose(String nick, boolean isYourPlayer) {
         internalFrameUpdateBoard.setVisible(false);
         newGame.addActionListener(new NewGameLoose());
         newGame.setBounds((int) ((frameSize.width * 35/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
@@ -1867,6 +1874,7 @@ public class Board extends Observable {
         displayModifications(gui.getModifiedsquare(), false);
 
         if (isYourPlayer) {
+            lose.play();
             winLose.setIcon(border.getIcon());
             winLose.setVisible(true);
             newGame.setVisible(true);
@@ -1904,6 +1912,7 @@ public class Board extends Observable {
                 if (numberOfPlayers == 3){
                     lLoser2 = ImageHandler.setImage(PODIUM + opponent2.getName() + PNG, 100, 100, frameSize.width * 30/100, frameSize.height * 50/100);
                 }
+                win.play();
             }
             else {
                 border = ImageHandler.setImage(LOSEBORDER, 100, 100, frameSize.width * 50/100, frameSize.height * 80/100);
@@ -1912,6 +1921,7 @@ public class Board extends Observable {
                 if (numberOfPlayers == 3){
                     lLoser2 = ImageHandler.setImage(PODIUM + opponent2.getName() + PNG, 100, 100, frameSize.width * 30/100, frameSize.height * 50/100);
                 }
+                lose.play();
             }
         } catch (IOException ioException) {
             LOGGER.severe(ioException.getMessage());
@@ -2344,7 +2354,7 @@ public class Board extends Observable {
             f.dispose();
             gui.backToLogin(false);
             gui.frame.setVisible(true);
-            Atlantis.stop();
+            loopSound.stop();
         }
     }
 
@@ -2355,7 +2365,7 @@ public class Board extends Observable {
             gui.backToLogin(false);
             gui.frame.setVisible(true);
             gui.handleLoseExit();
-            Atlantis.stop();
+            loopSound.stop();
         }
     }
 

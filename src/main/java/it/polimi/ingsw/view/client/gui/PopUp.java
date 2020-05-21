@@ -133,7 +133,7 @@ public class PopUp {
                 setDisconnectionTime();
 
                 back = backgroundButton(2);
-                back.setBounds(0, 0, intFrameSize.width, intFrameSize.height);
+                back.setBounds(0, 0, intFrameSize.width * 50/100, intFrameSize.height * 50/100);
                 window.add(back);
                 break;
 

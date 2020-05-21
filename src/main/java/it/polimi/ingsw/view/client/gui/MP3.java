@@ -82,11 +82,11 @@ public class MP3 {
         this.sound = new Thread(() -> {
             try
             {
+                int x = 0;
                 player.setCycleCount(MediaPlayer.INDEFINITE);
+                player.play();
                 while (!sound.isInterrupted()) {
-
-                    player.play();
-
+                    x = 1;
                 }
                 player.setCycleCount(0);
                 player.stop();
