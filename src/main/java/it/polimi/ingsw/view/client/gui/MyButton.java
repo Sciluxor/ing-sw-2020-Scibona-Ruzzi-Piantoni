@@ -23,6 +23,8 @@ public class MyButton extends JButton{
     JLabel lclosePress;
     JLabel lkeep;
     JLabel lkeepPress;
+    JLabel lcontinue;
+    JLabel lcontinuePress;
     transient MP3 click = new MP3("resources/Music/Click.mp3");
 
     public MyButton(int n) {
@@ -39,6 +41,8 @@ public class MyButton extends JButton{
             lclosePress = ImageHandler.setImage("resources/Graphics/button_close_press.png", 100, 100, labelSize.width, labelSize.height);
             lkeep = ImageHandler.setImage("resources/Graphics/button_keep.png", 100, 100, labelSize.width, labelSize.height);
             lkeepPress = ImageHandler.setImage("resources/Graphics/button_keep_press.png", 100, 100, labelSize.width, labelSize.height);
+            lcontinue = ImageHandler.setImage("resources/Graphics/button_continue.png", 100, 100, labelSize.width, labelSize.height);
+            lcontinuePress = ImageHandler.setImage("resources/Graphics/button_continue_press.png", 100, 100, labelSize.width, labelSize.height);
         } catch (IOException e) {
             LOGGER.severe(e.getMessage());
         }
@@ -68,6 +72,10 @@ public class MyButton extends JButton{
 
             case 4:
                 setIcon(lkeep.getIcon());
+                break;
+
+            case 5:
+                setIcon(lcontinue.getIcon());
                 break;
 
             default:
@@ -101,6 +109,10 @@ public class MyButton extends JButton{
                     setIcon(lkeepPress.getIcon());
                     break;
 
+                case 5:
+                    setIcon(lcontinuePress.getIcon());
+                    break;
+
                 default:
             }
 
@@ -128,6 +140,10 @@ public class MyButton extends JButton{
 
                 case 4:
                     setIcon(lkeep.getIcon());
+                    break;
+
+                case 5:
+                    setIcon(lcontinue.getIcon());
                     break;
 
                 default:

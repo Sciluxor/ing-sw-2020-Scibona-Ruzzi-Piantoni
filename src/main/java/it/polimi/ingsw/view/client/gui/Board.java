@@ -61,6 +61,7 @@ public class Board extends Observable {
     MyButton newGame = new MyButton(2);
     MyButton close = new MyButton(3);
     MyButton closeTutorial = new MyButton(3);
+    MyButton continueTutorial = new MyButton(5);
     MyButton keepWatching = new MyButton(4);
     JButton buttonLvl1 = new JButton();
     JButton buttonLvl2 = new JButton();
@@ -80,6 +81,8 @@ public class Board extends Observable {
     JButton backgroundFrameBuildings = new JButton();
     JButton sfondoFramePower = new JButton();
     JButton tutorial = new JButton();
+    JButton tutorial1 = new JButton();
+    JButton tutorial2 = new JButton();
     JButton leftBoard = new JButton();
     JButton leftGod = new JButton();
     JButton winLose = new JButton();
@@ -180,6 +183,8 @@ public class Board extends Observable {
     JLabel lLoser2 = null;
     JLabel lGlow;
     JLabel lTutorial;
+    JLabel lTutorial1;
+    JLabel lTutorial2;
     JLabel llost = new JLabel();
     Dimension frameSize = new Dimension();
     Dimension boardSize = new Dimension();
@@ -344,6 +349,8 @@ public class Board extends Observable {
         border = ImageHandler.setImage(LOSEBORDER, 100, 100, frameSize.width * 50/100, frameSize.height * 80/100);
         lGlow = ImageHandler.setImage("resources/Graphics/gods/podium/glow.png", 100, 100, frameSize.width * 15/100, frameSize.height * 35/100);
         lTutorial = ImageHandler.setImage("resources/Graphics/tutorial.png", 100, 100, frameSize.width, frameSize.height);
+        lTutorial1 = ImageHandler.setImage("resources/Graphics/tutorial1.png", 100, 100, frameSize.width, frameSize.height);
+        lTutorial2 = ImageHandler.setImage("resources/Graphics/tutorial2.png", 100, 100, frameSize.width, frameSize.height);
 
         loopSound = new MP3("resources/Music/Atlantis.mp3");
         click = new MP3("resources/Music/Click.mp3");
@@ -416,9 +423,13 @@ public class Board extends Observable {
         keepWatching.setBounds((int) ((frameSize.width * 50/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
         keepWatching.setVisible(false);
         keepWatching.addActionListener(new KeepWatching());
-        closeTutorial.setBounds((int) ((frameSize.width * 50/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
+
+        closeTutorial.setBounds((int) ((frameSize.width * 40/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
         closeTutorial.setVisible(false);
         closeTutorial.addActionListener(new CloseTutorial());
+        continueTutorial.setBounds((int) ((frameSize.width * 58/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
+        continueTutorial.setVisible(false);
+        continueTutorial.addActionListener(new ContinueTutorial());
 
         tutorial.setBounds(-7,-22, frameSize.width, frameSize.height);
         tutorial.setOpaque(false);
@@ -426,6 +437,20 @@ public class Board extends Observable {
         tutorial.setBorderPainted(false);
         tutorial.setIcon(lTutorial.getIcon());
         tutorial.setVisible(false);
+
+        tutorial1.setBounds(-7,-22, frameSize.width, frameSize.height);
+        tutorial1.setOpaque(false);
+        tutorial1.setContentAreaFilled(false);
+        tutorial1.setBorderPainted(false);
+        tutorial1.setIcon(lTutorial1.getIcon());
+        tutorial1.setVisible(false);
+
+        tutorial2.setBounds(-7,-22, frameSize.width, frameSize.height);
+        tutorial2.setOpaque(false);
+        tutorial2.setContentAreaFilled(false);
+        tutorial2.setBorderPainted(false);
+        tutorial2.setIcon(lTutorial2.getIcon());
+        tutorial2.setVisible(false);
 
         winner.setBounds((int) (frameSize.width * 39/100),frameSize.height * 20/100, frameSize.width * 30/100, frameSize.height * 50/100);
         winner.setOpaque(false);
@@ -529,7 +554,6 @@ public class Board extends Observable {
         backButton.addActionListener(new BackLevel());
 
 
-
         chat.setBounds(frameChat.getWidth() * 23/100 , frameChat.getHeight() * 28/100, frameChat.getWidth() * 63/100, frameChat.getHeight() * 38/100);
         chat.setEditable(false);
         chat.setBackground(new Color(232, 222, 208));
@@ -559,8 +583,6 @@ public class Board extends Observable {
 
         chatStyleButtons(backgroundFrameChat, coverChat);
         frameChat.getContentPane().add(backgroundFrameChat);
-
-
 
         chatStyleButtons(backgroundFrameBuildings, coverBuildings);
         frameBuildings.getContentPane().add(backgroundFrameBuildings);
@@ -788,7 +810,10 @@ public class Board extends Observable {
         }
 
         desktopPane.add(closeTutorial);
+        desktopPane.add(continueTutorial);
         desktopPane.add(tutorial);
+        desktopPane.add(tutorial1);
+        desktopPane.add(tutorial2);
         desktopPane.add(newGame);
         desktopPane.add(close);
         desktopPane.add(keepWatching);
@@ -1135,6 +1160,7 @@ public class Board extends Observable {
             internalFrameChallenger1.getContentPane().add(youChosen);
             tutorial.setVisible(true);
             closeTutorial.setVisible(true);
+            continueTutorial.setVisible(true);
             buttonChooseCards.setVisible(true);
             labelChooseCards.setVisible(true);
             buttonChooseCards.addActionListener(new ChooseCards());
@@ -1153,6 +1179,7 @@ public class Board extends Observable {
             internalFrameChallenger1.getContentPane().add(waitChallenger);
             tutorial.setVisible(true);
             closeTutorial.setVisible(true);
+            continueTutorial.setVisible(true);
         }
     }
 
@@ -2389,8 +2416,27 @@ public class Board extends Observable {
         @Override
         public void actionPerformed(ActionEvent e) {
             tutorial.setVisible(false);
+            tutorial1.setVisible(false);
+            tutorial2.setVisible(false);
             closeTutorial.setVisible(false);
+            continueTutorial.setVisible(false);
             internalFrameChallenger1.setVisible(true);
+        }
+    }
+
+    private class ContinueTutorial implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (tutorial.isVisible()){
+                tutorial.setVisible(false);
+                tutorial1.setVisible(true);
+            }
+            else if (tutorial1.isVisible()){
+                tutorial1.setVisible(false);
+                tutorial2.setVisible(true);
+                continueTutorial.setVisible(false);
+                closeTutorial.setBounds((int) ((frameSize.width * 50/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
+            }
         }
     }
 
