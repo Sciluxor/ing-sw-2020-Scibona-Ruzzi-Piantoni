@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.client.ClientGameController;
 import it.polimi.ingsw.network.message.MessageType;
 
+import java.io.IOException;
 import java.util.*;
 
 import static it.polimi.ingsw.utils.ConstantsContainer.*;
@@ -18,7 +19,11 @@ public class Cli extends ClientGameController {
     private String address = "127.0.0.1";
     private String nickName;
     private int numberOfPlayers;
-    private SantoriniMap map = new SantoriniMap();
+    private SantoriniMapArrows mapArrows = new SantoriniMapArrows();
+    private NewSantoriniMapArrows newSantoriniMapArrows = new NewSantoriniMapArrows();
+    private Color playerColor;
+
+    private int[] tileNumber = new int[2];
 
     private Thread backThread = new Thread();
     private Thread mainThread = new Thread();
@@ -78,9 +83,54 @@ public class Cli extends ClientGameController {
         printDebug("\nFIRSTPLAYER: " + firstPlayer + "\nSELECTED CARDS:\n" + selectedCards);
 
         challengerResponse(firstPlayer, selectedCards);
+
+        //deckOrdered.clear();
         printDebug("CHALLENGERRESPONSE");
         endTurn();
-        printDebug("AFTER INTERRAPT");
+        printDebug("AFTER ENDTURN");
+    }
+
+    public void playerChoosePower() {
+        deckOrdered = new ArrayList<>();
+        deckOrdered.addAll(selectedCards);
+
+        clearShell();
+        printRed("CHOOSE ONE OF THE CARDS BELOW:\n");
+        printCards();
+        printRed("USE ARROW TO SELECT YOUR POWER & THEN PRESS ENTER TO CONFIRM...");
+        String power = scrollCards(getArrowUpDown(), 1);
+
+        cardChoiceResponse(power);
+        printDebug("CARDCHOICERESPONSE");
+        endTurn();
+        printDebug("AFTER ENDTURN");
+    }
+
+    public void playerPlaceWorkers() {
+        int keyboard;
+
+        newSantoriniMapArrows.printMap();
+
+        for(int i=0; i<2; i++) {
+            do {
+                printRed("INSERT THE NUMBER OF THE TILE YOU WANT TO INSERT YOUR WORKER " + i + ": ");
+                keyboard = Integer.parseInt(input());
+            } while (keyboard < 1 || keyboard > 25);
+
+            tileNumber[i] = keyboard;
+            newSantoriniMapArrows.setTileHasPlayer(true, tileNumber[i], playerColor);
+
+            newSantoriniMapArrows.printMap();
+            controlWaitEnter("enter");
+        }
+        printDebug("TILE NUMBER: " + Arrays.toString(tileNumber));
+
+        //canPrintMap = true;
+
+        placeWorkersResponse(tileNumber[0], tileNumber[1]);
+        printDebug("PLACEWORKERSRESPONSE");
+        endTurn();
+        printDebug("END TURN");
     }
 
     //-------------------------------
@@ -144,27 +194,40 @@ public class Cli extends ClientGameController {
         this.numberOfPlayers = Integer.parseInt(keyboard);
     }
 
+    public int[] getTileNumber() {
+        return tileNumber;
+    }
+
+    public void setTileNumber(int tileNumber, int position) {
+        this.tileNumber[position] = tileNumber;
+    }
+
     //------------------------------
 
     //---------- USEFUL FUNCTIONS ----------
 
     public Color getColorCliFromPlayer(it.polimi.ingsw.model.player.Color color) {
-        Color returnedColor;
-
-        switch (color) {
-            case BLUE:
-                returnedColor = Color.ANSI_BLUE;
-                break;
-            case WHITE:
-                returnedColor = Color.ANSI_WHITE;
-                break;
-            case PURPLE:
-                returnedColor = Color.ANSI_PURPLE;
-                break;
-            default:
-                returnedColor = Color.ANSI_YELLOW;
-                System.err.print("WRONG PLAYER COLOR PASSED");
+        Color returnedColor = Color.ANSI_BLACK;
+        try {
+            switch (color) {
+                case BLUE:
+                    returnedColor = Color.ANSI_BLUE;
+                    break;
+                case WHITE:
+                    returnedColor = Color.ANSI_WHITE;
+                    break;
+                case PURPLE:
+                    returnedColor = Color.ANSI_PURPLE;
+                    break;
+                default:
+                    returnedColor = Color.ANSI_YELLOW;
+                    System.err.print("WRONG PLAYER COLOR PASSED");
+            }
+        } catch (NullPointerException e) {
+            printErr("NULL POINTER");
+            CliUtils.LOGGER.severe(e.getMessage());
         }
+
         return returnedColor;
     }
 
@@ -256,11 +319,21 @@ public class Cli extends ClientGameController {
     }
 
     public void printPlayer(String nickName, Player player) {
-        print(nickName.toUpperCase(), getColorCliFromPlayer(player.getColor()));
+        try {
+            print(nickName.toUpperCase(), getColorCliFromPlayer(player.getColor()));
+        } catch (NullPointerException e) {
+            printErr("NULL POINTER");
+            CliUtils.LOGGER.severe(e.getMessage());
+        }
     }
 
     public void printPlayer(String nickName) {
-        print(nickName.toUpperCase(), getColorCliFromPlayer(getPlayerFromNickname(nickName).getColor()));
+        try {
+            print(nickName.toUpperCase(), getColorCliFromPlayer(getPlayerFromNickname(nickName).getColor()));
+        } catch (NullPointerException e) {
+            printErr("NULL POINTER");
+            CliUtils.LOGGER.severe(e.getMessage());
+        }
     }
 
     //-----CARDS-----
@@ -356,14 +429,14 @@ public class Cli extends ClientGameController {
     }
 
     public void printCards() {
-
         for (String s : deckOrdered) {
             print("  " + s.toUpperCase() + "\n", Color.ANSI_YELLOW);
         }
     }
 
     public void printPower(String cardName) {
-        Card card = deck.get(cardName.toLowerCase());
+        try {
+            Card card = deck.get(cardName.toLowerCase());
             if(card != null) {
                 if (cardName.equalsIgnoreCase("ATHENA") || cardName.equalsIgnoreCase("HERA"))
                     print("  OPPONENT'S TURN: ", Color.ANSI_BLUE);
@@ -375,9 +448,13 @@ public class Cli extends ClientGameController {
             }
             else
                 printErr("WRONG CARD NAME");
+        } catch (NullPointerException e) {
+            printErr("NULL POINTER");
+            CliUtils.LOGGER.severe(e.getMessage());
+        }
     }
 
-    //---------------
+    //-----MAP&WORKERS-----
 
     public Integer[] getCoordinates() {
         String[] split = splitter(input());
@@ -412,7 +489,7 @@ public class Cli extends ClientGameController {
             printWhite("[CHAT]  [BOARD]  [ACTIONS]  [OPPONENTS]  [POWER]\n\n");
 
         int counter = 0;
-        boolean goOut = false, firstPosition = false, lastPosition = false, canGoOut = false;
+        boolean goOut = false, firstPosition = false, lastPosition = false;
 
         int keyboardIn = getArrowLeftRight();
 
@@ -420,13 +497,11 @@ public class Cli extends ClientGameController {
             clearShell();
             switch (keyboardIn) {
                 case 185:
-                    canGoOut = false;
                     printDebug("HERE");
                     if (!lastPosition)
                         counter++;
                     break;
                 case 186:
-                    canGoOut = false;
                     printDebug("HERE");
                     if (counter == 0)
                         counter++;
@@ -448,14 +523,12 @@ public class Cli extends ClientGameController {
                     printYellow("[CHAT]");
                     printWhite("  [BOARD]  [ACTIONS]  [OPPONENTS]  [POWER]\n\n");
 
-                    //canGoOut = true;
                 } else if (counter == 2) {
                     firstPosition = false;
                     printWhite("[CHAT]  ");
                     printYellow("[BOARD]");
                     printWhite("  [ACTIONS]  [OPPONENTS]  [POWER]\n\n");
 
-                    //canGoOut = true;
                 } else if (counter == 3) {
                     printWhite("[CHAT]  [BOARD]  ");
                     printYellow("[ACTIONS]");
@@ -465,7 +538,6 @@ public class Cli extends ClientGameController {
                     else
                         printRed("\n");
 
-                    //canGoOut = isFirstPlayer;
                 } else if (counter == 4) {
                     lastPosition = false;
                     printWhite("[CHAT]  [BOARD]  [ACTIONS]  ");
@@ -477,26 +549,27 @@ public class Cli extends ClientGameController {
                         printWhite("]\n");
                     }
 
-                    //canGoOut = false;
                 } else if (counter == 5) {
                     lastPosition = true;
                     printWhite("[CHAT]  [BOARD]  [ACTIONS]  [OPPONENTS]  ");
                     printYellow("[POWER]\n");
                     try {
+                        printYellow(getPlayerFromNickname(getNickName()).getPower().getName().toUpperCase() + ":");
                         printPower(getPlayerFromNickname(getNickName()).getPower().getName());
                     } catch (NullPointerException e) {
                         printRed("YOUR CARD DOESN'T ALREADY CHOOSE\n");
                     }
                     //printConstraint
 
-                    //canGoOut = false;
                 }
 
                 keyboardIn = controlWaitEnter("left&right");
             }
-        }while(!goOut /*&& !canGoOut*/);
+        }while(!goOut);
 
         selectMenu(counter, isFirstPlayer);
+
+        //mainThread.interrupt();
     }
 
     public void selectMenu(int counter, boolean isFirstPlayer) {
@@ -506,7 +579,7 @@ public class Cli extends ClientGameController {
                 break;
             case 2:
                 printWhite("\n");
-                map.printMap();
+                mapArrows.printMap();
                 break;
             case 3:
                 if(isFirstPlayer)
@@ -579,6 +652,12 @@ public class Cli extends ClientGameController {
             case "CHOOSE CARDS":
                 challengerChooseCards();
                 break;
+            case "CHOOSE POWER":
+                playerChoosePower();
+                break;
+            case "PLACE WORKERS":
+                playerPlaceWorkers();
+                break;
             case "MOVE":
                 //move
                 break;
@@ -591,9 +670,7 @@ public class Cli extends ClientGameController {
             case "CHALLENGER CHOICE":
                 //challengerchoice
                 break;
-            case "CHOOSE POWER":
-                //choosecard
-                break;
+
             default:
                 printErr("ERRORE IN SELECTED ACTION");
         }
@@ -653,6 +730,8 @@ public class Cli extends ClientGameController {
         for (Player player : getPlayers()) {
             if (!player.getNickName().equalsIgnoreCase(getNickName()))
                 opponents.add(player);
+            else
+                playerColor = getColorCliFromPlayer(player.getColor());
         }
 
         clearShell();
@@ -662,7 +741,7 @@ public class Cli extends ClientGameController {
     }
 
     @Override
-    public void challengerChoice(String challengerNick, boolean isYourPlayer) {
+    public synchronized void challengerChoice(String challengerNick, boolean isYourPlayer) {
         clearShell();
         if (isYourPlayer) {
             printRed("YOU HAVE BEEN CHOSEN AS CHALLENGER!\n");
@@ -683,16 +762,14 @@ public class Cli extends ClientGameController {
     }
 
     @Override
-    public void cardChoice(String challengerNick, boolean isYourPlayer) {
+    public synchronized void cardChoice(String challengerNick, boolean isYourPlayer) {
         printDebug("CARDCHOICE");
-
-        //mainThread.interrupt();
         clearShell();
-        //printYourTurn();
+
         //mainThread.start();
 
         if (isYourPlayer) {
-            printRed("YOU HAVE BEEN CHOSEN AS FIRST PLAYER!\n");
+            printRed("IT'S YOUR TURN TO CHOOSE YOUR POWER!\n");
             controlWaitEnter("enter");
             availableActions = new ArrayList<>();
             availableActions.add("CHOOSE POWER");
@@ -705,40 +782,28 @@ public class Cli extends ClientGameController {
         }
 
         printMenu(isYourPlayer, false);
-
-
-        /*if(isYourPlayer) {
-            printRed("AVAILABLE CARDS:\n");
-            for(String s: getAvailableCards())
-                printYellow(s + "\n");
-            printRed("\nINSERT THE NAME OF THE CARD YOU WANT TO CHOOSE: ");
-            String choose = input();
-
-            //FARE CONTROLLO SCELTA CORRETTA
-
-            cardChoiceResponse(choose);
-        }
-        else {
-            printRed("PLAYER " + challengerNick + "IS CHOOSING HIS POWER");
-        }*/
-
     }
 
     @Override
-    public void placeWorker(String challengerNick, boolean isYourPlayer) {
+    public synchronized void placeWorker(String challengerNick, boolean isYourPlayer) {
         clearShell();
 
-        if(isYourPlayer) {
-            printRed("INSERT COORDINATES (from 0 up to 4) OF THE TILE IN WHICH YOU WANT TO PLACE FIRST WORKER: ");
-            Integer[] tile1 = getCoordinates();
+        //mainThread.start();
 
-            printRed("INSERT COORDINATES (from 0 up to 4) OF THE TILE IN WHICH YOU WANT TO PLACE SECOND WORKER: ");
-            Integer[] tile2 = getCoordinates();
+        if (isYourPlayer) {
+            printRed("PLACE YOUR WORKERS!\n");
+            controlWaitEnter("enter");
+            availableActions = new ArrayList<>();
+            availableActions.add("PLACE WORKERS");
 
-            cliPlaceWorkersResponse(tile1, tile2);
+        } else {
+            printRed("PLAYER ");
+            printPlayer(challengerNick);
+            printRed(" IS PLACING HIS WORKERS\n");
+            controlWaitEnter("enter");
         }
-        else
-            printRed("PLAYER " + challengerNick + " IS PLACING HIS WORKERS\n");
+
+        printMenu(isYourPlayer, false);
     }
 
     @Override
@@ -763,25 +828,24 @@ public class Cli extends ClientGameController {
 
     @Override
     public void displayActions(List<MessageType> actions) {
-        availableActions = new ArrayList<>();
-        for(MessageType m: actions) {
-            switch (m) {
-                case BUILDWORKER:
-                    availableActions.add("BUILD");
-                    break;
-                case MOVEWORKER:
-                    availableActions.add("MOVE");
-                    break;
-                case CHALLENGERCHOICE:
-                    availableActions.add("CHALLENGER CHOICE");
-                    break;
-                case CHOOSECARD:
-                    availableActions.add("CHOOSE CARD");
-                    break;
-                case WORKERCHOICE:
-                    availableActions.add("SELECT WORKER");
-                    break;
+        try {
+            availableActions = new ArrayList<>();
+            for (MessageType m : actions) {
+                switch (m) {
+                    case BUILDWORKER:
+                        availableActions.add("BUILD");
+                        break;
+                    case MOVEWORKER:
+                        availableActions.add("MOVE");
+                        break;
+                    case WORKERCHOICE:
+                        availableActions.add("SELECT WORKER");
+                        break;
+                }
             }
+        } catch (NullPointerException e) {
+            printErr("NULL POINTER");
+            CliUtils.LOGGER.severe(e.getMessage());
         }
     }
 

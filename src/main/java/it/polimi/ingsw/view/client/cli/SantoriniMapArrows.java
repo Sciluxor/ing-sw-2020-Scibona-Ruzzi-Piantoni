@@ -1,22 +1,22 @@
 package it.polimi.ingsw.view.client.cli;
 
-import java.util.Scanner;
-
 import static it.polimi.ingsw.view.client.cli.CliUtils.*;
 
 public class SantoriniMapArrows {
 
     private Square[][] square = new Square[5][5];
-    private Color color = Color.ANSI_YELLOW;
-    private static Color actualColor = Color.ANSI_YELLOW;
+    //private Square square = new Square();
     private boolean hasDome = false;
     private boolean firstExec = true;
     private boolean firstMove = true;
-    private int[] previousTile = new int[2];
-    private int[] currentTile = new int[2];
+    private int[] previousTileCoordinates = new int[2];
+    private int[] currentTileCoordinates = new int[2];
+    private boolean[] hasPlayer = new boolean[25];
 
-    private int[][] tile = new int[5][5];
-    //private boolean[][] isOnPerimeter = new boolean[5][5];
+    private int[][] tileInt = new int[5][5];
+    private boolean[][] isOnPerimeter = new boolean[5][5];
+
+    //private Tile[] tile = new Tile[25];
 
     public SantoriniMapArrows() {
         for(int i=0; i<5; i++) {
@@ -25,52 +25,42 @@ public class SantoriniMapArrows {
             }
         }
 
-        //IS ON PERIMETER
-        /*for(int y=0; y<5; y++) {
-            this.isOnPerimeter[0][y] = true;
-            this.isOnPerimeter[4][y] = true;
-        }
-
-        for(int x=1; x<4; x++) {
-            this.isOnPerimeter[x][0] = true;
-            this.isOnPerimeter[x][4] = true;
-        }*/
-
         //NUMBERING TILES
         //Posso beccare il numero di tile e salvarlo invece di settarlo con tutti i for (soluzione con un doppio for incatenato)?
         int number = 1;
         for(int y=0; y<5; y++) {
-            this.tile[0][y] = number;
+            this.tileInt[0][y] = number;
             number++;
         }
         for(int x=1; x<4; x++) {
-            this.tile[x][4] = number;
+            this.tileInt[x][4] = number;
             number++;
         }
         for(int y=4; y>=0; y--) {
-            this.tile[4][y] = number;
+            this.tileInt[4][y] = number;
             number++;
         }
         for(int x=3; x>=1; x--) {
-            this.tile[x][0] = number;
+            this.tileInt[x][0] = number;
             number++;
         }
         for(int y=1; y<4; y++) {
-            this.tile[1][y] = number;
+            this.tileInt[1][y] = number;
             number++;
         }
         for(int x=2; x<=3; x++) {
-            this.tile[x][3] = number;
+            this.tileInt[x][3] = number;
             number++;
         }
         for(int y=2; y>=1; y--) {
-            this.tile[3][y] = number;
+            this.tileInt[3][y] = number;
             number++;
         }
         for(int y=1; y<3; y++) {
-            this.tile[2][y] = number;
+            this.tileInt[2][y] = number;
             number++;
         }
+
     }
 
     public int[] selectSquareWithArrows() {
@@ -127,25 +117,12 @@ public class SantoriniMapArrows {
         return coordinate;
     }
 
-    public int[] getCoordinatesFromString() {
-        Scanner input = new Scanner(System.in);
-        int[] coordinate = new int[2];
+    /*public int[] getCoordinatesFromString() {
+        int keyboard = Integer.parseInt(input());
+        return this.tile[keyboard-1].getCoordinate();
+    }*/
 
-        int keyboard = input.nextInt();
-        for(int x=0; x<5; x++) {
-            for(int y=0; y<5; y++) {
-                if(keyboard == this.tile[x][y]) {
-                    coordinate[0] = x;
-                    coordinate[1] = y;
-                }
-            }
-        }
-
-
-        return coordinate;
-    }
-
-    /*public int getTileFromCoordinates() {
+    /*public int getCoordinatesFromTile() {
         boolean goOut = false;
         int tile = 0;
         for(int x=0; x<5 && !goOut; x++) {
@@ -161,9 +138,6 @@ public class SantoriniMapArrows {
     //----- PRINTER -----
 
     public void printMap() {
-        if(!isFirstExec())
-            Color.clearConsole();
-        setFirstExec(false);
         for(int x=0; x<5; x++) {
             for(int t=0; t<5; t++) {
                 printYellow("---------------------");
@@ -198,21 +172,20 @@ public class SantoriniMapArrows {
             if(z==3) {
                 printRed("        " + this.printPlayer(i, c) + "       ");
             } else if(z==0) {
-                if(this.tile[i][c]<10)
-                    print("                 " + this.tile[i][c], Color.ANSI_CYAN);
+                if (this.tileInt[i][c] < 10)
+                    print("                 " + this.tileInt[i][c], Color.ANSI_CYAN);
                 else
-                    print("                " + this.tile[i][c], Color.ANSI_CYAN);
+                    print("                " + this.tileInt[i][c], Color.ANSI_CYAN);
             } else
                 printRed("                  ");
         } else {
             if(z==0) {
-                if (this.tile[i][c] < 10) {
+                if (this.tileInt[i][c] < 10) {
                     printRed("---------------- ");
-                }
-                else {
+                } else {
                     printRed("--------------- ");
                 }
-                print(Integer.toString(this.tile[i][c]), Color.ANSI_CYAN);
+                print(Integer.toString(this.tileInt[i][c]), Color.ANSI_CYAN);
             }
 
             switch (type) {
@@ -265,91 +238,26 @@ public class SantoriniMapArrows {
             if(z==6)
                 printRed("------------------");
         }
-
-        /*switch (this.square[i][c].getBuildingType()) {
-            case GROUND:
-                if(z==3) {
-                    printer = "        " + this.printPlayer(i, c) + "       ";
-                } else if(z==0) {
-                    if(this.tile[i][c]<10)
-                        printer = "                 " + this.tile[i][c];
-                    else
-                        printer = "                " + this.tile[i][c];
-                } else
-                    printer = "                  ";
-                break;
-
-            case LVL1:
-                if(z==0) {
-                    if(this.tile[i][c]<10)
-                        printer = "---------------- " + this.tile[i][c];
-                    else
-                        printer = "--------------- " + this.tile[i][c];
-                } else if(z==3)
-                    printer = "|       " + this.printPlayer(i, c) + "      |";
-                else if(z==6)
-                    printer = "------------------";
-                else
-                    printer = "|                |";
-                break;
-
-            case LVL2:
-                if(z==0 || z==6)
-                    printer = "------------------";
-                else if(z==1 || z==5)
-                    printer = "| -------------- |";
-                else if(z==3)
-                    printer = "| |     " + this.printPlayer(i, c) + "    | |";
-                else
-                    printer = "| |            | |";
-                break;
-
-            case LVL3:
-                if(z==0 || z==6)
-                    printer = "------------------";
-                else if(z==1 || z==5)
-                    printer = "| -------------- |";
-                else if(z==2 || z==4)
-                    printer = "| | ---------- | |";
-                else if(z==3)
-                    printer = "| | |   " + this.printPlayer(i, c) + "  | | |";
-                else
-                    printer = "| | |        | | |";
-                break;
-
-            case DOME:
-                setHasDome(true);
-                if(z==0 || z==6)
-                    printer = "------------------";
-                else if(z==1 || z==5)
-                    printer = "| -------------- |";
-                else if(z==2 || z==4)
-                    printer = "| | ---------- | |";
-                else if(z==3)
-                    printer = "| | | ------ | | |";
-                else
-                    printer = "| | |        | | |";
-                break;
-
-            default:
-                if(z==3)
-                    printer = "     !ERRORE!     ";
-                else
-                    printer = "                  ";
-                break;
-        }*/
     }
 
     //----- SETTER & GETTER -----
 
-    public int[] getPreviousTile() {
-        return previousTile;
+    public boolean getHasPlayer(int tileNumber) {
+        return hasPlayer[tileNumber];
     }
 
-    public void setPreviousTile(int[] previousTile) {
-        this.square[previousTile[0]][previousTile[1]].setHasPlayer(false);
-        this.previousTile[0] = previousTile[0];
-        this.previousTile[1] = previousTile[1];
+    public void setHasPlayer(boolean hasPlayer, int tileNumber) {
+        this.hasPlayer[tileNumber] = hasPlayer;
+    }
+
+    public int[] getPreviousTileCoordinates() {
+        return previousTileCoordinates;
+    }
+
+    public void setPreviousTileCoordinates(int[] previousTileCoordinates) {
+        this.square[previousTileCoordinates[0]][previousTileCoordinates[1]].setHasPlayer(false);
+        this.previousTileCoordinates[0] = previousTileCoordinates[0];
+        this.previousTileCoordinates[1] = previousTileCoordinates[1];
     }
 
     public boolean isFirstMove() {
@@ -360,12 +268,12 @@ public class SantoriniMapArrows {
         this.firstMove = firstMove;
     }
 
-    public int[] getCurrentTile() {
-        return currentTile;
+    public int[] getCurrentTileCoordinates() {
+        return currentTileCoordinates;
     }
 
-    public void setCurrentTile(int[] currentTile) {
-        this.currentTile = currentTile;
+    public void setCurrentTileCoordinates(int[] currentTileCoordinates) {
+        this.currentTileCoordinates = currentTileCoordinates;
     }
 
     public boolean isCellaHasPlayer(int x, int y) {
@@ -376,14 +284,14 @@ public class SantoriniMapArrows {
         int[] coordinate = {x, y};
         if(isFirstMove()) {
             this.setFirstMove(false);
-            this.setPreviousTile(coordinate);
+            this.setPreviousTileCoordinates(coordinate);
             this.square[x][y].setHasPlayer(true);
-            this.setCurrentTile(coordinate);
+            this.setCurrentTileCoordinates(coordinate);
         }
         else {
             this.square[x][y].setHasPlayer(true);
-            this.setPreviousTile(this.getCurrentTile());
-            this.setCurrentTile(coordinate);
+            this.setPreviousTileCoordinates(this.getCurrentTileCoordinates());
+            this.setCurrentTileCoordinates(coordinate);
         }
     }
 
