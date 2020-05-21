@@ -56,8 +56,7 @@ public class CliUtils {
         int keyboard = 0, keyboard1 = 0, keyboard2 = 0;
 
         try {
-            String[] cmd = {"/bin/sh", "-c", "stty raw </dev/tty"};
-            Runtime.getRuntime().exec(cmd).waitFor();
+            setTerminalMode("raw");
 
             keyboard = System.in.read();
             if (keyboard == 27) {
@@ -69,13 +68,21 @@ public class CliUtils {
             keyboard = keyboard + keyboard1 + keyboard2;
             printDebug(Integer.toString(keyboard));
 
-            cmd = new String[]{"/bin/sh", "-c", "stty sane </dev/tty"};
-            Runtime.getRuntime().exec(cmd).waitFor();
-        } catch (IOException | InterruptedException e) {
+            setTerminalMode("sane");
+        } catch (IOException e) {
             LOGGER.severe(e.getMessage());
         }
 
         return keyboard;
+    }
+
+    public static void setTerminalMode(String mode) {
+        try {
+            String[] cmd = new String[]{"/bin/sh", "-c", "stty " + mode + " </dev/tty"};
+            Runtime.getRuntime().exec(cmd).waitFor();
+        }catch (IOException | InterruptedException e) {
+            LOGGER.severe(e.getMessage());
+        }
     }
 
     public static int getArrowUpDown() {

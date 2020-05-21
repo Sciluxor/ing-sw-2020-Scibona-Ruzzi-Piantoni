@@ -7,7 +7,6 @@ import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.client.ClientGameController;
 import it.polimi.ingsw.network.message.MessageType;
 
-import java.io.IOException;
 import java.util.*;
 
 import static it.polimi.ingsw.utils.ConstantsContainer.*;
@@ -84,15 +83,17 @@ public class Cli extends ClientGameController {
 
         challengerResponse(firstPlayer, selectedCards);
 
-        //deckOrdered.clear();
+        deckOrdered.clear();
+        selectedCards.clear();
         printDebug("CHALLENGERRESPONSE");
         endTurn();
         printDebug("AFTER ENDTURN");
     }
 
     public void playerChoosePower() {
-        deckOrdered = new ArrayList<>();
-        deckOrdered.addAll(selectedCards);
+        deckOrdered.addAll(getAvailableCards());
+
+        printDebug("AVAILABLE CARDS: " + getAvailableCards() + "\nDECK ORDERED: " + deckOrdered);
 
         clearShell();
         printRed("CHOOSE ONE OF THE CARDS BELOW:\n");
