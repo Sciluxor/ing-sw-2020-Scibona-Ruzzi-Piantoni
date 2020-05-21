@@ -70,7 +70,7 @@ public class CliUtils {
 
             setTerminalMode("sane");
         } catch (IOException e) {
-            LOGGER.severe(e.getMessage());
+            LOGGER.severe(e.getMessage() + e.getClass());
         }
 
         return keyboard;
@@ -81,7 +81,7 @@ public class CliUtils {
             String[] cmd = new String[]{"/bin/sh", "-c", "stty " + mode + " </dev/tty"};
             Runtime.getRuntime().exec(cmd).waitFor();
         }catch (IOException | InterruptedException e) {
-            LOGGER.severe(e.getMessage());
+            LOGGER.severe(e.getMessage() + e.getClass());
         }
     }
 

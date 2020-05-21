@@ -69,7 +69,7 @@ public class Cli extends ClientGameController {
             newGame(getNickName(), getNumberOfPlayers());
     }
 
-    public void challengerChooseCards() {
+    public synchronized void challengerChooseCards() {
         for(String s: deck.keySet())
             orderCards(s);
 
@@ -81,16 +81,18 @@ public class Cli extends ClientGameController {
 
         printDebug("\nFIRSTPLAYER: " + firstPlayer + "\nSELECTED CARDS:\n" + selectedCards);
 
-        challengerResponse(firstPlayer, selectedCards);
+        challengerResponse(firstPlayer, new ArrayList<>(selectedCards));
 
         deckOrdered.clear();
         selectedCards.clear();
         printDebug("CHALLENGERRESPONSE");
+        //controlWaitEnter("enter");
         endTurn();
+        mainThread.interrupt();
         printDebug("AFTER ENDTURN");
     }
 
-    public void playerChoosePower() {
+    public synchronized void playerChoosePower() {
         deckOrdered.addAll(getAvailableCards());
 
         printDebug("AVAILABLE CARDS: " + getAvailableCards() + "\nDECK ORDERED: " + deckOrdered);
@@ -107,19 +109,19 @@ public class Cli extends ClientGameController {
         printDebug("AFTER ENDTURN");
     }
 
-    public void playerPlaceWorkers() {
+    public synchronized void playerPlaceWorkers() {
         int keyboard;
 
         newSantoriniMapArrows.printMap();
 
         for(int i=0; i<2; i++) {
             do {
-                printRed("INSERT THE NUMBER OF THE TILE YOU WANT TO INSERT YOUR WORKER " + i + ": ");
+                printRed("INSERT THE NUMBER OF THE TILE YOU WANT TO INSERT YOUR WORKER " + (i+1) + ": ");
                 keyboard = Integer.parseInt(input());
             } while (keyboard < 1 || keyboard > 25);
 
             tileNumber[i] = keyboard;
-            newSantoriniMapArrows.setTileHasPlayer(true, tileNumber[i], playerColor);
+            newSantoriniMapArrows.setTileHasPlayer(true, "GROUND", tileNumber[i], playerColor);
 
             newSantoriniMapArrows.printMap();
             controlWaitEnter("enter");
@@ -532,7 +534,10 @@ public class Cli extends ClientGameController {
 
                 } else if (counter == 3) {
                     printWhite("[CHAT]  [BOARD]  ");
-                    printYellow("[ACTIONS]");
+                    /*if(availableActions.size()>0)
+                        print("[ACTIONS]", Color.ANSI_CYAN);
+                    else*/
+                        printYellow("[ACTIONS]");
                     printWhite("  [OPPONENTS]  [POWER]\n");
                     if (isFirstPlayer)
                         printActions();
@@ -569,8 +574,6 @@ public class Cli extends ClientGameController {
         }while(!goOut);
 
         selectMenu(counter, isFirstPlayer);
-
-        //mainThread.interrupt();
     }
 
     public void selectMenu(int counter, boolean isFirstPlayer) {
@@ -580,7 +583,7 @@ public class Cli extends ClientGameController {
                 break;
             case 2:
                 printWhite("\n");
-                mapArrows.printMap();
+                newSantoriniMapArrows.printMap();
                 break;
             case 3:
                 if(isFirstPlayer)
@@ -670,6 +673,9 @@ public class Cli extends ClientGameController {
                 break;
             case "CHALLENGER CHOICE":
                 //challengerchoice
+                break;
+            case "END TURN":
+                endTurn();
                 break;
 
             default:
@@ -764,10 +770,14 @@ public class Cli extends ClientGameController {
 
     @Override
     public synchronized void cardChoice(String challengerNick, boolean isYourPlayer) {
-        printDebug("CARDCHOICE");
+        synchronized (this) {
+            setTerminalMode("sane");
+        }
+        mainThread.interrupt();
+
+        printDebug("CARDCHOICE: " + getAvailableCards());
         clearShell();
 
-        //mainThread.start();
 
         if (isYourPlayer) {
             printRed("IT'S YOUR TURN TO CHOOSE YOUR POWER!\n");
@@ -782,14 +792,18 @@ public class Cli extends ClientGameController {
             controlWaitEnter("enter");
         }
 
-        printMenu(isYourPlayer, false);
+        mainThread.start();
+        //printMenu(isYourPlayer, false);
     }
 
     @Override
     public synchronized void placeWorker(String challengerNick, boolean isYourPlayer) {
-        clearShell();
+        synchronized (this) {
+            setTerminalMode("sane");
+        }
+        mainThread.interrupt();
 
-        //mainThread.start();
+        clearShell();
 
         if (isYourPlayer) {
             printRed("PLACE YOUR WORKERS!\n");
@@ -804,12 +818,16 @@ public class Cli extends ClientGameController {
             controlWaitEnter("enter");
         }
 
-        printMenu(isYourPlayer, false);
+        mainThread.start();
+        //printMenu(isYourPlayer, false);
     }
 
     @Override
-    public void updatePlacedWorkers(List<Square> squares) {
-
+    public synchronized void updatePlacedWorkers(List<Square> squares) {
+        printDebug("HERE UPDATE");
+        for(Square s: squares) {
+            newSantoriniMapArrows.setTileHasPlayer(s.hasPlayer(), s.getBuilding().toString(), s.getTile(), getColorCliFromPlayer(s.getPlayer().getColor()));
+        }
     }
 
     @Override

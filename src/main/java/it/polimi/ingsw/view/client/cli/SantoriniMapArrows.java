@@ -16,7 +16,7 @@ public class SantoriniMapArrows {
     private int[][] tileInt = new int[5][5];
     private boolean[][] isOnPerimeter = new boolean[5][5];
 
-    //private Tile[] tile = new Tile[25];
+    private Tile[] tile = new Tile[25];
 
     public SantoriniMapArrows() {
         for(int i=0; i<5; i++) {
@@ -117,10 +117,10 @@ public class SantoriniMapArrows {
         return coordinate;
     }
 
-    /*public int[] getCoordinatesFromString() {
+    public int[] getCoordinatesFromString() {
         int keyboard = Integer.parseInt(input());
         return this.tile[keyboard-1].getCoordinate();
-    }*/
+    }
 
     /*public int getCoordinatesFromTile() {
         boolean goOut = false;

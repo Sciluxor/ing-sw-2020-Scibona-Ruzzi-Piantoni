@@ -42,7 +42,7 @@ public class MainTestPrintMapCli {
         int keyboardIn;
 
         clearShell();
-        printRed("SELECT WITH ARROWS ONE OF THESE OPTIONS:\n  [MOVE]\n  [BUILD]\n");
+        /*printRed("SELECT WITH ARROWS ONE OF THESE OPTIONS:\n  [MOVE]\n  [BUILD]\n");
         keyboardIn = getArrowUpDown();
         do {
             switch (keyboardIn) {
@@ -60,7 +60,7 @@ public class MainTestPrintMapCli {
                 case 13:
                     /*printRed("INSERT THE NUMBER OF THE TILE YOU WANT TO SELECT: ");
                     coordinate = mapArrows.getCoordinatesFromString();*/
-                    coordinate = mapArrows.selectSquareWithArrows();
+                    /*coordinate = mapArrows.selectSquareWithArrows();
 
                     if (option == 1)
                         selectCorrectExec("MOVE", coordinate);
@@ -77,8 +77,8 @@ public class MainTestPrintMapCli {
             }
             keyboardIn = controlWaitEnter("up&down");
             mapArrows.printMap();
-        } while (!goOut);
-        /*do {
+        } while (!goOut);*/
+        do {
             printRed("INSERT [MOVE] or [BUILD]: (everything else to go out): ");
             keyboard = input.nextLine().toUpperCase();
 
@@ -88,7 +88,7 @@ public class MainTestPrintMapCli {
             selectCorrectExec(keyboard, coordinate);
 
             mapArrows.printMap();
-        }while(keyboard.equals("MOVE") || keyboard.equals("BUILD"));*/
+        }while(keyboard.equals("MOVE") || keyboard.equals("BUILD"));
 
         printRed("FINE ESECUZIONE!");
     }

@@ -46,30 +46,35 @@ public class NewSantoriniMapArrows {
         }
     }
 
-    public void setTileHasPlayer(boolean hasPlayer, int tileNumber, Color playerColor) {
-        this.tile[tileNumber-1].setHasPlayer(hasPlayer);
+    public void setTileHasPlayer(boolean hasPlayer, String buildingType, int tileNumber, Color playerColor) {
+        this.tile[tileNumber-1].setHasPlayer(hasPlayer, playerColor);
+        this.tile[tileNumber-1].setPrintRawLevel(buildingType, 3);
+    }
 
+    public void updateStringBoard(String buildingType, int tileNumber) {
+        for(int raw=0; raw<7; raw++)
+            this.tile[tileNumber-1].setPrintRawLevel(buildingType, raw);
     }
 
     public void printMap() {
         int tileNumber;
 
         clearShell();
+
         for(int x=0; x<5; x++) {
             for(int t=0; t<5; t++) {
                 printYellow("---------------------");
             }
             printYellow("-\n");
             for(int raw=0; raw<7; raw++) {
-                tileNumber=0;
                 for (int y=0; y<5; y++) {
+                    tileNumber = getTileFromCoordinate(x, y);
                     printYellow("| ");
                     printRed(this.tile[tileNumber].getPrintRawLevel(raw));
                     if(y==4)
                         printYellow(" |\n");
                     else
                         printYellow(" ");
-                    tileNumber++;
                 }
             }
         }
@@ -77,6 +82,14 @@ public class NewSantoriniMapArrows {
             printYellow("---------------------");
         }
         printYellow("-\n");
+    }
+
+    public int getTileFromCoordinate(int x, int y) {
+        for(int tileNumber=0; tileNumber<tile.length; tileNumber++) {
+            if(tile[tileNumber].getCoordinate()[0] == x && tile[tileNumber].getCoordinate()[1] == y)
+                return tileNumber;
+        }
+        return -1;
     }
 
     //----- GETTER & SETTER -----

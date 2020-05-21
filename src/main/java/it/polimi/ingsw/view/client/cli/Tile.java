@@ -1,7 +1,5 @@
 package it.polimi.ingsw.view.client.cli;
 
-import static it.polimi.ingsw.view.client.cli.CliUtils.print;
-import static it.polimi.ingsw.view.client.cli.CliUtils.printRed;
 
 public class Tile {
 
@@ -9,81 +7,82 @@ public class Tile {
     private String[] printRawLevel = new String[7];
     private boolean hasPlayer;
     private int buildingLevel = 0;
+    private Color playerColor = Color.ANSI_RED;
 
     public Tile() {
         for(int raw=0; raw<7; raw++)
-            this.setPrintRawLevel("GROUND", raw, Color.ANSI_YELLOW);
+            this.setPrintRawLevel("GROUND", raw);
     }
 
     public String getPrintRawLevel(int raw) {
         return printRawLevel[raw];
     }
 
-    public void setPrintRawLevel(String buildingType, int raw, Color playerColor) {
+    public void setPrintRawLevel(String buildingType, int raw) {
         if(buildingType.equalsIgnoreCase("GROUND")) {
             if(raw==3)
-                this.printRawLevel[raw] = "        " + printPlayerColor(playerColor) + "       ";
+                this.printRawLevel[raw] = "        " + printPlayerColor() + "       ";
             else
                 this.printRawLevel[raw] = "                  ";
         } else {
-            if(raw==0)
-                this.printRawLevel[raw] ="------------------";
-        }
+            if (raw == 0 || raw==6)
+                this.printRawLevel[raw] = "------------------";
 
-        switch (buildingType) {
-            case "LVL1":
-                if(raw==3)
-                    this.printRawLevel[raw] = "|       " + printPlayerColor(playerColor) + "      |";
-                else if(raw!=0 && raw!=6)
-                    this.printRawLevel[raw] = "|                |";
+            switch (buildingType) {
+                case "LVL1":
+                    if (raw == 3)
+                        this.printRawLevel[raw] = "|       " + printPlayerColor() + "      |";
+                    else if (raw != 0 && raw != 6)
+                        this.printRawLevel[raw] = "|                |";
 
-                buildingLevel++;
-                break;
-            case "LVL2":
-                if(raw==1 || raw==5)
-                    printRed("| -------------- |");
-                else if(raw==3)
-                    this.printRawLevel[raw] = "| |     " + printPlayerColor(playerColor) + "    | |";
-                else if(raw!=0 && raw!=6)
-                    this.printRawLevel[raw] = "| |            | |";
+                    buildingLevel++;
+                    break;
+                case "LVL2":
+                    if (raw == 1 || raw == 5)
+                        this.printRawLevel[raw] = "| -------------- |";
+                    else if (raw == 3)
+                        this.printRawLevel[raw] = "| |     " + printPlayerColor() + "    | |";
+                    else if (raw != 0 && raw != 6)
+                        this.printRawLevel[raw] = "| |            | |";
 
-                buildingLevel++;
-                break;
-            case "LVL3":
-                if(raw==1 || raw==5)
-                    this.printRawLevel[raw] = "| -------------- |";
-                else if(raw==2 || raw==4)
-                    this.printRawLevel[raw] = "| | ---------- | |";
-                else if(raw==3)
-                    this.printRawLevel[raw] = "| | |   " + printPlayerColor(playerColor) + "  | | |";
-                else if(raw!=0 && raw!=6)
-                    this.printRawLevel[raw] = "| | |        | | |";
+                    buildingLevel++;
+                    break;
+                case "LVL3":
+                    if (raw == 1 || raw == 5)
+                        this.printRawLevel[raw] = "| -------------- |";
+                    else if (raw == 2 || raw == 4)
+                        this.printRawLevel[raw] = "| | ---------- | |";
+                    else if (raw == 3)
+                        this.printRawLevel[raw] = "| | |   " + printPlayerColor() + "  | | |";
+                    else if (raw != 0 && raw != 6)
+                        this.printRawLevel[raw] = "| | |        | | |";
 
-                buildingLevel++;
-                break;
-            case "DOME":
-                if(buildingLevel == 0) {
-                    if(raw==3)
-                        this.printRawLevel[raw] = "    | ------ |    ";
-                    else
-                        this.printRawLevel[raw] = "                  ";
-                }
-                if(raw==1 || raw==5)
-                    this.printRawLevel[raw] = "| -------------- |";
-                else if(raw==2 || raw==4)
-                    this.printRawLevel[raw] = "| | ---------- | |";
-                else if(raw==3)
-                    this.printRawLevel[raw] = "| | | ------ | | |";
+                    buildingLevel++;
+                    break;
+                case "DOME":
+                    if (buildingLevel == 0) {
+                        if (raw == 3)
+                            this.printRawLevel[raw] = "    | ------ |    ";
+                        else
+                            this.printRawLevel[raw] = "                  ";
+                    }
+                    if (raw == 1 || raw == 5)
+                        this.printRawLevel[raw] = "| -------------- |";
+                    else if (raw == 2 || raw == 4)
+                        this.printRawLevel[raw] = "| | ---------- | |";
+                    else if (raw == 3)
+                        this.printRawLevel[raw] = "| | | ------ | | |";
 
-                buildingLevel++;
-                break;
-            default:
-                this.printRawLevel[raw] ="      ERROR!      ";
+                    buildingLevel++;
+                    break;
+                default:
+                    this.printRawLevel[raw] = "      ERROR!      ";
+            }
         }
     }
 
-    private String printPlayerColor(Color playerColor) {
-        return playerColor + this.isHasPlayerSymbol() + Color.ANSI_RED;
+    private String printPlayerColor() {
+        return this.playerColor + this.isHasPlayerSymbol() + Color.ANSI_RED;
     }
 
     public int[] getCoordinate() {
@@ -102,7 +101,8 @@ public class Tile {
             return "   ";
     }
 
-    public void setHasPlayer(boolean hasPlayer) {
+    public void setHasPlayer(boolean hasPlayer, Color playerColor) {
         this.hasPlayer = hasPlayer;
+        this.playerColor = playerColor;
     }
 }
