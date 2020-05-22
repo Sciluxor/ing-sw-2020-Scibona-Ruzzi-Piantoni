@@ -133,6 +133,7 @@ public class ClientConnection implements ConnectionInterface,Runnable {
                     new Thread(() -> clientController.onUpdate(received)).start();
                 }
             } catch (IOException e) {
+                stopPingTimer();
                 closeConnection();
                 ClientGameController.LOGGER.info("App Disconnected");
             } catch (ClassNotFoundException e) {

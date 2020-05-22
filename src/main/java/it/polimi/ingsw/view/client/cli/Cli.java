@@ -935,7 +935,7 @@ public class Cli extends ClientGameController {
     }
 
     @Override
-    public void errorMessage(String stopped, boolean isYourPlayer) {
+    public void onErrorMessage(String stopper, boolean isYourPlayer) {
 
     }
 

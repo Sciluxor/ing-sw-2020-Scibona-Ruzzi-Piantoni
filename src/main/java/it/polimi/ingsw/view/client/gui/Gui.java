@@ -206,9 +206,10 @@ public class Gui extends ClientGameController {
     }
 
     @Override
-    public void errorMessage(String stopped, boolean isYourPlayer) {
+    public void onErrorMessage(String stopper, boolean isYourPlayer) {
         //da implementare
     }
+
 
     @Override
     public void startGame() {

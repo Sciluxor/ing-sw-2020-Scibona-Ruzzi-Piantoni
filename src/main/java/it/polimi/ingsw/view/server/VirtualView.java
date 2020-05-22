@@ -51,7 +51,7 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
             case GAMESTARTED:
                 handleStartGame();
                 break;
-            case PLACEWORKERSERROR:        //vedere bene gli errori
+            case PLACEWORKERSERROR:
             case STATUSERROR:
             case CARDCHOICEERROR:
             case CHALLENGERCHOICEERROR:

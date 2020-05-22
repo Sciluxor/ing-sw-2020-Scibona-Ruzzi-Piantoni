@@ -18,6 +18,7 @@ import it.polimi.ingsw.utils.ConfigLoader;
 import it.polimi.ingsw.utils.FlowStatutsLoader;
 import java.net.ConnectException;
 
+import java.rmi.MarshalException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
@@ -385,7 +386,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         switch (message.getSubType()) {
             case TIMEENDED:
                 if (game.isGameStarted() && ( game.hasWinner() || game.hasStopper() ))
-                    eventQueue.add(this::onEndGameDisconnection); //vederlo domani
+                    eventQueue.add(this::onEndGameDisconnection); //devo stoppare il ping timer quando il server mi chiude la connesione?
                 else
                     eventQueue.add(this::onLobbyDisconnection);
                 break;
@@ -430,11 +431,16 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         else if(message.getSubType().equals(MessageSubType.TIMEENDED)){
             eventQueue.add(() -> onTurnTimerEnded(message.getMessage()));
         }
+        else if(message.getSubType().equals(MessageSubType.STOPPEDGAMEERROR)){
+            boolean isYourPlayer = message.getMessage().equals(client.getNickName());
+            eventQueue.add(() -> onErrorMessage(message.getMessage(),isYourPlayer));
+        }
     }
 
     public synchronized void handleLoseExit(){
         client.sendMessage(new Message(client.getUserID(),client.getNickName(),MessageType.DISCONNECTION,MessageSubType.LOSEEXITREQUEST));
     }
+
 
     public synchronized void onUpdate(Message message){
         switch (message.getType()){
@@ -482,7 +488,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
                 handleLose(message);
                 break;
             case STOPPEDGAME:
-                handleGameStopped(message);  //manca case error
+                handleGameStopped(message);
                 break;
             default:
                 throw new IllegalStateException("wrong message type");
