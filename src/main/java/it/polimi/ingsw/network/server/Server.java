@@ -306,8 +306,11 @@ public class Server implements Runnable{
             controllerFromGameID.remove(controller.getGameID());
             if(message.getSubType().equals(MessageSubType.TIMEENDED))
                  controller.stopStartedGame(connection.getNickName(),Response.PLAYERTIMERENDED);
+            else if(message.getSubType().equals(MessageSubType.STOPPEDGAMEERROR))
+                controller.stopStartedGame(connection.getNickName(),Response.GAMESTOPPEDERROR);
             else
                 controller.stopStartedGame(connection.getNickName(),Response.GAMESTOPPED);
+
         }
     }
 

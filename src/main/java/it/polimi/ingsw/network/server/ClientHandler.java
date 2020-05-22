@@ -25,6 +25,7 @@ public class ClientHandler implements Runnable, ConnectionInterface {
     private final Socket socket;
     private final Server server;
     private boolean isConnectionActive;
+    private boolean isErrorStopper;
     private VirtualView view;
     private Timer lobbyTimer;
     private Timer pingTimer;
@@ -37,7 +38,16 @@ public class ClientHandler implements Runnable, ConnectionInterface {
         this.socket = socket;
         this.server = server;
         this.isConnectionActive = true;
+        this.isErrorStopper = false;
 
+    }
+
+    public boolean isErrorStopper() {
+        return isErrorStopper;
+    }
+
+    public void setErrorStopper(boolean errorStopper) {
+        isErrorStopper = errorStopper;
     }
 
     public String getNickName() {
@@ -159,6 +169,11 @@ public class ClientHandler implements Runnable, ConnectionInterface {
     }
 
     public void turnTimerEnded(Message message){
+        server.handleDisconnection(userID,this,message);
+    }
+
+    public void clientError(Message message){
+        isErrorStopper = true;
         server.handleDisconnection(userID,this,message);
     }
 
