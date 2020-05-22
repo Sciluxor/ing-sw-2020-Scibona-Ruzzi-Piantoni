@@ -47,5 +47,5 @@ public interface FunctionListener {
 
     void newChatMessage(String nick,String message);
 
-    void errorMessage();
+    void errorMessage(String stopped, boolean isYourPlayer);
 }

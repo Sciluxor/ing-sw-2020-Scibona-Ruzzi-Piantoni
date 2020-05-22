@@ -482,7 +482,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
                 handleLose(message);
                 break;
             case STOPPEDGAME:
-                handleGameStopped(message);
+                handleGameStopped(message);  //manca case error
                 break;
             default:
                 throw new IllegalStateException("wrong message type");

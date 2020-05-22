@@ -206,6 +206,11 @@ public class Gui extends ClientGameController {
     }
 
     @Override
+    public void errorMessage(String stopped, boolean isYourPlayer) {
+        //da implementare
+    }
+
+    @Override
     public void startGame() {
         SwingUtilities.invokeLater(() -> {
             sound.stop();
@@ -302,12 +307,6 @@ public class Gui extends ClientGameController {
             popUp.repaint();
             popUp.validate();
         });
-    }
-
-
-    @Override
-    public void errorMessage() {
-        //da implementare
     }
 
     @Override

@@ -935,9 +935,10 @@ public class Cli extends ClientGameController {
     }
 
     @Override
-    public void errorMessage() {
+    public void errorMessage(String stopped, boolean isYourPlayer) {
 
     }
+
 
     @Override
     public void startTurn(String nick, boolean isYourPlayer) {

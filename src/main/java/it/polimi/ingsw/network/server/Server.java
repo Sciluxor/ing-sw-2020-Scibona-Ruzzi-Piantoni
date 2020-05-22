@@ -165,7 +165,7 @@ public class Server implements Runnable{
             String nick = message.getNickName();
             int numberOfPlayer = ((GameConfigMessage) message).getNumberOfPlayer();
 
-            if(!checkValidConfig(nick,numberOfPlayer,connection))
+            if(!checkValidConfig(nick,numberOfPlayer,connection))  //bisogna eliminarlo dal game o comunque togliere il client
                 return;
 
             if(isFirstTime) {
