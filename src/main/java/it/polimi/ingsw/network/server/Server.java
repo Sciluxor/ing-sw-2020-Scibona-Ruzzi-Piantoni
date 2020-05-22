@@ -107,7 +107,7 @@ public class Server implements Runnable{
          }
     }
 
-    public boolean checkValidConfig(String nick,int numberOfPlayer,ClientHandler connection){
+    public boolean checkValidConfig(String nick,int numberOfPlayer){
         boolean isNickValid = true;
         boolean isNumberOfPlayerValid =true;
 
@@ -115,11 +115,7 @@ public class Server implements Runnable{
             isNickValid = false;
         if(numberOfPlayer > ConstantsContainer.MAXPLAYERLOBBY || numberOfPlayer < ConstantsContainer.MINPLAYERLOBBY)
             isNumberOfPlayerValid = false;
-        if(!isNumberOfPlayerValid || !isNickValid) {
-            connection.sendMessage(new GameConfigMessage(ConstantsContainer.SERVERNAME,nick ,MessageSubType.ERROR,numberOfPlayer, isNickValid, false, isNumberOfPlayerValid));
-            return false;
-        }
-        return true;
+        return isNumberOfPlayerValid && isNickValid;
     }
 
     public void moveGameStarted(){
@@ -165,8 +161,18 @@ public class Server implements Runnable{
             String nick = message.getNickName();
             int numberOfPlayer = ((GameConfigMessage) message).getNumberOfPlayer();
 
-            if(!checkValidConfig(nick,numberOfPlayer,connection))  //bisogna eliminarlo dal game o comunque togliere il client
-                return;
+            if(!checkValidConfig(nick,numberOfPlayer)) {
+                if(getControllerFromUserID(connection.getUserID()) != null){
+                    GameController match = getControllerFromUserID(connection.getUserID());
+                    match.disconnectPlayerBeforeGameStart(new Message(connection.getUserID(),connection.getNickName(), MessageType.DISCONNECTION, MessageSubType.STOPPEDGAMEERROR));
+                    controllerFromUserID.remove(connection.getUserID());
+                    connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.STOPPEDGAME,MessageSubType.STOPPEDGAMEERROR,message.getNickName()));
+                    removeFromConnections(connection);
+                    connection.setUserID(ConstantsContainer.USERDIDDEF);
+                    connection.close();
+                    return;
+                }
+            }
 
             if(isFirstTime) {
                 connections.remove(connection);

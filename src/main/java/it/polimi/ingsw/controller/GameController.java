@@ -260,7 +260,8 @@ public class GameController implements Observer<Message> {
         clients.remove(message.getSender());
 
 
-        if (message.getSubType().equals(MessageSubType.NICKMAXTRY) || view.getConnection().getNickName().equalsIgnoreCase(ConstantsContainer.NICKDEF)) {
+        if (message.getSubType().equals(MessageSubType.NICKMAXTRY) || message.getSubType().equals(MessageSubType.STOPPEDGAMEERROR)
+              || view.getConnection().getNickName().equalsIgnoreCase(ConstantsContainer.NICKDEF)) {
             game.removeConfigPlayer();
         }
         else {
