@@ -48,4 +48,6 @@ public interface FunctionListener {
     void newChatMessage(String nick,String message);
 
     void onErrorMessage(String stopper, boolean isYourPlayer);
+
+    void notYourTurn();
 }

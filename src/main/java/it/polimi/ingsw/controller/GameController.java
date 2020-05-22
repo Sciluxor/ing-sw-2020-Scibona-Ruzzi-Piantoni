@@ -431,7 +431,7 @@ public class GameController implements Observer<Message> {
                 break;
             default:
                 if(!getViewFromUserID(message.getSender()).isYourTurn()){
-                    getViewFromUserID(message.getSender()).handleNotYourTurn(); //decidere come gestire questa eccezione e aggiungere al logger l'errore
+                    getViewFromUserID(message.getSender()).handleNotYourTurn();
                 }else {
                     sendToRoundController(message);
                     checkIfToReset();

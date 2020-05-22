@@ -441,6 +441,10 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         client.sendMessage(new Message(client.getUserID(),client.getNickName(),MessageType.DISCONNECTION,MessageSubType.LOSEEXITREQUEST));
     }
 
+    public synchronized void handleNotYourTurn(){
+        eventQueue.add(this::notYourTurn);
+    }
+
 
     public synchronized void onUpdate(Message message){
         switch (message.getType()){
@@ -489,6 +493,9 @@ public abstract class ClientGameController implements Runnable, FunctionListener
                 break;
             case STOPPEDGAME:
                 handleGameStopped(message);
+                break;
+            case NOTYOURTURN:
+                handleNotYourTurn();
                 break;
             default:
                 throw new IllegalStateException("wrong message type");
