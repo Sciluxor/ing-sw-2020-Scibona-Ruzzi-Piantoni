@@ -58,7 +58,7 @@ public class ClientConnection implements ConnectionInterface,Runnable {
             clientSocket.setTcpNoDelay(true);
             out = new ObjectOutputStream(clientSocket.getOutputStream());
             in = new ObjectInputStream(clientSocket.getInputStream());
-            sendMessage(new GameConfigMessage(userID,nickName, MessageSubType.ANSWER,numberOfPlayer,false,false,false));
+            sendMessage(new GameConfigMessage(userID,nickName, MessageSubType.ANSWER,numberOfPlayer));
             messageListener = new Thread(this);
             messageListener.start();
             startPingTimer();

@@ -169,7 +169,7 @@ public class Server implements Runnable{
                     connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.STOPPEDGAME,MessageSubType.STOPPEDGAMEERROR,message.getNickName()));
                     removeFromConnections(connection);
                     connection.setUserID(ConstantsContainer.USERDIDDEF);
-                    connection.close();
+                    connection.setConnectionActive(false);
                     return;
                 }
             }

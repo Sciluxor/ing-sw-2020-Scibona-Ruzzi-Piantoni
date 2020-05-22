@@ -135,7 +135,7 @@ class GameControllerTest {
         //
 
         assertEquals(3,controller.getNumberOfPlayers());
-        GameConfigMessage message = new GameConfigMessage("deafult","primo", MessageSubType.ANSWER,3,false,false,false);
+        GameConfigMessage message = new GameConfigMessage("deafult","primo", MessageSubType.ANSWER,3);
         message.setView(viewPlayer1);
         viewPlayer1.notify(message);
         assertFalse(viewPlayer1.isYourTurn());
@@ -144,7 +144,7 @@ class GameControllerTest {
         assertEquals("primo",viewPlayer1.getConnection().getNickName());
         assertEquals("primo",controller.getActualPlayers().get(0).getNickName());
         assertFalse(controller.isGameStarted());
-        message = new GameConfigMessage("deafult","primo", MessageSubType.ANSWER,3,false,false,false);
+        message = new GameConfigMessage("deafult","primo", MessageSubType.ANSWER,3);
         message.setView(viewPlayer2);
         viewPlayer2.notify(message);
         assertFalse(viewPlayer2.isYourTurn());
@@ -158,23 +158,23 @@ class GameControllerTest {
         //test to see if the controller handle well a nick already in use
         //
 
-        GameConfigMessage message = new GameConfigMessage("UID1","primo", MessageSubType.ANSWER,3,false,false,false);
+        GameConfigMessage message = new GameConfigMessage("UID1","primo", MessageSubType.ANSWER,3);
         message.setView(viewPlayer1);
         controller.addUserID(viewPlayer1,"UID1");
         viewPlayer1.notify(message);
         assertFalse(controller.isGameStarted());
-        message = new GameConfigMessage("UID2","primo", MessageSubType.ANSWER,3,false,false,false);
+        message = new GameConfigMessage("UID2","primo", MessageSubType.ANSWER,3);
         message.setView(viewPlayer2);
         controller.addUserID(viewPlayer2,"UID2");
         viewPlayer2.notify(message);
-        message = new GameConfigMessage("UID2","primo", MessageSubType.UPDATE,3,false,false,false);
+        message = new GameConfigMessage("UID2","primo", MessageSubType.UPDATE,3);
         message.setView(viewPlayer2);
         viewPlayer2.notify(message);
         assertEquals(1,controller.getActualPlayers().size());
         assertEquals("primo",viewPlayer1.getConnection().getNickName());
         assertEquals("primo",controller.getActualPlayers().get(0).getNickName());
         assertFalse(viewPlayer2.isYourTurn());
-        message = new GameConfigMessage("UID2","secondo", MessageSubType.UPDATE,3,false,false,false);
+        message = new GameConfigMessage("UID2","secondo", MessageSubType.UPDATE,3);
         message.setView(viewPlayer2);
         viewPlayer2.notify(message);
         assertEquals(2,controller.getActualPlayers().size());
@@ -189,13 +189,13 @@ class GameControllerTest {
         //test to see if the controller start the game when the lobbyis full
         //
 
-        GameConfigMessage message = new GameConfigMessage("deafult", "primo", MessageSubType.ANSWER, 3, false, false, false);
+        GameConfigMessage message = new GameConfigMessage("deafult", "primo", MessageSubType.ANSWER, 3);
         message.setView(viewPlayer1);
         viewPlayer1.notify(message);
-        message = new GameConfigMessage("deafult", "secondo", MessageSubType.ANSWER, 3, false, false, false);
+        message = new GameConfigMessage("deafult", "secondo", MessageSubType.ANSWER, 3);
         message.setView(viewPlayer2);
         viewPlayer2.notify(message);
-        message = new GameConfigMessage("deafult", "terzo", MessageSubType.ANSWER, 3, false, false, false);
+        message = new GameConfigMessage("deafult", "terzo", MessageSubType.ANSWER, 3);
         message.setView(viewPlayer3);
         viewPlayer3.notify(message);
         assertEquals(3, controller.getActualPlayers().size());
@@ -209,13 +209,13 @@ class GameControllerTest {
         //test to see if the controller knows correctly when the game is full
         //
 
-        GameConfigMessage message = new GameConfigMessage("deafult","primo", MessageSubType.ANSWER,3,false,false,false);
+        GameConfigMessage message = new GameConfigMessage("deafult","primo", MessageSubType.ANSWER,3);
         message.setView(viewPlayer1);
         viewPlayer1.notify(message);
-        message = new GameConfigMessage("deafult","secondo", MessageSubType.ANSWER,3,false,false,false);
+        message = new GameConfigMessage("deafult","secondo", MessageSubType.ANSWER,3);
         message.setView(viewPlayer2);
         viewPlayer2.notify(message);
-        message = new GameConfigMessage("deafult","secondo", MessageSubType.ANSWER,3,false,false,false);
+        message = new GameConfigMessage("deafult","secondo", MessageSubType.ANSWER,3);
         message.setView(viewPlayer3);
         viewPlayer3.notify(message);
         assertTrue(controller.isFull());
@@ -229,17 +229,17 @@ class GameControllerTest {
         //setup phase for this test, to check if the challeger phase works correctly
         //
 
-        GameConfigMessage message = new GameConfigMessage("UID0", "primo", MessageSubType.ANSWER, 3, false, false, false);
+        GameConfigMessage message = new GameConfigMessage("UID0", "primo", MessageSubType.ANSWER, 3);
         message.setView(viewPlayer1);
         viewPlayer1.notify(message);
         controller.addUserID(viewPlayer1,"UID0");
         viewPlayer1.getConnection().setUserID("UID0");
-        message = new GameConfigMessage("UID1", "secondo", MessageSubType.ANSWER, 3, false, false, false);
+        message = new GameConfigMessage("UID1", "secondo", MessageSubType.ANSWER, 3);
         message.setView(viewPlayer2);
         viewPlayer2.notify(message);
         controller.addUserID(viewPlayer2,"UID1");
         viewPlayer2.getConnection().setUserID("UID1");
-        message = new GameConfigMessage("UID2", "terzo", MessageSubType.ANSWER, 3, false, false, false);
+        message = new GameConfigMessage("UID2", "terzo", MessageSubType.ANSWER, 3);
         message.setView(viewPlayer3);
         viewPlayer3.notify(message);
         controller.addUserID(viewPlayer3,"UID2");
@@ -294,17 +294,17 @@ class GameControllerTest {
         //setup phase for this test, to see if the players can choose the card correctly, and if the card are assigned correctly
         //
 
-        GameConfigMessage message = new GameConfigMessage("UID0", "primo", MessageSubType.ANSWER, 3, false, false, false);
+        GameConfigMessage message = new GameConfigMessage("UID0", "primo", MessageSubType.ANSWER, 3);
         message.setView(viewPlayer1);
         viewPlayer1.notify(message);
         controller.addUserID(viewPlayer1,"UID0");
         viewPlayer1.getConnection().setUserID("UID0");
-        message = new GameConfigMessage("UID1", "secondo", MessageSubType.ANSWER, 3, false, false, false);
+        message = new GameConfigMessage("UID1", "secondo", MessageSubType.ANSWER, 3);
         message.setView(viewPlayer2);
         viewPlayer2.notify(message);
         controller.addUserID(viewPlayer2,"UID1");
         viewPlayer2.getConnection().setUserID("UID1");
-        message = new GameConfigMessage("UID2", "terzo", MessageSubType.ANSWER, 3, false, false, false);
+        message = new GameConfigMessage("UID2", "terzo", MessageSubType.ANSWER, 3);
         message.setView(viewPlayer3);
         viewPlayer3.notify(message);
         controller.addUserID(viewPlayer3,"UID2");
@@ -353,17 +353,17 @@ class GameControllerTest {
         //setup phase for this test, to see if the players can choose the card correctly, and if the card are assigned correctly
         //
 
-        GameConfigMessage message = new GameConfigMessage("UID0", "primo", MessageSubType.ANSWER, 3, false, false, false);
+        GameConfigMessage message = new GameConfigMessage("UID0", "primo", MessageSubType.ANSWER, 3);
         message.setView(viewPlayer1);
         viewPlayer1.notify(message);
         controller.addUserID(viewPlayer1,"UID0");
         viewPlayer1.getConnection().setUserID("UID0");
-        message = new GameConfigMessage("UID1", "secondo", MessageSubType.ANSWER, 3, false, false, false);
+        message = new GameConfigMessage("UID1", "secondo", MessageSubType.ANSWER, 3);
         message.setView(viewPlayer2);
         viewPlayer2.notify(message);
         controller.addUserID(viewPlayer2,"UID1");
         viewPlayer2.getConnection().setUserID("UID1");
-        message = new GameConfigMessage("UID2", "terzo", MessageSubType.ANSWER, 3, false, false, false);
+        message = new GameConfigMessage("UID2", "terzo", MessageSubType.ANSWER, 3);
         message.setView(viewPlayer3);
         viewPlayer3.notify(message);
         controller.addUserID(viewPlayer3,"UID2");
@@ -403,17 +403,17 @@ class GameControllerTest {
         //setup phase for this test to see if the workers are placed correctly in the tiles selected by the player
         //
 
-        GameConfigMessage message = new GameConfigMessage("UID0", "primo", MessageSubType.ANSWER, 3, false, false, false);
+        GameConfigMessage message = new GameConfigMessage("UID0", "primo", MessageSubType.ANSWER, 3);
         message.setView(viewPlayer1);
         viewPlayer1.notify(message);
         controller.addUserID(viewPlayer1,"UID0");
         viewPlayer1.getConnection().setUserID("UID0");
-        message = new GameConfigMessage("UID1", "secondo", MessageSubType.ANSWER, 3, false, false, false);
+        message = new GameConfigMessage("UID1", "secondo", MessageSubType.ANSWER, 3);
         message.setView(viewPlayer2);
         viewPlayer2.notify(message);
         controller.addUserID(viewPlayer2,"UID1");
         viewPlayer2.getConnection().setUserID("UID1");
-        message = new GameConfigMessage("UID2", "terzo", MessageSubType.ANSWER, 3, false, false, false);
+        message = new GameConfigMessage("UID2", "terzo", MessageSubType.ANSWER, 3);
         message.setView(viewPlayer3);
         viewPlayer3.notify(message);
         controller.addUserID(viewPlayer3,"UID2");
@@ -458,17 +458,17 @@ class GameControllerTest {
         //setup phase for this test to see if the turn starts correctly after all workers are placed
         //
 
-        GameConfigMessage message = new GameConfigMessage("UID0", "primo", MessageSubType.ANSWER, 3, false, false, false);
+        GameConfigMessage message = new GameConfigMessage("UID0", "primo", MessageSubType.ANSWER, 3);
         message.setView(viewPlayer1);
         viewPlayer1.notify(message);
         controller.addUserID(viewPlayer1,"UID0");
         viewPlayer1.getConnection().setUserID("UID0");
-        message = new GameConfigMessage("UID1", "secondo", MessageSubType.ANSWER, 3, false, false, false);
+        message = new GameConfigMessage("UID1", "secondo", MessageSubType.ANSWER, 3);
         message.setView(viewPlayer2);
         viewPlayer2.notify(message);
         controller.addUserID(viewPlayer2,"UID1");
         viewPlayer2.getConnection().setUserID("UID1");
-        message = new GameConfigMessage("UID2", "terzo", MessageSubType.ANSWER, 3, false, false, false);
+        message = new GameConfigMessage("UID2", "terzo", MessageSubType.ANSWER, 3);
         message.setView(viewPlayer3);
         viewPlayer3.notify(message);
         controller.addUserID(viewPlayer3,"UID2");
@@ -499,17 +499,17 @@ class GameControllerTest {
         //test to see if the game is stopped after a disconnection or a lose
         //
 
-        GameConfigMessage message = new GameConfigMessage("UID0", "primo", MessageSubType.ANSWER, 3, false, false, false);
+        GameConfigMessage message = new GameConfigMessage("UID0", "primo", MessageSubType.ANSWER, 3);
         message.setView(viewPlayer1);
         viewPlayer1.notify(message);
         controller.addUserID(viewPlayer1,"UID0");
         viewPlayer1.getConnection().setUserID("UID0");
-        message = new GameConfigMessage("UID1", "secondo", MessageSubType.ANSWER, 3, false, false, false);
+        message = new GameConfigMessage("UID1", "secondo", MessageSubType.ANSWER, 3);
         message.setView(viewPlayer2);
         viewPlayer2.notify(message);
         controller.addUserID(viewPlayer2,"UID1");
         viewPlayer2.getConnection().setUserID("UID1");
-        message = new GameConfigMessage("UID2", "terzo", MessageSubType.ANSWER, 3, false, false, false);
+        message = new GameConfigMessage("UID2", "terzo", MessageSubType.ANSWER, 3);
         message.setView(viewPlayer3);
         viewPlayer3.notify(message);
         controller.addUserID(viewPlayer3,"UID2");
@@ -538,17 +538,17 @@ class GameControllerTest {
         //test to see if a player is disconnected when the timer for the lobby end
         //
 
-        GameConfigMessage message = new GameConfigMessage("UID1","primo", MessageSubType.ANSWER,3,false,false,false);
+        GameConfigMessage message = new GameConfigMessage("UID1","primo", MessageSubType.ANSWER,3);
         message.setView(viewPlayer1);
         controller.addUserID(viewPlayer1,"UID1");
         viewPlayer1.notify(message);
         assertFalse(controller.isGameStarted());
-        message = new GameConfigMessage("UID2","primo", MessageSubType.ANSWER,3,false,false,false);
+        message = new GameConfigMessage("UID2","primo", MessageSubType.ANSWER,3);
         message.setView(viewPlayer2);
         controller.addUserID(viewPlayer2,"UID2");
         viewPlayer2.notify(message);
         assertEquals(1,controller.getConfigPlayer());
-        message = new GameConfigMessage("UID2","primo", MessageSubType.UPDATE,3,false,false,false);
+        message = new GameConfigMessage("UID2","primo", MessageSubType.UPDATE,3);
         message.setView(viewPlayer2);
         viewPlayer2.notify(message);
         assertEquals(1,controller.getConfigPlayer());
@@ -567,12 +567,12 @@ class GameControllerTest {
         //test to see if the player is removed from the lobby when he press back
         //
 
-        GameConfigMessage message = new GameConfigMessage("UID1", "primo", MessageSubType.ANSWER, 3, false, false, false);
+        GameConfigMessage message = new GameConfigMessage("UID1", "primo", MessageSubType.ANSWER, 3);
         message.setView(viewPlayer1);
         controller.addUserID(viewPlayer1, "UID1");
         viewPlayer1.notify(message);
         assertFalse(controller.isGameStarted());
-        message = new GameConfigMessage("UID2", "secondo", MessageSubType.ANSWER, 3, false, false, false);
+        message = new GameConfigMessage("UID2", "secondo", MessageSubType.ANSWER, 3);
         message.setView(viewPlayer2);
         controller.addUserID(viewPlayer2, "UID2");
         viewPlayer2.notify(message);
@@ -601,18 +601,18 @@ class GameControllerTest {
         //test to see if the player is moved on another game after he puts the same nick for 3 times
         //
 
-        GameConfigMessage message = new GameConfigMessage("UID1", "primo", MessageSubType.ANSWER, 3, false, false, false);
+        GameConfigMessage message = new GameConfigMessage("UID1", "primo", MessageSubType.ANSWER, 3);
         message.setView(viewPlayer1);
         controller.addUserID(viewPlayer1, "UID1");
         viewPlayer1.notify(message);
         assertFalse(controller.isGameStarted());
-        message = new GameConfigMessage("UID2", "secondo", MessageSubType.ANSWER, 3, false, false, false);
+        message = new GameConfigMessage("UID2", "secondo", MessageSubType.ANSWER, 3);
         message.setView(viewPlayer2);
         controller.addUserID(viewPlayer2, "UID2");
         viewPlayer2.notify(message);
 
 
-        message = new GameConfigMessage("UID5","primo", MessageSubType.ANSWER,3,false,false,false);
+        message = new GameConfigMessage("UID5","primo", MessageSubType.ANSWER,3);
         message.setView(viewPlayer3);
         controller.addUserID(viewPlayer3,"UID5");
         viewPlayer3.notify(message);
@@ -635,7 +635,7 @@ class GameControllerTest {
         //test to see if the controller could check correctly the presence of a nickname
         //
 
-        GameConfigMessage message = new GameConfigMessage("UID1","primo", MessageSubType.ANSWER,3,false,false,false);
+        GameConfigMessage message = new GameConfigMessage("UID1","primo", MessageSubType.ANSWER,3);
         message.setView(viewPlayer1);
         controller.addUserID(viewPlayer1,"UID1");
         viewPlayer1.notify(message);

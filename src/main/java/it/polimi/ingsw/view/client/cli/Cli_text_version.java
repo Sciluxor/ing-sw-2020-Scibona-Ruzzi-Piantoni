@@ -641,11 +641,16 @@ public class Cli_text_version extends ClientGameController {
 
     }
 
-
     @Override
-    public void errorMessage() {
+    public void onErrorMessage(String stopper, boolean isYourPlayer) {
 
     }
+
+    @Override
+    public void notYourTurn() {
+
+    }
+
 
     @Override
     public void startTurn(String nick, boolean isYourPlayer) {

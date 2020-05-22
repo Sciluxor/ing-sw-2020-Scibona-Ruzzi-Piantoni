@@ -939,6 +939,11 @@ public class Cli extends ClientGameController {
 
     }
 
+    @Override
+    public void notYourTurn() {
+
+    }
+
 
     @Override
     public void startTurn(String nick, boolean isYourPlayer) {

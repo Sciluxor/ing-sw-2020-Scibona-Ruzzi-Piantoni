@@ -210,6 +210,11 @@ public class Gui extends ClientGameController {
         //da implementare
     }
 
+    @Override
+    public void notYourTurn() {
+        //da implementare
+    }
+
 
     @Override
     public void startGame() {
