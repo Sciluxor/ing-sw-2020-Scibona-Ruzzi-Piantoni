@@ -1,6 +1,11 @@
 package it.polimi.ingsw.view.client.cli;
 
+import it.polimi.ingsw.model.cards.Card;
+import it.polimi.ingsw.model.player.Player;
+
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
@@ -35,6 +40,38 @@ public class CliUtils {
             System.out.println(string);
     }
 
+    public static void printPlayer(String nickName, Player player) {
+        try {
+            print(nickName.toUpperCase(), getColorCliFromPlayer(player.getColor()));
+        } catch (NullPointerException e) {
+            printErr("NULL POINTER");
+            CliUtils.LOGGER.severe(e.getMessage());
+        }
+    }
+
+    public static void printPower(String cardName, Map<String, Card> deck) {
+        Card card = deck.get(cardName.toLowerCase());
+        if(card != null) {
+            if (cardName.equalsIgnoreCase("ATHENA") || cardName.equalsIgnoreCase("HERA"))
+                print("  OPPONENT'S TURN: ", Color.ANSI_BLUE);
+            else if (cardName.equalsIgnoreCase("HYPNUS"))
+                print("  START OF OPPONENT'S TURN: ", Color.ANSI_BLUE);
+            else
+                print("  " + deck.get(cardName).getType().toString() + ": ", Color.ANSI_BLUE);
+            printRed(deck.get(cardName).getDescription() + "\n");
+        }
+        else
+            printErr("WRONG CARD NAME");
+    }
+
+    public static void printOpponents(Player player) {
+            printWhite("[");
+            printPlayer(player.getNickName(), player);
+            printWhite("] ");
+    }
+
+    //------------ GENERIC -------------------------
+
     public static String input() {
         String keyboard;
         Scanner input = new Scanner(System.in);
@@ -46,11 +83,36 @@ public class CliUtils {
         return keyboard.split("\\s");
     }
 
+    public static void clearShell(List<Player> opponents, Player currentPlayer, Map<String, Card> deck) {
+        Color.clearConsole();
+        printRed("[OPPONENTS]: ");
+        for (Player player : opponents) {
+            printOpponents(player);
+        }
+        printRed("\n[YOUR POWER]: ");
+        try {
+            printPower(currentPlayer.getPower().getName(), deck);
+        } catch (NullPointerException e) {
+            printRed("POWER DOESN'T ALREADY CHOOSE\n");
+        }
+        printRed("[OPPONENTS' POWER]:\n  ");
+        for(Player player: opponents) {
+            printOpponents(player);
+            try {
+                printPower(player.getPower().getName(), deck);
+            } catch (NullPointerException e) {
+                printRed("POWER DOESN'T ALREADY CHOOSE\n");
+            }
+            printRed("  ");
+        }
+        printRed("\n");
+    }
+
     public static void clearShell() {
         Color.clearConsole();
     }
 
-
+    //------------ ARROWS --------------------------
 
     public static int getArrow() {
         int keyboard = 0, keyboard1 = 0, keyboard2 = 0;
@@ -140,6 +202,33 @@ public class CliUtils {
                 printErr("NO KEYBOARD CATCHED");
         }
         return keyboardIn;
+    }
+
+    //----------------------------------------------
+
+    public static Color getColorCliFromPlayer(it.polimi.ingsw.model.player.Color color) {
+        Color returnedColor = Color.ANSI_BLACK;
+        try {
+            switch (color) {
+                case BLUE:
+                    returnedColor = Color.ANSI_BLUE;
+                    break;
+                case WHITE:
+                    returnedColor = Color.ANSI_WHITE;
+                    break;
+                case PURPLE:
+                    returnedColor = Color.ANSI_PURPLE;
+                    break;
+                default:
+                    returnedColor = Color.ANSI_YELLOW;
+                    System.err.print("WRONG PLAYER COLOR PASSED");
+            }
+        } catch (NullPointerException e) {
+            printErr("NULL POINTER");
+            CliUtils.LOGGER.severe(e.getMessage());
+        }
+
+        return returnedColor;
     }
 
 }
