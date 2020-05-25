@@ -326,6 +326,8 @@ public abstract class ClientGameController implements Runnable, FunctionListener
                 }
             }
         }
+        if(response.equals(Response.NOTWIN))
+            response = Response.NOTBUILDWIN;
         return response;
     }
 

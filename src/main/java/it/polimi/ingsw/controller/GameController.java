@@ -118,7 +118,10 @@ public class GameController implements Observer<Message> {
         return game.getAvailableCards();
     }
 
-    public synchronized boolean hasWinner(){ return game.hasWinner();}
+    public synchronized boolean hasWinner(){
+        System.out.println(game.getGameStatus());
+        return game.hasWinner();
+    }
 
     public synchronized void addNick(VirtualView view,String nickName){
         clients.put(nickName,view);

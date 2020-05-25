@@ -252,6 +252,7 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
 
     @Override
     public void update(Response status) {
+        controller.hasWinner();
         onUpdatedStatus(status);
     }
 }
