@@ -92,22 +92,13 @@ public class NewSantoriniMapArrows {
         printYellow("-\n");
     }
 
-    public List<Integer> printAvailableTiles(List<Integer> modifiedSquares) {
+    public List<Integer> printAvailableTiles() {
 
         printRed("AVAILABLE SQUARES:\n");
-        availableTiles.removeAll(modifiedSquares);
 
-        if(firstPrint) {
-            firstPrint = false;
-            for(int availableTile: availableTiles) {
-                int[] coordinate = getCoordinatesFromTile(availableTile);
-                printRed(" Tile number: " + availableTile + " [" + coordinate[0] + "] [" + coordinate[1] + "]\n");
-            }
-        } else {
-            for (int availableTile : availableTiles) {
-                int[] coordinate = getCoordinatesFromTile(availableTile);
-                printRed(" Tile number: " + availableTile + " [" + coordinate[0] + "] [" + coordinate[1] + "]\n");
-            }
+        for(int availableTile: availableTiles) {
+            int[] coordinate = getCoordinatesFromTile(availableTile);
+            printRed(" Tile number: " + (availableTile+1) + " [" + coordinate[0] + "] [" + coordinate[1] + "]\n");
         }
 
         return availableTiles;
@@ -122,9 +113,16 @@ public class NewSantoriniMapArrows {
     }
 
     public int[] getCoordinatesFromTile(int tileNumber) {
-        int[] coordinate = new int[2];
-        coordinate = tile[tileNumber].getCoordinate();
-        return coordinate;
+        return tile[tileNumber].getCoordinate();
+    }
+
+    public void setAvailableTiles(List<Integer> availableTilesFromServer) {
+        this.availableTiles.clear();
+        this.availableTiles.addAll(availableTilesFromServer);
+    }
+
+    public void setPlaceWorkerAvailableTiles(List<Integer> modifiedSquares) {
+        this.availableTiles.removeAll(modifiedSquares);
     }
 
     //----- GETTER & SETTER -----
