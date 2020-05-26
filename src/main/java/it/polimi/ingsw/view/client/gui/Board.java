@@ -6,7 +6,6 @@ import it.polimi.ingsw.model.map.Square;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.WorkerName;
 import it.polimi.ingsw.network.message.MessageType;
-import it.polimi.ingsw.utils.Observable;
 
 
 import javax.swing.*;
@@ -19,11 +18,10 @@ import java.util.List;
 import java.util.Objects;
 
 import static it.polimi.ingsw.utils.ConstantsContainer.*;
-import static it.polimi.ingsw.view.client.gui.Gui.LOGGER;
 import static it.polimi.ingsw.view.client.gui.EliminateListeners.*;
-import static it.polimi.ingsw.view.client.gui.Gui.getD;
+import static it.polimi.ingsw.view.client.gui.Gui.*;
 
-public class Board extends Observable {
+public class Board {
 
     Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
     double ratio= (screen.getWidth()/screen.getHeight());
@@ -232,9 +230,9 @@ public class Board extends Observable {
     List<JLabel> opponents2Labels = new ArrayList<>();
     boolean chatOpen = false;
     int tileBuildChoosen = 0;
-    private static double boldDimension;
+    private static final double boldDimension = (25 * screenSize.getHeight() / 1080);
     List<String> constraint = new ArrayList<>();
-    private static MP3 click;
+    private static final MP3 click = new MP3("resources/Music/Click.mp3");
     MP3 place;
     MP3 build;
     MP3 loopSound;
@@ -295,7 +293,6 @@ public class Board extends Observable {
         JLabel coverLeftGod1 = ImageHandler.setImage("resources/Graphics/left_god_board.png", 100, 100, frameSize.width, frameSize.height);
         coverLeftGod = new JLabel(coverLeftGod1.getIcon());
 
-        boldDimension = (25 * screen.getHeight() / 1080);
 
         felixSmall = new Font(Gui.FELIX, Font.PLAIN, (int) (13 * screen.getHeight() / 1080));
         felixNormal = new Font(Gui.FELIX, Font.PLAIN, (int) (20 * screen.getHeight() / 1080));
@@ -353,7 +350,6 @@ public class Board extends Observable {
         lTutorial2 = ImageHandler.setImage("resources/Graphics/tutorial2.png", 100, 100, frameSize.width, frameSize.height);
 
         loopSound = new MP3("resources/Music/Atlantis.mp3");
-        click = new MP3("resources/Music/Click.mp3");
         place = new MP3("resources/Music/Place.mp3");
         build = new MP3("resources/Music/Build.mp3");
         win = new MP3("resources/Music/win.mp3");
@@ -1392,33 +1388,18 @@ public class Board extends Observable {
 
                 if (worker1 == 0){
                     if (worker2 == 0) {
-                        place.play();
-                        c.setIcon(worker.getIcon());
-                        mapButtonsPlayer[x] = true;
-                        placed++;
-                        mapMyWorkers[x] = 1;
-                        worker1 = 1;
+                        placing(c, x, 1);
                         eliminateActionClass(buttonMultiUse, ConfirmPlace.class);
                     }
 
                     else if (worker2 == 2){
                         if (!mapButtonsPlayer[x] && placed < 2) {
-                            place.play();
-                            c.setIcon(worker.getIcon());
-                            mapButtonsPlayer[x] = true;
-                            placed++;
-                            mapMyWorkers[x] = 1;
-                            worker1 = 1;
+                            placing(c, x, 1);
                             eliminateActionClass(buttonMultiUse, ConfirmPlace.class);
                         }
 
                         else if (mapButtonsPlayer[x]){
-                            c.setIcon(null);
-                            mapButtonsPlayer[x] = false;
-                            placed--;
-                            mapMyWorkers[x] = 0;
-                            worker2 = 0;
-                            buttonMultiUse.setEnabled(false);
+                            removing(c, x, 2);
                             eliminateActionClass(buttonMultiUse, ConfirmPlace.class);
                         }
                     }
@@ -1426,42 +1407,22 @@ public class Board extends Observable {
                 else if (worker1 == 1){
                     if (worker2 == 0){
                         if (!mapButtonsPlayer[x] && placed < 2) {
-                            place.play();
-                            c.setIcon(worker.getIcon());
-                            mapButtonsPlayer[x] = true;
-                            placed++;
-                            mapMyWorkers[x] = 2;
-                            worker2 = 2;
+                            placing(c, x, 2);
                             eliminateActionClass(buttonMultiUse, ConfirmPlace.class);
                         }
 
                         else if (mapButtonsPlayer[x]){
-                            c.setIcon(null);
-                            mapButtonsPlayer[x] = false;
-                            placed--;
-                            mapMyWorkers[x] = 0;
-                            worker1 = 0;
-                            buttonMultiUse.setEnabled(false);
+                            removing(c, x, 1);
                             eliminateActionClass(buttonMultiUse, ConfirmPlace.class);
                         }
                     }
                     else if (worker2 == 2){
                         if (mapMyWorkers[x] == 1) {
-                            c.setIcon(null);
-                            mapButtonsPlayer[x] = false;
-                            placed--;
-                            mapMyWorkers[x] = 0;
-                            worker1 = 0;
-                            buttonMultiUse.setEnabled(false);
+                            removing(c, x, 1);
                             eliminateActionClass(buttonMultiUse, ConfirmPlace.class);
                         }
                         else if (mapMyWorkers[x] == 2){
-                            c.setIcon(null);
-                            mapButtonsPlayer[x] = false;
-                            placed--;
-                            mapMyWorkers[x] = 0;
-                            worker2 = 0;
-                            buttonMultiUse.setEnabled(false);
+                            removing(c, x, 2);
                             eliminateActionClass(buttonMultiUse, ConfirmPlace.class);
                         }
                     }
@@ -1471,6 +1432,34 @@ public class Board extends Observable {
                     buttonMultiUse.addActionListener(new ConfirmPlace());
                 }
             }
+        }
+
+        private void placing(JButton c, int pos, int number){
+            place.play();
+            c.setIcon(worker.getIcon());
+            mapButtonsPlayer[pos] = true;
+            placed++;
+            mapMyWorkers[pos] = number;
+            if (number == 1) {
+                worker1 = number;
+            }
+            else if (number == 2){
+                worker2 = number;
+            }
+        }
+
+        private void removing(JButton c, int pos, int number){
+            c.setIcon(null);
+            mapButtonsPlayer[pos] = false;
+            placed--;
+            mapMyWorkers[pos] = 0;
+            if (number == 1) {
+                worker1 = 0;
+            }
+            else if (number == 2){
+                worker2 = 0;
+            }
+            buttonMultiUse.setEnabled(false);
         }
     }
 
@@ -1488,14 +1477,14 @@ public class Board extends Observable {
         }
 
         private List<Integer> modifiedTiles(){
-            boolean exit;
+            boolean exitFor;
             List<Integer> tiles = new ArrayList<>();
             for (int y = 1; y < 3; y++) {
-                exit = false;
-                for (int x = 0; x < 25 && !exit; x++) {
+                exitFor = false;
+                for (int x = 0; x < 25 && !exitFor; x++) {
                     if (mapMyWorkers[x] == y) {
                         tiles.add(x);
-                        exit = true;
+                        exitFor = true;
                     }
                 }
             }
@@ -1604,10 +1593,10 @@ public class Board extends Observable {
             }
 
             availableWorkers = gui.availableWorkers();
-            boolean exit;
+            boolean exitFor;
             for (Integer x : availableWorkers){
-                exit = false;
-                for (int y = 0; y < 25 && !exit; y++){
+                exitFor = false;
+                for (int y = 0; y < 25 && !exitFor; y++){
                     if (mapMyWorkers[y] == x){
                         eliminateMouseClass(mapButtons[y], ColorBorder.class);
                         eliminateActionClass(mapButtons[y], SelectWorker.class);
@@ -1615,7 +1604,7 @@ public class Board extends Observable {
                         mapButtons[y].setBorderPainted(true);
                         mapButtons[y].addActionListener(new SelectWorker());
                         availableWorkersPositions.add(y);
-                        exit = true;
+                        exitFor = true;
                     }
                 }
             }
@@ -1796,7 +1785,7 @@ public class Board extends Observable {
             mapMyWorkers[square.getTile() - 1] = WorkerName.getNumberWorker(square.getWorker().getName());
             return myLabels;
         }
-        else return null;
+        else return new ArrayList<>();
     }
 
     private void setPlayerIconToMap(Square square, List<JLabel> list){

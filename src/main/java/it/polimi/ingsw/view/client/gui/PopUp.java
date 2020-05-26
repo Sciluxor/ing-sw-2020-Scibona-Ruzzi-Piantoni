@@ -44,7 +44,6 @@ public class PopUp {
     public JPanel lobbyPopUp(int n){
         window.removeAll();
         window.setLayout(null);
-        //window.setSize(intFrameSize);
         switch (n){
             case 0:
                 button1 = new MyButton(0);
@@ -133,7 +132,6 @@ public class PopUp {
 
                 setDisconnectionTime();
 
-                //back = backgroundButton(2);
                 back.setBounds(0, 0, intFrameSize.width, intFrameSize.height);
                 window.add(back);
                 break;
@@ -240,8 +238,6 @@ public class PopUp {
             gui.popUp.getContentPane().removeAll();
             gui.newPopUp();
             gui.lobby.backButton.setEnabled(true);
-
-
         }
     }
 
