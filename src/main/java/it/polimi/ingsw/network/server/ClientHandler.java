@@ -189,7 +189,7 @@ public class ClientHandler implements Runnable, ConnectionInterface {
                 while(isConnectionActive()) {
                     synchronized (inputLock) {
                         Message input = receiveMessage();
-
+                        System.out.println(input.getType().toString() + "---" +  input.getSubType().toString());
                         if (input.getType() == MessageType.CONFIG && input.getSubType() == MessageSubType.ANSWER) {
                             stopLobbyTimer();
                             this.newNickCounter = 0;
@@ -199,31 +199,16 @@ public class ClientHandler implements Runnable, ConnectionInterface {
                             stopPingTimer();
                             startPingTimer();
                         } else if (input.getType() == MessageType.CONFIG && input.getSubType() == MessageSubType.UPDATE) {
-                            stopLobbyTimer();
-                            newNickCounter++;
-                            if (newNickCounter > ConstantsContainer.MAXTRYTOCHANGENICK) {
-                                input.setMessageSubType(MessageSubType.ANSWER);
-                                this.newNickCounter = 0;
-                                server.handleDisconnection(userID, this, new Message(input.getSender(), input.getNickName(), MessageType.DISCONNECTION, MessageSubType.NICKMAXTRY)); //si deve cambiare
-                                server.insertPlayerInGame(input, this, false);
-                            } else {
-                                dispatchMessageToVirtualView(input);
-                            }
-                            server.moveGameStarted();
+                            nickMaxTry(input);
+
                         } else if ((input.getType() == MessageType.DISCONNECTION)) {
                             server.handleDisconnection(userID, this, input);
 
                             if (!input.getSubType().equals(MessageSubType.BACK))
                                 break;
 
-
-                            //completare questo
-                            //confermare la ricezione del messaggio, è giò fatto
-                            //due casi diversi se si disconette prima di aver iniziato la partita o dopo aver iniziato la partita, nel primo si deve chiudere l'app
-                            //nel secondo si deve richiedere se si vuole iniziare una nuova parita
-                            //terminare la partita
                         } else {
-                            dispatchMessageToVirtualView(input); //runnarlo in un altro thread?
+                            dispatchMessageToVirtualView(input);
                         }
 
                     }
@@ -232,22 +217,41 @@ public class ClientHandler implements Runnable, ConnectionInterface {
             }catch (IOException e){
                 stopLobbyTimer();
                 stopPingTimer();
-                isConnectionActive = false;         //sfruttare questo per chiudere la connection, e inviare o no il messaggio. fare messaggi personallzzati
+                isConnectionActive = false;
                 server.handleDisconnection(userID,this,new Message(userID,nickName,MessageType.DISCONNECTION,MessageSubType.ERROR));
             }
             catch(ClassNotFoundException c){
                 Server.LOGGER.severe(c.getMessage());
             }
             finally {
-                stopLobbyTimer();
-                stopPingTimer();
-                if(isConnectionActive)
-                    closeConnection(new Message(ConstantsContainer.SERVERNAME, MessageType.DISCONNECTION, MessageSubType.UPDATE));      //vedere se viene chiamata due volte quando scade il lobby timer
-                else
-                    closeAfterDisconnection();
-                Server.LOGGER.info("player disconnected");
+                onFinalDisconnection();
             }
         }
 
-        //aggiungere una funziona per pingare il client, se non risponde eliminarlo e far terminare la partita. forse nel server
+        public void nickMaxTry(Message input){
+        synchronized (inputLock) {
+            stopLobbyTimer();
+            newNickCounter++;
+            if (newNickCounter > ConstantsContainer.MAXTRYTOCHANGENICK) {
+                input.setMessageSubType(MessageSubType.ANSWER);
+                this.newNickCounter = 0;
+                server.handleDisconnection(userID, this, new Message(input.getSender(), input.getNickName(), MessageType.DISCONNECTION, MessageSubType.NICKMAXTRY));
+                server.insertPlayerInGame(input, this, false);
+            } else {
+                dispatchMessageToVirtualView(input);
+            }
+            server.moveGameStarted();
+         }
+        }
+
+        public void onFinalDisconnection(){
+            stopLobbyTimer();
+            stopPingTimer();
+            if(isConnectionActive)
+                closeConnection(new Message(ConstantsContainer.SERVERNAME, MessageType.DISCONNECTION, MessageSubType.UPDATE));
+            else
+                closeAfterDisconnection();
+            Server.LOGGER.info("player disconnected");
+        }
+
 }

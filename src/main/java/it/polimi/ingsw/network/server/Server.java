@@ -162,16 +162,8 @@ public class Server implements Runnable{
             int numberOfPlayer = ((GameConfigMessage) message).getNumberOfPlayer();
 
             if(!checkValidConfig(nick,numberOfPlayer)) {
-                if(getControllerFromUserID(connection.getUserID()) != null){
-                    GameController match = getControllerFromUserID(connection.getUserID());
-                    match.disconnectPlayerBeforeGameStart(new Message(connection.getUserID(),connection.getNickName(), MessageType.DISCONNECTION, MessageSubType.STOPPEDGAMEERROR));
-                    controllerFromUserID.remove(connection.getUserID());
-                    connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.STOPPEDGAME,MessageSubType.STOPPEDGAMEERROR,message.getNickName()));
-                    removeFromConnections(connection);
-                    connection.setUserID(ConstantsContainer.USERDIDDEF);
-                    connection.setConnectionActive(false);
-                    return;
-                }
+                nickError(connection,message);
+                return;
             }
 
             if(isFirstTime) {
@@ -179,10 +171,7 @@ public class Server implements Runnable{
                 connections.add(connection);
                 for (GameController match : lobby) {
                     if (getNumberOfPlayer(match) == numberOfPlayer && !isFull(match)) {
-                        String userID = ConstantsContainer.USERIDPREFIX + numUserID;
-                        numUserID ++;
-                        addPlayer(match,connection, message, userID);
-                        controllerFromUserID.put(userID,match);
+                        insertFirstTime(match,connection,message);
                         return;
                     }
                 }
@@ -192,23 +181,58 @@ public class Server implements Runnable{
                 for (GameController match : lobby) {
                   if (getNumberOfPlayer(match) == numberOfPlayer && !isFull(match) && checkNick(message,match)) {
                       {
-                          addPlayer(match,connection, message,message.getSender());
-                          controllerFromUserID.remove(message.getSender());
-                          controllerFromUserID.put(message.getSender(),match);
+                          insertNotFirstTime(match,connection,message);
                           return;
                       }
                 }
             }
-
             }
+            insertNewMatch(connection,message,numberOfPlayer);
+        }
+    }
+
+    public void nickError(ClientHandler connection,Message message){
+        synchronized (clientsLock) {
+            if (getControllerFromUserID(connection.getUserID()) != null) {
+                GameController match = getControllerFromUserID(connection.getUserID());
+                match.disconnectPlayerBeforeGameStart(new Message(connection.getUserID(), connection.getNickName(), MessageType.DISCONNECTION, MessageSubType.STOPPEDGAMEERROR));
+                controllerFromUserID.remove(connection.getUserID());
+            }
+            connection.sendMessage(new Message(ConstantsContainer.SERVERNAME, MessageType.STOPPEDGAME, MessageSubType.STOPPEDGAMEERROR, message.getNickName()));
+            removeFromConnections(connection);
+            connection.setUserID(ConstantsContainer.USERDIDDEF);
+            connection.setConnectionActive(false);
+        }
+    }
+
+    public void insertFirstTime(GameController match,ClientHandler connection,Message message){
+        synchronized (clientsLock){
+            String userID = ConstantsContainer.USERIDPREFIX + numUserID;
+            numUserID ++;
+            addPlayer(match,connection, message, userID);
+            controllerFromUserID.put(userID,match);
+        }
+    }
+
+    public void insertNotFirstTime(GameController match,ClientHandler connection,Message message){
+        synchronized (clientsLock){
+            addPlayer(match,connection, message,message.getSender());
+            controllerFromUserID.remove(message.getSender());
+            controllerFromUserID.put(message.getSender(),match);
+        }
+    }
+
+    public void insertNewMatch(ClientHandler connection,Message message, int numberOfPlayer){
+        synchronized (clientsLock){
             String userID = ConstantsContainer.USERIDPREFIX + numUserID;
             numUserID ++;
             GameController match = newMatch(numberOfPlayer);
             addPlayer(match,connection,message,userID);
             controllerFromUserID.put(userID,match);
-
         }
     }
+
+
 
     public int getNumberOfPlayer(GameController controller) {
         return controller.getNumberOfPlayers();

@@ -18,7 +18,6 @@ import it.polimi.ingsw.utils.ConfigLoader;
 import it.polimi.ingsw.utils.FlowStatutsLoader;
 import java.net.ConnectException;
 
-import java.rmi.MarshalException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
@@ -87,7 +86,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     public synchronized void updateNickName(String nickName){
         client.setNickName(nickName);
         client.sendMessage(new GameConfigMessage(client.getUserID(),nickName,MessageSubType.UPDATE,game.getNumberOfPlayers()));
-    }//gestire anche gli errori false ecc.
+    }
 
     public synchronized void onGameStart(Message message){
         game.setGameStarted(true);
@@ -327,6 +326,8 @@ public abstract class ClientGameController implements Runnable, FunctionListener
                 }
             }
         }
+        if(response.equals(Response.NOTWIN))
+            response = Response.NOTBUILDWIN;
         return response;
     }
 
