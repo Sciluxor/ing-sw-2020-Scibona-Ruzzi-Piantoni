@@ -65,7 +65,7 @@ public class CliUtils {
     }
 
     public static void printOpponents(Player player) {
-            printWhite("[");
+            printWhite("  [");
             printPlayer(player.getNickName(), player);
             printWhite("] ");
     }
@@ -85,25 +85,25 @@ public class CliUtils {
 
     public static void clearShell(List<Player> opponents, Player currentPlayer, Map<String, Card> deck) {
         Color.clearConsole();
-        printRed("[OPPONENTS]: ");
+        printRed("[OPPONENTS]:");
         for (Player player : opponents) {
             printOpponents(player);
         }
-        printRed("\n[YOUR POWER]: ");
-        try {
-            printPower(currentPlayer.getPower().getName(), deck);
-        } catch (NullPointerException e) {
-            printRed("POWER DOESN'T ALREADY CHOOSE\n");
-        }
-        printRed("[OPPONENTS' POWER]:\n  ");
+        printRed("\n[OPPONENTS' POWER]:\n");
         for(Player player: opponents) {
             printOpponents(player);
             try {
+                printRed(" ");
                 printPower(player.getPower().getName(), deck);
             } catch (NullPointerException e) {
                 printRed("POWER DOESN'T ALREADY CHOOSE\n");
             }
-            printRed("  ");
+        }
+        printRed("[YOUR POWER]:");
+        try {
+            printPower(currentPlayer.getPower().getName(), deck);
+        } catch (NullPointerException e) {
+            printRed(" POWER DOESN'T ALREADY CHOOSE\n");
         }
         printRed("\n");
     }
