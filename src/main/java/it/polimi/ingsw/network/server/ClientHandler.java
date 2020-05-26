@@ -189,7 +189,6 @@ public class ClientHandler implements Runnable, ConnectionInterface {
                 while(isConnectionActive()) {
                     synchronized (inputLock) {
                         Message input = receiveMessage();
-                        System.out.println(input.getType().toString() + "---" +  input.getSubType().toString());
                         if (input.getType() == MessageType.CONFIG && input.getSubType() == MessageSubType.ANSWER) {
                             stopLobbyTimer();
                             this.newNickCounter = 0;

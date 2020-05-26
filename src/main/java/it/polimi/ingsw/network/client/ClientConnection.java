@@ -130,7 +130,7 @@ public class ClientConnection implements ConnectionInterface,Runnable {
                     sendMessage(new Message(userID,nickName,MessageType.PING,MessageSubType.UPDATE));
                     startPingTimer();
                 } else if (received != null) {
-                    new Thread(() -> clientController.onUpdate(received)).start();
+                    clientController.onUpdate(received);
                 }
             } catch (IOException e) {
                 stopPingTimer();
