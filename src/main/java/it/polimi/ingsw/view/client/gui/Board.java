@@ -1901,6 +1901,7 @@ public class Board extends Observable {
         displayModifications(gui.getModifiedsquare(), false);
 
         if (isYourPlayer) {
+            loopSound.stop();
             lose.play();
             winLose.setIcon(border.getIcon());
             winLose.setVisible(true);
@@ -1931,6 +1932,7 @@ public class Board extends Observable {
         }
         newGame.addActionListener(new NewGameWin());
         eliminateAllFromAll();
+        loopSound.stop();
         try {
             if (winnerBool) {
                 border = ImageHandler.setImage("resources/Graphics/gods/podium/win_border.png", 100, 100, frameSize.width * 50/100, frameSize.height * 80/100);
