@@ -1,10 +1,15 @@
 package it.polimi.ingsw.view.client.cli;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static it.polimi.ingsw.view.client.cli.CliUtils.*;
 
 public class NewSantoriniMapArrows {
 
     private Tile[] tile = new Tile[25];
+    private boolean firstPrint = true;
+    List<Integer> availableTiles = new ArrayList<>();
     //private boolean firstPrint = true;
 
     public NewSantoriniMapArrows() {
@@ -44,6 +49,9 @@ public class NewSantoriniMapArrows {
             this.tile[counter].setCoordinate(2, y);
             counter++;
         }
+
+        for(int i=0; i<25; i++)
+            availableTiles.add(i);
     }
 
     public void setTileHasPlayer(boolean hasPlayer, String buildingType, int tileNumber, Color playerColor) {
@@ -84,12 +92,37 @@ public class NewSantoriniMapArrows {
         printYellow("-\n");
     }
 
+    public List<Integer> printAvailableTiles() {
+
+        printRed("AVAILABLE SQUARES:\n");
+
+        for(int availableTile: availableTiles) {
+            int[] coordinate = getCoordinatesFromTile(availableTile);
+            printRed(" Tile number: " + (availableTile+1) + " [" + coordinate[0] + "] [" + coordinate[1] + "]\n");
+        }
+
+        return availableTiles;
+    }
+
     public int getTileFromCoordinate(int x, int y) {
         for(int tileNumber=0; tileNumber<tile.length; tileNumber++) {
             if(tile[tileNumber].getCoordinate()[0] == x && tile[tileNumber].getCoordinate()[1] == y)
                 return tileNumber;
         }
         return -1;
+    }
+
+    public int[] getCoordinatesFromTile(int tileNumber) {
+        return tile[tileNumber].getCoordinate();
+    }
+
+    public void setAvailableTiles(List<Integer> availableTilesFromServer) {
+        this.availableTiles.clear();
+        this.availableTiles.addAll(availableTilesFromServer);
+    }
+
+    public void setPlaceWorkerAvailableTiles(List<Integer> modifiedSquares) {
+        this.availableTiles.removeAll(modifiedSquares);
     }
 
     //----- GETTER & SETTER -----

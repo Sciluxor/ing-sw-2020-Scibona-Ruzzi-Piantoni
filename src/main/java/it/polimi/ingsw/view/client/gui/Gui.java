@@ -161,7 +161,6 @@ public class Gui extends ClientGameController {
             popUp.repaint();
             popUp.validate();
         });
-
     }
 
     @Override
@@ -233,7 +232,6 @@ public class Gui extends ClientGameController {
     @Override
     public void challengerChoice(String name, boolean bool) {
         SwingUtilities.invokeLater(() -> board.showChallenger(name, bool));
-
     }
 
     @Override
@@ -244,7 +242,6 @@ public class Gui extends ClientGameController {
     @Override
     public void placeWorker(String name, boolean bool) {
         SwingUtilities.invokeLater(() -> board.showPlaceWorkers(name, bool));
-
     }
 
     @Override
@@ -319,6 +316,4 @@ public class Gui extends ClientGameController {
     public void startTurn(String nick, boolean isYourPlayer) {
         SwingUtilities.invokeLater(() -> board.startTurn(nick, isYourPlayer));
     }
-
-
 }

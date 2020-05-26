@@ -21,11 +21,9 @@ public class Cli extends ClientGameController {
     //private SantoriniMapArrows mapArrows = new SantoriniMapArrows();
     private NewSantoriniMapArrows newSantoriniMapArrows = new NewSantoriniMapArrows();
     private Color playerColor;
+    private String power;
 
     private int[] tileNumber = new int[2];
-
-    //private Thread backThread = new Thread();
-    //private Thread mainThread = new Thread();
 
     private Map<String, Card> deck = CardLoader.loadCards();
     private List<String> deckOrdered = new ArrayList<>();
@@ -62,22 +60,13 @@ public class Cli extends ClientGameController {
 
         setNickName();
         setNumberOfPlayers();
-        setPort();
-        setAddress();
+        if(!lobbyCall) {
+            setPort();
+            setAddress();
+        }
 
         if(lobbyCall)
             newGame(getNickName(), getNumberOfPlayers());
-    }
-
-    public void checkBackCommand() {
-        printRed("INSERT \"BACK\" TO TURN BACK IN THE LOGIN WINDOW: ");
-        String keyboard = input();
-
-        if (keyboard.equalsIgnoreCase("BACK")) {
-            onBackCommand();
-            login(true);
-        }
-
     }
 
     public synchronized void challengerChooseCards() {
@@ -94,17 +83,15 @@ public class Cli extends ClientGameController {
 
         challengerResponse(firstPlayer, new ArrayList<>(selectedCards));
 
-        deckOrdered.clear();
         selectedCards.clear();
         printDebug("CHALLENGERRESPONSE");
-        //controlWaitEnter("enter");
+        controlWaitEnter("enter");
         endTurn();
         //mainThread.interrupt();
         printDebug("AFTER ENDTURN");
     }
 
     public synchronized void playerChoosePower() {
-        deckOrdered.addAll(getAvailableCards());
 
         printDebug("AVAILABLE CARDS: " + getAvailableCards() + "\nDECK ORDERED: " + deckOrdered);
 
@@ -112,28 +99,42 @@ public class Cli extends ClientGameController {
         printRed("CHOOSE ONE OF THE CARDS BELOW:\n");
         printCards();
         printRed("USE ARROW TO SELECT YOUR POWER & THEN PRESS ENTER TO CONFIRM...");
+        //this.power = scrollCards(getArrowUpDown(), 1);
         String power = scrollCards(getArrowUpDown(), 1);
 
         cardChoiceResponse(power);
-        printDebug("CARDCHOICERESPONSE");
+        printDebug("CARDCHOICERESPONSE " + power);
+        controlWaitEnter("enter");
         endTurn();
         printDebug("AFTER ENDTURN");
     }
 
     public synchronized void playerPlaceWorkers() {
         int keyboard;
-
-        newSantoriniMapArrows.printMap();
+        List<Integer> modifiedTiles = new ArrayList<>();
+        List<Square> modifiedSquares = getModifiedsquare();
+        for (Square modifiedSquare : modifiedSquares) {
+            modifiedTiles.add(modifiedSquare.getTile());
+        }
 
         for(int i=0; i<2; i++) {
+            newSantoriniMapArrows.setPlaceWorkerAvailableTiles(modifiedTiles);
+            newSantoriniMapArrows.printMap();
+            newSantoriniMapArrows.printAvailableTiles();
+
             do {
                 printRed("INSERT THE NUMBER OF THE TILE YOU WANT TO INSERT YOUR WORKER " + (i+1) + ": ");
-                keyboard = Integer.parseInt(input());
+                try {
+                    keyboard = Integer.parseInt(input());
+                } catch (NumberFormatException e) {
+                    keyboard = 0;
+                }
             } while (keyboard < 1 || keyboard > 25);
 
             tileNumber[i] = keyboard;
             newSantoriniMapArrows.setTileHasPlayer(true, "GROUND", tileNumber[i], playerColor);
 
+            modifiedTiles.add(keyboard);
             newSantoriniMapArrows.printMap();
             controlWaitEnter("enter");
         }
@@ -143,6 +144,7 @@ public class Cli extends ClientGameController {
 
         placeWorkersResponse(tileNumber[0], tileNumber[1]);
         printDebug("PLACEWORKERSRESPONSE");
+        controlWaitEnter("enter");
         endTurn();
         printDebug("END TURN");
     }
@@ -617,9 +619,6 @@ public class Cli extends ClientGameController {
             case "CHALLENGER CHOICE":
                 //challengerchoice
                 break;
-            case "END TURN":
-                endTurn();
-                break;
 
             default:
                 printErr("ERROR IN SELECTED ACTION");
@@ -643,9 +642,7 @@ public class Cli extends ClientGameController {
     //---------- OVERRIDING FUNCTIONS ----------
 
     @Override
-    public void updateLobbyPlayer() {
-        //backThread.interrupt();
-
+    public synchronized void updateLobbyPlayer() {
         clearShell();
         printRed("WAITING LOBBY\n");
         int waitingPlayers;
@@ -659,9 +656,6 @@ public class Cli extends ClientGameController {
             printPlayer(p.getNickName(), p);
             printRed("\n");
         }
-
-        //backThread = new Thread(this::checkBackCommand);
-        //backThread.start();
     }
 
     @Override
@@ -673,26 +667,27 @@ public class Cli extends ClientGameController {
     }
 
     @Override
-    public void startGame() {
+    public synchronized void startGame() {
 
-        //backThread.interrupt();
+        printDebug("START GAME");
 
         for (Player player : getPlayers()) {
             if (!player.getNickName().equalsIgnoreCase(getNickName()))
                 opponents.add(player);
             else
-                playerColor = getColorCliFromPlayer(player.getColor());
+                this.playerColor = getColorCliFromPlayer(player.getColor());
         }
-
-        clearShell();
+        /*clearShell();
         printRed("GAME IS GOING TO START. PLEASE WAIT WHILE IS LOADING\n");
-        controlWaitEnter("enter");
+        controlWaitEnter("enter");*/
 
     }
 
     @Override
     public synchronized void challengerChoice(String challengerNick, boolean isYourPlayer) {
-        clearShell(opponents, getPlayerFromNickname(challengerNick, actualPlayers), deck);
+
+    printDebug("CHALLENGER CHOICE");
+        clearShell(opponents, getPlayerFromNickname(getNickName(), actualPlayers), deck);
         if (isYourPlayer) {
             printRed("YOU HAVE BEEN CHOSEN AS CHALLENGER!\n");
             controlWaitEnter("enter");
@@ -718,12 +713,20 @@ public class Cli extends ClientGameController {
         /*synchronized (this) {
             setTerminalMode("sane");
         }*/
-        //mainThread.interrupt();
 
-        printDebug("CARDCHOICE: " + getAvailableCards());
-        clearShell(opponents, getPlayerFromNickname(challengerNick, actualPlayers), deck);
+        //mainThread.interrupt();
+        opponents = new ArrayList<>();
+        for(Player player: getPlayers()) {
+            if(!getNickName().equalsIgnoreCase(player.getNickName()))
+                opponents.add(player);
+        }
+
+        clearShell(opponents, getPlayerFromNickname(getNickName(), actualPlayers), deck);
 
         if (isYourPlayer) {
+            deckOrdered = new ArrayList<>(getAvailableCards());
+            printDebug("CARDCHOICE AVAILABLE: " + getAvailableCards());
+
             printRed("IT'S YOUR TURN TO CHOOSE YOUR POWER!\n");
             controlWaitEnter("enter");
             availableActions.clear();
@@ -736,6 +739,7 @@ public class Cli extends ClientGameController {
             printPlayer(challengerNick, getPlayerFromNickname(challengerNick, actualPlayers));
             printRed(" IS CHOOSING HIS POWER\n");
             controlWaitEnter("enter");
+
         }
 
         //mainThread.start();
@@ -748,7 +752,13 @@ public class Cli extends ClientGameController {
         }*/
         //mainThread.interrupt();
 
-        clearShell(opponents, getPlayerFromNickname(challengerNick, actualPlayers), deck);
+        opponents = new ArrayList<>();
+        for(Player player: getPlayers()) {
+            if(!getNickName().equalsIgnoreCase(player.getNickName()))
+                opponents.add(player);
+        }
+
+        clearShell(opponents, getPlayerFromNickname(getNickName(), actualPlayers), deck);
 
         if (isYourPlayer) {
             printRed("PLACE YOUR WORKERS!\n");
@@ -777,22 +787,22 @@ public class Cli extends ClientGameController {
     }
 
     @Override
-    public void updateBoard(String nick, List<Square> squares, MessageType type) {
+    public synchronized void updateBoard(String nick, List<Square> squares, MessageType type) {
 
     }
 
     @Override
-    public void notifyWin(String nick) {
+    public synchronized void notifyWin(String nick) {
 
     }
 
     @Override
-    public void notifyLose(String nick, boolean isYourPlayer) {
+    public synchronized void notifyLose(String nick, boolean isYourPlayer) {
 
     }
 
     @Override
-    public void displayActions(List<MessageType> actions) {
+    public synchronized void displayActions(List<MessageType> actions) {
         try {
             availableActions = new ArrayList<>();
             for (MessageType m : actions) {
@@ -815,27 +825,27 @@ public class Cli extends ClientGameController {
     }
 
     @Override
-    public void addConstraint(String name) {
+    public synchronized void addConstraint(String name) {
 
     }
 
     @Override
-    public void removeConstraint(String name) {
+    public synchronized void removeConstraint(String name) {
 
     }
 
     @Override
-    public void onTurnTimerEnded(String stopper) {
+    public synchronized void onTurnTimerEnded(String stopper) {
 
     }
 
     @Override
-    public void onStoppedGame(String stopper) {
+    public synchronized void onStoppedGame(String stopper) {
 
     }
 
     @Override
-    public void onLobbyDisconnection() {
+    public synchronized void onLobbyDisconnection() {
         clearShell();
         printRed("YOU ARE GOING TO BE DISCONNECTED FROM THE LOBBY. DO YOU WANT TO BE RECONNECTED OR DO YOU WANT TO CLOSE THE APPLICATION ?\n");
         printRed("  [RECONNECT]\n  [CLOSE]\n");
@@ -866,33 +876,33 @@ public class Cli extends ClientGameController {
     }
 
     @Override
-    public void onPingDisconnection() {
+    public synchronized void onPingDisconnection() {
 
     }
 
     @Override
-    public void onEndGameDisconnection() {
+    public synchronized void onEndGameDisconnection() {
 
     }
 
     @Override
-    public void newChatMessage(String nick, String message) {
+    public synchronized void newChatMessage(String nick, String message) {
 
     }
 
     @Override
-    public void onErrorMessage(String stopper, boolean isYourPlayer) {
+    public synchronized void onErrorMessage(String stopper, boolean isYourPlayer) {
 
     }
 
     @Override
-    public void notYourTurn() {
+    public synchronized void notYourTurn() {
 
     }
 
 
     @Override
-    public void startTurn(String nick, boolean isYourPlayer) {
+    public synchronized void startTurn(String nick, boolean isYourPlayer) {
 
     }
 }

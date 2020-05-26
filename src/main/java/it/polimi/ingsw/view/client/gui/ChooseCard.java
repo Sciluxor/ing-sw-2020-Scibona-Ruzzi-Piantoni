@@ -30,8 +30,8 @@ public class ChooseCard extends JDesktopPane{
     JLabel cover = new JLabel();
     JLabel label = new JLabel();
     private List<String> godCards = null;
-    private List<JButton> godChoosen = new ArrayList<>();
-    List<JButton> godList = new ArrayList<>();
+    private final List<JButton> godChoosen = new ArrayList<>();
+    transient List<JButton> godList = new ArrayList<>();
     transient ButtonGodsList costructor;
     MyButton confirm = new MyButton(0);
     MyButton backButton = new MyButton(1);

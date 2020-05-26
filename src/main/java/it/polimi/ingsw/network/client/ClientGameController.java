@@ -93,6 +93,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         game.setGameID(((GameStartedMessage) message).getGameID());
         game.setGameStatus(Response.GAMESTARTED);
         eventQueue.add(this::startGame);
+        System.out.println("HERE DEBUG");
     }
 
     public synchronized List<String> getAvailableCards(){
@@ -142,6 +143,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
             if(!game.getCurrentPlayer().getNickName().equals(client.getNickName()))
                 game.setAvailableCards(((ChallengerChoiceMessage) message).getCards());
         }
+        System.out.println("HANDLE CHALLENGER");
     }
 
     public synchronized void handleCardChoice(Message message){
@@ -151,12 +153,14 @@ public abstract class ClientGameController implements Runnable, FunctionListener
             game.setCurrentPlayer(message.getMessage());
             game.getCurrentPlayer().setTurnStatus(TurnStatus.PLAYTURN);
             eventQueue.add(() -> cardChoice(message.getMessage(), isYourPlayer));
+            System.out.println("HANDLE CHOICE IF");
         }
         else{
             if(!game.getCurrentPlayer().getNickName().equals(client.getNickName())) {
                 game.getCurrentPlayer().setPower(CardLoader.loadCards().get(message.getMessage()));
                 game.removeCard(message.getMessage());
             }
+            System.out.println("HANDLE CHOICE ELSE");
         }
     }
 
