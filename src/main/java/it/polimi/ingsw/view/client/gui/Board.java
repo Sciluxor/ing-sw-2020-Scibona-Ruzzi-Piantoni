@@ -1884,6 +1884,7 @@ public class Board extends Observable {
 
     public void displayLose(String nick, boolean isYourPlayer) {
         internalFrameUpdateBoard.setVisible(false);
+        internalFrameStartTurn.setVisible(false);
         newGame.addActionListener(new NewGameLoose());
         newGame.setBounds((int) ((frameSize.width * 35/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
         close.setBounds((int) ((frameSize.width * 65/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
@@ -1926,6 +1927,7 @@ public class Board extends Observable {
 
     public void displayWinLose(String nick){
         internalFrameUpdateBoard.setVisible(false);
+        internalFrameStartTurn.setVisible(false);
         boolean winnerBool = false;
         if (nick.equalsIgnoreCase(mePlayer.getNickName())){
             winnerBool = true;
