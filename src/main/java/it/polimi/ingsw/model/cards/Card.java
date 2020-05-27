@@ -13,11 +13,11 @@ import java.util.List;
 
 public class Card implements Serializable {
 
-    private String name;
-    private String description;
-    private boolean isPlayableIn3;
-    private CardType type;
-    private CardSubType subType;
+    private final String name;
+    private final String description;
+    private final boolean isPlayableIn3;
+    private final CardType type;
+    private final CardSubType subType;
 
     public Card(String name, String description, boolean isPlayableIn3, CardType type, CardSubType subType)
     {
@@ -56,14 +56,14 @@ public class Card implements Serializable {
 
     public List<Directions> findWorkerMove(GameMap gameMap, Worker worker) {
         if(gameMap == null || worker == null)
-            throw new NullPointerException("null gameMap or worker");
+            throw new NullPointerException(ConstantsContainer.NULLPARAMETERS);
 
         return gameMap.reachableSquares(worker);
     }
 
     public Response executeWorkerMove(GameMap gameMap, Directions directions, Player player) {
         if(gameMap == null || player == null || directions == null)
-            throw new NullPointerException("null gameMap or player or direction");
+            throw new NullPointerException(ConstantsContainer.NULLPARAMETERS);
 
         gameMap.moveWorkerTo(player, directions);
         return  Response.MOVED;
@@ -71,14 +71,14 @@ public class Card implements Serializable {
 
     public List<Directions> findPossibleBuild(GameMap gameMap, Worker worker) {
         if(gameMap == null || worker == null)
-            throw new NullPointerException("null gameMap or worker");
+            throw new NullPointerException(ConstantsContainer.NULLPARAMETERS);
 
         return gameMap.buildableSquare(worker);
     }
 
     public Response executeBuild(GameMap gameMap, Building building, Directions directions, Worker worker) {
         if(gameMap == null || worker == null || building == null || directions == null)
-            throw new NullPointerException("null gameMap or worker or building or direction");
+            throw new NullPointerException(ConstantsContainer.NULLPARAMETERS);
 
         if(gameMap.buildInSquare(worker, directions, building))
             return Response.BUILD;
@@ -88,7 +88,7 @@ public class Card implements Serializable {
 
     public Response checkVictory(GameMap gameMap, Player player) {
         if(gameMap == null || player == null)
-            throw new NullPointerException("null gameMap or player");
+            throw new NullPointerException(ConstantsContainer.NULLPARAMETERS);
 
         if(player.getCurrentWorker().getBoardPosition().getBuildingLevel() == ConstantsContainer.WINNINGLEVEL
                 && player.getCurrentWorker().getPreviousBoardPosition().getBuildingLevel() == ConstantsContainer.WINNINGLEVEL -1)
@@ -98,21 +98,21 @@ public class Card implements Serializable {
 
     public List<Directions> eliminateInvalidMove(GameMap gameMap, Worker worker, List<Directions> directionsArrayList) {
         if(gameMap == null || worker == null || directionsArrayList == null)
-            throw new NullPointerException("null gameMap or worker or directionsArrayList");
+            throw new NullPointerException(ConstantsContainer.NULLPARAMETERS);
 
         return directionsArrayList;
     }
 
     public boolean canMove(Player player, Worker worker) {
         if(player == null || worker == null)
-            throw new NullPointerException("null player or worker");
+            throw new NullPointerException(ConstantsContainer.NULLPARAMETERS);
 
         return true;
     }
 
     public boolean isValidVictory(GameMap gameMap, Worker worker) {
         if(gameMap == null || worker == null)
-            throw new NullPointerException("null gameMap or worker");
+            throw new NullPointerException(ConstantsContainer.NULLPARAMETERS);
 
         return true;
     }

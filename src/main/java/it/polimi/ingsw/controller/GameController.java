@@ -119,7 +119,6 @@ public class GameController implements Observer<Message> {
     }
 
     public synchronized boolean hasWinner(){
-        System.out.println(game.getGameStatus());
         return game.hasWinner();
     }
 

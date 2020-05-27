@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.map;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.utils.ConstantsContainer;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -118,6 +119,19 @@ public class GameMap {
             return true;
         }
         return false;
+
+    }
+
+    public void placeWorkerOnMap(Square square1,Square square2, Player currentPlayer){
+        clearModifiedSquare();
+
+
+        placeWorker(square1,currentPlayer,currentPlayer.getWorkers().get(0));
+        currentPlayer.getWorkers().get(0).setBoardPosition(square1);
+        placeWorker(square2,currentPlayer,currentPlayer.getWorkers().get(1));
+        currentPlayer.getWorkers().get(1).setBoardPosition(square2);
+
+        currentPlayer.setHasPlacedWorkers(true);
 
     }
 
