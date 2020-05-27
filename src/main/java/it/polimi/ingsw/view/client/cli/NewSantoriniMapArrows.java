@@ -55,13 +55,17 @@ public class NewSantoriniMapArrows {
     }
 
     public void setTileHasPlayer(boolean hasPlayer, String buildingType, int tileNumber, Color playerColor) {
-        this.tile[tileNumber-1].setHasPlayer(hasPlayer, playerColor);
-        this.tile[tileNumber-1].setPrintRawLevel(buildingType, 3);
+        this.tile[tileNumber].setHasPlayer(hasPlayer, playerColor);
+        this.tile[tileNumber].setPrintRawLevel(buildingType, 3);
+    }
+
+    public boolean checkUnoccupiedTile(int tileNumber) {
+        return availableTiles.contains(tileNumber);
     }
 
     public void updateStringBoard(String buildingType, int tileNumber) {
         for(int raw=0; raw<7; raw++)
-            this.tile[tileNumber-1].setPrintRawLevel(buildingType, raw);
+            this.tile[tileNumber].setPrintRawLevel(buildingType, raw);
     }
 
     public void printMap() {
@@ -69,30 +73,47 @@ public class NewSantoriniMapArrows {
 
         clearShell();
 
-        for(int x=0; x<5; x++) {
+        printYellow("   ");
+        for(int i=0; i<5; i++)
+            printYellow("         " + i + "         ");
+        printYellow("\n");
+        for(int x=0; x<=5; x++) {
+            printYellow("   ");
             for(int t=0; t<5; t++) {
-                printYellow("---------------------");
+                printYellow("───────────────────");
+                if(t==4)
+                    printYellow("─\n");
             }
-            printYellow("-\n");
+
+            if(x==5)
+                break;
+
             for(int raw=0; raw<7; raw++) {
                 for (int y=0; y<5; y++) {
                     tileNumber = getTileFromCoordinate(x, y);
-                    printYellow("| ");
+                    if(y==0 && raw==3)
+                        printYellow(" " + x + " ");
+                    else if(y==0)
+                        printYellow("   ");
+                    printYellow("│");
                     printRed(this.tile[tileNumber].getPrintRawLevel(raw));
-                    if(y==4)
-                        printYellow(" |\n");
-                    else
-                        printYellow(" ");
+                    if(y==4) {
+                        printYellow("│");
+                        if(raw==3)
+                            printYellow(" " + x + "\n");
+                        else
+                            printYellow("\n");
+                    }
                 }
             }
         }
-        for(int t=0; t<5; t++) {
-            printYellow("---------------------");
-        }
-        printYellow("-\n");
+        printYellow("   ");
+        for(int i=0; i<5; i++)
+            printYellow("         " + i + "         ");
+        printYellow("\n");
     }
 
-    public List<Integer> printAvailableTiles() {
+    public void printAvailableTiles() {
 
         printRed("AVAILABLE SQUARES:\n");
 
@@ -101,7 +122,7 @@ public class NewSantoriniMapArrows {
             printRed(" Tile number: " + (availableTile+1) + " [" + coordinate[0] + "] [" + coordinate[1] + "]\n");
         }
 
-        return availableTiles;
+        //return availableTiles;
     }
 
     public int getTileFromCoordinate(int x, int y) {

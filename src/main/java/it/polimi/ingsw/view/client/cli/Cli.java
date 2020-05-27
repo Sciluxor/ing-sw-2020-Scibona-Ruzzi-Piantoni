@@ -33,10 +33,10 @@ public class Cli extends ClientGameController {
     private List<String> availableActions = new ArrayList<>();
 
     private static final String TITLE = "\u001B[31m" +
-            "             ___       ___  ___          ___    _____   ___      ___               _____  ___   ___                  |_|  |_|\n" +
-            " \\   \\/   / |    |    |    |   | |\\  /| |         |    |   |    |       /\\   |\\  |   |   |   | |   | | |\\  | |     ___________\n" +
-            "  \\  /\\  /  |--  |    |    |   | | \\/ | |--       |    |   |    |---|  /--\\  | \\ |   |   |   | |___| | | \\ | |     |   _|_   |\n" +
-            "   \\/  \\/   |___ |___ |___ |___| |    | |___      |    |___|     ___| /    \\ |  \\|   |   |___| |  \\  | |  \\| |      |_______|\n\n\n\u001B[0m";
+            "                        _____         _____  _____              _____    _____  _____     _____                        _____  _____   _____                      │__│ ╷ │__│\n" +
+            " ╲       ╲ ╱        ╱  │      │      │      │     │ │╲     ╱ │ │           │   │     │   │           ╱ ╲      │╲     │   │   │     │ │     │ │ │╲    │ │     ___________________\n" +
+            "   ╲     ╱  ╲     ╱    │──    │      │      │     │ │  ╲ ╱   │ │──         │   │     │   ╵─────╷   ╱─────╲    │  ╲   │   │   │     │ │_____│ │ │  ╲  │ │     ╲      __│__      ╱\n" +
+            "     ╲ ╱      ╲ ╱      ╵_____ ╵_____ ╵_____ ╵_____╵ │        │ ╵_____      │   ╵_____╵    _____╵ ╱         ╲  │    ╲ │   │   ╵_____╵ │   ╲   │ │    ╲│ │       ╲ ___________ ╱\n\n\n\u001B[0m";
 
 
     public void start() {
@@ -85,10 +85,11 @@ public class Cli extends ClientGameController {
 
         selectedCards.clear();
         printDebug("CHALLENGERRESPONSE");
-        controlWaitEnter("enter");
+        controlWaitEnter("endTurn");
         endTurn();
         //mainThread.interrupt();
         printDebug("AFTER ENDTURN");
+        printWaitForOtherPlayers(numberOfPlayers);
     }
 
     public synchronized void playerChoosePower() {
@@ -104,17 +105,20 @@ public class Cli extends ClientGameController {
 
         cardChoiceResponse(power);
         printDebug("CARDCHOICERESPONSE " + power);
-        controlWaitEnter("enter");
+        controlWaitEnter("endTurn");
         endTurn();
         printDebug("AFTER ENDTURN");
+        printWaitForOtherPlayers(numberOfPlayers);
     }
 
     public synchronized void playerPlaceWorkers() {
         int keyboard;
+        Integer[] tileCoordinates = new Integer[2];
+
         List<Integer> modifiedTiles = new ArrayList<>();
         List<Square> modifiedSquares = getModifiedsquare();
         for (Square modifiedSquare : modifiedSquares) {
-            modifiedTiles.add(modifiedSquare.getTile());
+            modifiedTiles.add(modifiedSquare.getTile()-1);
         }
 
         for(int i=0; i<2; i++) {
@@ -123,13 +127,26 @@ public class Cli extends ClientGameController {
             newSantoriniMapArrows.printAvailableTiles();
 
             do {
-                printRed("INSERT THE NUMBER OF THE TILE YOU WANT TO INSERT YOUR WORKER " + (i+1) + ": ");
-                try {
-                    keyboard = Integer.parseInt(input());
-                } catch (NumberFormatException e) {
-                    keyboard = 0;
-                }
-            } while (keyboard < 1 || keyboard > 25);
+                //TILE NUMBER VERSION
+                /*do {
+                    printRed("INSERT THE NUMBER OF THE TILE YOU WANT TO INSERT YOUR WORKER " + (i+1) + ": ");
+                    try {
+                        keyboard = Integer.parseInt(input());
+                    } catch (NumberFormatException e) {
+                        keyboard = 0;
+                    }
+                } while (keyboard < 1 || keyboard > 25);*/
+                //-------------------
+
+                //COORDINATES VERSION
+                do {
+                    printRed("INSERT COORDINATES (from 0 up to 4) OF THE TILE IN WHICH YOU WANT TO PLACE YOUR WORKER" + (i+1) + ": ");
+                    tileCoordinates = getCoordinatesFromString();
+                }while(tileCoordinates[0] < 0 || tileCoordinates[0] > 4 || tileCoordinates[1] < 0 || tileCoordinates[1] > 4);
+                keyboard = newSantoriniMapArrows.getTileFromCoordinate(tileCoordinates[0], tileCoordinates[1]);
+                //-------------------
+
+            }while (!newSantoriniMapArrows.checkUnoccupiedTile(keyboard));
 
             tileNumber[i] = keyboard;
             newSantoriniMapArrows.setTileHasPlayer(true, "GROUND", tileNumber[i], playerColor);
@@ -138,15 +155,14 @@ public class Cli extends ClientGameController {
             newSantoriniMapArrows.printMap();
             controlWaitEnter("enter");
         }
-        printDebug("TILE NUMBER: " + Arrays.toString(tileNumber));
+        printDebug("LOCAL TILE NUMBER: " + Arrays.toString(tileNumber) + "\nSENDED TILE NUMBER: " + (tileNumber[0]+1) +  " "  + (tileNumber[1]+1));
 
-        //canPrintMap = true;
-
-        placeWorkersResponse(tileNumber[0], tileNumber[1]);
+        placeWorkersResponse(tileNumber[0]+1, tileNumber[1]+1);
         printDebug("PLACEWORKERSRESPONSE");
-        controlWaitEnter("enter");
+        controlWaitEnter("endTurn");
         endTurn();
         printDebug("END TURN");
+        printWaitForOtherPlayers(numberOfPlayers);
     }
 
     //-------------------------------
@@ -398,7 +414,7 @@ public class Cli extends ClientGameController {
 
     //-----MAP&WORKERS-----
 
-    public Integer[] getCoordinates() {
+    public Integer[] getCoordinatesFromString() {
         String[] split = splitter(input());
 
         split = controlCoordinates(split);
@@ -408,13 +424,13 @@ public class Cli extends ClientGameController {
     }
 
     public String[] controlCoordinates(String[] split) {
-        while(split.length != 2) {
+        /*while(split.length != 2) {
             printRed("WRONG NUMBER OF PARAMETERS!\nPLEASE, REINSERT COORDINATES (from 0 up to 4): ");
             split = splitter(input());
-        }
+        }*/
 
-        while(!split[0].equals("0") && !split[0].equals("1") && !split[0].equals("2") && !split[0].equals("3") && !split[0].equals("4") && !split[1].equals("0") && !split[1].equals("1") && !split[1].equals("2") && !split[1].equals("3") && !split[1].equals("4")) {
-            printRed("WRONG VALUE!\nPLEASE, REINSERT COORDINATES (from 0 up to 4): ");
+        while(!split[0].equals("0") && !split[0].equals("1") && !split[0].equals("2") && !split[0].equals("3") && !split[0].equals("4") && !split[1].equals("0") && !split[1].equals("1") && !split[1].equals("2") && !split[1].equals("3") && !split[1].equals("4") && split.length != 2) {
+            printRed("ERROR!\nPLEASE, REINSERT COORDINATES (from 0 up to 4): ");
             split = splitter(input());
         }
 
@@ -687,7 +703,7 @@ public class Cli extends ClientGameController {
     public synchronized void challengerChoice(String challengerNick, boolean isYourPlayer) {
 
     printDebug("CHALLENGER CHOICE");
-        clearShell(opponents, getPlayerFromNickname(getNickName(), actualPlayers), deck);
+        clearAndPrintInfo(opponents, getPlayerFromNickname(getNickName(), actualPlayers), deck);
         if (isYourPlayer) {
             printRed("YOU HAVE BEEN CHOSEN AS CHALLENGER!\n");
             controlWaitEnter("enter");
@@ -700,8 +716,7 @@ public class Cli extends ClientGameController {
             printRed("PLAYER ");
             printPlayer(challengerNick, getPlayerFromNickname(challengerNick, actualPlayers));
             printRed(" IS CHOOSING CARDS\n");
-            controlWaitEnter("enter");
-
+            printWaitForOtherPlayers(numberOfPlayers);
         }
 
         //mainThread = new Thread(() -> printMenu(isYourPlayer, false));
@@ -721,7 +736,7 @@ public class Cli extends ClientGameController {
                 opponents.add(player);
         }
 
-        clearShell(opponents, getPlayerFromNickname(getNickName(), actualPlayers), deck);
+        clearAndPrintInfo(opponents, getPlayerFromNickname(getNickName(), actualPlayers), deck);
 
         if (isYourPlayer) {
             deckOrdered = new ArrayList<>(getAvailableCards());
@@ -738,8 +753,7 @@ public class Cli extends ClientGameController {
             printRed("PLAYER ");
             printPlayer(challengerNick, getPlayerFromNickname(challengerNick, actualPlayers));
             printRed(" IS CHOOSING HIS POWER\n");
-            controlWaitEnter("enter");
-
+            printWaitForOtherPlayers(numberOfPlayers);
         }
 
         //mainThread.start();
@@ -758,9 +772,8 @@ public class Cli extends ClientGameController {
                 opponents.add(player);
         }
 
-        clearShell(opponents, getPlayerFromNickname(getNickName(), actualPlayers), deck);
-
         if (isYourPlayer) {
+            clearAndPrintInfo(opponents, getPlayerFromNickname(getNickName(), actualPlayers), deck);
             printRed("PLACE YOUR WORKERS!\n");
             controlWaitEnter("enter");
             availableActions = new ArrayList<>();
@@ -769,10 +782,12 @@ public class Cli extends ClientGameController {
             startSelectedActions(selectActions());
 
         } else {
+            newSantoriniMapArrows.printMap();
+            printInfo(opponents, getPlayerFromNickname(getNickName(), actualPlayers), deck);
             printRed("PLAYER ");
             printPlayer(challengerNick, getPlayerFromNickname(challengerNick, actualPlayers));
             printRed(" IS PLACING HIS WORKERS\n");
-            controlWaitEnter("enter");
+            printWaitForOtherPlayers(numberOfPlayers);
         }
 
         //mainThread.start();
@@ -782,7 +797,7 @@ public class Cli extends ClientGameController {
     public synchronized void updatePlacedWorkers(List<Square> squares) {
         printDebug("HERE UPDATE");
         for(Square s: squares) {
-            newSantoriniMapArrows.setTileHasPlayer(s.hasPlayer(), s.getBuilding().toString(), s.getTile(), getColorCliFromPlayer(s.getPlayer().getColor()));
+            newSantoriniMapArrows.setTileHasPlayer(s.hasPlayer(), s.getBuilding().toString(), s.getTile()-1, getColorCliFromPlayer(s.getPlayer().getColor()));
         }
     }
 

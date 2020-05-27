@@ -8,6 +8,7 @@ public class Tile {
     private boolean hasPlayer;
     private int buildingLevel = 0;
     private Color playerColor = Color.ANSI_RED;
+    //private final String playerSymbol = " 〠 ";
 
     public Tile() {
         for(int raw=0; raw<7; raw++)
@@ -26,52 +27,52 @@ public class Tile {
                 this.printRawLevel[raw] = "                  ";
         } else {
             if (raw == 0 || raw==6)
-                this.printRawLevel[raw] = "------------------";
+                this.printRawLevel[raw] = "──────────────────";
 
             switch (buildingType) {
                 case "LVL1":
                     if (raw == 3)
-                        this.printRawLevel[raw] = "|       " + printPlayerColor() + "      |";
+                        this.printRawLevel[raw] = "│       " + printPlayerColor() + "      │";
                     else if (raw != 0 && raw != 6)
-                        this.printRawLevel[raw] = "|                |";
+                        this.printRawLevel[raw] = "│                │";
 
                     buildingLevel++;
                     break;
                 case "LVL2":
                     if (raw == 1 || raw == 5)
-                        this.printRawLevel[raw] = "| -------------- |";
+                        this.printRawLevel[raw] = "│ ────────────── │";
                     else if (raw == 3)
-                        this.printRawLevel[raw] = "| |     " + printPlayerColor() + "    | |";
+                        this.printRawLevel[raw] = "│ │     " + printPlayerColor() + "    │ │";
                     else if (raw != 0 && raw != 6)
-                        this.printRawLevel[raw] = "| |            | |";
+                        this.printRawLevel[raw] = "│ │            │ │";
 
                     buildingLevel++;
                     break;
                 case "LVL3":
                     if (raw == 1 || raw == 5)
-                        this.printRawLevel[raw] = "| -------------- |";
+                        this.printRawLevel[raw] = "│ ────────────── │";
                     else if (raw == 2 || raw == 4)
-                        this.printRawLevel[raw] = "| | ---------- | |";
+                        this.printRawLevel[raw] = "│ │ ────────── │ │";
                     else if (raw == 3)
-                        this.printRawLevel[raw] = "| | |   " + printPlayerColor() + "  | | |";
+                        this.printRawLevel[raw] = "│ │ │   " + printPlayerColor() + "  │ │ │";
                     else if (raw != 0 && raw != 6)
-                        this.printRawLevel[raw] = "| | |        | | |";
+                        this.printRawLevel[raw] = "│ │ │        │ │ │";
 
                     buildingLevel++;
                     break;
                 case "DOME":
                     if (buildingLevel == 0) {
                         if (raw == 3)
-                            this.printRawLevel[raw] = "    | ------ |    ";
+                            this.printRawLevel[raw] = "    │ ────── │    ";
                         else
                             this.printRawLevel[raw] = "                  ";
                     }
                     if (raw == 1 || raw == 5)
-                        this.printRawLevel[raw] = "| -------------- |";
+                        this.printRawLevel[raw] = "│ ────────────── │";
                     else if (raw == 2 || raw == 4)
-                        this.printRawLevel[raw] = "| | ---------- | |";
+                        this.printRawLevel[raw] = "│ │ ────────── │ │";
                     else if (raw == 3)
-                        this.printRawLevel[raw] = "| | | ------ | | |";
+                        this.printRawLevel[raw] = "│ │ │ ────── │ │ │";
 
                     buildingLevel++;
                     break;
@@ -96,7 +97,7 @@ public class Tile {
 
     public String isHasPlayerSymbol() {
         if(hasPlayer)
-            return "\u3020 ";
+            return "〠 ";
         else
             return "   ";
     }

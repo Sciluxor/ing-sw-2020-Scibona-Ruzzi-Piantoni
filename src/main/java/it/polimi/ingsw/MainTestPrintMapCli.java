@@ -1,16 +1,17 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.view.client.cli.SantoriniMapArrows;
-
-import it.polimi.ingsw.view.client.cli.Cli_copy.*;
+import it.polimi.ingsw.view.client.cli.CliUtils;
+import it.polimi.ingsw.view.client.cli.Color;
+import it.polimi.ingsw.view.client.cli.NewSantoriniMapArrows;
 
 import java.util.Scanner;
 
-import static it.polimi.ingsw.view.client.cli.CliUtils.*;
+import static it.polimi.ingsw.view.client.cli.CliUtils.clearShell;
+import static it.polimi.ingsw.view.client.cli.CliUtils.printRed;
 
 public class MainTestPrintMapCli {
 
-    private static SantoriniMapArrows mapArrows = new SantoriniMapArrows();
+    private static NewSantoriniMapArrows mapArrows = new NewSantoriniMapArrows();
 
     public static void main(String[] args) {
 
@@ -33,7 +34,8 @@ public class MainTestPrintMapCli {
 
         printRed("Inserire le coordinate in cui mettere il worker: ");
         int[] coordinate = getCoordinatesFromString();
-        mapArrows.setCellaHasPlayer(coordinate[0], coordinate[1]);
+        int tile = mapArrows.getTileFromCoordinate(coordinate[0], coordinate[1]);
+        mapArrows.setTileHasPlayer(true, "GROUND", tile, Color.ANSI_PURPLE);
 
         mapArrows.printMap();
 
@@ -83,7 +85,7 @@ public class MainTestPrintMapCli {
             keyboard = input.nextLine().toUpperCase();
 
             printRed("INSERT THE NUMBER OF THE TILE YOU WANT TO SELECT: ");
-            coordinate = mapArrows.getCoordinatesFromString();
+            coordinate = mapArrows.getCoordinatesFromTile(Integer.parseInt(CliUtils.input()));
 
             selectCorrectExec(keyboard, coordinate);
 
@@ -94,12 +96,15 @@ public class MainTestPrintMapCli {
     }
 
     public static void selectCorrectExec(String choice, int[] coordinate) {
+        int tile = mapArrows.getTileFromCoordinate(coordinate[0], coordinate[1]);
+
         if(choice.equals("MOVE"))
-            mapArrows.setCellaHasPlayer(coordinate[0], coordinate[1]);
+            mapArrows.setTileHasPlayer(true, "GROUND", tile, Color.ANSI_PURPLE);
         if(choice.equals("BUILD")) {
             Scanner input = new Scanner(System.in);
             printRed("Inserire il tipo di edificio da costruire: ");
-            mapArrows.setCellaBuildingType(coordinate[0], coordinate[1], input.nextLine().toUpperCase());
+            String keyboard = CliUtils.input().toUpperCase();
+            mapArrows.setTileHasPlayer(true, keyboard, tile, Color.ANSI_PURPLE);
         }
 
     }

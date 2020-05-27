@@ -70,6 +70,13 @@ public class CliUtils {
             printWhite("] ");
     }
 
+    public static void printWaitForOtherPlayers(int numberOfPlayers) {
+        if(numberOfPlayers==2)
+            printRed("WAITING FOR OTHER PLAYER DOES HIS ACTIONS");
+        else
+            printRed("WAITING FOR OTHER PLAYERS DO THEIR ACTIONS");
+    }
+
     //------------ GENERIC -------------------------
 
     public static String input() {
@@ -83,8 +90,12 @@ public class CliUtils {
         return keyboard.split("\\s");
     }
 
-    public static void clearShell(List<Player> opponents, Player currentPlayer, Map<String, Card> deck) {
+    public static void clearAndPrintInfo(List<Player> opponents, Player currentPlayer, Map<String, Card> deck) {
         Color.clearConsole();
+        printInfo(opponents, currentPlayer, deck);
+    }
+
+    public static void printInfo(List<Player> opponents, Player currentPlayer, Map<String, Card> deck) {
         printRed("[OPPONENTS]:");
         for (Player player : opponents) {
             printOpponents(player);
@@ -175,7 +186,11 @@ public class CliUtils {
 
     public static int controlWaitEnter(String type) {
         int keyboardIn = 0;
-        printRed("PRESS ENTER TO GO ON...");
+        if(type.equalsIgnoreCase("endTurn")) {
+            printRed("PRESS ENTER TO END YOUR TURN...");
+            type = "enter";
+        } else
+            printRed("PRESS ENTER TO GO ON...");
 
         switch (type) {
             case "up&down":
