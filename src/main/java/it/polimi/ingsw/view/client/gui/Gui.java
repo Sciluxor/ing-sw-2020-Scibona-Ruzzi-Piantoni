@@ -206,7 +206,23 @@ public class Gui extends ClientGameController {
 
     @Override
     public void onErrorMessage(String stopper, boolean isYourPlayer) {
-        //da implementare
+        SwingUtilities.invokeLater(() -> {
+            constructorPopUp = new PopUp(this, d, stopper);
+            if (board != null) {
+                board.eliminateAllFromAll();
+            }
+            popUp.remove(lobbyPanel);
+            if (isYourPlayer){
+                lobbyPanel = constructorPopUp.lobbyPopUp(7);
+            }
+            else {
+                lobbyPanel = constructorPopUp.lobbyPopUp(8);
+            }
+            popUp.add(lobbyPanel);
+            popUp.setVisible(true);
+            popUp.repaint();
+            popUp.validate();
+        });
     }
 
     @Override

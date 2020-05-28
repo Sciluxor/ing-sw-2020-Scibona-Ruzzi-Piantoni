@@ -169,6 +169,83 @@ public class PopUp {
                 window.add(back);
                 break;
 
+            case 7:
+                label1 = new JLabel();
+                try {
+                    label1 = ImageHandler.setImage("resources/Graphics/Texts/there_was_an_error.png", 97, 100, labelSize.width, labelSize.height);
+                } catch (IOException e) {
+                    LOGGER.severe(e.getMessage());
+                }
+                label1.setBounds((int) ((intFrameSize.width * 50/100) - (labelSize.width / 2)), (int) (intFrameSize.height * 10/100), labelSize.width, labelSize.height);
+                window.add(label1);
+
+                label2 = new JLabel();
+                try {
+                    label2 = ImageHandler.setImage("resources/Graphics/Texts/please_use_an_original.png", 97, 100, labelSize.width, labelSize.height);
+                } catch (IOException e) {
+                    LOGGER.severe(e.getMessage());
+                }
+                label2.setBounds((int) ((intFrameSize.width * 50/100) - (labelSize.width / 2)), (int) (intFrameSize.height * 20/100), labelSize.width, labelSize.height);
+                window.add(label2);
+
+                label3 = new JLabel();
+                try {
+                    label3 = ImageHandler.setImage("resources/Graphics/Texts/version_of_the_game.png", 97, 100, labelSize.width, labelSize.height);
+                } catch (IOException e) {
+                    LOGGER.severe(e.getMessage());
+                }
+                label3.setBounds((int) ((intFrameSize.width * 50/100) - (labelSize.width / 2)), (int) (intFrameSize.height * 30/100), labelSize.width, labelSize.height);
+                window.add(label3);
+
+                button1 = new MyButton(3);
+                button1.setBounds((int) ((intFrameSize.width * 50/100) - (buttonSize.width / 2)), (int) (intFrameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
+                button1.addActionListener(new Close());
+                window.add(button1);
+
+                back.setBounds(0, 0, intFrameSize.width, intFrameSize.height);
+                window.add(back);
+                break;
+
+            case 8:
+
+                label1 = new JLabel();
+                try {
+                    label1 = ImageHandler.setImage("resources/Graphics/Texts/there_was_an_error.png", 97, 100, labelSize.width, labelSize.height);
+                } catch (IOException e) {
+                    LOGGER.severe(e.getMessage());
+                }
+                label1.setBounds((int) ((intFrameSize.width * 30/100) - (labelSize.width / 2)), (int) (intFrameSize.height * 20/100), labelSize.width, labelSize.height);
+                window.add(label1);
+
+                label2 = new JLabel();
+                try {
+                    label2 = ImageHandler.setImage("resources/Graphics/Texts/start_new_game_or_close.png", 97, 100, labelSize.width, labelSize.height);
+                } catch (IOException e) {
+                    LOGGER.severe(e.getMessage());
+                }
+                label2.setBounds((int) ((intFrameSize.width * 50/100) - (labelSize.width / 2)), (int) (intFrameSize.height * 40/100), labelSize.width, labelSize.height);
+                window.add(label2);
+
+                label3 = new JLabel(name);
+                label3.setBounds((int) (((double)intFrameSize.width * 60/100)), (int) (intFrameSize.height * 27/100), intFrameSize.width * 60/100, intFrameSize.width * 5/100);
+                label3.setFont(felixBold);
+                window.add(label3);
+
+
+                button1 = new MyButton(2);
+                button1.setBounds((int) ((intFrameSize.width * 35/100) - (buttonSize.width / 2)), (int) (intFrameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
+                button2 = new MyButton(3);
+                button2.setBounds((int) ((intFrameSize.width * 65/100) - (buttonSize.width / 2)), (int) (intFrameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
+                window.add(button1);
+                button1.addActionListener(new NewGameError());
+                window.add(button2);
+                button2.addActionListener(new Close());
+
+
+                back.setBounds(0, 0, intFrameSize.width, intFrameSize.height);
+                window.add(back);
+                break;
+
             default:
         }
         return window;
@@ -250,6 +327,22 @@ public class PopUp {
             gui.popUp.dispose();
             gui.board.stopMusic();
 
+        }
+    }
+
+    private class NewGameError implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (gui.board != null) {
+                gui.board.f.dispose();
+                gui.board.stopMusic();
+            }
+            gui.popUp.dispose();
+            gui.popUp.getContentPane().removeAll();
+            gui.newPopUp();
+            gui.backToLogin(false);
+            gui.frame.setVisible(true);
+            gui.lobby.backButton.setEnabled(true);
         }
     }
 
