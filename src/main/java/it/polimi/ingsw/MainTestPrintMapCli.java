@@ -36,7 +36,7 @@ public class MainTestPrintMapCli {
         printRed("Inserire le coordinate in cui mettere il worker: ");
         int[] coordinate = getCoordinatesFromString();
         int tile = mapArrows.getTileFromCoordinate(coordinate[0], coordinate[1]);
-        mapArrows.setTileHasPlayer(true, "GROUND", tile, Color.ANSI_PURPLE);
+        mapArrows.setTileHasPlayer(true, tile, Color.ANSI_PURPLE);
 
         mapArrows.printMap();
 
@@ -84,6 +84,8 @@ public class MainTestPrintMapCli {
         do {
             printRed("INSERT [MOVE] or [BUILD]: (everything else to go out): ");
             keyboard = input.nextLine().toUpperCase();
+            if(!keyboard.equals("MOVE") && !keyboard.equals("BUILD"))
+                break;
 
             printRed("INSERT THE NUMBER OF THE TILE YOU WANT TO SELECT: ");
             coordinate = mapArrows.getCoordinatesFromTile(Integer.parseInt(CliUtils.input()));
@@ -100,11 +102,11 @@ public class MainTestPrintMapCli {
         int tile = mapArrows.getTileFromCoordinate(coordinate[0], coordinate[1]);
 
         if(choice.equals("MOVE"))
-            mapArrows.setTileHasPlayer(true, "GROUND", tile, Color.ANSI_PURPLE);
+            mapArrows.setTileHasPlayer(true, tile, Color.ANSI_PURPLE);
         if(choice.equals("BUILD")) {
             printRed("Inserire il tipo di edificio da costruire: ");
-            String keyboard = CliUtils.input().toUpperCase();
-            mapArrows.setTileHasPlayer(true, keyboard, tile, Color.ANSI_PURPLE);
+            String buildingType = CliUtils.input().toUpperCase();
+            mapArrows.setTileBuildingType(buildingType, tile);
         }
 
     }

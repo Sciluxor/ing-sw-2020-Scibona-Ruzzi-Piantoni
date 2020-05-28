@@ -7,19 +7,21 @@ public class Tile {
     private String[] printRawLevel = new String[7];
     private boolean hasPlayer;
     private int buildingLevel = 0;
+    private String buildingType = "GROUND";
     private Color playerColor = Color.ANSI_RED;
+    private boolean available = false;
     //private final String playerSymbol = " 〠 ";
 
     public Tile() {
         for(int raw=0; raw<7; raw++)
-            this.setPrintRawLevel("GROUND", raw);
+            this.setPrintRawLevel(raw);
     }
 
     public String getPrintRawLevel(int raw) {
-        return printRawLevel[raw];
+        return setAvailableBackgroundColor(printRawLevel[raw]);
     }
 
-    public void setPrintRawLevel(String buildingType, int raw) {
+    public void setPrintRawLevel(int raw) {
         if(buildingType.equalsIgnoreCase("GROUND")) {
             if(raw==3)
                 this.printRawLevel[raw] = "        " + printPlayerColor() + "       ";
@@ -82,6 +84,10 @@ public class Tile {
         }
     }
 
+    public void setBuildingType (String buildingType) {
+        this.buildingType = buildingType;
+    }
+
     private String printPlayerColor() {
         return this.playerColor + this.isHasPlayerSymbol() + Color.ANSI_RED;
     }
@@ -95,19 +101,33 @@ public class Tile {
         this.coordinate[1] = y;
     }
 
-    public String isHasPlayerSymbol() {
+    private String isHasPlayerSymbol() {
         if(hasPlayer)
             return "〠 ";
         else
             return "   ";
     }
 
-    public void setHasPlayer(boolean hasPlayer, Color playerColor) {
-        this.hasPlayer = hasPlayer;
+    public void setPlayerColor (Color playerColor) {
         this.playerColor = playerColor;
     }
 
-    public String setBuildBackgroundColor (String string) {
+    public void setHasPlayer(boolean hasPlayer) {
+        this.hasPlayer = hasPlayer;
+    }
+
+    private String setBuildBackgroundColor (String string) {
         return Color.BACKGROUND_YELLOW + string + Color.RESET;
+    }
+
+    public void setAvailable (boolean available) {
+        this.available = available;
+    }
+
+    private String setAvailableBackgroundColor (String string) {
+        if(available && !hasPlayer)
+            return Color.BACKGROUND_GREEN + string + Color.RESET;
+        else
+            return string;
     }
 }
