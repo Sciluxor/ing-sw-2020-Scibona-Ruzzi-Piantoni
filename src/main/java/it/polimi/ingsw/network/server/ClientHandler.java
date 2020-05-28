@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.network.ConnectionInterface;
+import it.polimi.ingsw.network.message.GameConfigMessage;
 import it.polimi.ingsw.network.message.Message;
 import it.polimi.ingsw.network.message.MessageSubType;
 import it.polimi.ingsw.network.message.MessageType;
@@ -237,6 +238,10 @@ public class ClientHandler implements Runnable, ConnectionInterface {
                 server.handleDisconnection(userID, this, new Message(input.getSender(), input.getNickName(), MessageType.DISCONNECTION, MessageSubType.NICKMAXTRY));
                 server.insertPlayerInGame(input, this, false);
             } else {
+                if(!server.checkValidConfig(input.getNickName(),((GameConfigMessage) input).getNumberOfPlayer())) {
+                    server.nickError(this, input);
+                    return;
+                }
                 dispatchMessageToVirtualView(input);
             }
             server.moveGameStarted();
