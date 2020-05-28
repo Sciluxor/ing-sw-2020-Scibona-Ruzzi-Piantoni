@@ -595,10 +595,10 @@ public class Board {
 
         enableLevels(false);
 
-        try{
-            String os = System.getProperty("os.name").toLowerCase();
+        //try{
+            //String os = System.getProperty("os.name").toLowerCase();
 
-            if(os.contains("win")) { //windows positions
+            //if(os.contains("win")) { //windows positions
                 nicknameLabel.setBounds((int) (frameSize.width * 3.5/100), (int) (frameSize.height * 2.5/100), size20x5.width, size20x5.height);
                 nicknameLabel1.setBounds((int) (frameSize.width * 10.3/100), (int) (frameSize.height * 2.5/100), size20x5.width, size20x5.height);
                 opponents.setBounds((frameSize.width * 2/100), (frameSize.height * 55/100), size20x5.width, size20x5.height);
@@ -698,7 +698,7 @@ public class Board {
 
                 mapButtons[24].setBounds(frameSize.width * 46/100 , (int) (frameSize.width * (23.62)/100),
                         buttonMapSize13x13.width, buttonMapSize13x13.height);
-            }
+           /* }
             else {//mac positions
                 nicknameLabel.setBounds((int) (frameSize.width * 4/100), (int) (frameSize.height * 2.5/100), size20x5.width, size20x5.height);
                 nicknameLabel1.setBounds((int) (frameSize.width * 10.5/100), (int) (frameSize.height * 2.5/100), size20x5.width, size20x5.height);
@@ -799,11 +799,11 @@ public class Board {
 
                 mapButtons[24].setBounds((int) (frameSize.width * (46.1)/100) , (int) (frameSize.width * (24.2)/100),
                         buttonMapSize13x13.width, buttonMapSize13x13.height);
-            }
-        }
-        catch(Exception e) {
+            }*/
+        //}
+        /*catch(Exception e) {
             LOGGER.severe(e.getMessage());
-        }
+        }*/
 
         desktopPane.add(closeTutorial);
         desktopPane.add(continueTutorial);
