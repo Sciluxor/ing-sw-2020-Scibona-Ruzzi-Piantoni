@@ -79,7 +79,7 @@ public class Cli extends ClientGameController {
         endTurn();
         //mainThread.interrupt();
         printDebug("AFTER ENDTURN");
-        printWaitForOtherPlayers(numberOfPlayers);
+        printStartTurn();
     }
 
     public synchronized void playerChoosePower() {
@@ -98,7 +98,7 @@ public class Cli extends ClientGameController {
         controlWaitEnter("endTurn");
         endTurn();
         printDebug("AFTER ENDTURN");
-        printWaitForOtherPlayers(numberOfPlayers);
+        printStartTurn();
     }
 
     public synchronized void playerPlaceWorkers() {
@@ -113,7 +113,7 @@ public class Cli extends ClientGameController {
         }
 
         for(int i=0; i<2; i++) {
-            newSantoriniMapArrows.setPlaceWorkerAvailableTiles(modifiedTiles);
+            newSantoriniMapArrows.setPlaceWorkerNotAvailableTiles(modifiedTiles);
             newSantoriniMapArrows.printMap();
             newSantoriniMapArrows.printAvailableTiles();
 
@@ -145,11 +145,11 @@ public class Cli extends ClientGameController {
             }while (occupied);
 
             tileNumber[i] = keyboard;
-            newSantoriniMapArrows.setTileHasPlayer(true, "GROUND", tileNumber[i], playerColor);
+            newSantoriniMapArrows.setTileHasPlayer(true, tileNumber[i], playerColor);
             newSantoriniMapArrows.printMap();
 
             if(controlWaitEnter("confirm")==186) {
-                newSantoriniMapArrows.setTileHasPlayer(false, "GROUND", tileNumber[i], playerColor);
+                newSantoriniMapArrows.setTileHasPlayer(false, tileNumber[i], playerColor);
                 i--;
             }
             else
@@ -162,7 +162,8 @@ public class Cli extends ClientGameController {
         controlWaitEnter("endTurn");
         endTurn();
         printDebug("END TURN");
-        printWaitForOtherPlayers(numberOfPlayers);
+        printStartTurn();
+        newSantoriniMapArrows.resetAvailableTiles();
     }
 
     //-------------------------------
@@ -312,6 +313,13 @@ public class Cli extends ClientGameController {
             printPlayer(p.getNickName(), p);
             printYellow("\n");
         }
+    }
+
+    public void printStartTurn() {
+        if(numberOfPlayers==2)
+            printRed("WAITING FOR OTHER PLAYER START HIS TURN");
+        else
+            printRed("WAITING FOR OTHER PLAYERS START THEM TURN");
     }
 
     //-----CARDS-----
@@ -802,7 +810,7 @@ public class Cli extends ClientGameController {
     public synchronized void updatePlacedWorkers(List<Square> squares) {
         printDebug("HERE UPDATE");
         for(Square s: squares) {
-            newSantoriniMapArrows.setTileHasPlayer(s.hasPlayer(), s.getBuilding().toString(), s.getTile()-1, getColorCliFromPlayer(s.getPlayer().getColor()));
+            newSantoriniMapArrows.setTileHasPlayer(s.hasPlayer(), s.getTile()-1, getColorCliFromPlayer(s.getPlayer().getColor()));
         }
     }
 

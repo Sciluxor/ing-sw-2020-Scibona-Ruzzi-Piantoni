@@ -8,7 +8,6 @@ import static it.polimi.ingsw.view.client.cli.CliUtils.*;
 public class NewSantoriniMapArrows {
 
     private Tile[] tile = new Tile[25];
-    private boolean firstPrint = true;
     List<Integer> availableTiles = new ArrayList<>();
     //private boolean firstPrint = true;
 
@@ -54,18 +53,19 @@ public class NewSantoriniMapArrows {
             availableTiles.add(i);
     }
 
-    public void setTileHasPlayer(boolean hasPlayer, String buildingType, int tileNumber, Color playerColor) {
-        this.tile[tileNumber].setHasPlayer(hasPlayer, playerColor);
-        this.tile[tileNumber].setPrintRawLevel(buildingType, 3);
+    public void setTileHasPlayer(boolean hasPlayer, int tileNumber, Color playerColor) {
+        this.tile[tileNumber].setHasPlayer(hasPlayer);
+        this.tile[tileNumber].setPlayerColor(playerColor);
+        this.tile[tileNumber].setPrintRawLevel(3);
     }
 
     public boolean checkUnoccupiedTile(int tileNumber) {
         return availableTiles.contains(tileNumber);
     }
 
-    public void updateStringBoard(String buildingType, int tileNumber) {
+    public void updateStringBoardBuilding(String buildingType, int tileNumber) {
         for(int raw=0; raw<7; raw++)
-            this.tile[tileNumber].setPrintRawLevel(buildingType, raw);
+            this.tile[tileNumber].setPrintRawLevel(raw);
     }
 
     public void printMap() {
@@ -118,6 +118,7 @@ public class NewSantoriniMapArrows {
 
         for(int availableTile: availableTiles) {
             int[] coordinate = getCoordinatesFromTile(availableTile);
+            tile[availableTile].setAvailable(true);
             printRed(" [" + coordinate[0] + "] [" + coordinate[1] + "] Tile number: " + (availableTile+1) + "\n");
         }
     }
@@ -134,13 +135,30 @@ public class NewSantoriniMapArrows {
         return tile[tileNumber].getCoordinate();
     }
 
-    public void setAvailableTiles(List<Integer> availableTilesFromServer) {
+    public void resetAvailableTiles() {
+        for(int availableTile: availableTiles)
+            tile[availableTile].setAvailable(false);
         this.availableTiles.clear();
-        this.availableTiles.addAll(availableTilesFromServer);
     }
 
-    public void setPlaceWorkerAvailableTiles(List<Integer> modifiedSquares) {
+    public void setAvailableTiles(List<Integer> availableTiles) {
+        this.availableTiles.addAll(availableTiles);
+    }
+
+    public void setAvailableTilesBackground(List<Integer> availableTiles) {
+        for(int availableTile: availableTiles)
+            tile[availableTile].setAvailable(true);
+    }
+
+    public void setPlaceWorkerNotAvailableTiles(List<Integer> modifiedSquares) {
+        for(int availableTile: modifiedSquares)
+            tile[availableTile].setAvailable(false);
         this.availableTiles.removeAll(modifiedSquares);
+        setAvailableTilesBackground(availableTiles);
+    }
+
+    public void setTileBuildingType (String buildingType, int tileNumber) {
+        this.tile[tileNumber].setBuildingType(buildingType.toUpperCase());
     }
 
     public String setBlueBackgroundColor(String string) {
