@@ -595,17 +595,25 @@ public class Board {
 
         enableLevels(false);
 
-        //try{
-            //String os = System.getProperty("os.name").toLowerCase();
+        nicknameLabel.setBounds((int) (frameSize.width * 3.5/100), (int) (frameSize.height * 2.5/100), size20x5.width, size20x5.height);
+        opponents.setBounds((frameSize.width * 2/100), (frameSize.height * 55/100), size20x5.width, size20x5.height);
+        opponent1.setBounds((frameSize.width * 3/100), (frameSize.height * 61/100), frameSize.width * 15/100, frameSize.height * 4/100);
+        if (numberOfPlayers == 3){
+            opponent2.setBounds((frameSize.width * 3/100), (frameSize.height * 64/100), frameSize.width * 15/100, frameSize.height * 4/100);
+        }
 
-            //if(os.contains("win")) { //windows positions
-                nicknameLabel.setBounds((int) (frameSize.width * 3.5/100), (int) (frameSize.height * 2.5/100), size20x5.width, size20x5.height);
+        lLvl1.setBounds((int) (sideSize.width * 35/100), (int) (sideSize.height * 21/100), size20x5.width, size20x5.height);
+        lLvl2.setBounds((int) (sideSize.width * 35/100), (int) (sideSize.height * 33/100), size20x5.width, size20x5.height);
+        lLvl3.setBounds((int) (sideSize.width * 35/100), (int) (sideSize.height * 45/100), size20x5.width, size20x5.height);
+        lDome.setBounds((int) (sideSize.width * 35/100), (int) (sideSize.height * 58/100), size20x5.width, size20x5.height);
+
+        try{
+            String os = System.getProperty("os.name").toLowerCase();
+
+            if(os.contains("win")) { //windows positions
+
                 nicknameLabel1.setBounds((int) (frameSize.width * 10.3/100), (int) (frameSize.height * 2.5/100), size20x5.width, size20x5.height);
-                opponents.setBounds((frameSize.width * 2/100), (frameSize.height * 55/100), size20x5.width, size20x5.height);
-                opponent1.setBounds((frameSize.width * 3/100), (frameSize.height * 61/100), frameSize.width * 15/100, frameSize.height * 4/100);
-                if (numberOfPlayers == 3){
-                    opponent2.setBounds((frameSize.width * 3/100), (frameSize.height * 64/100), frameSize.width * 15/100, frameSize.height * 4/100);
-                }
+
                 labelChooseCards.setBounds((int) (frameSize.width * 82.5/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
                 labelChooseFirst.setBounds((int) (frameSize.width * 80/100), (int) (frameSize.height * 27.5/100), size20x5.width, size20x5.height);
                 labelChoosePower.setBounds((int) (frameSize.width * 81/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
@@ -615,13 +623,6 @@ public class Board {
                 labelChooseWorker.setBounds((int) (frameSize.width * 81/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
                 labelMove.setBounds((int) (frameSize.width * 85.75/100), (int) (frameSize.height * 27.5/100), size20x5.width, size20x5.height);
                 labelBuild.setBounds((int) (frameSize.width * 85.75/100), (int) (frameSize.height * 39.5/100), size20x5.width, size20x5.height);
-
-                lLvl1.setBounds((int) (sideSize.width * 35/100), (int) (sideSize.height * 21/100), size20x5.width, size20x5.height);
-                lLvl2.setBounds((int) (sideSize.width * 35/100), (int) (sideSize.height * 33/100), size20x5.width, size20x5.height);
-                lLvl3.setBounds((int) (sideSize.width * 35/100), (int) (sideSize.height * 45/100), size20x5.width, size20x5.height);
-                lDome.setBounds((int) (sideSize.width * 35/100), (int) (sideSize.height * 58/100), size20x5.width, size20x5.height);
-
-
 
 
                 mapButtons[0].setBounds((int) (frameSize.width * (29.5)/100) , frameSize.width * 7/100,
@@ -698,29 +699,19 @@ public class Board {
 
                 mapButtons[24].setBounds(frameSize.width * 46/100 , (int) (frameSize.width * (23.62)/100),
                         buttonMapSize13x13.width, buttonMapSize13x13.height);
-           /* }
+            }
             else {//mac positions
-                nicknameLabel.setBounds((int) (frameSize.width * 4/100), (int) (frameSize.height * 2.5/100), size20x5.width, size20x5.height);
                 nicknameLabel1.setBounds((int) (frameSize.width * 10.5/100), (int) (frameSize.height * 2.5/100), size20x5.width, size20x5.height);
-                opponents.setBounds((frameSize.width * 3/100), (frameSize.height * 55/100), size20x5.width, size20x5.height);
-                opponent1.setBounds((frameSize.width * 4/100), (frameSize.height * 61/100), frameSize.width * 15/100, frameSize.height * 4/100);
-                if (numberOfPlayers == 3){
-                    opponent2.setBounds((frameSize.width * 4/100), (frameSize.height * 64/100), frameSize.width * 15/100, frameSize.height * 4/100);
-                }
-                labelChooseCards.setBounds((int) (frameSize.width * 84/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
-                labelChooseFirst.setBounds((int) (frameSize.width * 81.5/100), (int) (frameSize.height * 27.5/100), size20x5.width, size20x5.height);
-                labelChoosePower.setBounds((int) (frameSize.width * 82.5/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
-                labelEndturn.setBounds((int) (frameSize.width * 85/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
-                labelSeePower.setBounds((int) (frameSize.width * 79.5/100), (int) (frameSize.height * 52.75/100), size20x5.width, size20x5.height);
-                labelConfirmPlace.setBounds((int) (frameSize.width * 81.5/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
-                labelChooseWorker.setBounds((int) (frameSize.width * 83/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
-                labelMove.setBounds((int) (frameSize.width * 86.5/100), (int) (frameSize.height * 27.5/100), size20x5.width, size20x5.height);
-                labelBuild.setBounds((int) (frameSize.width * 86.5/100), (int) (frameSize.height * 39.5/100), size20x5.width, size20x5.height);
 
-                lLvl1.setBounds((int) (sideSize.width * 35.5/100), (int) (sideSize.height * 21/100), size20x5.width, size20x5.height);
-                lLvl2.setBounds((int) (sideSize.width * 35.5/100), (int) (sideSize.height * 33/100), size20x5.width, size20x5.height);
-                lLvl3.setBounds((int) (sideSize.width * 35.5/100), (int) (sideSize.height * 45/100), size20x5.width, size20x5.height);
-                lDome.setBounds((int) (sideSize.width * 35.5/100), (int) (sideSize.height * 58/100), size20x5.width, size20x5.height);
+                labelChooseCards.setBounds((int) (frameSize.width * 83/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
+                labelChooseFirst.setBounds((int) (frameSize.width * 80.5/100), (int) (frameSize.height * 27.5/100), size20x5.width, size20x5.height);
+                labelChoosePower.setBounds((int) (frameSize.width * 81.5/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
+                labelEndturn.setBounds((int) (frameSize.width * 84.75/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
+                labelSeePower.setBounds((int) (frameSize.width * 79.25/100), (int) (frameSize.height * 52.75/100), size20x5.width, size20x5.height);
+                labelConfirmPlace.setBounds((int) (frameSize.width * 80.5/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
+                labelChooseWorker.setBounds((int) (frameSize.width * 81.5/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
+                labelMove.setBounds((int) (frameSize.width * 86.25/100), (int) (frameSize.height * 27.5/100), size20x5.width, size20x5.height);
+                labelBuild.setBounds((int) (frameSize.width * 86.25/100), (int) (frameSize.height * 39.5/100), size20x5.width, size20x5.height);
 
                 windowPower.setBounds((int)(frameSize.width * 29/100), (int) (frameSize.height * 30.5/100), internalFrameSize40x45.width, internalFrameSize40x45.height);
 
@@ -799,11 +790,11 @@ public class Board {
 
                 mapButtons[24].setBounds((int) (frameSize.width * (46.1)/100) , (int) (frameSize.width * (24.2)/100),
                         buttonMapSize13x13.width, buttonMapSize13x13.height);
-            }*/
-        //}
-        /*catch(Exception e) {
+            }
+        }
+        catch(Exception e) {
             LOGGER.severe(e.getMessage());
-        }*/
+        }
 
         desktopPane.add(closeTutorial);
         desktopPane.add(continueTutorial);
