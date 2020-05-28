@@ -43,6 +43,7 @@ public class Board {
     JDesktopPane chooseCard;
     JDesktopPane placeWorkers;
     JDesktopPane startTurn;
+    JDesktopPane notTurn;
     JDesktopPane updateBoard;
     JDesktopPane seeConstraint;
     JInternalFrame frameChat = new JInternalFrame("", false, false, false, false);
@@ -1951,6 +1952,25 @@ public class Board {
             loser2.setBounds((int) (frameSize.width * 44/100),frameSize.height * 30/100, frameSize.width * 30/100, frameSize.height * 50/100);
         }
         setVisibleWin(true, numberOfPlayers == 3);
+    }
+
+    public void notTurn(){
+        internalFrameStartTurn.setVisible(false);
+        internalFrameUpdateBoard.setVisible(false);
+        if (notTurn != null){
+            internalFrameStartTurn.remove(notTurn);
+        }
+        if (startTurn != null){
+            internalFrameStartTurn.remove(startTurn);
+        }
+        try {
+            notTurn = new NotTurn(internalFrameStartTurn, internalFrameSize40x45);
+        } catch (IOException e) {
+            LOGGER.severe(e.getMessage());
+        }
+        internalFrameStartTurn.setBounds((int) (frameSize.width * 29.5/100), (int) (frameSize.height * 25.5/100), internalFrameSize40x45.width, internalFrameSize40x45.height);
+        internalFrameStartTurn.getContentPane().add(notTurn);
+        internalFrameStartTurn.setVisible(true);
     }
 
     public void displayConstraint(String name, boolean isEliminated){

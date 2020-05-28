@@ -227,7 +227,7 @@ public class Gui extends ClientGameController {
 
     @Override
     public void notYourTurn() {
-        //da implementare
+        SwingUtilities.invokeLater(() -> board.notTurn());
     }
 
 
