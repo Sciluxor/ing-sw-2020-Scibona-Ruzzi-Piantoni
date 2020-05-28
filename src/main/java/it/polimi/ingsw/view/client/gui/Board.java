@@ -602,6 +602,7 @@ public class Board {
             opponent2.setBounds((frameSize.width * 3/100), (frameSize.height * 64/100), frameSize.width * 15/100, frameSize.height * 4/100);
         }
 
+
         lLvl1.setBounds((int) (sideSize.width * 35/100), (int) (sideSize.height * 21/100), size20x5.width, size20x5.height);
         lLvl2.setBounds((int) (sideSize.width * 35/100), (int) (sideSize.height * 33/100), size20x5.width, size20x5.height);
         lLvl3.setBounds((int) (sideSize.width * 35/100), (int) (sideSize.height * 45/100), size20x5.width, size20x5.height);
@@ -706,12 +707,12 @@ public class Board {
                 labelChooseCards.setBounds((int) (frameSize.width * 83/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
                 labelChooseFirst.setBounds((int) (frameSize.width * 80.5/100), (int) (frameSize.height * 27.5/100), size20x5.width, size20x5.height);
                 labelChoosePower.setBounds((int) (frameSize.width * 81.5/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
-                labelEndturn.setBounds((int) (frameSize.width * 84.75/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
+                labelEndturn.setBounds((int) (frameSize.width * 84.5/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
                 labelSeePower.setBounds((int) (frameSize.width * 79.25/100), (int) (frameSize.height * 52.75/100), size20x5.width, size20x5.height);
                 labelConfirmPlace.setBounds((int) (frameSize.width * 80.5/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
                 labelChooseWorker.setBounds((int) (frameSize.width * 81.5/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
-                labelMove.setBounds((int) (frameSize.width * 86.25/100), (int) (frameSize.height * 27.5/100), size20x5.width, size20x5.height);
-                labelBuild.setBounds((int) (frameSize.width * 86.25/100), (int) (frameSize.height * 39.5/100), size20x5.width, size20x5.height);
+                labelMove.setBounds((int) (frameSize.width * 86/100), (int) (frameSize.height * 27.5/100), size20x5.width, size20x5.height);
+                labelBuild.setBounds((int) (frameSize.width * 86/100), (int) (frameSize.height * 39.5/100), size20x5.width, size20x5.height);
 
                 windowPower.setBounds((int)(frameSize.width * 29/100), (int) (frameSize.height * 30.5/100), internalFrameSize40x45.width, internalFrameSize40x45.height);
 
