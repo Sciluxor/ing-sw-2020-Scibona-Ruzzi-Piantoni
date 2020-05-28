@@ -14,11 +14,13 @@ public class App_copy {
         boolean goOut = false;
 
         clearShell();
+        printRed(TITLE);
         printRed("USE ARROWS TO SELECT:\n  [1] CLI\n  [2] GUI\n");
         keyboardIn = getArrowUpDown();
 
         do {
             clearShell();
+            printRed(TITLE);
             switch (keyboardIn) {
                 case 183:
                     printRed("SELECTED:\n");

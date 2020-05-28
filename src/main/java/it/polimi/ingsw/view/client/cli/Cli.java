@@ -18,11 +18,8 @@ public class Cli extends ClientGameController {
     private String address = "127.0.0.1";
     private String nickName;
     private int numberOfPlayers;
-    //private SantoriniMapArrows mapArrows = new SantoriniMapArrows();
     private NewSantoriniMapArrows newSantoriniMapArrows = new NewSantoriniMapArrows();
     private Color playerColor;
-    private String power;
-
     private int[] tileNumber = new int[2];
 
     private Map<String, Card> deck = CardLoader.loadCards();
@@ -31,13 +28,6 @@ public class Cli extends ClientGameController {
     private static List<Player> opponents = new ArrayList<>();
     private static List<Player> actualPlayers = new ArrayList<>();
     private List<String> availableActions = new ArrayList<>();
-
-    private static final String TITLE = "\u001B[31m" +
-            "                        _____         _____  _____              _____    _____  _____     _____                        _____  _____   _____                      │__│ ╷ │__│\n" +
-            " ╲       ╲ ╱        ╱  │      │      │      │     │ │╲     ╱ │ │           │   │     │   │           ╱ ╲      │╲     │   │   │     │ │     │ │ │╲    │ │     ___________________\n" +
-            "   ╲     ╱  ╲     ╱    │──    │      │      │     │ │  ╲ ╱   │ │──         │   │     │   ╵─────╷   ╱─────╲    │  ╲   │   │   │     │ │_____│ │ │  ╲  │ │     ╲      __│__      ╱\n" +
-            "     ╲ ╱      ╲ ╱      ╵_____ ╵_____ ╵_____ ╵_____╵ │        │ ╵_____      │   ╵_____╵    _____╵ ╱         ╲  │    ╲ │   │   ╵_____╵ │   ╲   │ │    ╲│ │       ╲ ___________ ╱\n\n\n\u001B[0m";
-
 
     public void start() {
 
@@ -113,7 +103,8 @@ public class Cli extends ClientGameController {
 
     public synchronized void playerPlaceWorkers() {
         int keyboard;
-        Integer[] tileCoordinates = new Integer[2];
+        Integer[] tileCoordinates;
+        boolean occupied;
 
         List<Integer> modifiedTiles = new ArrayList<>();
         List<Square> modifiedSquares = getModifiedsquare();
@@ -127,6 +118,7 @@ public class Cli extends ClientGameController {
             newSantoriniMapArrows.printAvailableTiles();
 
             do {
+                occupied = false;
                 //TILE NUMBER VERSION
                 /*do {
                     printRed("INSERT THE NUMBER OF THE TILE YOU WANT TO INSERT YOUR WORKER " + (i+1) + ": ");
@@ -146,14 +138,22 @@ public class Cli extends ClientGameController {
                 keyboard = newSantoriniMapArrows.getTileFromCoordinate(tileCoordinates[0], tileCoordinates[1]);
                 //-------------------
 
-            }while (!newSantoriniMapArrows.checkUnoccupiedTile(keyboard));
+                if(!newSantoriniMapArrows.checkUnoccupiedTile(keyboard)) {
+                    occupied = true;
+                    printRed(Color.BACKGROUND_YELLOW + "OCCUPIED TILES!!" + Color.RESET + "\n");
+                }
+            }while (occupied);
 
             tileNumber[i] = keyboard;
             newSantoriniMapArrows.setTileHasPlayer(true, "GROUND", tileNumber[i], playerColor);
-
-            modifiedTiles.add(keyboard);
             newSantoriniMapArrows.printMap();
-            controlWaitEnter("enter");
+
+            if(controlWaitEnter("confirm")==186) {
+                newSantoriniMapArrows.setTileHasPlayer(false, "GROUND", tileNumber[i], playerColor);
+                i--;
+            }
+            else
+                modifiedTiles.add(keyboard);
         }
         printDebug("LOCAL TILE NUMBER: " + Arrays.toString(tileNumber) + "\nSENDED TILE NUMBER: " + (tileNumber[0]+1) +  " "  + (tileNumber[1]+1));
 
@@ -424,14 +424,23 @@ public class Cli extends ClientGameController {
     }
 
     public String[] controlCoordinates(String[] split) {
-        /*while(split.length != 2) {
+        boolean wrongSplit;
+
+        while(split.length != 2) {
             printRed("WRONG NUMBER OF PARAMETERS!\nPLEASE, REINSERT COORDINATES (from 0 up to 4): ");
             split = splitter(input());
-        }*/
+        }
 
-        while(!split[0].equals("0") && !split[0].equals("1") && !split[0].equals("2") && !split[0].equals("3") && !split[0].equals("4") && !split[1].equals("0") && !split[1].equals("1") && !split[1].equals("2") && !split[1].equals("3") && !split[1].equals("4") && split.length != 2) {
+        while(!split[0].equals("0") && !split[0].equals("1") && !split[0].equals("2") && !split[0].equals("3") && !split[0].equals("4") && !split[1].equals("0") && !split[1].equals("1") && !split[1].equals("2") && !split[1].equals("3") && !split[1].equals("4")) {
             printRed("ERROR!\nPLEASE, REINSERT COORDINATES (from 0 up to 4): ");
-            split = splitter(input());
+            do {
+                wrongSplit = false;
+                split = splitter(input());
+                if(split.length != 2) {
+                    wrongSplit = true;
+                    printRed("WRONG NUMBER OF PARAMETERS!\nPLEASE, REINSERT COORDINATES from 0 up to 4): ");
+                }
+            }while (wrongSplit);
         }
 
         return split;
@@ -647,10 +656,6 @@ public class Cli extends ClientGameController {
         }
     }
 
-    public void printYourTurn() {
-        printRed("IT'S YOUR TURN!\nCHOOSE YOUR POWER\n");
-    }
-
     //--------------
 
     //------------------------------
@@ -818,6 +823,7 @@ public class Cli extends ClientGameController {
 
     @Override
     public synchronized void displayActions(List<MessageType> actions) {
+        printDebug("DISPLAYACTIONS " + actions);
         try {
             availableActions = new ArrayList<>();
             for (MessageType m : actions) {

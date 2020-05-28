@@ -6,14 +6,15 @@ import it.polimi.ingsw.view.client.cli.NewSantoriniMapArrows;
 
 import java.util.Scanner;
 
-import static it.polimi.ingsw.view.client.cli.CliUtils.clearShell;
-import static it.polimi.ingsw.view.client.cli.CliUtils.printRed;
+import static it.polimi.ingsw.view.client.cli.CliUtils.*;
 
 public class MainTestPrintMapCli {
 
     private static NewSantoriniMapArrows mapArrows = new NewSantoriniMapArrows();
 
     public static void main(String[] args) {
+
+        printRed(TITLE);
 
         System.out.println("Questa è la board vuota: ");
         mapArrows.printMap();
@@ -39,9 +40,9 @@ public class MainTestPrintMapCli {
 
         mapArrows.printMap();
 
-        boolean goOut = false, terminate = false;
+        /*boolean goOut = false, terminate = false;
         int option = 0;
-        int keyboardIn;
+        int keyboardIn;*/
 
         clearShell();
         /*printRed("SELECT WITH ARROWS ONE OF THESE OPTIONS:\n  [MOVE]\n  [BUILD]\n");
@@ -101,7 +102,6 @@ public class MainTestPrintMapCli {
         if(choice.equals("MOVE"))
             mapArrows.setTileHasPlayer(true, "GROUND", tile, Color.ANSI_PURPLE);
         if(choice.equals("BUILD")) {
-            Scanner input = new Scanner(System.in);
             printRed("Inserire il tipo di edificio da costruire: ");
             String keyboard = CliUtils.input().toUpperCase();
             mapArrows.setTileHasPlayer(true, keyboard, tile, Color.ANSI_PURPLE);

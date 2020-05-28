@@ -11,6 +11,26 @@ import java.util.logging.Logger;
 
 public class CliUtils {
 
+    /*protected static String upLeftAngle = "\u2554";
+    protected static String downLeftAngle = "\u255A";
+    protected static String upRightAngle = "\u2557";
+    protected static String downRightAngle = "\u255D";
+    protected static String orizzontalLinear = "\u2550";
+    protected static String verticalLinear = "\u2551";
+    protected static String middle = "\u256C";
+    protected static String middleLeft = "\u2560";
+    protected static String middleRight = "\u2563";
+    protected static String middleDown = "\u2569";
+    protected static String middleUp = "\u2566";*/
+
+    public static final String TITLE = Color.BACKGROUND_WHITE +
+            "                                                                                                                                                                                      \n" +
+            "                           _____         _____  _____              _____    _____  _____     _____                        _____  _____   _____                      │__│ ╷ │__│       \n" +
+            "    ╲       ╲ ╱        ╱  │      │      │      │     │ │╲     ╱ │ │           │   │     │   │           ╱ ╲      │╲     │   │   │     │ │     │ │ │╲    │ │     ___________________   \n" +
+            "      ╲     ╱  ╲     ╱    │──    │      │      │     │ │  ╲ ╱   │ │──         │   │     │   ╵─────╷   ╱─────╲    │  ╲   │   │   │     │ │_____│ │ │  ╲  │ │     ╲      __│__      ╱   \n" +
+            "        ╲ ╱      ╲ ╱      ╵_____ ╵_____ ╵_____ ╵_____╵ │        │ ╵_____      │   ╵_____╵    _____╵ ╱         ╲  │    ╲ │   │   ╵_____╵ │   ╲   │ │    ╲│ │       ╲ ___________ ╱     \n" +
+            "                                                                                                                                                                                      " + Color.RESET + "\n\n";
+
     public static boolean debug = true;
 
     public static final java.util.logging.Logger LOGGER = Logger.getLogger("Cli");
@@ -87,6 +107,10 @@ public class CliUtils {
     }
 
     public static String[] splitter(String keyboard) {
+        while (keyboard.isEmpty()) {
+            printRed("EMPTY! INSERT CORRECTLY VALUES: ");
+            keyboard = input();
+        }
         return keyboard.split("\\s");
     }
 
@@ -189,6 +213,8 @@ public class CliUtils {
         if(type.equalsIgnoreCase("endTurn")) {
             printRed("PRESS ENTER TO END YOUR TURN...");
             type = "enter";
+        } else if(type.equalsIgnoreCase("confirm")) {
+            printRed("PRESS ENTER TO CONFIRM, LEFT ARROW TO REINSERT COORDINATES...");
         } else
             printRed("PRESS ENTER TO GO ON...");
 
@@ -213,6 +239,10 @@ public class CliUtils {
                     keyboardIn = waitEnter();
                 }while(keyboardIn != 13);
                 break;
+            case "confirm":
+                do {
+                    keyboardIn = waitEnter();
+                }while(keyboardIn != 13 && keyboardIn != 186);
             default:
                 printErr("NO KEYBOARD CATCHED");
         }

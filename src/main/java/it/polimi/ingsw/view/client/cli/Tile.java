@@ -27,52 +27,52 @@ public class Tile {
                 this.printRawLevel[raw] = "                  ";
         } else {
             if (raw == 0 || raw==6)
-                this.printRawLevel[raw] = "──────────────────";
+                this.printRawLevel[raw] = setBuildBackgroundColor("──────────────────");
 
             switch (buildingType) {
                 case "LVL1":
                     if (raw == 3)
-                        this.printRawLevel[raw] = "│       " + printPlayerColor() + "      │";
+                        this.printRawLevel[raw] = setBuildBackgroundColor("│") + "       " + printPlayerColor() + "      " + setBuildBackgroundColor("│");
                     else if (raw != 0 && raw != 6)
-                        this.printRawLevel[raw] = "│                │";
+                        this.printRawLevel[raw] = setBuildBackgroundColor("│") + "                " + setBuildBackgroundColor("│");
 
                     buildingLevel++;
                     break;
                 case "LVL2":
                     if (raw == 1 || raw == 5)
-                        this.printRawLevel[raw] = "│ ────────────── │";
+                        this.printRawLevel[raw] = setBuildBackgroundColor("│ ────────────── │");
                     else if (raw == 3)
-                        this.printRawLevel[raw] = "│ │     " + printPlayerColor() + "    │ │";
+                        this.printRawLevel[raw] = setBuildBackgroundColor("│ │") + "     " + printPlayerColor() + "    " + setBuildBackgroundColor("│ │");
                     else if (raw != 0 && raw != 6)
-                        this.printRawLevel[raw] = "│ │            │ │";
+                        this.printRawLevel[raw] = setBuildBackgroundColor("│ │") + "            " + setBuildBackgroundColor("│ │");
 
                     buildingLevel++;
                     break;
                 case "LVL3":
                     if (raw == 1 || raw == 5)
-                        this.printRawLevel[raw] = "│ ────────────── │";
+                        this.printRawLevel[raw] = setBuildBackgroundColor("│ ────────────── │");
                     else if (raw == 2 || raw == 4)
-                        this.printRawLevel[raw] = "│ │ ────────── │ │";
+                        this.printRawLevel[raw] = setBuildBackgroundColor("│ │ ────────── │ │");
                     else if (raw == 3)
-                        this.printRawLevel[raw] = "│ │ │   " + printPlayerColor() + "  │ │ │";
+                        this.printRawLevel[raw] = setBuildBackgroundColor("│ │ │") + "   " + printPlayerColor() + "  " + setBuildBackgroundColor("│ │ │");
                     else if (raw != 0 && raw != 6)
-                        this.printRawLevel[raw] = "│ │ │        │ │ │";
+                        this.printRawLevel[raw] = setBuildBackgroundColor("│ │ │") + "        " + setBuildBackgroundColor("│ │ │");
 
                     buildingLevel++;
                     break;
                 case "DOME":
                     if (buildingLevel == 0) {
                         if (raw == 3)
-                            this.printRawLevel[raw] = "    │ ────── │    ";
+                            this.printRawLevel[raw] = "    " + setBuildBackgroundColor("│ ────── │") + "    ";
                         else
                             this.printRawLevel[raw] = "                  ";
                     }
                     if (raw == 1 || raw == 5)
-                        this.printRawLevel[raw] = "│ ────────────── │";
+                        this.printRawLevel[raw] = setBuildBackgroundColor("│ ────────────── │");
                     else if (raw == 2 || raw == 4)
-                        this.printRawLevel[raw] = "│ │ ────────── │ │";
+                        this.printRawLevel[raw] = setBuildBackgroundColor("│ │ ────────── │ │");
                     else if (raw == 3)
-                        this.printRawLevel[raw] = "│ │ │ ────── │ │ │";
+                        this.printRawLevel[raw] = setBuildBackgroundColor("│ │ │ ────── │ │ │");
 
                     buildingLevel++;
                     break;
@@ -105,5 +105,9 @@ public class Tile {
     public void setHasPlayer(boolean hasPlayer, Color playerColor) {
         this.hasPlayer = hasPlayer;
         this.playerColor = playerColor;
+    }
+
+    public String setBuildBackgroundColor (String string) {
+        return Color.BACKGROUND_YELLOW + string + Color.RESET;
     }
 }

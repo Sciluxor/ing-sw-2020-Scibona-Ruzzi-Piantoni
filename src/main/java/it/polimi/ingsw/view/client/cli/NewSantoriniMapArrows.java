@@ -80,9 +80,9 @@ public class NewSantoriniMapArrows {
         for(int x=0; x<=5; x++) {
             printYellow("   ");
             for(int t=0; t<5; t++) {
-                printYellow("───────────────────");
+                printWhite(setBlueBackgroundColor("───────────────────"));
                 if(t==4)
-                    printYellow("─\n");
+                    printWhite(setBlueBackgroundColor("─") + "\n");
             }
 
             if(x==5)
@@ -95,10 +95,10 @@ public class NewSantoriniMapArrows {
                         printYellow(" " + x + " ");
                     else if(y==0)
                         printYellow("   ");
-                    printYellow("│");
+                    printWhite(setBlueBackgroundColor("│"));
                     printRed(this.tile[tileNumber].getPrintRawLevel(raw));
                     if(y==4) {
-                        printYellow("│");
+                        printWhite(setBlueBackgroundColor("│"));
                         if(raw==3)
                             printYellow(" " + x + "\n");
                         else
@@ -114,15 +114,12 @@ public class NewSantoriniMapArrows {
     }
 
     public void printAvailableTiles() {
-
         printRed("AVAILABLE SQUARES:\n");
 
         for(int availableTile: availableTiles) {
             int[] coordinate = getCoordinatesFromTile(availableTile);
-            printRed(" Tile number: " + (availableTile+1) + " [" + coordinate[0] + "] [" + coordinate[1] + "]\n");
+            printRed(" [" + coordinate[0] + "] [" + coordinate[1] + "] Tile number: " + (availableTile+1) + "\n");
         }
-
-        //return availableTiles;
     }
 
     public int getTileFromCoordinate(int x, int y) {
@@ -144,6 +141,10 @@ public class NewSantoriniMapArrows {
 
     public void setPlaceWorkerAvailableTiles(List<Integer> modifiedSquares) {
         this.availableTiles.removeAll(modifiedSquares);
+    }
+
+    public String setBlueBackgroundColor(String string) {
+        return Color.BACKGROUND_BLUE + string + Color.RESET;
     }
 
     //----- GETTER & SETTER -----
