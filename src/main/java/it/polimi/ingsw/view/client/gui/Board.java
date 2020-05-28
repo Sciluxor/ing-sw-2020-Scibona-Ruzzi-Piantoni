@@ -711,10 +711,10 @@ public class Board {
                 labelSeePower.setBounds((int) (frameSize.width * 79.25/100), (int) (frameSize.height * 52.75/100), size20x5.width, size20x5.height);
                 labelConfirmPlace.setBounds((int) (frameSize.width * 80.5/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
                 labelChooseWorker.setBounds((int) (frameSize.width * 81.5/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
-                labelMove.setBounds((int) (frameSize.width * 86/100), (int) (frameSize.height * 27.5/100), size20x5.width, size20x5.height);
-                labelBuild.setBounds((int) (frameSize.width * 86/100), (int) (frameSize.height * 39.5/100), size20x5.width, size20x5.height);
+                labelMove.setBounds((int) (frameSize.width * 85.87/100), (int) (frameSize.height * 27.5/100), size20x5.width, size20x5.height);
+                labelBuild.setBounds((int) (frameSize.width * 85.87/100), (int) (frameSize.height * 39.5/100), size20x5.width, size20x5.height);
 
-                windowPower.setBounds((int)(frameSize.width * 29.5/100), (int) (frameSize.height * 30.5/100), internalFrameSize40x45.width, internalFrameSize40x45.height);
+                windowPower.setBounds((int)(frameSize.width * 29.75/100), (int) (frameSize.height * 30.5/100), internalFrameSize40x45.width, internalFrameSize40x45.height);
 
 
                 mapButtons[0].setBounds((int) (frameSize.width * (29.5)/100) , (int) (frameSize.width * (7.6)/100),
