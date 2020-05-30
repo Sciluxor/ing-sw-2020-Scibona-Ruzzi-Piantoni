@@ -21,6 +21,7 @@ public class Cli extends ClientGameController {
     private NewSantoriniMapArrows newSantoriniMapArrows = new NewSantoriniMapArrows();
     private Color playerColor;
     private int[] tileNumber = new int[2];
+    private int selectedWorker;
 
     private Map<String, Card> deck = CardLoader.loadCards();
     private List<String> deckOrdered = new ArrayList<>();
@@ -164,6 +165,70 @@ public class Cli extends ClientGameController {
         printDebug("END TURN");
         printWaitingStartTurn();
         newSantoriniMapArrows.resetAvailableTiles();
+    }
+
+    public synchronized void playerSelectWorker() {
+        newSantoriniMapArrows.printMap();
+
+        int[] coordinateWorker1 = newSantoriniMapArrows.getCoordinatesFromTile(tileNumber[0]);
+        int[] coordinateWorker2 = newSantoriniMapArrows.getCoordinatesFromTile(tileNumber[1]);
+
+        printRed("SELECT WITH ARROWS ONE OF YOUR WORKERS:\n  [" + coordinateWorker1[0] + "] [" + coordinateWorker1[1] + "] WORKER 1\n  [" + coordinateWorker2[0] + "] [" + coordinateWorker2[1] + "] WORKER 2");
+
+        boolean goOut = false;
+        int keyboard = getArrowUpDown();
+
+        do{
+            clearShell();
+            newSantoriniMapArrows.printMap();
+            switch (keyboard) {
+                case 183:
+                    printRed("SELECT WITH ARROWS ONE OF YOUR WORKERS:\n");
+                    printYellow("> [" + coordinateWorker1[0] + "] [" + coordinateWorker1[1] + "] WORKER 1\n");
+                    printRed("  [" + coordinateWorker2[0] + "] [" + coordinateWorker2[1] + "] WORKER 2");
+
+                    keyboard = controlWaitEnter("un&down");
+                    if (keyboard == 13) {
+                        selectedWorker = 1;
+                        setWorker(selectedWorker);
+                    }
+                    break;
+                case 184:
+                    printRed("SELECT WITH ARROWS ONE OF YOUR WORKERS:\n  [" + coordinateWorker1[0] + "] [" + coordinateWorker1[1] + "] WORKER 1\n");
+                    printYellow("> [" + coordinateWorker2[0] + "] [" + coordinateWorker2[1] + "] WORKER 2");
+
+                    keyboard = controlWaitEnter("un&down");
+                    if (keyboard == 13) {
+                        selectedWorker = 2;
+                        setWorker(selectedWorker);
+                    }
+                    break;
+                default:
+                    goOut = true;
+                    if (keyboard != 13)
+                        printErr("NO KEYBOARD CAUGHT");
+            }
+        }while (!goOut);
+    }
+
+    public void playerMoveHisWorker() {
+        List<Integer> availableSquare = availableMoveSquare();
+
+        printDebug("MOVEWORKER");
+        controlWaitEnter("endTurn");
+        endTurn();
+        printDebug("AFTER ENDTURN");
+        printWaitingStartTurn();
+    }
+
+    public void playerBuild() {
+        List<Integer> availableSquare = availableBuildSquare();
+
+        printDebug("BUILDWORKER");
+        controlWaitEnter("endTurn");
+        endTurn();
+        printDebug("AFTER ENDTURN");
+        printWaitingStartTurn();
     }
 
     //-------------------------------
@@ -641,12 +706,15 @@ public class Cli extends ClientGameController {
                 playerPlaceWorkers();
                 break;
             case "MOVE":
+                playerMoveHisWorker();
                 //move
                 break;
             case "BUILD":
+                playerBuild();
                 //build;
                 break;
             case "SELECT WORKER":
+                playerSelectWorker();
                 //setWorker();
                 break;
             case "CHALLENGER CHOICE":
@@ -851,6 +919,8 @@ public class Cli extends ClientGameController {
             printErr("NULL POINTER");
             CliUtils.LOGGER.severe(e.getMessage());
         }
+
+        startSelectedActions(selectActions());
     }
 
     @Override
@@ -936,6 +1006,10 @@ public class Cli extends ClientGameController {
         if(isYourPlayer) {
             printRed("IT'S YOUR TURN!\n");
             controlWaitEnter("enter");
+            availableActions = new ArrayList<>();
+            availableActions.add("SELECT WORKER");
+
+            startSelectedActions(selectActions());
             //selectAction --> move / build
         } else {
             printRed("IT'S NOT YOUR TURN! " + nick.toUpperCase() + " IS STARTING HIS TURN!\n");
