@@ -23,6 +23,7 @@ public class Cli extends ClientGameController {
     private Color playerColor;
     private int[] tileNumber = new int[2];
     private int selectedWorker;
+    private Player myPlayerOnServer;
 
     private Map<String, Card> deck = CardLoader.loadCards();
     private List<String> deckOrdered = new ArrayList<>();
@@ -229,6 +230,7 @@ public class Cli extends ClientGameController {
 
         newSantoriniMapArrows.setAvailableTiles(availableTiles);
         newSantoriniMapArrows.printMap();
+        clearAndPrintInfo(opponents, myPlayerOnServer, deck);
 
         moveResponse = moveWorker(selectWithArrowsTile());
         //seleziono con frecce tile e la coloro di giallo con setSelectedTile
@@ -317,14 +319,6 @@ public class Cli extends ClientGameController {
     //------------------------------
 
     //---------- USEFUL FUNCTIONS ----------
-
-    public Player getPlayerFromNickname(String nickName, List<Player> actualPlayers) {
-        for(Player player: actualPlayers) {
-            if(player.getNickName().equalsIgnoreCase(nickName))
-                return player;
-        }
-        return null;
-    }
 
     public String selectFirstPlayer() {
         clearShell();
@@ -534,7 +528,32 @@ public class Cli extends ClientGameController {
     }
 
     public int selectWithArrowsTile() {
-        return -1;
+        printRed("USE ARROWS TO SELECT THE TILE IN WHICH YOU WANT TO MOVE...");
+        int keyboard = getArrow();
+
+        int selectedTile = -1;
+        boolean goOut = false;
+        do {
+            clearShell();
+            newSantoriniMapArrows.printMap();
+            switch (keyboard) {
+                case 183:
+                    break;
+                case 184:
+                    break;
+                case 185:
+                    break;
+                case 186:
+                    break;
+                case 13:
+                    goOut = true;
+                    break;
+                default:
+                    printErr("NO KEYBOARD CATCHED");
+            }
+        }while (!goOut);
+
+        return selectedTile;
     }
 
     //-----MENU-----
@@ -615,8 +634,8 @@ public class Cli extends ClientGameController {
                     printWhite("[CHAT]  [BOARD]  [ACTIONS]  [OPPONENTS]  ");
                     printYellow("[POWER]\n");
                     try {
-                        printYellow(getPlayerFromNickname(getNickName(), actualPlayers).getPower().getName().toUpperCase() + ":");
-                        printPower(getPlayerFromNickname(getNickName(), actualPlayers).getPower().getName(), deck);
+                        printYellow(myPlayerOnServer.getPower().getName().toUpperCase() + ":");
+                        printPower(myPlayerOnServer.getPower().getName(), deck);
                     } catch (NullPointerException e) {
                         printRed("YOUR CARD DOESN'T ALREADY CHOOSE\n");
                     }
@@ -653,7 +672,7 @@ public class Cli extends ClientGameController {
         int counter = 0, size = availableActions.size();
         boolean goOut = false, firstPosition = true, lastPosition = false;
 
-        clearAndPrintInfo(opponents, getPlayerFromNickname(getNickName(), actualPlayers), deck);
+        clearAndPrintInfo(opponents, myPlayerOnServer, deck);
         /*printWhite("[CHAT]  [BOARD]  ");
         printYellow("[ACTIONS]");
         printWhite("  [OPPONENTS]  [POWER]\n");
@@ -780,8 +799,10 @@ public class Cli extends ClientGameController {
         for (Player player : getPlayers()) {
             if (!player.getNickName().equalsIgnoreCase(getNickName()))
                 opponents.add(player);
-            else
+            else {
                 this.playerColor = getColorCliFromPlayer(player.getColor());
+                this.myPlayerOnServer = player;
+            }
         }
         /*clearShell();
         printRed("GAME IS GOING TO START. PLEASE WAIT WHILE IS LOADING\n");
@@ -793,7 +814,7 @@ public class Cli extends ClientGameController {
     public synchronized void challengerChoice(String challengerNick, boolean isYourPlayer) {
 
     printDebug("CHALLENGER CHOICE");
-        clearAndPrintInfo(opponents, getPlayerFromNickname(getNickName(), actualPlayers), deck);
+        clearAndPrintInfo(opponents, myPlayerOnServer, deck);
         if (isYourPlayer) {
             printRed("YOU HAVE BEEN CHOSEN AS CHALLENGER!\n");
             controlWaitEnter("enter");
@@ -804,7 +825,7 @@ public class Cli extends ClientGameController {
 
         } else {
             printRed("PLAYER ");
-            printPlayer(challengerNick, getPlayerFromNickname(challengerNick, actualPlayers));
+            printPlayer(challengerNick, myPlayerOnServer);
             printRed(" IS CHOOSING CARDS\n");
             printWaitForOtherPlayers(numberOfPlayers);
         }
@@ -826,7 +847,7 @@ public class Cli extends ClientGameController {
                 opponents.add(player);
         }
 
-        clearAndPrintInfo(opponents, getPlayerFromNickname(getNickName(), actualPlayers), deck);
+        clearAndPrintInfo(opponents, myPlayerOnServer, deck);
 
         if (isYourPlayer) {
             deckOrdered = new ArrayList<>(getAvailableCards());
@@ -841,7 +862,7 @@ public class Cli extends ClientGameController {
 
         } else {
             printRed("PLAYER ");
-            printPlayer(challengerNick, getPlayerFromNickname(challengerNick, actualPlayers));
+            printPlayer(challengerNick, myPlayerOnServer);
             printRed(" IS CHOOSING HIS POWER\n");
             printWaitForOtherPlayers(numberOfPlayers);
         }
@@ -863,7 +884,7 @@ public class Cli extends ClientGameController {
         }
 
         if (isYourPlayer) {
-            clearAndPrintInfo(opponents, getPlayerFromNickname(getNickName(), actualPlayers), deck);
+            clearAndPrintInfo(opponents, myPlayerOnServer, deck);
             printRed("PLACE YOUR WORKERS!\n");
             controlWaitEnter("enter");
             availableActions = new ArrayList<>();
@@ -873,9 +894,9 @@ public class Cli extends ClientGameController {
 
         } else {
             newSantoriniMapArrows.printMap();
-            printInfo(opponents, getPlayerFromNickname(getNickName(), actualPlayers), deck);
+            printInfo(opponents, myPlayerOnServer, deck);
             printRed("PLAYER ");
-            printPlayer(challengerNick, getPlayerFromNickname(challengerNick, actualPlayers));
+            printPlayer(challengerNick, myPlayerOnServer);
             printRed(" IS PLACING HIS WORKERS\n");
             printWaitForOtherPlayers(numberOfPlayers);
         }
@@ -1011,7 +1032,7 @@ public class Cli extends ClientGameController {
 
     @Override
     public synchronized void startTurn(String nick, boolean isYourPlayer) {
-        clearAndPrintInfo(opponents, getPlayerFromNickname(getNickName(), actualPlayers), deck);
+        clearAndPrintInfo(opponents, myPlayerOnServer, deck);
         if(isYourPlayer) {
             printRed("IT'S YOUR TURN!\n");
             controlWaitEnter("enter");
