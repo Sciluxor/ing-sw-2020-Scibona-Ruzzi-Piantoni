@@ -16,7 +16,8 @@ import static it.polimi.ingsw.view.client.cli.CliUtils.*;
 public class Cli extends ClientGameController {
 
     private int port = 4700;
-    private String address = "127.0.0.1";
+    private String amazonAddress = "54.146.79.183";
+    private String localAddress = "127.0.0.1";
     private String nickName;
     private int numberOfPlayers;
     private NewSantoriniMapArrows newSantoriniMapArrows = new NewSantoriniMapArrows();
@@ -41,10 +42,10 @@ public class Cli extends ClientGameController {
         login(false);
 
         printDebug("HERE");
-        printDebug("NICK: " + getNickName() + "\nNUMBER: " + getNumberOfPlayers() + "\nPORT: " + getPort() + "\nIP: " + getAddress());
+        printDebug("NICK: " + getNickName() + "\nNUMBER: " + getNumberOfPlayers() + "\nPORT: " + getPort() + "\nIP: " + getAmazonAddress());
 
         try {
-            openConnection(getNickName(), getNumberOfPlayers(), getAddress(), getPort());
+            openConnection(getNickName(), getNumberOfPlayers(), getAmazonAddress(), getPort());
         }catch (Exception e) {
             printErr("FAILED TO OPENING CONNECTION");
             CliUtils.LOGGER.severe(e.getMessage());
@@ -298,15 +299,15 @@ public class Cli extends ClientGameController {
             this.port = Integer.parseInt(port);
     }
 
-    public String getAddress() {
-        return address;
+    public String getAmazonAddress() {
+        return amazonAddress;
     }
 
     public void setAddress() {
         printRed("INSERT THE IP ADDRESS (default as 127.0.0.1 - localhost): ");
         String address = input();
         if(!address.equals(""))
-            this.address = address;
+            this.amazonAddress = address;
     }
 
     public String getNickName() {
