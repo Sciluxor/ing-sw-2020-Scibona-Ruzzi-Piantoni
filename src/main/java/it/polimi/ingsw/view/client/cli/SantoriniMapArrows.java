@@ -119,7 +119,7 @@ public class SantoriniMapArrows {
 
     public int[] getCoordinatesFromString() {
         int keyboard = Integer.parseInt(input());
-        return this.tile[keyboard-1].getCoordinate();
+        return this.tile[keyboard-1].getCoordinates();
     }
 
     /*public int getCoordinatesFromTile() {

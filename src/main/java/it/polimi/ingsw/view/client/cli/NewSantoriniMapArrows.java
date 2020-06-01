@@ -125,14 +125,14 @@ public class NewSantoriniMapArrows {
 
     public int getTileFromCoordinate(int x, int y) {
         for(int tileNumber=0; tileNumber<tile.length; tileNumber++) {
-            if(tile[tileNumber].getCoordinate()[0] == x && tile[tileNumber].getCoordinate()[1] == y)
+            if(tile[tileNumber].getCoordinates()[0] == x && tile[tileNumber].getCoordinates()[1] == y)
                 return tileNumber;
         }
         return -1;
     }
 
     public int[] getCoordinatesFromTile(int tileNumber) {
-        return tile[tileNumber].getCoordinate();
+        return tile[tileNumber].getCoordinates();
     }
 
     public void resetAvailableTiles() {

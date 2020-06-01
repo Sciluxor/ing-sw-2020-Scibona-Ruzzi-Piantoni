@@ -138,7 +138,7 @@ public class Cli extends ClientGameController {
                 //COORDINATES VERSION
                 do {
                     printRed("INSERT COORDINATES (from 0 up to 4) OF THE TILE IN WHICH YOU WANT TO PLACE YOUR WORKER" + (i+1) + ": ");
-                    tileCoordinates = getCoordinatesFromString();
+                    tileCoordinates = getCoordinatesFromString(input());
                 }while(tileCoordinates[0] < 0 || tileCoordinates[0] > 4 || tileCoordinates[1] < 0 || tileCoordinates[1] > 4);
                 keyboard = newSantoriniMapArrows.getTileFromCoordinate(tileCoordinates[0], tileCoordinates[1]);
                 //-------------------
@@ -177,7 +177,7 @@ public class Cli extends ClientGameController {
         int[] coordinateWorker1 = newSantoriniMapArrows.getCoordinatesFromTile(tileNumber[0]);
         int[] coordinateWorker2 = newSantoriniMapArrows.getCoordinatesFromTile(tileNumber[1]);
 
-        printRed("SELECT WITH ARROWS ONE OF YOUR WORKERS:\n  [" + coordinateWorker1[0] + "] [" + coordinateWorker1[1] + "] WORKER 1\n  [" + coordinateWorker2[0] + "] [" + coordinateWorker2[1] + "] WORKER 2\n");
+        printRed("\nSELECT WITH ARROWS ONE OF YOUR WORKERS:\n  [" + coordinateWorker1[0] + "] [" + coordinateWorker1[1] + "] WORKER 1\n  [" + coordinateWorker2[0] + "] [" + coordinateWorker2[1] + "] WORKER 2\n");
 
         boolean goOut = false;
         int keyboard = getArrowUpDown();
@@ -222,8 +222,10 @@ public class Cli extends ClientGameController {
         }while (!goOut);
     }
 
-    public void playerMoveHisWorker() {
+    public synchronized void playerMoveHisWorker() {
         List<Integer> availableSquare = availableMoveSquare();
+        printDebug("FROM SERVER: " + availableSquare);
+
         List<Integer> availableTiles = new ArrayList<>();
         for (Integer square : availableSquare)
             availableTiles.add(square - 1);
@@ -232,19 +234,41 @@ public class Cli extends ClientGameController {
         newSantoriniMapArrows.printMap();
         clearAndPrintInfo(opponents, myPlayerOnServer, deck);
 
-        moveResponse = moveWorker(selectWithArrowsTile());
+        moveWorkerTextVersion();
+
+        //moveResponse = moveWorker(selectWithArrowsTile());
         //seleziono con frecce tile e la coloro di giallo con setSelectedTile
         //quando enter per confermare la scelta, allora resetto sia selected che available
 
-        printDebug("FROM SERVER: " + availableSquare);
-        printDebug("MOVEWORKER");
+        //printDebug("MOVEWORKER " + tile);
         controlWaitEnter("endTurn");
         endTurn();
         printDebug("AFTER ENDTURN");
         printWaitingStartTurn();
     }
 
-    public void playerBuild() {
+    private void moveWorkerTextVersion() {
+        int keyboard, tile;
+        do {
+            newSantoriniMapArrows.printAvailableTiles();
+            printRed("INSERT COORDINATES IN WHICH YOU WANT TO MOVE: ");
+            Integer[] coordinates = getCoordinatesFromString(input());
+            tile = newSantoriniMapArrows.getTileFromCoordinate(coordinates[0], coordinates[1]);
+            newSantoriniMapArrows.setSelectedTile(tile, true);
+            newSantoriniMapArrows.printMap();
+            keyboard = controlWaitEnter("confirm");
+            if(keyboard != 13)
+                newSantoriniMapArrows.setSelectedTile(tile, false);
+        }while(keyboard != 13);
+
+        newSantoriniMapArrows.setSelectedTile(tile, false);
+        newSantoriniMapArrows.resetAvailableTiles();
+
+        moveResponse = moveWorker(tile+1);
+        printDebug("MOVEWORKER: " + (tile+1));
+    }
+
+    public synchronized void playerBuild() {
         List<Integer> availableSquare = availableBuildSquare();
 
         printDebug("FROM SERVER: " + availableSquare);
@@ -495,8 +519,8 @@ public class Cli extends ClientGameController {
 
     //-----MAP&WORKERS-----
 
-    public Integer[] getCoordinatesFromString() {
-        String[] split = splitter(input());
+    public Integer[] getCoordinatesFromString(String input) {
+        String[] split = splitter(input);
 
         split = controlCoordinates(split);
 
@@ -1028,7 +1052,6 @@ public class Cli extends ClientGameController {
     public synchronized void notYourTurn() {
 
     }
-
 
     @Override
     public synchronized void startTurn(String nick, boolean isYourPlayer) {

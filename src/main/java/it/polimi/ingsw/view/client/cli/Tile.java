@@ -3,7 +3,7 @@ package it.polimi.ingsw.view.client.cli;
 
 public class Tile {
 
-    private int[] coordinate = new int[2];
+    private int[] coordinates = new int[2];
     private String[] printRawLevel = new String[7];
     private boolean hasPlayer;
     private int buildingLevel = 0;
@@ -93,13 +93,13 @@ public class Tile {
         return this.playerColor + this.isHasPlayerSymbol() + Color.ANSI_RED;
     }
 
-    public int[] getCoordinate() {
-        return coordinate;
+    public int[] getCoordinates() {
+        return coordinates;
     }
 
     public void setCoordinate (int x, int y) {
-        this.coordinate[0] = x;
-        this.coordinate[1] = y;
+        this.coordinates[0] = x;
+        this.coordinates[1] = y;
     }
 
     private String isHasPlayerSymbol() {
