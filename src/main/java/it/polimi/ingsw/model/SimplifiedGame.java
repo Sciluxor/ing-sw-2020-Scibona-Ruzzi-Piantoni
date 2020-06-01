@@ -13,7 +13,7 @@ import java.util.*;
 
 public class SimplifiedGame{
     private final Integer numberOfPlayers;
-    private List<Player> settedPlayers;
+    private List<Player> settedPlayers =new ArrayList<>();
     private boolean hasStopper;
     private final Map<String, Card> deck;
     private List<String> availableCards;
@@ -128,6 +128,8 @@ public class SimplifiedGame{
     }
 
     public void setCurrentPlayer(String playerName) {
+        if(playerName == null)
+            throw new NullPointerException(ConstantsContainer.NULLPARAMETERS);
         for(Player player : settedPlayers)
             if(player.getNickName().equals(playerName))
                 this.currentPlayer = player;
@@ -168,10 +170,6 @@ public class SimplifiedGame{
     }
 
     public Response getGameStatus(){ return this.gameStatus;}
-
-    public String getGameID() {
-        return gameID;
-    }
 
     public void setGameID(String gameID){this.gameID = gameID;}
 }

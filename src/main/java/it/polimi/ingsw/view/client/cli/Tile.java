@@ -3,13 +3,14 @@ package it.polimi.ingsw.view.client.cli;
 
 public class Tile {
 
-    private int[] coordinate = new int[2];
+    private int[] coordinates = new int[2];
     private String[] printRawLevel = new String[7];
     private boolean hasPlayer;
     private int buildingLevel = 0;
     private String buildingType = "GROUND";
     private Color playerColor = Color.ANSI_RED;
     private boolean available = false;
+    private boolean selected = false;
     //private final String playerSymbol = " 〠 ";
 
     public Tile() {
@@ -17,11 +18,11 @@ public class Tile {
             this.setPrintRawLevel(raw);
     }
 
-    public String getPrintRawLevel(int raw) {
-        return setAvailableBackgroundColor(printRawLevel[raw]);
+    public String getPrintRawLevel (int raw) {
+        return setBackgroundColor(printRawLevel[raw]);
     }
 
-    public void setPrintRawLevel(int raw) {
+    public void setPrintRawLevel (int raw) {
         if(buildingType.equalsIgnoreCase("GROUND")) {
             if(raw==3)
                 this.printRawLevel[raw] = "        " + printPlayerColor() + "       ";
@@ -92,13 +93,13 @@ public class Tile {
         return this.playerColor + this.isHasPlayerSymbol() + Color.ANSI_RED;
     }
 
-    public int[] getCoordinate() {
-        return coordinate;
+    public int[] getCoordinates() {
+        return coordinates;
     }
 
-    public void setCoordinate(int x, int y) {
-        this.coordinate[0] = x;
-        this.coordinate[1] = y;
+    public void setCoordinate (int x, int y) {
+        this.coordinates[0] = x;
+        this.coordinates[1] = y;
     }
 
     private String isHasPlayerSymbol() {
@@ -112,7 +113,7 @@ public class Tile {
         this.playerColor = playerColor;
     }
 
-    public void setHasPlayer(boolean hasPlayer) {
+    public void setHasPlayer (boolean hasPlayer) {
         this.hasPlayer = hasPlayer;
     }
 
@@ -124,10 +125,16 @@ public class Tile {
         this.available = available;
     }
 
-    private String setAvailableBackgroundColor (String string) {
-        if(available && !hasPlayer)
+    public void setSelected (boolean selected) {
+        this.selected = selected;
+    }
+
+    private String setBackgroundColor (String string) {
+        if(available && !hasPlayer && !selected)
             return Color.BACKGROUND_GREEN + string + Color.RESET;
-        else
-            return string;
+        else if(selected)
+            return Color.BACKGROUND_YELLOW + string + Color.RESET;
+
+        return string;
     }
 }

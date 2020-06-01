@@ -282,6 +282,7 @@ class GameTest {
         game.addPlayer(player1, viewPlayer1);
         game.addPlayer(player2, viewPlayer2);
         game.addPlayer(player3, viewPlayer3);
+        game.setFirstPlayer(player2.getNickName());
         game.createQueue();
         game.pickPlayer();
         assertEquals(game.getCurrentPlayer(), game.getPlayers().get(1));
@@ -301,6 +302,33 @@ class GameTest {
         assertEquals(game.getCurrentPlayer(), game.getPlayers().get(0));
         game.pickPlayer();
         assertEquals(game.getCurrentPlayer(), game.getPlayers().get(2));
+    }
+
+    @Test
+    void createCardQueue() {
+        game.addPlayer(player1, viewPlayer1);
+        game.addPlayer(player2, viewPlayer2);
+        game.addPlayer(player3, viewPlayer3);
+        game.pickChallenger();
+        game.createCardQueue();
+        game.pickPlayer();
+        String name1 = game.getCurrentPlayer().getNickName();
+        game.pickPlayer();
+        String name2 = game.getCurrentPlayer().getNickName();
+        game.pickPlayer();
+        String name3 = game.getCurrentPlayer().getNickName();
+        game.pickPlayer();
+        assertEquals(game.getCurrentPlayer().getNickName(), name1);
+        game.pickPlayer();
+        assertEquals(game.getCurrentPlayer().getNickName(), name2);
+        game.pickPlayer();
+        assertEquals(game.getCurrentPlayer().getNickName(), name3);
+        game.pickPlayer();
+        assertEquals(game.getCurrentPlayer().getNickName(), name1);
+        game.pickPlayer();
+        assertEquals(game.getCurrentPlayer().getNickName(), name2);
+        game.pickPlayer();
+        assertEquals(game.getCurrentPlayer().getNickName(), name3);
     }
 
     @Test
@@ -394,6 +422,7 @@ class GameTest {
         game.addPlayer(player1, viewPlayer1);
         game.addPlayer(player2, viewPlayer2);
         game.addPlayer(player3, viewPlayer3);
+        game.setFirstPlayer(player2.getNickName());
         game.createQueue();
         game.pickPlayer();
         assertEquals(game.getCurrentPlayer(), game.getPlayers().get(1));

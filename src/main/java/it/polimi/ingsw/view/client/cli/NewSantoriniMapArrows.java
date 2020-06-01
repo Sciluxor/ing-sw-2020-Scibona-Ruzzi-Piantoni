@@ -125,14 +125,14 @@ public class NewSantoriniMapArrows {
 
     public int getTileFromCoordinate(int x, int y) {
         for(int tileNumber=0; tileNumber<tile.length; tileNumber++) {
-            if(tile[tileNumber].getCoordinate()[0] == x && tile[tileNumber].getCoordinate()[1] == y)
+            if(tile[tileNumber].getCoordinates()[0] == x && tile[tileNumber].getCoordinates()[1] == y)
                 return tileNumber;
         }
         return -1;
     }
 
     public int[] getCoordinatesFromTile(int tileNumber) {
-        return tile[tileNumber].getCoordinate();
+        return tile[tileNumber].getCoordinates();
     }
 
     public void resetAvailableTiles() {
@@ -143,9 +143,14 @@ public class NewSantoriniMapArrows {
 
     public void setAvailableTiles(List<Integer> availableTiles) {
         this.availableTiles.addAll(availableTiles);
+        setAvailableTilesBackground(availableTiles);
     }
 
-    public void setAvailableTilesBackground(List<Integer> availableTiles) {
+    public void removeTileFromAvailableTiles(Integer tileToRemove) {
+        this.availableTiles.remove(tileToRemove);
+    }
+
+    private void setAvailableTilesBackground(List<Integer> availableTiles) {
         for(int availableTile: availableTiles)
             tile[availableTile].setAvailable(true);
     }
@@ -162,7 +167,11 @@ public class NewSantoriniMapArrows {
     }
 
     public String setBlueBackgroundColor(String string) {
-        return Color.BACKGROUND_BLUE + string + Color.RESET;
+        return setBackground(string, Color.BACKGROUND_BLUE);
+    }
+
+    public void setSelectedTile (int tileNumber, boolean selected) {
+        this.tile[tileNumber].setSelected(selected);
     }
 
     //----- GETTER & SETTER -----

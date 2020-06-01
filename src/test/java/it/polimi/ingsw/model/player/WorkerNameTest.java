@@ -13,4 +13,10 @@ class WorkerNameTest {
 
         assertThrows(IllegalArgumentException.class,() ->  WorkerName.parseInput("worker"));
     }
+
+    @Test
+    void getNumberWorker(){
+        assertEquals(1,WorkerName.getNumberWorker(WorkerName.WORKER1));
+        assertEquals(2,WorkerName.getNumberWorker(WorkerName.WORKER2));
+    }
 }
