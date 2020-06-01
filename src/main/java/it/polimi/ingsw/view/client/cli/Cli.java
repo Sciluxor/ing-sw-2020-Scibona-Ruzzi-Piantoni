@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.client.cli;
 
+import it.polimi.ingsw.model.Response;
 import it.polimi.ingsw.model.cards.Card;
 import it.polimi.ingsw.model.cards.CardLoader;
 import it.polimi.ingsw.model.map.Square;
@@ -29,6 +30,8 @@ public class Cli extends ClientGameController {
     private static List<Player> opponents = new ArrayList<>();
     private static List<Player> actualPlayers = new ArrayList<>();
     private List<String> availableActions = new ArrayList<>();
+
+    private Response moveResponse;
 
     public void start() {
 
@@ -173,47 +176,65 @@ public class Cli extends ClientGameController {
         int[] coordinateWorker1 = newSantoriniMapArrows.getCoordinatesFromTile(tileNumber[0]);
         int[] coordinateWorker2 = newSantoriniMapArrows.getCoordinatesFromTile(tileNumber[1]);
 
-        printRed("SELECT WITH ARROWS ONE OF YOUR WORKERS:\n  [" + coordinateWorker1[0] + "] [" + coordinateWorker1[1] + "] WORKER 1\n  [" + coordinateWorker2[0] + "] [" + coordinateWorker2[1] + "] WORKER 2");
+        printRed("SELECT WITH ARROWS ONE OF YOUR WORKERS:\n  [" + coordinateWorker1[0] + "] [" + coordinateWorker1[1] + "] WORKER 1\n  [" + coordinateWorker2[0] + "] [" + coordinateWorker2[1] + "] WORKER 2\n");
 
         boolean goOut = false;
         int keyboard = getArrowUpDown();
 
         do{
             clearShell();
-            newSantoriniMapArrows.printMap();
             switch (keyboard) {
                 case 183:
+                    newSantoriniMapArrows.setSelectedTile(tileNumber[0], true);
+                    newSantoriniMapArrows.setSelectedTile(tileNumber[1], false);
+                    newSantoriniMapArrows.printMap();
                     printRed("SELECT WITH ARROWS ONE OF YOUR WORKERS:\n");
                     printYellow("> [" + coordinateWorker1[0] + "] [" + coordinateWorker1[1] + "] WORKER 1\n");
-                    printRed("  [" + coordinateWorker2[0] + "] [" + coordinateWorker2[1] + "] WORKER 2");
+                    printRed("  [" + coordinateWorker2[0] + "] [" + coordinateWorker2[1] + "] WORKER 2\n");
 
-                    keyboard = controlWaitEnter("un&down");
-                    if (keyboard == 13) {
+
+                    keyboard = controlWaitEnter("up&down");
+                    if (keyboard == 13)
                         selectedWorker = 1;
-                        setWorker(selectedWorker);
-                    }
                     break;
                 case 184:
+                    newSantoriniMapArrows.setSelectedTile(tileNumber[0], false);
+                    newSantoriniMapArrows.setSelectedTile(tileNumber[1], true);
+                    newSantoriniMapArrows.printMap();
                     printRed("SELECT WITH ARROWS ONE OF YOUR WORKERS:\n  [" + coordinateWorker1[0] + "] [" + coordinateWorker1[1] + "] WORKER 1\n");
-                    printYellow("> [" + coordinateWorker2[0] + "] [" + coordinateWorker2[1] + "] WORKER 2");
+                    printYellow("> [" + coordinateWorker2[0] + "] [" + coordinateWorker2[1] + "] WORKER 2\n");
 
-                    keyboard = controlWaitEnter("un&down");
-                    if (keyboard == 13) {
+                    keyboard = controlWaitEnter("up&down");
+                    if (keyboard == 13)
                         selectedWorker = 2;
-                        setWorker(selectedWorker);
-                    }
+                    break;
+                case 13:
+                    newSantoriniMapArrows.printMap();
+                    newSantoriniMapArrows.setSelectedTile(tileNumber[0], false);
+                    newSantoriniMapArrows.setSelectedTile(tileNumber[1], false);
+                    setWorker(selectedWorker);
+                    goOut = true;
                     break;
                 default:
-                    goOut = true;
-                    if (keyboard != 13)
-                        printErr("NO KEYBOARD CAUGHT");
+                    printErr("NO KEYBOARD CAUGHT");
             }
         }while (!goOut);
     }
 
     public void playerMoveHisWorker() {
         List<Integer> availableSquare = availableMoveSquare();
+        List<Integer> availableTiles = new ArrayList<>();
+        for (Integer square : availableSquare)
+            availableTiles.add(square - 1);
 
+        newSantoriniMapArrows.setAvailableTiles(availableTiles);
+        newSantoriniMapArrows.printMap();
+
+        moveResponse = moveWorker(selectWithArrowsTile());
+        //seleziono con frecce tile e la coloro di giallo con setSelectedTile
+        //quando enter per confermare la scelta, allora resetto sia selected che available
+
+        printDebug("FROM SERVER: " + availableSquare);
         printDebug("MOVEWORKER");
         controlWaitEnter("endTurn");
         endTurn();
@@ -224,6 +245,7 @@ public class Cli extends ClientGameController {
     public void playerBuild() {
         List<Integer> availableSquare = availableBuildSquare();
 
+        printDebug("FROM SERVER: " + availableSquare);
         printDebug("BUILDWORKER");
         controlWaitEnter("endTurn");
         endTurn();
@@ -290,14 +312,6 @@ public class Cli extends ClientGameController {
         }
 
         this.numberOfPlayers = Integer.parseInt(keyboard);
-    }
-
-    public int[] getTileNumber() {
-        return tileNumber;
-    }
-
-    public void setTileNumber(int tileNumber, int position) {
-        this.tileNumber[position] = tileNumber;
     }
 
     //------------------------------
@@ -382,9 +396,9 @@ public class Cli extends ClientGameController {
 
     public void printWaitingStartTurn() {
         if(numberOfPlayers==2)
-            printRed("WAITING FOR OTHER PLAYER START HIS TURN");
+            printRed("WAITING FOR OTHER PLAYER START HIS TURN\n");
         else
-            printRed("WAITING FOR OTHER PLAYERS START THEM TURN");
+            printRed("WAITING FOR OTHER PLAYERS START THEM TURN\n");
     }
 
     //-----CARDS-----
@@ -519,6 +533,10 @@ public class Cli extends ClientGameController {
         return split;
     }
 
+    public int selectWithArrowsTile() {
+        return -1;
+    }
+
     //-----MENU-----
     public void printMenu(boolean isFirstPlayer, boolean constraint) {
         clearShell();
@@ -635,7 +653,7 @@ public class Cli extends ClientGameController {
         int counter = 0, size = availableActions.size();
         boolean goOut = false, firstPosition = true, lastPosition = false;
 
-        clearShell();
+        clearAndPrintInfo(opponents, getPlayerFromNickname(getNickName(), actualPlayers), deck);
         /*printWhite("[CHAT]  [BOARD]  ");
         printYellow("[ACTIONS]");
         printWhite("  [OPPONENTS]  [POWER]\n");
@@ -650,12 +668,10 @@ public class Cli extends ClientGameController {
         do {
             switch (keyboard) {
                 case 184:
-                    //printDebug("HERE");
                     if (!lastPosition)
                         counter++;
                     break;
                 case 183:
-                    //printDebug("HERE");
                     if (!firstPosition)
                         counter--;
                     break;
@@ -707,20 +723,13 @@ public class Cli extends ClientGameController {
                 break;
             case "MOVE":
                 playerMoveHisWorker();
-                //move
                 break;
             case "BUILD":
                 playerBuild();
-                //build;
                 break;
             case "SELECT WORKER":
                 playerSelectWorker();
-                //setWorker();
                 break;
-            case "CHALLENGER CHOICE":
-                //challengerchoice
-                break;
-
             default:
                 printErr("ERROR IN SELECTED ACTION");
         }

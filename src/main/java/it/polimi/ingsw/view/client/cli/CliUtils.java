@@ -244,7 +244,7 @@ public class CliUtils {
                     keyboardIn = waitEnter();
                 }while(keyboardIn != 13 && keyboardIn != 186);
             default:
-                printErr("NO KEYBOARD CATCHED");
+                printErr("STRING ERROR IN CONTROL_WAIT_ENTER");
         }
         return keyboardIn;
     }

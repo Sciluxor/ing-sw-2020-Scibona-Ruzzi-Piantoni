@@ -143,9 +143,10 @@ public class NewSantoriniMapArrows {
 
     public void setAvailableTiles(List<Integer> availableTiles) {
         this.availableTiles.addAll(availableTiles);
+        setAvailableTilesBackground(availableTiles);
     }
 
-    public void setAvailableTilesBackground(List<Integer> availableTiles) {
+    private void setAvailableTilesBackground(List<Integer> availableTiles) {
         for(int availableTile: availableTiles)
             tile[availableTile].setAvailable(true);
     }
@@ -163,6 +164,10 @@ public class NewSantoriniMapArrows {
 
     public String setBlueBackgroundColor(String string) {
         return Color.BACKGROUND_BLUE + string + Color.RESET;
+    }
+
+    public void setSelectedTile (int tileNumber, boolean selected) {
+        this.tile[tileNumber].setSelected(selected);
     }
 
     //----- GETTER & SETTER -----
