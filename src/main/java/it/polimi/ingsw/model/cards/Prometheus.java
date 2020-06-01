@@ -71,7 +71,7 @@ public class Prometheus extends Card {
     public boolean wrongBuild(GameMap gameMap,Worker worker,Directions directions){
         List<Directions> possibleMove = notUpMove(gameMap,worker);
         return possibleMove.size() <= 1 && (possibleMove.size() != 1 || (possibleMove.get(0).equals(directions) &&
-                gameMap.getMap().get(worker.getBoardPosition().getCanAccess().get(directions) -1).getBuildingLevel() < worker.getBoardPosition().getBuildingLevel()));
+                gameMap.getMap().get(worker.getBoardPosition().getCanAccess().get(directions) -1).getBuildingLevel() >= worker.getBoardPosition().getBuildingLevel()));
     }
 
     @Override
