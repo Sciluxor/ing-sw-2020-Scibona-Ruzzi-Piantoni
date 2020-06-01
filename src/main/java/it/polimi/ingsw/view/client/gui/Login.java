@@ -78,7 +78,7 @@ public class Login extends JPanel{
         add(portlabel);
 
         address.setBounds((int) (frameSize.width * 40/100), (int) (frameSize.height * 65/100), frameSize.width * 20/100,frameSize.height * 3/100);
-        address.setText("127.0.0.1");
+        address.setText("54.146.79.183");
         add(address);
         addresslabel.setBounds((int) (frameSize.width * 29.5/100), (int) (frameSize.height * 64/100), frameSize.width * 10/100,frameSize.height * 5/100);
         add(addresslabel);
@@ -91,7 +91,7 @@ public class Login extends JPanel{
     private class Send implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (!nickname.getText().equals("") && nickname.getText().length() > ConstantsContainer.MIN_LENGHT_NICK &&  nickname.getText().length() <= ConstantsContainer.MAX_LENGHT_NICK &&
+            if (!nickname.getText().equals("") && nickname.getText().length() >= ConstantsContainer.MIN_LENGHT_NICK &&  nickname.getText().length() <= ConstantsContainer.MAX_LENGHT_NICK &&
                     !numberPlayers.getText().equals("") && (numberPlayers.getText().equals("2") || numberPlayers.getText().equals("3")) && firstConnection){
                 gui.setNamePlayer(nickname.getText());
                 gui.setNumberOfPlayers((Integer.parseInt(numberPlayers.getText())));
@@ -104,7 +104,7 @@ public class Login extends JPanel{
                 }
             }
             else{
-                if (!nickname.getText().equals("") && nickname.getText().length() > ConstantsContainer.MIN_LENGHT_NICK &&  nickname.getText().length() <= ConstantsContainer.MAX_LENGHT_NICK &&
+                if (!nickname.getText().equals("") && nickname.getText().length() >= ConstantsContainer.MIN_LENGHT_NICK &&  nickname.getText().length() <= ConstantsContainer.MAX_LENGHT_NICK &&
                         !numberPlayers.getText().equals("") && (numberPlayers.getText().equals("2") || numberPlayers.getText().equals("3"))){
                     gui.setNamePlayer(nickname.getText());
                     gui.setNumberOfPlayers((Integer.parseInt(numberPlayers.getText())));
