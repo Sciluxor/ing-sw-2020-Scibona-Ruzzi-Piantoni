@@ -305,6 +305,33 @@ class GameTest {
     }
 
     @Test
+    void createCardQueue() {
+        game.addPlayer(player1, viewPlayer1);
+        game.addPlayer(player2, viewPlayer2);
+        game.addPlayer(player3, viewPlayer3);
+        game.pickChallenger();
+        game.createCardQueue();
+        game.pickPlayer();
+        String name1 = game.getCurrentPlayer().getNickName();
+        game.pickPlayer();
+        String name2 = game.getCurrentPlayer().getNickName();
+        game.pickPlayer();
+        String name3 = game.getCurrentPlayer().getNickName();
+        game.pickPlayer();
+        assertEquals(game.getCurrentPlayer().getNickName(), name1);
+        game.pickPlayer();
+        assertEquals(game.getCurrentPlayer().getNickName(), name2);
+        game.pickPlayer();
+        assertEquals(game.getCurrentPlayer().getNickName(), name3);
+        game.pickPlayer();
+        assertEquals(game.getCurrentPlayer().getNickName(), name1);
+        game.pickPlayer();
+        assertEquals(game.getCurrentPlayer().getNickName(), name2);
+        game.pickPlayer();
+        assertEquals(game.getCurrentPlayer().getNickName(), name3);
+    }
+
+    @Test
     void checkCardIntoDeck() {
         assertFalse(game.checkCardIntoDeck("sbagliata"));
         assertTrue(game.checkCardIntoDeck("apollo"));

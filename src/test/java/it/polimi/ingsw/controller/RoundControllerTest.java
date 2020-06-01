@@ -76,10 +76,6 @@ class RoundControllerTest {
             game.createQueue();
         }
 
-        public void pickPlayer(){
-            game.pickPlayer();
-        }
-
         public int getNumClients(){
             return clients.size();
         }

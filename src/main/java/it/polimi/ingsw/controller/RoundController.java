@@ -99,6 +99,8 @@ public class RoundController {
         }
 
     public boolean checkCardsChoice(List<String> cards){
+        if(cards.size() != game.getNumberOfPlayers())
+            return false;
         for(String cardName : cards){
             if(game.getCardFromDeck(cardName) == null){
                 return false;
