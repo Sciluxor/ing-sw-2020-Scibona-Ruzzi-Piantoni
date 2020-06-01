@@ -32,7 +32,7 @@ public class Cli extends ClientGameController {
     private static List<Player> actualPlayers = new ArrayList<>();
     private List<String> availableActions = new ArrayList<>();
 
-    private Response moveResponse;
+    private Response fromServerResponse;
 
     public void start() {
 
@@ -84,7 +84,7 @@ public class Cli extends ClientGameController {
         endTurn();
         //mainThread.interrupt();
         printDebug("AFTER ENDTURN");
-        printWaitingStartTurn();
+        printWaitingStartTurn(numberOfPlayers);
     }
 
     public synchronized void playerChoosePower() {
@@ -103,7 +103,7 @@ public class Cli extends ClientGameController {
         controlWaitEnter("endTurn");
         endTurn();
         printDebug("AFTER ENDTURN");
-        printWaitingStartTurn();
+        printWaitingStartTurn(numberOfPlayers);
     }
 
     public synchronized void playerPlaceWorkers() {
@@ -167,7 +167,7 @@ public class Cli extends ClientGameController {
         controlWaitEnter("endTurn");
         endTurn();
         printDebug("END TURN");
-        printWaitingStartTurn();
+        printWaitingStartTurn(numberOfPlayers);
         newSantoriniMapArrows.resetAvailableTiles();
     }
 
@@ -232,19 +232,17 @@ public class Cli extends ClientGameController {
 
         newSantoriniMapArrows.setAvailableTiles(availableTiles);
         newSantoriniMapArrows.printMap();
-        clearAndPrintInfo(opponents, myPlayerOnServer, deck);
-
-        moveWorkerTextVersion();
+        printInfo(opponents, myPlayerOnServer, deck);
 
         //moveResponse = moveWorker(selectWithArrowsTile());
         //seleziono con frecce tile e la coloro di giallo con setSelectedTile
         //quando enter per confermare la scelta, allora resetto sia selected che available
-
         //printDebug("MOVEWORKER " + tile);
-        controlWaitEnter("endTurn");
-        endTurn();
-        printDebug("AFTER ENDTURN");
-        printWaitingStartTurn();
+
+        moveWorkerTextVersion();
+
+        mapNextAction(fromServerResponse);
+
     }
 
     private void moveWorkerTextVersion() {
@@ -254,17 +252,23 @@ public class Cli extends ClientGameController {
             printRed("INSERT COORDINATES IN WHICH YOU WANT TO MOVE: ");
             Integer[] coordinates = getCoordinatesFromString(input());
             tile = newSantoriniMapArrows.getTileFromCoordinate(coordinates[0], coordinates[1]);
+            printDebug("TILE " + (tile+1));
+            //newSantoriniMapArrows.removeTileFromAvailableTiles(tile);
             newSantoriniMapArrows.setSelectedTile(tile, true);
             newSantoriniMapArrows.printMap();
             keyboard = controlWaitEnter("confirm");
-            if(keyboard != 13)
+            if(keyboard != 13) {
                 newSantoriniMapArrows.setSelectedTile(tile, false);
+                clearShell();
+                newSantoriniMapArrows.printMap();
+                printInfo(opponents, myPlayerOnServer, deck);
+            }
         }while(keyboard != 13);
 
         newSantoriniMapArrows.setSelectedTile(tile, false);
         newSantoriniMapArrows.resetAvailableTiles();
 
-        moveResponse = moveWorker(tile+1);
+        fromServerResponse = moveWorker(tile+1);
         printDebug("MOVEWORKER: " + (tile+1));
     }
 
@@ -276,7 +280,7 @@ public class Cli extends ClientGameController {
         controlWaitEnter("endTurn");
         endTurn();
         printDebug("AFTER ENDTURN");
-        printWaitingStartTurn();
+        printWaitingStartTurn(numberOfPlayers);
     }
 
     //-------------------------------
@@ -412,13 +416,6 @@ public class Cli extends ClientGameController {
         }
     }
 
-    public void printWaitingStartTurn() {
-        if(numberOfPlayers==2)
-            printRed("WAITING FOR OTHER PLAYER START HIS TURN\n");
-        else
-            printRed("WAITING FOR OTHER PLAYERS START THEM TURN\n");
-    }
-
     //-----CARDS-----
 
     public void orderCards(String s) {
@@ -532,7 +529,7 @@ public class Cli extends ClientGameController {
         boolean wrongSplit;
 
         while(split.length != 2) {
-            printRed("WRONG NUMBER OF PARAMETERS!\nPLEASE, REINSERT COORDINATES (from 0 up to 4): ");
+            printRed(setBackground("WRONG NUMBER OF PARAMETERS!\nPLEASE, REINSERT COORDINATES (from 0 up to 4): ", Color.BACKGROUND_YELLOW));
             split = splitter(input());
         }
 
@@ -747,7 +744,7 @@ public class Cli extends ClientGameController {
 
                 keyboard = controlWaitEnter("up&down");
             }
-        }while (!goOut);
+        }while (!goOut && counter == 0);
 
         return counter;
     }
@@ -1066,7 +1063,7 @@ public class Cli extends ClientGameController {
             //selectAction --> move / build
         } else {
             printRed("IT'S NOT YOUR TURN! " + nick.toUpperCase() + " IS STARTING HIS TURN!\n");
-            printWaitingStartTurn();
+            printWaitingStartTurn(numberOfPlayers);
         }
     }
 }

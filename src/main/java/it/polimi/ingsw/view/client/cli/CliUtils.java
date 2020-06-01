@@ -92,9 +92,16 @@ public class CliUtils {
 
     public static void printWaitForOtherPlayers(int numberOfPlayers) {
         if(numberOfPlayers==2)
-            printRed("WAITING FOR OTHER PLAYER DOES HIS ACTIONS");
+            printRed("WAITING FOR OTHER PLAYER DOES HIS ACTIONS\n");
         else
-            printRed("WAITING FOR OTHER PLAYERS DO THEIR ACTIONS");
+            printRed("WAITING FOR OTHER PLAYERS DO THEIR ACTIONS\n");
+    }
+
+    public static void printWaitingStartTurn(int numberOfPlayers) {
+        if(numberOfPlayers==2)
+            printRed("WAITING FOR OTHER PLAYER START HIS TURN\n");
+        else
+            printRed("WAITING FOR OTHER PLAYERS START THEM TURN\n");
     }
 
     //------------ GENERIC -------------------------
@@ -243,8 +250,9 @@ public class CliUtils {
                 do {
                     keyboardIn = waitEnter();
                 }while(keyboardIn != 13 && keyboardIn != 186);
+                break;
             default:
-                printErr("STRING ERROR IN CONTROL_WAIT_ENTER");
+                printErr("CASE ERROR IN CONTROL_WAIT_ENTER");
         }
         return keyboardIn;
     }
@@ -274,6 +282,10 @@ public class CliUtils {
         }
 
         return returnedColor;
+    }
+
+    public static String setBackground (String string, Color background) {
+        return background + string + Color.RESET;
     }
 
 }

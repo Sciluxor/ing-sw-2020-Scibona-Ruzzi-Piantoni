@@ -146,6 +146,10 @@ public class NewSantoriniMapArrows {
         setAvailableTilesBackground(availableTiles);
     }
 
+    public void removeTileFromAvailableTiles(Integer tileToRemove) {
+        this.availableTiles.remove(tileToRemove);
+    }
+
     private void setAvailableTilesBackground(List<Integer> availableTiles) {
         for(int availableTile: availableTiles)
             tile[availableTile].setAvailable(true);
@@ -163,7 +167,7 @@ public class NewSantoriniMapArrows {
     }
 
     public String setBlueBackgroundColor(String string) {
-        return Color.BACKGROUND_BLUE + string + Color.RESET;
+        return setBackground(string, Color.BACKGROUND_BLUE);
     }
 
     public void setSelectedTile (int tileNumber, boolean selected) {

@@ -130,11 +130,11 @@ public class Tile {
     }
 
     private String setBackgroundColor (String string) {
-        if(available && !hasPlayer)
+        if(available && !hasPlayer && !selected)
             return Color.BACKGROUND_GREEN + string + Color.RESET;
         else if(selected)
             return Color.BACKGROUND_YELLOW + string + Color.RESET;
-        else
-            return string;
+
+        return string;
     }
 }
