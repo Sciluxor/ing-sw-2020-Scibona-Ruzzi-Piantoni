@@ -240,6 +240,7 @@ public class Board {
     MP3 win;
     MP3 lose;
     MP3 yourTurn;
+    MP3 tower;
 
     public void show(Gui instance, Dimension screen, Integer numberOfPlayer, List<Player> players,List<Player> players2, String nickname) throws IOException {
 
@@ -355,7 +356,8 @@ public class Board {
         build = new MP3("resources/Music/Build.mp3");
         win = new MP3("resources/Music/win.mp3");
         lose = new MP3("resources/Music/lose.mp3");
-        yourTurn = new MP3("resources/Music/your-turn.mp3");
+        yourTurn = new MP3("resources/Music/your_turn.mp3");
+        tower = new MP3("resources/Music/complete_tower1.mp3");
 
 
 
@@ -2208,7 +2210,7 @@ public class Board {
     private class BuildDome implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-            build.play();
+            tower.play();
             responce = gui.buildWorker(tileBuildChoosen + 1, Building.DOME);
             mapButtons[tileBuildChoosen].setIcon(lvl3Dome.getIcon());
 
@@ -2228,7 +2230,12 @@ public class Board {
     private class BuildDomeAtlas implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-            build.play();
+            if (gui.getLevel(tileBuildChoosen + 1) == 3){
+                tower.play();
+            }
+            else {
+                build.play();
+            }
             if (gui.getLevel(tileBuildChoosen + 1) == 0){
                 mapButtons[tileBuildChoosen].setIcon(dome.getIcon());
             }

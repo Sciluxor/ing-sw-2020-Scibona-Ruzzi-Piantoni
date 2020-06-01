@@ -72,6 +72,14 @@ class RoundControllerTest {
             return game.getGameMap().getMap().get(tile-1).hasPlayer();
         }
 
+        public void createQueue(){
+            game.createQueue();
+        }
+
+        public void pickPlayer(){
+            game.pickPlayer();
+        }
+
         public int getNumClients(){
             return clients.size();
         }
@@ -149,6 +157,8 @@ class RoundControllerTest {
         controller.getActualPlayers().get(2).setPower(deck.get("athena"));
         controller.assignPermCon();
 
+        controller.createQueue();
+
         Integer[] tile1 = {0,0};
         Integer[] tile2 = {4,4};
         controller.setCurrPlayer(controller.getActualPlayers().get(1));
@@ -166,7 +176,7 @@ class RoundControllerTest {
 
         controller.changeSquare(8);
         controller.setGameStatus(Response.STARTTURN);
-        controller.setCurrPlayer(controller.getActualPlayers().get(1));
+        controller.changeTurnPlayer(message);
         controller.getActualPlayers().get(1).setTurnStatus(TurnStatus.PLAYTURN);
         controller.getActualPlayers().get(0).setTurnStatus(TurnStatus.IDLE);
         controller.getActualPlayers().get(2).setTurnStatus(TurnStatus.IDLE);
@@ -367,6 +377,7 @@ class RoundControllerTest {
 
         Message workMessage = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID(),
                 MessageType.WORKERCHOICE, MessageSubType.ANSWER,"worker1");
+        System.out.println(controller.getCurrentPlayer().getNickName());
         controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(workMessage);
 
         map.get(0).setHasPlayer(false);

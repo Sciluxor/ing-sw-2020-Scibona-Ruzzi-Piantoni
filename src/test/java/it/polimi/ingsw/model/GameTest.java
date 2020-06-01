@@ -279,11 +279,11 @@ class GameTest {
 
     @Test
     void createQueue() {
-        assertThrows(NullPointerException.class , () -> game.createQueue(null));
         game.addPlayer(player1, viewPlayer1);
         game.addPlayer(player2, viewPlayer2);
         game.addPlayer(player3, viewPlayer3);
-        game.createQueue("due");
+        game.setFirstPlayer(player2.getNickName());
+        game.createQueue();
         game.pickPlayer();
         assertEquals(game.getCurrentPlayer(), game.getPlayers().get(1));
         game.pickPlayer();
@@ -395,7 +395,8 @@ class GameTest {
         game.addPlayer(player1, viewPlayer1);
         game.addPlayer(player2, viewPlayer2);
         game.addPlayer(player3, viewPlayer3);
-        game.createQueue("due");
+        game.setFirstPlayer(player2.getNickName());
+        game.createQueue();
         game.pickPlayer();
         assertEquals(game.getCurrentPlayer(), game.getPlayers().get(1));
         game.pickPlayer();

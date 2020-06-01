@@ -23,6 +23,8 @@ public class Game extends Observable<Response> {
     private List<Player> settedPlayers;
     private String lastLosePlayer;
     private String stopper = null;
+    private String firstPlayer;
+    private String challenger;
     private boolean hasStopper;
     private List<Player> losePlayers = new ArrayList<>();
     private int configPlayer;
@@ -34,7 +36,7 @@ public class Game extends Observable<Response> {
     private final String gameID;
     private List<Color> availableColors;
     private List<String> availableCards;
-    private PlayerQueue playerQueue;
+    private PlayerQueue playerQueue = new PlayerQueue(new ArrayList<>());
     private Random rand;
 
     private boolean hasWinner;
@@ -53,6 +55,10 @@ public class Game extends Observable<Response> {
         availableColors = new ArrayList<>();
         this.gameID = gameID;
         availableColors.addAll(Arrays.asList(Color.values()));
+    }
+
+    public void setFirstPlayer(String firstPlayer) {
+        this.firstPlayer = firstPlayer;
     }
 
     public boolean hasStopper() {
@@ -277,25 +283,42 @@ public class Game extends Observable<Response> {
         Player challenger = settedPlayers.get(numChallenger);
         challenger.setTurnStatus(TurnStatus.PLAYTURN);
         currentPlayer = challenger;
+        this.challenger = challenger.getNickName();
         return challenger;
     }
 
 
-    public void createQueue(String nickname) {
-        if(nickname == null)
-            throw new NullPointerException("null nickname");
-
+    public void createQueue() {
+        playerQueue.clear();
         List<Player> queue = new ArrayList<>();
 
         for(Player player1: settedPlayers) {
-            if (player1.getNickName().equalsIgnoreCase(nickname)) {
+            if (player1.getNickName().equalsIgnoreCase(firstPlayer)) {
                 queue.add(player1);
                 break;
             }
         }
         for(Player player1: settedPlayers) {
-            if(!player1.getNickName().equalsIgnoreCase(nickname)) {
+            if(!player1.getNickName().equalsIgnoreCase(firstPlayer)) {
                 queue.add(player1);
+            }
+        }
+
+        this.playerQueue = new PlayerQueue(queue);
+    }
+
+    public void createCardQueue(){
+        List<Player> queue = new ArrayList<>();
+
+        for(Player player1: settedPlayers) {
+            if (!player1.getNickName().equalsIgnoreCase(challenger)) {
+                queue.add(player1);
+            }
+        }
+        for(Player player1: settedPlayers) {
+            if(player1.getNickName().equalsIgnoreCase(challenger)) {
+                queue.add(player1);
+                break;
             }
         }
 
