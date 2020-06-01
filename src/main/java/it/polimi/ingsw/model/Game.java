@@ -289,6 +289,7 @@ public class Game extends Observable<Response> {
 
 
     public void createQueue() {
+        playerQueue.clear();
         List<Player> queue = new ArrayList<>();
 
         for(Player player1: settedPlayers) {
@@ -312,17 +313,16 @@ public class Game extends Observable<Response> {
         for(Player player1: settedPlayers) {
             if (!player1.getNickName().equalsIgnoreCase(challenger)) {
                 queue.add(player1);
-                break;
             }
         }
         for(Player player1: settedPlayers) {
             if(player1.getNickName().equalsIgnoreCase(challenger)) {
                 queue.add(player1);
+                break;
             }
         }
 
         this.playerQueue = new PlayerQueue(queue);
-
     }
 
     public boolean checkCardIntoDeck(String card) { return deck.get(card) != null;}

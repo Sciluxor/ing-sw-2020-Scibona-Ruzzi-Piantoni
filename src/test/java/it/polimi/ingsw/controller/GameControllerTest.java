@@ -76,7 +76,7 @@ class GameControllerTest {
         }
 
         public void createQueue(){
-            game.createQueue("secondo");
+            game.createQueue();
         }
 
         public void setCurrPlayer(Player player){game.setCurrentPlayer(player);

@@ -90,7 +90,8 @@ public class RoundController {
 
             if (checkCardsChoice(cards) && checkFirstPlayerChoice(firstPlayer)) {
                 game.setAvailableCards(cards);
-                game.createQueue(firstPlayer);
+                game.setFirstPlayer(firstPlayer);
+                game.createCardQueue();
                 game.setGameStatus(Response.CHALLENGERCHOICEDONE);
             } else {
                 game.setGameStatus(Response.CHALLENGERCHOICEERROR);
@@ -127,6 +128,8 @@ public class RoundController {
                 game.removeCard(cardName);
                 game.getCurrentPlayer().setPower(game.getCardFromDeck(cardName));
                 game.setGameStatus(Response.CARDCHOICEDONE);
+                if(game.getAvailableCards().isEmpty())
+                    game.createQueue();
             }
         }
 
