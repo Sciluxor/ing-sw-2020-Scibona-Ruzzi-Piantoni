@@ -79,7 +79,7 @@ public class Cli extends ClientGameController {
         endTurn();
         //mainThread.interrupt();
         printDebug("AFTER ENDTURN");
-        printStartTurn();
+        printWaitingStartTurn();
     }
 
     public synchronized void playerChoosePower() {
@@ -98,7 +98,7 @@ public class Cli extends ClientGameController {
         controlWaitEnter("endTurn");
         endTurn();
         printDebug("AFTER ENDTURN");
-        printStartTurn();
+        printWaitingStartTurn();
     }
 
     public synchronized void playerPlaceWorkers() {
@@ -162,7 +162,7 @@ public class Cli extends ClientGameController {
         controlWaitEnter("endTurn");
         endTurn();
         printDebug("END TURN");
-        printStartTurn();
+        printWaitingStartTurn();
         newSantoriniMapArrows.resetAvailableTiles();
     }
 
@@ -315,7 +315,7 @@ public class Cli extends ClientGameController {
         }
     }
 
-    public void printStartTurn() {
+    public void printWaitingStartTurn() {
         if(numberOfPlayers==2)
             printRed("WAITING FOR OTHER PLAYER START HIS TURN");
         else
@@ -875,7 +875,7 @@ public class Cli extends ClientGameController {
 
     @Override
     public synchronized void onLobbyDisconnection() {
-        clearShell();
+        /*clearShell();
         printRed("YOU ARE GOING TO BE DISCONNECTED FROM THE LOBBY. DO YOU WANT TO BE RECONNECTED OR DO YOU WANT TO CLOSE THE APPLICATION ?\n");
         printRed("  [RECONNECT]\n  [CLOSE]\n");
 
@@ -900,7 +900,7 @@ public class Cli extends ClientGameController {
                     if(keyboardIn != 13)
                         printErr("NO KEYBOARD CAUGHT");
             }
-        }while (!goOut);
+        }while (!goOut);*/
 
     }
 
@@ -932,6 +932,14 @@ public class Cli extends ClientGameController {
 
     @Override
     public synchronized void startTurn(String nick, boolean isYourPlayer) {
-
+        clearAndPrintInfo(opponents, getPlayerFromNickname(getNickName(), actualPlayers), deck);
+        if(isYourPlayer) {
+            printRed("IT'S YOUR TURN!\n");
+            controlWaitEnter("enter");
+            //selectAction --> move / build
+        } else {
+            printRed("IT'S NOT YOUR TURN! " + nick.toUpperCase() + " IS STARTING HIS TURN!\n");
+            printWaitingStartTurn();
+        }
     }
 }

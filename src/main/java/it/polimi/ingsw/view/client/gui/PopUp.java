@@ -210,7 +210,7 @@ public class PopUp {
 
                 label1 = new JLabel();
                 try {
-                    label1 = ImageHandler.setImage("resources/Graphics/Texts/there_was_an_error.png", 97, 100, labelSize.width, labelSize.height);
+                    label1 = ImageHandler.setImage("resources/Graphics/Texts/there_was_an_error_with.png", 97, 100, labelSize.width, labelSize.height);
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }

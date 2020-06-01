@@ -23,7 +23,7 @@ public class NotTurn extends JDesktopPane {
         setPreferredSize(frameSize);
         setLayout(null);
 
-        JLabel label1 = ImageHandler.setImage("resources/Graphics/Texts/it's_your_turn.png", 99, 99, frameSize.width * 60/100, frameSize.height * 22/100);
+        JLabel label1 = ImageHandler.setImage("resources/Graphics/Texts/it's_not_your_turn.png", 99, 99, frameSize.width * 60/100, frameSize.height * 22/100);
         label1.setBounds((int) (frameSize.width * 20/100), frameSize.height * 39/100, frameSize.width * 60/100, frameSize.height * 22/100);
         add(label1);
 

@@ -11,6 +11,7 @@ import static it.polimi.ingsw.view.client.cli.CliUtils.*;
 public class MainTestPrintMapCli {
 
     private static NewSantoriniMapArrows mapArrows = new NewSantoriniMapArrows();
+    private static int previousTile = -1;
 
     public static void main(String[] args) {
 
@@ -33,10 +34,10 @@ public class MainTestPrintMapCli {
         String keyboard;
         Scanner input = new Scanner(System.in);
 
-        printRed("Inserire le coordinate in cui mettere il worker: ");
+        printRed("INSERT COORDINATES IN WHICH YOU WANT TO INSERT YOUR WORKER: ");
         int[] coordinate = getCoordinatesFromString();
-        int tile = mapArrows.getTileFromCoordinate(coordinate[0], coordinate[1]);
-        mapArrows.setTileHasPlayer(true, tile, Color.ANSI_PURPLE);
+        previousTile = mapArrows.getTileFromCoordinate(coordinate[0], coordinate[1]);
+        mapArrows.setTileHasPlayer(true, previousTile, Color.ANSI_PURPLE);
 
         mapArrows.printMap();
 
@@ -87,8 +88,10 @@ public class MainTestPrintMapCli {
             if(!keyboard.equals("MOVE") && !keyboard.equals("BUILD"))
                 break;
 
-            printRed("INSERT THE NUMBER OF THE TILE YOU WANT TO SELECT: ");
-            coordinate = mapArrows.getCoordinatesFromTile(Integer.parseInt(CliUtils.input()));
+            printRed("INSERT COORDINATES: ");
+            String[] split = splitter(input());
+            coordinate[0] = Integer.parseInt(split[0]);
+            coordinate[1] = Integer.parseInt(split[1]);
 
             selectCorrectExec(keyboard, coordinate);
 
@@ -101,12 +104,13 @@ public class MainTestPrintMapCli {
     public static void selectCorrectExec(String choice, int[] coordinate) {
         int tile = mapArrows.getTileFromCoordinate(coordinate[0], coordinate[1]);
 
-        if(choice.equals("MOVE"))
+        if(choice.equals("MOVE")) {
+            mapArrows.setTileHasPlayer(false, previousTile, Color.ANSI_PURPLE);
             mapArrows.setTileHasPlayer(true, tile, Color.ANSI_PURPLE);
-        if(choice.equals("BUILD")) {
-            printRed("Inserire il tipo di edificio da costruire: ");
-            String buildingType = CliUtils.input().toUpperCase();
-            mapArrows.setTileBuildingType(buildingType, tile);
+            previousTile = tile;
+        } else if(choice.equals("BUILD")) {
+            printRed("INSERT THE TYPE OF BUILDING YOU WANT TO BUILD: ");
+            mapArrows.setTileBuildingType(CliUtils.input().toUpperCase(), tile);
         }
 
     }
