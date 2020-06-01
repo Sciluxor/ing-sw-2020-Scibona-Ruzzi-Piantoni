@@ -59,6 +59,18 @@ GameMap map;
     }
 
     @Test
+    void setBuildingLevel(){
+        map.getMap().get(16).setBuildingLevel(3);
+        assertEquals(3,map.getMap().get(16).getBuildingLevel());
+        map.getMap().get(16).setBuildingLevel(2);
+        assertEquals(2,map.getMap().get(16).getBuildingLevel());
+        map.getMap().get(18).setBuildingLevel(1);
+        assertEquals(1,map.getMap().get(18).getBuildingLevel());
+        map.getMap().get(23).setBuildingLevel(0);
+        assertEquals(0,map.getMap().get(23).getBuildingLevel());
+    }
+
+    @Test
     void hasPlayer() {
         assertFalse(map.getMap().get(13).hasPlayer());
     }
