@@ -1,4 +1,5 @@
 package it.polimi.ingsw.controller;
+import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Response;
 import it.polimi.ingsw.model.cards.Card;
 import it.polimi.ingsw.model.cards.CardLoader;
@@ -77,6 +78,10 @@ class GameControllerTest {
 
         public void createQueue(){
             game.createQueue();
+        }
+
+        public Game getGame(){
+            return game;
         }
 
         public void setCurrPlayer(Player player){game.setCurrentPlayer(player);
@@ -278,8 +283,6 @@ class GameControllerTest {
                 ,controller.getCurrentPlayer().getNickName(), MessageType.ENDTURN,MessageSubType.UPDATE);
         controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(message2);
         assertEquals(Response.CARDCHOICE,controller.getGameStatus());
-        assertEquals("secondo",controller.getCurrentPlayer().getNickName());
-        assertTrue(viewPlayer2.isYourTurn());
 
         message2 = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID()
                 ,controller.getCurrentPlayer().getNickName(), MessageType.ENDTURN,MessageSubType.UPDATE);
@@ -419,6 +422,7 @@ class GameControllerTest {
         controller.addUserID(viewPlayer3,"UID2");
         viewPlayer3.getConnection().setUserID("UID2");
         controller.setGameStatus(Response.PLACEWORKERS);
+        controller.getGame().setFirstPlayer("secondo");
         controller.createQueue();
 
         //
@@ -474,6 +478,7 @@ class GameControllerTest {
         controller.addUserID(viewPlayer3,"UID2");
         viewPlayer3.getConnection().setUserID("UID2");
         controller.setGameStatus(Response.PLACEWORKERSDONE);
+        controller.getGame().setFirstPlayer("secondo");
         controller.createQueue();
 
         //

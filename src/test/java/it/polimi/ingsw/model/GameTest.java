@@ -282,6 +282,7 @@ class GameTest {
         game.addPlayer(player1, viewPlayer1);
         game.addPlayer(player2, viewPlayer2);
         game.addPlayer(player3, viewPlayer3);
+        game.setFirstPlayer(player2.getNickName());
         game.createQueue();
         game.pickPlayer();
         assertEquals(game.getCurrentPlayer(), game.getPlayers().get(1));
@@ -394,6 +395,7 @@ class GameTest {
         game.addPlayer(player1, viewPlayer1);
         game.addPlayer(player2, viewPlayer2);
         game.addPlayer(player3, viewPlayer3);
+        game.setFirstPlayer(player2.getNickName());
         game.createQueue();
         game.pickPlayer();
         assertEquals(game.getCurrentPlayer(), game.getPlayers().get(1));

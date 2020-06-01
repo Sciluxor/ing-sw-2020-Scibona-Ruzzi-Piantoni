@@ -36,7 +36,7 @@ public class Game extends Observable<Response> {
     private final String gameID;
     private List<Color> availableColors;
     private List<String> availableCards;
-    private PlayerQueue playerQueue;
+    private PlayerQueue playerQueue = new PlayerQueue(new ArrayList<>());
     private Random rand;
 
     private boolean hasWinner;
