@@ -52,6 +52,7 @@ public class GameController implements Observer<Message> {
         }
 
         addPlayer(view,nick);
+        Server.LOGGER.info("Inserted with a new Nickname -> || GameID: " + getGameID() + " || UserID: "+ message.getSender() + " || NickName: " + message.getNickName());
 
     }
 

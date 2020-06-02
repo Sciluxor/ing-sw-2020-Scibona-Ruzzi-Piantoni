@@ -124,6 +124,7 @@ public class Server implements Runnable{
                 if (isStarted(match)) {
                     lobby.remove(match);
                     actualMatches.add(match);
+                    LOGGER.info("Game Started -> " + "|| GameID: " + match.getGameID());
                     break;
                 }
             }
@@ -137,6 +138,7 @@ public class Server implements Runnable{
             for (GameController match : actualMatches) {
                 if (match.hasWinner() || match.hasStopper()) {
                     toRemoveController.add(match);
+                    LOGGER.info("Game Terminated -> " + "|| GameID: " + match.getGameID());
                 }
             }
             for (GameController match : toRemoveController) {
@@ -258,6 +260,7 @@ public class Server implements Runnable{
         connection.setUserID(userID);
         controller.addUserID(view,userID);
         sendMsgToVirtualView(message,view);
+        LOGGER.info("Inserted in game -> || GameID: " + controller.getGameID() + " || UserID: "+ userID + " || NickName: " + message.getNickName());
     }
 
     public boolean isFull(GameController controller)
@@ -286,6 +289,7 @@ public class Server implements Runnable{
 
     public void handleDisconnection(String userID,ClientHandler connection,Message message) {
         synchronized (clientsLock) {
+            LOGGER.info("Disconnected -> " +" || UserID: "+ userID + " || NickName: " + message.getNickName() + " || Type: " + message.getSubType());
             if(message.getSubType().equals(MessageSubType.LOSEEXITREQUEST)){
                 GameController controller = getControllerFromUserID(message.getSender());
                 controllerFromUserID.remove(message.getSender());
@@ -294,7 +298,7 @@ public class Server implements Runnable{
             }
             else if (!userID.equalsIgnoreCase(ConstantsContainer.USERDIDDEF)) {
                 GameController controller = getControllerFromUserID(userID);
-                if (controller.isGameStarted()) {                             //mettere il caso di disconnection request se il game è già iniziato
+                if (controller.isGameStarted()) {
                              handleDisconnectionDuringGame(controller,message,connection);
 
                 } else {
