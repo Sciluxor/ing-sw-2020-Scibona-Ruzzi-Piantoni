@@ -280,11 +280,11 @@ public class Game extends Observable<Response> {
         }
 
         int numChallenger = rand.nextInt(numberOfPlayers-1);
-        Player challenger = settedPlayers.get(numChallenger);
-        challenger.setTurnStatus(TurnStatus.PLAYTURN);
-        currentPlayer = challenger;
-        this.challenger = challenger.getNickName();
-        return challenger;
+        Player newChallenger = settedPlayers.get(numChallenger);
+        newChallenger.setTurnStatus(TurnStatus.PLAYTURN);
+        currentPlayer = newChallenger;
+        this.challenger = newChallenger.getNickName();
+        return newChallenger;
     }
 
 
