@@ -10,6 +10,7 @@ import it.polimi.ingsw.utils.FlowStatutsLoader;
 import it.polimi.ingsw.view.server.VirtualView;
 import java.io.IOException;
 import java.util.*;
+import java.util.logging.Level;
 
 public class Server implements Runnable{
 
@@ -74,7 +75,7 @@ public class Server implements Runnable{
     public void startSocketServer(int port){
         try {
             this.socketHandler = new SocketHandler(port,this);
-            LOGGER.info("Server is listening on port: " + port);
+            LOGGER.log(Level.INFO,"Server is listening on port: {0}",Integer.toString(port));
             closeServerIfRequested();
             new Thread(this).start();
         }catch (IOException e){
@@ -124,7 +125,7 @@ public class Server implements Runnable{
                 if (isStarted(match)) {
                     lobby.remove(match);
                     actualMatches.add(match);
-                    LOGGER.info("Game Started -> " + "|| GameID: " + match.getGameID());
+                    LOGGER.log(Level.INFO,"Game Started -> || GameID: {0}", match.getGameID());
                     break;
                 }
             }
@@ -138,7 +139,7 @@ public class Server implements Runnable{
             for (GameController match : actualMatches) {
                 if (match.hasWinner() || match.hasStopper()) {
                     toRemoveController.add(match);
-                    LOGGER.info("Game Terminated -> " + "|| GameID: " + match.getGameID());
+                    LOGGER.log(Level.INFO,"Game Terminated -> || GameID: {0}", match.getGameID());
                 }
             }
             for (GameController match : toRemoveController) {
@@ -260,7 +261,8 @@ public class Server implements Runnable{
         connection.setUserID(userID);
         controller.addUserID(view,userID);
         sendMsgToVirtualView(message,view);
-        LOGGER.info("Inserted in game -> || GameID: " + controller.getGameID() + " || UserID: "+ userID + " || NickName: " + message.getNickName());
+        String log = String.format("Inserted in game -> || GameID: %s || UserID: %s || NickName: %s",controller.getGameID(),userID,message.getNickName());
+        LOGGER.info(log);
     }
 
     public boolean isFull(GameController controller)
@@ -289,7 +291,8 @@ public class Server implements Runnable{
 
     public void handleDisconnection(String userID,ClientHandler connection,Message message) {
         synchronized (clientsLock) {
-            LOGGER.info("Disconnected -> " +" || UserID: "+ userID + " || NickName: " + message.getNickName() + " || Type: " + message.getSubType());
+            String log = String.format("Disconnected -> || UserID: %s || NickName: %s || Type: %s",userID,message.getNickName(),message.getSubType().toString());
+            LOGGER.info(log);
             if(message.getSubType().equals(MessageSubType.LOSEEXITREQUEST)){
                 GameController controller = getControllerFromUserID(message.getSender());
                 controllerFromUserID.remove(message.getSender());

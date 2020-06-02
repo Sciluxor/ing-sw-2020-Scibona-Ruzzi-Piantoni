@@ -93,7 +93,8 @@ public class RoundController {
                 game.setAvailableCards(cards);
                 game.setFirstPlayer(firstPlayer);
                 game.createCardQueue();
-                Server.LOGGER.info("GameID : "+ game.getGameID() + " || Cards -> " + cards.toString() + " || First Player-> " + firstPlayer);
+                String log = String.format("GameID -> %s || Cards: %s || First Player: %s",game.getGameID(),cards.toString(),firstPlayer);
+                Server.LOGGER.info(log);
                 game.setGameStatus(Response.CHALLENGERCHOICEDONE);
             } else {
                 game.setGameStatus(Response.CHALLENGERCHOICEERROR);
@@ -132,7 +133,8 @@ public class RoundController {
                 game.removeCard(cardName);
                 game.getCurrentPlayer().setPower(game.getCardFromDeck(cardName));
                 game.setGameStatus(Response.CARDCHOICEDONE);
-                Server.LOGGER.info("GameID : "+ game.getGameID() + " -> " + game.getCurrentPlayer().getNickName() + " Has Chosen -> " + cardName);
+                String log = String.format("GameID -> %s || %s Has Chosen -> %s",game.getGameID(),game.getCurrentPlayer().getNickName(),cardName);
+                Server.LOGGER.info(log);
                 if(game.getAvailableCards().isEmpty())
                     game.createQueue();
             }
@@ -202,7 +204,8 @@ public class RoundController {
             game.setGameStatus(Response.MOVEWINMISMATCH);
 
         if(game.hasWinner()){
-            Server.LOGGER.info("GameID : "+ game.getGameID() + " -> " + "|| Move Winner: " + game.getWinner().getNickName());
+            String log = String.format("GameID -> %s || Move Winner: %s",game.getGameID(),game.getWinner().getNickName());
+            Server.LOGGER.info(log);
             game.setGameStatus(response);
             game.setGameStatus(Response.WIN);
         }
@@ -235,7 +238,7 @@ public class RoundController {
         }
 
         if(response.equals(Response.WIN)) {
-            game.setWinner(game.getCurrentPlayer());  // se c'è una vittoria bisogna settare prima la mossa e poi la vittoria per notificare in ordine
+            game.setWinner(game.getCurrentPlayer());
             game.setHasWinner(true);
             return game.getCurrentPlayer().getNickName().equals(((MoveWorkerMessage) message).getWinnerPlayer().getNickName());
         }
@@ -273,7 +276,8 @@ public class RoundController {
              game.setGameStatus(Response.BUILDWINMISMATCH);
 
         if(game.hasWinner()){
-            Server.LOGGER.info("GameID : "+ game.getGameID() + " -> " + "|| Build Winner: " + game.getWinner().getNickName());
+            String log = String.format("GameID -> %s || Build Winner: %s",game.getGameID(),game.getWinner().getNickName());
+            Server.LOGGER.info(log);
             game.setGameStatus(response);
             game.setGameStatus(Response.WIN);
         }

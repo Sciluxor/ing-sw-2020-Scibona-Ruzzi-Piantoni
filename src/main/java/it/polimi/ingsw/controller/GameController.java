@@ -413,7 +413,8 @@ public class GameController implements Observer<Message> {
     //
 
     public synchronized void processMessage(Message message){
-        Server.LOGGER.info("GameID : "+ getGameID() + " -> Received Message from -> || UserID: " + message.getSender() + " || Type: " + message.getType().toString() + " || SubType: " + message.getSubType().toString() );
+        String log = String.format("GameID -> %s || Received Message from -> || UserID: %s || Type: %s || SubType: %s",getGameID(),message.getSender(),message.getType().toString(),message.getSubType().toString());
+        Server.LOGGER.info(log);
         switch (message.getType()) {
             case CONFIG:
                 if (message.getSubType().equals(MessageSubType.ANSWER))
