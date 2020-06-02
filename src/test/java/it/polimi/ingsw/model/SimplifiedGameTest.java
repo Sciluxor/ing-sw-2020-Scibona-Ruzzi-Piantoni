@@ -253,5 +253,6 @@ class SimplifiedGameTest {
     @Test
     void setGameID() {
         simplifiedGame.setGameID("GID00");
+        assertEquals("GID00",simplifiedGame.getGameID());
     }
 }

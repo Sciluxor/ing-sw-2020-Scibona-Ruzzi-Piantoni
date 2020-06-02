@@ -172,4 +172,8 @@ public class SimplifiedGame{
     public Response getGameStatus(){ return this.gameStatus;}
 
     public void setGameID(String gameID){this.gameID = gameID;}
+
+    public String getGameID(){
+        return this.gameID;
+    }
 }

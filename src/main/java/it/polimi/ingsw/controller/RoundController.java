@@ -10,6 +10,7 @@ import it.polimi.ingsw.model.map.Square;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.Response;
 import it.polimi.ingsw.network.message.*;
+import it.polimi.ingsw.network.server.Server;
 import it.polimi.ingsw.utils.FlowStatutsLoader;
 
 import java.util.ArrayList;
@@ -92,6 +93,8 @@ public class RoundController {
                 game.setAvailableCards(cards);
                 game.setFirstPlayer(firstPlayer);
                 game.createCardQueue();
+                String log = String.format("GameID -> %s || Cards: %s || First Player: %s",game.getGameID(),cards.toString(),firstPlayer);
+                Server.LOGGER.info(log);
                 game.setGameStatus(Response.CHALLENGERCHOICEDONE);
             } else {
                 game.setGameStatus(Response.CHALLENGERCHOICEERROR);
@@ -130,6 +133,8 @@ public class RoundController {
                 game.removeCard(cardName);
                 game.getCurrentPlayer().setPower(game.getCardFromDeck(cardName));
                 game.setGameStatus(Response.CARDCHOICEDONE);
+                String log = String.format("GameID -> %s || %s Has Chosen -> %s",game.getGameID(),game.getCurrentPlayer().getNickName(),cardName);
+                Server.LOGGER.info(log);
                 if(game.getAvailableCards().isEmpty())
                     game.createQueue();
             }
@@ -191,7 +196,7 @@ public class RoundController {
             }
         }
         if(!response.equals(Response.NOTMOVED) && !areRightSquares(((MoveWorkerMessage)message).getModifiedSquare())) {
-            game.setGameStatus(Response.WRONGSQUAREMOVE);  //come faccio a tornare indietro? ormai ho già modificato, magari mettere una response diversa
+            game.setGameStatus(Response.WRONGSQUAREMOVE);
             mapNextAction(response);
             return;
         }
@@ -199,6 +204,8 @@ public class RoundController {
             game.setGameStatus(Response.MOVEWINMISMATCH);
 
         if(game.hasWinner()){
+            String log = String.format("GameID -> %s || Move Winner: %s",game.getGameID(),game.getWinner().getNickName());
+            Server.LOGGER.info(log);
             game.setGameStatus(response);
             game.setGameStatus(Response.WIN);
         }
@@ -231,7 +238,7 @@ public class RoundController {
         }
 
         if(response.equals(Response.WIN)) {
-            game.setWinner(game.getCurrentPlayer());  // se c'è una vittoria bisogna settare prima la mossa e poi la vittoria per notificare in ordine
+            game.setWinner(game.getCurrentPlayer());
             game.setHasWinner(true);
             return game.getCurrentPlayer().getNickName().equals(((MoveWorkerMessage) message).getWinnerPlayer().getNickName());
         }
@@ -266,10 +273,11 @@ public class RoundController {
         }
 
         if (!response.equals(Response.NOTBUILD) && !response.equals(Response.NOTBUILDPLACE) && !checkBuildVictory(message))
-             game.setGameStatus(Response.BUILDWINMISMATCH);  //vedere come gestire le build win.è diverso se lui vince ma in realtà non ha vinto, oppure se vince un altro ma per lui
-                                                                //non ha vinto nessuno, trattare in maniera diversa
+             game.setGameStatus(Response.BUILDWINMISMATCH);
 
         if(game.hasWinner()){
+            String log = String.format("GameID -> %s || Build Winner: %s",game.getGameID(),game.getWinner().getNickName());
+            Server.LOGGER.info(log);
             game.setGameStatus(response);
             game.setGameStatus(Response.WIN);
         }

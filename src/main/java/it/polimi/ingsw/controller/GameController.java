@@ -52,6 +52,7 @@ public class GameController implements Observer<Message> {
         }
 
         addPlayer(view,nick);
+        Server.LOGGER.info("Inserted with a new Nickname -> || GameID: " + getGameID() + " || UserID: "+ message.getSender() + " || NickName: " + message.getNickName());
 
     }
 
@@ -307,7 +308,7 @@ public class GameController implements Observer<Message> {
     //
 
 
-    public synchronized void handleTurnBeginning() {//to start timer
+    public synchronized void handleTurnBeginning() {
         if (!game.getCurrentPlayer().checkIfLoose(game.getGameMap())) {
               game.getCurrentPlayer().setTurnStatus(TurnStatus.PLAYTURN);
               game.setGameStatus(Response.STARTTURN);
@@ -317,7 +318,7 @@ public class GameController implements Observer<Message> {
         }
     }
 
-    public synchronized void handleEndTun(Message message){
+    public synchronized void handleEndTurn(Message message){
         stopRoundTimer();
         if(FlowStatutsLoader.isRightMessage(game.getGameStatus(),message.getType())) {
             game.getCurrentPlayer().setTurnStatus(TurnStatus.IDLE);
@@ -412,7 +413,8 @@ public class GameController implements Observer<Message> {
     //
 
     public synchronized void processMessage(Message message){
-
+        String log = String.format("GameID -> %s || Received Message from -> || UserID: %s || Type: %s || SubType: %s",getGameID(),message.getSender(),message.getType().toString(),message.getSubType().toString());
+        Server.LOGGER.info(log);
         switch (message.getType()) {
             case CONFIG:
                 if (message.getSubType().equals(MessageSubType.ANSWER))
@@ -427,7 +429,7 @@ public class GameController implements Observer<Message> {
                 if(!getViewFromUserID(message.getSender()).isYourTurn()){
                     getViewFromUserID(message.getSender()).handleNotYourTurn();
                 }else {
-                    handleEndTun(message);
+                    handleEndTurn(message);
                     break;
                 }
                 break;
