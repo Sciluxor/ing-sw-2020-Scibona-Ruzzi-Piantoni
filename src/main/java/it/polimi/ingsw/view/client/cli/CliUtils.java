@@ -284,6 +284,14 @@ public class CliUtils {
         return returnedColor;
     }
 
+    public static Player getPlayerFromNickName (List<Player> players, String nickName) {
+        for(Player player: players) {
+            if(player.getNickName().equalsIgnoreCase(nickName))
+                return player;
+        }
+        return null;
+    }
+
     public static String setBackground (String string, Color background) {
         return background + string + Color.RESET;
     }
