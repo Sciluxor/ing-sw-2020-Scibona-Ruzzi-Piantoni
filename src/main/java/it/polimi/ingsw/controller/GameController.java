@@ -308,7 +308,7 @@ public class GameController implements Observer<Message> {
     //
 
 
-    public synchronized void handleTurnBeginning() {//to start timer
+    public synchronized void handleTurnBeginning() {
         if (!game.getCurrentPlayer().checkIfLoose(game.getGameMap())) {
               game.getCurrentPlayer().setTurnStatus(TurnStatus.PLAYTURN);
               game.setGameStatus(Response.STARTTURN);
@@ -318,7 +318,7 @@ public class GameController implements Observer<Message> {
         }
     }
 
-    public synchronized void handleEndTun(Message message){
+    public synchronized void handleEndTurn(Message message){
         stopRoundTimer();
         if(FlowStatutsLoader.isRightMessage(game.getGameStatus(),message.getType())) {
             game.getCurrentPlayer().setTurnStatus(TurnStatus.IDLE);
@@ -413,7 +413,7 @@ public class GameController implements Observer<Message> {
     //
 
     public synchronized void processMessage(Message message){
-
+        Server.LOGGER.info("GameID : "+ getGameID() + " -> Received Message from -> || UserID: " + message.getSender() + " || Type: " + message.getType().toString() + " || SubType: " + message.getSubType().toString() );
         switch (message.getType()) {
             case CONFIG:
                 if (message.getSubType().equals(MessageSubType.ANSWER))
@@ -428,7 +428,7 @@ public class GameController implements Observer<Message> {
                 if(!getViewFromUserID(message.getSender()).isYourTurn()){
                     getViewFromUserID(message.getSender()).handleNotYourTurn();
                 }else {
-                    handleEndTun(message);
+                    handleEndTurn(message);
                     break;
                 }
                 break;

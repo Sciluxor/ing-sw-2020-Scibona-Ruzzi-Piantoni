@@ -373,7 +373,6 @@ class RoundControllerTest {
 
         Message workMessage = new Message(controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).getConnection().getUserID(),
                 MessageType.WORKERCHOICE, MessageSubType.ANSWER,"worker1");
-        System.out.println(controller.getCurrentPlayer().getNickName());
         controller.getViewFromNickName(controller.getCurrentPlayer().getNickName()).notify(workMessage);
 
         map.get(0).setHasPlayer(false);
