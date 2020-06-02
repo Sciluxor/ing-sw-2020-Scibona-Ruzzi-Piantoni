@@ -21,7 +21,7 @@ public class Cli extends ClientGameController {
     private String nickName;
     private int numberOfPlayers;
     private NewSantoriniMapArrows newSantoriniMapArrows = new NewSantoriniMapArrows();
-    private Color playerColor;
+    private Color myPlayerColor;
     private int[] tileNumber = new int[2];
     private int selectedWorker;
     private Player myPlayerOnServer;
@@ -151,11 +151,11 @@ public class Cli extends ClientGameController {
             }while (occupied);
 
             tileNumber[i] = keyboard;
-            newSantoriniMapArrows.setTileHasPlayer(true, tileNumber[i], playerColor);
+            newSantoriniMapArrows.setTileHasPlayer(true, tileNumber[i], myPlayerColor);
             newSantoriniMapArrows.printMap();
 
             if(controlWaitEnter("confirm")==186) {
-                newSantoriniMapArrows.setTileHasPlayer(false, tileNumber[i], playerColor);
+                newSantoriniMapArrows.setTileHasPlayer(false, tileNumber[i], myPlayerColor);
                 i--;
             }
             else
@@ -270,6 +270,8 @@ public class Cli extends ClientGameController {
         newSantoriniMapArrows.resetAvailableTiles();
 
         fromServerResponse = moveWorker(tile+1);
+        tileNumber[selectedWorker-1] = tile;
+
         printDebug("MOVEWORKER: " + (tile+1));
     }
 
@@ -304,7 +306,7 @@ public class Cli extends ClientGameController {
     }
 
     public void setAddress() {
-        printRed("INSERT THE IP ADDRESS (default as 127.0.0.1 - localhost): ");
+        printRed("INSERT THE IP ADDRESS (default as 127.0.0.1 - localhost || " + amazonAddress + " - AmazonServer): ");
         String address = input();
         if(!address.equals(""))
             this.amazonAddress = address;
@@ -822,7 +824,7 @@ public class Cli extends ClientGameController {
             if (!player.getNickName().equalsIgnoreCase(getNickName()))
                 opponents.add(player);
             else {
-                this.playerColor = getColorCliFromPlayer(player.getColor());
+                this.myPlayerColor = getColorCliFromPlayer(player.getColor());
                 this.myPlayerOnServer = player;
             }
         }
@@ -936,7 +938,28 @@ public class Cli extends ClientGameController {
 
     @Override
     public synchronized void updateBoard(String nick, List<Square> squares, MessageType type) {
+        Color playerColorToModify = Color.ANSI_GREEN;
+        if(nick.equalsIgnoreCase(getNickName()))
+            playerColorToModify = myPlayerColor;
+        else {
+            for(Player player: opponents) {
+                if(player.getNickName().equalsIgnoreCase(nick))
+                    playerColorToModify = getColorCliFromPlayer(player.getColor());
+            }
+        }
 
+        switch (type) {
+            case MOVEWORKER:
+                newSantoriniMapArrows.setTileHasPlayer(false, (squares.get(0).getTile())-1, playerColorToModify);
+                newSantoriniMapArrows.setTileHasPlayer(true, (squares.get(1).getTile())-1, playerColorToModify);
+                break;
+            case BUILDWORKER:
+                break;
+            default:
+                printErr("WRONG MESSAGE TYPE IN updateBoard");
+        }
+
+        newSantoriniMapArrows.printMap();
     }
 
     @Override
