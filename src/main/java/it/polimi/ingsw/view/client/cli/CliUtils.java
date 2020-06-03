@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.client.cli;
 
 import it.polimi.ingsw.model.cards.Card;
 import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.view.client.cli.NewSantoriniMapArrows;
 
 import java.io.IOException;
 import java.util.List;
@@ -123,6 +124,12 @@ public class CliUtils {
 
     public static void clearAndPrintInfo(List<Player> opponents, Player currentPlayer, Map<String, Card> deck) {
         Color.clearConsole();
+        printInfo(opponents, currentPlayer, deck);
+    }
+
+    public static void clearAndPrintInfo(List<Player> opponents, Player currentPlayer, Map<String, Card> deck, NewSantoriniMapArrows map){
+        Color.clearConsole();
+        map.printMap();
         printInfo(opponents, currentPlayer, deck);
     }
 

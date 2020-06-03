@@ -121,8 +121,9 @@ public class NewSantoriniMapArrows {
 
     public void setTileHasPlayer(boolean hasPlayer, int tileNumber, Color playerColor) {
         this.tile[tileNumber].setHasPlayer(hasPlayer);
-        this.tile[tileNumber].setPlayerColor(playerColor);
         this.tile[tileNumber].setPrintRawLevel(3);
+        if(hasPlayer)
+            this.tile[tileNumber].setPlayerColor(playerColor);
     }
 
     public boolean checkUnoccupiedTile(int tileNumber) {
@@ -137,7 +138,7 @@ public class NewSantoriniMapArrows {
     }
 
     public void updateStringBoardBuilding(Square squareToModify) {
-        int tileNumber = squareToModify.getTile();
+        int tileNumber = squareToModify.getTile()-1;
         this.tile[tileNumber].setBuildingType(squareToModify.getBuilding());
         this.tile[tileNumber].setBuildingLevel(squareToModify.getBuildingLevel());
         for(int raw=0; raw<7; raw++)
@@ -164,6 +165,11 @@ public class NewSantoriniMapArrows {
 
     public void setAvailableTiles(List<Integer> availableTiles) {
         this.availableTiles.addAll(availableTiles);
+        setAvailableTilesBackground(availableTiles);
+    }
+
+    public void addAvailableTile (Integer availableTile) {
+        this.availableTiles.add(availableTile);
         setAvailableTilesBackground(availableTiles);
     }
 
