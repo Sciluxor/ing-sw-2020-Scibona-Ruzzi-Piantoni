@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.client.cli;
 import it.polimi.ingsw.model.Response;
 import it.polimi.ingsw.model.cards.Card;
 import it.polimi.ingsw.model.cards.CardLoader;
+import it.polimi.ingsw.model.map.Building;
 import it.polimi.ingsw.model.map.Square;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.client.ClientGameController;
@@ -240,24 +241,37 @@ public class Cli extends ClientGameController {
     private synchronized void playerBuild() {
         setAvailableTilesInMap(getAvailableTilesFromServer(availableBuildSquare()));
 
-        List<String> availableBuildings = new ArrayList<>();
+        List<Building> availableBuildings = new ArrayList<>();
         int tile = getCoordinateInWhichActFromUser("BUILD");
         availableBuildings.add(newSantoriniMapArrows.getAvailableBuildingFromTile(tile));
         if(myPower.equalsIgnoreCase("ATLAS"))
-            availableBuildings.add("DOME");
+            availableBuildings.add(Building.DOME);
 
         clearAndPrintInfo(opponents, myPlayerOnServer, deck);
         printRed("SELECT THE TYPE OF BUILDING YOU WANT TO CONSTRUCT:\n");
-        int selectedBuildingType = scrollAvailableOptions(availableBuildings);
+
+        List<String> availableBuildingsString = new ArrayList<>();
+        for(Building availableBuilding: availableBuildings) {
+            availableBuildingsString.add(availableBuilding.toString());
+        }
+
+        int selectedBuildingType = scrollAvailableOptions(availableBuildingsString);
 
         newSantoriniMapArrows.updateStringBoardBuilding(availableBuildings.get(selectedBuildingType), tile);
 
-        fromServerResponse = buildWorker(tile, newSantoriniMapArrows.transformStringIntoBuilding(availableBuildings.get(selectedBuildingType)));
+        fromServerResponse = buildWorker(tile, newSantoriniMapArrows.getTileBuilding(tile));
 
         printDebug("BUILDWORKER: " + (tile+1) +  " " + availableBuildings.get(selectedBuildingType));
 
         newSantoriniMapArrows.printMap();
         mapNextAction(fromServerResponse);
+    }
+
+    private void updateModification(List<Square> modifiedSquares) {
+        for(Square modifiedSquare: modifiedSquares) {
+            newSantoriniMapArrows.setTileHasPlayer(modifiedSquare.hasPlayer(), modifiedSquare.getTile(), getColorCliFromPlayer(modifiedSquare.getPlayer().getColor()));
+            newSantoriniMapArrows.updateStringBoardBuilding(modifiedSquare);
+        }
     }
 
     //-------------------------------
@@ -859,6 +873,7 @@ public class Cli extends ClientGameController {
                 controlWaitEnter("enter");
                 endTurn();
                 printWaitForOtherPlayers(numberOfPlayers);
+                break;
             default:
                 printErr("ERROR IN SELECTED ACTION");
         }
@@ -1030,23 +1045,9 @@ public class Cli extends ClientGameController {
 
     @Override
     public synchronized void updateBoard(String nick, List<Square> squares, MessageType type) {
-        Color playerColorToModify = Color.ANSI_GREEN;
-        for(Player player: opponents) {
-            if(player.getNickName().equalsIgnoreCase(nick))
-                playerColorToModify = getColorCliFromPlayer(player.getColor());
-        }
+        updateModification(squares);
 
-        switch (type) {
-            case MOVEWORKER:
-                newSantoriniMapArrows.setTileHasPlayer(false, (squares.get(0).getTile())-1, playerColorToModify);
-                newSantoriniMapArrows.setTileHasPlayer(true, (squares.get(1).getTile())-1, playerColorToModify);
-                break;
-            case BUILDWORKER:
-                break;
-            default:
-                printErr("WRONG MESSAGE TYPE IN updateBoard");
-        }
-
+        clearShell();
         newSantoriniMapArrows.printMap();
         printInfo(opponents, myPlayerOnServer, deck);
         printWaitForOtherPlayers(numberOfPlayers);
