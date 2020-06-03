@@ -47,10 +47,6 @@ public class ClientHandler implements Runnable, ConnectionInterface {
         return isErrorStopper;
     }
 
-    public void setErrorStopper(boolean errorStopper) {
-        isErrorStopper = errorStopper;
-    }
-
     public String getNickName() {
         return nickName;
     }

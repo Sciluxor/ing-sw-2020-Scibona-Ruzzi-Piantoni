@@ -1,5 +1,7 @@
 package it.polimi.ingsw.view.client.cli;
 
+import it.polimi.ingsw.model.map.Building;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,21 +53,6 @@ public class NewSantoriniMapArrows {
 
         for(int i=0; i<25; i++)
             availableTiles.add(i);
-    }
-
-    public void setTileHasPlayer(boolean hasPlayer, int tileNumber, Color playerColor) {
-        this.tile[tileNumber].setHasPlayer(hasPlayer);
-        this.tile[tileNumber].setPlayerColor(playerColor);
-        this.tile[tileNumber].setPrintRawLevel(3);
-    }
-
-    public boolean checkUnoccupiedTile(int tileNumber) {
-        return availableTiles.contains(tileNumber);
-    }
-
-    public void updateStringBoardBuilding(String buildingType, int tileNumber) {
-        for(int raw=0; raw<7; raw++)
-            this.tile[tileNumber].setPrintRawLevel(raw);
     }
 
     public void printMap() {
@@ -123,6 +110,31 @@ public class NewSantoriniMapArrows {
         }
     }
 
+    public String setBlueBackgroundColor(String string) {
+        return setBackground(string, Color.BACKGROUND_BLUE);
+    }
+
+    public void setSelectedTile (int tileNumber, boolean selected) {
+        this.tile[tileNumber].setSelected(selected);
+    }
+
+    public void setTileHasPlayer(boolean hasPlayer, int tileNumber, Color playerColor) {
+        this.tile[tileNumber].setHasPlayer(hasPlayer);
+        this.tile[tileNumber].setPlayerColor(playerColor);
+        this.tile[tileNumber].setPrintRawLevel(3);
+    }
+
+    public boolean checkUnoccupiedTile(int tileNumber) {
+        return availableTiles.contains(tileNumber);
+    }
+
+    public void updateStringBoardBuilding(String buildingType, int tileNumber) {
+        this.tile[tileNumber].setBuildingType(transformStringIntoBuilding(buildingType));
+        this.tile[tileNumber].setBuildingLevel(tile[tileNumber].getBuildingLevel()+1);
+        for(int raw=0; raw<7; raw++)
+            this.tile[tileNumber].setPrintRawLevel(raw);
+    }
+
     public int getTileFromCoordinate(int x, int y) {
         for(int tileNumber=0; tileNumber<tile.length; tileNumber++) {
             if(tile[tileNumber].getCoordinates()[0] == x && tile[tileNumber].getCoordinates()[1] == y)
@@ -162,16 +174,25 @@ public class NewSantoriniMapArrows {
         setAvailableTilesBackground(availableTiles);
     }
 
+    public String getAvailableBuildingFromTile (int tileNumber) {
+        return tile[tileNumber].getAvailableBuilding();
+    }
+
     public void setTileBuildingType (String buildingType, int tileNumber) {
-        this.tile[tileNumber].setBuildingType(buildingType.toUpperCase());
+        this.tile[tileNumber].setBuildingType(transformStringIntoBuilding(buildingType.toUpperCase()));
     }
 
-    public String setBlueBackgroundColor(String string) {
-        return setBackground(string, Color.BACKGROUND_BLUE);
-    }
+    public Building transformStringIntoBuilding (String buildingType) {
+        if(buildingType.equalsIgnoreCase(Building.LVL1.name()))
+            return Building.LVL1;
+        else if(buildingType.equalsIgnoreCase(Building.LVL2.name()))
+            return Building.LVL2;
+        else if(buildingType.equalsIgnoreCase(Building.LVL3.name()))
+            return Building.LVL3;
+        else if(buildingType.equalsIgnoreCase(Building.DOME.name()))
+            return Building.DOME;
 
-    public void setSelectedTile (int tileNumber, boolean selected) {
-        this.tile[tileNumber].setSelected(selected);
+        return Building.GROUND;
     }
 
     //----- GETTER & SETTER -----

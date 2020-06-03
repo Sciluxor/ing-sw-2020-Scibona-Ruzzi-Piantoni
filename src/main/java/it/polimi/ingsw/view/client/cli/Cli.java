@@ -16,15 +16,16 @@ import static it.polimi.ingsw.view.client.cli.CliUtils.*;
 public class Cli extends ClientGameController {
 
     private int port = 4700;
-    private String amazonAddress = "54.146.79.183";
-    private String localAddress = "127.0.0.1";
+    //private String address = "54.146.79.183";
+    private String address = "127.0.0.1";
     private String nickName;
     private int numberOfPlayers;
     private NewSantoriniMapArrows newSantoriniMapArrows = new NewSantoriniMapArrows();
-    private Color playerColor;
+    private Color myPlayerColor;
     private int[] tileNumber = new int[2];
     private int selectedWorker;
     private Player myPlayerOnServer;
+    private String myPower;
 
     private Map<String, Card> deck = CardLoader.loadCards();
     private List<String> deckOrdered = new ArrayList<>();
@@ -36,36 +37,22 @@ public class Cli extends ClientGameController {
     private Response fromServerResponse;
 
     public void start() {
-
         clearShell();
         printRed(TITLE);
-        login(false);
+        login(/*false*/);
 
         printDebug("HERE");
-        printDebug("NICK: " + getNickName() + "\nNUMBER: " + getNumberOfPlayers() + "\nPORT: " + getPort() + "\nIP: " + getAmazonAddress());
+        printDebug("NICK: " + getNickName() + "\nNUMBER: " + getNumberOfPlayers() + "\nPORT: " + getPort() + "\nIP: " + getAddress());
 
         try {
-            openConnection(getNickName(), getNumberOfPlayers(), getAmazonAddress(), getPort());
+            openConnection(getNickName(), getNumberOfPlayers(), getAddress(), getPort());
         }catch (Exception e) {
             printErr("FAILED TO OPENING CONNECTION");
             CliUtils.LOGGER.severe(e.getMessage());
         }
     }
 
-    public void login(boolean lobbyCall) {
-
-        setNickName();
-        setNumberOfPlayers();
-        if(!lobbyCall) {
-            setPort();
-            setAddress();
-        }
-
-        if(lobbyCall)
-            newGame(getNickName(), getNumberOfPlayers());
-    }
-
-    public synchronized void challengerChooseCards() {
+    private synchronized void challengerChooseCards() {
         for(String s: deck.keySet())
             orderCards(s);
 
@@ -88,26 +75,27 @@ public class Cli extends ClientGameController {
         printWaitingStartTurn(numberOfPlayers);
     }
 
-    public synchronized void playerChoosePower() {
+    private synchronized void playerChoosePower() {
 
         printDebug("AVAILABLE CARDS: " + getAvailableCards() + "\nDECK ORDERED: " + deckOrdered);
 
-        clearShell();
+        clearAndPrintInfo(opponents, myPlayerOnServer, deck);
+
         printRed("CHOOSE ONE OF THE CARDS BELOW:\n");
         printCards();
         printRed("USE ARROW TO SELECT YOUR POWER & THEN PRESS ENTER TO CONFIRM...");
         //this.power = scrollCards(getArrowUpDown(), 1);
-        String power = scrollCards(getArrowUpDown(), 1);
+        myPower = scrollCards(getArrowUpDown(), 1);
 
-        cardChoiceResponse(power);
-        printDebug("CARDCHOICERESPONSE " + power);
+        cardChoiceResponse(myPower);
+        printDebug("CARDCHOICERESPONSE " + myPower);
         controlWaitEnter("endTurn");
         endTurn();
         printDebug("AFTER ENDTURN");
         printWaitingStartTurn(numberOfPlayers);
     }
 
-    public synchronized void playerPlaceWorkers() {
+    private synchronized void playerPlaceWorkers() {
         int keyboard;
         Integer[] tileCoordinates;
         boolean occupied;
@@ -151,11 +139,11 @@ public class Cli extends ClientGameController {
             }while (occupied);
 
             tileNumber[i] = keyboard;
-            newSantoriniMapArrows.setTileHasPlayer(true, tileNumber[i], playerColor);
+            newSantoriniMapArrows.setTileHasPlayer(true, tileNumber[i], myPlayerColor);
             newSantoriniMapArrows.printMap();
 
             if(controlWaitEnter("confirm")==186) {
-                newSantoriniMapArrows.setTileHasPlayer(false, tileNumber[i], playerColor);
+                newSantoriniMapArrows.setTileHasPlayer(false, tileNumber[i], myPlayerColor);
                 i--;
             }
             else
@@ -172,7 +160,7 @@ public class Cli extends ClientGameController {
         newSantoriniMapArrows.resetAvailableTiles();
     }
 
-    public synchronized void playerSelectWorker() {
+    private synchronized void playerSelectWorker() {
         newSantoriniMapArrows.printMap();
 
         int[] coordinateWorker1 = newSantoriniMapArrows.getCoordinatesFromTile(tileNumber[0]);
@@ -223,65 +211,53 @@ public class Cli extends ClientGameController {
         }while (!goOut);
     }
 
-    public synchronized void playerMoveHisWorker() {
-        List<Integer> availableSquare = availableMoveSquare();
-        printDebug("FROM SERVER: " + availableSquare);
-
-        List<Integer> availableTiles = new ArrayList<>();
-        for (Integer square : availableSquare)
-            availableTiles.add(square - 1);
-
-        newSantoriniMapArrows.setAvailableTiles(availableTiles);
+    private synchronized void playerMoveHisWorker() {
+        setAvailableTilesInMap(getAvailableTilesFromServer(availableMoveSquare()));
         newSantoriniMapArrows.printMap();
         printInfo(opponents, myPlayerOnServer, deck);
+        newSantoriniMapArrows.printAvailableTiles();
 
-        //moveResponse = moveWorker(selectWithArrowsTile());
+        int tile = getCoordinateInWhichActFromUser("MOVE");
+
+        newSantoriniMapArrows.setTileHasPlayer(false, tileNumber[selectedWorker-1], myPlayerColor);
+        newSantoriniMapArrows.setTileHasPlayer(true, tile, myPlayerColor);
+
+        fromServerResponse = moveWorker(tile+1);
+        tileNumber[selectedWorker-1] = tile;
+
+        printDebug("MOVEWORKER: " + (tile+1));
+
+        //VERSIONE FRECCE
+        //fromServerResponse = moveWorker(selectTileWithArrows());
         //seleziono con frecce tile e la coloro di giallo con setSelectedTile
         //quando enter per confermare la scelta, allora resetto sia selected che available
         //printDebug("MOVEWORKER " + tile);
 
-        moveWorkerTextVersion();
-
+        newSantoriniMapArrows.printMap();
         mapNextAction(fromServerResponse);
-
     }
 
-    private void moveWorkerTextVersion() {
-        int keyboard, tile;
-        do {
-            newSantoriniMapArrows.printAvailableTiles();
-            printRed("INSERT COORDINATES IN WHICH YOU WANT TO MOVE: ");
-            Integer[] coordinates = getCoordinatesFromString(input());
-            tile = newSantoriniMapArrows.getTileFromCoordinate(coordinates[0], coordinates[1]);
-            printDebug("TILE " + (tile+1));
-            //newSantoriniMapArrows.removeTileFromAvailableTiles(tile);
-            newSantoriniMapArrows.setSelectedTile(tile, true);
-            newSantoriniMapArrows.printMap();
-            keyboard = controlWaitEnter("confirm");
-            if(keyboard != 13) {
-                newSantoriniMapArrows.setSelectedTile(tile, false);
-                clearShell();
-                newSantoriniMapArrows.printMap();
-                printInfo(opponents, myPlayerOnServer, deck);
-            }
-        }while(keyboard != 13);
+    private synchronized void playerBuild() {
+        setAvailableTilesInMap(getAvailableTilesFromServer(availableBuildSquare()));
 
-        newSantoriniMapArrows.setSelectedTile(tile, false);
-        newSantoriniMapArrows.resetAvailableTiles();
+        List<String> availableBuildings = new ArrayList<>();
+        int tile = getCoordinateInWhichActFromUser("BUILD");
+        availableBuildings.add(newSantoriniMapArrows.getAvailableBuildingFromTile(tile));
+        if(myPower.equalsIgnoreCase("ATLAS"))
+            availableBuildings.add("DOME");
 
-        fromServerResponse = moveWorker(tile+1);
-        printDebug("MOVEWORKER: " + (tile+1));
-    }
+        clearAndPrintInfo(opponents, myPlayerOnServer, deck);
+        printRed("SELECT THE TYPE OF BUILDING YOU WANT TO CONSTRUCT:\n");
+        int selectedBuildingType = scrollAvailableOptions(availableBuildings);
 
-    public synchronized void playerBuild() {
-        List<Integer> availableSquare = availableBuildSquare();
+        newSantoriniMapArrows.updateStringBoardBuilding(availableBuildings.get(selectedBuildingType), tile);
 
-        printDebug("FROM SERVER: " + availableSquare);
-        printDebug("BUILDWORKER");
-        controlWaitEnter("endTurn");
-        endTurn();
-        printDebug("AFTER ENDTURN");
-        printWaitingStartTurn(numberOfPlayers);
+        fromServerResponse = buildWorker(tile, newSantoriniMapArrows.transformStringIntoBuilding(availableBuildings.get(selectedBuildingType)));
+
+        printDebug("BUILDWORKER: " + (tile+1) +  " " + availableBuildings.get(selectedBuildingType));
+
+        newSantoriniMapArrows.printMap();
+        mapNextAction(fromServerResponse);
     }
 
     //-------------------------------
@@ -299,15 +275,15 @@ public class Cli extends ClientGameController {
             this.port = Integer.parseInt(port);
     }
 
-    public String getAmazonAddress() {
-        return amazonAddress;
+    public String getAddress() {
+        return address;
     }
 
     public void setAddress() {
-        printRed("INSERT THE IP ADDRESS (default as 127.0.0.1 - localhost): ");
+        printRed("INSERT THE IP ADDRESS (default as 127.0.0.1 - localhost || " + address + " - AmazonServer): ");
         String address = input();
         if(!address.equals(""))
-            this.amazonAddress = address;
+            this.address = address;
     }
 
     public String getNickName() {
@@ -349,8 +325,21 @@ public class Cli extends ClientGameController {
 
     //---------- USEFUL FUNCTIONS ----------
 
-    public String selectFirstPlayer() {
-        clearShell();
+    private void login(/*boolean lobbyCall*/) {
+
+        setNickName();
+        setNumberOfPlayers();
+        //if(!lobbyCall) {
+            setPort();
+            setAddress();
+        //}
+
+        /*if(lobbyCall)
+            newGame(getNickName(), getNumberOfPlayers());*/
+    }
+
+    private String selectFirstPlayer() {
+        clearAndPrintInfo(opponents, myPlayerOnServer, deck);
         printRed("PLEASE, SELECT THE ONE YOU WANT AS FIRST PLAYER: \n");
         for(Player p: actualPlayers) {
             printRed("  ");
@@ -380,7 +369,7 @@ public class Cli extends ClientGameController {
             }
 
             if(!goOut) {
-                clearShell();
+                clearAndPrintInfo(opponents, myPlayerOnServer, deck);
                 printRed("PLEASE, SELECT THE ONE YOU WANT AS FIRST PLAYER: \n");
                 if(counter == 1) {
                     firstPosition = true;
@@ -405,7 +394,7 @@ public class Cli extends ClientGameController {
         return actualPlayers.get(counter-1).getNickName();
     }
 
-    public void printSelectedPlayer(Player player) {
+    private void printSelectedPlayer(Player player) {
         for(Player p: actualPlayers) {
             if(p == player)
                 printYellow("> ");
@@ -417,9 +406,99 @@ public class Cli extends ClientGameController {
         }
     }
 
+    private int scrollAvailableOptions (List<String> availableOptions) {
+        for(String s: availableOptions)
+            printWhite("[" + s + "]\n");
+
+        int keyboard = getArrowUpDown();
+
+        int counter = 0, size = availableOptions.size();
+        boolean goOut = false, firstPosition = false, lastPosition = counter == size;
+        do {
+            switch (keyboard) {
+                case 183:
+                    if(counter == 0)
+                        counter++;
+                    else if (!firstPosition)
+                        counter--;
+                    break;
+                case 184:
+                    if(!lastPosition)
+                        counter++;
+                    break;
+                case 13:
+                    goOut = true;
+                    break;
+
+                default:
+                    printErr("NO KEYBOARD CAUGHT");
+            }
+
+            if(!goOut) {
+                clearAndPrintInfo(opponents, myPlayerOnServer, deck);
+
+                firstPosition = counter == 1;
+
+                for (int i = 1; i <= size; i++) {
+                    if (i == counter) {
+                        printYellow("[" + availableOptions.get(counter - 1) + "]\n");
+                    } else {
+                        printWhite("[" + availableOptions.get(i - 1) + "]\n");
+                    }
+                    lastPosition = counter == size;
+                }
+
+                keyboard = controlWaitEnter("up&down");
+            }
+        }while(!goOut);
+
+        return counter-1;
+    }
+
+    private List<Integer> getAvailableTilesFromServer (List<Integer> availableSquares) {
+        printDebug("FROM SERVER: " + availableSquares);
+
+        List<Integer> availableTiles = new ArrayList<>();
+        for (Integer square : availableSquares)
+            availableTiles.add(square - 1);
+
+        return availableTiles;
+    }
+
+    private void setAvailableTilesInMap (List<Integer> availableTilesInMap) {
+        newSantoriniMapArrows.setAvailableTiles(availableTilesInMap);
+    }
+
+    private int getCoordinateInWhichActFromUser(String typeOfAction) {
+        int keyboard, tile;
+        do {
+            clearShell();
+            newSantoriniMapArrows.printMap();
+            printInfo(opponents, myPlayerOnServer, deck);
+            newSantoriniMapArrows.printAvailableTiles();
+            printRed("INSERT COORDINATES IN WHICH YOU WANT TO " + typeOfAction + ": ");
+            Integer[] coordinates = getCoordinatesFromString(input());
+            tile = newSantoriniMapArrows.getTileFromCoordinate(coordinates[0], coordinates[1]);
+            //CONTROLLARE DISPONIBILITA' TILE
+            printDebug("TILE " + (tile+1));
+            //newSantoriniMapArrows.removeTileFromAvailableTiles(tile);
+            newSantoriniMapArrows.setSelectedTile(tile, true);
+            clearShell();
+            newSantoriniMapArrows.printMap();
+            keyboard = controlWaitEnter("confirm");
+            if(keyboard != 13)
+                newSantoriniMapArrows.setSelectedTile(tile, false);
+        }while(keyboard != 13);
+
+        newSantoriniMapArrows.setSelectedTile(tile, false);
+        newSantoriniMapArrows.resetAvailableTiles();
+
+        return tile;
+    }
+
     //-----CARDS-----
 
-    public void orderCards(String s) {
+    private void orderCards(String s) {
         for(int x=0; x < deckOrdered.size(); x++) {
             if (deckOrdered.get(x).compareTo(s) > 0) {
                 deckOrdered.add(x, s);
@@ -429,12 +508,12 @@ public class Cli extends ClientGameController {
         deckOrdered.add(s);
     }
 
-    public void selectCards() {
+    private void selectCards() {
 
         int cont = 0, numberOfCardsToChoose = actualPlayers.size();
 
         while (cont < getNumberOfPlayers() && numberOfCardsToChoose > 0) {
-            clearShell();
+            clearAndPrintInfo(opponents, myPlayerOnServer, deck);
             printRed("PLEASE, CHOOSE " + numberOfCardsToChoose + " CARDS:\n");
             printCards();
             printRed("USE ARROWS UP&DOWN TO SELECT, THEN PRESS ENTER...");
@@ -444,7 +523,7 @@ public class Cli extends ClientGameController {
         }
     }
 
-    public String scrollCards(int keyboardIn, int numberOfCardsToChoose) {
+    private String scrollCards(int keyboardIn, int numberOfCardsToChoose) {
         int counter = 0;
         boolean goOut = false, firstPosition = false, lastPosition = false;
 
@@ -467,7 +546,8 @@ public class Cli extends ClientGameController {
             }
 
             if (!goOut) {
-                clearShell();
+                clearAndPrintInfo(opponents, myPlayerOnServer, deck);
+
                 printRed("PLEASE, CHOOSE " + numberOfCardsToChoose + " CARDS:\n");
                 if (counter == 1)
                     firstPosition = true;
@@ -497,7 +577,7 @@ public class Cli extends ClientGameController {
         return selectedCard;
     }
 
-    public void printCards(int counter) {
+    private void printCards(int counter) {
 
         for(int i=0; i < deckOrdered.size(); i++) {
             if(counter == i) {
@@ -509,7 +589,7 @@ public class Cli extends ClientGameController {
         }
     }
 
-    public void printCards() {
+    private void printCards() {
         for (String s : deckOrdered) {
             print("  " + s.toUpperCase() + "\n", Color.ANSI_YELLOW);
         }
@@ -517,7 +597,7 @@ public class Cli extends ClientGameController {
 
     //-----MAP&WORKERS-----
 
-    public Integer[] getCoordinatesFromString(String input) {
+    private Integer[] getCoordinatesFromString(String input) {
         String[] split = splitter(input);
 
         split = controlCoordinates(split);
@@ -526,11 +606,12 @@ public class Cli extends ClientGameController {
 
     }
 
-    public String[] controlCoordinates(String[] split) {
+    private String[] controlCoordinates(String[] split) {
         boolean wrongSplit;
 
         while(split.length != 2) {
-            printRed(setBackground("WRONG NUMBER OF PARAMETERS!\nPLEASE, REINSERT COORDINATES (from 0 up to 4): ", Color.BACKGROUND_YELLOW));
+            printRed(setBackground("WRONG NUMBER OF PARAMETERS!", Color.BACKGROUND_YELLOW));
+            printRed("\nPLEASE, REINSERT COORDINATES (from 0 up to 4): ");
             split = splitter(input());
         }
 
@@ -549,37 +630,94 @@ public class Cli extends ClientGameController {
         return split;
     }
 
-    public int selectWithArrowsTile() {
+    private int selectTileWithArrows() {
         printRed("USE ARROWS TO SELECT THE TILE IN WHICH YOU WANT TO MOVE...");
         int keyboard = getArrow();
 
-        int selectedTile = -1;
-        boolean goOut = false;
+        int[] coordinates = newSantoriniMapArrows.getCoordinatesFromTile(tileNumber[selectedWorker-1]);
+
+        int currentSelectedTile = -1, nextSelection;
+        int coordinateX = coordinates[0], coordinateY = coordinates[1];
+        int tempCounter = -1;
+        boolean goOut = false, stillAvailableTile = true, error, firstExec = true;
         do {
+            error = false;
             clearShell();
-            newSantoriniMapArrows.printMap();
             switch (keyboard) {
                 case 183:
+                    tempCounter = coordinateX;
+                    if(tempCounter!=0 && stillAvailableTile)
+                        tempCounter--;
                     break;
                 case 184:
+                    tempCounter = coordinateX;
+                    if(tempCounter!=4 && stillAvailableTile)
+                        tempCounter++;
                     break;
                 case 185:
+                    tempCounter = coordinateY;
+                    if(tempCounter!=0 && stillAvailableTile)
+                        tempCounter++;
                     break;
                 case 186:
+                    tempCounter = coordinateY;
+                    if(tempCounter!=4 && stillAvailableTile)
+                        tempCounter--;
                     break;
                 case 13:
                     goOut = true;
                     break;
                 default:
+                    error = true;
                     printErr("NO KEYBOARD CATCHED");
+            }
+
+            if(!goOut && !error) {
+
+                if(keyboard == 183 || keyboard == 184)
+                    nextSelection = newSantoriniMapArrows.getTileFromCoordinate(tempCounter, coordinateY);
+                else
+                    nextSelection = newSantoriniMapArrows.getTileFromCoordinate(coordinateX, tempCounter);
+
+                for(Integer availableTile: newSantoriniMapArrows.availableTiles) {
+                    if((nextSelection+1) == availableTile) {
+                        if(keyboard == 183 || keyboard == 184)
+                            coordinateX = tempCounter;
+                        else
+                            coordinateY = tempCounter;
+
+                        printDebug(coordinateX + " " + coordinateY + " " + nextSelection);
+                        if(firstExec)
+                            firstExec = false;
+                        else
+                            newSantoriniMapArrows.setSelectedTile(currentSelectedTile, false);
+
+                        currentSelectedTile = nextSelection;
+                        newSantoriniMapArrows.setSelectedTile(currentSelectedTile, true);
+
+                        stillAvailableTile = true;
+                        break;
+                    } else {
+                        stillAvailableTile = false;
+                    }
+                }
+
+                newSantoriniMapArrows.printMap();
+                keyboard = controlWaitEnter("all");
             }
         }while (!goOut);
 
-        return selectedTile;
+        newSantoriniMapArrows.setSelectedTile(currentSelectedTile, false);
+        newSantoriniMapArrows.resetAvailableTiles();
+
+        newSantoriniMapArrows.setTileHasPlayer(false, tileNumber[selectedWorker-1], myPlayerColor);
+        newSantoriniMapArrows.setTileHasPlayer(true, currentSelectedTile, myPlayerColor);
+
+        return currentSelectedTile+1;
     }
 
     //-----MENU-----
-    public void printMenu(boolean isFirstPlayer, boolean constraint) {
+    private void printMenu(boolean isFirstPlayer, boolean constraint) {
         clearShell();
         if(constraint) {
             printWhite("[CHAT]  [BOARD]  [ACTIONS]  [OPPONENTS]  ");
@@ -672,7 +810,7 @@ public class Cli extends ClientGameController {
         selectMenu(counter, isFirstPlayer);
     }
 
-    public void selectMenu(int counter, boolean isFirstPlayer) {
+    private void selectMenu(int counter, boolean isFirstPlayer) {
         switch (counter) {
             case 1:
                 //printChat
@@ -682,76 +820,19 @@ public class Cli extends ClientGameController {
                 newSantoriniMapArrows.printMap();
                 break;
             case 3:
-                if(isFirstPlayer)
-                    startSelectedActions(selectActions());
+                if(isFirstPlayer) {
+                    clearAndPrintInfo(opponents, myPlayerOnServer, deck);
+                    printRed("SELECT WITH ARROWS ONE OF THE OPTIONS BELOW, THEN PRESS ENTER TO GO ON...\n");
+                    startSelectedActions(scrollAvailableOptions(availableActions));
+                }
                 break;
             default:
                 printErr("ERROR IN CHOICE");
         }
     }
 
-    public int selectActions() {
-        int counter = 0, size = availableActions.size();
-        boolean goOut = false, firstPosition = true, lastPosition = false;
-
-        clearAndPrintInfo(opponents, myPlayerOnServer, deck);
-        /*printWhite("[CHAT]  [BOARD]  ");
-        printYellow("[ACTIONS]");
-        printWhite("  [OPPONENTS]  [POWER]\n");
-        printActions()*/
-
-        printRed("SELECT WITH ARROWS ONE OF THE OPTIONS BELOW, THEN PRESS ENTER TO GO ON...\n");
-        for(String s: availableActions)
-            printWhite("[" + s + "]\n");
-
-        int keyboard = getArrowUpDown();
-
-        do {
-            switch (keyboard) {
-                case 184:
-                    if (!lastPosition)
-                        counter++;
-                    break;
-                case 183:
-                    if (!firstPosition)
-                        counter--;
-                    break;
-                case 13:
-                    goOut = true;
-                    break;
-
-                default:
-                    printErr("NO KEYBOARD CAUGHT");
-            }
-
-            if(!goOut) {
-                clearShell();
-                /*printWhite("[CHAT]  [BOARD]  ");
-                printYellow("[ACTIONS]");
-                printWhite("  [OPPONENTS]  [POWER]\n");*/
-
-                firstPosition = counter == 0;
-
-                for (int i = 1; i <= size; i++) {
-                    if (i == counter) {
-                        //printYellow("                 [" + availableActions.get(counter - 1) + "]\n");
-                        printYellow("[" + availableActions.get(counter - 1) + "]\n");
-                    } else {
-                        //printWhite("                 [" + availableActions.get(i - 1) + "]\n");
-                        printWhite("[" + availableActions.get(i - 1) + "]\n");
-                    }
-                    lastPosition = counter == size;
-                }
-
-                keyboard = controlWaitEnter("up&down");
-            }
-        }while (!goOut && counter == 0);
-
-        return counter;
-    }
-
-    public void startSelectedActions(int choice) {
-        String choiceString = availableActions.get(choice-1);
+    private void startSelectedActions(int choice) {
+        String choiceString = availableActions.get(choice);
         switch (choiceString) {
             case "CHOOSE CARDS":
                 challengerChooseCards();
@@ -771,12 +852,19 @@ public class Cli extends ClientGameController {
             case "SELECT WORKER":
                 playerSelectWorker();
                 break;
+            case "END TURN":
+                clearShell();
+                newSantoriniMapArrows.printMap();
+                printInfo(opponents, myPlayerOnServer, deck);
+                controlWaitEnter("enter");
+                endTurn();
+                printWaitForOtherPlayers(numberOfPlayers);
             default:
                 printErr("ERROR IN SELECTED ACTION");
         }
     }
 
-    public void printActions() {
+    private void printActions() {
         for(String s: availableActions) {
             printWhite("                 [" + s + "]\n");
         }
@@ -822,7 +910,7 @@ public class Cli extends ClientGameController {
             if (!player.getNickName().equalsIgnoreCase(getNickName()))
                 opponents.add(player);
             else {
-                this.playerColor = getColorCliFromPlayer(player.getColor());
+                this.myPlayerColor = getColorCliFromPlayer(player.getColor());
                 this.myPlayerOnServer = player;
             }
         }
@@ -843,7 +931,9 @@ public class Cli extends ClientGameController {
             availableActions.clear();
             availableActions.add("CHOOSE CARDS");
 
-            startSelectedActions(selectActions());
+            clearAndPrintInfo(opponents, myPlayerOnServer, deck);
+            printRed("SELECT WITH ARROWS ONE OF THE OPTIONS BELOW, THEN PRESS ENTER TO GO ON...\n");
+            startSelectedActions(scrollAvailableOptions(availableActions));
 
         } else {
             printRed("PLAYER ");
@@ -880,7 +970,9 @@ public class Cli extends ClientGameController {
             availableActions.clear();
             availableActions.add("CHOOSE POWER");
 
-            startSelectedActions(selectActions());
+            clearAndPrintInfo(opponents, myPlayerOnServer, deck);
+            printRed("SELECT WITH ARROWS ONE OF THE OPTIONS BELOW, THEN PRESS ENTER TO GO ON...\n");
+            startSelectedActions(scrollAvailableOptions(availableActions));
 
         } else {
             printRed("PLAYER ");
@@ -912,7 +1004,9 @@ public class Cli extends ClientGameController {
             availableActions = new ArrayList<>();
             availableActions.add("PLACE WORKERS");
 
-            startSelectedActions(selectActions());
+            clearAndPrintInfo(opponents, myPlayerOnServer, deck);
+            printRed("SELECT WITH ARROWS ONE OF THE OPTIONS BELOW, THEN PRESS ENTER TO GO ON...\n");
+            startSelectedActions(scrollAvailableOptions(availableActions));
 
         } else {
             newSantoriniMapArrows.printMap();
@@ -936,7 +1030,26 @@ public class Cli extends ClientGameController {
 
     @Override
     public synchronized void updateBoard(String nick, List<Square> squares, MessageType type) {
+        Color playerColorToModify = Color.ANSI_GREEN;
+        for(Player player: opponents) {
+            if(player.getNickName().equalsIgnoreCase(nick))
+                playerColorToModify = getColorCliFromPlayer(player.getColor());
+        }
 
+        switch (type) {
+            case MOVEWORKER:
+                newSantoriniMapArrows.setTileHasPlayer(false, (squares.get(0).getTile())-1, playerColorToModify);
+                newSantoriniMapArrows.setTileHasPlayer(true, (squares.get(1).getTile())-1, playerColorToModify);
+                break;
+            case BUILDWORKER:
+                break;
+            default:
+                printErr("WRONG MESSAGE TYPE IN updateBoard");
+        }
+
+        newSantoriniMapArrows.printMap();
+        printInfo(opponents, myPlayerOnServer, deck);
+        printWaitForOtherPlayers(numberOfPlayers);
     }
 
     @Override
@@ -965,6 +1078,9 @@ public class Cli extends ClientGameController {
                     case WORKERCHOICE:
                         availableActions.add("SELECT WORKER");
                         break;
+                    case ENDTURN:
+                        availableActions.add("END TURN");
+                        break;
                 }
             }
         } catch (NullPointerException e) {
@@ -972,7 +1088,9 @@ public class Cli extends ClientGameController {
             CliUtils.LOGGER.severe(e.getMessage());
         }
 
-        startSelectedActions(selectActions());
+        clearAndPrintInfo(opponents, myPlayerOnServer, deck);
+        printRed("SELECT WITH ARROWS ONE OF THE OPTIONS BELOW, THEN PRESS ENTER TO GO ON...\n");
+        startSelectedActions(scrollAvailableOptions(availableActions));
     }
 
     @Override
@@ -1060,7 +1178,9 @@ public class Cli extends ClientGameController {
             availableActions = new ArrayList<>();
             availableActions.add("SELECT WORKER");
 
-            startSelectedActions(selectActions());
+            clearAndPrintInfo(opponents, myPlayerOnServer, deck);
+            printRed("SELECT WITH ARROWS ONE OF THE OPTIONS BELOW, THEN PRESS ENTER TO GO ON...\n");
+            startSelectedActions(scrollAvailableOptions(availableActions));
             //selectAction --> move / build
         } else {
             printRed("IT'S NOT YOUR TURN! " + nick.toUpperCase() + " IS STARTING HIS TURN!\n");

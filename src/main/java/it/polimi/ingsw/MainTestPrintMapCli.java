@@ -110,7 +110,7 @@ public class MainTestPrintMapCli {
             previousTile = tile;
         } else if(choice.equals("BUILD")) {
             printRed("INSERT THE TYPE OF BUILDING YOU WANT TO BUILD: ");
-            mapArrows.setTileBuildingType(CliUtils.input().toUpperCase(), tile);
+            mapArrows.updateStringBoardBuilding(CliUtils.input(), tile);
         }
 
     }
