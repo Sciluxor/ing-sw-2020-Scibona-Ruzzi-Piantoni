@@ -17,7 +17,7 @@ import static it.polimi.ingsw.view.client.cli.CliUtils.*;
 public class Cli extends ClientGameController {
 
     private int port = 4700;
-    //private String address = "54.146.79.183";
+    //private String address = "100.26.121.189";
     private String address = "127.0.0.1";
     private String nickName;
     private int numberOfPlayers;

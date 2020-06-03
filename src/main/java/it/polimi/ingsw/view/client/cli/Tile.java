@@ -20,7 +20,7 @@ public class Tile {
     }
 
     public String getPrintRawLevel (int raw) {
-        return printRawLevel[raw];
+        return setBackgroundColor(printRawLevel[raw]);
     }
 
     public void setPrintRawLevel (int raw) {
