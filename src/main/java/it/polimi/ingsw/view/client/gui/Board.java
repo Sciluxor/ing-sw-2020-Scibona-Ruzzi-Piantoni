@@ -223,6 +223,7 @@ public class Board {
     Color moveBorder = Color.WHITE;
     Color buildBorder = Color.WHITE;
     Color modifiedBorder = Color.ORANGE;
+    Color chooseTile = Color.YELLOW;
     int worker1 = 0;
     int worker2 = 0;
     Response responce = null;
@@ -2267,11 +2268,11 @@ public class Board {
         }
     }
 
-    private static class ColorBorder extends MouseAdapter {
+    private class ColorBorder extends MouseAdapter {
         @Override
         public void mouseEntered(MouseEvent e) {
             JButton c = (JButton)e.getSource();
-            c.setBorder(BorderFactory.createLineBorder(Color.yellow, 5));
+            c.setBorder(BorderFactory.createLineBorder(chooseTile, 5));
             c.setBorderPainted(true);
         }
 
