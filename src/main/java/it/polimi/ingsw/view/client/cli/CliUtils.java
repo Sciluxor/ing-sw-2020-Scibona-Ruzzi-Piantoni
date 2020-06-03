@@ -115,7 +115,7 @@ public class CliUtils {
 
     public static String[] splitter(String keyboard) {
         while (keyboard.isEmpty()) {
-            printRed("EMPTY! INSERT CORRECTLY VALUES: ");
+            printRed(setBackground("EMPTY! INSERT CORRECTLY VALUES: ", Color.BACKGROUND_YELLOW));
             keyboard = input();
         }
         return keyboard.split("\\s");

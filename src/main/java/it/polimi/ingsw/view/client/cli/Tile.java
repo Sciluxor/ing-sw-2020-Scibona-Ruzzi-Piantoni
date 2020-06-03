@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.client.cli;
 
+import it.polimi.ingsw.model.map.Building;
 
 public class Tile {
 
@@ -7,11 +8,11 @@ public class Tile {
     private String[] printRawLevel = new String[7];
     private boolean hasPlayer;
     private int buildingLevel = 0;
-    private String buildingType = "GROUND";
+    private Building buildingType = Building.GROUND;
     private Color playerColor = Color.ANSI_RED;
     private boolean available = false;
     private boolean selected = false;
-    //private final String playerSymbol = " 〠 ";
+    private String availableBuilding;
 
     public Tile() {
         for(int raw=0; raw<7; raw++)
@@ -23,25 +24,25 @@ public class Tile {
     }
 
     public void setPrintRawLevel (int raw) {
-        if(buildingType.equalsIgnoreCase("GROUND")) {
+        if(buildingType == Building.GROUND) {
             if(raw==3)
                 this.printRawLevel[raw] = "        " + printPlayerColor() + "       ";
             else
                 this.printRawLevel[raw] = "                  ";
+
         } else {
             if (raw == 0 || raw==6)
-                this.printRawLevel[raw] = setBuildBackgroundColor("──────────────────");
+                this.printRawLevel[raw] = setBuildBackgroundColor(" ──────────────── ");
 
             switch (buildingType) {
-                case "LVL1":
+                case LVL1:
                     if (raw == 3)
                         this.printRawLevel[raw] = setBuildBackgroundColor("│") + "       " + printPlayerColor() + "      " + setBuildBackgroundColor("│");
                     else if (raw != 0 && raw != 6)
                         this.printRawLevel[raw] = setBuildBackgroundColor("│") + "                " + setBuildBackgroundColor("│");
 
-                    buildingLevel++;
                     break;
-                case "LVL2":
+                case LVL2:
                     if (raw == 1 || raw == 5)
                         this.printRawLevel[raw] = setBuildBackgroundColor("│ ────────────── │");
                     else if (raw == 3)
@@ -49,9 +50,8 @@ public class Tile {
                     else if (raw != 0 && raw != 6)
                         this.printRawLevel[raw] = setBuildBackgroundColor("│ │") + "            " + setBuildBackgroundColor("│ │");
 
-                    buildingLevel++;
                     break;
-                case "LVL3":
+                case LVL3:
                     if (raw == 1 || raw == 5)
                         this.printRawLevel[raw] = setBuildBackgroundColor("│ ────────────── │");
                     else if (raw == 2 || raw == 4)
@@ -61,10 +61,9 @@ public class Tile {
                     else if (raw != 0 && raw != 6)
                         this.printRawLevel[raw] = setBuildBackgroundColor("│ │ │") + "        " + setBuildBackgroundColor("│ │ │");
 
-                    buildingLevel++;
                     break;
-                case "DOME":
-                    if (buildingLevel == 0) {
+                case DOME:
+                    if (buildingLevel != 4) {
                         if (raw == 3)
                             this.printRawLevel[raw] = "    " + setBuildBackgroundColor("│ ────── │") + "    ";
                         else
@@ -77,16 +76,24 @@ public class Tile {
                     else if (raw == 3)
                         this.printRawLevel[raw] = setBuildBackgroundColor("│ │ │ ────── │ │ │");
 
-                    buildingLevel++;
                     break;
                 default:
                     this.printRawLevel[raw] = "      ERROR!      ";
             }
         }
+        setAvailableBuilding();
     }
 
-    public void setBuildingType (String buildingType) {
+    public void setBuildingType (Building buildingType) {
         this.buildingType = buildingType;
+    }
+
+    public int getBuildingLevel() {
+        return buildingLevel;
+    }
+
+    public void setBuildingLevel (int buildingLevel) {
+        this.buildingLevel = buildingLevel;
     }
 
     private String printPlayerColor() {
@@ -118,7 +125,7 @@ public class Tile {
     }
 
     private String setBuildBackgroundColor (String string) {
-        return Color.BACKGROUND_YELLOW + string + Color.RESET;
+        return Color.BACKGROUND_YELLOW + string;
     }
 
     public void setAvailable (boolean available) {
@@ -136,5 +143,29 @@ public class Tile {
             return Color.BACKGROUND_YELLOW + string + Color.RESET;
 
         return string;
+    }
+
+    public String getAvailableBuilding () {
+        return availableBuilding;
+    }
+
+    private void setAvailableBuilding () {
+        if (buildingLevel < 4 && buildingType != Building.DOME) {
+            switch (buildingType) {
+                case GROUND:
+                    availableBuilding = Building.LVL1.name();
+                    break;
+                case LVL1:
+                    availableBuilding = Building.LVL2.name();
+                    break;
+                case LVL2:
+                    availableBuilding = Building.LVL3.name();
+                    break;
+                case LVL3:
+                    availableBuilding = Building.DOME.name();
+                    break;
+            }
+        } else
+            availableBuilding = "";
     }
 }
