@@ -25,8 +25,20 @@ public class MainTestPrintMapCli {
         mapArrows.updateStringBoardBuilding(Building.LVL1, 12);
         mapArrows.updateStringBoardBuilding(Building.LVL2, 11);
         mapArrows.updateStringBoardBuilding(Building.LVL3, 10);
+        mapArrows.updateStringBoardBuilding(Building.LVL1, 9);
+        mapArrows.updateStringBoardBuilding(Building.LVL2, 9);
+        mapArrows.updateStringBoardBuilding(Building.LVL3, 9);
         mapArrows.updateStringBoardBuilding(Building.DOME, 9);
+        mapArrows.updateStringBoardBuilding(Building.DOME, 20);
         mapArrows.setTileHasPlayer(true, 8, Color.ANSI_PURPLE);
+
+        mapArrows.updateStringBoardBuilding(Building.LVL1, 13);
+        mapArrows.updateStringBoardBuilding(Building.LVL2, 22);
+        mapArrows.updateStringBoardBuilding(Building.LVL3, 21);
+        mapArrows.setTileHasPlayer(true, 13, Color.ANSI_PURPLE);
+        mapArrows.setTileHasPlayer(true, 22, Color.ANSI_PURPLE);
+        mapArrows.setTileHasPlayer(true, 21, Color.ANSI_PURPLE);
+
 
         mapArrows.printMap();
 
