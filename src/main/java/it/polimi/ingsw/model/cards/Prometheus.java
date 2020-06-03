@@ -60,7 +60,8 @@ public class Prometheus extends Card {
     @Override
     public List<Directions> findPossibleBuild(GameMap gameMap, Worker worker) {
         List<Directions> possibleBuild = gameMap.buildableSquare(worker);
-        if(hasBuiltBefore)
+        System.out.println("hasbuilt :" + hasBuiltBefore);
+        if(hasBuiltBefore || hasMoved )
             return possibleBuild;
         else{
             possibleBuild.removeIf(dir -> wrongBuild(gameMap,worker,dir));
@@ -90,6 +91,7 @@ public class Prometheus extends Card {
     public Response executeBuild(GameMap gameMap, Building building, Directions directions, Worker worker) {
         if (!hasBuiltBefore && !hasMoved) {
             if(gameMap.buildInSquare(worker, directions, building)){
+                System.out.println("dentro execute 1");
                 hasBuiltBefore = true;
                 return Response.BUILDEDBEFORE;
             }
@@ -97,6 +99,7 @@ public class Prometheus extends Card {
         }
         else {
             if(gameMap.buildInSquare(worker, directions, building)){
+                System.out.println("dentro execute 2");
                 hasMoved = false;
                 hasBuiltBefore = false;
                 return Response.BUILD;
@@ -107,6 +110,7 @@ public class Prometheus extends Card {
 
     @Override
     public void resetCard() {
+        System.out.println("dentro reset");
         hasBuiltBefore=false;
         hasMoved=false;
     }
