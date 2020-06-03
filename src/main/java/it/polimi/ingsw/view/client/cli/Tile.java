@@ -12,7 +12,7 @@ public class Tile {
     private Color playerColor = Color.ANSI_RED;
     private boolean available = false;
     private boolean selected = false;
-    private String availableBuilding;
+    private Building availableBuilding;
 
     public Tile() {
         for(int raw=0; raw<7; raw++)
@@ -31,7 +31,7 @@ public class Tile {
                 this.printRawLevel[raw] = "                  ";
 
         } else {
-            if (raw == 0 || raw==6)
+            if ((raw == 0 || raw==6) && buildingType != Building.DOME)
                 this.printRawLevel[raw] = setBuildBackgroundColor(" ──────────────── ");
 
             switch (buildingType) {
@@ -88,6 +88,10 @@ public class Tile {
         this.buildingType = buildingType;
     }
 
+    public Building getBuildingType() {
+        return buildingType;
+    }
+
     public int getBuildingLevel() {
         return buildingLevel;
     }
@@ -124,7 +128,7 @@ public class Tile {
         this.hasPlayer = hasPlayer;
     }
 
-    private String setBuildBackgroundColor (String string) {
+    private String setBuildBackgroundColor (String string/*, Color backgroundColor*/) {
         return Color.BACKGROUND_YELLOW + string;
     }
 
@@ -145,7 +149,7 @@ public class Tile {
         return string;
     }
 
-    public String getAvailableBuilding () {
+    public Building getAvailableBuilding () {
         return availableBuilding;
     }
 
@@ -153,19 +157,19 @@ public class Tile {
         if (buildingLevel < 4 && buildingType != Building.DOME) {
             switch (buildingType) {
                 case GROUND:
-                    availableBuilding = Building.LVL1.name();
+                    availableBuilding = Building.LVL1;
                     break;
                 case LVL1:
-                    availableBuilding = Building.LVL2.name();
+                    availableBuilding = Building.LVL2;
                     break;
                 case LVL2:
-                    availableBuilding = Building.LVL3.name();
+                    availableBuilding = Building.LVL3;
                     break;
                 case LVL3:
-                    availableBuilding = Building.DOME.name();
+                    availableBuilding = Building.DOME;
                     break;
             }
         } else
-            availableBuilding = "";
+            availableBuilding = null;
     }
 }

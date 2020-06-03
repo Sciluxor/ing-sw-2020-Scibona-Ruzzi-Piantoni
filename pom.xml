@@ -159,6 +159,7 @@
         <executions>
 
           <!-- Server JAR -->
+          <!--
           <execution>
             <id>server</id>
             <goals><goal>single</goal></goals>
@@ -175,8 +176,10 @@
               </descriptorRefs>
             </configuration>
           </execution>
+          -->
 
           <!-- Client JAR -->
+          <!--
           <execution>
             <id>client</id>
             <goals><goal>single</goal></goals>
@@ -193,6 +196,7 @@
               </descriptorRefs>
             </configuration>
           </execution>
+          -->
 
           <!-- Client TEST JAR -->
           <execution>
@@ -213,6 +217,7 @@
           </execution>
 
           <!-- Map Arrows JAR -->
+          <!--
           <execution>
             <id>map_test</id>
             <goals><goal>single</goal></goals>
@@ -229,6 +234,7 @@
               </descriptorRefs>
             </configuration>
           </execution>
+          -->
         </executions>
       </plugin>
 

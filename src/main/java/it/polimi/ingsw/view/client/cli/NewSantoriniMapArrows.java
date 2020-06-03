@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.client.cli;
 
 import it.polimi.ingsw.model.map.Building;
+import it.polimi.ingsw.model.map.Square;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -128,9 +129,17 @@ public class NewSantoriniMapArrows {
         return availableTiles.contains(tileNumber);
     }
 
-    public void updateStringBoardBuilding(String buildingType, int tileNumber) {
-        this.tile[tileNumber].setBuildingType(transformStringIntoBuilding(buildingType));
+    public void updateStringBoardBuilding(Building buildingType, int tileNumber) {
+        this.tile[tileNumber].setBuildingType(buildingType);
         this.tile[tileNumber].setBuildingLevel(tile[tileNumber].getBuildingLevel()+1);
+        for(int raw=0; raw<7; raw++)
+            this.tile[tileNumber].setPrintRawLevel(raw);
+    }
+
+    public void updateStringBoardBuilding(Square squareToModify) {
+        int tileNumber = squareToModify.getTile();
+        this.tile[tileNumber].setBuildingType(squareToModify.getBuilding());
+        this.tile[tileNumber].setBuildingLevel(squareToModify.getBuildingLevel());
         for(int raw=0; raw<7; raw++)
             this.tile[tileNumber].setPrintRawLevel(raw);
     }
@@ -174,25 +183,12 @@ public class NewSantoriniMapArrows {
         setAvailableTilesBackground(availableTiles);
     }
 
-    public String getAvailableBuildingFromTile (int tileNumber) {
+    public Building getAvailableBuildingFromTile (int tileNumber) {
         return tile[tileNumber].getAvailableBuilding();
     }
 
-    public void setTileBuildingType (String buildingType, int tileNumber) {
-        this.tile[tileNumber].setBuildingType(transformStringIntoBuilding(buildingType.toUpperCase()));
-    }
-
-    public Building transformStringIntoBuilding (String buildingType) {
-        if(buildingType.equalsIgnoreCase(Building.LVL1.name()))
-            return Building.LVL1;
-        else if(buildingType.equalsIgnoreCase(Building.LVL2.name()))
-            return Building.LVL2;
-        else if(buildingType.equalsIgnoreCase(Building.LVL3.name()))
-            return Building.LVL3;
-        else if(buildingType.equalsIgnoreCase(Building.DOME.name()))
-            return Building.DOME;
-
-        return Building.GROUND;
+    public Building getTileBuilding (int tileNumber) {
+        return this.tile[tileNumber].getBuildingType();
     }
 
     //----- GETTER & SETTER -----
