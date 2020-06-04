@@ -106,7 +106,6 @@ public class Tile {
     }
 
     private String printPlayerColor() {
-        printDebug(getPlayerColor() + "COLOR PRINT COLOR" + Color.RESET);
         return getPlayerColor() + this.isHasPlayerSymbol() + Color.ANSI_RED;
     }
 
@@ -153,17 +152,13 @@ public class Tile {
     }
 
     private String setBackgroundColor (String string) {
-        if(available && !selected)
+        if (available && !selected)
             return Color.BACKGROUND_GREEN + string + Color.ANSI_RED;
-        else if(selected)
+        else if (selected)
             return Color.BACKGROUND_YELLOW + string + Color.ANSI_RED;
 
         return string;
     }
-
-    /*private String backgroundColouredString (String string) {
-        return buildBackgroundColor + string;
-    }*/
 
     public Building getAvailableBuilding () {
         return availableBuilding;
