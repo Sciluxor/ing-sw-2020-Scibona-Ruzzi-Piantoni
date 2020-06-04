@@ -223,6 +223,7 @@ public class Board {
     Color moveBorder = Color.WHITE;
     Color buildBorder = Color.WHITE;
     Color modifiedBorder = Color.ORANGE;
+    Color chooseTile = Color.YELLOW;
     int worker1 = 0;
     int worker2 = 0;
     Response responce = null;
@@ -1624,10 +1625,6 @@ public class Board {
             for (Integer k : availableWorkersPositions){
                 eliminateActionClass(mapButtons[k], SelectWorker.class);
                 mapButtons[k].setBorderPainted(false);
-
-                if (pos != k){
-                    mapButtons[k].addMouseListener(new ColorBorder());
-                }
             }
             mapButtons[pos].setBorder(BorderFactory.createLineBorder(selectedWorkerBorder, 5));
             mapButtons[pos].setBorderPainted(true);
@@ -1670,6 +1667,7 @@ public class Board {
     private class SeeMove implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
+            clearMap();
             availableMovePositions = gui.availableMoveSquare();
 
             for (Integer x : availableMovePositions){
@@ -1692,7 +1690,6 @@ public class Board {
             for (Integer x : availableMovePositions){
                 eliminateActionClass(mapButtons[x - 1], Move.class);
                 mapButtons[x - 1].setBorderPainted(false);
-                mapButtons[x - 1].addMouseListener(new ColorBorder());
 
             }
             displayModifications(gui.getModifiedsquare(), true);
@@ -2068,7 +2065,7 @@ public class Board {
     private class AddBuildLvl implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            clearMap();
             availableBuildPositions = gui.availableBuildSquare();
 
             for (Integer x : availableBuildPositions){
@@ -2081,6 +2078,15 @@ public class Board {
                 mapButtons[x - 1].addActionListener(new ShowButtonsBuild());
 
             }
+        }
+    }
+
+    private void clearMap(){
+        for (int x = 0; x < 25; x++){
+            eliminateMouseClass(mapButtons[x], ColorBorder.class);
+            eliminateActionClass(mapButtons[x], ShowButtonsBuild.class);
+            eliminateActionClass(mapButtons[x], Move.class);
+            mapButtons[x].setBorderPainted(false);
         }
     }
 
@@ -2127,7 +2133,6 @@ public class Board {
         for (Integer x : positions){
             mapButtons[x - 1].setBorderPainted(false);
             eliminateActionClass(mapButtons[x - 1], ShowButtonsBuild.class);
-            mapButtons[x - 1].addMouseListener(new ColorBorder());
         }
     }
 
@@ -2263,11 +2268,11 @@ public class Board {
         }
     }
 
-    private static class ColorBorder extends MouseAdapter {
+    private class ColorBorder extends MouseAdapter {
         @Override
         public void mouseEntered(MouseEvent e) {
             JButton c = (JButton)e.getSource();
-            c.setBorder(BorderFactory.createLineBorder(Color.yellow, 5));
+            c.setBorder(BorderFactory.createLineBorder(chooseTile, 5));
             c.setBorderPainted(true);
         }
 
