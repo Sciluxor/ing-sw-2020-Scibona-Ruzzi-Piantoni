@@ -6,7 +6,7 @@ public class Tile {
 
     private int[] coordinates = new int[2];
     private String[] printRawLevel = new String[7];
-    private boolean hasPlayer;
+    private boolean hasPlayer = false;
     private int buildingLevel = 0;
     private Building buildingType = Building.GROUND;
     private Color playerColor = Color.ANSI_GREEN;
@@ -28,7 +28,7 @@ public class Tile {
     public void setPrintRawLevel (int raw) {
         if(buildingType == Building.GROUND) {
             if(raw==3)
-                this.printRawLevel[raw] = setBackgroundColor("        " + printPlayerColor() + "       ");
+                this.printRawLevel[raw] = "        " + printPlayerColor() + "       ";
             else
                 this.printRawLevel[raw] = "                  ";
 
@@ -67,9 +67,9 @@ public class Tile {
                 case DOME:
                     if (buildingLevel != 4) {
                         if (raw == 3)
-                            this.printRawLevel[raw] = "    " + setBuildBackgroundColor("  ──────  ", Color.BACKGROUND_PURPLE) + Color.ANSI_RED + "    ";
+                            this.printRawLevel[raw] = "    " + setBuildBackgroundColor("  ──────  ", Color.BACKGROUND_PURPLE) + Color.RESET + Color.ANSI_RED + "    ";
                         else if(raw == 2 || raw == 4)
-                            this.printRawLevel[raw] = "    " + setBuildBackgroundColor("          ", Color.BACKGROUND_PURPLE) + Color.ANSI_RED + "    ";
+                            this.printRawLevel[raw] = "    " + setBuildBackgroundColor("          ", Color.BACKGROUND_PURPLE) + Color.RESET + Color.ANSI_RED + "    ";
                         else if(raw != 0 && raw != 6)
                             this.printRawLevel[raw] = "                  ";
                     } else {
