@@ -22,6 +22,8 @@ public class MainTestPrintMapCli {
         mapArrows.printMap();
 
 
+        mapArrows.setSelectedTile(7, true);
+
         mapArrows.updateStringBoardBuilding(Building.LVL1, 12);
         mapArrows.updateStringBoardBuilding(Building.LVL2, 11);
         mapArrows.updateStringBoardBuilding(Building.LVL3, 10);
@@ -38,6 +40,17 @@ public class MainTestPrintMapCli {
         mapArrows.setTileHasPlayer(true, 13, Color.ANSI_PURPLE);
         mapArrows.setTileHasPlayer(true, 22, Color.ANSI_PURPLE);
         mapArrows.setTileHasPlayer(true, 21, Color.ANSI_PURPLE);
+
+
+        //mapArrows.setSelectedTile(14, true);
+        //mapArrows.setSelectedTile(23, true);
+        //mapArrows.setSelectedTile(24, true);
+        mapArrows.updateStringBoardBuilding(Building.LVL1, 14);
+        mapArrows.updateStringBoardBuilding(Building.LVL2, 23);
+        mapArrows.updateStringBoardBuilding(Building.LVL3, 24);
+        mapArrows.setTileHasPlayer(true, 14, Color.ANSI_PURPLE);
+        mapArrows.setTileHasPlayer(true, 23, Color.ANSI_PURPLE);
+        mapArrows.setTileHasPlayer(true, 24, Color.ANSI_PURPLE);
 
 
         mapArrows.printMap();

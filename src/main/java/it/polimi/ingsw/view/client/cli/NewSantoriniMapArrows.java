@@ -158,6 +158,10 @@ public class NewSantoriniMapArrows {
         return tile[tileNumber].getCoordinates();
     }
 
+    public List<Integer> getAvailableTiles() {
+        return availableTiles;
+    }
+
     public void resetAvailableTiles() {
         for(int availableTile: availableTiles)
             tile[availableTile].setAvailable(false);

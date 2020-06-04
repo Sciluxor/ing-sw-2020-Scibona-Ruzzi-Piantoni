@@ -231,6 +231,7 @@ public class Game extends Observable<Response> {
             throw new NullPointerException("null newStatus");
 
         this.gameStatus = newStatus;
+        Server.LOGGER.info(newStatus.toString());
         notify(gameStatus);
     }
 

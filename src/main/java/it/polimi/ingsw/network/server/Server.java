@@ -373,8 +373,10 @@ public class Server implements Runnable{
                 synchronized (clientsLock){
                     removeGameEnded();
                     for(ClientHandler connection : connections){
-                        if(connection.isConnectionActive())
+                        if(connection.isConnectionActive()) {
+                            LOGGER.info("Ping: " + connection.getNickName());
                             connection.ping();
+                        }
                     }
                     try{
                         clientsLock.wait(1500);

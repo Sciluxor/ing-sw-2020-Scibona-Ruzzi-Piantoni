@@ -57,7 +57,7 @@ public class Cli extends ClientGameController {
         for(String s: deck.keySet())
             orderCards(s);
 
-        if(getNumberOfPlayers()==2)
+        if(getNumberOfPlayers()==3)
             deckOrdered.remove("chronus");
 
         selectCards();
@@ -73,7 +73,7 @@ public class Cli extends ClientGameController {
         endTurn();
         //mainThread.interrupt();
         printDebug("AFTER ENDTURN");
-        printWaitingStartTurn(numberOfPlayers);
+        //printWaitingStartTurn(numberOfPlayers);
     }
 
     private synchronized void playerChoosePower() {
@@ -93,7 +93,7 @@ public class Cli extends ClientGameController {
         controlWaitEnter("endTurn");
         endTurn();
         printDebug("AFTER ENDTURN");
-        printWaitingStartTurn(numberOfPlayers);
+        //printWaitingStartTurn(numberOfPlayers);
     }
 
     private synchronized void playerPlaceWorkers() {
@@ -221,7 +221,7 @@ public class Cli extends ClientGameController {
         printInfo(opponents, myPlayerOnServer, deck);
         newSantoriniMapArrows.printAvailableTiles();
 
-        int tile = getCoordinateInWhichActFromUser("MOVE");
+        int tile = getCoordinateInWhichActFromUser("MOVE", newSantoriniMapArrows.getAvailableTiles());
 
         newSantoriniMapArrows.setTileHasPlayer(false, tileNumber[selectedWorker-1], null);
         newSantoriniMapArrows.setTileHasPlayer(true, tile, myPlayerColor);
@@ -238,14 +238,14 @@ public class Cli extends ClientGameController {
         //printDebug("MOVEWORKER " + tile);
 
         newSantoriniMapArrows.printMap();
-        mapNextAction(fromServerResponse);
+        new Thread(() -> mapNextAction(fromServerResponse)).start();
     }
 
     private synchronized void playerBuild() {
         setAvailableTilesInMap(getAvailableTilesFromServer(availableBuildSquare()));
 
         List<Building> availableBuildings = new ArrayList<>();
-        int tile = getCoordinateInWhichActFromUser("BUILD");
+        int tile = getCoordinateInWhichActFromUser("BUILD", newSantoriniMapArrows.getAvailableTiles());
         availableBuildings.add(newSantoriniMapArrows.getAvailableBuildingFromTile(tile));
         if(myPower.equalsIgnoreCase("ATLAS"))
             availableBuildings.add(Building.DOME);
@@ -267,7 +267,7 @@ public class Cli extends ClientGameController {
         printDebug("BUILDWORKER: " + (tile+1) +  " " + availableBuildings.get(selectedBuildingType));
 
         newSantoriniMapArrows.printMap();
-        mapNextAction(fromServerResponse);
+        new Thread(() -> mapNextAction(fromServerResponse)).start();
     }
 
     private void updateModification(List<Square> modifiedSquares) {
@@ -490,7 +490,7 @@ public class Cli extends ClientGameController {
         newSantoriniMapArrows.setAvailableTiles(availableTilesInMap);
     }
 
-    private int getCoordinateInWhichActFromUser(String typeOfAction) {
+    private int getCoordinateInWhichActFromUser(String typeOfAction, List<Integer> availableTiles) {
         int keyboard, tile;
         do {
             clearAndPrintInfo(opponents, myPlayerOnServer, deck, newSantoriniMapArrows);
@@ -573,12 +573,12 @@ public class Cli extends ClientGameController {
                     firstPosition = true;
                 else if (counter == 2)
                     firstPosition = false;
-                else if (getNumberOfPlayers() == 2) {
+                else if (getNumberOfPlayers() == 3) {
                     if (counter == 12)
                         lastPosition = false;
                     else if (counter == 13)
                         lastPosition = true;
-                } else if (getNumberOfPlayers() != 2) {
+                } else if (getNumberOfPlayers() != 3) {
                     if (counter == 13)
                         lastPosition = false;
                     else if (counter == 14)
@@ -940,25 +940,26 @@ public class Cli extends ClientGameController {
 
     @Override
     public synchronized void challengerChoice(String challengerNick, boolean isYourPlayer) {
-
-    printDebug("CHALLENGER CHOICE");
-        clearAndPrintInfo(opponents, myPlayerOnServer, deck);
-        if (isYourPlayer) {
-            printRed("YOU HAVE BEEN CHOSEN AS CHALLENGER!\n");
-            controlWaitEnter("enter");
-            availableActions.clear();
-            availableActions.add("CHOOSE CARDS");
-
+        new Thread(() -> {
+            printDebug("CHALLENGER CHOICE");
             clearAndPrintInfo(opponents, myPlayerOnServer, deck);
-            printRed("SELECT WITH ARROWS ONE OF THE OPTIONS BELOW, THEN PRESS ENTER TO GO ON...\n");
-            startSelectedActions(scrollAvailableOptions(availableActions));
+            if (isYourPlayer) {
+                printRed("YOU HAVE BEEN CHOSEN AS CHALLENGER!\n");
+                controlWaitEnter("enter");
+                availableActions.clear();
+                availableActions.add("CHOOSE CARDS");
 
-        } else {
-            printRed("PLAYER ");
-            printPlayer(challengerNick, getPlayerFromNickName(opponents, challengerNick));
-            printRed(" IS CHOOSING CARDS\n");
-            printWaitForOtherPlayers(numberOfPlayers);
-        }
+                clearAndPrintInfo(opponents, myPlayerOnServer, deck);
+                printRed("SELECT WITH ARROWS ONE OF THE OPTIONS BELOW, THEN PRESS ENTER TO GO ON...\n");
+                startSelectedActions(scrollAvailableOptions(availableActions));
+
+            } else {
+                printRed("PLAYER ");
+                printPlayer(challengerNick, getPlayerFromNickName(opponents, challengerNick));
+                printRed(" IS CHOOSING CARDS\n");
+                printWaitForOtherPlayers(numberOfPlayers);
+            }
+        }).start();
 
         //mainThread = new Thread(() -> printMenu(isYourPlayer, false));
         //mainThread.start();
@@ -971,33 +972,35 @@ public class Cli extends ClientGameController {
         }*/
 
         //mainThread.interrupt();
-        opponents = new ArrayList<>();
-        for(Player player: getPlayers()) {
-            if(!getNickName().equalsIgnoreCase(player.getNickName()))
-                opponents.add(player);
-        }
-
-        clearAndPrintInfo(opponents, myPlayerOnServer, deck);
-
-        if (isYourPlayer) {
-            deckOrdered = new ArrayList<>(getAvailableCards());
-            printDebug("CARDCHOICE AVAILABLE: " + getAvailableCards());
-
-            printRed("IT'S YOUR TURN TO CHOOSE YOUR POWER!\n");
-            controlWaitEnter("enter");
-            availableActions.clear();
-            availableActions.add("CHOOSE POWER");
+        new Thread(() -> {
+            opponents = new ArrayList<>();
+            for(Player player: getPlayers()) {
+                if(!getNickName().equalsIgnoreCase(player.getNickName()))
+                    opponents.add(player);
+            }
 
             clearAndPrintInfo(opponents, myPlayerOnServer, deck);
-            printRed("SELECT WITH ARROWS ONE OF THE OPTIONS BELOW, THEN PRESS ENTER TO GO ON...\n");
-            startSelectedActions(scrollAvailableOptions(availableActions));
 
-        } else {
-            printRed("PLAYER ");
-            printPlayer(challengerNick, getPlayerFromNickName(opponents, challengerNick));
-            printRed(" IS CHOOSING HIS POWER\n");
-            printWaitForOtherPlayers(numberOfPlayers);
-        }
+            if (isYourPlayer) {
+                deckOrdered = new ArrayList<>(getAvailableCards());
+                printDebug("CARDCHOICE AVAILABLE: " + getAvailableCards());
+
+                printRed("IT'S YOUR TURN TO CHOOSE YOUR POWER!\n");
+                controlWaitEnter("enter");
+                availableActions.clear();
+                availableActions.add("CHOOSE POWER");
+
+                clearAndPrintInfo(opponents, myPlayerOnServer, deck);
+                printRed("SELECT WITH ARROWS ONE OF THE OPTIONS BELOW, THEN PRESS ENTER TO GO ON...\n");
+                startSelectedActions(scrollAvailableOptions(availableActions));
+
+            } else {
+                printRed("PLAYER ");
+                printPlayer(challengerNick, getPlayerFromNickName(opponents, challengerNick));
+                printRed(" IS CHOOSING HIS POWER\n");
+                printWaitForOtherPlayers(numberOfPlayers);
+            }
+        }).start();
 
         //mainThread.start();
     }
@@ -1009,51 +1012,57 @@ public class Cli extends ClientGameController {
         }*/
         //mainThread.interrupt();
 
-        opponents = new ArrayList<>();
-        for(Player player: getPlayers()) {
-            if(!getNickName().equalsIgnoreCase(player.getNickName()))
-                opponents.add(player);
-        }
+        new Thread(() -> {
+            opponents = new ArrayList<>();
+            for(Player player: getPlayers()) {
+                if(!getNickName().equalsIgnoreCase(player.getNickName()))
+                    opponents.add(player);
+            }
 
-        clearAndPrintInfo(opponents, myPlayerOnServer, deck, newSantoriniMapArrows);
-        if (isYourPlayer) {
-            printRed("PLACE YOUR WORKERS!\n");
-            controlWaitEnter("enter");
-            availableActions = new ArrayList<>();
-            availableActions.add("PLACE WORKERS");
+            clearAndPrintInfo(opponents, myPlayerOnServer, deck, newSantoriniMapArrows);
+            if (isYourPlayer) {
+                printRed("PLACE YOUR WORKERS!\n");
+                controlWaitEnter("enter");
+                availableActions = new ArrayList<>();
+                availableActions.add("PLACE WORKERS");
 
-            clearAndPrintInfo(opponents, myPlayerOnServer, deck);
-            printRed("SELECT WITH ARROWS ONE OF THE OPTIONS BELOW, THEN PRESS ENTER TO GO ON...\n");
-            startSelectedActions(scrollAvailableOptions(availableActions));
+                clearAndPrintInfo(opponents, myPlayerOnServer, deck);
+                printRed("SELECT WITH ARROWS ONE OF THE OPTIONS BELOW, THEN PRESS ENTER TO GO ON...\n");
+                startSelectedActions(scrollAvailableOptions(availableActions));
 
-        } else {
-            printRed("PLAYER ");
-            printPlayer(challengerNick, myPlayerOnServer);
-            printRed(" IS PLACING HIS WORKERS\n");
-            printWaitForOtherPlayers(numberOfPlayers);
-        }
+            } else {
+                printRed("PLAYER ");
+                printPlayer(challengerNick, myPlayerOnServer);
+                printRed(" IS PLACING HIS WORKERS\n");
+                printWaitForOtherPlayers(numberOfPlayers);
+            }
+        }).start();
 
         //mainThread.start();
     }
 
     @Override
     public synchronized void updatePlacedWorkers(List<Square> squares) {
-        printDebug("HERE UPDATE");
-        for(Square square: squares) {
-            Color playerColor = null;
-            if(square.hasPlayer())
-                playerColor = getColorCliFromPlayer(square.getPlayer().getColor());
+        new Thread(() -> {
+            printDebug("HERE UPDATE");
+            for (Square square : squares) {
+                Color playerColor = null;
+                if (square.hasPlayer())
+                    playerColor = getColorCliFromPlayer(square.getPlayer().getColor());
 
-            newSantoriniMapArrows.setTileHasPlayer(square.hasPlayer(), square.getTile()-1, playerColor);
-        }
+                newSantoriniMapArrows.setTileHasPlayer(square.hasPlayer(), square.getTile() - 1, playerColor);
+            }
+        }).start();
     }
 
     @Override
     public synchronized void updateBoard(String nick, List<Square> squares, MessageType type) {
-        updateModification(squares);
+        new Thread(() -> {
+            updateModification(squares);
 
-        clearAndPrintInfo(opponents, myPlayerOnServer, deck, newSantoriniMapArrows);
-        printWaitForOtherPlayers(numberOfPlayers);
+            clearAndPrintInfo(opponents, myPlayerOnServer, deck, newSantoriniMapArrows);
+            printWaitForOtherPlayers(numberOfPlayers);
+        }).start();
     }
 
     @Override
@@ -1068,33 +1077,35 @@ public class Cli extends ClientGameController {
 
     @Override
     public synchronized void displayActions(List<MessageType> actions) {
-        printDebug("DISPLAYACTIONS " + actions);
-        try {
-            availableActions = new ArrayList<>();
-            for (MessageType m : actions) {
-                switch (m) {
-                    case BUILDWORKER:
-                        availableActions.add("BUILD");
-                        break;
-                    case MOVEWORKER:
-                        availableActions.add("MOVE");
-                        break;
-                    case WORKERCHOICE:
-                        availableActions.add("SELECT WORKER");
-                        break;
-                    case ENDTURN:
-                        availableActions.add("END TURN");
-                        break;
+        new Thread(() -> {
+            printDebug("DISPLAYACTIONS " + actions);
+            try {
+                availableActions = new ArrayList<>();
+                for (MessageType m : actions) {
+                    switch (m) {
+                        case BUILDWORKER:
+                            availableActions.add("BUILD");
+                            break;
+                        case MOVEWORKER:
+                            availableActions.add("MOVE");
+                            break;
+                        case WORKERCHOICE:
+                            availableActions.add("SELECT WORKER");
+                            break;
+                        case ENDTURN:
+                            availableActions.add("END TURN");
+                            break;
+                    }
                 }
+            } catch (NullPointerException e) {
+                printErr("NULL POINTER");
+                CliUtils.LOGGER.severe(e.getMessage());
             }
-        } catch (NullPointerException e) {
-            printErr("NULL POINTER");
-            CliUtils.LOGGER.severe(e.getMessage());
-        }
 
-        clearAndPrintInfo(opponents, myPlayerOnServer, deck);
-        printRed("SELECT WITH ARROWS ONE OF THE OPTIONS BELOW, THEN PRESS ENTER TO GO ON...\n");
-        startSelectedActions(scrollAvailableOptions(availableActions));
+            clearAndPrintInfo(opponents, myPlayerOnServer, deck);
+            printRed("SELECT WITH ARROWS ONE OF THE OPTIONS BELOW, THEN PRESS ENTER TO GO ON...\n");
+            startSelectedActions(scrollAvailableOptions(availableActions));
+        }).start();
     }
 
     @Override
@@ -1109,7 +1120,7 @@ public class Cli extends ClientGameController {
 
     @Override
     public synchronized void onTurnTimerEnded(String stopper) {
-
+        printDebug("OnTurnTimerEnded");
     }
 
     @Override
@@ -1119,38 +1130,12 @@ public class Cli extends ClientGameController {
 
     @Override
     public synchronized void onLobbyDisconnection() {
-        /*clearShell();
-        printRed("YOU ARE GOING TO BE DISCONNECTED FROM THE LOBBY. DO YOU WANT TO BE RECONNECTED OR DO YOU WANT TO CLOSE THE APPLICATION ?\n");
-        printRed("  [RECONNECT]\n  [CLOSE]\n");
-
-        boolean goOut = false;
-        int keyboardIn = getArrowUpDown();
-
-        do {
-            clearShell();
-            switch (keyboardIn) {
-                case 183:
-                    print("> [RECONNECT]\n", Color.ANSI_YELLOW);
-                    printRed("  [CLOSE]\n");
-                    controlWaitEnter("up&down");
-                    break;
-                case 184:
-                    printRed("  [RECONNECT]\n");
-                    print("> [CLOSE]\n", Color.ANSI_YELLOW);
-                    controlWaitEnter("up&down");
-                    break;
-                default:
-                    goOut = true;
-                    if(keyboardIn != 13)
-                        printErr("NO KEYBOARD CAUGHT");
-            }
-        }while (!goOut);*/
-
+        printDebug("OnLobbyDisconnection");
     }
 
     @Override
     public synchronized void onPingDisconnection() {
-
+        printDebug("OnPingDisconnection");
     }
 
     @Override
@@ -1165,31 +1150,33 @@ public class Cli extends ClientGameController {
 
     @Override
     public synchronized void onErrorMessage(String stopper, boolean isYourPlayer) {
-
+        printDebug("OnErrorMessage");
     }
 
     @Override
     public synchronized void notYourTurn() {
-
+        printDebug("NotYourTurn");
     }
 
     @Override
     public synchronized void startTurn(String nick, boolean isYourPlayer) {
-        clearAndPrintInfo(opponents, myPlayerOnServer, deck, newSantoriniMapArrows);
-
-        if(isYourPlayer) {
-            printRed("IT'S YOUR TURN!\n");
-            controlWaitEnter("enter");
-            availableActions = new ArrayList<>();
-            availableActions.add("SELECT WORKER");
-
+        new Thread(() -> {
             clearAndPrintInfo(opponents, myPlayerOnServer, deck, newSantoriniMapArrows);
-            printRed("SELECT WITH ARROWS ONE OF THE OPTIONS BELOW, THEN PRESS ENTER TO GO ON...\n");
-            startSelectedActions(scrollAvailableOptions(availableActions));
-            //selectAction --> move / build
-        } else {
-            printRed("IT'S NOT YOUR TURN! " + nick.toUpperCase() + " IS STARTING HIS TURN!\n");
-            printWaitingStartTurn(numberOfPlayers);
-        }
+
+            if (isYourPlayer) {
+                printRed("IT'S YOUR TURN!\n");
+                controlWaitEnter("enter");
+                availableActions = new ArrayList<>();
+                availableActions.add("SELECT WORKER");
+
+                clearAndPrintInfo(opponents, myPlayerOnServer, deck, newSantoriniMapArrows);
+                printRed("SELECT WITH ARROWS ONE OF THE OPTIONS BELOW, THEN PRESS ENTER TO GO ON...\n");
+                startSelectedActions(scrollAvailableOptions(availableActions));
+                //selectAction --> move / build
+            } else {
+                printRed("IT'S NOT YOUR TURN! " + nick.toUpperCase() + " IS STARTING HIS TURN!\n");
+                printWaitingStartTurn(numberOfPlayers);
+            }
+        }).start();
     }
 }
