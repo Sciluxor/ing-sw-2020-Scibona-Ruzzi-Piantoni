@@ -134,7 +134,10 @@ public class Tile {
     }
 
     private Color getPlayerColor() {
-        return playerColor;
+        if(hasPlayer)
+            return Color.ANSI_BLUE;
+        else
+            return Color.ANSI_RED;
     }
 
     public void setHasPlayer (boolean hasPlayer) {
