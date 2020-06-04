@@ -126,15 +126,15 @@ public class Tile {
             return "   ";
     }
 
-    public void setPlayerColor(Color playerColor) {
+    /*public void setPlayerColor(Color playerColor) {
         this.playerColor = playerColor;
-    }
+    }*/
 
     private Color getPlayerColor() {
         return this.playerColor;
     }
 
-    public void setHasPlayer (boolean hasPlayer, Color color) {
+    public void setPlayerInfo (boolean hasPlayer, Color color) {
         this.hasPlayer = hasPlayer;
         if(hasPlayer)
             this.playerColor = color;
