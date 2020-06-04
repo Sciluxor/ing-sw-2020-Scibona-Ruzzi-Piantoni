@@ -120,10 +120,11 @@ public class NewSantoriniMapArrows {
     }
 
     public void setTileHasPlayer(boolean hasPlayer, int tileNumber, Color playerColor) {
-        this.tile[tileNumber].setHasPlayer(hasPlayer);
+        this.tile[tileNumber].setHasPlayer(hasPlayer, playerColor);
         this.tile[tileNumber].setPrintRawLevel(3);
-        if(hasPlayer)
+        if(hasPlayer) {
             this.tile[tileNumber].setPlayerColor(playerColor);
+        }
     }
 
     public boolean checkUnoccupiedTile(int tileNumber) {

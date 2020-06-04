@@ -11,7 +11,7 @@ public class Tile {
     private boolean hasPlayer;
     private int buildingLevel = 0;
     private Building buildingType = Building.GROUND;
-    private Color playerColor;
+    private Color playerColor = Color.ANSI_GREEN;
     //private Color buildBackgroundColor;
     private boolean available = false;
     private boolean selected = false;
@@ -68,9 +68,9 @@ public class Tile {
                 case DOME:
                     if (buildingLevel != 4) {
                         if (raw == 3)
-                            this.printRawLevel[raw] = "    " + setBuildBackgroundColor("  ──────  ", Color.BACKGROUND_PURPLE) + Color.RESET + Color.ANSI_RED + "    ";
+                            this.printRawLevel[raw] = "    " + setBuildBackgroundColor("  ──────  ", Color.BACKGROUND_PURPLE) + Color.ANSI_RED + "    ";
                         else if(raw == 2 || raw == 4)
-                            this.printRawLevel[raw] = "    " + setBuildBackgroundColor("          ", Color.BACKGROUND_PURPLE) + Color.RESET + Color.ANSI_RED + "    ";
+                            this.printRawLevel[raw] = "    " + setBuildBackgroundColor("          ", Color.BACKGROUND_PURPLE) + Color.ANSI_RED + "    ";
                         else if(raw != 0 && raw != 6)
                             this.printRawLevel[raw] = "                  ";
                     } else {
@@ -106,8 +106,7 @@ public class Tile {
     }
 
     private String printPlayerColor() {
-
-        printDebug("COLOR PRINT COLOR: " + getPlayerColor() + "COLOR" + Color.RESET);
+        printDebug(getPlayerColor() + "COLOR PRINT COLOR" + Color.RESET);
         return getPlayerColor() + this.isHasPlayerSymbol() + Color.ANSI_RED;
     }
 
@@ -127,25 +126,22 @@ public class Tile {
             return "   ";
     }
 
-    public void setPlayerColor (Color playerColor) {
-        printDebug("SET PLAYER COLOR: " + playerColor + "PLAYER COLOR" + Color.RESET);
+    public void setPlayerColor(Color playerColor) {
         this.playerColor = playerColor;
-        printDebug(getPlayerColor() + "THIS COLOR SETTED" + Color.RESET);
     }
 
     private Color getPlayerColor() {
-        if(hasPlayer)
-            return Color.ANSI_BLUE;
-        else
-            return Color.ANSI_RED;
+        return this.playerColor;
     }
 
-    public void setHasPlayer (boolean hasPlayer) {
+    public void setHasPlayer (boolean hasPlayer, Color color) {
         this.hasPlayer = hasPlayer;
+        if(hasPlayer)
+            this.playerColor = color;
     }
 
     private String setBuildBackgroundColor (String string, Color backgroundBuildColor) {
-        return backgroundBuildColor + string + Color.ANSI_RED;
+        return backgroundBuildColor + string;
     }
 
     public void setAvailable (boolean available) {
