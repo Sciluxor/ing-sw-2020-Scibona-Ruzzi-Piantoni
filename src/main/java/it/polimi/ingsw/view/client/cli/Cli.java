@@ -145,7 +145,9 @@ public class Cli extends ClientGameController {
             newSantoriniMapArrows.setPlaceWorkerNotAvailableTiles(modifiedTiles);
             newSantoriniMapArrows.printMap();
 
+            printDebug("MODIFIED TILES: " + modifiedTiles);
             if(controlWaitEnter("confirm")==186) {
+                printDebug("TILE TO REMOVE: " + tileNumber[i]);
                 newSantoriniMapArrows.setTileHasPlayer(false, tileNumber[i], null);
                 modifiedTiles.remove(tileNumber[i]);
                 newSantoriniMapArrows.addAvailableTile(tileNumber[i]);
@@ -506,8 +508,10 @@ public class Cli extends ClientGameController {
             clearShell();
             newSantoriniMapArrows.printMap();
             keyboard = controlWaitEnter("confirm");
-            if(keyboard != 13)
+            if(keyboard != 13) {
                 newSantoriniMapArrows.setSelectedTile(tile, false);
+                newSantoriniMapArrows.resetTileBackground(tile);
+            }
         }while(keyboard != 13);
 
         newSantoriniMapArrows.setSelectedTile(tile, false);

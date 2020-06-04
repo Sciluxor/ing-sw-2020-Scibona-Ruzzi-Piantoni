@@ -163,9 +163,17 @@ public class NewSantoriniMapArrows {
     }
 
     public void resetAvailableTiles() {
-        for(int availableTile: availableTiles)
+        for(int availableTile: availableTiles) {
             tile[availableTile].setAvailable(false);
+            resetTileBackground(availableTile);
+        }
         this.availableTiles.clear();
+    }
+
+    public void resetTileBackground (int tileNumber) {
+        tile[tileNumber].resetBackground();
+        for(int raw=0; raw<7; raw++)
+            tile[tileNumber].setPrintRawLevel(raw);
     }
 
     public void setAvailableTiles(List<Integer> availableTiles) {
@@ -183,8 +191,11 @@ public class NewSantoriniMapArrows {
     }
 
     private void setAvailableTilesBackground(List<Integer> availableTiles) {
-        for(int availableTile: availableTiles)
+        for(int availableTile: availableTiles) {
             tile[availableTile].setAvailable(true);
+            for(int raw=0; raw<7; raw++)
+                this.tile[availableTile].setPrintRawLevel(raw);
+        }
     }
 
     public void setPlaceWorkerNotAvailableTiles(List<Integer> modifiedSquares) {

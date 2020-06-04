@@ -15,6 +15,7 @@ public class MainTestPrintMapCli {
 
     private static NewSantoriniMapArrows mapArrows = new NewSantoriniMapArrows();
     private static int previousTile = -1;
+    private static Color playerColor = Color.ANSI_BLUE;
 
     public static void main(String[] args) {
 
@@ -24,7 +25,7 @@ public class MainTestPrintMapCli {
         mapArrows.printMap();
 
 
-        mapArrows.setSelectedTile(7, true);
+        mapArrows.setSelectedTile(19, true);
 
         mapArrows.updateStringBoardBuilding(Building.LVL1, 12);
         mapArrows.updateStringBoardBuilding(Building.LVL2, 11);
@@ -34,19 +35,20 @@ public class MainTestPrintMapCli {
         mapArrows.updateStringBoardBuilding(Building.LVL3, 9);
         mapArrows.updateStringBoardBuilding(Building.DOME, 9);
         mapArrows.updateStringBoardBuilding(Building.DOME, 20);
-        mapArrows.setTileHasPlayer(true, 8, Color.ANSI_PURPLE);
+        mapArrows.setTileHasPlayer(true, 8, playerColor);
 
         mapArrows.updateStringBoardBuilding(Building.LVL1, 13);
         mapArrows.updateStringBoardBuilding(Building.LVL2, 22);
         mapArrows.updateStringBoardBuilding(Building.LVL3, 21);
-        mapArrows.setTileHasPlayer(true, 13, Color.ANSI_PURPLE);
-        mapArrows.setTileHasPlayer(true, 22, Color.ANSI_PURPLE);
-        mapArrows.setTileHasPlayer(true, 21, Color.ANSI_PURPLE);
+        mapArrows.setTileHasPlayer(true, 13, playerColor);
+        mapArrows.setTileHasPlayer(true, 22, playerColor);
+        mapArrows.setTileHasPlayer(true, 21, playerColor);
 
         List<Integer> availableTiles = new ArrayList<>();
-        availableTiles.add(0);
-        availableTiles.add(1);
-        availableTiles.add(2);
+        availableTiles.add(15);
+        availableTiles.add(16);
+        availableTiles.add(17);
+        availableTiles.add(18);
         mapArrows.setAvailableTiles(availableTiles);
 
         mapArrows.setSelectedTile(14, true);
@@ -55,9 +57,13 @@ public class MainTestPrintMapCli {
         mapArrows.updateStringBoardBuilding(Building.LVL1, 14);
         mapArrows.updateStringBoardBuilding(Building.LVL2, 23);
         mapArrows.updateStringBoardBuilding(Building.LVL3, 24);
-        mapArrows.setTileHasPlayer(true, 14, Color.ANSI_PURPLE);
-        mapArrows.setTileHasPlayer(true, 23, Color.ANSI_PURPLE);
-        mapArrows.setTileHasPlayer(true, 24, Color.ANSI_PURPLE);
+        mapArrows.setTileHasPlayer(true, 14, playerColor);
+        mapArrows.setTileHasPlayer(true, 23, playerColor);
+        mapArrows.setTileHasPlayer(true, 24, playerColor);
+
+        mapArrows.updateStringBoardBuilding(Building.LVL1, 15);
+        mapArrows.updateStringBoardBuilding(Building.LVL2, 16);
+        mapArrows.updateStringBoardBuilding(Building.LVL3, 17);
 
 
         mapArrows.printMap();
