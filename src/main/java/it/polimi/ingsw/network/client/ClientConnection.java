@@ -127,7 +127,7 @@ public class ClientConnection implements ConnectionInterface,Runnable {
 
                 if (received != null && received.getType() == MessageType.PING) {
                     stopPingTimer();
-                    System.out.println("PING");
+                    //System.out.println("PING");
                     sendMessage(new Message(userID,nickName,MessageType.PING,MessageSubType.UPDATE));
                     startPingTimer();
                 } else if (received != null) {

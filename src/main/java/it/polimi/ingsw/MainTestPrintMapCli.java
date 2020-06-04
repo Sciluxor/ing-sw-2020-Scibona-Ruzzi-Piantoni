@@ -5,6 +5,8 @@ import it.polimi.ingsw.view.client.cli.CliUtils;
 import it.polimi.ingsw.view.client.cli.Color;
 import it.polimi.ingsw.view.client.cli.NewSantoriniMapArrows;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import static it.polimi.ingsw.view.client.cli.CliUtils.*;
@@ -41,10 +43,15 @@ public class MainTestPrintMapCli {
         mapArrows.setTileHasPlayer(true, 22, Color.ANSI_PURPLE);
         mapArrows.setTileHasPlayer(true, 21, Color.ANSI_PURPLE);
 
+        List<Integer> availableTiles = new ArrayList<>();
+        availableTiles.add(0);
+        availableTiles.add(1);
+        availableTiles.add(2);
+        mapArrows.setAvailableTiles(availableTiles);
 
-        //mapArrows.setSelectedTile(14, true);
-        //mapArrows.setSelectedTile(23, true);
-        //mapArrows.setSelectedTile(24, true);
+        mapArrows.setSelectedTile(14, true);
+        mapArrows.setSelectedTile(23, true);
+        mapArrows.setSelectedTile(24, true);
         mapArrows.updateStringBoardBuilding(Building.LVL1, 14);
         mapArrows.updateStringBoardBuilding(Building.LVL2, 23);
         mapArrows.updateStringBoardBuilding(Building.LVL3, 24);
