@@ -224,6 +224,7 @@ public class Cli extends ClientGameController {
         newSantoriniMapArrows.printAvailableTiles();
 
         int tile = getCoordinateInWhichActFromUser("MOVE", newSantoriniMapArrows.getAvailableTiles());
+        tile = selectAvailableTileWithArrows();
 
         newSantoriniMapArrows.setTileHasPlayer(false, tileNumber[selectedWorker-1], null);
         newSantoriniMapArrows.setTileHasPlayer(true, tile, myPlayerColor);
@@ -518,6 +519,63 @@ public class Cli extends ClientGameController {
         newSantoriniMapArrows.resetAvailableTiles();
 
         return tile;
+    }
+
+    private int selectAvailableTileWithArrows () {
+        List<Integer> availableTiles = newSantoriniMapArrows.getAvailableTiles();
+
+        int selectedTile;
+
+        int keyboard = getArrowUpDown();
+
+        int counter = 0, size = availableTiles.size();
+        boolean goOut = false, firstPosition = false, lastPosition = counter == size;
+        do {
+            switch (keyboard) {
+                case 183:
+                    if(counter == 0)
+                        counter++;
+                    else if (!firstPosition)
+                        counter--;
+                    break;
+                case 184:
+                    if(!lastPosition)
+                        counter++;
+                    break;
+                case 13:
+                    goOut = true;
+                    break;
+
+                default:
+                    printErr("NO KEYBOARD CAUGHT");
+            }
+
+            if(!goOut) {
+                clearAndPrintInfo(opponents, myPlayerOnServer, deck);
+
+                firstPosition = counter == 1;
+
+                /*for(int availableTile: availableTiles) {
+                    int[] coordinate = getCoordinatesFromTile(availableTile);
+                    tile[availableTile].setAvailable(true);
+                    printRed("  [" + coordinate[0] + "] [" + coordinate[1] + "] Tile number: " + (availableTile+1) + "\n");
+                }*/
+
+                for (int i = 1; i <= size; i++) {
+                    int[] coordinate = newSantoriniMapArrows.getCoordinatesFromTile(availableTiles.get(counter-1));
+                    if (i == counter) {
+                        printYellow("> [" + coordinate[0] + "] [" + coordinate[1] + "] Tile number: " + (availableTiles.get(counter-1)+1) + "\n");
+                    } else {
+                        printRed("  [" + coordinate[0] + "] [" + coordinate[1] + "] Tile number: " + (availableTiles.get(counter-1)+1) + "\n");
+                    }
+                    lastPosition = counter == size;
+                }
+
+                keyboard = controlWaitEnter("up&down");
+            }
+        }while(!goOut);
+
+        return counter-1;
     }
 
     //-----CARDS-----

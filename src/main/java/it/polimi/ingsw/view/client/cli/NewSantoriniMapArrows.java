@@ -107,7 +107,7 @@ public class NewSantoriniMapArrows {
         for(int availableTile: availableTiles) {
             int[] coordinate = getCoordinatesFromTile(availableTile);
             tile[availableTile].setAvailable(true);
-            printRed(" [" + coordinate[0] + "] [" + coordinate[1] + "] Tile number: " + (availableTile+1) + "\n");
+            printRed("  [" + coordinate[0] + "] [" + coordinate[1] + "] Tile number: " + (availableTile+1) + "\n");
         }
     }
 
@@ -117,14 +117,12 @@ public class NewSantoriniMapArrows {
 
     public void setSelectedTile (int tileNumber, boolean selected) {
         this.tile[tileNumber].setSelected(selected);
+        iterateOnRawOfTile(tileNumber);
     }
 
     public void setTileHasPlayer(boolean hasPlayer, int tileNumber, Color playerColor) {
         this.tile[tileNumber].setPlayerInfo(hasPlayer, playerColor);
         this.tile[tileNumber].setPrintRawLevel(3);
-        /*if(hasPlayer) {
-            this.tile[tileNumber].setPlayerColor(playerColor);
-        }*/
     }
 
     public boolean checkUnoccupiedTile(int tileNumber) {
@@ -134,16 +132,14 @@ public class NewSantoriniMapArrows {
     public void updateStringBoardBuilding(Building buildingType, int tileNumber) {
         this.tile[tileNumber].setBuildingType(buildingType);
         this.tile[tileNumber].setBuildingLevel(tile[tileNumber].getBuildingLevel()+1);
-        for(int raw=0; raw<7; raw++)
-            this.tile[tileNumber].setPrintRawLevel(raw);
+        iterateOnRawOfTile(tileNumber);
     }
 
     public void updateStringBoardBuilding(Square squareToModify) {
         int tileNumber = squareToModify.getTile()-1;
         this.tile[tileNumber].setBuildingType(squareToModify.getBuilding());
         this.tile[tileNumber].setBuildingLevel(squareToModify.getBuildingLevel());
-        for(int raw=0; raw<7; raw++)
-            this.tile[tileNumber].setPrintRawLevel(raw);
+        iterateOnRawOfTile(tileNumber);
     }
 
     public int getTileFromCoordinate(int x, int y) {
@@ -172,6 +168,10 @@ public class NewSantoriniMapArrows {
 
     public void resetTileBackground (int tileNumber) {
         tile[tileNumber].resetBackground();
+        iterateOnRawOfTile(tileNumber);
+    }
+
+    private void iterateOnRawOfTile (int tileNumber) {
         for(int raw=0; raw<7; raw++)
             tile[tileNumber].setPrintRawLevel(raw);
     }
@@ -193,8 +193,7 @@ public class NewSantoriniMapArrows {
     private void setAvailableTilesBackground(List<Integer> availableTiles) {
         for(int availableTile: availableTiles) {
             tile[availableTile].setAvailable(true);
-            for(int raw=0; raw<7; raw++)
-                this.tile[availableTile].setPrintRawLevel(raw);
+            iterateOnRawOfTile(availableTile);
         }
     }
 

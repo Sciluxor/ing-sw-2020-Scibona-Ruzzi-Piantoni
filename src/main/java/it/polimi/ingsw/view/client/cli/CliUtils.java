@@ -142,15 +142,18 @@ public class CliUtils {
         for(Player player: opponents) {
             printOpponents(player);
             try {
-                printRed(" ");
-                printPower(player.getPower().getName(), deck);
+                String power = player.getPower().getName();
+                printRed(" " + power);
+                printPower(power, deck);
             } catch (NullPointerException e) {
                 printRed("POWER DOESN'T ALREADY CHOOSE\n");
             }
         }
         printRed("[YOUR POWER]:");
         try {
-            printPower(currentPlayer.getPower().getName(), deck);
+            String power = currentPlayer.getPower().getName();
+            printRed(" " + power);
+            printPower(power, deck);
         } catch (NullPointerException e) {
             printRed(" POWER DOESN'T ALREADY CHOOSE\n");
         }
