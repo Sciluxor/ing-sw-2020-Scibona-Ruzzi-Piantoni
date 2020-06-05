@@ -524,8 +524,6 @@ public class Cli extends ClientGameController {
     private int selectAvailableTileWithArrows () {
         List<Integer> availableTiles = newSantoriniMapArrows.getAvailableTiles();
 
-        int selectedTile;
-
         int keyboard = getArrowUpDown();
 
         int counter = 0, size = availableTiles.size();
@@ -575,7 +573,7 @@ public class Cli extends ClientGameController {
             }
         }while(!goOut);
 
-        return counter-1;
+        return availableTiles.get(counter-1);
     }
 
     //-----CARDS-----
