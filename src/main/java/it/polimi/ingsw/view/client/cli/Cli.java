@@ -97,7 +97,7 @@ public class Cli extends ClientGameController {
     }
 
     private void playerPlaceWorkers() {
-        int keyboard;
+        int selectedTile;
         Integer[] tileCoordinates;
         boolean occupied;
 
@@ -112,7 +112,7 @@ public class Cli extends ClientGameController {
             newSantoriniMapArrows.printMap();
             newSantoriniMapArrows.printAvailableTiles();
 
-            do {
+           do {
                 occupied = false;
                 //TILE NUMBER VERSION
                 /*do {
@@ -126,20 +126,24 @@ public class Cli extends ClientGameController {
                 //-------------------
 
                 //COORDINATES VERSION
-                do {
+               /*do {
                     printRed("INSERT COORDINATES (from 0 up to 4) OF THE TILE IN WHICH YOU WANT TO PLACE YOUR WORKER" + (i+1) + ": ");
                     tileCoordinates = getCoordinatesFromString(input());
                 }while(tileCoordinates[0] < 0 || tileCoordinates[0] > 4 || tileCoordinates[1] < 0 || tileCoordinates[1] > 4);
-                keyboard = newSantoriniMapArrows.getTileFromCoordinate(tileCoordinates[0], tileCoordinates[1]);
+                selectedTile = newSantoriniMapArrows.getTileFromCoordinate(tileCoordinates[0], tileCoordinates[1]);*/
                 //-------------------
 
-                if(!newSantoriniMapArrows.checkUnoccupiedTile(keyboard)) {
+               selectedTile = selectAvailableTileWithArrows();
+
+                if(!newSantoriniMapArrows.checkUnoccupiedTile(selectedTile)) {
                     occupied = true;
-                    printRed(Color.BACKGROUND_YELLOW + "OCCUPIED TILES!!" + Color.RESET + "\n");
+                    printRed(Color.BACKGROUND_YELLOW + "OCCUPIED TILES + " + selectedTile + Color.RESET + "\n");
                 }
             }while (occupied);
 
-            tileNumber[i] = keyboard;
+
+
+            tileNumber[i] = selectedTile;
             newSantoriniMapArrows.setTileHasPlayer(true, tileNumber[i], myPlayerColor);
             modifiedTiles.add(tileNumber[i]);
             newSantoriniMapArrows.setPlaceWorkerNotAvailableTiles(modifiedTiles);
@@ -219,12 +223,13 @@ public class Cli extends ClientGameController {
 
     private void playerMoveHisWorker() {
         setAvailableTilesInMap(getAvailableTilesFromServer(availableMoveSquare()));
-        newSantoriniMapArrows.printMap();
-        printInfo(opponents, myPlayerOnServer, deck);
+
+        clearAndPrintInfo(opponents, myPlayerOnServer, deck, newSantoriniMapArrows);
         newSantoriniMapArrows.printAvailableTiles();
 
-        int tile = getCoordinateInWhichActFromUser("MOVE", newSantoriniMapArrows.getAvailableTiles());
-        tile = selectAvailableTileWithArrows();
+        int tile = selectAvailableTileWithArrows();
+        newSantoriniMapArrows.resetAvailableTiles();
+        //KEYBOARD VERSION -> = getCoordinateInWhichActFromUser("MOVE", newSantoriniMapArrows.getAvailableTiles());
 
         newSantoriniMapArrows.setTileHasPlayer(false, tileNumber[selectedWorker-1], null);
         newSantoriniMapArrows.setTileHasPlayer(true, tile, myPlayerColor);
@@ -234,12 +239,6 @@ public class Cli extends ClientGameController {
 
         printDebug("MOVEWORKER: " + (tile+1));
 
-        //VERSIONE FRECCE
-        //fromServerResponse = moveWorker(selectTileWithArrows());
-        //seleziono con frecce tile e la coloro di giallo con setSelectedTile
-        //quando enter per confermare la scelta, allora resetto sia selected che available
-        //printDebug("MOVEWORKER " + tile);
-
         newSantoriniMapArrows.printMap();
         new Thread(() -> mapNextAction(fromServerResponse)).start();
     }
@@ -247,8 +246,14 @@ public class Cli extends ClientGameController {
     private void playerBuild() {
         setAvailableTilesInMap(getAvailableTilesFromServer(availableBuildSquare()));
 
+        clearAndPrintInfo(opponents, myPlayerOnServer, deck, newSantoriniMapArrows);
+        newSantoriniMapArrows.printAvailableTiles();
+
+        int tile = selectAvailableTileWithArrows();
+        newSantoriniMapArrows.resetAvailableTiles();
+        // = getCoordinateInWhichActFromUser("BUILD", newSantoriniMapArrows.getAvailableTiles());
+
         List<Building> availableBuildings = new ArrayList<>();
-        int tile = getCoordinateInWhichActFromUser("BUILD", newSantoriniMapArrows.getAvailableTiles());
         availableBuildings.add(newSantoriniMapArrows.getAvailableBuildingFromTile(tile));
         if(myPower.equalsIgnoreCase("ATLAS"))
             availableBuildings.add(Building.DOME);
@@ -266,7 +271,6 @@ public class Cli extends ClientGameController {
         newSantoriniMapArrows.updateStringBoardBuilding(availableBuildings.get(selectedBuildingType), tile);
 
         fromServerResponse = buildWorker((tile+1), newSantoriniMapArrows.getTileBuilding(tile));
-
         printDebug("BUILDWORKER: " + (tile+1) +  " " + availableBuildings.get(selectedBuildingType));
 
         newSantoriniMapArrows.printMap();
@@ -526,7 +530,7 @@ public class Cli extends ClientGameController {
 
         int keyboard = getArrowUpDown();
 
-        int counter = 0, size = availableTiles.size();
+        int counter = 0, size = availableTiles.size(), selectedTile = -1;
         boolean goOut = false, firstPosition = false, lastPosition = counter == size;
         do {
             switch (keyboard) {
@@ -549,31 +553,40 @@ public class Cli extends ClientGameController {
             }
 
             if(!goOut) {
-                clearAndPrintInfo(opponents, myPlayerOnServer, deck);
+                clearAndPrintInfo(opponents, myPlayerOnServer, deck, newSantoriniMapArrows);
 
                 firstPosition = counter == 1;
 
-                /*for(int availableTile: availableTiles) {
-                    int[] coordinate = getCoordinatesFromTile(availableTile);
-                    tile[availableTile].setAvailable(true);
-                    printRed("  [" + coordinate[0] + "] [" + coordinate[1] + "] Tile number: " + (availableTile+1) + "\n");
-                }*/
+                selectedTile = availableTiles.get(counter-1);
 
-                for (int i = 1; i <= size; i++) {
-                    int[] coordinate = newSantoriniMapArrows.getCoordinatesFromTile(availableTiles.get(counter-1));
-                    if (i == counter) {
-                        printYellow("> [" + coordinate[0] + "] [" + coordinate[1] + "] Tile number: " + (availableTiles.get(counter-1)+1) + "\n");
+                newSantoriniMapArrows.setSelectedTile(selectedTile, true);
+                clearAndPrintInfo(opponents, myPlayerOnServer, deck, newSantoriniMapArrows);
+
+                int[] coordinate;
+                for(int availableTile: availableTiles) {
+                    if(availableTile!=selectedTile) {
+                        coordinate = newSantoriniMapArrows.getCoordinatesFromTile(availableTile);
+                        printRed("  [" + coordinate[0] + "] [" + coordinate[1] + "] Tile number: " + (availableTile+1) + "\n");
                     } else {
-                        printRed("  [" + coordinate[0] + "] [" + coordinate[1] + "] Tile number: " + (availableTiles.get(counter-1)+1) + "\n");
+                        coordinate = newSantoriniMapArrows.getCoordinatesFromTile(selectedTile);
+                        printYellow("> [" + coordinate[0] + "] [" + coordinate[1] + "] Tile number: " + (selectedTile+1) + "\n");
                     }
-                    lastPosition = counter == size;
                 }
 
+                lastPosition = counter == size;
+
                 keyboard = controlWaitEnter("up&down");
+                if(keyboard != 13) {
+                    newSantoriniMapArrows.setSelectedTile(selectedTile, false);
+                    newSantoriniMapArrows.resetTileBackground(selectedTile);
+                }
             }
         }while(!goOut);
 
-        return availableTiles.get(counter-1);
+        newSantoriniMapArrows.setSelectedTile(selectedTile, false);
+        //newSantoriniMapArrows.resetAvailableTiles();
+
+        return selectedTile;
     }
 
     //-----CARDS-----
