@@ -184,6 +184,7 @@ public class NewSantoriniMapArrows {
     public void addAvailableTile (Integer availableTile) {
         this.availableTiles.add(availableTile);
         setAvailableTilesBackground(availableTiles);
+        this.tile[availableTile].setAvailable(true);
     }
 
     public void removeTileFromAvailableTiles(Integer tileToRemove) {

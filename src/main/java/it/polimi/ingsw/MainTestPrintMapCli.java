@@ -21,6 +21,9 @@ public class MainTestPrintMapCli {
 
         printRed(TITLE);
 
+        printRed(WINNER);
+        printRed(LOSER);
+
         System.out.println("Questa è la board vuota: ");
         mapArrows.printMap();
 

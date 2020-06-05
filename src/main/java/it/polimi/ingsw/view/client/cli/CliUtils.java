@@ -2,7 +2,6 @@ package it.polimi.ingsw.view.client.cli;
 
 import it.polimi.ingsw.model.cards.Card;
 import it.polimi.ingsw.model.player.Player;
-import it.polimi.ingsw.view.client.cli.NewSantoriniMapArrows;
 
 import java.io.IOException;
 import java.util.List;
@@ -26,11 +25,27 @@ public class CliUtils {
 
     public static final String TITLE = Color.BACKGROUND_WHITE +
             "                                                                                                                                                                                      \n" +
-            "                           _____         _____  _____              _____    _____  _____     _____                        _____  _____   _____                      │__│ ╷ │__│       \n" +
-            "    ╲       ╲ ╱        ╱  │      │      │      │     │ │╲     ╱ │ │           │   │     │   │           ╱ ╲      │╲     │   │   │     │ │     │ │ │╲    │ │     ___________________   \n" +
-            "      ╲     ╱  ╲     ╱    │──    │      │      │     │ │  ╲ ╱   │ │──         │   │     │   ╵─────╷   ╱─────╲    │  ╲   │   │   │     │ │_____│ │ │  ╲  │ │     ╲      __│__      ╱   \n" +
-            "        ╲ ╱      ╲ ╱      ╵_____ ╵_____ ╵_____ ╵_____╵ │        │ ╵_____      │   ╵_____╵    _____╵ ╱         ╲  │    ╲ │   │   ╵_____╵ │   ╲   │ │    ╲│ │       ╲ ___________ ╱     \n" +
+            "   __      __ __      __  _____ __      _____  _____              _____    _____  _____     _____                        _____  _____   _____                      │__│ ╷ │__│        \n" +
+            "    ╲       ╲ ╱       ╱  │      │      │      │     │ │╲     ╱ │ │           │   │     │   │           ╱ ╲      │╲     │   │   │     │ │     │ │ │╲    │ │     ___________________    \n" +
+            "      ╲     ╱ ╲     ╱    │──    │      │      │     │ │  ╲ ╱   │ │──         │   │     │   ╵─────╷   ╱─────╲    │  ╲   │   │   │     │ │_____│ │ │  ╲  │ │     ╲      __│__      ╱    \n" +
+            "        ╲ ╱     ╲ ╱      ╵_____ ╵_____ ╵_____ ╵_____╵ │        │ ╵_____      │   ╵_____╵    _____╵ ╱         ╲  │    ╲ │   │   ╵_____╵ │   ╲   │ │    ╲│ │       ╲ ___________ ╱     \n" +
             "                                                                                                                                                                                      " + Color.RESET + "\n\n";
+
+    public static final String WINNER = Color.BACKGROUND_WHITE +
+            "                                                                      _____     \n" +
+            "   __     __  _____  __     __  __      __ __      __                │_____│    \n" +
+            "    ╲     ╱  │     │  │     │    ╲       ╲ ╱       ╱  │  │╲     │     ╲   ╱     \n" +
+            "      ╲ ╱    │     │  │     │      ╲     ╱ ╲     ╱    │  │  ╲   │      │ │      \n" +
+            "       │     ╵_____╵  ╵_____╵        ╲ ╱     ╲ ╱      │  │    ╲ │     ╱___╲     \n" +
+            "                                                                                " + Color.RESET;
+
+    public static final String LOSER = Color.BACKGROUND_WHITE +
+            "                                                                                        \n" +
+            "   __     __  _____  __     __   __      _____   _____   _____        │__│ ╷ │__│       \n" +
+            "    ╲     ╱  │     │  │     │    │      │     │ │       │             ___________       \n" +
+            "      ╲ ╱    │     │  │     │    │      │     │ ╵─────╷ │──          ╱   __│__   ╲      \n" +
+            "       │     ╵_____╵  ╵_____╵    ╵_____ ╵_____╵  _____╵ ╵_____     ╱_______________╲    \n" +
+            "                                                                                        " + Color.RESET;
 
     public static boolean debug = true;
 
@@ -61,9 +76,9 @@ public class CliUtils {
             System.out.println(string);
     }
 
-    public static void printPlayer(String nickName, Player player) {
+    public static void printPlayer(Player player) {
         try {
-            print(nickName.toUpperCase(), getColorCliFromPlayer(player.getColor()));
+            print(player.getNickName().toUpperCase(), getColorCliFromPlayer(player.getColor()));
         } catch (NullPointerException e) {
             printErr("NULL POINTER");
             CliUtils.LOGGER.severe(e.getMessage());
@@ -87,7 +102,7 @@ public class CliUtils {
 
     public static void printOpponents(Player player) {
             printWhite("  [");
-            printPlayer(player.getNickName(), player);
+            printPlayer(player);
             printWhite("] ");
     }
 
@@ -122,18 +137,18 @@ public class CliUtils {
         return keyboard.split("\\s");
     }
 
-    public static void clearAndPrintInfo(List<Player> opponents, Player currentPlayer, Map<String, Card> deck) {
+    public static void clearAndPrintInfo(List<Player> opponents, Player currentPlayer, Map<String, Card> deck, List<String> constraints) {
         Color.clearConsole();
-        printInfo(opponents, currentPlayer, deck);
+        printInfo(opponents, currentPlayer, deck, constraints);
     }
 
-    public static void clearAndPrintInfo(List<Player> opponents, Player currentPlayer, Map<String, Card> deck, NewSantoriniMapArrows map){
+    public static void clearAndPrintInfo(List<Player> opponents, Player currentPlayer, Map<String, Card> deck, List<String> constraints, NewSantoriniMapArrows map){
         Color.clearConsole();
         map.printMap();
-        printInfo(opponents, currentPlayer, deck);
+        printInfo(opponents, currentPlayer, deck, constraints);
     }
 
-    public static void printInfo(List<Player> opponents, Player currentPlayer, Map<String, Card> deck) {
+    public static void printInfo(List<Player> opponents, Player currentPlayer, Map<String, Card> deck, List<String> constraints) {
         printRed("[OPPONENTS]:");
         for (Player player : opponents) {
             printOpponents(player);
@@ -143,7 +158,7 @@ public class CliUtils {
             printOpponents(player);
             try {
                 String power = player.getPower().getName();
-                printRed(" " + power);
+                printYellow(" " + power.toUpperCase());
                 printPower(power, deck);
             } catch (NullPointerException e) {
                 printRed("POWER DOESN'T ALREADY CHOOSE\n");
@@ -152,16 +167,60 @@ public class CliUtils {
         printRed("[YOUR POWER]:");
         try {
             String power = currentPlayer.getPower().getName();
-            printRed(" " + power);
+            printYellow(" " + power.toUpperCase());
             printPower(power, deck);
         } catch (NullPointerException e) {
             printRed(" POWER DOESN'T ALREADY CHOOSE\n");
         }
-        printRed("\n");
+        if(!constraints.isEmpty()) {
+            printRed("[CONSTRAINT]:\n");
+            for(String constraint: constraints) {
+                printYellow("  " + constraint.toUpperCase() + ":");
+                printPower(constraint, deck);
+            }
+        } else
+            printRed("\n");
     }
 
     public static void clearShell() {
         Color.clearConsole();
+    }
+
+    public static Color getColorCliFromPlayer(it.polimi.ingsw.model.player.Color color) {
+        Color returnedColor = Color.ANSI_BLACK;
+        try {
+            switch (color) {
+                case BLUE:
+                    returnedColor = Color.ANSI_BLUE;
+                    break;
+                case WHITE:
+                    returnedColor = Color.ANSI_WHITE;
+                    break;
+                case PURPLE:
+                    returnedColor = Color.ANSI_PURPLE;
+                    break;
+                default:
+                    returnedColor = Color.ANSI_YELLOW;
+                    System.err.print("WRONG PLAYER COLOR PASSED");
+            }
+        } catch (NullPointerException e) {
+            printErr("NULL POINTER");
+            CliUtils.LOGGER.severe(e.getMessage());
+        }
+
+        return returnedColor;
+    }
+
+    public static Player getPlayerFromNickName (List<Player> players, String nickName) {
+        for(Player player: players) {
+            if(player.getNickName().equalsIgnoreCase(nickName))
+                return player;
+        }
+        return null;
+    }
+
+    public static String setBackground (String string, Color background) {
+        return background + string + Color.RESET;
     }
 
     //------------ ARROWS --------------------------
@@ -268,42 +327,5 @@ public class CliUtils {
     }
 
     //----------------------------------------------
-
-    public static Color getColorCliFromPlayer(it.polimi.ingsw.model.player.Color color) {
-        Color returnedColor = Color.ANSI_BLACK;
-        try {
-            switch (color) {
-                case BLUE:
-                    returnedColor = Color.ANSI_BLUE;
-                    break;
-                case WHITE:
-                    returnedColor = Color.ANSI_WHITE;
-                    break;
-                case PURPLE:
-                    returnedColor = Color.ANSI_PURPLE;
-                    break;
-                default:
-                    returnedColor = Color.ANSI_YELLOW;
-                    System.err.print("WRONG PLAYER COLOR PASSED");
-            }
-        } catch (NullPointerException e) {
-            printErr("NULL POINTER");
-            CliUtils.LOGGER.severe(e.getMessage());
-        }
-
-        return returnedColor;
-    }
-
-    public static Player getPlayerFromNickName (List<Player> players, String nickName) {
-        for(Player player: players) {
-            if(player.getNickName().equalsIgnoreCase(nickName))
-                return player;
-        }
-        return null;
-    }
-
-    public static String setBackground (String string, Color background) {
-        return background + string + Color.RESET;
-    }
 
 }

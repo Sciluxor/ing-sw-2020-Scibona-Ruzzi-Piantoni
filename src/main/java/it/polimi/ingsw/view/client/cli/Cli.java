@@ -17,8 +17,8 @@ import static it.polimi.ingsw.view.client.cli.CliUtils.*;
 public class Cli extends ClientGameController {
 
     private int port = 4700;
-    //private String address = "100.26.121.189";
-    private String address = "127.0.0.1";
+    private String address = "100.26.121.189";
+    //private String address = "127.0.0.1";
     private String nickName;
     private int numberOfPlayers;
     private NewSantoriniMapArrows newSantoriniMapArrows = new NewSantoriniMapArrows();
@@ -34,6 +34,7 @@ public class Cli extends ClientGameController {
     private static List<Player> opponents = new ArrayList<>();
     private static List<Player> actualPlayers = new ArrayList<>();
     private List<String> availableActions = new ArrayList<>();
+    private List<String> constraints = new ArrayList<>();
 
     private Response fromServerResponse;
 
@@ -80,7 +81,7 @@ public class Cli extends ClientGameController {
 
         printDebug("AVAILABLE CARDS: " + getAvailableCards() + "\nDECK ORDERED: " + deckOrdered);
 
-        clearAndPrintInfo(opponents, myPlayerOnServer, deck);
+        clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints);
 
         printRed("CHOOSE ONE OF THE CARDS BELOW:\n");
         printCards();
@@ -111,19 +112,10 @@ public class Cli extends ClientGameController {
             newSantoriniMapArrows.setPlaceWorkerNotAvailableTiles(modifiedTiles);
             newSantoriniMapArrows.printMap();
             newSantoriniMapArrows.printAvailableTiles();
+            printRed("USE ARROWS TO SELECT TILE...\n");
 
            do {
                 occupied = false;
-                //TILE NUMBER VERSION
-                /*do {
-                    printRed("INSERT THE NUMBER OF THE TILE YOU WANT TO INSERT YOUR WORKER " + (i+1) + ": ");
-                    try {
-                        keyboard = Integer.parseInt(input());
-                    } catch (NumberFormatException e) {
-                        keyboard = 0;
-                    }
-                } while (keyboard < 1 || keyboard > 25);*/
-                //-------------------
 
                 //COORDINATES VERSION
                /*do {
@@ -141,24 +133,22 @@ public class Cli extends ClientGameController {
                 }
             }while (occupied);
 
-
-
             tileNumber[i] = selectedTile;
             newSantoriniMapArrows.setTileHasPlayer(true, tileNumber[i], myPlayerColor);
-            modifiedTiles.add(tileNumber[i]);
-            newSantoriniMapArrows.setPlaceWorkerNotAvailableTiles(modifiedTiles);
             newSantoriniMapArrows.printMap();
 
-            printDebug("MODIFIED TILES: " + modifiedTiles);
             if(controlWaitEnter("confirm")==186) {
                 printDebug("TILE TO REMOVE: " + tileNumber[i]);
                 newSantoriniMapArrows.setTileHasPlayer(false, tileNumber[i], null);
-                modifiedTiles.remove(tileNumber[i]);
-                newSantoriniMapArrows.addAvailableTile(tileNumber[i]);
 
                 i--;
+            } else {
+                modifiedTiles.add(tileNumber[i]);
             }
         }
+
+        newSantoriniMapArrows.setPlaceWorkerNotAvailableTiles(modifiedTiles);
+
         printDebug("LOCAL TILE NUMBER: " + Arrays.toString(tileNumber) + "\nSENDED TILE NUMBER: " + (tileNumber[0]+1) +  " "  + (tileNumber[1]+1));
 
         placeWorkersResponse(tileNumber[0]+1, tileNumber[1]+1);
@@ -224,7 +214,7 @@ public class Cli extends ClientGameController {
     private void playerMoveHisWorker() {
         setAvailableTilesInMap(getAvailableTilesFromServer(availableMoveSquare()));
 
-        clearAndPrintInfo(opponents, myPlayerOnServer, deck, newSantoriniMapArrows);
+        clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, newSantoriniMapArrows);
         newSantoriniMapArrows.printAvailableTiles();
 
         int tile = selectAvailableTileWithArrows();
@@ -246,7 +236,7 @@ public class Cli extends ClientGameController {
     private void playerBuild() {
         setAvailableTilesInMap(getAvailableTilesFromServer(availableBuildSquare()));
 
-        clearAndPrintInfo(opponents, myPlayerOnServer, deck, newSantoriniMapArrows);
+        clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, newSantoriniMapArrows);
         newSantoriniMapArrows.printAvailableTiles();
 
         int tile = selectAvailableTileWithArrows();
@@ -258,7 +248,7 @@ public class Cli extends ClientGameController {
         if(myPower.equalsIgnoreCase("ATLAS"))
             availableBuildings.add(Building.DOME);
 
-        clearAndPrintInfo(opponents, myPlayerOnServer, deck);
+        clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints);
         printRed("SELECT THE TYPE OF BUILDING YOU WANT TO CONSTRUCT:\n");
 
         List<String> availableBuildingsString = new ArrayList<>();
@@ -308,7 +298,7 @@ public class Cli extends ClientGameController {
     }
 
     public void setAddress() {
-        printRed("INSERT THE IP ADDRESS (default as 127.0.0.1 - localhost || " + address + " - AmazonServer): ");
+        printRed("INSERT THE IP ADDRESS (default as " + address + ": ");
         String address = input();
         if(!address.equals(""))
             this.address = address;
@@ -353,25 +343,19 @@ public class Cli extends ClientGameController {
 
     //---------- USEFUL FUNCTIONS ----------
 
-    private void login(/*boolean lobbyCall*/) {
-
+    private void login() {
         setNickName();
         setNumberOfPlayers();
-        //if(!lobbyCall) {
-            setPort();
-            setAddress();
-        //}
-
-        /*if(lobbyCall)
-            newGame(getNickName(), getNumberOfPlayers());*/
+        setPort();
+        setAddress();
     }
 
     private String selectFirstPlayer() {
-        clearAndPrintInfo(opponents, myPlayerOnServer, deck);
+        clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints);
         printRed("PLEASE, SELECT THE ONE YOU WANT AS FIRST PLAYER: \n");
-        for(Player p: actualPlayers) {
+        for(Player player: actualPlayers) {
             printRed("  ");
-            printPlayer(p.getNickName(), p);
+            printPlayer(player);
             printRed("\n");
         }
 
@@ -397,7 +381,7 @@ public class Cli extends ClientGameController {
             }
 
             if(!goOut) {
-                clearAndPrintInfo(opponents, myPlayerOnServer, deck);
+                clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints);
                 printRed("PLEASE, SELECT THE ONE YOU WANT AS FIRST PLAYER: \n");
                 if(counter == 1) {
                     firstPosition = true;
@@ -429,7 +413,7 @@ public class Cli extends ClientGameController {
             else
                 printRed("  ");
 
-            printPlayer(p.getNickName(), p);
+            printPlayer(p);
             printYellow("\n");
         }
     }
@@ -463,7 +447,7 @@ public class Cli extends ClientGameController {
             }
 
             if(!goOut) {
-                clearAndPrintInfo(opponents, myPlayerOnServer, deck);
+                clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints);
 
                 firstPosition = counter == 1;
 
@@ -497,10 +481,10 @@ public class Cli extends ClientGameController {
         newSantoriniMapArrows.setAvailableTiles(availableTilesInMap);
     }
 
-    private int getCoordinateInWhichActFromUser(String typeOfAction, List<Integer> availableTiles) {
+    private int getCoordinateInWhichActFromUser(String typeOfAction) {
         int keyboard, tile;
         do {
-            clearAndPrintInfo(opponents, myPlayerOnServer, deck, newSantoriniMapArrows);
+            clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, newSantoriniMapArrows);
 
             newSantoriniMapArrows.printAvailableTiles();
             printRed("INSERT COORDINATES IN WHICH YOU WANT TO " + typeOfAction + ": ");
@@ -553,14 +537,14 @@ public class Cli extends ClientGameController {
             }
 
             if(!goOut) {
-                clearAndPrintInfo(opponents, myPlayerOnServer, deck, newSantoriniMapArrows);
+                //clearAndPrintInfo(opponents, myPlayerOnServer, deck, newSantoriniMapArrows);
 
                 firstPosition = counter == 1;
 
                 selectedTile = availableTiles.get(counter-1);
 
                 newSantoriniMapArrows.setSelectedTile(selectedTile, true);
-                clearAndPrintInfo(opponents, myPlayerOnServer, deck, newSantoriniMapArrows);
+                clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, newSantoriniMapArrows);
 
                 int[] coordinate;
                 for(int availableTile: availableTiles) {
@@ -589,6 +573,10 @@ public class Cli extends ClientGameController {
         return selectedTile;
     }
 
+    private void printInfoAndConstraint () {
+
+    }
+
     //-----CARDS-----
 
     private void orderCards(String s) {
@@ -606,7 +594,7 @@ public class Cli extends ClientGameController {
         int cont = 0, numberOfCardsToChoose = actualPlayers.size();
 
         while (cont < getNumberOfPlayers() && numberOfCardsToChoose > 0) {
-            clearAndPrintInfo(opponents, myPlayerOnServer, deck);
+            clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints);
             printRed("PLEASE, CHOOSE " + numberOfCardsToChoose + " CARDS:\n");
             printCards();
             printRed("USE ARROWS UP&DOWN TO SELECT, THEN PRESS ENTER...");
@@ -639,7 +627,7 @@ public class Cli extends ClientGameController {
             }
 
             if (!goOut) {
-                clearAndPrintInfo(opponents, myPlayerOnServer, deck);
+                clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints);
 
                 printRed("PLEASE, CHOOSE " + numberOfCardsToChoose + " CARDS:\n");
                 if (counter == 1)
@@ -878,7 +866,7 @@ public class Cli extends ClientGameController {
                     printWhite("  [POWER]\n");
                     for (Player player : opponents) {
                         printWhite("                            [");
-                        printPlayer(player.getNickName(), player);
+                        printPlayer(player);
                         printWhite("]\n");
                     }
 
@@ -914,7 +902,7 @@ public class Cli extends ClientGameController {
                 break;
             case 3:
                 if(isFirstPlayer) {
-                    clearAndPrintInfo(opponents, myPlayerOnServer, deck);
+                    clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints);
                     printRed("SELECT WITH ARROWS ONE OF THE OPTIONS BELOW, THEN PRESS ENTER TO GO ON...\n");
                     startSelectedActions(scrollAvailableOptions(availableActions));
                 }
@@ -947,7 +935,7 @@ public class Cli extends ClientGameController {
                 break;
             case "END TURN":
                 endTurn();
-                clearAndPrintInfo(opponents, myPlayerOnServer, deck, newSantoriniMapArrows);
+                clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, newSantoriniMapArrows);
                 printWaitForOtherPlayers(numberOfPlayers);
                 break;
             default:
@@ -977,9 +965,9 @@ public class Cli extends ClientGameController {
         printRed("WAITING FOR " + waitingPlayers + " PLAYERS\nPLAYERS ACTUALLY IN THE LOBBY:\n");
 
         actualPlayers = getPlayers();
-        for (Player p : actualPlayers) {
+        for (Player player: actualPlayers) {
             printRed(">>> ");
-            printPlayer(p.getNickName(), p);
+            printPlayer(player);
             printRed("\n");
         }
     }
@@ -1014,20 +1002,20 @@ public class Cli extends ClientGameController {
     @Override
     public void challengerChoice(String challengerNick, boolean isYourPlayer) {
         printDebug("CHALLENGER CHOICE");
-        clearAndPrintInfo(opponents, myPlayerOnServer, deck);
+        clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints);
         if (isYourPlayer) {
             printRed("YOU HAVE BEEN CHOSEN AS CHALLENGER!\n");
             controlWaitEnter("enter");
             availableActions.clear();
             availableActions.add("CHOOSE CARDS");
 
-            clearAndPrintInfo(opponents, myPlayerOnServer, deck);
+            clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints);
             printRed("SELECT WITH ARROWS ONE OF THE OPTIONS BELOW, THEN PRESS ENTER TO GO ON...\n");
             startSelectedActions(scrollAvailableOptions(availableActions));
 
         } else {
             printRed("PLAYER ");
-            printPlayer(challengerNick, getPlayerFromNickName(opponents, challengerNick));
+            printPlayer(getPlayerFromNickName(opponents, challengerNick));
             printRed(" IS CHOOSING CARDS\n");
             printWaitForOtherPlayers(numberOfPlayers);
         }
@@ -1038,18 +1026,13 @@ public class Cli extends ClientGameController {
 
     @Override
     public void cardChoice(String challengerNick, boolean isYourPlayer) {
-        /*synchronized (this) {
-            setTerminalMode("sane");
-        }*/
-
-        //mainThread.interrupt();
         opponents = new ArrayList<>();
         for(Player player: getPlayers()) {
             if(!getNickName().equalsIgnoreCase(player.getNickName()))
                 opponents.add(player);
         }
 
-        clearAndPrintInfo(opponents, myPlayerOnServer, deck);
+        clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints);
 
         if (isYourPlayer) {
             deckOrdered = new ArrayList<>(getAvailableCards());
@@ -1060,18 +1043,16 @@ public class Cli extends ClientGameController {
             availableActions.clear();
             availableActions.add("CHOOSE POWER");
 
-            clearAndPrintInfo(opponents, myPlayerOnServer, deck);
+            clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints);
             printRed("SELECT WITH ARROWS ONE OF THE OPTIONS BELOW, THEN PRESS ENTER TO GO ON...\n");
             startSelectedActions(scrollAvailableOptions(availableActions));
 
         } else {
             printRed("PLAYER ");
-            printPlayer(challengerNick, getPlayerFromNickName(opponents, challengerNick));
+            printPlayer(getPlayerFromNickName(opponents, challengerNick));
             printRed(" IS CHOOSING HIS POWER\n");
             printWaitForOtherPlayers(numberOfPlayers);
         }
-
-        //mainThread.start();
     }
 
     @Override
@@ -1087,20 +1068,20 @@ public class Cli extends ClientGameController {
                 opponents.add(player);
         }
 
-        clearAndPrintInfo(opponents, myPlayerOnServer, deck, newSantoriniMapArrows);
+        clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, newSantoriniMapArrows);
         if (isYourPlayer) {
             printRed("PLACE YOUR WORKERS!\n");
             controlWaitEnter("enter");
             availableActions = new ArrayList<>();
             availableActions.add("PLACE WORKERS");
 
-            clearAndPrintInfo(opponents, myPlayerOnServer, deck);
+            clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints);
             printRed("SELECT WITH ARROWS ONE OF THE OPTIONS BELOW, THEN PRESS ENTER TO GO ON...\n");
             startSelectedActions(scrollAvailableOptions(availableActions));
 
         } else {
             printRed("PLAYER ");
-            printPlayer(challengerNick, myPlayerOnServer);
+            printPlayer(myPlayerOnServer);
             printRed(" IS PLACING HIS WORKERS\n");
             printWaitForOtherPlayers(numberOfPlayers);
         }
@@ -1124,18 +1105,28 @@ public class Cli extends ClientGameController {
     public void updateBoard(String nick, List<Square> squares, MessageType type) {
         updateModification(squares);
 
-        clearAndPrintInfo(opponents, myPlayerOnServer, deck, newSantoriniMapArrows);
+        clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, newSantoriniMapArrows);
         printWaitForOtherPlayers(numberOfPlayers);
     }
 
     @Override
     public void notifyWin(String nick) {
-
+        printRed(WINNER);
+        printRed("LOSERS:\n");
+        for(Player opponent: opponents) {
+            printRed("> [");
+            printPlayer(opponent);
+            printRed("]\n");
+        }
     }
 
     @Override
     public void notifyLose(String nick, boolean isYourPlayer) {
-
+        if(isYourPlayer) {
+            printRed(LOSER);
+            printRed("THE WINNER IS: ");
+            printPlayer(getPlayerFromNickName(opponents, nick));
+        }
     }
 
     @Override
@@ -1164,44 +1155,44 @@ public class Cli extends ClientGameController {
             CliUtils.LOGGER.severe(e.getMessage());
         }
 
-        clearAndPrintInfo(opponents, myPlayerOnServer, deck);
+        clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints);
         printRed("SELECT WITH ARROWS ONE OF THE OPTIONS BELOW, THEN PRESS ENTER TO GO ON...\n");
         startSelectedActions(scrollAvailableOptions(availableActions));
     }
 
     @Override
     public void addConstraint(String name) {
-
+        this.constraints.add(name);
     }
 
     @Override
     public void removeConstraint(String name) {
-
+        this.constraints.remove(name);
     }
 
     @Override
     public void onTurnTimerEnded(String stopper) {
-        printDebug("OnTurnTimerEnded");
+        printRed("TIMER IS ENDED...");
     }
 
     @Override
     public void onStoppedGame(String stopper) {
-
+        printRed("GAME IS STOPPED...");
     }
 
     @Override
     public void onLobbyDisconnection() {
-        printDebug("OnLobbyDisconnection");
+        printRed("YOU ARE DISCONNECTED FROM THE LOBBY...");
     }
 
     @Override
     public void onPingDisconnection() {
-        printDebug("OnPingDisconnection");
+        printRed("PING DISCONNECTION...");
     }
 
     @Override
     public void onEndGameDisconnection() {
-
+        printRed("DISCONNECTED FROM THE GAME...");
     }
 
     @Override
@@ -1211,17 +1202,17 @@ public class Cli extends ClientGameController {
 
     @Override
     public void onErrorMessage(String stopper, boolean isYourPlayer) {
-        printDebug("OnErrorMessage");
+        printRed("ERROR MESSAGE...");
     }
 
     @Override
     public void notYourTurn() {
-        printDebug("NotYourTurn");
+        printRed("IT'S NOT YOUR TURN...");
     }
 
     @Override
     public void startTurn(String nick, boolean isYourPlayer) {
-        clearAndPrintInfo(opponents, myPlayerOnServer, deck, newSantoriniMapArrows);
+        clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, newSantoriniMapArrows);
 
         if (isYourPlayer) {
             printRed("IT'S YOUR TURN!\n");
@@ -1229,7 +1220,7 @@ public class Cli extends ClientGameController {
             availableActions = new ArrayList<>();
             availableActions.add("SELECT WORKER");
 
-            clearAndPrintInfo(opponents, myPlayerOnServer, deck, newSantoriniMapArrows);
+            clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, newSantoriniMapArrows);
             printRed("SELECT WITH ARROWS ONE OF THE OPTIONS BELOW, THEN PRESS ENTER TO GO ON...\n");
             startSelectedActions(scrollAvailableOptions(availableActions));
             //selectAction --> move / build
