@@ -1111,12 +1111,16 @@ public class Cli extends ClientGameController {
 
     @Override
     public void notifyWin(String nick) {
-        printRed(WINNER);
-        printRed("LOSERS:\n");
-        for(Player opponent: opponents) {
-            printRed("> [");
-            printPlayer(opponent);
-            printRed("]\n");
+        clearShell();
+        if(nick.equalsIgnoreCase(getNickName()))
+            printRed(WINNER);
+        else {
+            printRed("LOSERS:\n");
+            for (Player opponent : opponents) {
+                printRed("> [");
+                printPlayer(opponent);
+                printRed("]\n");
+            }
         }
     }
 
