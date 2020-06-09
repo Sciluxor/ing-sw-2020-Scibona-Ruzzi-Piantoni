@@ -85,23 +85,9 @@
 
     <dependency>
       <groupId>org.openjfx</groupId>
-      <artifactId>javafx-graphics</artifactId>
-      <version>11.0.2</version>
+      <artifactId>javafx-media</artifactId>
+      <version>15-ea+5</version>
       <classifier>win</classifier>
-    </dependency>
-
-    <dependency>
-      <groupId>org.openjfx</groupId>
-      <artifactId>javafx-graphics</artifactId>
-      <version>11.0.2</version>
-      <classifier>linux</classifier>
-    </dependency>
-
-    <dependency>
-      <groupId>org.openjfx</groupId>
-      <artifactId>javafx-graphics</artifactId>
-      <version>11.0.2</version>
-      <classifier>mac</classifier>
     </dependency>
 
   </dependencies>
@@ -198,7 +184,6 @@
           </execution>
 
           <!-- Client JAR -->
-          <!--
           <execution>
             <id>client</id>
             <goals><goal>single</goal></goals>
@@ -215,7 +200,7 @@
               </descriptorRefs>
             </configuration>
           </execution>
-          -->
+
 
           <!-- Client TEST JAR -->
           <execution>
