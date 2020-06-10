@@ -5,6 +5,7 @@ import it.polimi.ingsw.network.client.ClientGameController;
 import it.polimi.ingsw.model.player.Color;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.message.MessageType;
+import it.polimi.ingsw.view.client.cli.Cli;
 
 import javax.swing.*;
 import java.awt.*;
@@ -51,6 +52,10 @@ public class Gui extends ClientGameController {
     JButton buttonBackground = new JButton();
     MP3 sound;
 
+    public static void main(String[] args) {
+        Gui gui = new Gui();
+        gui.avvio();
+    }
 
     private void show() throws IOException {
 
