@@ -83,6 +83,13 @@
           <scope>test</scope>
       </dependency>
 
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-media</artifactId>
+      <version>15-ea+5</version>
+      <classifier>win</classifier>
+    </dependency>
+
   </dependencies>
 
   <build>
@@ -159,7 +166,6 @@
         <executions>
 
           <!-- Server JAR -->
-          <!--
           <execution>
             <id>server</id>
             <goals><goal>single</goal></goals>
@@ -176,10 +182,8 @@
               </descriptorRefs>
             </configuration>
           </execution>
-          -->
 
           <!-- Client JAR -->
-          <!--
           <execution>
             <id>client</id>
             <goals><goal>single</goal></goals>
@@ -196,7 +200,7 @@
               </descriptorRefs>
             </configuration>
           </execution>
-          -->
+
 
           <!-- Client TEST JAR -->
           <execution>
