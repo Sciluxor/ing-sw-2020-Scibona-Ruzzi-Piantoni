@@ -86,7 +86,7 @@
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-media</artifactId>
-      <version>15-ea+5</version>
+      <version>11.0.2</version>
       <classifier>win</classifier>
     </dependency>
 
@@ -183,16 +183,16 @@
             </configuration>
           </execution>
 
-          <!-- Client JAR -->
+          <!-- Client GUI JAR -->
           <execution>
-            <id>client</id>
+            <id>client_gui</id>
             <goals><goal>single</goal></goals>
             <phase>package</phase>
             <configuration>
-              <finalName>Client</finalName>
+              <finalName>Client_GUI</finalName>
               <archive>
                 <manifest>
-                  <mainClass>it.polimi.ingsw.App</mainClass>
+                  <mainClass>it.polimi.ingsw.view.client.gui.Gui</mainClass>
                 </manifest>
               </archive>
               <descriptorRefs>
@@ -201,17 +201,16 @@
             </configuration>
           </execution>
 
-
-          <!-- Client TEST JAR -->
+          <!-- Client CLI JAR -->
           <execution>
-            <id>client_test</id>
+            <id>client_cli</id>
             <goals><goal>single</goal></goals>
             <phase>package</phase>
             <configuration>
-              <finalName>Client_test</finalName>
+              <finalName>Client_CLI</finalName>
               <archive>
                 <manifest>
-                  <mainClass>it.polimi.ingsw.App_copy</mainClass>
+                  <mainClass>it.polimi.ingsw.view.client.cli.Cli</mainClass>
                 </manifest>
               </archive>
               <descriptorRefs>
