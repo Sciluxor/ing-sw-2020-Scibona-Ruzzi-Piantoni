@@ -13,6 +13,13 @@ import static it.polimi.ingsw.view.client.gui.Board.internalFrameSetUp;
 import static it.polimi.ingsw.view.client.gui.EliminateListeners.*;
 import static it.polimi.ingsw.view.client.gui.Gui.*;
 
+/**
+ * Classe che estende JDesktopPane per la costruzione del Pane per la scelta delle divinità da parte del challenger
+ * @author Scilux
+ * @version 1.0
+ * @since 2020/06/13
+ */
+
 public class ChallengerChoiceCards extends JDesktopPane{
 
     transient Gui gui;
@@ -36,6 +43,16 @@ public class ChallengerChoiceCards extends JDesktopPane{
     private final List<JButton> godList = new ArrayList<>();
     transient ButtonGodsList costructor;
     transient MP3 click;
+
+    /**
+     * Costruttore della classe
+     * @param instance Riferimento alla classe GUI del client
+     * @param instance2 Riferimento alla classe Board istanziata dalla GUI
+     * @param aframe Riferimento alla JInternalFrame in cui verrà inserito l'attuale JDesktopPane ChallengerChoiceCards
+     * @param dimensionFrame Dimensione della JInternalFrame
+     * @param numberOfPlayer Numero dei Player in gioco
+     * @throws IOException se il caricamento delle scritte o delle descrizioni delle divinità non andasse a buon fine
+     */
 
     public ChallengerChoiceCards(Gui instance, Board instance2, JInternalFrame aframe, Dimension dimensionFrame, Integer numberOfPlayer) throws IOException {
 
@@ -113,7 +130,11 @@ public class ChallengerChoiceCards extends JDesktopPane{
 
     }
 
-     private void buttonStyle(){
+    /**
+     * Metodo per settare i parametri dei JButton delle carte
+     */
+
+    private void buttonStyle(){
          for (JButton button : godList){
              button.setOpaque(false);
              button.setContentAreaFilled(false);
@@ -125,10 +146,24 @@ public class ChallengerChoiceCards extends JDesktopPane{
          }
      }
 
+    /**
+     * Metodo per il posizionamento del JButton secondo parametri
+     * @param button JButton da posizionare
+     * @param x Posizione x nella finestra
+     * @param y Posizione y nella finestra
+     */
+
      private void buttonPositioning(JButton button, int x, int y){
          button.setBounds(x, y, cardSize.width, cardSize.height);
          add(button);
      }
+
+    /**
+     * Metodo per il posizionamento delle carte se partita a due giocatori
+     * @param x Posizione x della prima carte nella finestra
+     * @param y Posizione y della prima carta nella finestra
+     * @param yconst Costante della posizione y della prima carta nella finestra
+     */
 
      private void addForTwo(int x, int y, int yconst){
          for (JButton button : godList){
@@ -153,6 +188,14 @@ public class ChallengerChoiceCards extends JDesktopPane{
          }
      }
 
+    /**
+     * Metodo per il posizionamento delle carte se partita a tre giocatori
+     * @param chronus JButton della divinità da escludere nel posizionamento
+     * @param x Posizione x della prima carte nella finestra
+     * @param y Posizione y della prima carta nella finestra
+     * @param yconst Costante della posizione y della prima carta nella finestra
+     */
+
      private void addForThree(JButton chronus, int x, int y, int yconst){
          for (JButton button : godList){
              if(count == 0){
@@ -175,6 +218,10 @@ public class ChallengerChoiceCards extends JDesktopPane{
             }
          }
      }
+
+    /**
+     * Classe che estende MouseAdapter per far vedere la descrizione della carta passandoci sopra col mouse
+     */
 
     private class ShowPower extends MouseAdapter {
 
@@ -210,7 +257,9 @@ public class ChallengerChoiceCards extends JDesktopPane{
         }
     }
 
-
+    /**
+     * Classe che implementa ActionListener per la scelta della divinità
+     */
 
     private class ChooseGod implements ActionListener{
         @Override
@@ -243,6 +292,11 @@ public class ChallengerChoiceCards extends JDesktopPane{
             godChosen.add(god);
         }
     }
+
+    /**
+     * Classe che implementa ActionListener per la rimozione della divinità dalle scelte finora effettuate
+     */
+
     private class RemoveGod implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -259,12 +313,20 @@ public class ChallengerChoiceCards extends JDesktopPane{
         }
     }
 
+    /**
+     * Classe che implementa ActionListener per il JButton Close che chiude l'attuale JInternalFrame
+     */
+
     private class Close implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             guiIntFrame.setVisible(false);
         }
     }
+
+    /**
+     * Classe che implementa ActionListener per il JButton Confirm che conferma le divinità scelte
+     */
 
     private class Confirm implements ActionListener {
         @Override
