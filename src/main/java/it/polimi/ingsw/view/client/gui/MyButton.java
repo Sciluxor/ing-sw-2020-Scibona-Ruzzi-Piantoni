@@ -9,6 +9,13 @@ import java.io.IOException;
 
 import static it.polimi.ingsw.view.client.gui.Gui.*;
 
+/**
+ * Classe che estende JButton per la costruzione dei bottoni
+ * @author Scilux
+ * @version 1.0
+ * @since 2020/06/13
+ */
+
 public class MyButton extends JButton{
 
     int type = 0;
@@ -26,6 +33,11 @@ public class MyButton extends JButton{
     JLabel lcontinue;
     JLabel lcontinuePress;
     transient MP3 click = new MP3("resources/Music/Click.mp3");
+
+    /**
+     * Costruttore della clase
+     * @param n Parametro per decidere quale bottone si vuole
+     */
 
     public MyButton(int n) {
         type = n;
@@ -81,6 +93,10 @@ public class MyButton extends JButton{
             default:
         }
     }
+
+    /**
+     * Classe che estende MouseAdapter per l'animazione del click del bottone
+     */
 
     private class ButtonPress extends MouseAdapter {
 

@@ -47,7 +47,7 @@ public class LobbyGui{
      * @param frame Dimensione della finestra in cui andrà il JDesktopPane LobbyGui
      * @param numberOfPlayer Numero dei Player della partita
      * @param actualPlayers List con gli attuali Player in lobby
-     * @throws IOException
+     * @throws IOException se il caricamento delle scritte non andasse a buon fine
      */
 
     public LobbyGui(Gui instance, Dimension frame, Integer numberOfPlayer, List<Player> actualPlayers) throws IOException {

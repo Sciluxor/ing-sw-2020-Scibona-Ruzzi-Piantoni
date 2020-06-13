@@ -12,6 +12,13 @@ import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
 import static it.polimi.ingsw.view.client.gui.Board.getBoldDimension;
 import static it.polimi.ingsw.view.client.gui.Gui.*;
 
+/**
+ * Classe per la creazione dei JPanel dei vari PopUp
+ * @author Scilux
+ * @version 1.0
+ * @since 2020/06/13
+ */
+
 public class PopUp {
     Gui gui;
     JPanel window;
@@ -29,6 +36,13 @@ public class PopUp {
     String name = null;
     double bold = getBoldDimension();
 
+    /**
+     * Costruttore della clase
+     * @param istance2 Riferimento alla classe GUI del client
+     * @param d Dimensione della finestra principale
+     * @param stopper Parametro che indica l'eventuale giocatore che provoca un'eccezione
+     */
+
     public PopUp(Gui istance2, Dimension d, String stopper){
 
         gui = istance2;
@@ -40,6 +54,12 @@ public class PopUp {
         panel = new JPanel();
         name = stopper;
     }
+
+    /**
+     * Metodo che costuisce il JPanel in base al parametro n
+     * @param n Parametro che indica il JPanle da costruire in base alla situazione
+     * @return il JPanel Costruito
+     */
 
     public JPanel lobbyPopUp(int n){
         window.removeAll();
@@ -251,6 +271,10 @@ public class PopUp {
         return window;
     }
 
+    /**
+     * Metodo che costruisce le scritte del popup per perdita di connessione
+     */
+
     private void setDisconnection(){
         label1 = new JLabel();
         try {
@@ -279,6 +303,10 @@ public class PopUp {
         button2.addActionListener(new Close());
     }
 
+    /**
+     * Metodo che imposta le scritte del popup per turno non giocato
+     */
+
     private void setDisconnectionTime(){
         label2 = new JLabel(name);
         label2.setBounds((int) (((double)intFrameSize.width * 30/100) - (name.length() * bold)), (int) (intFrameSize.height * 41.5/100), intFrameSize.width * 60/100, intFrameSize.width * 5/100);
@@ -295,6 +323,10 @@ public class PopUp {
         button2.addActionListener(new Close());
     }
 
+    /**
+     * Classe che estende ActionListener per l'invio del nuovo nickname
+     */
+
     private class Send implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -307,6 +339,10 @@ public class PopUp {
         }
     }
 
+    /**
+     * Classe che estende ActionListener per il ritorno alla login per una nuova partita
+     */
+
     private class NewGame implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -317,6 +353,10 @@ public class PopUp {
             gui.lobby.backButton.setEnabled(true);
         }
     }
+
+    /**
+     * Classe che estende ActionListener per il ritorno alla login per una nuova partita dopo la fine di una partita
+     */
 
     private class NewGameEndGame implements ActionListener {
         @Override
@@ -329,6 +369,10 @@ public class PopUp {
 
         }
     }
+
+    /**
+     * Classe che estende ActionListener per il ritorno alla login per una nuova partita dopo errore durante partita
+     */
 
     private class NewGameError implements ActionListener {
         @Override
@@ -345,6 +389,10 @@ public class PopUp {
             gui.lobby.backButton.setEnabled(true);
         }
     }
+
+    /**
+     * Classe che implementa ActionListener per il JButton Close che chiude l'attuale PopUp
+     */
 
     private class Close implements ActionListener {
         @Override

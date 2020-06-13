@@ -56,7 +56,7 @@ public class ChooseCard extends JDesktopPane{
      * @param wi Larghezza del JInternalFrame
      * @param he Altezza del JInternalFrame
      * @param cards List delle divinità scelte
-     * @param numberOfPanel Numero del JDesktopPane da costruire in base alla scelta da fare o meno
+     * @param numberOfPanel Parametro che indica il JDesktopPane da costruire in base alla scelta da fare o meno
      * @param name Nome del Player che sta scegliendo
      * @throws IOException se il caricamento delle scritte o delle immagini dei bottoni non andasse a buon fine
      */

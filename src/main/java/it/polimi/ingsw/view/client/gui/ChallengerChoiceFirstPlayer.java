@@ -186,7 +186,7 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
     }
 
     /**
-     * Classe che estende MouseAdapter che anima la pressione del bottone
+     * Classe che estende MouseAdapter per l'animazione del click del bottone
      */
 
     private class ButtonPress extends MouseAdapter {

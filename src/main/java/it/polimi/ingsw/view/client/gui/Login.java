@@ -11,6 +11,13 @@ import java.net.ConnectException;
 
 import static it.polimi.ingsw.view.client.gui.Gui.LOGGER;
 
+/**
+ * Classe che estende JPanel per la creazione del JPanel della login
+ * @author Scilux
+ * @version 1.0
+ * @since 2020/06/13
+ */
+
 public class Login extends JPanel{
 
     private final transient Gui gui;
@@ -21,6 +28,14 @@ public class Login extends JPanel{
     JTextField address;
     MyButton confirm;
     boolean firstConnection = true;
+
+    /**
+     * Costruttore della Classe
+     * @param istance Riferimento alla classe GUI del client
+     * @param frame Dimensione della finestra in cui andrà il JPanel Login
+     * @param connection Boolean che dice se è una prima connessione
+     * @throws IOException se il caricamento delle scritte o dello sfondo non andasse a buon fine
+     */
 
     public Login(Gui istance, Dimension frame, boolean connection) throws IOException {
 
@@ -88,6 +103,10 @@ public class Login extends JPanel{
         add(back);
         confirm.addActionListener(new Send());
     }
+
+    /**
+     * Classe che implementa ActionListener per l'apertura della prima connessione o per l'inizio di nuove partite da connessione già aperta
+     */
 
     private class Send implements ActionListener {
         @Override
