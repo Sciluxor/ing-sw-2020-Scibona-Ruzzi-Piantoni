@@ -38,6 +38,11 @@ public class Cli extends ClientGameController {
 
     private Response fromServerResponse;
 
+    public static void main(String[] args) {
+        Cli cli = new Cli();
+        cli.start();
+    }
+
     public void start() {
         clearShell();
         printRed(TITLE);
@@ -298,7 +303,7 @@ public class Cli extends ClientGameController {
     }
 
     public void setAddress() {
-        printRed("INSERT THE IP ADDRESS (default as " + address + ": ");
+        printRed("INSERT THE IP ADDRESS (default as " + address + "): ");
         String address = input();
         if(!address.equals(""))
             this.address = address;
