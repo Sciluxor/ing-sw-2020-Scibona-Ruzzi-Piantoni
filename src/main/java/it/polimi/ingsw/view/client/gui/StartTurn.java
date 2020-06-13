@@ -11,6 +11,13 @@ import static it.polimi.ingsw.view.client.gui.Board.getBoldDimension;
 import static it.polimi.ingsw.view.client.gui.Gui.felixBold;
 import static it.polimi.ingsw.view.client.gui.Gui.getD;
 
+/**
+ * Classe che estende JDesktopPane per la costruzione del pane per la segnalazione di inizio turno
+ * @author Scilux
+ * @version 1.0
+ * @since 2020/06/13
+ */
+
 public class StartTurn extends JDesktopPane{
     Dimension frameSize = new Dimension();
     Dimension buttonSize = new Dimension();
@@ -18,6 +25,15 @@ public class StartTurn extends JDesktopPane{
     JInternalFrame intFrame;
     String nameChoosing;
     double bold = getBoldDimension();
+
+    /**
+     * Costruttore della classe
+     * @param frame Riferimento al JInternalFrame in cui verrà inserito l'attuale JDesktopPane StartTurn
+     * @param size Dimensione del JInternalFrame
+     * @param numberOfPanel Parametro che indica il JDesktopPane da costruire in base a chi inizia il turno
+     * @param name Nome del Player che inizia il turno
+     * @throws IOException se il caricamento delle scritte non andasse a buon fine
+     */
 
     public StartTurn(JInternalFrame frame, Dimension size, int numberOfPanel, String name) throws IOException {
         frameSize.setSize(size);
@@ -55,6 +71,10 @@ public class StartTurn extends JDesktopPane{
         back.setBounds(0, 0, frameSize.width, frameSize.height);
         add(back);
     }
+
+    /**
+     * Classe che implementa ActionListener per il JButton Close che chiude l'attuale JInternalFrame
+     */
 
     private class Close implements ActionListener {
         @Override
