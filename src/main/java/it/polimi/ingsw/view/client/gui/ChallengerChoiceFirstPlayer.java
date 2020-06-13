@@ -16,6 +16,13 @@ import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
 import static it.polimi.ingsw.view.client.gui.Board.getBoldDimension;
 import static it.polimi.ingsw.view.client.gui.Gui.*;
 
+/**
+ * Classe che estende JDesktopPane per la costruzione del Pane per la scelta del primo Player da parte del Challenger
+ * @author Scilux
+ * @version 1.0
+ * @since 2020/06/13
+ */
+
 public class ChallengerChoiceFirstPlayer extends JDesktopPane{
 
     transient Gui gui;
@@ -32,6 +39,17 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
     JLabel lwhitePress;
     transient MP3 click;
     double bold = getBoldDimension();
+
+    /**
+     * Costruttore della classe
+     * @param istance Riferimento alla classe GUI del client
+     * @param istance2 Riferimento alla classe Board istanziata dalla GUI
+     * @param frame Riferimento al JInternalFrame in cui verrà inserito l'attuale JDesktopPane ChallengerChoiceFirstPlayer
+     * @param dimensionFrame Dimensione del JInternalFrame
+     * @param numberOfPlayer Numero dei Player in gioco
+     * @param players ArrayList dei Player in gioco
+     * @throws IOException se il caricamento delle scritte o delle immagini dei bottoni non andasse a buon fine
+     */
 
     public ChallengerChoiceFirstPlayer(Gui istance, Board istance2, JInternalFrame frame, Dimension dimensionFrame, Integer numberOfPlayer, List<Player> players) throws IOException {
 
@@ -106,12 +124,20 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
         add(back);
     }
 
+    /**
+     * Classe che implementa ActionListener per il JButton Close che chiude l'attuale JInternalFrame
+     */
+
     private class Close implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             intFrame.setVisible(false);
         }
     }
+
+    /**
+     * Classe che implementa ActionListener per i JButton dei Player per la scelta del primo Player
+     */
 
     private class Choose implements ActionListener{
         @Override
@@ -123,6 +149,11 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
             board.buttonChooseFirst.setEnabled(false);
         }
     }
+
+    /**
+     * Metodo per settare l'icona del JButton in base al colore del Player corrispondente
+     * @param buttonPlayer JButton del Player
+     */
 
     private void addColorButton(JButton buttonPlayer){
         for (Player player : board.allPlayer){
@@ -141,6 +172,11 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
         }
     }
 
+    /**
+     * Metodo per settare i parametri del JButton del Player
+     * @param buttonPlayer JButton del Player
+     */
+
     private void buttonStyle(JButton buttonPlayer){
         buttonPlayer.setOpaque(false);
         buttonPlayer.setContentAreaFilled(false);
@@ -148,6 +184,10 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
         buttonPlayer.setBorderPainted(false);
         buttonPlayer.addMouseListener(new ButtonPress());
     }
+
+    /**
+     * Classe che estende MouseAdapter che anima la pressione del bottone
+     */
 
     private class ButtonPress extends MouseAdapter {
 

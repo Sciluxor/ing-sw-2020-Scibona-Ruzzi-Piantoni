@@ -17,7 +17,7 @@ public class ButtonGodsList {
     /**
      * Costruttore della classe
      * @param frameSize Dimensione della finestra per scalare la dimensione delle carte
-     * @param buttons Riferimento a arrayList di JButton da riempire con le carte
+     * @param buttons Riferimento a List di JButton da riempire con le carte
      * @throws IOException se il caricamento delle immagini delle carte non andasse a buon fine
      */
 

@@ -14,7 +14,7 @@ import static it.polimi.ingsw.view.client.gui.EliminateListeners.*;
 import static it.polimi.ingsw.view.client.gui.Gui.*;
 
 /**
- * Classe che estende JDesktopPane per la costruzione del Pane per la scelta delle divinità da parte del challenger
+ * Classe che estende JDesktopPane per la costruzione del Pane per la scelta delle divinità da parte del Challenger
  * @author Scilux
  * @version 1.0
  * @since 2020/06/13
@@ -48,8 +48,8 @@ public class ChallengerChoiceCards extends JDesktopPane{
      * Costruttore della classe
      * @param instance Riferimento alla classe GUI del client
      * @param instance2 Riferimento alla classe Board istanziata dalla GUI
-     * @param aframe Riferimento alla JInternalFrame in cui verrà inserito l'attuale JDesktopPane ChallengerChoiceCards
-     * @param dimensionFrame Dimensione della JInternalFrame
+     * @param aframe Riferimento al JInternalFrame in cui verrà inserito l'attuale JDesktopPane ChallengerChoiceCards
+     * @param dimensionFrame Dimensione del JInternalFrame
      * @param numberOfPlayer Numero dei Player in gioco
      * @throws IOException se il caricamento delle scritte o delle descrizioni delle divinità non andasse a buon fine
      */

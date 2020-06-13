@@ -10,7 +10,7 @@ import java.io.*;
 public class ImageHandler {
 
     private ImageHandler() {
-        throw new IllegalStateException("MapLoader class cannot be instantiated");
+        throw new IllegalStateException("ImageHandler class cannot be instantiated");
     }
 
     public static JLabel setImage(String s, double xMod, double yMod, int width, int height) throws IOException {
