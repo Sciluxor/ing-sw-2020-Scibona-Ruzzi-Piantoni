@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Classe che elimina i Listeners dal JButton fornito
+ * Class that removes Listeners from the provided JButton
  * @author Scilux
  * @version 1.0
  * @since 2020/06/13
@@ -15,7 +15,7 @@ import java.util.List;
 
 public class EliminateListeners {
     /**
-     * Costruttore privato della classe
+     * Private class builder
      */
 
     private EliminateListeners() {
@@ -23,9 +23,9 @@ public class EliminateListeners {
     }
 
     /**
-     * Metodo che elimina l'ActionListener selezionato dal JButton fornito
-     * @param button JButton a cui eliminare l'ActionListener
-     * @param clas Classe dell'ActionListener da eliminare
+     * Method that remove the ActionListener selected from the supplied JButton
+     * @param button JButton to delete the ActionListener
+     * @param clas Class of the ActionListener to be deleted
      */
 
     public static void eliminateActionClass(JButton button, Class clas){
@@ -40,9 +40,9 @@ public class EliminateListeners {
     }
 
     /**
-     * Metodo che elimina il MouseListener selezionato dal JButton fornito
-     * @param button JButton a cui eliminare il MouseListener
-     * @param clas Classe del MouseListener da eliminare
+     * Method that remove the MouseListener selected from the supplied JButton
+     * @param button JButton to delete the MouseListener
+     * @param clas Class of the MouseListener to be deleted
      */
 
     public static void eliminateMouseClass(JButton button, Class clas){
@@ -58,8 +58,8 @@ public class EliminateListeners {
     }
 
     /**
-     * Metodo che elimina TUTTI gli ActionListener del JButton fornito
-     * @param button JButton a cui eliminare gli ActionListener
+     * Method that remove ALL the ActionListener from the supplied JButton
+     * @param button JButton to delete the ActionListener
      */
 
     public static void eliminateAllActionClass(JButton button){
@@ -73,8 +73,8 @@ public class EliminateListeners {
     }
 
     /**
-     * Metodo che elimina TUTTI i MouseListener del JButton fornito
-     * @param button JButton a cui eliminare i MouseListener
+     * Method that remove ALL the MouseListener from the supplied JButton
+     * @param button JButton to delete the MouseListener
      */
 
     public static void eliminateAllMouseClass(JButton button){

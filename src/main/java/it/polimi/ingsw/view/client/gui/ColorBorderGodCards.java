@@ -6,7 +6,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 /**
- * Classe che estende MouseAdapter che colora il bordo del bottone, in cui si passa sopra col mouse, di giallo
+ * Class that extends MouseAdapter which colors the edge of the button, in which you pass over it with the mouse, in yellow
  * @author Scilux
  * @version 1.0
  * @since 2020/06/13

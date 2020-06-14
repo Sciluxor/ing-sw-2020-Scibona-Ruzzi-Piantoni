@@ -14,7 +14,7 @@ import static it.polimi.ingsw.view.client.gui.Gui.felixBold;
 import static it.polimi.ingsw.view.client.gui.Gui.getD;
 
 /**
- * Classe che estende JDesktopPane che costruisce il pane per gli aggiornamenti durante il gioco
+ * Class that extends JDesktopPane that builds the pane for updates during the game
  * @author Scilux
  * @version 1.0
  * @since 2020/06/13
@@ -30,13 +30,13 @@ public class UpdateBoard extends JDesktopPane {
     String nameChoosing;
 
     /**
-     * Costruttore della classe
-     * @param istance Riferimento alla classe Board istanziata dalla GUI
-     * @param frame Riferimento al JInternalFrame in cui verrà inserito l'attuale JDesktopPane UpdateBoard
-     * @param dimensionFrame Dimensione del JInternalFrame
-     * @param name Nome del Player che ha effettuato un'azione
-     * @param type Tipo di azione effettuata
-     * @throws IOException se il caricamento delle scritte non andasse a buon fine
+     * Class builder
+     * @param istance Reference to the Board class instanced by the GUI
+     * @param frame Reference to the JInternalFrame where the current JDesktopPane UpdateBoard will be inserted
+     * @param dimensionFrame Size of the JInternalFrame
+     * @param name Name of the Player who performed an action
+     * @param type Type of action taken
+     * @throws IOException if the loading of the inscription was not successful
      */
 
     public UpdateBoard(Board istance, JInternalFrame frame, Dimension dimensionFrame, String name, MessageType type) throws IOException {
@@ -74,7 +74,7 @@ public class UpdateBoard extends JDesktopPane {
     }
 
     /**
-     * Classe che implementa ActionListener per il JButton Close che chiude l'attuale JInternalFrame
+     * Class that implements ActionListener for the JButton Close which closes the current JInternalFrame
      */
 
     private class Close implements ActionListener {

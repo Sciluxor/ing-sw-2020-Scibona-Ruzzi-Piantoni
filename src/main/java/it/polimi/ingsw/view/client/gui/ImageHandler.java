@@ -7,11 +7,33 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 
+/**
+ * Class that handle the loading of the images
+ * @author Scilux
+ * @version 1.0
+ * @since 2020/06/13
+ */
+
 public class ImageHandler {
+
+    /**
+     * Private class builder
+     */
 
     private ImageHandler() {
         throw new IllegalStateException("ImageHandler class cannot be instantiated");
     }
+
+    /**
+     * Method that handle the loading of the image
+     * @param s Path to the image
+     * @param xMod Parameter for horizontal scaling
+     * @param yMod Parameter for vertical scaling
+     * @param width Desired width size
+     * @param height Desired height size
+     * @return The image as a JLabel
+     * @throws IOException if the upload was not successful
+     */
 
     public static JLabel setImage(String s, double xMod, double yMod, int width, int height) throws IOException {
 

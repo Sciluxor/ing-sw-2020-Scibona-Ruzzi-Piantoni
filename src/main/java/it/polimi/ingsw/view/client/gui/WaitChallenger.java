@@ -11,7 +11,7 @@ import static it.polimi.ingsw.view.client.gui.Gui.felixBold;
 import static it.polimi.ingsw.view.client.gui.Gui.getD;
 
 /**
- * Classe che estende JDesktopPane che costruisce pane per il messaggio di attesa delle scelte del challenger
+ * Class that extends JDesktopPane that builds pane for the message of waiting for the challenger choices
  * @author Scilux
  * @version 1.0
  * @since 2020/06/13
@@ -26,11 +26,11 @@ public class WaitChallenger extends JDesktopPane{
     double posx;
 
     /**
-     * Costruttore della classe
-     * @param frame Riferimento al JInternalFrame in cui verrà inserito l'attuale JDesktopPane WaitChallenger
-     * @param dim Dimensione del JInternalFrame
-     * @param name Nome del Player designato come Challenger
-     * @throws IOException se il caricamento delle scritte non andasse a buon fine
+     * Class builder
+     * @param frame Reference to the JInternalFrame where the current JDesktopPane WaitChallenger will be inserted
+     * @param dim Size of the JInternalFrame
+     * @param name Name of the Player designated as a Challenger
+     * @throws IOException if the loading of the inscription was not successful
      */
 
     public WaitChallenger(JInternalFrame frame, Dimension dim, String name) throws IOException {
@@ -69,7 +69,7 @@ public class WaitChallenger extends JDesktopPane{
     }
 
     /**
-     * Classe che implementa ActionListener per il JButton Close che chiude l'attuale JInternalFrame
+     * Class that implements ActionListener for the JButton Close which closes the current JInternalFrame
      */
 
     private class Close implements ActionListener {

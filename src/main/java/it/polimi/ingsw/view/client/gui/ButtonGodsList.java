@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * Classe per la costruzione del mazzo di carte come singoli JButton
+ * Class for building the deck of cards as single JButtons
  * @author Scilux
  * @version 1.0
  * @since 2020/06/13
@@ -15,10 +15,10 @@ import java.util.List;
 public class ButtonGodsList {
 
     /**
-     * Costruttore della classe
-     * @param frameSize Dimensione della finestra per scalare la dimensione delle carte
-     * @param buttons Riferimento a List di JButton da riempire con le carte
-     * @throws IOException se il caricamento delle immagini delle carte non andasse a buon fine
+     * Class builder
+     * @param frameSize Window size to scale the size of the cards
+     * @param buttons Reference to the List of JButton to be filled with cards
+     * @throws IOException if the loading of the images of the cards was not successful
      */
 
     public ButtonGodsList(Dimension frameSize, List<JButton> buttons) throws IOException {

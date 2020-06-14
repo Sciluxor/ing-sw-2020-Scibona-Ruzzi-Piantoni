@@ -12,7 +12,7 @@ import java.net.ConnectException;
 import static it.polimi.ingsw.view.client.gui.Gui.LOGGER;
 
 /**
- * Classe che estende JPanel per la creazione del JPanel della login
+ * Class that extends JPanel that builds the JPanel for the login
  * @author Scilux
  * @version 1.0
  * @since 2020/06/13
@@ -30,11 +30,11 @@ public class Login extends JPanel{
     boolean firstConnection = true;
 
     /**
-     * Costruttore della Classe
-     * @param istance Riferimento alla classe GUI del client
-     * @param frame Dimensione della finestra in cui andrà il JPanel Login
-     * @param connection Boolean che dice se è una prima connessione
-     * @throws IOException se il caricamento delle scritte o dello sfondo non andasse a buon fine
+     * Class builder
+     * @param istance Reference to the client GUI class
+     * @param frame Size of the frame where the current JPanel Login will be inserted
+     * @param connection Boolean saying if it's a first connection
+     * @throws IOException if the loading of the inscription or the background was not successful
      */
 
     public Login(Gui istance, Dimension frame, boolean connection) throws IOException {
@@ -105,7 +105,7 @@ public class Login extends JPanel{
     }
 
     /**
-     * Classe che implementa ActionListener per l'apertura della prima connessione o per l'inizio di nuove partite da connessione già aperta
+     * Class that implements ActionListener for opening the first connection or for starting new games from an already open connection
      */
 
     private class Send implements ActionListener {

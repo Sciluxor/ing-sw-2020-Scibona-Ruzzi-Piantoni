@@ -14,7 +14,7 @@ import static it.polimi.ingsw.view.client.gui.EliminateListeners.*;
 import static it.polimi.ingsw.view.client.gui.Gui.*;
 
 /**
- * Classe che estende JDesktopPane per la costruzione del Pane per la scelta delle divinità da parte del Challenger
+ * Class that extends JDesktopPane for the build of the pane that make the Challenger choose the gods
  * @author Scilux
  * @version 1.0
  * @since 2020/06/13
@@ -45,13 +45,13 @@ public class ChallengerChoiceCards extends JDesktopPane{
     transient MP3 click;
 
     /**
-     * Costruttore della classe
-     * @param instance Riferimento alla classe GUI del client
-     * @param instance2 Riferimento alla classe Board istanziata dalla GUI
-     * @param aframe Riferimento al JInternalFrame in cui verrà inserito l'attuale JDesktopPane ChallengerChoiceCards
-     * @param dimensionFrame Dimensione del JInternalFrame
-     * @param numberOfPlayer Numero dei Player in gioco
-     * @throws IOException se il caricamento delle scritte o delle descrizioni delle divinità non andasse a buon fine
+     * Class builder
+     * @param instance Reference to the client GUI class
+     * @param instance2 Reference to the Board class instanced by the GUI
+     * @param aframe Reference to the JInternalFrame where the current JDesktopPane ChallengerChoiceCards will be inserted
+     * @param dimensionFrame Size of the JInternalFrame
+     * @param numberOfPlayer Number of Players in play
+     * @throws IOException if the loading of the inscription or the descriptions of the gods was not successful
      */
 
     public ChallengerChoiceCards(Gui instance, Board instance2, JInternalFrame aframe, Dimension dimensionFrame, Integer numberOfPlayer) throws IOException {
@@ -131,7 +131,7 @@ public class ChallengerChoiceCards extends JDesktopPane{
     }
 
     /**
-     * Metodo per settare i parametri dei JButton delle carte
+     * Method for setting the JButtons of the cards
      */
 
     private void buttonStyle(){
@@ -147,10 +147,10 @@ public class ChallengerChoiceCards extends JDesktopPane{
      }
 
     /**
-     * Metodo per il posizionamento del JButton secondo parametri
-     * @param button JButton da posizionare
-     * @param x Posizione x nella finestra
-     * @param y Posizione y nella finestra
+     * Method for positioning the JButton according to parameters
+     * @param button JButton to be positioned
+     * @param x Position x in the window
+     * @param y Position y in the window
      */
 
      private void buttonPositioning(JButton button, int x, int y){
@@ -159,10 +159,10 @@ public class ChallengerChoiceCards extends JDesktopPane{
      }
 
     /**
-     * Metodo per il posizionamento delle carte se partita a due giocatori
-     * @param x Posizione x della prima carte nella finestra
-     * @param y Posizione y della prima carta nella finestra
-     * @param yconst Costante della posizione y della prima carta nella finestra
+     * Method for placing cards if it's a game for two players
+     * @param x Position x of the first card in the window
+     * @param y Position y of the first card in the window
+     * @param yconst Constant of the y position of the first card in the window
      */
 
      private void addForTwo(int x, int y, int yconst){
@@ -189,11 +189,11 @@ public class ChallengerChoiceCards extends JDesktopPane{
      }
 
     /**
-     * Metodo per il posizionamento delle carte se partita a tre giocatori
-     * @param chronus JButton della divinità da escludere nel posizionamento
-     * @param x Posizione x della prima carte nella finestra
-     * @param y Posizione y della prima carta nella finestra
-     * @param yconst Costante della posizione y della prima carta nella finestra
+     * Method for placing cards if it's a game for three players
+     * @param chronus JButton of the god to be excluded in positioning
+     * @param x Position x of the first card in the window
+     * @param y Position y of the first card in the window
+     * @param yconst Constant of the y position of the first card in the window
      */
 
      private void addForThree(JButton chronus, int x, int y, int yconst){
@@ -220,7 +220,7 @@ public class ChallengerChoiceCards extends JDesktopPane{
      }
 
     /**
-     * Classe che estende MouseAdapter per far vedere la descrizione della carta passandoci sopra col mouse
+     * Class that extends MouseAdapter to show the description of the card as the mouse cursor moves over it
      */
 
     private class ShowPower extends MouseAdapter {
@@ -258,7 +258,7 @@ public class ChallengerChoiceCards extends JDesktopPane{
     }
 
     /**
-     * Classe che implementa ActionListener per la scelta della divinità
+     * Class that implements ActionListener for the choice of the god
      */
 
     private class ChooseGod implements ActionListener{
@@ -294,7 +294,7 @@ public class ChallengerChoiceCards extends JDesktopPane{
     }
 
     /**
-     * Classe che implementa ActionListener per la rimozione della divinità dalle scelte finora effettuate
+     * Class that implements ActionListener for removing the god from the choices made so far
      */
 
     private class RemoveGod implements ActionListener{
@@ -314,7 +314,7 @@ public class ChallengerChoiceCards extends JDesktopPane{
     }
 
     /**
-     * Classe che implementa ActionListener per il JButton Close che chiude l'attuale JInternalFrame
+     * Class that implements ActionListener for the JButton Close which closes the current JInternalFrame
      */
 
     private class Close implements ActionListener {
@@ -325,7 +325,7 @@ public class ChallengerChoiceCards extends JDesktopPane{
     }
 
     /**
-     * Classe che implementa ActionListener per il JButton Confirm che conferma le divinità scelte
+     * Class that implements ActionListener for the JButton Confirm which confirms the chosen gods
      */
 
     private class Confirm implements ActionListener {
