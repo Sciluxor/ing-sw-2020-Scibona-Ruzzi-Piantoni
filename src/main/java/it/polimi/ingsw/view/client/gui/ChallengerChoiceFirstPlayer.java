@@ -17,7 +17,7 @@ import static it.polimi.ingsw.view.client.gui.Board.getBoldDimension;
 import static it.polimi.ingsw.view.client.gui.Gui.*;
 
 /**
- * Classe che estende JDesktopPane per la costruzione del Pane per la scelta del primo Player da parte del Challenger
+ * Class that extends JDesktopPane for the build of the pane that make the Challenger choose the First Player
  * @author Scilux
  * @version 1.0
  * @since 2020/06/13
@@ -41,14 +41,14 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
     double bold = getBoldDimension();
 
     /**
-     * Costruttore della classe
-     * @param istance Riferimento alla classe GUI del client
-     * @param istance2 Riferimento alla classe Board istanziata dalla GUI
-     * @param frame Riferimento al JInternalFrame in cui verrà inserito l'attuale JDesktopPane ChallengerChoiceFirstPlayer
-     * @param dimensionFrame Dimensione del JInternalFrame
-     * @param numberOfPlayer Numero dei Player in gioco
-     * @param players ArrayList dei Player in gioco
-     * @throws IOException se il caricamento delle scritte o delle immagini dei bottoni non andasse a buon fine
+     * Class builder
+     * @param istance Reference to the client GUI class
+     * @param istance2 Reference to the Board class instanced by the GUI
+     * @param frame Reference to the JInternalFrame where the current JDesktopPane ChallengerChoiceFirstPlayer will be inserted
+     * @param dimensionFrame Size of the JInternalFrame
+     * @param numberOfPlayer Number of Players in play
+     * @param players List of Players in play
+     * @throws IOException if the loading of the inscription or the button pictures was not successful
      */
 
     public ChallengerChoiceFirstPlayer(Gui istance, Board istance2, JInternalFrame frame, Dimension dimensionFrame, Integer numberOfPlayer, List<Player> players) throws IOException {
@@ -125,7 +125,7 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
     }
 
     /**
-     * Classe che implementa ActionListener per il JButton Close che chiude l'attuale JInternalFrame
+     * Class that implements ActionListener for the JButton Close which closes the current JInternalFrame
      */
 
     private class Close implements ActionListener {
@@ -136,7 +136,7 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
     }
 
     /**
-     * Classe che implementa ActionListener per i JButton dei Player per la scelta del primo Player
+     * Class that implements ActionListener for Players JButtons for the choice of the first Player
      */
 
     private class Choose implements ActionListener{
@@ -151,8 +151,8 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
     }
 
     /**
-     * Metodo per settare l'icona del JButton in base al colore del Player corrispondente
-     * @param buttonPlayer JButton del Player
+     * Method for setting the JButton icon color according to the color of the corresponding Player
+     * @param buttonPlayer JButton of the Player
      */
 
     private void addColorButton(JButton buttonPlayer){
@@ -173,8 +173,8 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
     }
 
     /**
-     * Metodo per settare i parametri del JButton del Player
-     * @param buttonPlayer JButton del Player
+     * Method for setting the JButton of the Player
+     * @param buttonPlayer JButton of the Player
      */
 
     private void buttonStyle(JButton buttonPlayer){
@@ -186,7 +186,7 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
     }
 
     /**
-     * Classe che estende MouseAdapter per l'animazione del click del bottone
+     * Class that extends MouseAdapter to animate the button click
      */
 
     private class ButtonPress extends MouseAdapter {

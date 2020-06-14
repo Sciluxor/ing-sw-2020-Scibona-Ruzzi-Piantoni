@@ -12,7 +12,7 @@ import static it.polimi.ingsw.view.client.gui.Gui.felixBold;
 import static it.polimi.ingsw.view.client.gui.Gui.getD;
 
 /**
- * Classe che estende JDesktopPane per la costruzione del pane che avvisa della fase di gioco del posizionamento dei Worker
+ * Class that extends JDesktopPane for the construction of the pane that warns of the game phase of the positioning of the Workers
  * @author Scilux
  * @version 1.0
  * @since 2020/06/13
@@ -27,12 +27,12 @@ public class PlaceWorkers extends JDesktopPane{
     double bold = getBoldDimension();
 
     /**
-     * Costruttore dell classe
-     * @param frame Riferimento al JInternalFrame in cui andrà il JDesktopPane PlaceWorkers
-     * @param size Dimensione del JInternalFrame
-     * @param numberOfPanel Parametro che indica il JDesktopPane da costruire se si è chi sceglie o meno
-     * @param name Nome del Player che sta scegliendo
-     * @throws IOException se il caricamento delle scritte non andasse a buon fine
+     * Class builder
+     * @param frame Reference to the JInternalFrame where the current JDesktopPane PlaceWorkers will be inserted
+     * @param size Size of the JInternalFrame
+     * @param numberOfPanel Parameter indicating the JDesktopPane to be built if you are the one who chooses or not
+     * @param name Name of the Player that is choosing
+     * @throws IOException if the loading of the inscription was not successful
      */
 
     public PlaceWorkers(JInternalFrame frame, Dimension size, int numberOfPanel, String name) throws IOException {
@@ -69,7 +69,7 @@ public class PlaceWorkers extends JDesktopPane{
     }
 
     /**
-     * Classe che implementa ActionListener per il JButton Close che chiude l'attuale JInternalFrame
+     * Class that implements ActionListener for the JButton Close which closes the current JInternalFrame
      */
 
     private class Close implements ActionListener {

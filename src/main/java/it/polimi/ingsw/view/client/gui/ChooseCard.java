@@ -20,7 +20,7 @@ import static it.polimi.ingsw.view.client.gui.EliminateListeners.eliminateMouseC
 import static it.polimi.ingsw.view.client.gui.Gui.*;
 
 /**
- * Classe che estende JDesktopPane per la costruzione del Pane per la scelta della divinità
+ * Class that extends JDesktopPane that builds the pane for the choice of the god
  * @author Scilux
  * @version 1.0
  * @since 2020/06/13
@@ -50,15 +50,15 @@ public class ChooseCard extends JDesktopPane{
     double bold = getBoldDimension();
 
     /**
-     * Costruttore della classe
-     * @param instance Riferimento alla classe Board istanziata dalla GUI
-     * @param aframe Riferimento al JInternalFrame in cui verrà inserito l'attuale JDesktopPane ChooseCard
-     * @param wi Larghezza del JInternalFrame
-     * @param he Altezza del JInternalFrame
-     * @param cards List delle divinità scelte
-     * @param numberOfPanel Parametro che indica il JDesktopPane da costruire in base alla scelta da fare o meno
-     * @param name Nome del Player che sta scegliendo
-     * @throws IOException se il caricamento delle scritte o delle immagini dei bottoni non andasse a buon fine
+     * Class builder
+     * @param instance Reference to the Board class instanced by the GUI
+     * @param aframe Reference to the JInternalFrame where the current JDesktopPane ChooseCard will be inserted
+     * @param wi Width of the JInternalFrame
+     * @param he Height of the JInternalFrame
+     * @param cards List of the chosen gods
+     * @param numberOfPanel Parameter indicating the JDesktopPane to be built based on the choice to be made or not
+     * @param name Name of the Player that is choosing
+     * @throws IOException if the loading of the inscription was not successful
      */
 
     public ChooseCard(Board instance, JInternalFrame aframe, int wi, int he, List<String> cards, Integer numberOfPanel, String name) throws IOException {
@@ -189,7 +189,7 @@ public class ChooseCard extends JDesktopPane{
     }
 
     /**
-     * Classe che estende MouseAdapter per far vedere la descrizione della carta passandoci sopra col mouse
+     * Class that extends MouseAdapter to show the description of the card as the mouse cursor moves over it
      */
 
     private class ShowPower extends MouseAdapter {
@@ -221,7 +221,7 @@ public class ChooseCard extends JDesktopPane{
     }
 
     /**
-     * Metodo per settare i parametri dei JButton delle carte
+     * Method for setting the JButtons of the cards
      */
 
     private void buttonStyle(){
@@ -237,7 +237,7 @@ public class ChooseCard extends JDesktopPane{
     }
 
     /**
-     * Metodo per la selezione della carta
+     * Method for selecting card
      */
 
     private void selectGodsChosen(){
@@ -251,7 +251,7 @@ public class ChooseCard extends JDesktopPane{
     }
 
     /**
-     * Classe che implementa ActionListener per il JButton Close che chiude l'attuale JInternalFrame
+     * Class that implements ActionListener for the JButton Close which closes the current JInternalFrame
      */
 
     private class Close implements ActionListener {
@@ -263,7 +263,7 @@ public class ChooseCard extends JDesktopPane{
     }
 
     /**
-     * Classe che implementa ActionListener per la scelta della divinità
+     * Class that implements ActionListener for the choice of the god
      */
 
     private class ChooseGod implements ActionListener{
@@ -288,7 +288,7 @@ public class ChooseCard extends JDesktopPane{
     }
 
     /**
-     * Classe che implementa ActionListener per la rimozione della divinità dalla scelta effettuata prima
+     * Class that implements ActionListener for removing the god from the choice made so far
      */
 
     private class RemoveGod implements ActionListener{
@@ -308,7 +308,7 @@ public class ChooseCard extends JDesktopPane{
     }
 
     /**
-     * Classe che implementa ActionListener per il JButton Confirm che conferma la divinità scelta
+     * Class that implements ActionListener for the JButton Confirm which confirms the chosen gods
      */
 
     private class Confirm implements ActionListener{

@@ -10,7 +10,7 @@ import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButtonP
 import static it.polimi.ingsw.view.client.gui.Gui.getD;
 
 /**
- * Classe che estende JDesktopPane per la costruzione del pane per il messaggio di scelta come Challenger
+ * Class that extends JDesktopPane that build the pane for the message of chosen as Challenger
  * @author Scilux
  * @version 1.0
  * @since 2020/06/13
@@ -24,11 +24,11 @@ public class YouHaveBeenChosen extends JDesktopPane {
     JInternalFrame intFrame;
 
     /**
-     * Costruttore della clase
-     * @param istance Riferimento alla classe Board istanziata dalla GUI
-     * @param frame Riferimento al JInternalFrame in cui verrà inserito l'attuale JDesktopPane YouHaveBeenChosen
-     * @param dimensionFrame Dimensione del JInternalFrame
-     * @throws IOException se il caricamento delle scritte non andasse a buon fine
+     * Class builder
+     * @param istance Reference to the Board class instanced by the GUI
+     * @param frame Reference to the JInternalFrame where the current JDesktopPane YouHaveBeenChosen will be inserted
+     * @param dimensionFrame Size of the JInternalFrame
+     * @throws IOException if the loading of the inscription was not successful
      */
 
     public YouHaveBeenChosen(Board istance, JInternalFrame frame, Dimension dimensionFrame) throws IOException {
@@ -61,7 +61,7 @@ public class YouHaveBeenChosen extends JDesktopPane {
     }
 
     /**
-     * Classe che implementa ActionListener per il JButton Close che chiude l'attuale JInternalFrame
+     * Class that implements ActionListener for the JButton Close which closes the current JInternalFrame
      */
 
     private class Close implements ActionListener {

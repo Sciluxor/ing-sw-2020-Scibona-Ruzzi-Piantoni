@@ -18,7 +18,7 @@ import static it.polimi.ingsw.view.client.gui.Gui.LOGGER;
 import static it.polimi.ingsw.view.client.gui.Gui.getD;
 
 /**
- * Classe che estende JDesktopPane per la costruzione del pane per la visualizzazione di eventuali limitazioni dovute alle altre divinità
+ * Class that extends JDesktopPane for the build of the pane to display any limitations due to the other gods
  * @author Scilux
  * @version 1.0
  * @since 2020/06/13
@@ -45,12 +45,12 @@ public class SeeConstraint extends JDesktopPane {
     JButton constraint2;
 
     /**
-     * Costruttore della classe
-     * @param istance Riferimento alla classe Board istanziata dalla GUI
-     * @param frame Riferimento al JInternalFrame in cui verrà inserito l'attuale JDesktopPane SeeConstraints
-     * @param dimensionFrame Dimensione del JInternalFrame
-     * @param constraint List delle limitazioni attualmente presenti
-     * @throws IOException se il caricamento delle scritte o delle descrizioni delle divinità non andasse a buon fine
+     * Class builder
+     * @param istance Reference to the Board class instanced by the GUI
+     * @param frame Reference to the JInternalFrame where the current JDesktopPane SeeConstraint will be inserted
+     * @param dimensionFrame Size of the JInternalFrame
+     * @param constraint List of limitations currently present
+     * @throws IOException if the loading of the inscription or the descriptions of the gods was not successful
      */
 
     public SeeConstraint(Board istance, JInternalFrame frame, Dimension dimensionFrame, List<String> constraint) throws IOException {
@@ -137,7 +137,7 @@ public class SeeConstraint extends JDesktopPane {
     }
 
     /**
-     * Metodo per settare i parametri dei JButton delle carte
+     * Method for setting the JButtons of the cards
      */
 
     private void buttonStyle(){
@@ -152,7 +152,7 @@ public class SeeConstraint extends JDesktopPane {
     }
 
     /**
-     * Classe che estende MouseAdapter per la visualizzazione delle descrizioni delle carte passandoci sopra col mouse
+     * Class that extends MouseAdapter to show the description of the card as the mouse cursor moves over it
      */
 
     private class ShowPower extends MouseAdapter {
@@ -188,7 +188,7 @@ public class SeeConstraint extends JDesktopPane {
     }
 
     /**
-     * Classe che implementa ActionListener per il JButton Close che chiude l'attuale JInternalFrame
+     * Class that implements ActionListener for the JButton Close which closes the current JInternalFrame
      */
 
     private class Close implements ActionListener {
@@ -202,7 +202,7 @@ public class SeeConstraint extends JDesktopPane {
     }
 
     /**
-     * Classe che implementa ActionListener per il JButton buttonPower di Board per la visualizzazione del JInternalFrame delle limitazioni delle altre divinità
+     * Class implementing ActionListener for Board's JButton buttonPower for displaying the JInternalFrame of the limitations of other gods
      */
 
     public class ShowConstraint implements ActionListener{
@@ -217,7 +217,7 @@ public class SeeConstraint extends JDesktopPane {
     }
 
     /**
-     * Classe che implementa ActionListener per il JButton buttonPower di Board per la scomparsa del JInternalFrame delle limitazioni delle altre divinità
+     * Class implementing ActionListener for the Board's JButton buttonPower for the disappearance of the JInternalFrame of the limitations of the other deities
      */
 
     public class HideConstraint implements ActionListener{
@@ -232,9 +232,9 @@ public class SeeConstraint extends JDesktopPane {
     }
 
     /**
-     * Metodo che ritorna il JButton della carta corrispondente alla divinità fornita
-     * @param god Parametro che indica quale è la divinità
-     * @return JButton della divinità corrispondente al god
+     * Method that returns the JButton of the card corresponding to the god provided
+     * @param god Parameter indicating the god
+     * @return JButton of the god corresponding to the god parameter
      */
 
     private JButton getButtonFromConstraint(String god){

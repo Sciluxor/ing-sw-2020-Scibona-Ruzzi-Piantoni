@@ -6,22 +6,42 @@ import javafx.scene.media.MediaPlayer;
 
 import static it.polimi.ingsw.view.client.gui.Gui.LOGGER;
 
+/**
+ * Class that handle the reproduction of sounds
+ * @author Scilux
+ * @version 1.0
+ * @since 2020/06/13
+ */
+
 public class MP3 {
     private String filename;
     private MediaPlayer player;
     private Thread sound;
     private final JFXPanel fxPanel = new JFXPanel();
 
+    /**
+     * Class builder
+     * @param name Path to the file audio
+     */
+
     public MP3(String name) {
         filename = name;
         filename = filename.replaceFirst("resources", "");
     }
+
+    /**
+     * Method that close the music player
+     */
 
     private void close() {
         if (player != null) {
             player.stop();
         }
     }
+
+    /**
+     * Method that play the audio
+     */
 
     public void play() {
         try {
@@ -43,6 +63,10 @@ public class MP3 {
         }).start();
 
     }
+
+    /**
+     * Method that play the audio in loop mode
+     */
 
     public void playLoop(){
         try {
@@ -72,6 +96,10 @@ public class MP3 {
         });
         sound.start();
     }
+
+    /**
+     * Method that stop the audio
+     */
 
     public void stop(){
         this.close();

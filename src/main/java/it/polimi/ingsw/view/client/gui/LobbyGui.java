@@ -16,7 +16,7 @@ import static it.polimi.ingsw.view.client.gui.Board.internalFrameSetUp;
 import static it.polimi.ingsw.view.client.gui.Gui.*;
 
 /**
- * Classe che crea il JDesktopPane per la lobby di attesa
+ * Class that build the JDesktopPane for the waiting lobby
  * @author Scilux
  * @version 1.0
  * @since 2020/06/13
@@ -42,12 +42,12 @@ public class LobbyGui{
     List<Player> players;
 
     /**
-     * Costruttore della classe
-     * @param instance Riferimento alla classe GUI del client
-     * @param frame Dimensione della finestra in cui andrà il JDesktopPane LobbyGui
-     * @param numberOfPlayer Numero dei Player della partita
-     * @param actualPlayers List con gli attuali Player in lobby
-     * @throws IOException se il caricamento delle scritte non andasse a buon fine
+     * Class builder
+     * @param instance Reference to the Board class instanced by the GUI
+     * @param frame Size of the frame where the current JDesktopPane LobbyGui will be inserted
+     * @param numberOfPlayer Number of Players in play
+     * @param actualPlayers List of current Players in lobby
+     * @throws IOException if the loading of the inscription was not successful
      */
 
     public LobbyGui(Gui instance, Dimension frame, Integer numberOfPlayer, List<Player> actualPlayers) throws IOException {
@@ -142,7 +142,7 @@ public class LobbyGui{
     }
 
     /**
-     * Classe che implementa ActionListener che riporta indietro nella login
+     * Class that implements ActionListener which brings back in the login
      */
 
     private class BackToLogin implements ActionListener{
@@ -155,8 +155,8 @@ public class LobbyGui{
     }
 
     /**
-     * Metodo per stampare gli attuali Player in lobby
-     * @param players List degli atuali Player in lobby
+     * Method to print the current players in the lobby
+     * @param players List of current Players in the lobby
      */
 
     public void stamp(List<Player> players){
@@ -181,7 +181,7 @@ public class LobbyGui{
     }
 
     /**
-     * Metodo per pulire il TextPane per la nuova stampa
+     * Method to clean the TextPane for new printing
      */
 
     private void clean(){
@@ -198,8 +198,8 @@ public class LobbyGui{
     }
 
     /**
-     * Metodo per settare l'attuale numero di Player in lobby
-     * @param size
+     * Method for setting the current number of Players in the lobby
+     * @param size Current number of Players
      */
 
     private void number(int size){
@@ -221,8 +221,8 @@ public class LobbyGui{
     }
 
     /**
-     * Getter per il JDesktopPane di LobbyGui
-     * @return JDesktopPane di LobbyGui
+     * Getter for LobbyGui's JDesktopPane
+     * @return JDesktopPane of LobbyGui
      */
 
     public JDesktopPane getPane() {

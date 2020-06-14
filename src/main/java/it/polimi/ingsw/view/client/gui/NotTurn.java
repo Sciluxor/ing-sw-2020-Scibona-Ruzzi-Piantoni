@@ -10,7 +10,7 @@ import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButtonP
 import static it.polimi.ingsw.view.client.gui.Gui.getD;
 
 /**
- * Classe che estende JDesktopPane per la costruzione del pane per azioni fuori dal proprio turno
+ * Class that extends JDesktopPane to build the pane for actions out of its turn
  * @author Scilux
  * @version 1.0
  * @since 2020/06/13
@@ -24,10 +24,10 @@ public class NotTurn extends JDesktopPane {
     JInternalFrame intFrame;
 
     /**
-     * Costruttore della classe
-     * @param frame Riferimento al JInternalFrame in cui andrà il JDesktopPane NotTurn
-     * @param size Dimensione del JInternalFrame
-     * @throws IOException se il caricamento delle scritte non andasse a buon fine
+     * Class builder
+     * @param frame Reference to the JInternalFrame where the current JDesktopPane NotTurn will be inserted
+     * @param size Size of the JInternalFrame
+     * @throws IOException if the loading of the inscription was not successful
      */
 
     public NotTurn(JInternalFrame frame, Dimension size) throws IOException {
@@ -51,7 +51,7 @@ public class NotTurn extends JDesktopPane {
     }
 
     /**
-     * Classe che implementa ActionListener per il JButton Close che chiude l'attuale JInternalFrame
+     * Class that implements ActionListener for the JButton Close which closes the current JInternalFrame
      */
 
     private class Close implements ActionListener {
