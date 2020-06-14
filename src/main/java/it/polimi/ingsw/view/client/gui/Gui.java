@@ -5,7 +5,6 @@ import it.polimi.ingsw.network.client.ClientGameController;
 import it.polimi.ingsw.model.player.Color;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.message.MessageType;
-import it.polimi.ingsw.view.client.cli.Cli;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,6 +14,10 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
+
+/**
+ * Class that extends ClientGameController that start the application for the Gui
+ */
 
 public class Gui extends ClientGameController {
 
@@ -29,15 +32,7 @@ public class Gui extends ClientGameController {
     JFrame frame = new JFrame("Santorini");
     JPanel login = null;
     LobbyGui lobby = null;
-    JDesktopPane challengerChoiseCards = null;
-    JPanel waitChallenger = null;
-    JPanel challengerChoiseFirst = null;
-    JDesktopPane chooseCard3 = null;
-    JDesktopPane chooseCard2 = null;
-    JDesktopPane challengerChoiseCards2 = null;
-    JDesktopPane challengerChoiseCards3 = null;
     JPanel lobbyPanel = null;
-    JPanel chooseCard0 = null;
     Board board;
     PopUp constructorPopUp = null;
     JFrame popUp = new JFrame();
@@ -57,7 +52,11 @@ public class Gui extends ClientGameController {
         gui.avvio();
     }
 
-    private void show() throws IOException {
+    /**
+     * Method that build the login
+     */
+
+    private void show() {
 
         sound = new MP3("resources/Music/Fruits.mp3");
 
@@ -65,7 +64,11 @@ public class Gui extends ClientGameController {
         newPopUp();
 
 
-        login = new Login(this, d, true);
+        try {
+            login = new Login(this, d, true);
+        } catch (IOException e) {
+            LOGGER.severe(e.getMessage());
+        }
 
         buttonBackground.setBounds(0, 0,intFrameSize.width, intFrameSize.height);
         buttonBackground.setOpaque(false);
@@ -96,16 +99,20 @@ public class Gui extends ClientGameController {
 
     }
 
-    public void avvio() { //avvio
+    /**
+     * Method that start the Gui
+     */
+
+    public void avvio() {
         SwingUtilities.invokeLater(() -> {
-            try {
-                Gui gui = new Gui();
-                gui.show();
-            } catch (IOException e) {
-                LOGGER.severe(e.getMessage());
-            }
+            Gui gui = new Gui();
+            gui.show();
         });
     }
+
+    /**
+     * Method that change from login to lobby pane
+     */
 
     public void logginToLobby(){
         frame.remove(login);
@@ -119,9 +126,19 @@ public class Gui extends ClientGameController {
         frame.validate();
     }
 
+    /**
+     * Method that set tha number of Players for the game
+     * @param numberOfPlayers Number of Players
+     */
+
     public void setNumberOfPlayers(int numberOfPlayers) {
         this.numberOfPlayers = numberOfPlayers;
     }
+
+    /**
+     * Method that set the Player name of the client
+     * @param name Name chosen by the Player
+     */
 
     public void setNamePlayer(String name) {
         players.add(new Player(name));
@@ -129,14 +146,28 @@ public class Gui extends ClientGameController {
         nickname = name;
     }
 
+    /**
+     * Getter of the main window dimension
+     * @return Main window dimension
+     */
+
     public static Dimension getD() {
         return d;
     }
+
+    /**
+     * Method that reset the PopUp frame
+     */
 
     public void newPopUp(){
         lobbyPanel = constructorPopUp.lobbyPopUp(0);
         popUp.add(lobbyPanel);
     }
+
+    /**
+     * Method that brings back to the login
+     * @param bool Boolean saying if it's a first connection
+     */
 
     public void backToLogin(boolean bool){
         sound.playLoop();

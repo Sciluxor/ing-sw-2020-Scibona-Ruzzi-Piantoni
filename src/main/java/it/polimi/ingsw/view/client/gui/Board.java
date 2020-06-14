@@ -21,6 +21,13 @@ import static it.polimi.ingsw.utils.ConstantsContainer.*;
 import static it.polimi.ingsw.view.client.gui.EliminateListeners.*;
 import static it.polimi.ingsw.view.client.gui.Gui.*;
 
+/**
+ * Class that build the main Board
+ * @author Scilux
+ * @version 1.0
+ * @since 2020/06/13
+ */
+
 public class Board {
 
     Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
@@ -243,7 +250,18 @@ public class Board {
     MP3 yourTurn;
     MP3 tower;
 
-    public void show(Gui instance, Dimension screen, Integer numberOfPlayer, List<Player> players,List<Player> players2, String nickname) throws IOException {
+    /**
+     * Class builder
+     * @param instance Reference to the client GUI class
+     * @param screenSize Size of the screen
+     * @param numberOfPlayer Number of the Players in game
+     * @param players List of all the Players in game
+     * @param players2 List of all the Players in game
+     * @param nickname Name of the Player of the client
+     * @throws IOException if the loading of the inscription or the descriptions of the gods or the image to build the Board was not successful
+     */
+
+    public void show(Gui instance, Dimension screenSize, Integer numberOfPlayer, List<Player> players, List<Player> players2, String nickname) throws IOException {
 
         f = new JFrame();
         gui = instance;
@@ -297,9 +315,9 @@ public class Board {
         coverLeftGod = new JLabel(coverLeftGod1.getIcon());
 
 
-        felixSmall = new Font(Gui.FELIX, Font.PLAIN, (int) (13 * screen.getHeight() / 1080));
-        felixNormal = new Font(Gui.FELIX, Font.PLAIN, (int) (20 * screen.getHeight() / 1080));
-        felixBold = new Font(Gui.FELIX, Font.BOLD, (int) (25 * screen.getHeight() / 1080));
+        felixSmall = new Font(Gui.FELIX, Font.PLAIN, (int) (13 * screenSize.getHeight() / 1080));
+        felixNormal = new Font(Gui.FELIX, Font.PLAIN, (int) (20 * screenSize.getHeight() / 1080));
+        felixBold = new Font(Gui.FELIX, Font.BOLD, (int) (25 * screenSize.getHeight() / 1080));
 
 
         workerCyan = ImageHandler.setImage("resources/Graphics/worker_cyan.png", 100, 100, labelMapSize.width, labelMapSize.height);
@@ -927,9 +945,17 @@ public class Board {
 
     }
 
+    /**
+     * Method that stop the playground music
+     */
+
     public void stopMusic(){
         loopSound.stop();
     }
+
+    /**
+     * Class that implements ActionListener that makes the Buildings pane disappear
+     */
 
     private class BackLevel implements ActionListener {
         @Override
@@ -939,6 +965,12 @@ public class Board {
             enableLevels(false);
         }
     }
+
+    /**
+     * Method that gives the color of the Player provided
+     * @param player Player provided
+     * @return Color of the Player
+     */
 
     private Color getColorPlayer(Player player){
         if(player.getColor().equals(it.polimi.ingsw.model.player.Color.BLUE)){
@@ -951,6 +983,10 @@ public class Board {
             return Color.MAGENTA;
         }
     }
+
+    /**
+     * Method that set the client player icons according to his color
+     */
 
     private void setMyColorWorkers(){
         if (myColor.equals(it.polimi.ingsw.model.player.Color.BLUE)){
@@ -977,6 +1013,10 @@ public class Board {
         myLabels.add(lvl3Worker);
     }
 
+    /**
+     * Method that set the first opponent player icons according to his color
+     */
+
     private void setColorWorkers1(){
         if (colorOpponent1.equals(it.polimi.ingsw.model.player.Color.BLUE)){
             workerOpponents1 = workerCyan;
@@ -1001,6 +1041,10 @@ public class Board {
         opponents1Labels.add(lvl2WorkerOpponents1);
         opponents1Labels.add(lvl3WorkerOpponents1);
     }
+
+    /**
+     * Method that set the second opponent player icons according to his color
+     */
 
     private void setColorWorkers2(){
         if (colorOpponent2.equals(it.polimi.ingsw.model.player.Color.BLUE)){
@@ -1027,6 +1071,13 @@ public class Board {
         opponents2Labels.add(lvl3WorkerOpponents2);
     }
 
+    /**
+     * Method that gives the icon according to the Building provided
+     * @param list List of icon
+     * @param build Building provided
+     * @return Icon from the Building
+     */
+
     private JLabel getLabelFromBuildLvl(List<JLabel> list, Building build){
         if (build.equals(Building.GROUND)) {
             return list.get(0);
@@ -1043,11 +1094,21 @@ public class Board {
         return null;
     }
 
+    /**
+     * Method that set the dimension of the JInternalFrame provided
+     * @param i JInternalFrame provided
+     */
+
     private void setInternalFrames(JInternalFrame i){
         i.setPreferredSize(sideSize);
         i.setBounds((int)((frameSize.width * 50/100) - (internalFrameSize90x90.width * 50/100)), (int) ((frameSize.height * 46/100) - (internalFrameSize90x90.height * 50/100)), internalFrameSize90x90.width, internalFrameSize90x90.height);
         internalFrameSetUp(i);
     }
+
+    /**
+     * Method that set the JInternalFrame provided
+     * @param intFrame JInternalFrame provided
+     */
 
     public static void internalFrameSetUp(JInternalFrame intFrame){
         intFrame.putClientProperty(PALETTE, Boolean.TRUE);
@@ -1056,6 +1117,11 @@ public class Board {
         intFrame.putClientProperty(PALETTE, Boolean.TRUE);
         intFrame.setBorder(null);
     }
+
+    /**
+     * Method that set the Opponent Player button provided
+     * @param button Opponent Player button provided
+     */
 
     private void opponentsStyleButtons(JButton button){
         button.setFont(felixNormal);
@@ -1066,12 +1132,24 @@ public class Board {
         button.setBorderPainted(false);
     }
 
+    /**
+     * Method that set the button with the icon provided
+     * @param button Button provided
+     * @param label Icon provided
+     */
+
     private void chatStyleButtons(JButton button, JLabel label){
         button.setContentAreaFilled(false);
         button.setOpaque(false);
         button.setBorderPainted(false);
         button.setIcon(label.getIcon());
     }
+
+    /**
+     * Method that set the style for the console buttons with the icon provided
+     * @param button Button provided
+     * @param label Icon provided
+     */
 
     private void consoleStyleButtons(JButton button, JLabel label){
         button.setOpaque(false);
@@ -1083,6 +1161,10 @@ public class Board {
         desktopPane.add(button);
     }
 
+    /**
+     * Method that set the board buttons
+     */
+
     private void mapStyleButtons(){
         for (int x = 0; x < 25; x++){
             mapButtons[x] = new JButton();
@@ -1092,11 +1174,19 @@ public class Board {
         }
     }
 
+    /**
+     * Method that add the ColorBorder MouseListener to the boards buttons
+     */
+
     private void addColorBorderToMap(){
         for (int x = 0; x < 25; x++){
             mapButtons[x].addMouseListener(new ColorBorder());
         }
     }
+
+    /**
+     * Method that remove the border from the board buttons
+     */
 
     private void removeModifiedBorder(){
         for (int x = 0; x < 25; x++){
@@ -1104,11 +1194,19 @@ public class Board {
         }
     }
 
+    /**
+     * Method that remove the ColorBorder MouseListener to the boards buttons
+     */
+
     private void removeColorBorderToMap(){
         for (int x = 0; x < 25; x++){
             eliminateMouseClass(mapButtons[x], ColorBorder.class);
         }
     }
+
+    /**
+     * Method that set up the board buttons
+     */
 
     private void addMapButtons(){
         for (int x = 0; x < 25; x++){
@@ -1117,11 +1215,19 @@ public class Board {
         }
     }
 
+    /**
+     * Method that reset the presence of Players in the Board
+     */
+
     private void resetPlayer(){
         for (int x = 0; x < 25; x++){
             mapButtonsPlayer[x] = false;
         }
     }
+
+    /**
+     * Method that reset the presence of the client Workers
+     */
 
     private void resetMyWorkers(){
         for (int x = 0; x < 25; x++){
@@ -1129,9 +1235,18 @@ public class Board {
         }
     }
 
+    /**
+     * Method that remove the client Player from the list otherPlayers
+     */
+
     private void removeNickFromOtherPlayers(){
         otherPlayers.removeIf(player -> player.getNickName().equalsIgnoreCase(nickname));
     }
+
+    /**
+     * Method that pick the client Player from the list otherPlayers
+     * @return Client Player
+     */
 
     private Player pickNickFromPlayers(){
         for (Player player : otherPlayers){
@@ -1140,6 +1255,12 @@ public class Board {
         }
         return null;
     }
+
+    /**
+     * Method that visualize the phase message of Challenger choosing
+     * @param name Name of the designated Challenger
+     * @param bool Boolean saying if the client Player is the Challenger
+     */
 
     public void showChallenger(String name, boolean bool) {
         if (bool){
@@ -1175,10 +1296,19 @@ public class Board {
         }
     }
 
+    /**
+     * Method that enable/disable the buttonChooseCards and the buttonChooseFirst
+     * @param bool Boolean saying to enable or disable the buttons
+     */
+
     public void enableCardsFirst(boolean bool){
         buttonChooseCards.setEnabled(bool);
         buttonChooseFirst.setEnabled(bool);
     }
+
+    /**
+     * Class that implements ActionListener that visualize the JInternalFrame that make the Challenger choose the gods
+     */
 
     private class ChooseCards implements ActionListener{
         @Override
@@ -1195,6 +1325,10 @@ public class Board {
         }
     }
 
+    /**
+     * Class that implements ActionListener that visualize the JInternalFrame that make the Challenger choose the First Player
+     */
+
     private class ChooseFirst implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -1208,13 +1342,27 @@ public class Board {
         }
     }
 
+    /**
+     * Setter of the List of gods chosen
+     * @param cardsChosen List of God chosen
+     */
+
     public void setCardsChosen(List<String> cardsChosen) {
         this.cardsChosen = cardsChosen;
     }
 
+    /**
+     * Setter of the First Player chosen
+     * @param firstPlayer First Player chosen
+     */
+
     public void setFirstPlayer(String firstPlayer) {
         this.firstPlayer = firstPlayer;
     }
+
+    /**
+     * Method that communicate the choices made by the Challenger
+     */
 
     public void callChallengerResponse(){
         if (!cardsChosen.isEmpty() && firstPlayer != null){
@@ -1226,6 +1374,13 @@ public class Board {
             setVisibleEndturn(true);
         }
     }
+
+    /**
+     * Method that visualize the phase message Choose your god
+     * @param cards List of god that can be selected
+     * @param name Name of the Player that is actually choosing
+     * @param bool Boolean saying if the client Player is the one who has to choose
+     */
 
     public void showCardChoice(List<String> cards, String name, boolean bool){
 
@@ -1261,9 +1416,18 @@ public class Board {
         internalFrameChooseCards.setVisible(true);
     }
 
+    /**
+     * Method that enable/disable the buttonChoosePower
+     * @param bool Boolean saying to enable or disable the button
+     */
+
     public void enablePower(boolean bool){
         buttonChoosePower.setEnabled(bool);
     }
+
+    /**
+     * Method that communicate the god chosen by the Player
+     */
 
     public void callCardChoiceResponse(){
         if (cardChosen != null){
@@ -1285,10 +1449,19 @@ public class Board {
         }
     }
 
+    /**
+     * Method that set the god chosen
+     * @param cardChosen God chosen
+     */
+
     public void setCardChosen(String cardChosen) {
         this.cardChosen = cardChosen;
         constraint.add(cardChosen);
     }
+
+    /**
+     * Class that implements ActionListener that visualize the JInternalFrame that make the Player choose the god
+     */
 
     private class ChoosePower implements ActionListener{
         @Override
@@ -1304,6 +1477,10 @@ public class Board {
             internalFrameChooseCards.setVisible(true);
         }
     }
+
+    /**
+     * Class that implements ActionListener that visualize the JInternalFrame that that show the god chosen
+     */
 
     private class ShowYourPower implements ActionListener{
         @Override
@@ -1325,6 +1502,10 @@ public class Board {
         }
     }
 
+    /**
+     * Class that implements ActionListener that hide the JInternalFrame that that show the god chosen
+     */
+
     private class HidePower implements  ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -1335,6 +1516,12 @@ public class Board {
             windowPower.setVisible(false);
         }
     }
+
+    /**
+     * Method that visualize the phase message Place your workers
+     * @param name Name of the Player that is placing the workers
+     * @param bool Boolean saying if the client Player is the one who has to place the workers
+     */
 
     public void showPlaceWorkers(String name, boolean bool){
         internalFrameChooseCards.dispose();
@@ -1366,12 +1553,20 @@ public class Board {
         internalFramePlaceWorkers.setVisible(true);
     }
 
+    /**
+     * Method that add the PlaceWorker ActionListener to the boards buttons
+     */
+
     private void addPlaceMove(){
         for (int x = 0; x < 25; x++){
             if (!mapButtonsPlayer[x])
                 mapButtons[x].addActionListener(new PlaceWorker());
         }
     }
+
+    /**
+     * Class that implements ActionListener that place/remove the worker in the Board position chosen
+     */
 
     private class PlaceWorker implements ActionListener{
         int x;
@@ -1459,6 +1654,10 @@ public class Board {
         }
     }
 
+    /**
+     * Class that implements ActionListener that confirm the workers positions chosen
+     */
+
     private class ConfirmPlace implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -1494,6 +1693,11 @@ public class Board {
         }
     }
 
+    /**
+     * Method that update the position of the workers positioned
+     * @param squares Positions of the placed workers
+     */
+
     public void updatePlacedWorkers(List<Square> squares){
         internalFramePlaceWorkers.setVisible(false);
         for (Square square : squares){
@@ -1513,6 +1717,12 @@ public class Board {
         powerToOpponents(squares.get(0).getPlayer().getNickName(), squares.get(0).getPlayer().getPower().getName());
     }
 
+    /**
+     * Method that set the Opponent Player god in his opponentButton
+     * @param player Opponent Player
+     * @param card Opponent Player god
+     */
+
     private void powerToOpponents(String player, String card){
         if (opponent1.getText().equalsIgnoreCase(player)) {
             opponent1.setName(card);
@@ -1523,6 +1733,10 @@ public class Board {
             opponent2.addMouseListener(new SeeEnemyPower());
         }
     }
+
+    /**
+     * Class that extends MouseAdapter to show the description of the Opponent god as the mouse cursor moves over the opponentButton
+     */
 
     private class SeeEnemyPower extends MouseAdapter {
         @Override
@@ -1545,7 +1759,13 @@ public class Board {
         }
     }
 
-    public void startTurn(String nick, boolean isYourPlayer){
+    /**
+     * Method that visualize the phase message Start your turn
+     * @param name Name of the Player that start the turn
+     * @param isYourPlayer Boolean saying if the client Player is the one that start the turn
+     */
+
+    public void startTurn(String name, boolean isYourPlayer){
         internalFramePlaceWorkers.dispose();
         internalFrameUpdateBoard.setVisible(false);
         if (startTurn != null){
@@ -1553,7 +1773,7 @@ public class Board {
         }
         if (isYourPlayer){
             try {
-                startTurn = new StartTurn(internalFrameStartTurn, internalFrameSize40x45, 0, nick);
+                startTurn = new StartTurn(internalFrameStartTurn, internalFrameSize40x45, 0, name);
             } catch (IOException e) {
                 LOGGER.severe(e.getMessage());
             }
@@ -1565,7 +1785,7 @@ public class Board {
         }
         else{
             try {
-                startTurn = new StartTurn(internalFrameStartTurn, internalFrameSize40x45, 1, nick);
+                startTurn = new StartTurn(internalFrameStartTurn, internalFrameSize40x45, 1, name);
             } catch (IOException e) {
                 LOGGER.severe(e.getMessage());
             }
@@ -1576,6 +1796,10 @@ public class Board {
         internalFrameStartTurn.getContentPane().add(startTurn);
         internalFrameStartTurn.setVisible(true);
     }
+
+    /**
+     * Class that implements ActionListener that show which worker you can choose on the Board
+     */
 
     private class AvaiableWorkers implements ActionListener{
         @Override
@@ -1616,6 +1840,10 @@ public class Board {
         }
     }
 
+    /**
+     * Class that implements ActionListener that communicate the selected worker
+     */
+
     private class SelectWorker implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -1635,6 +1863,11 @@ public class Board {
             availableWorkersPositions.clear();
         }
     }
+
+    /**
+     * Method that enable tha console buttons according to the possible actions
+     * @param actions List of possible actions
+     */
 
     public void setVisibleButtons(List<MessageType> actions){
         setVisibleMove(true);
@@ -1664,6 +1897,10 @@ public class Board {
         }
     }
 
+    /**
+     * Class that implements ActionListener that show where you can move the selected worker on the Board
+     */
+
     private class SeeMove implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -1680,6 +1917,10 @@ public class Board {
             }
         }
     }
+
+    /**
+     * Class that implements ActionListener that communicate the position to move the worker selected on the Board
+     */
 
     private class Move implements ActionListener{
         @Override
@@ -1701,13 +1942,20 @@ public class Board {
         }
     }
 
-    public void updateBoard(String nick, List<Square> squares, MessageType type){
+    /**
+     * Method that visualize the message of an Update in the Board
+     * @param name Name of the Player that made the action
+     * @param squares Positions modified
+     * @param type Type of action made
+     */
+
+    public void updateBoard(String name, List<Square> squares, MessageType type){
 
         if (updateBoard != null) {
             internalFrameUpdateBoard.remove(updateBoard);
         }
         try {
-            updateBoard = new UpdateBoard(this, internalFrameUpdateBoard, internalFrameSize40x45, nick, type);
+            updateBoard = new UpdateBoard(this, internalFrameUpdateBoard, internalFrameSize40x45, name, type);
         } catch (IOException e) {
             LOGGER.severe(e.getMessage());
         }
@@ -1725,11 +1973,22 @@ public class Board {
         }
     }
 
+    /**
+     * Method that clean the modified positions in the Board
+     * @param x Positions modified
+     */
+
     private void cleanIcon(Integer x){
         eliminateMouseClass(mapButtons[x], ColorBorder.class);
         mapButtons[x].setBorderPainted(false);
         mapButtons[x].addMouseListener(new ColorBorder());
     }
+
+    /**
+     * Method that display the modification on the Board
+     * @param squares Positions modified
+     * @param isMe Boolean saying if the client Player is the one who has modified the Board
+     */
 
     private void displayModifications(List<Square> squares, boolean isMe){
 
@@ -1741,7 +2000,7 @@ public class Board {
 
             if (square.hasPlayer()) {
 
-                list = setPlayerIconsList(square);
+                list = getPlayerIconsList(square);
 
                 mapButtonsPlayer[square.getTile() - 1] = true;
 
@@ -1752,7 +2011,7 @@ public class Board {
                 mapMyWorkers[square.getTile() - 1] = 0;
                 mapButtonsPlayer[square.getTile() - 1] = false;
 
-                setEmptyIconToMap(square);
+                setFreeIconToMap(square);
             }
             if (!isMe) {
                 mapButtons[square.getTile() - 1].setBorder(BorderFactory.createLineBorder(modifiedBorder, 5));
@@ -1764,7 +2023,13 @@ public class Board {
         }
     }
 
-    private List<JLabel> setPlayerIconsList(Square square){
+    /**
+     * Method that gives the icon list of the Player in the position provided
+     * @param square Position provided
+     * @return Icon list
+     */
+
+    private List<JLabel> getPlayerIconsList(Square square){
         if (square.getPlayer().getNickName().equalsIgnoreCase(opponent1.getText())){
             mapMyWorkers[square.getTile() - 1] = 0;
             return opponents1Labels;
@@ -1780,6 +2045,12 @@ public class Board {
         else return new ArrayList<>();
     }
 
+    /**
+     * Method that set the icon in the position provided with the icon list provided according to the Building in that position
+     * @param square Position provided
+     * @param list Icon list provided
+     */
+
     private void setPlayerIconToMap(Square square, List<JLabel> list){
         if (square.getBuilding().equals(Building.GROUND)) {
             mapButtons[square.getTile() - 1].setIcon(Objects.requireNonNull(getLabelFromBuildLvl(list, Building.GROUND)).getIcon());
@@ -1792,7 +2063,12 @@ public class Board {
         }
     }
 
-    private void setEmptyIconToMap(Square square){
+    /**
+     * Method that set the icon in the position provided according to the Building in that position
+     * @param square Position provided
+     */
+
+    private void setFreeIconToMap(Square square){
         if (square.getBuilding().equals(Building.GROUND)) {
             mapButtons[square.getTile() - 1].setIcon(null);
         }
@@ -1819,6 +2095,10 @@ public class Board {
         }
     }
 
+    /**
+     * Class that implements ActionListener that communicate the end of the turn
+     */
+
     private class EndTurn implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -1831,39 +2111,80 @@ public class Board {
         }
     }
 
+    /**
+     * Method that visualize/hide the buttonEndTurn
+     * @param bool Boolean saying to visualize or hide the button
+     */
+
     private void setVisibleEndturn(boolean bool){
         labelEndturn.setVisible(bool);
         buttonEndturn.setVisible(bool);
     }
+
+    /**
+     * Method that visualize/remove the buttonMove
+     * @param bool Boolean saying to visualize or hide the button
+     */
 
     private void setVisibleMove(boolean bool){
         labelMove.setVisible(bool);
         buttonMove.setVisible(bool);
     }
 
+    /**
+     * Method that visualize/remove the buttonBuild
+     * @param bool Boolean saying to visualize or hide the button
+     */
+
     private void setVisibleBuild(boolean bool){
         labelBuild.setVisible(bool);
         buttonBuild.setVisible(bool);
     }
+
+    /**
+     * Method that visualize/remove the buttonMultiUse
+     * @param bool Boolean saying to visualize or hide the button
+     */
 
     private void setVisibleChoose(boolean bool){
         labelChooseWorker.setVisible(bool);
         buttonMultiUse.setVisible(bool);
     }
 
+    /**
+     * Method that enable/disable the buttonEndTurn
+     * @param bool Boolean saying to enable or disable the button
+     */
+
     private void setEnableEndturn(boolean bool){
         buttonEndturn.setEnabled(bool);
     }
+
+    /**
+     * Method that enable/disable the buttonMove
+     * @param bool Boolean saying to enable or disable the button
+     */
 
     private void setEnableMove(boolean bool){
         buttonMove.setEnabled(bool);
     }
 
+    /**
+     * Method that enable/disable the buttonBuild
+     * @param bool Boolean saying to enable or disable the button
+     */
+
     private void setEnableBuild(boolean bool){
         buttonBuild.setEnabled(bool);
     }
 
-    public void displayLose(String nick, boolean isYourPlayer) {
+    /**
+     * Method that visualize the defeat screen for the eliminated player
+     * @param name Name of the eliminated Player
+     * @param isYourPlayer Boolean saying if the client Player is the one eliminated
+     */
+
+    public void displayLose(String name, boolean isYourPlayer) {
         internalFrameUpdateBoard.setVisible(false);
         internalFrameStartTurn.setVisible(false);
         newGame.addActionListener(new NewGameLoose());
@@ -1894,7 +2215,7 @@ public class Board {
         else {
             winLose.setIcon(border.getIcon());
             winLose.setVisible(true);
-            llost = new JLabel(nick);
+            llost = new JLabel(name);
             llost.setFont(felixBold);
             llost.setBounds((int) (frameSize.width * 45/100), (int) (frameSize.height * 50 / 100), (int) frameSize.width * 50/100, frameSize.height * 5/100);
             llost.setVisible(true);
@@ -1906,11 +2227,16 @@ public class Board {
 
     }
 
-    public void displayWinLose(String nick){
+    /**
+     * Method that visualize the win/defeat screen
+     * @param name Name of the winner Player
+     */
+
+    public void displayWinLose(String name){
         internalFrameUpdateBoard.setVisible(false);
         internalFrameStartTurn.setVisible(false);
         boolean winnerBool = false;
-        if (nick.equalsIgnoreCase(mePlayer.getNickName())){
+        if (name.equalsIgnoreCase(mePlayer.getNickName())){
             winnerBool = true;
         }
         newGame.addActionListener(new NewGameWin());
@@ -1953,6 +2279,10 @@ public class Board {
         setVisibleWin(true, numberOfPlayers == 3);
     }
 
+    /**
+     * Method that visualize the message that it's not the turn of the client Player
+     */
+
     public void notTurn(){
         internalFrameStartTurn.setVisible(false);
         internalFrameUpdateBoard.setVisible(false);
@@ -1971,6 +2301,12 @@ public class Board {
         internalFrameStartTurn.getContentPane().add(notTurn);
         internalFrameStartTurn.setVisible(true);
     }
+
+    /**
+     * Method that change the JInternalFrame for the visualization of the power if was activated/deactivated a limitation for other god
+     * @param name Name of the god that activated the limitation
+     * @param isEliminated Boolean saying if the limitation is deleted or added
+     */
 
     public void displayConstraint(String name, boolean isEliminated){
 
@@ -2002,6 +2338,10 @@ public class Board {
         }
     }
 
+    /**
+     * Class that implements ActionListener that show the JInternalFrame for visualize the actual limitation
+     */
+
     public class ShowConstraint implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -2012,6 +2352,10 @@ public class Board {
             c.addActionListener(new HideConstraint());
         }
     }
+
+    /**
+     * Class that implements ActionListener that hide the JInternalFrame for visualize the actual limitation
+     */
 
     public class HideConstraint implements ActionListener{
         @Override
@@ -2024,9 +2368,20 @@ public class Board {
         }
     }
 
+    /**
+     * Getter of the name of the client Player
+     * @return Name of the client Player
+     */
+
     public String getMyName(){
         return mePlayer.getNickName();
     }
+
+    /**
+     * Method that visualize/hide the win/lose screen
+     * @param bool Boolean saying to visualize or hide the win/lose screen
+     * @param isIn3 Boolean saying if it's a 3 Player game
+     */
 
     private void setVisibleWin(boolean bool, boolean isIn3){
         winLose.setVisible(bool);
@@ -2037,6 +2392,10 @@ public class Board {
         newGame.setVisible(bool);
         close.setVisible(bool);
     }
+
+    /**
+     * Method that eliminate all Listener from the buttons to not let the eliminated Player interfere with the game he is watching
+     */
 
     public void eliminateAllFromAll(){
         for (JButton button : mapButtons){
@@ -2055,12 +2414,21 @@ public class Board {
         eliminateAllActionClass(buttonBuild);
     }
 
+    /**
+     * Method that enable/disable the Building buttons
+     * @param bool Boolean saying to enable or disable the Buildings button
+     */
+
     private void enableLevels(boolean bool){
         buttonLvl1.setEnabled(bool);
         buttonLvl2.setEnabled(bool);
         buttonLvl3.setEnabled(bool);
         buttonDome.setEnabled(bool);
     }
+
+    /**
+     * Class that implements ActionListener that visualize the buildable position of the chosen worker
+     */
 
     private class AddBuildLvl implements ActionListener{
         @Override
@@ -2081,6 +2449,10 @@ public class Board {
         }
     }
 
+    /**
+     * Method that clean the Board for the next action
+     */
+
     private void clearMap(){
         for (int x = 0; x < 25; x++){
             eliminateMouseClass(mapButtons[x], ColorBorder.class);
@@ -2089,6 +2461,10 @@ public class Board {
             mapButtons[x].setBorderPainted(false);
         }
     }
+
+    /**
+     * Class that implements ActionListener that enable the buttons of the buildable Buildings in the selected position
+     */
 
     private class ShowButtonsBuild implements ActionListener{
         @Override
@@ -2120,6 +2496,10 @@ public class Board {
         }
     }
 
+    /**
+     * Method that clean the Building buttons for the next build
+     */
+
     private void removeBuildLvl() {
         enableLevels(false);
         eliminateActionClass(buttonLvl1, BuildLvl1.class);
@@ -2129,12 +2509,21 @@ public class Board {
         eliminateActionClass(buttonDome, BuildDomeAtlas.class);
     }
 
+    /**
+     * Method that clean the positions provided for the next build
+     * @param positions Positions provided
+     */
+
     private void removeBuildBorder(List<Integer> positions){
         for (Integer x : positions){
             mapButtons[x - 1].setBorderPainted(false);
             eliminateActionClass(mapButtons[x - 1], ShowButtonsBuild.class);
         }
     }
+
+    /**
+     * Class that implements ActionListener that communicate and build the First level build in the selected position
+     */
 
     private class BuildLvl1 implements ActionListener{
         @Override
@@ -2160,6 +2549,10 @@ public class Board {
             gui.mapNextAction(responce);
         }
     }
+
+    /**
+     * Class that implements ActionListener that communicate and build the Second level build in the selected position
+     */
 
     private class BuildLvl2 implements ActionListener{
         @Override
@@ -2187,6 +2580,10 @@ public class Board {
         }
     }
 
+    /**
+     * Class that implements ActionListener that communicate and build the Third level build in the selected position
+     */
+
     private class BuildLvl3 implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -2212,6 +2609,10 @@ public class Board {
         }
     }
 
+    /**
+     * Class that implements ActionListener that communicate and build the Dome build in the selected position
+     */
+
     private class BuildDome implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -2231,6 +2632,10 @@ public class Board {
             gui.mapNextAction(responce);
         }
     }
+
+    /**
+     * Class that implements ActionListener that communicate and build the Dome at the current level build in the selected position
+     */
 
     private class BuildDomeAtlas implements ActionListener{
         @Override
@@ -2268,6 +2673,10 @@ public class Board {
         }
     }
 
+    /**
+     * Class that extends MouseAdapter that color the border of the position as the mouse cursor moves over it
+     */
+
     private class ColorBorder extends MouseAdapter {
         @Override
         public void mouseEntered(MouseEvent e) {
@@ -2283,13 +2692,27 @@ public class Board {
         }
     }
 
+    /**
+     * Getter for click audio
+     * @return Click MP3
+     */
+
     public static MP3 getClick() {
         return click;
     }
 
+    /**
+     * Getter of dimension of bold character
+     * @return BoldDimension
+     */
+
     public static double getBoldDimension() {
         return boldDimension;
     }
+
+    /**
+     * Class that extends MouseAdapter that animate the click of the buttons
+     */
 
     private class ButtonPress extends MouseAdapter {
         @Override
@@ -2354,6 +2777,10 @@ public class Board {
         }
     }
 
+    /**
+     * Class that implements ActionListener that visualize the Chat pane
+     */
+
     private class Chat implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -2362,6 +2789,10 @@ public class Board {
         }
     }
 
+    /**
+     * Class that implements ActionListener that hide the Chat pane
+     */
+
     private class ChatExit implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -2369,6 +2800,12 @@ public class Board {
             chatOpen = false;
         }
     }
+
+    /**
+     * Method that write in chat the message provided
+     * @param name Name of the Player that sent the message
+     * @param mess Message sent by the Player
+     */
 
     public void writeInChat(String name, String mess){
         if (!chatOpen){
@@ -2379,18 +2816,26 @@ public class Board {
         field.setText("");
     }
 
+    /**
+     * Class that implements ActionListener that send the message written by the client Player
+     */
+
     private class Write implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
             if (!field.getText().equals("")) {
-                String stringa = field.getText().toLowerCase();
+                String string = field.getText().toLowerCase();
                 chat.append(mePlayer.getNickName() + ": " + field.getText().toLowerCase() + "\n");
                 chat.setCaretPosition(chat.getDocument().getLength());
                 field.setText("");
-                gui.sendChatMessage(stringa);
+                gui.sendChatMessage(string);
             }
         }
     }
+
+    /**
+     * Class that implements ActionListener that bring back to the login for a new game after a finished game
+     */
 
     private class NewGameWin implements ActionListener {
         @Override
@@ -2401,6 +2846,10 @@ public class Board {
             loopSound.stop();
         }
     }
+
+    /**
+     * Class that implements ActionListener that bring back to the login for a new game after an elimination
+     */
 
     private class NewGameLoose implements ActionListener {
         @Override
@@ -2413,6 +2862,10 @@ public class Board {
         }
     }
 
+    /**
+     * Class that implements ActionListener that allows the client Player to continue watching the game
+     */
+
     private class KeepWatching implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -2421,6 +2874,10 @@ public class Board {
         }
     }
 
+    /**
+     * Class that implements ActionListener for the JButton Close which close the game
+     */
+
     private class Close implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -2428,6 +2885,10 @@ public class Board {
             System.exit(0);
         }
     }
+
+    /**
+     * Class that implements ActionListener for the JButton CloseTutorial which close the tutorial screen
+     */
 
     private class CloseTutorial implements ActionListener{
         @Override
@@ -2440,6 +2901,10 @@ public class Board {
             internalFrameChallenger1.setVisible(true);
         }
     }
+
+    /**
+     * Class that implements ActionListener for the JButton Continue which allow to navigate through the tutorial
+     */
 
     private class ContinueTutorial implements ActionListener{
         @Override
@@ -2456,6 +2921,10 @@ public class Board {
             }
         }
     }
+
+    /**
+     * Class that implements ActionListener for the JButton Close which close the message after the elimination
+     */
 
     private class CloseLost implements ActionListener{
         @Override
