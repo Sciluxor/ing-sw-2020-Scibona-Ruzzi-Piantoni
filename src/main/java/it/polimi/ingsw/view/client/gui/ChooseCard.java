@@ -52,7 +52,7 @@ public class ChooseCard extends JDesktopPane{
     /**
      * Class builder
      * @param instance Reference to the Board class instanced by the GUI
-     * @param aframe Reference to the JInternalFrame where the current JDesktopPane ChooseCard will be inserted
+     * @param frame Reference to the JInternalFrame where the current JDesktopPane ChooseCard will be inserted
      * @param wi Width of the JInternalFrame
      * @param he Height of the JInternalFrame
      * @param cards List of the chosen gods
@@ -61,10 +61,10 @@ public class ChooseCard extends JDesktopPane{
      * @throws IOException if the loading of the inscription was not successful
      */
 
-    public ChooseCard(Board instance, JInternalFrame aframe, int wi, int he, List<String> cards, Integer numberOfPanel, String name) throws IOException {
+    public ChooseCard(Board instance, JInternalFrame frame, int wi, int he, List<String> cards, Integer numberOfPanel, String name) throws IOException {
 
         board = instance;
-        guiIntFrame = aframe;
+        guiIntFrame = frame;
         frameSize.setSize(wi, he);
         intFrameSize.setSize(frameSize.getWidth() * 40/100, frameSize.getHeight() * 45/100);
         setPreferredSize(frameSize);

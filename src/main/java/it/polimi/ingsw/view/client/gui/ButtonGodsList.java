@@ -16,15 +16,15 @@ public class ButtonGodsList {
 
     /**
      * Class builder
-     * @param frameSize Window size to scale the size of the cards
+     * @param dimensionFrame Window size to scale the size of the cards
      * @param buttons Reference to the List of JButton to be filled with cards
      * @throws IOException if the loading of the images of the cards was not successful
      */
 
-    public ButtonGodsList(Dimension frameSize, List<JButton> buttons) throws IOException {
+    public ButtonGodsList(Dimension dimensionFrame, List<JButton> buttons) throws IOException {
 
         Dimension cardSize = new Dimension();
-        cardSize.setSize((int) (frameSize.getWidth() * 9/100), (int) (frameSize.getHeight() * 23.15/100)); //(9, 22)
+        cardSize.setSize((int) (dimensionFrame.getWidth() * 9/100), (int) (dimensionFrame.getHeight() * 23.15/100)); //(9, 22)
 
         JButton apollo = new JButton();
         apollo.setName("apollo");

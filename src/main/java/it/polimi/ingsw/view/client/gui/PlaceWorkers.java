@@ -29,15 +29,15 @@ public class PlaceWorkers extends JDesktopPane{
     /**
      * Class builder
      * @param frame Reference to the JInternalFrame where the current JDesktopPane PlaceWorkers will be inserted
-     * @param size Size of the JInternalFrame
+     * @param dimensionFrame Size of the JInternalFrame
      * @param numberOfPanel Parameter indicating the JDesktopPane to be built if you are the one who chooses or not
      * @param name Name of the Player that is choosing
      * @throws IOException if the loading of the inscription was not successful
      */
 
-    public PlaceWorkers(JInternalFrame frame, Dimension size, int numberOfPanel, String name) throws IOException {
+    public PlaceWorkers(JInternalFrame frame, Dimension dimensionFrame, int numberOfPanel, String name) throws IOException {
 
-        frameSize.setSize(size);
+        frameSize.setSize(dimensionFrame);
         intFrame = frame;
         nameChoosing = name;
         setPreferredSize(frameSize);

@@ -48,17 +48,17 @@ public class ChallengerChoiceCards extends JDesktopPane{
      * Class builder
      * @param instance Reference to the client GUI class
      * @param instance2 Reference to the Board class instanced by the GUI
-     * @param aframe Reference to the JInternalFrame where the current JDesktopPane ChallengerChoiceCards will be inserted
+     * @param frame Reference to the JInternalFrame where the current JDesktopPane ChallengerChoiceCards will be inserted
      * @param dimensionFrame Size of the JInternalFrame
      * @param numberOfPlayer Number of Players in play
      * @throws IOException if the loading of the inscription or the descriptions of the gods was not successful
      */
 
-    public ChallengerChoiceCards(Gui instance, Board instance2, JInternalFrame aframe, Dimension dimensionFrame, Integer numberOfPlayer) throws IOException {
+    public ChallengerChoiceCards(Gui instance, Board instance2, JInternalFrame frame, Dimension dimensionFrame, Integer numberOfPlayer) throws IOException {
 
         gui = instance;
         board = instance2;
-        guiIntFrame = aframe;
+        guiIntFrame = frame;
         frameSize.setSize(dimensionFrame);
         numberPlayers = numberOfPlayer;
         intFrameSize.setSize(frameSize.getWidth() * 48/100, frameSize.getHeight() * 54/100);

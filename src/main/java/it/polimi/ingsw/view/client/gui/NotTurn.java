@@ -26,12 +26,12 @@ public class NotTurn extends JDesktopPane {
     /**
      * Class builder
      * @param frame Reference to the JInternalFrame where the current JDesktopPane NotTurn will be inserted
-     * @param size Size of the JInternalFrame
+     * @param dimensionFrame Size of the JInternalFrame
      * @throws IOException if the loading of the inscription was not successful
      */
 
-    public NotTurn(JInternalFrame frame, Dimension size) throws IOException {
-        frameSize.setSize(size);
+    public NotTurn(JInternalFrame frame, Dimension dimensionFrame) throws IOException {
+        frameSize.setSize(dimensionFrame);
         intFrame = frame;
         buttonSize.setSize((getD().getWidth() * 13 / 100), (getD().getHeight() * 5 / 100));
         setPreferredSize(frameSize);

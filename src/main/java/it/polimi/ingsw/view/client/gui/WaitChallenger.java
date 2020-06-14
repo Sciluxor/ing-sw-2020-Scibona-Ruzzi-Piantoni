@@ -28,14 +28,14 @@ public class WaitChallenger extends JDesktopPane{
     /**
      * Class builder
      * @param frame Reference to the JInternalFrame where the current JDesktopPane WaitChallenger will be inserted
-     * @param dim Size of the JInternalFrame
+     * @param dimensionFrame Size of the JInternalFrame
      * @param name Name of the Player designated as a Challenger
      * @throws IOException if the loading of the inscription was not successful
      */
 
-    public WaitChallenger(JInternalFrame frame, Dimension dim, String name) throws IOException {
+    public WaitChallenger(JInternalFrame frame, Dimension dimensionFrame, String name) throws IOException {
 
-        frameSize.setSize(dim);
+        frameSize.setSize(dimensionFrame);
         intFrame = frame;
         setPreferredSize(frameSize);
         setLayout(null);

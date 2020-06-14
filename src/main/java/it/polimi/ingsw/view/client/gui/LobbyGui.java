@@ -26,8 +26,7 @@ public class LobbyGui{
     Gui gui;
     Dimension frameSize = new Dimension();
     Dimension intFrameSize = new Dimension();
-    private JDesktopPane pane;
-    private JInternalFrame popUp;
+    private final JDesktopPane pane;
     MyButton backButton = null;
     MyButton confirm = null;
     JLabel lnumber = new JLabel();
@@ -44,15 +43,15 @@ public class LobbyGui{
     /**
      * Class builder
      * @param instance Reference to the Board class instanced by the GUI
-     * @param frame Size of the frame where the current JDesktopPane LobbyGui will be inserted
+     * @param dimensionFrame Size of the frame where the current JDesktopPane LobbyGui will be inserted
      * @param numberOfPlayer Number of Players in play
      * @param actualPlayers List of current Players in lobby
      * @throws IOException if the loading of the inscription was not successful
      */
 
-    public LobbyGui(Gui instance, Dimension frame, Integer numberOfPlayer, List<Player> actualPlayers) throws IOException {
+    public LobbyGui(Gui instance, Dimension dimensionFrame, Integer numberOfPlayer, List<Player> actualPlayers) throws IOException {
 
-        frameSize.setSize(frame);
+        frameSize.setSize(dimensionFrame);
         gui = instance;
         num = numberOfPlayer;
         players = actualPlayers;
@@ -61,7 +60,7 @@ public class LobbyGui{
         pane.setPreferredSize(frameSize);
         pane.setLayout(null);
 
-        popUp = new JInternalFrame("", false, false, false, false);
+        JInternalFrame popUp = new JInternalFrame("", false, false, false, false);
         confirm = new MyButton(0);
         popUp.add(confirm);
         nicknameLabel = new JLabel("nickname");
@@ -72,7 +71,7 @@ public class LobbyGui{
         popUp.add(nicknameLabel);
         popUp.setPreferredSize(intFrameSize);
         internalFrameSetUp(popUp);
-        BasicInternalFrameUI bii = (BasicInternalFrameUI)popUp.getUI();
+        BasicInternalFrameUI bii = (BasicInternalFrameUI) popUp.getUI();
         bii.setNorthPane(null);
         popUp.setVisible(false);
         pane.add(popUp);
