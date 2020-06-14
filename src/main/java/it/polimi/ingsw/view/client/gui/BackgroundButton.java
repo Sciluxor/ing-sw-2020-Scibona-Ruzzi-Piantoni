@@ -8,6 +8,13 @@ import java.io.IOException;
 
 import static it.polimi.ingsw.view.client.gui.Gui.*;
 
+/**
+ * Classe per creare lo sfondo per i JDesktopPane
+ * @author Scilux
+ * @version 1.0
+ * @since 2020/06/13
+ */
+
 public class BackgroundButton {
 
     private static Dimension d = getD();
@@ -27,9 +34,18 @@ public class BackgroundButton {
     static JLabel internalBackgroundPanel = new JLabel(cover2.getIcon());
     static JLabel internalBackgroundPanel2 = new JLabel(cover3.getIcon());
 
+    /**
+     * Costruttore privato della classe
+     */
     private BackgroundButton() {
         throw new IllegalStateException("BackgroundButton class cannot be instantiated");
     }
+
+    /**
+     * Metodo per la costruzione delle sfondo scelto
+     * @param n parametro per decidere lo sfondo
+     * @return sfondo come JButton
+     */
 
     public static JButton backgroundButton(int n){
         JButton back = new JButton();
@@ -51,6 +67,13 @@ public class BackgroundButton {
         back.setBorderPainted(false);
         return back;
     }
+
+    /**
+     * Metodo della costruzione dello sfondo scelto specificando la dimensione
+     * @param n parametro per decidere lo sfondo
+     * @param frame dimesione finistra per dimensionare sfondo
+     * @return sfondo come JButton
+     */
 
     public static JButton backgroundButtonPersonalized(int n, Dimension frame){
         JButton back = new JButton();

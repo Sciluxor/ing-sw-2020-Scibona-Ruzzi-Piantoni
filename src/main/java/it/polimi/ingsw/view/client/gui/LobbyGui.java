@@ -9,12 +9,18 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
 import static it.polimi.ingsw.view.client.gui.Board.internalFrameSetUp;
 import static it.polimi.ingsw.view.client.gui.Gui.*;
+
+/**
+ * Classe che crea il JDesktopPane per la lobby di attesa
+ * @author Scilux
+ * @version 1.0
+ * @since 2020/06/13
+ */
 
 public class LobbyGui{
     Gui gui;
@@ -22,13 +28,9 @@ public class LobbyGui{
     Dimension intFrameSize = new Dimension();
     private JDesktopPane pane;
     private JInternalFrame popUp;
-    PopUp constructorPopUp = null;
     MyButton backButton = null;
     MyButton confirm = null;
-    static JLabel lactualNumber = new JLabel();
     JLabel lnumber = new JLabel();
-    static JLabel lback;
-    static JLabel lbackPress;
     JLabel nicknameLabel;
     JTextField nickname = new JTextField(20);
     Style colorStyle;
@@ -38,6 +40,15 @@ public class LobbyGui{
     StyledDocument numberDoc;
     int num;
     List<Player> players;
+
+    /**
+     * Costruttore della classe
+     * @param instance Riferimento alla classe GUI del client
+     * @param frame Dimensione della finestra in cui andrà il JDesktopPane LobbyGui
+     * @param numberOfPlayer Numero dei Player della partita
+     * @param actualPlayers List con gli attuali Player in lobby
+     * @throws IOException se il caricamento delle scritte non andasse a buon fine
+     */
 
     public LobbyGui(Gui instance, Dimension frame, Integer numberOfPlayer, List<Player> actualPlayers) throws IOException {
 
@@ -130,6 +141,10 @@ public class LobbyGui{
         pane.add(backgroundButton);
     }
 
+    /**
+     * Classe che implementa ActionListener che riporta indietro nella login
+     */
+
     private class BackToLogin implements ActionListener{
 
         @Override
@@ -138,6 +153,11 @@ public class LobbyGui{
             gui.onBackCommand();
         }
     }
+
+    /**
+     * Metodo per stampare gli attuali Player in lobby
+     * @param players List degli atuali Player in lobby
+     */
 
     public void stamp(List<Player> players){
         clean();
@@ -160,6 +180,10 @@ public class LobbyGui{
         number(players.size());
     }
 
+    /**
+     * Metodo per pulire il TextPane per la nuova stampa
+     */
+
     private void clean(){
         try {
             doc.remove(0, doc.getLength());
@@ -172,6 +196,11 @@ public class LobbyGui{
             LOGGER.severe(e.getMessage());
         }
     }
+
+    /**
+     * Metodo per settare l'attuale numero di Player in lobby
+     * @param size
+     */
 
     private void number(int size){
         String value;
@@ -191,14 +220,13 @@ public class LobbyGui{
         }
     }
 
+    /**
+     * Getter per il JDesktopPane di LobbyGui
+     * @return JDesktopPane di LobbyGui
+     */
 
     public JDesktopPane getPane() {
         return pane;
-    }
-
-
-    public void setVisiblePopUp() {
-        popUp.setVisible(true);
     }
 
 

@@ -19,6 +19,13 @@ import static it.polimi.ingsw.view.client.gui.EliminateListeners.eliminateAction
 import static it.polimi.ingsw.view.client.gui.EliminateListeners.eliminateMouseClass;
 import static it.polimi.ingsw.view.client.gui.Gui.*;
 
+/**
+ * Classe che estende JDesktopPane per la costruzione del Pane per la scelta della divinità
+ * @author Scilux
+ * @version 1.0
+ * @since 2020/06/13
+ */
+
 public class ChooseCard extends JDesktopPane{
 
     transient Board board;
@@ -41,6 +48,18 @@ public class ChooseCard extends JDesktopPane{
     String nameChoosing;
     transient MP3 click;
     double bold = getBoldDimension();
+
+    /**
+     * Costruttore della classe
+     * @param instance Riferimento alla classe Board istanziata dalla GUI
+     * @param aframe Riferimento al JInternalFrame in cui verrà inserito l'attuale JDesktopPane ChooseCard
+     * @param wi Larghezza del JInternalFrame
+     * @param he Altezza del JInternalFrame
+     * @param cards List delle divinità scelte
+     * @param numberOfPanel Parametro che indica il JDesktopPane da costruire in base alla scelta da fare o meno
+     * @param name Nome del Player che sta scegliendo
+     * @throws IOException se il caricamento delle scritte o delle immagini dei bottoni non andasse a buon fine
+     */
 
     public ChooseCard(Board instance, JInternalFrame aframe, int wi, int he, List<String> cards, Integer numberOfPanel, String name) throws IOException {
 
@@ -169,6 +188,10 @@ public class ChooseCard extends JDesktopPane{
         }
     }
 
+    /**
+     * Classe che estende MouseAdapter per far vedere la descrizione della carta passandoci sopra col mouse
+     */
+
     private class ShowPower extends MouseAdapter {
 
         @Override
@@ -197,6 +220,10 @@ public class ChooseCard extends JDesktopPane{
         }
     }
 
+    /**
+     * Metodo per settare i parametri dei JButton delle carte
+     */
+
     private void buttonStyle(){
         for (JButton button : godChoosen){
             button.setOpaque(false);
@@ -209,6 +236,10 @@ public class ChooseCard extends JDesktopPane{
         }
     }
 
+    /**
+     * Metodo per la selezione della carta
+     */
+
     private void selectGodsChosen(){
         for (String god : godCards){
             for (JButton button : godList){
@@ -219,6 +250,10 @@ public class ChooseCard extends JDesktopPane{
         }
     }
 
+    /**
+     * Classe che implementa ActionListener per il JButton Close che chiude l'attuale JInternalFrame
+     */
+
     private class Close implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -226,6 +261,10 @@ public class ChooseCard extends JDesktopPane{
             board.enablePower(true);
         }
     }
+
+    /**
+     * Classe che implementa ActionListener per la scelta della divinità
+     */
 
     private class ChooseGod implements ActionListener{
         @Override
@@ -247,6 +286,11 @@ public class ChooseCard extends JDesktopPane{
             }
         }
     }
+
+    /**
+     * Classe che implementa ActionListener per la rimozione della divinità dalla scelta effettuata prima
+     */
+
     private class RemoveGod implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -262,6 +306,10 @@ public class ChooseCard extends JDesktopPane{
             eliminateActionClass(confirm, ChooseCard.Confirm.class);
         }
     }
+
+    /**
+     * Classe che implementa ActionListener per il JButton Confirm che conferma la divinità scelta
+     */
 
     private class Confirm implements ActionListener{
         @Override

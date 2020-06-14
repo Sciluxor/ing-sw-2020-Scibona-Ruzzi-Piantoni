@@ -10,6 +10,13 @@ import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButtonP
 import static it.polimi.ingsw.view.client.gui.Gui.felixBold;
 import static it.polimi.ingsw.view.client.gui.Gui.getD;
 
+/**
+ * Classe che estende JDesktopPane che costruisce pane per il messaggio di attesa delle scelte del challenger
+ * @author Scilux
+ * @version 1.0
+ * @since 2020/06/13
+ */
+
 public class WaitChallenger extends JDesktopPane{
 
     Dimension frameSize = new Dimension();
@@ -18,6 +25,13 @@ public class WaitChallenger extends JDesktopPane{
     String nameChoosing;
     double posx;
 
+    /**
+     * Costruttore della classe
+     * @param frame Riferimento al JInternalFrame in cui verrà inserito l'attuale JDesktopPane WaitChallenger
+     * @param dim Dimensione del JInternalFrame
+     * @param name Nome del Player designato come Challenger
+     * @throws IOException se il caricamento delle scritte non andasse a buon fine
+     */
 
     public WaitChallenger(JInternalFrame frame, Dimension dim, String name) throws IOException {
 
@@ -53,6 +67,10 @@ public class WaitChallenger extends JDesktopPane{
         back.setBounds(0, 0, frameSize.width, frameSize.height);
         add(back);
     }
+
+    /**
+     * Classe che implementa ActionListener per il JButton Close che chiude l'attuale JInternalFrame
+     */
 
     private class Close implements ActionListener {
         @Override

@@ -5,6 +5,13 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+ * Classe che estende MouseAdapter che colora il bordo del bottone, in cui si passa sopra col mouse, di giallo
+ * @author Scilux
+ * @version 1.0
+ * @since 2020/06/13
+ */
+
 public class ColorBorderGodCards extends MouseAdapter {
 
     @Override

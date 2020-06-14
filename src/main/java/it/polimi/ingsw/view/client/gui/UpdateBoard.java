@@ -13,6 +13,13 @@ import static it.polimi.ingsw.view.client.gui.Board.getBoldDimension;
 import static it.polimi.ingsw.view.client.gui.Gui.felixBold;
 import static it.polimi.ingsw.view.client.gui.Gui.getD;
 
+/**
+ * Classe che estende JDesktopPane che costruisce il pane per gli aggiornamenti durante il gioco
+ * @author Scilux
+ * @version 1.0
+ * @since 2020/06/13
+ */
+
 public class UpdateBoard extends JDesktopPane {
 
     transient Board board;
@@ -21,6 +28,16 @@ public class UpdateBoard extends JDesktopPane {
     JInternalFrame intFrame;
     double bold = getBoldDimension();
     String nameChoosing;
+
+    /**
+     * Costruttore della classe
+     * @param istance Riferimento alla classe Board istanziata dalla GUI
+     * @param frame Riferimento al JInternalFrame in cui verrà inserito l'attuale JDesktopPane UpdateBoard
+     * @param dimensionFrame Dimensione del JInternalFrame
+     * @param name Nome del Player che ha effettuato un'azione
+     * @param type Tipo di azione effettuata
+     * @throws IOException se il caricamento delle scritte non andasse a buon fine
+     */
 
     public UpdateBoard(Board istance, JInternalFrame frame, Dimension dimensionFrame, String name, MessageType type) throws IOException {
 
@@ -55,6 +72,10 @@ public class UpdateBoard extends JDesktopPane {
         back.setBounds(0, 0, frameSize.width, frameSize.height);
         add(back);
     }
+
+    /**
+     * Classe che implementa ActionListener per il JButton Close che chiude l'attuale JInternalFrame
+     */
 
     private class Close implements ActionListener {
         @Override

@@ -5,10 +5,21 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Classe per la costruzione del mazzo di carte come singoli JButton
+ * @author Scilux
+ * @version 1.0
+ * @since 2020/06/13
+ */
 
 public class ButtonGodsList {
 
-
+    /**
+     * Costruttore della classe
+     * @param frameSize Dimensione della finestra per scalare la dimensione delle carte
+     * @param buttons Riferimento a List di JButton da riempire con le carte
+     * @throws IOException se il caricamento delle immagini delle carte non andasse a buon fine
+     */
 
     public ButtonGodsList(Dimension frameSize, List<JButton> buttons) throws IOException {
 

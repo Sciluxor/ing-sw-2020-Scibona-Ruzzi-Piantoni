@@ -17,6 +17,13 @@ import static it.polimi.ingsw.view.client.gui.EliminateListeners.eliminateAction
 import static it.polimi.ingsw.view.client.gui.Gui.LOGGER;
 import static it.polimi.ingsw.view.client.gui.Gui.getD;
 
+/**
+ * Classe che estende JDesktopPane per la costruzione del pane per la visualizzazione di eventuali limitazioni dovute alle altre divinità
+ * @author Scilux
+ * @version 1.0
+ * @since 2020/06/13
+ */
+
 public class SeeConstraint extends JDesktopPane {
 
     transient Board board;
@@ -36,6 +43,15 @@ public class SeeConstraint extends JDesktopPane {
     JButton mePower;
     JButton constraint1;
     JButton constraint2;
+
+    /**
+     * Costruttore della classe
+     * @param istance Riferimento alla classe Board istanziata dalla GUI
+     * @param frame Riferimento al JInternalFrame in cui verrà inserito l'attuale JDesktopPane SeeConstraints
+     * @param dimensionFrame Dimensione del JInternalFrame
+     * @param constraint List delle limitazioni attualmente presenti
+     * @throws IOException se il caricamento delle scritte o delle descrizioni delle divinità non andasse a buon fine
+     */
 
     public SeeConstraint(Board istance, JInternalFrame frame, Dimension dimensionFrame, List<String> constraint) throws IOException {
 
@@ -120,6 +136,10 @@ public class SeeConstraint extends JDesktopPane {
 
     }
 
+    /**
+     * Metodo per settare i parametri dei JButton delle carte
+     */
+
     private void buttonStyle(){
         for (JButton button : godList){
             button.setOpaque(false);
@@ -130,6 +150,10 @@ public class SeeConstraint extends JDesktopPane {
             button.addMouseListener(new ShowPower());
         }
     }
+
+    /**
+     * Classe che estende MouseAdapter per la visualizzazione delle descrizioni delle carte passandoci sopra col mouse
+     */
 
     private class ShowPower extends MouseAdapter {
         @Override
@@ -163,6 +187,10 @@ public class SeeConstraint extends JDesktopPane {
         }
     }
 
+    /**
+     * Classe che implementa ActionListener per il JButton Close che chiude l'attuale JInternalFrame
+     */
+
     private class Close implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -172,6 +200,10 @@ public class SeeConstraint extends JDesktopPane {
             board.buttonPower.setIcon(board.lButtonPowerPing.getIcon());
         }
     }
+
+    /**
+     * Classe che implementa ActionListener per il JButton buttonPower di Board per la visualizzazione del JInternalFrame delle limitazioni delle altre divinità
+     */
 
     public class ShowConstraint implements ActionListener{
         @Override
@@ -184,6 +216,10 @@ public class SeeConstraint extends JDesktopPane {
         }
     }
 
+    /**
+     * Classe che implementa ActionListener per il JButton buttonPower di Board per la scomparsa del JInternalFrame delle limitazioni delle altre divinità
+     */
+
     public class HideConstraint implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -194,6 +230,12 @@ public class SeeConstraint extends JDesktopPane {
             board.internalFrameConstraint.setVisible(false);
         }
     }
+
+    /**
+     * Metodo che ritorna il JButton della carta corrispondente alla divinità fornita
+     * @param god Parametro che indica quale è la divinità
+     * @return JButton della divinità corrispondente al god
+     */
 
     private JButton getButtonFromConstraint(String god){
         for (JButton button : godList){
