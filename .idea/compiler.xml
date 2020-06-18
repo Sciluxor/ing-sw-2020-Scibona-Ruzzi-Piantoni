@@ -7,11 +7,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="ing-sw-2020-Scibona-Ruzzi-Piantoni-2" />
-        <module name="ing-sw-2020-Scibona-Ruzzi-Piantoni" />
-        <module name="ing-sw-2020-Scibona-Ruzzi-Piantoni5" />
         <module name="ing-sw-2020-Scibona-Ruzzi-Piantoni-4" />
+        <module name="ing-sw-2020-Scibona-Ruzzi-Piantoni" />
+        <module name="ing-sw-2020-Scibona-Ruzzi-Piantoni-6" />
         <module name="ing-sw-2020-Scibona-Ruzzi-Piantoni-3" />
+        <module name="ing-sw-2020-Scibona-Ruzzi-Piantoni-2" />
+        <module name="ing-sw-2020-Scibona-Ruzzi-Piantoni5" />
       </profile>
     </annotationProcessing>
   </component>

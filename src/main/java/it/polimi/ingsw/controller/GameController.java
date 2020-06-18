@@ -344,7 +344,7 @@ public class GameController implements Observer<Message> {
                     break;
                 case PLACEWORKERSDONE:
                     if(game.allWorkersPlaced()){
-                        game.setGameStatus(Response.STARTTURN);
+                        handleTurnBeginning();
                     }
                     else{
                         game.setGameStatus(Response.PLACEWORKERS);
