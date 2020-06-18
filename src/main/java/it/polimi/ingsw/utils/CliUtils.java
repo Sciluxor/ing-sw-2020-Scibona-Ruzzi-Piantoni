@@ -11,6 +11,13 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
+/**
+ * Class that define and implements some useful functions that are used by the Cli
+ * @author _theonlyonepiantu
+ * @version 1.0
+ * @since 2020/06/18
+ */
+
 public class CliUtils {
 
     /*protected static String upLeftAngle = "\u2554";

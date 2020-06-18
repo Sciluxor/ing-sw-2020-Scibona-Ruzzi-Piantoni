@@ -2,6 +2,13 @@ package it.polimi.ingsw.view.client.cli;
 
 import it.polimi.ingsw.model.map.Building;
 
+/**
+ * Class that define and implement the single tile object
+ * @author _theonlyonepiantu
+ * @version 1.0
+ * @since 2020/06/18
+ */
+
 public class Tile {
 
     private int[] coordinates = new int[2];

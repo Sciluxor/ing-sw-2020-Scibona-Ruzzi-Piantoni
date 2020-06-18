@@ -122,7 +122,7 @@ public class Gui extends ClientGameController {
     }
 
     /**
-     * Method that set tha number of Players for the game
+     * Method that set the number of Players for the game
      * @param numberOfPlayers Number of Players
      */
 

@@ -17,6 +17,9 @@ import static it.polimi.ingsw.utils.CliUtils.*;
 
 /**
  * Class that extends ClientGameController that start the application for the Cli
+ * @author _theonlyonepiantu
+ * @version 1.0
+ * @since 2020/06/18
  */
 
 public class Cli extends ClientGameController {
@@ -77,8 +80,8 @@ public class Cli extends ClientGameController {
      */
 
     private void challengerChooseCards() {
-        for(String s: deck.keySet())
-            orderCards(s);
+        for(String card: deck.keySet())
+            orderCards(card);
 
         if(getNumberOfPlayers()==3)
             deckOrdered.remove("chronus");
@@ -110,7 +113,7 @@ public class Cli extends ClientGameController {
         printRed("CHOOSE ONE OF THE CARDS BELOW:\n");
         printCards();
         printRed("USE ARROW TO SELECT YOUR POWER & THEN PRESS ENTER TO CONFIRM...");
-        myPower = scrollCards(getArrowUpDown(), 1);
+        myPower = scrollCards(1);
 
         cardChoiceResponse(myPower);
         printDebug("CARDCHOICERESPONSE " + myPower);
@@ -295,6 +298,7 @@ public class Cli extends ClientGameController {
 
     /**
      * Method that handle the updating of the board when updateBoard is called from the server (an opponent do something)
+     * @param modifiedSquares Modified squares sended from the server
      */
 
     private void updateModification(List<Square> modifiedSquares) {
@@ -312,9 +316,17 @@ public class Cli extends ClientGameController {
 
     //---------- SETTER & GETTER ----------
 
+    /**
+     * Method that get the port in which open the connection
+     */
+
     public int getPort() {
         return port;
     }
+
+    /**
+     * Method that set the port in which open the connection
+     */
 
     public void setPort() {
         printRed("INSERT THE PORT NUMBER (default as 4700): ");
@@ -323,9 +335,17 @@ public class Cli extends ClientGameController {
             this.port = Integer.parseInt(port);
     }
 
+    /**
+     * Method that get the IP address in which open the connection
+     */
+
     public String getAddress() {
         return address;
     }
+
+    /**
+     * Method that set the IP address in which open the connection
+     */
 
     public void setAddress() {
         printRed("INSERT THE IP ADDRESS (default as " + address + "): ");
@@ -334,9 +354,17 @@ public class Cli extends ClientGameController {
             this.address = address;
     }
 
+    /**
+     * Method that get his own nickName
+     */
+
     public String getNickName() {
         return nickName;
     }
+
+    /**
+     * Method that set his own nickName
+     */
 
     public void setNickName() {
         String nickName;
@@ -351,9 +379,17 @@ public class Cli extends ClientGameController {
         this.nickName = nickName;
     }
 
+    /**
+     * Method that get the number of players of the game someone wants to play
+     */
+
     public int getNumberOfPlayers() {
         return numberOfPlayers;
     }
+
+    /**
+     * Method that set (and control if is correct) the number of players of the game someone wants to play
+     */
 
     public void setNumberOfPlayers() {
         String keyboard;
@@ -373,12 +409,50 @@ public class Cli extends ClientGameController {
 
     //---------- USEFUL FUNCTIONS ----------
 
+    /**
+     * Method that handle the login (setting the nickname, the number of players, the port and the IP address)
+     */
+
     private void login() {
         setNickName();
         setNumberOfPlayers();
         setPort();
         setAddress();
     }
+
+    /**
+     * Method that handle the standard up&down arrows construct
+     * @param keyboard Keyboard value returned by the key pressed by the user
+     * @param counter Old counter value we want to update
+     * @param firstPosition First position boolean value (if it is on the beginning of the available options list)
+     * @param lastPosition Last position boolean value (if it is on the end of the available options list)
+     * @return counter Updated counter value
+     */
+
+    private int standardUpDownHandler(int keyboard, int counter, boolean firstPosition, boolean lastPosition) {
+        switch (keyboard) {
+            case 183:
+                if (counter == 0)
+                    counter++;
+                else if (!firstPosition)
+                    counter--;
+                break;
+            case 184:
+                if (!lastPosition)
+                    counter++;
+                break;
+
+            default:
+                if(keyboard != 13)
+                    printErr("NO KEYBOARD CAUGHT");
+        }
+        return counter;
+    }
+
+    /**
+     * Method that handle the first player choice by the challenger
+     * @return firstPlayer
+     */
 
     private String selectFirstPlayer() {
         clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints);
@@ -436,6 +510,11 @@ public class Cli extends ClientGameController {
         return actualPlayers.get(counter-1).getNickName();
     }
 
+    /**
+     * Method that handle the visualisation on the screen of the selected player
+     * @param player Selected Player
+     */
+
     private void printSelectedPlayer(Player player) {
         for(Player p: actualPlayers) {
             if(p == player)
@@ -448,33 +527,25 @@ public class Cli extends ClientGameController {
         }
     }
 
+    /**
+     * Method that handle the selection of one of the available options
+     * @param availableOptions Available options (like choose power / place workers / move / build / etc.)
+     * @return selectedOption Option that is chosen
+     */
+
     private int scrollAvailableOptions (List<String> availableOptions) {
-        for(String s: availableOptions)
-            printWhite("[" + s + "]\n");
+        for(String action: availableOptions)
+            printWhite("[" + action + "]\n");
 
         int keyboard = getArrowUpDown();
 
         int counter = 0, size = availableOptions.size();
         boolean goOut = false, firstPosition = false, lastPosition = counter == size;
         do {
-            switch (keyboard) {
-                case 183:
-                    if(counter == 0)
-                        counter++;
-                    else if (!firstPosition)
-                        counter--;
-                    break;
-                case 184:
-                    if(!lastPosition)
-                        counter++;
-                    break;
-                case 13:
-                    goOut = true;
-                    break;
+            counter = standardUpDownHandler(keyboard, counter, firstPosition, lastPosition);
 
-                default:
-                    printErr("NO KEYBOARD CAUGHT");
-            }
+            if(keyboard == 13)
+                goOut = true;
 
             if(!goOut) {
                 clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints);
@@ -497,6 +568,48 @@ public class Cli extends ClientGameController {
         return counter-1;
     }
 
+    /**
+     * Method that handle the actuation of the selected action
+     * @param choice Value that correspond in the List of available actions to the action we want to actuate
+     */
+
+    private void startSelectedActions(int choice) {
+        String choiceString = availableActions.get(choice);
+        switch (choiceString) {
+            case "CHOOSE CARDS":
+                challengerChooseCards();
+                break;
+            case "CHOOSE POWER":
+                playerChoosePower();
+                break;
+            case "PLACE WORKERS":
+                playerPlaceWorkers();
+                break;
+            case "MOVE":
+                playerMoveHisWorker();
+                break;
+            case "BUILD":
+                playerBuild();
+                break;
+            case "SELECT WORKER":
+                playerSelectWorker();
+                break;
+            case "END TURN":
+                endTurn();
+                clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
+                printWaitForOtherPlayers(numberOfPlayers);
+                break;
+            default:
+                printErr("ERROR IN SELECTED ACTION");
+        }
+    }
+
+    /**
+     * Method that get available squares and get from them the corresponding tiles, adding these tiles to availableTiles
+     * @param availableSquares Available Squares sended by the server to
+     * @return availableTiles a list of available tiles
+     */
+
     private List<Integer> getAvailableTilesFromServer (List<Integer> availableSquares) {
         printDebug("FROM SERVER: " + availableSquares);
 
@@ -507,37 +620,19 @@ public class Cli extends ClientGameController {
         return availableTiles;
     }
 
-    private void setAvailableTilesInMap (List<Integer> availableTilesInMap) {
-        santoriniMap.setAvailableTiles(availableTilesInMap);
+    /**
+     * Method that get available tiles from getAvailableTilesFromServer and set corresponding tiles in the map as available
+     * @param availableTiles Available tiles number
+     */
+
+    private void setAvailableTilesInMap (List<Integer> availableTiles) {
+        santoriniMap.setAvailableTiles(availableTiles);
     }
 
-    private int getCoordinateInWhichActFromUser(String typeOfAction) {
-        int keyboard, tile;
-        do {
-            clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
-
-            santoriniMap.printAvailableTiles();
-            printRed("INSERT COORDINATES IN WHICH YOU WANT TO " + typeOfAction + ": ");
-            Integer[] coordinates = getCoordinatesFromString(input());
-            tile = santoriniMap.getTileFromCoordinate(coordinates[0], coordinates[1]);
-            //CONTROLLARE DISPONIBILITA' TILE
-            printDebug("TILE " + (tile+1));
-            //newSantoriniMapArrows.removeTileFromAvailableTiles(tile);
-            santoriniMap.setSelectedTile(tile, true);
-            clearShell();
-            santoriniMap.printMap();
-            keyboard = controlWaitEnter("confirm");
-            if(keyboard != 13) {
-                santoriniMap.setSelectedTile(tile, false);
-                santoriniMap.resetTileBackground(tile);
-            }
-        }while(keyboard != 13);
-
-        santoriniMap.setSelectedTile(tile, false);
-        santoriniMap.resetAvailableTiles();
-
-        return tile;
-    }
+    /**
+     * Method that handle the choice of an available tile with arrows
+     * @return selectedTile Selected tile number
+     */
 
     private int selectAvailableTileWithArrows () {
         List<Integer> availableTiles = santoriniMap.getAvailableTiles();
@@ -547,28 +642,12 @@ public class Cli extends ClientGameController {
         int counter = 0, size = availableTiles.size(), selectedTile = -1;
         boolean goOut = false, firstPosition = false, lastPosition = counter == size;
         do {
-            switch (keyboard) {
-                case 183:
-                    if(counter == 0)
-                        counter++;
-                    else if (!firstPosition)
-                        counter--;
-                    break;
-                case 184:
-                    if(!lastPosition)
-                        counter++;
-                    break;
-                case 13:
-                    goOut = true;
-                    break;
+            counter = standardUpDownHandler(keyboard, counter, firstPosition, lastPosition);
 
-                default:
-                    printErr("NO KEYBOARD CAUGHT");
-            }
+            if(keyboard == 13)
+                goOut = true;
 
             if(!goOut) {
-                //clearAndPrintInfo(opponents, myPlayerOnServer, deck, newSantoriniMapArrows);
-
                 firstPosition = counter == 1;
 
                 selectedTile = availableTiles.get(counter-1);
@@ -603,21 +682,26 @@ public class Cli extends ClientGameController {
         return selectedTile;
     }
 
-    private void printInfoAndConstraint () {
-
-    }
-
     //-----CARDS-----
 
-    private void orderCards(String s) {
+    /**
+     * Method that create an (alphabetical) ordered List of cards
+     * @param card Card received from challengerChooseCards that we want to compare to other cards still in deckOrdered
+     */
+
+    private void orderCards(String card) {
         for(int x=0; x < deckOrdered.size(); x++) {
-            if (deckOrdered.get(x).compareTo(s) > 0) {
-                deckOrdered.add(x, s);
+            if (deckOrdered.get(x).compareTo(card) > 0) {
+                deckOrdered.add(x, card);
                 return;
             }
         }
-        deckOrdered.add(s);
+        deckOrdered.add(card);
     }
+
+    /**
+     * Method that handle the choice of cards (and print them corresponding power) that challenger wants to choose
+     */
 
     private void selectCards() {
 
@@ -628,33 +712,28 @@ public class Cli extends ClientGameController {
             printRed("PLEASE, CHOOSE " + numberOfCardsToChoose + " CARDS:\n");
             printCards();
             printRed("USE ARROWS UP&DOWN TO SELECT, THEN PRESS ENTER...");
-            selectedCards.add(scrollCards(getArrowUpDown(), numberOfCardsToChoose));
+            selectedCards.add(scrollCards(numberOfCardsToChoose));
             cont++;
             numberOfCardsToChoose--;
         }
     }
 
-    private String scrollCards(int keyboardIn, int numberOfCardsToChoose) {
+    /**
+     * Method that handle the player to use arrows to move through cards and then select one of them
+     * @param numberOfCardsToChoose Number of cards that player has to choose from available cards
+     * @return selectedCard the name of the card that player has choose
+     */
+
+    private String scrollCards(int numberOfCardsToChoose) {
+        int keyboard = getArrowUpDown();
         int counter = 0;
         boolean goOut = false, firstPosition = false, lastPosition = false;
 
         do {
-            switch (keyboardIn) {
-                case 184:
-                    if (!lastPosition)
-                        counter++;
-                    break;
-                case 183:
-                    if (counter == 0)
-                        counter++;
-                    else if (!firstPosition)
-                        counter--;
-                    break;
-                default:
-                    goOut = true;
-                    if (keyboardIn != 13)
-                        printErr("NO KEYBOARD CAUGHT");
-            }
+            counter = standardUpDownHandler(keyboard, counter, firstPosition, lastPosition);
+
+            if(keyboard == 13)
+                goOut = true;
 
             if (!goOut) {
                 clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints);
@@ -679,7 +758,7 @@ public class Cli extends ClientGameController {
                 if (counter != 0)
                     printCards(counter - 1);
 
-                keyboardIn = controlWaitEnter("up&down");
+                keyboard = controlWaitEnter("up&down");
             }
         }while(!goOut);
 
@@ -687,6 +766,11 @@ public class Cli extends ClientGameController {
         deckOrdered.remove(counter-1);
         return selectedCard;
     }
+
+    /**
+     * Method that handle the visualisation of the list of cards
+     * @param counter Counter that represents the selected card
+     */
 
     private void printCards(int counter) {
 
@@ -700,282 +784,13 @@ public class Cli extends ClientGameController {
         }
     }
 
+    /**
+     * Method that handle the visualisation of the list of cards
+     */
+
     private void printCards() {
         for (String s : deckOrdered) {
             print("  " + s.toUpperCase() + "\n", Color.ANSI_YELLOW);
-        }
-    }
-
-    //-----MAP&WORKERS-----
-
-    private Integer[] getCoordinatesFromString(String input) {
-        String[] split = splitter(input);
-
-        split = controlCoordinates(split);
-
-        return new Integer[] {Integer.parseInt(split[0]), Integer.parseInt(split[1])};
-
-    }
-
-    private String[] controlCoordinates(String[] split) {
-        boolean wrongSplit;
-
-        while(split.length != 2) {
-            printRed(setBackground("WRONG NUMBER OF PARAMETERS!", Color.BACKGROUND_YELLOW));
-            printRed("\nPLEASE, REINSERT COORDINATES (from 0 up to 4): ");
-            split = splitter(input());
-        }
-
-        while(!split[0].equals("0") && !split[0].equals("1") && !split[0].equals("2") && !split[0].equals("3") && !split[0].equals("4") && !split[1].equals("0") && !split[1].equals("1") && !split[1].equals("2") && !split[1].equals("3") && !split[1].equals("4")) {
-            printRed("ERROR!\nPLEASE, REINSERT COORDINATES (from 0 up to 4): ");
-            do {
-                wrongSplit = false;
-                split = splitter(input());
-                if(split.length != 2) {
-                    wrongSplit = true;
-                    printRed("WRONG NUMBER OF PARAMETERS!\nPLEASE, REINSERT COORDINATES from 0 up to 4): ");
-                }
-            }while (wrongSplit);
-        }
-
-        return split;
-    }
-
-    private int selectTileWithArrows() {
-        printRed("USE ARROWS TO SELECT THE TILE IN WHICH YOU WANT TO MOVE...");
-        int keyboard = getArrow();
-
-        int[] coordinates = santoriniMap.getCoordinatesFromTile(tileNumber[selectedWorker-1]);
-
-        int currentSelectedTile = -1, nextSelection;
-        int coordinateX = coordinates[0], coordinateY = coordinates[1];
-        int tempCounter = -1;
-        boolean goOut = false, stillAvailableTile = true, error, firstExec = true;
-        do {
-            error = false;
-            clearShell();
-            switch (keyboard) {
-                case 183:
-                    tempCounter = coordinateX;
-                    if(tempCounter!=0 && stillAvailableTile)
-                        tempCounter--;
-                    break;
-                case 184:
-                    tempCounter = coordinateX;
-                    if(tempCounter!=4 && stillAvailableTile)
-                        tempCounter++;
-                    break;
-                case 185:
-                    tempCounter = coordinateY;
-                    if(tempCounter!=0 && stillAvailableTile)
-                        tempCounter++;
-                    break;
-                case 186:
-                    tempCounter = coordinateY;
-                    if(tempCounter!=4 && stillAvailableTile)
-                        tempCounter--;
-                    break;
-                case 13:
-                    goOut = true;
-                    break;
-                default:
-                    error = true;
-                    printErr("NO KEYBOARD CATCHED");
-            }
-
-            if(!goOut && !error) {
-
-                if(keyboard == 183 || keyboard == 184)
-                    nextSelection = santoriniMap.getTileFromCoordinate(tempCounter, coordinateY);
-                else
-                    nextSelection = santoriniMap.getTileFromCoordinate(coordinateX, tempCounter);
-
-                for(Integer availableTile: santoriniMap.availableTiles) {
-                    if((nextSelection+1) == availableTile) {
-                        if(keyboard == 183 || keyboard == 184)
-                            coordinateX = tempCounter;
-                        else
-                            coordinateY = tempCounter;
-
-                        printDebug(coordinateX + " " + coordinateY + " " + nextSelection);
-                        if(firstExec)
-                            firstExec = false;
-                        else
-                            santoriniMap.setSelectedTile(currentSelectedTile, false);
-
-                        currentSelectedTile = nextSelection;
-                        santoriniMap.setSelectedTile(currentSelectedTile, true);
-
-                        stillAvailableTile = true;
-                        break;
-                    } else {
-                        stillAvailableTile = false;
-                    }
-                }
-
-                santoriniMap.printMap();
-                keyboard = controlWaitEnter("all");
-            }
-        }while (!goOut);
-
-        santoriniMap.setSelectedTile(currentSelectedTile, false);
-        santoriniMap.resetAvailableTiles();
-
-        santoriniMap.setTileHasPlayer(false, tileNumber[selectedWorker-1], null);
-        santoriniMap.setTileHasPlayer(true, currentSelectedTile, myPlayerColor);
-
-        return currentSelectedTile+1;
-    }
-
-    //-----MENU-----
-    private void printMenu(boolean isFirstPlayer, boolean constraint) {
-        clearShell();
-        if(constraint) {
-            printWhite("[CHAT]  [BOARD]  [ACTIONS]  [OPPONENTS]  ");
-            print("[POWER]\n\n", Color.ANSI_CYAN);
-        } else
-            printWhite("[CHAT]  [BOARD]  [ACTIONS]  [OPPONENTS]  [POWER]\n\n");
-
-        int counter = 0;
-        boolean goOut = false, firstPosition = false, lastPosition = false;
-
-        int keyboardIn = getArrowLeftRight();
-
-        do {
-            clearShell();
-            switch (keyboardIn) {
-                case 185:
-                    printDebug("HERE");
-                    if (!lastPosition)
-                        counter++;
-                    break;
-                case 186:
-                    printDebug("HERE");
-                    if (counter == 0)
-                        counter++;
-                    else if (!firstPosition)
-                        counter--;
-                    break;
-
-                default:
-                    goOut = true;
-                    if (keyboardIn != 13) {
-                        printErr("NO KEYBOARD CAUGHT");
-                        counter = 0;
-                    }
-            }
-
-            if(!goOut) {
-                if (counter == 1) {
-                    firstPosition = true;
-                    printYellow("[CHAT]");
-                    printWhite("  [BOARD]  [ACTIONS]  [OPPONENTS]  [POWER]\n\n");
-
-                } else if (counter == 2) {
-                    firstPosition = false;
-                    printWhite("[CHAT]  ");
-                    printYellow("[BOARD]");
-                    printWhite("  [ACTIONS]  [OPPONENTS]  [POWER]\n\n");
-
-                } else if (counter == 3) {
-                    printWhite("[CHAT]  [BOARD]  ");
-                    /*if(availableActions.size()>0)
-                        print("[ACTIONS]", Color.ANSI_CYAN);
-                    else*/
-                        printYellow("[ACTIONS]");
-                    printWhite("  [OPPONENTS]  [POWER]\n");
-                    if (isFirstPlayer)
-                        printActions();
-                    else
-                        printRed("\n");
-
-                } else if (counter == 4) {
-                    lastPosition = false;
-                    printWhite("[CHAT]  [BOARD]  [ACTIONS]  ");
-                    printYellow("[OPPONENTS]");
-                    printWhite("  [POWER]\n");
-                    for (Player player : opponents) {
-                        printWhite("                            [");
-                        printPlayer(player);
-                        printWhite("]\n");
-                    }
-
-                } else if (counter == 5) {
-                    lastPosition = true;
-                    printWhite("[CHAT]  [BOARD]  [ACTIONS]  [OPPONENTS]  ");
-                    printYellow("[POWER]\n");
-                    try {
-                        printYellow(myPlayerOnServer.getPower().getName().toUpperCase() + ":");
-                        printPower(myPlayerOnServer.getPower().getName(), deck);
-                    } catch (NullPointerException e) {
-                        printRed("YOUR CARD DOESN'T ALREADY CHOOSE\n");
-                    }
-                    //printConstraint
-
-                }
-
-                keyboardIn = controlWaitEnter("left&right");
-            }
-        }while(!goOut);
-
-        selectMenu(counter, isFirstPlayer);
-    }
-
-    private void selectMenu(int counter, boolean isFirstPlayer) {
-        switch (counter) {
-            case 1:
-                //printChat
-                break;
-            case 2:
-                printWhite("\n");
-                santoriniMap.printMap();
-                break;
-            case 3:
-                if(isFirstPlayer) {
-                    clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints);
-                    printRed("SELECT WITH ARROWS ONE OF THE OPTIONS BELOW, THEN PRESS ENTER TO GO ON...\n");
-                    startSelectedActions(scrollAvailableOptions(availableActions));
-                }
-                break;
-            default:
-                printErr("ERROR IN CHOICE");
-        }
-    }
-
-    private void startSelectedActions(int choice) {
-        String choiceString = availableActions.get(choice);
-        switch (choiceString) {
-            case "CHOOSE CARDS":
-                challengerChooseCards();
-                break;
-            case "CHOOSE POWER":
-                playerChoosePower();
-                break;
-            case "PLACE WORKERS":
-                playerPlaceWorkers();
-                break;
-            case "MOVE":
-                playerMoveHisWorker();
-                break;
-            case "BUILD":
-                playerBuild();
-                break;
-            case "SELECT WORKER":
-                playerSelectWorker();
-                break;
-            case "END TURN":
-                endTurn();
-                clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
-                printWaitForOtherPlayers(numberOfPlayers);
-                break;
-            default:
-                printErr("ERROR IN SELECTED ACTION");
-        }
-    }
-
-    private void printActions() {
-        for(String s: availableActions) {
-            printWhite("                 [" + s + "]\n");
         }
     }
 

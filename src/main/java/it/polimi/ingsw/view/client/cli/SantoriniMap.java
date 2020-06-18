@@ -8,6 +8,14 @@ import java.util.List;
 
 import static it.polimi.ingsw.utils.CliUtils.*;
 
+/**
+ * Class that define and implements the visualisation of the board
+ * and an external (safety) access to the single tiles that compose the board
+ * @author _theonlyonepiantu
+ * @version 1.0
+ * @since 2020/06/18
+ */
+
 public class SantoriniMap {
 
     private Tile[] tile = new Tile[25];
