@@ -47,9 +47,15 @@ public class Gui extends ClientGameController {
     JButton buttonBackground = new JButton();
     MP3 sound;
 
+    /**
+     * Method that start the Gui
+     */
+
     public static void main(String[] args) {
-        Gui gui = new Gui();
-        gui.avvio();
+        SwingUtilities.invokeLater(() -> {
+            Gui gui = new Gui();
+            gui.show();
+        });
     }
 
     /**
@@ -97,17 +103,6 @@ public class Gui extends ClientGameController {
         frame.setResizable(false);
         frame.setVisible(true);
 
-    }
-
-    /**
-     * Method that start the Gui
-     */
-
-    public void avvio() {
-        SwingUtilities.invokeLater(() -> {
-            Gui gui = new Gui();
-            gui.show();
-        });
     }
 
     /**

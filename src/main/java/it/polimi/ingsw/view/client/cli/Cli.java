@@ -43,10 +43,18 @@ public class Cli extends ClientGameController {
 
     private Response fromServerResponse;
 
+    /**
+     * Method that start the Cli
+     */
+
     public static void main(String[] args) {
         Cli cli = new Cli();
         cli.start();
     }
+
+    /**
+     * Method that build the login and open the connection with the server
+     */
 
     public void start() {
         clearShell();
@@ -63,6 +71,10 @@ public class Cli extends ClientGameController {
             CliUtils.LOGGER.severe(e.getMessage());
         }
     }
+
+    /**
+     * Method that handle the choice of cards from the entire deck by the challenger
+     */
 
     private void challengerChooseCards() {
         for(String s: deck.keySet())
@@ -82,10 +94,12 @@ public class Cli extends ClientGameController {
         printDebug("CHALLENGERRESPONSE");
         controlWaitEnter("endTurn");
         endTurn();
-        //mainThread.interrupt();
         printDebug("AFTER ENDTURN");
-        //printWaitingStartTurn(numberOfPlayers);
     }
+
+    /**
+     * Method that handle the choice of the power from availableCards (the cards that challenger has chosen in ChallengerChoiceCards) by the current player
+     */
 
     private void playerChoosePower() {
 
@@ -96,7 +110,6 @@ public class Cli extends ClientGameController {
         printRed("CHOOSE ONE OF THE CARDS BELOW:\n");
         printCards();
         printRed("USE ARROW TO SELECT YOUR POWER & THEN PRESS ENTER TO CONFIRM...");
-        //this.power = scrollCards(getArrowUpDown(), 1);
         myPower = scrollCards(getArrowUpDown(), 1);
 
         cardChoiceResponse(myPower);
@@ -104,12 +117,14 @@ public class Cli extends ClientGameController {
         controlWaitEnter("endTurn");
         endTurn();
         printDebug("AFTER ENDTURN");
-        //printWaitingStartTurn(numberOfPlayers);
     }
+
+    /**
+     * Method that handle the placing of the workers of the current player
+     */
 
     private void playerPlaceWorkers() {
         int selectedTile;
-        Integer[] tileCoordinates;
         boolean occupied;
 
         List<Integer> modifiedTiles = new ArrayList<>();
@@ -126,16 +141,7 @@ public class Cli extends ClientGameController {
 
            do {
                 occupied = false;
-
-                //COORDINATES VERSION
-               /*do {
-                    printRed("INSERT COORDINATES (from 0 up to 4) OF THE TILE IN WHICH YOU WANT TO PLACE YOUR WORKER" + (i+1) + ": ");
-                    tileCoordinates = getCoordinatesFromString(input());
-                }while(tileCoordinates[0] < 0 || tileCoordinates[0] > 4 || tileCoordinates[1] < 0 || tileCoordinates[1] > 4);
-                selectedTile = newSantoriniMapArrows.getTileFromCoordinate(tileCoordinates[0], tileCoordinates[1]);*/
-                //-------------------
-
-               selectedTile = selectAvailableTileWithArrows();
+                selectedTile = selectAvailableTileWithArrows();
 
                 if(!santoriniMap.checkUnoccupiedTile(selectedTile)) {
                     occupied = true;
@@ -169,6 +175,10 @@ public class Cli extends ClientGameController {
         //printWaitingStartTurn(numberOfPlayers);
         santoriniMap.resetAvailableTiles();
     }
+
+    /**
+     * Method that handle the selection of one of the workers of the current player that will be the actual worker for the actual turn
+     */
 
     private void playerSelectWorker() {
         santoriniMap.printMap();
@@ -221,6 +231,10 @@ public class Cli extends ClientGameController {
         }while (!goOut);
     }
 
+    /**
+     * Method that handle the move action of the selected worker of the current player
+     */
+
     private void playerMoveHisWorker() {
         setAvailableTilesInMap(getAvailableTilesFromServer(availableMoveSquare()));
 
@@ -229,7 +243,6 @@ public class Cli extends ClientGameController {
 
         int tile = selectAvailableTileWithArrows();
         santoriniMap.resetAvailableTiles();
-        //KEYBOARD VERSION -> = getCoordinateInWhichActFromUser("MOVE", newSantoriniMapArrows.getAvailableTiles());
 
         santoriniMap.setTileHasPlayer(false, tileNumber[selectedWorker-1], null);
         santoriniMap.setTileHasPlayer(true, tile, myPlayerColor);
@@ -243,6 +256,10 @@ public class Cli extends ClientGameController {
         new Thread(() -> mapNextAction(fromServerResponse)).start();
     }
 
+    /**
+     * Method that handle the build action of the selected workers of the current player
+     */
+
     private void playerBuild() {
         setAvailableTilesInMap(getAvailableTilesFromServer(availableBuildSquare()));
 
@@ -251,7 +268,6 @@ public class Cli extends ClientGameController {
 
         int tile = selectAvailableTileWithArrows();
         santoriniMap.resetAvailableTiles();
-        // = getCoordinateInWhichActFromUser("BUILD", newSantoriniMapArrows.getAvailableTiles());
 
         List<Building> availableBuildings = new ArrayList<>();
         availableBuildings.add(santoriniMap.getAvailableBuildingFromTile(tile));
@@ -276,6 +292,10 @@ public class Cli extends ClientGameController {
         santoriniMap.printMap();
         new Thread(() -> mapNextAction(fromServerResponse)).start();
     }
+
+    /**
+     * Method that handle the updating of the board when updateBoard is called from the server (an opponent do something)
+     */
 
     private void updateModification(List<Square> modifiedSquares) {
         for(Square modifiedSquare: modifiedSquares) {
