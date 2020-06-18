@@ -60,21 +60,49 @@ public class CliUtils {
 
     public static final java.util.logging.Logger LOGGER = Logger.getLogger("Cli");
 
+    //--------------PRINTER----------------------
+
+    /**
+     * Method used to print on the System.out object a string red colored
+     * @param string String to print with the color
+     */
+
     public static void printRed(String string) {
         System.out.print(Color.ANSI_RED + string + Color.RESET);
     }
+
+    /**
+     * Method used to print on the System.out object a string white colored
+     * @param string String to print with the color
+     */
 
     public static void printWhite(String string) {
         System.out.print(Color.ANSI_WHITE + string + Color.RESET);
     }
 
+    /**
+     * Method used to print on the System.out object a string yellow colored
+     * @param string String to print with the color
+     */
+
     public static void printYellow(String string) {
         System.out.print(Color.ANSI_YELLOW + string + Color.RESET);
     }
 
+    /**
+     * Method used to print on the System.out object a string colored
+     * @param string String to print with the color
+     * @param color Color used in this print method
+     */
+
     public static void print(String string, Color color) {
         System.out.print(color + string + Color.RESET);
     }
+
+    /**
+     * Method used to handle the visualisation of an error represented in a string
+     * @param string String that represents the error
+     */
 
     public static void printErr(String string) {
         System.err.println(string);
@@ -85,6 +113,11 @@ public class CliUtils {
             System.out.println(string);
     }
 
+    /**
+     * Method used to print the nickname of a player with his color
+     * @param player Player to print nickname with his correct color
+     */
+
     public static void printPlayer(Player player) {
         try {
             print(player.getNickName().toUpperCase(), getColorCliFromPlayer(player.getColor()));
@@ -93,6 +126,12 @@ public class CliUtils {
             CliUtils.LOGGER.severe(e.getMessage());
         }
     }
+
+    /**
+     * Method used to print the power of a card
+     * @param cardName String that represents the name of the card to print the power
+     * @param deck The set of all cards with them info (name, power, etc.)
+     */
 
     public static void printPower(String cardName, Map<String, Card> deck) {
         Card card = deck.get(cardName.toLowerCase());
@@ -109,11 +148,21 @@ public class CliUtils {
             printErr("WRONG CARD NAME");
     }
 
-    public static void printOpponents(Player player) {
+    /**
+     * Method used to print the opponent of a player with his color
+     * @param player Opponent player to print with his correct color
+     */
+
+    public static void printOpponent(Player player) {
             printWhite("  [");
             printPlayer(player);
             printWhite("] ");
     }
+
+    /**
+     * Method used to print a waiting string (WaitOtherPlayer).
+     * @param numberOfPlayers Int used to distinguish the string to print
+     */
 
     public static void printWaitForOtherPlayers(int numberOfPlayers) {
         if(numberOfPlayers==2)
@@ -121,6 +170,11 @@ public class CliUtils {
         else
             printRed("WAITING FOR OTHER PLAYERS DO THEIR ACTIONS\n");
     }
+
+    /**
+     * Method used to print a waiting string (WaitStartTurn).
+     * @param numberOfPlayers Int used to distinguish the string to print
+     */
 
     public static void printWaitingStartTurn(int numberOfPlayers) {
         if(numberOfPlayers==2)
@@ -131,6 +185,11 @@ public class CliUtils {
 
     //------------ GENERIC -------------------------
 
+    /**
+     * Standard method used to get something from System.in
+     * @return keyboard String input from the System.in
+     */
+
     public static String input() {
         String keyboard;
         Scanner input = new Scanner(System.in);
@@ -138,18 +197,28 @@ public class CliUtils {
         return keyboard;
     }
 
-    public static String[] splitter(String keyboard) {
-        while (keyboard.isEmpty()) {
-            printRed(setBackground("EMPTY! INSERT CORRECTLY VALUES: ", Color.BACKGROUND_YELLOW));
-            keyboard = input();
-        }
-        return keyboard.split("\\s");
-    }
+    /**
+     * Method used to clear the shell and print some info regards the match
+     * @param opponents List of the opponents of the current player
+     * @param currentPlayer Player that invoke this method
+     * @param deck Set of all cards
+     * @param constraints List of string of possible constraints
+     */
 
     public static void clearAndPrintInfo(List<Player> opponents, Player currentPlayer, Map<String, Card> deck, List<String> constraints) {
         Color.clearConsole();
         printInfo(opponents, currentPlayer, deck, constraints);
     }
+
+    /**
+     * Method used to clear the shell and print some info regards the match. Different from the previous because this
+     * print also the map of the current game
+     * @param opponents List of the opponents of the current player
+     * @param currentPlayer Player that invoke this method
+     * @param deck Set of all cards
+     * @param constraints List of string of possible constraints
+     * @param map The map object of the current game
+     */
 
     public static void clearAndPrintInfo(List<Player> opponents, Player currentPlayer, Map<String, Card> deck, List<String> constraints, SantoriniMap map){
         Color.clearConsole();
@@ -157,14 +226,22 @@ public class CliUtils {
         printInfo(opponents, currentPlayer, deck, constraints);
     }
 
+    /**
+     * Method use to print all the info required (not the map) by the clearAndPrintInfo methods
+     * @param opponents List of the opponents of the current player
+     * @param currentPlayer Player that invoke this method
+     * @param deck Set of all cards
+     * @param constraints List of string of possible constraints
+     */
+
     public static void printInfo(List<Player> opponents, Player currentPlayer, Map<String, Card> deck, List<String> constraints) {
         printRed("[OPPONENTS]:");
         for (Player player : opponents) {
-            printOpponents(player);
+            printOpponent(player);
         }
         printRed("\n[OPPONENTS' POWER]:\n");
         for(Player player: opponents) {
-            printOpponents(player);
+            printOpponent(player);
             try {
                 String power = player.getPower().getName();
                 printYellow(" " + power.toUpperCase());
@@ -191,9 +268,20 @@ public class CliUtils {
             printRed("\n");
     }
 
+    /**
+     * Method used to clear the shell
+     */
+
     public static void clearShell() {
         Color.clearConsole();
     }
+
+    /**
+     * Method used to convert the color of a player (an enum of string contained in the model) in the corresponding color
+     * value useful in the cli to print colors
+     * @param color The color of the player
+     * @return playerColor Color converted in the correct cli color value (contained in the Color enum of the Cli)
+     */
 
     public static Color getColorCliFromPlayer(it.polimi.ingsw.model.player.Color color) {
         Color returnedColor = Color.ANSI_BLACK;
@@ -220,6 +308,13 @@ public class CliUtils {
         return returnedColor;
     }
 
+    /**
+     * Method used to get player object using his nickname
+     * @param players List of players actually in the current game
+     * @param nickName String nickname of the asked player
+     * @return aksedPlayer Player whose nickname is passed as a parameter
+     */
+
     public static Player getPlayerFromNickName (List<Player> players, String nickName) {
         for(Player player: players) {
             if(player.getNickName().equalsIgnoreCase(nickName))
@@ -228,11 +323,23 @@ public class CliUtils {
         return null;
     }
 
+    /**
+     * Method used to set the background of a generic string
+     * @param string String on which applies the background color
+     * @param background Background color
+     * @return stringWithBackground String on which this method applied the background color
+     */
+
     public static String setBackground (String string, Color background) {
         return background + string + Color.RESET;
     }
 
     //------------ ARROWS --------------------------
+
+    /**
+     * Method used to get arrow values as user's input. It also convert the terminal mode in the raw mode and then it reset its
+     * @return arrow Int value that represent the arrow value
+     */
 
     public static int getArrow() {
         int keyboard = 0, keyboard1 = 0, keyboard2 = 0;
@@ -258,6 +365,11 @@ public class CliUtils {
         return keyboard;
     }
 
+    /**
+     * Method used to set the terminal mode (raw or sane)
+     * @param mode String that represent the terminal mode to set
+     */
+
     public static void setTerminalMode(String mode) {
         try {
             String[] cmd = new String[]{"/bin/sh", "-c", "stty " + mode + " </dev/tty"};
@@ -266,6 +378,11 @@ public class CliUtils {
             LOGGER.severe(e.getMessage() + e.getClass());
         }
     }
+
+    /**
+     * Method use to get (through getArrow) only up&down arrows
+     * @return upOrDown Int value that represents the user's choice (up or down)
+     */
 
     public static int getArrowUpDown() {
         int keyboard;
@@ -277,21 +394,11 @@ public class CliUtils {
         return keyboard;
     }
 
-    public static int getArrowLeftRight() {
-        int keyboard;
-
-        do {
-            keyboard = getArrow();
-        }while(keyboard != 185 && keyboard != 186);
-
-        return keyboard;
-    }
-
-    private static int waitEnter() {
-        int keyboardIn;
-        keyboardIn = getArrow();
-        return keyboardIn;
-    }
+    /**
+     * Method used to wait the user press "ENTER" (or something else represented by the type parameter)
+     * @param type String that represents which values should be accepted from the user
+     * @return userChoice Int value that represents the user's choice (one of the options allowed by the type or "ENTER")
+     */
 
     public static int controlWaitEnter(String type) {
         int keyboardIn = 0;
@@ -306,27 +413,27 @@ public class CliUtils {
         switch (type) {
             case "up&down":
                 do {
-                    keyboardIn = waitEnter();
+                    keyboardIn = getArrow();
                 }while(keyboardIn != 13 && keyboardIn != 183 && keyboardIn != 184);
                 break;
             case "left&right":
                 do {
-                    keyboardIn = waitEnter();
+                    keyboardIn = getArrow();
                 }while(keyboardIn != 13 && keyboardIn != 185 && keyboardIn != 186);
                 break;
             case "all":
                 do {
-                    keyboardIn = waitEnter();
+                    keyboardIn = getArrow();
                 }while(keyboardIn != 13 && keyboardIn != 183 && keyboardIn != 184 && keyboardIn != 185 && keyboardIn != 186);
                 break;
             case "enter":
                 do {
-                    keyboardIn = waitEnter();
+                    keyboardIn = getArrow();
                 }while(keyboardIn != 13);
                 break;
             case "confirm":
                 do {
-                    keyboardIn = waitEnter();
+                    keyboardIn = getArrow();
                 }while(keyboardIn != 13 && keyboardIn != 186);
                 break;
             default:
