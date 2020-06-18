@@ -1,218 +1,227 @@
 package it.polimi.ingsw.view.client.cli;
 
+import it.polimi.ingsw.model.map.Building;
+import it.polimi.ingsw.model.map.Square;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static it.polimi.ingsw.view.client.cli.CliUtils.*;
+
 public class SantoriniMap {
 
-    private Square[][] square = new Square[5][5];
-    private Color color = Color.ANSI_YELLOW;
-    private static Color actualColor = Color.ANSI_YELLOW;
-    private boolean hasDome = false;
-    private boolean firstExec = true;
-    private boolean firstMove = true;
-    private int[] previousTile = new int[2];
-    private int[] currentTile = new int[2];
+    private Tile[] tile = new Tile[25];
+    List<Integer> availableTiles = new ArrayList<>();
+    //private boolean firstPrint = true;
 
     public SantoriniMap() {
-        for(int i=0; i<5; i++) {
-            for(int j=0; j<5; j++) {
-                this.square[i][j] = new Square();
-            }
+        for(int i=0; i<25; i++)
+            tile[i] = new Tile();
+
+        int counter = 0;
+        for(int y=0; y<5; y++) {
+            this.tile[counter].setCoordinate(0, y);
+            counter++;
         }
-    }
-
-    public boolean isCellaHasPlayer(int x, int y) {
-        return this.square[x][y].isHasPlayer();
-    }
-
-    public void setCellaHasPlayer(int x, int y) {
-        int[] coordinate = {x, y};
-        if(isFirstMove()) {
-            this.setFirstMove(false);
-            this.setPreviousTile(coordinate);
-            this.square[x][y].setHasPlayer(true);
-            this.setCurrentTile(coordinate);
+        for(int x=1; x<4; x++) {
+            this.tile[counter].setCoordinate(x, 4);
+            counter++;
         }
-        else {
-            this.square[x][y].setHasPlayer(true);
-            this.setPreviousTile(this.getCurrentTile());
-            this.setCurrentTile(coordinate);
+        for(int y=4; y>=0; y--) {
+            this.tile[counter].setCoordinate(4, y);
+            counter++;
         }
-    }
+        for(int x=3; x>=1; x--) {
+            this.tile[counter].setCoordinate(x, 0);
+            counter++;
+        }
+        for(int y=1; y<4; y++) {
+            this.tile[counter].setCoordinate(1, y);
+            counter++;
+        }
+        for(int x=2; x<=3; x++) {
+            this.tile[counter].setCoordinate(x, 3);
+            counter++;
+        }
+        for(int y=2; y>=1; y--) {
+            this.tile[counter].setCoordinate(3, y);
+            counter++;
+        }
+        for(int y=1; y<3; y++) {
+            this.tile[counter].setCoordinate(2, y);
+            counter++;
+        }
 
-    public BuildingType getCellaBuildingType(int x, int y) {
-        return this.square[x][y].getBuildingType();
-    }
-
-    public void setCellaBuildingType(int x, int y, String builgindType) {
-        if(builgindType.equals("DOME"))
-            this.setCellaHasPlayer(currentTile[0]+1, currentTile[1]+1);
-        this.square[x][y].setBuildingType(builgindType);
-    }
-
-    public boolean isHasDome() {
-        return hasDome;
-    }
-
-    public void setHasDome(boolean hasDome) {
-        this.hasDome = hasDome;
-    }
-
-    public boolean isFirstExec() {
-        return firstExec;
-    }
-
-    public void setFirstExec(boolean firstExec) {
-        this.firstExec = firstExec;
+        for(int i=0; i<25; i++)
+            availableTiles.add(i);
     }
 
     public void printMap() {
-        if(!isFirstExec())
-            Color.clearConsole();
-        setFirstExec(false);
-        for(int i=0; i<5; i++) {
+        int tileNumber;
+
+        clearShell();
+
+        printYellow("   ");
+        for(int i=0; i<5; i++)
+            printYellow("         " + i + "         ");
+        printYellow("\n");
+        for(int x=0; x<=5; x++) {
+            printYellow("   ");
             for(int t=0; t<5; t++) {
-                System.out.print(setPrinterColor("---------------------"));
-            }
-            int z = 0;
-            System.out.print(setPrinterColor("-\n"));
-            for(int j=0; j<=2; j++) {
-                System.out.println(setPrinterColor("| " + printBuildingType(i, 0, z) + " | " +
-                        printBuildingType(i, 1, z) + " | " +
-                        printBuildingType(i, 2, z) + " | " +
-                        printBuildingType(i, 3, z) + " | " +
-                        printBuildingType(i, 4, z) + " |"));
-                z++;
-            }
-            System.out.println(setPrinterColor("| " + printBuildingType(i, 0, z) + " | " +
-                    printBuildingType(i, 1, z) + " | " +
-                    printBuildingType(i, 2, z) + " | " +
-                    printBuildingType(i, 3, z) + " | " +
-                    printBuildingType(i, 4, z) + " |"));
-            if(hasDome)
-                this.setHasDome(false);
-            z++;
-            for(int j=0; j<=2; j++) {
-                System.out.println(setPrinterColor("| " + printBuildingType(i, 0, z) + " | " +
-                        printBuildingType(i, 1, z) + " | " +
-                        printBuildingType(i, 2, z) + " | " +
-                        printBuildingType(i, 3, z) + " | " +
-                        printBuildingType(i, 4, z) + " |"));
-                z++;
+                printWhite(setBlueBackgroundColor("───────────────────"));
+                if(t==4)
+                    printWhite(setBlueBackgroundColor("─") + "\n");
             }
 
-        }
-        for(int t=0; t<5; t++) {
-            System.out.print(setPrinterColor("---------------------"));
-        }
-        System.out.println(setPrinterColor("-\n") + this.color.RESET);
-    }
+            if(x==5)
+                break;
 
-    public String printPlayer(int i, int j) {
-        return this.square[i][j].getColorPlayer() + square[i][j].getSimbol() + actualColor;
-    }
-
-    public String printBuildingType(int i, int c, int z) {
-        //System.out.println("SONO DENTRO");
-        String printer = "ERROR";
-        switch (this.square[i][c].getBuildingType()) {
-            case GROUND:
-                if(z==3) {
-                    actualColor = Color.ANSI_YELLOW;
-                    printer = "        " + this.printPlayer(i, c) + "       ";
+            for(int raw=0; raw<7; raw++) {
+                for (int y=0; y<5; y++) {
+                    tileNumber = getTileFromCoordinate(x, y);
+                    if(y==0 && raw==3)
+                        printYellow(" " + x + " ");
+                    else if(y==0)
+                        printYellow("   ");
+                    printWhite(setBlueBackgroundColor("│"));
+                    printRed(this.tile[tileNumber].getPrintRawLevel(raw));
+                    if(y==4) {
+                        printWhite(setBlueBackgroundColor("│"));
+                        if(raw==3)
+                            printYellow(" " + x + "\n");
+                        else
+                            printYellow("\n");
+                    }
                 }
-                else
-                    printer = "                  ";
-                break;
-
-            case LVL1:
-                actualColor = Color.ANSI_RED;
-                if(z==0 || z==6)
-                    printer = "------------------";
-                else if(z==3)
-                    printer = "|       " + this.printPlayer(i, c) + "      |";
-                else
-                    printer = "|                |";
-                break;
-
-            case LVL2:
-                actualColor = Color.ANSI_RED;
-                if(z==0 || z==6)
-                    printer = "------------------";
-                else if(z==1 || z==5)
-                    printer = "| -------------- |";
-                else if(z==3)
-                    printer = "| |     " + this.printPlayer(i, c) + "    | |";
-                else
-                    printer = "| |            | |";
-                break;
-
-            case LVL3:
-                actualColor = Color.ANSI_RED;
-                if(z==0 || z==6)
-                    printer = "------------------";
-                else if(z==1 || z==5)
-                    printer = "| -------------- |";
-                else if(z==2 || z==4)
-                    printer = "| | ---------- | |";
-                else if(z==3)
-                    printer = "| | |   " + this.printPlayer(i, c) + "  | | |";
-                else
-                    printer = "| | |        | | |";
-                break;
-
-            case DOME:
-                actualColor = Color.ANSI_RED;
-                setHasDome(true);
-                if(z==0 || z==6)
-                    printer = "------------------";
-                else if(z==1 || z==5)
-                    printer = "| -------------- |";
-                else if(z==2 || z==4)
-                    printer = "| | ---------- | |";
-                else if(z==3)
-                    printer = "| | | ------ | | |";
-                else
-                    printer = "| | |        | | |";
-                break;
-
-            default:
-                if(z==3)
-                    printer = "     !ERRORE!     ";
-                else
-                    printer = "                  ";
-                break;
+            }
         }
-        //if(hasDome)
-        return this.color.ANSI_RED + printer + this.color;
-        //return printer;
+        printYellow("   ");
+        for(int i=0; i<5; i++)
+            printYellow("         " + i + "         ");
+        printYellow("\n");
     }
 
-    public String setPrinterColor(String string) {
-        return this.color + string;
+    public void printAvailableTiles() {
+        printRed("AVAILABLE SQUARES:\n");
+
+        for(int availableTile: availableTiles) {
+            int[] coordinate = getCoordinatesFromTile(availableTile);
+            tile[availableTile].setAvailable(true);
+            printRed("  [" + coordinate[0] + "] [" + coordinate[1] + "] Tile number: " + (availableTile+1) + "\n");
+        }
     }
 
-    public int[] getPreviousTile() {
-        return previousTile;
+    public String setBlueBackgroundColor(String string) {
+        return setBackground(string, Color.BACKGROUND_BLUE);
     }
 
-    public void setPreviousTile(int[] previousTile) {
-        this.square[previousTile[0]][previousTile[1]].setHasPlayer(false);
-        this.previousTile[0] = previousTile[0];
-        this.previousTile[1] = previousTile[1];
+    public void setSelectedTile (int tileNumber, boolean selected) {
+        this.tile[tileNumber].setSelected(selected);
+        iterateOnRawOfTile(tileNumber);
     }
 
-    public boolean isFirstMove() {
-        return firstMove;
+    public void setTileHasPlayer(boolean hasPlayer, int tileNumber, Color playerColor) {
+        this.tile[tileNumber].setPlayerInfo(hasPlayer, playerColor);
+        this.tile[tileNumber].setPrintRawLevel(3);
     }
 
-    public void setFirstMove(boolean firstMove) {
-        this.firstMove = firstMove;
+    public boolean checkUnoccupiedTile(int tileNumber) {
+        return availableTiles.contains(tileNumber);
     }
 
-    public int[] getCurrentTile() {
-        return currentTile;
+    public void updateStringBoardBuilding(Building buildingType, int tileNumber) {
+        this.tile[tileNumber].setBuildingType(buildingType);
+        this.tile[tileNumber].setBuildingLevel(tile[tileNumber].getBuildingLevel()+1);
+        iterateOnRawOfTile(tileNumber);
     }
 
-    public void setCurrentTile(int[] currentTile) {
-        this.currentTile = currentTile;
+    public void updateStringBoardBuilding(Square squareToModify) {
+        int tileNumber = squareToModify.getTile()-1;
+        this.tile[tileNumber].setBuildingType(squareToModify.getBuilding());
+        this.tile[tileNumber].setBuildingLevel(squareToModify.getBuildingLevel());
+        iterateOnRawOfTile(tileNumber);
     }
+
+    public int getTileFromCoordinate(int x, int y) {
+        for(int tileNumber=0; tileNumber<tile.length; tileNumber++) {
+            if(tile[tileNumber].getCoordinates()[0] == x && tile[tileNumber].getCoordinates()[1] == y)
+                return tileNumber;
+        }
+        return -1;
+    }
+
+    public int[] getCoordinatesFromTile(int tileNumber) {
+        return tile[tileNumber].getCoordinates();
+    }
+
+    public List<Integer> getAvailableTiles() {
+        return availableTiles;
+    }
+
+    public void resetAvailableTiles() {
+        for(int availableTile: availableTiles) {
+            tile[availableTile].setAvailable(false);
+            resetTileBackground(availableTile);
+        }
+        this.availableTiles.clear();
+    }
+
+    public void resetTileBackground (int tileNumber) {
+        tile[tileNumber].resetBackground();
+        iterateOnRawOfTile(tileNumber);
+    }
+
+    private void iterateOnRawOfTile (int tileNumber) {
+        for(int raw=0; raw<7; raw++)
+            tile[tileNumber].setPrintRawLevel(raw);
+    }
+
+    public void setAvailableTiles(List<Integer> availableTiles) {
+        this.availableTiles.addAll(availableTiles);
+        setAvailableTilesBackground(availableTiles);
+    }
+
+    public void addAvailableTile (Integer availableTile) {
+        this.availableTiles.add(availableTile);
+        setAvailableTilesBackground(availableTiles);
+        this.tile[availableTile].setAvailable(true);
+    }
+
+    public void removeTileFromAvailableTiles(Integer tileToRemove) {
+        this.availableTiles.remove(tileToRemove);
+    }
+
+    private void setAvailableTilesBackground(List<Integer> availableTiles) {
+        for(int availableTile: availableTiles) {
+            tile[availableTile].setAvailable(true);
+            iterateOnRawOfTile(availableTile);
+        }
+    }
+
+    public void setPlaceWorkerNotAvailableTiles(List<Integer> modifiedSquares) {
+        for(int availableTile: modifiedSquares)
+            tile[availableTile].setAvailable(false);
+        this.availableTiles.removeAll(modifiedSquares);
+        setAvailableTilesBackground(availableTiles);
+    }
+
+    public Building getAvailableBuildingFromTile (int tileNumber) {
+        return tile[tileNumber].getAvailableBuilding();
+    }
+
+    public Building getTileBuilding (int tileNumber) {
+        return this.tile[tileNumber].getBuildingType();
+    }
+
+    //----- GETTER & SETTER -----
+    /*public boolean isFirstPrint() {
+        return firstPrint;
+    }
+
+    public void setFirstPrint(boolean firstPrint) {
+        this.firstPrint = firstPrint;
+    }*/
+
+
+
 }

@@ -1,6 +1,6 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.view.client.cli.Cli_text_version;
+import it.polimi.ingsw.view.client.cli.Cli;
 import it.polimi.ingsw.view.client.gui.Gui;
 import java.util.Scanner;
 
@@ -25,8 +25,8 @@ public class App {
         }
 
         if(keyboard.equals("1")) {
-            Cli_text_version cli_text_version = new Cli_text_version();
-            cli_text_version.start();
+            Cli cli = new Cli();
+            cli.start();
         }
         else {
             Gui gui = new Gui();

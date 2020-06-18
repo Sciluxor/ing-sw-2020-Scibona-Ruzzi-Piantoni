@@ -142,7 +142,7 @@ public class CliUtils {
         printInfo(opponents, currentPlayer, deck, constraints);
     }
 
-    public static void clearAndPrintInfo(List<Player> opponents, Player currentPlayer, Map<String, Card> deck, List<String> constraints, NewSantoriniMapArrows map){
+    public static void clearAndPrintInfo(List<Player> opponents, Player currentPlayer, Map<String, Card> deck, List<String> constraints, SantoriniMap map){
         Color.clearConsole();
         map.printMap();
         printInfo(opponents, currentPlayer, deck, constraints);

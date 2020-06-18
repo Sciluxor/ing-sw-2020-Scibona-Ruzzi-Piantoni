@@ -1,19 +1,17 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.model.map.Building;
-import it.polimi.ingsw.view.client.cli.CliUtils;
 import it.polimi.ingsw.view.client.cli.Color;
-import it.polimi.ingsw.view.client.cli.NewSantoriniMapArrows;
+import it.polimi.ingsw.view.client.cli.SantoriniMap;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import static it.polimi.ingsw.view.client.cli.CliUtils.*;
 
 public class MainTestPrintMapCli {
 
-    private static NewSantoriniMapArrows mapArrows = new NewSantoriniMapArrows();
+    private static SantoriniMap santoriniMap = new SantoriniMap();
     private static int previousTile = -1;
     private static Color playerColor = Color.ANSI_BLUE;
 
@@ -25,51 +23,51 @@ public class MainTestPrintMapCli {
         printRed(LOSER);
 
         System.out.println("Questa è la board vuota: ");
-        mapArrows.printMap();
+        santoriniMap.printMap();
 
 
-        mapArrows.setSelectedTile(19, true);
+        santoriniMap.setSelectedTile(19, true);
 
-        mapArrows.updateStringBoardBuilding(Building.LVL1, 12);
-        mapArrows.updateStringBoardBuilding(Building.LVL2, 11);
-        mapArrows.updateStringBoardBuilding(Building.LVL3, 10);
-        mapArrows.updateStringBoardBuilding(Building.LVL1, 9);
-        mapArrows.updateStringBoardBuilding(Building.LVL2, 9);
-        mapArrows.updateStringBoardBuilding(Building.LVL3, 9);
-        mapArrows.updateStringBoardBuilding(Building.DOME, 9);
-        mapArrows.updateStringBoardBuilding(Building.DOME, 20);
-        mapArrows.setTileHasPlayer(true, 8, playerColor);
+        santoriniMap.updateStringBoardBuilding(Building.LVL1, 12);
+        santoriniMap.updateStringBoardBuilding(Building.LVL2, 11);
+        santoriniMap.updateStringBoardBuilding(Building.LVL3, 10);
+        santoriniMap.updateStringBoardBuilding(Building.LVL1, 9);
+        santoriniMap.updateStringBoardBuilding(Building.LVL2, 9);
+        santoriniMap.updateStringBoardBuilding(Building.LVL3, 9);
+        santoriniMap.updateStringBoardBuilding(Building.DOME, 9);
+        santoriniMap.updateStringBoardBuilding(Building.DOME, 20);
+        santoriniMap.setTileHasPlayer(true, 8, playerColor);
 
-        mapArrows.updateStringBoardBuilding(Building.LVL1, 13);
-        mapArrows.updateStringBoardBuilding(Building.LVL2, 22);
-        mapArrows.updateStringBoardBuilding(Building.LVL3, 21);
-        mapArrows.setTileHasPlayer(true, 13, playerColor);
-        mapArrows.setTileHasPlayer(true, 22, playerColor);
-        mapArrows.setTileHasPlayer(true, 21, playerColor);
+        santoriniMap.updateStringBoardBuilding(Building.LVL1, 13);
+        santoriniMap.updateStringBoardBuilding(Building.LVL2, 22);
+        santoriniMap.updateStringBoardBuilding(Building.LVL3, 21);
+        santoriniMap.setTileHasPlayer(true, 13, playerColor);
+        santoriniMap.setTileHasPlayer(true, 22, playerColor);
+        santoriniMap.setTileHasPlayer(true, 21, playerColor);
 
         List<Integer> availableTiles = new ArrayList<>();
         availableTiles.add(15);
         availableTiles.add(16);
         availableTiles.add(17);
         availableTiles.add(18);
-        mapArrows.setAvailableTiles(availableTiles);
+        santoriniMap.setAvailableTiles(availableTiles);
 
-        mapArrows.setSelectedTile(14, true);
-        mapArrows.setSelectedTile(23, true);
-        mapArrows.setSelectedTile(24, true);
-        mapArrows.updateStringBoardBuilding(Building.LVL1, 14);
-        mapArrows.updateStringBoardBuilding(Building.LVL2, 23);
-        mapArrows.updateStringBoardBuilding(Building.LVL3, 24);
-        mapArrows.setTileHasPlayer(true, 14, playerColor);
-        mapArrows.setTileHasPlayer(true, 23, playerColor);
-        mapArrows.setTileHasPlayer(true, 24, playerColor);
+        santoriniMap.setSelectedTile(14, true);
+        santoriniMap.setSelectedTile(23, true);
+        santoriniMap.setSelectedTile(24, true);
+        santoriniMap.updateStringBoardBuilding(Building.LVL1, 14);
+        santoriniMap.updateStringBoardBuilding(Building.LVL2, 23);
+        santoriniMap.updateStringBoardBuilding(Building.LVL3, 24);
+        santoriniMap.setTileHasPlayer(true, 14, playerColor);
+        santoriniMap.setTileHasPlayer(true, 23, playerColor);
+        santoriniMap.setTileHasPlayer(true, 24, playerColor);
 
-        mapArrows.updateStringBoardBuilding(Building.LVL1, 15);
-        mapArrows.updateStringBoardBuilding(Building.LVL2, 16);
-        mapArrows.updateStringBoardBuilding(Building.LVL3, 17);
+        santoriniMap.updateStringBoardBuilding(Building.LVL1, 15);
+        santoriniMap.updateStringBoardBuilding(Building.LVL2, 16);
+        santoriniMap.updateStringBoardBuilding(Building.LVL3, 17);
 
 
-        mapArrows.printMap();
+        santoriniMap.printMap();
 
         //System.out.println("\nQUESTA CHE SEGUE E' UNA PROVA DI ESECUZIONE CON FLUSSO PREDETERMINATO");
         //this.provaEsecuzione();
