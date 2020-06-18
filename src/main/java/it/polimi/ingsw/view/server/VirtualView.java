@@ -227,7 +227,6 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
 
     public void handleClientError(){
         if(isYourTurn){
-            System.out.println("VirtualView");
             connection.clientError(new Message(connection.getUserID(),connection.getNickName(), MessageType.DISCONNECTION, MessageSubType.STOPPEDGAMEERROR));
         }
     }

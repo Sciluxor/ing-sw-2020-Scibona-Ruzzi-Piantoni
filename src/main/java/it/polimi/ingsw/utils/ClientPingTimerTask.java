@@ -17,7 +17,6 @@ public class ClientPingTimerTask extends TimerTask {
 
     @Override
     public void run() {
-        System.out.println("ClientPing");
         controller.handleDisconnection(new Message(ConstantsContainer.USERDIDDEF,ConstantsContainer.NICKDEF, MessageType.DISCONNECTION, MessageSubType.PINGFAIL));
     }
 }

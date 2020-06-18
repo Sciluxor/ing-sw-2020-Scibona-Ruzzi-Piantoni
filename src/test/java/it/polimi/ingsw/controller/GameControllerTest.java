@@ -68,6 +68,10 @@ class GameControllerTest {
 
         public void setGameStatus(Response status){ game.setGameStatus(status);}
 
+        public void placeWork(Integer[] tile1,Integer[] tile2){
+            game.placeWorkersOnMap(tile1,tile2);
+        }
+
         public int getNumClients(){
             return clients.size();
         }
@@ -477,8 +481,15 @@ class GameControllerTest {
         viewPlayer3.notify(message);
         controller.addUserID(viewPlayer3,"UID2");
         viewPlayer3.getConnection().setUserID("UID2");
-        controller.setGameStatus(Response.PLACEWORKERSDONE);
         controller.getGame().setFirstPlayer("secondo");
+        Integer[] tile1 = {0,0};
+        Integer[] tile2 = {4,4};
+        controller.setCurrPlayer(controller.getActualPlayers().get(1));
+        controller.placeWork(tile1,tile2);
+
+        controller.getCurrentPlayer().setPower(deck.get("apollo"));
+
+        controller.setGameStatus(Response.PLACEWORKERSDONE);
         controller.createQueue();
 
         //
