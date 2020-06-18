@@ -12,7 +12,6 @@ import static it.polimi.ingsw.utils.CliUtils.*;
 public class MainTestPrintMapCli {
 
     private static SantoriniMap santoriniMap = new SantoriniMap();
-    private static int previousTile = -1;
     private static Color playerColor = Color.ANSI_BLUE;
 
     public static void main(String[] args) {
