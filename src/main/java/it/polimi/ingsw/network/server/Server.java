@@ -31,6 +31,10 @@ public class Server implements Runnable{
         numUserID = 0;
     }
 
+    /**
+     * Starts the Server
+     * @param args args
+     */
     public static void main( String[] args )
     {
         LOGGER.info("Welcome to Santorini Server");
@@ -62,16 +66,24 @@ public class Server implements Runnable{
         server.startSocketServer(server.getSocketPort());
     }
 
+    /**
+     * Set the socketPort
+     * @param port port in which the server will listen for new connections
+     */
+    public void setSocketPort(int port){ this.socketPort = port;}
 
-    public void setSocketPort(int port){
-        this.socketPort = port;
-
-    }
-
+    /**
+     * get the socketPort
+     * @return the port in which the server listen for new connections
+     */
     public int getSocketPort(){
         return this.socketPort;
     }
 
+    /**
+     * Starts the SocketHandler that listen for new connections,and a new thread that listen for shutdown requests
+     * @param port port in which the server will listen for new connections
+     */
     public void startSocketServer(int port){
         try {
             this.socketHandler = new SocketHandler(port,this);
