@@ -17,6 +17,9 @@ import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 /**
  * Class that extends ClientGameController that start the application for the Gui
+ * @author Scilux
+ * @version 1.0
+ * @since 2020/06/13
  */
 
 public class Gui extends ClientGameController {
