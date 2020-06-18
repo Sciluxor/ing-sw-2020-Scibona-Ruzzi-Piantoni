@@ -3,7 +3,7 @@ package it.polimi.ingsw.view.client.cli;
 import it.polimi.ingsw.model.map.Building;
 
 /**
- * Class that define and implement the single tile object
+ * Class that define and implement the single tile's object
  * @author _theonlyonepiantu
  * @version 1.0
  * @since 2020/06/18
@@ -23,15 +23,30 @@ public class Tile {
     private Building availableBuilding;
     private Color printColor = Color.ANSI_RED;
 
+    /**
+     * Method used to initialize the initial raw' string value
+     */
+
     public Tile() {
         for(int raw=0; raw<7; raw++)
             this.setPrintRawLevel(raw);
     }
 
+    /**
+     * Method used to get the raw value necessary to print the board in SantoriniMap
+     * @param raw Int value of the corresponding raw that contains the string asked
+     * @return stringRaw String value contained in the raw
+     */
+
     public String getPrintRawLevel (int raw) {
         setBackgroundColor();
         return backgroundColor + printRawLevel[raw] + printColor;
     }
+
+    /**
+     * Method used to set (update) a correct value in the raw (using attributes' value contained in the tile's object)
+     * @param raw Int value of the raw that is going to be updated
+     */
 
     public void setPrintRawLevel (int raw) {
         if(buildingType == Building.GROUND) {
@@ -99,34 +114,76 @@ public class Tile {
         setAvailableBuilding();
     }
 
+    /**
+     * Method used to set a building in the current tile
+     * @param buildingType Building type this method set on the current object
+     */
+
     public void setBuildingType (Building buildingType) {
         this.buildingType = buildingType;
     }
+
+    /**
+     * Method used to get the building type of the current tile
+     * @return buildingType Building contained in the current object
+     */
 
     public Building getBuildingType() {
         return buildingType;
     }
 
+    /**
+     * Method used to get the building level
+     * @return buildingLevel Int value corresponding to the level of the building
+     */
+
     public int getBuildingLevel() {
         return buildingLevel;
     }
+
+    /**
+     * Method used to set the building level
+     * @param buildingLevel Int value corresponting to the level value of the building
+     */
 
     public void setBuildingLevel (int buildingLevel) {
         this.buildingLevel = buildingLevel;
     }
 
+    /**
+     * Method used to print the worker symbol (if tile has player) with its correct color
+     * @return coloredString String with worker' symbol (if tile has player) colored
+     */
+
     private String printPlayerColor() {
         return getPlayerColor() + this.isHasPlayerSymbol() + Color.ANSI_RED;
     }
+
+    /**
+     * Method used to get corresponding coordinates of the current tile
+     * @return coordinates[] An array of int that contain the coordinates of the current tile
+     * (coordinate[0] = coordinate X | coordinate[1] = coordiante Y)
+     * */
 
     public int[] getCoordinates() {
         return coordinates;
     }
 
+    /**
+     * Method used to set coordinates to the current tile
+     * @param x Coordiante X int value
+     * @param y Coordiante Y int value
+     */
+
     public void setCoordinate (int x, int y) {
         this.coordinates[0] = x;
         this.coordinates[1] = y;
     }
+
+    /**
+     * Method used to get the current symbol in case of presence or not of a player
+     * @return workerSymbol String that represents the correct value to print in case of presence of a player
+     */
 
     private String isHasPlayerSymbol() {
         if(hasPlayer)
@@ -135,13 +192,20 @@ public class Tile {
             return "   ";
     }
 
-    /*public void setPlayerColor(Color playerColor) {
-        this.playerColor = playerColor;
-    }*/
+    /**
+     * Method used to get self player color
+     * @return playerColor Color of his proper player
+     */
 
     private Color getPlayerColor() {
         return this.playerColor;
     }
+
+    /**
+     * Method used to set some info: if tile has player and in case of positive response, it set also the local player color
+     * @param hasPlayer Boolean value that represents the presence of a player (true = has player | false = hasn't player)
+     * @param color Color of possible player
+     */
 
     public void setPlayerInfo (boolean hasPlayer, Color color) {
         this.hasPlayer = hasPlayer;
@@ -149,38 +213,69 @@ public class Tile {
             this.playerColor = color;
     }
 
+    /**
+     * Method used to set if current tile is available or not
+     * @param available Boolean value that represents availability (true = available | false = not available)
+     */
+
     public void setAvailable (boolean available) {
         this.available = available;
     }
+
+    /**
+     * Method used to set if current tile is selected or not
+     * @param selected Boolean value that represents if current tile is selected (true = selected | false = not selected)
+     */
 
     public void setSelected (boolean selected) {
         this.selected = selected;
     }
 
+    /**
+     * Method used to set the correct background color in relation of the type of the building
+     * @param string Parameter that contains the string on which applies the background color
+     * @param backgroundBuildColor Color that corresponds to the building type
+     * @return stringWithBackground String with the background color
+     */
+
     private String setBuildBackgroundColor (String string, Color backgroundBuildColor) {
         return backgroundBuildColor + string + printColor;
     }
 
-    private void setBackgroundColor (/*String string*/) {
+    /**
+     * Method used to set the background color in case of availability, selection and presence of player
+     */
+
+    private void setBackgroundColor () {
         if (available && !selected && !hasPlayer)
             backgroundColor = Color.BACKGROUND_GREEN;
-            //return Color.BACKGROUND_GREEN + string + Color.ANSI_RED;
         else if (selected)
             backgroundColor = Color.BACKGROUND_YELLOW;
-            //return Color.BACKGROUND_YELLOW + string + Color.ANSI_RED;
         else if(hasPlayer)
             backgroundColor = Color.BACKGROUND_BLACK;
-
-        //return Color.RESET + string + Color.ANSI_RED;
     }
+
+    /**
+     * Method used to reset the background to a default value
+     */
 
     public void resetBackground() {
         this.backgroundColor = Color.BACKGROUND_BLACK;
     }
 
+    /**
+     * Method used to get available building of the current tile
+     * @return availableBuilding Building that is available
+     */
+
     public Building getAvailableBuilding () {
         return availableBuilding;
     }
+
+    /**
+     * Method used to set the correct available building (the successor of the current tile building type.
+     * Atlas constraint is handled in the main class)
+     */
 
     private void setAvailableBuilding () {
         if (buildingLevel < 4 && buildingType != Building.DOME) {

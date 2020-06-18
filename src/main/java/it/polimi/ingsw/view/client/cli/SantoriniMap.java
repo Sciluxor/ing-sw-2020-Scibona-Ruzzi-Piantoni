@@ -202,8 +202,8 @@ public class SantoriniMap {
 
     /**
      * Method used to get a tile number from corresponding coordinates
-     * @param x Coordinate X
-     * @param y Coordinate Y
+     * @param x Coordinate X int value
+     * @param y Coordinate Y int value
      * @return tileNumber
      */
 
