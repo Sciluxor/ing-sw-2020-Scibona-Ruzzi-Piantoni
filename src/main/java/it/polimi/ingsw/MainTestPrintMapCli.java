@@ -7,7 +7,7 @@ import it.polimi.ingsw.view.client.cli.SantoriniMap;
 import java.util.ArrayList;
 import java.util.List;
 
-import static it.polimi.ingsw.view.client.cli.CliUtils.*;
+import static it.polimi.ingsw.utils.CliUtils.*;
 
 public class MainTestPrintMapCli {
 

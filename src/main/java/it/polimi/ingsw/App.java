@@ -4,8 +4,8 @@ import it.polimi.ingsw.view.client.cli.Cli;
 import it.polimi.ingsw.view.client.gui.Gui;
 import java.util.Scanner;
 
-import static it.polimi.ingsw.view.client.cli.CliUtils.TITLE;
-import static it.polimi.ingsw.view.client.cli.CliUtils.printRed;
+import static it.polimi.ingsw.utils.CliUtils.TITLE;
+import static it.polimi.ingsw.utils.CliUtils.printRed;
 
 
 public class App {

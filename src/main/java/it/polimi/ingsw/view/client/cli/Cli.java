@@ -8,11 +8,12 @@ import it.polimi.ingsw.model.map.Square;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.client.ClientGameController;
 import it.polimi.ingsw.network.message.MessageType;
+import it.polimi.ingsw.utils.CliUtils;
 
 import java.util.*;
 
 import static it.polimi.ingsw.utils.ConstantsContainer.*;
-import static it.polimi.ingsw.view.client.cli.CliUtils.*;
+import static it.polimi.ingsw.utils.CliUtils.*;
 
 /**
  * Class that extends ClientGameController that start the application for the Cli

@@ -1,7 +1,9 @@
-package it.polimi.ingsw.view.client.cli;
+package it.polimi.ingsw.utils;
 
 import it.polimi.ingsw.model.cards.Card;
 import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.view.client.cli.Color;
+import it.polimi.ingsw.view.client.cli.SantoriniMap;
 
 import java.io.IOException;
 import java.util.List;

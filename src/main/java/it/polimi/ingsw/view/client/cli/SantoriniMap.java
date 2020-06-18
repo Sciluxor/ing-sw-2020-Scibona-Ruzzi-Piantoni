@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.map.Square;
 import java.util.ArrayList;
 import java.util.List;
 
-import static it.polimi.ingsw.view.client.cli.CliUtils.*;
+import static it.polimi.ingsw.utils.CliUtils.*;
 
 public class SantoriniMap {
 
