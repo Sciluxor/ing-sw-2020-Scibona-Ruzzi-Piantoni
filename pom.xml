@@ -85,8 +85,8 @@
 
     <dependency>
       <groupId>org.openjfx</groupId>
-      <artifactId>javafx-media</artifactId>
-      <version>11.0.2</version>
+      <artifactId>javafx-swing</artifactId>
+      <version>15-ea+5</version>
       <classifier>win</classifier>
     </dependency>
 
