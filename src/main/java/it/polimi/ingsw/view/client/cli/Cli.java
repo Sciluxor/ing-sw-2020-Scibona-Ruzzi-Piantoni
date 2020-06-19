@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.client.ClientGameController;
 import it.polimi.ingsw.network.message.MessageType;
 import it.polimi.ingsw.utils.CliUtils;
+import javafx.util.Pair;
 
 import java.util.*;
 
@@ -43,6 +44,7 @@ public class Cli extends ClientGameController {
     private static List<Player> actualPlayers = new ArrayList<>();
     private List<String> availableActions = new ArrayList<>();
     private List<String> constraints = new ArrayList<>();
+    private List<Pair<Player, String>> previousChatMessage = new ArrayList<>();
 
     private Response fromServerResponse;
 
@@ -54,6 +56,8 @@ public class Cli extends ClientGameController {
         Cli cli = new Cli();
         cli.start();
     }
+
+    //----- MAIN FUNCTIONS -----
 
     /**
      * Method that build the login and open the connection with the server
@@ -138,7 +142,7 @@ public class Cli extends ClientGameController {
 
         for(int i=0; i<2; i++) {
             santoriniMap.setPlaceWorkerNotAvailableTiles(modifiedTiles);
-            santoriniMap.printMap();
+            clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
             santoriniMap.printAvailableTiles();
             printRed("USE ARROWS TO SELECT TILE...\n");
 
@@ -296,25 +300,7 @@ public class Cli extends ClientGameController {
         new Thread(() -> mapNextAction(fromServerResponse)).start();
     }
 
-    /**
-     * Method that handle the updating of the board when updateBoard is called from the server (an opponent do something)
-     * @param modifiedSquares Modified squares sended from the server
-     */
-
-    private void updateModification(List<Square> modifiedSquares) {
-        for(Square modifiedSquare: modifiedSquares) {
-            Color playerColor = null;
-            if(modifiedSquare.hasPlayer())
-                playerColor = getColorCliFromPlayer(modifiedSquare.getPlayer().getColor());
-
-            santoriniMap.setTileHasPlayer(modifiedSquare.hasPlayer(), modifiedSquare.getTile()-1, playerColor);
-            santoriniMap.updateStringBoardBuilding(modifiedSquare);
-        }
-    }
-
-    //-------------------------------
-
-    //---------- SETTER & GETTER ----------
+    //----- SETTER & GETTER -----
 
     /**
      * Method that get the port in which open the connection
@@ -405,9 +391,7 @@ public class Cli extends ClientGameController {
         this.numberOfPlayers = Integer.parseInt(keyboard);
     }
 
-    //------------------------------
-
-    //---------- USEFUL FUNCTIONS ----------
+    //----- USEFUL FUNCTIONS -----
 
     /**
      * Method that handle the login (setting the nickname, the number of players, the port and the IP address)
@@ -447,6 +431,148 @@ public class Cli extends ClientGameController {
                     printErr("NO KEYBOARD CAUGHT");
         }
         return counter;
+    }
+
+    /**
+     * Method that handle the selection of one of the available options
+     * @param availableOptions Available options (like choose power / place workers / move / build / etc.)
+     * @return selectedOption Option that is chosen
+     */
+
+    private int scrollAvailableOptions (List<String> availableOptions) {
+        for(String action: availableOptions)
+            printWhite("[" + action + "]\n");
+
+        int keyboard = getArrowUpDown();
+
+        int counter = 0, size = availableOptions.size();
+        boolean goOut = false, firstPosition = false, lastPosition = counter == size;
+        do {
+            counter = standardUpDownHandler(keyboard, counter, firstPosition, lastPosition);
+
+            if(keyboard == 13)
+                goOut = true;
+
+            if(!goOut) {
+                clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints);
+
+                firstPosition = counter == 1;
+
+                for (int i = 1; i <= size; i++) {
+                    if (i == counter) {
+                        printYellow("[" + availableOptions.get(counter - 1) + "]\n");
+                    } else {
+                        printWhite("[" + availableOptions.get(i - 1) + "]\n");
+                    }
+                    lastPosition = counter == size;
+                }
+
+                keyboard = controlWaitEnter("up&down");
+            }
+        }while(!goOut);
+
+        return counter-1;
+    }
+
+    /**
+     * Method that handle the actuation of the selected action
+     * @param choice Value that correspond in the List of available actions to the action we want to actuate
+     */
+
+    private void startSelectedActions(int choice) {
+        String choiceString = availableActions.get(choice);
+        switch (choiceString) {
+            case "CHOOSE CARDS":
+                challengerChooseCards();
+                break;
+            case "CHOOSE POWER":
+                playerChoosePower();
+                break;
+            case "PLACE WORKERS":
+                playerPlaceWorkers();
+                break;
+            case "MOVE":
+                playerMoveHisWorker();
+                break;
+            case "BUILD":
+                playerBuild();
+                break;
+            case "SELECT WORKER":
+                playerSelectWorker();
+                break;
+            case "CHAT":
+                handleChatCli();
+                break;
+            case "END TURN":
+                endTurn();
+                clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
+                printWaitForOtherPlayers(numberOfPlayers);
+                break;
+            default:
+                printErr("ERROR IN SELECTED ACTION");
+        }
+    }
+
+    /**
+     * Method that handle the chat sending message
+     */
+
+    private void handleChatCli() {
+        clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
+        printChat(previousChatMessage);
+        printRed("MESSAGE: ");
+        String chatMessage = input();
+
+        if(!chatMessage.isEmpty()) {
+            sendChatMessage(chatMessage);
+
+            handlePreviousChatMessage(myPlayerOnServer, chatMessage);
+        }
+
+        clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
+        startSelectedActions(scrollAvailableOptions(availableActions));
+    }
+
+    /**
+     * Method that handle the set of previous message in chat. It saves only the last 10 message
+     * @param player Player that sent the message
+     * @param chatMessage Message sended by the player
+     */
+
+    private void handlePreviousChatMessage(Player player, String chatMessage) {
+        if(previousChatMessage.size()>10)
+            previousChatMessage.remove(0);
+
+        Pair<Player, String> playerChatMessage = new Pair<>(player, chatMessage);
+        previousChatMessage.add(playerChatMessage);
+    }
+
+    /**
+     * Method that handle the update of some info when them are received from server (like update the board,
+     * or a new chat message)
+     */
+
+    private void printInfoUpdate() {
+        clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
+        printWaitForOtherPlayers(numberOfPlayers);
+    }
+
+    //----- MAP & TILES -----
+
+    /**
+     * Method that handle the updating of the board when updateBoard is called from the server (an opponent do something)
+     * @param modifiedSquares Modified squares sended from the server
+     */
+
+    private void updateModification(List<Square> modifiedSquares) {
+        for(Square modifiedSquare: modifiedSquares) {
+            Color playerColor = null;
+            if(modifiedSquare.hasPlayer())
+                playerColor = getColorCliFromPlayer(modifiedSquare.getPlayer().getColor());
+
+            santoriniMap.setTileHasPlayer(modifiedSquare.hasPlayer(), modifiedSquare.getTile()-1, playerColor);
+            santoriniMap.updateStringBoardBuilding(modifiedSquare);
+        }
     }
 
     /**
@@ -528,83 +654,6 @@ public class Cli extends ClientGameController {
     }
 
     /**
-     * Method that handle the selection of one of the available options
-     * @param availableOptions Available options (like choose power / place workers / move / build / etc.)
-     * @return selectedOption Option that is chosen
-     */
-
-    private int scrollAvailableOptions (List<String> availableOptions) {
-        for(String action: availableOptions)
-            printWhite("[" + action + "]\n");
-
-        int keyboard = getArrowUpDown();
-
-        int counter = 0, size = availableOptions.size();
-        boolean goOut = false, firstPosition = false, lastPosition = counter == size;
-        do {
-            counter = standardUpDownHandler(keyboard, counter, firstPosition, lastPosition);
-
-            if(keyboard == 13)
-                goOut = true;
-
-            if(!goOut) {
-                clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints);
-
-                firstPosition = counter == 1;
-
-                for (int i = 1; i <= size; i++) {
-                    if (i == counter) {
-                        printYellow("[" + availableOptions.get(counter - 1) + "]\n");
-                    } else {
-                        printWhite("[" + availableOptions.get(i - 1) + "]\n");
-                    }
-                    lastPosition = counter == size;
-                }
-
-                keyboard = controlWaitEnter("up&down");
-            }
-        }while(!goOut);
-
-        return counter-1;
-    }
-
-    /**
-     * Method that handle the actuation of the selected action
-     * @param choice Value that correspond in the List of available actions to the action we want to actuate
-     */
-
-    private void startSelectedActions(int choice) {
-        String choiceString = availableActions.get(choice);
-        switch (choiceString) {
-            case "CHOOSE CARDS":
-                challengerChooseCards();
-                break;
-            case "CHOOSE POWER":
-                playerChoosePower();
-                break;
-            case "PLACE WORKERS":
-                playerPlaceWorkers();
-                break;
-            case "MOVE":
-                playerMoveHisWorker();
-                break;
-            case "BUILD":
-                playerBuild();
-                break;
-            case "SELECT WORKER":
-                playerSelectWorker();
-                break;
-            case "END TURN":
-                endTurn();
-                clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
-                printWaitForOtherPlayers(numberOfPlayers);
-                break;
-            default:
-                printErr("ERROR IN SELECTED ACTION");
-        }
-    }
-
-    /**
      * Method that get available squares and get from them the corresponding tiles, adding these tiles to availableTiles
      * @param availableSquares Available Squares sended by the server to
      * @return availableTiles a list of available tiles
@@ -682,7 +731,7 @@ public class Cli extends ClientGameController {
         return selectedTile;
     }
 
-    //-----CARDS-----
+    //----- CARDS -----
 
     /**
      * Method that create an (alphabetical) ordered List of cards
@@ -794,11 +843,7 @@ public class Cli extends ClientGameController {
         }
     }
 
-    //--------------
-
-    //------------------------------
-
-    //---------- OVERRIDING FUNCTIONS ----------
+    //----- OVERRIDING FUNCTIONS -----
 
     @Override
     public void updateLobbyPlayer() {
@@ -838,20 +883,21 @@ public class Cli extends ClientGameController {
                 this.myPlayerOnServer = player;
             }
         }
+
         /*clearShell();
         printRed("GAME IS GOING TO START. PLEASE WAIT WHILE IS LOADING\n");
         controlWaitEnter("enter");*/
-
     }
 
     @Override
     public void challengerChoice(String challengerNick, boolean isYourPlayer) {
         printDebug("CHALLENGER CHOICE");
-        clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints);
+        clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
         if (isYourPlayer) {
             printRed("YOU HAVE BEEN CHOSEN AS CHALLENGER!\n");
             controlWaitEnter("enter");
             availableActions.clear();
+            availableActions.add("CHAT");
             availableActions.add("CHOOSE CARDS");
 
             clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints);
@@ -864,9 +910,6 @@ public class Cli extends ClientGameController {
             printRed(" IS CHOOSING CARDS\n");
             printWaitForOtherPlayers(numberOfPlayers);
         }
-
-        //mainThread = new Thread(() -> printMenu(isYourPlayer, false));
-        //mainThread.start();
     }
 
     @Override
@@ -877,7 +920,7 @@ public class Cli extends ClientGameController {
                 opponents.add(player);
         }
 
-        clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints);
+        clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
 
         if (isYourPlayer) {
             deckOrdered = new ArrayList<>(getAvailableCards());
@@ -886,6 +929,7 @@ public class Cli extends ClientGameController {
             printRed("IT'S YOUR TURN TO CHOOSE YOUR POWER!\n");
             controlWaitEnter("enter");
             availableActions.clear();
+            availableActions.add("CHAT");
             availableActions.add("CHOOSE POWER");
 
             clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints);
@@ -902,11 +946,6 @@ public class Cli extends ClientGameController {
 
     @Override
     public void placeWorker(String challengerNick, boolean isYourPlayer) {
-        /*synchronized (this) {
-            setTerminalMode("sane");
-        }*/
-        //mainThread.interrupt();
-
         opponents = new ArrayList<>();
         for(Player player: getPlayers()) {
             if(!getNickName().equalsIgnoreCase(player.getNickName()))
@@ -918,6 +957,7 @@ public class Cli extends ClientGameController {
             printRed("PLACE YOUR WORKERS!\n");
             controlWaitEnter("enter");
             availableActions = new ArrayList<>();
+            availableActions.add("CHAT");
             availableActions.add("PLACE WORKERS");
 
             clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints);
@@ -949,9 +989,7 @@ public class Cli extends ClientGameController {
     @Override
     public void updateBoard(String nick, List<Square> squares, MessageType type) {
         updateModification(squares);
-
-        clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
-        printWaitForOtherPlayers(numberOfPlayers);
+        printInfoUpdate();
     }
 
     @Override
@@ -983,6 +1021,7 @@ public class Cli extends ClientGameController {
         printDebug("DISPLAYACTIONS " + actions);
         try {
             availableActions = new ArrayList<>();
+            availableActions.add(("CHAT"));
             for (MessageType m : actions) {
                 switch (m) {
                     case BUILDWORKER:
@@ -1046,7 +1085,12 @@ public class Cli extends ClientGameController {
 
     @Override
     public void newChatMessage(String nick, String message) {
+        setNewChatMessage(true);
+        Player playerOnChat = getPlayerFromNickName(opponents, nick);
+        setLastChatMessage(playerOnChat, message);
+        handlePreviousChatMessage(playerOnChat, message);
 
+        printInfoUpdate();
     }
 
     @Override
@@ -1067,6 +1111,7 @@ public class Cli extends ClientGameController {
             printRed("IT'S YOUR TURN!\n");
             controlWaitEnter("enter");
             availableActions = new ArrayList<>();
+            availableActions.add("CHAT");
             availableActions.add("SELECT WORKER");
 
             clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
