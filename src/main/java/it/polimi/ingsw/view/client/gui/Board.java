@@ -10,6 +10,10 @@ import it.polimi.ingsw.network.message.MessageType;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
@@ -99,7 +103,9 @@ public class Board {
     JButton opponent1 = new JButton();
     JButton opponent2;
     MyButton backButton = new MyButton(1);
-    JTextArea chat = new JTextArea();
+    JTextPane chat = new JTextPane();
+    Style colorStyle;
+    StyledDocument doc;
     JTextField field = new JTextField();
     private final JButton[] mapButtons = new JButton[25];
     int[] mapMyWorkers = new int[25];
@@ -207,6 +213,7 @@ public class Board {
     Dimension buttonSize7x7 = new Dimension();
     Dimension buttonSize5x5 = new Dimension();
     Dimension size20x5 = new Dimension();
+    Dimension chatDimension = new Dimension();
     Font felixSmall;
     Font felixNormal;
     Font felixBold;
@@ -417,6 +424,8 @@ public class Board {
         BasicInternalFrameUI bii = (BasicInternalFrameUI)frameChat.getUI();
         bii.setNorthPane(null);
 
+        chatDimension.setSize(frameChat.getWidth() * 60/100, frameChat.getHeight() * 35/100);
+
         frameBuildings.setPreferredSize(sideSize);
         frameBuildings.setBounds(frameSize.width * 73/100, -25, sideSize.width, sideSize.height);
         internalFrameSetUp(frameBuildings);
@@ -571,20 +580,36 @@ public class Board {
         frameBuildings.add(backButton);
         backButton.addActionListener(new BackLevel());
 
+        chat = new JTextPane(){
+            @Override
+            public boolean getScrollableTracksViewportWidth() {
+                return getUI().getPreferredSize(this).width <= getParent().getSize().width;
+            }
+        };
 
+        doc = chat.getStyledDocument();
+
+        chat.setPreferredSize(chatDimension);
         chat.setBounds(frameChat.getWidth() * 23/100 , frameChat.getHeight() * 28/100, frameChat.getWidth() * 63/100, frameChat.getHeight() * 38/100);
         chat.setEditable(false);
         chat.setBackground(new Color(232, 222, 208));
         chat.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         chat.setFont(felixNormal);
-        chat.setLineWrap(true);
-        chat.setWrapStyleWord(true);
+        //chat.setLineWrap(true);
+        //chat.setWrapStyleWord(true);
         chat.setVisible(true);
+
         scrollPane = new JScrollPane(chat);
         scrollPane.setPreferredSize(scrollSize);
         scrollPane.setBounds(frameChat.getWidth() * 23/100 , frameChat.getHeight() * 28/100, frameChat.getWidth() * 63/100, frameChat.getHeight() * 38/100);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        //scrollPane.setViewportView(chat);
         frameChat.add(scrollPane);
+
+        colorStyle = chat.addStyle("colorStyle", null);
+        StyleConstants.setAlignment(colorStyle, StyleConstants.ALIGN_LEFT);
+        doc.setParagraphAttributes(0, doc.getLength(), colorStyle, false);
+
 
         field.setBounds((int) (frameChat.getWidth() * 23.4/100), frameChat.getHeight() * 66/100, (int) (frameChat.getWidth() * 62.8/100), frameChat.getHeight() * 4/100);
         field.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -638,12 +663,12 @@ public class Board {
                 nicknameLabel1.setBounds((int) (frameSize.width * 10.3/100), (int) (frameSize.height * 2.5/100), size20x5.width, size20x5.height);
 
                 labelChooseCards.setBounds((int) (frameSize.width * 82.5/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
-                labelChooseFirst.setBounds((int) (frameSize.width * 80/100), (int) (frameSize.height * 27.5/100), size20x5.width, size20x5.height);
-                labelChoosePower.setBounds((int) (frameSize.width * 81/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
+                labelChooseFirst.setBounds((frameSize.width * 80/100), (int) (frameSize.height * 27.5/100), size20x5.width, size20x5.height);
+                labelChoosePower.setBounds((frameSize.width * 81/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
                 labelEndturn.setBounds((int) (frameSize.width * 84.25/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
                 labelSeePower.setBounds((int) (frameSize.width * 78.75/100), (int) (frameSize.height * 52.75/100), size20x5.width, size20x5.height);
-                labelConfirmPlace.setBounds((int) (frameSize.width * 80/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
-                labelChooseWorker.setBounds((int) (frameSize.width * 81/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
+                labelConfirmPlace.setBounds((frameSize.width * 80/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
+                labelChooseWorker.setBounds((frameSize.width * 81/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
                 labelMove.setBounds((int) (frameSize.width * 85.75/100), (int) (frameSize.height * 27.5/100), size20x5.width, size20x5.height);
                 labelBuild.setBounds((int) (frameSize.width * 85.75/100), (int) (frameSize.height * 39.5/100), size20x5.width, size20x5.height);
 
@@ -726,7 +751,7 @@ public class Board {
             else {//mac positions
                 nicknameLabel1.setBounds((int) (frameSize.width * 10.5/100), (int) (frameSize.height * 2.5/100), size20x5.width, size20x5.height);
 
-                labelChooseCards.setBounds((int) (frameSize.width * 83/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
+                labelChooseCards.setBounds((frameSize.width * 83/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
                 labelChooseFirst.setBounds((int) (frameSize.width * 80.5/100), (int) (frameSize.height * 27.5/100), size20x5.width, size20x5.height);
                 labelChoosePower.setBounds((int) (frameSize.width * 81.5/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
                 labelEndturn.setBounds((int) (frameSize.width * 84.5/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
@@ -980,6 +1005,24 @@ public class Board {
         }
         else {
             return Color.MAGENTA;
+        }
+    }
+
+    /**
+     * Method that gives the color of the opponent name Player provided
+     * @param player Name of the opponent Player
+     * @return The color of the opponent name Player provided
+     */
+
+    private Color getColorOpponent(String player){
+        if(player.equals(otherPlayers.get(0).getNickName())){
+            return getColorPlayer(otherPlayers.get(0));
+        }
+        else if(player.equals(otherPlayers.get(1).getNickName())){
+            return getColorPlayer(otherPlayers.get(1));
+        }
+        else {
+            return null;
         }
     }
 
@@ -1991,7 +2034,7 @@ public class Board {
 
     private void displayModifications(List<Square> squares, boolean isMe){
 
-        List<JLabel> list = null;
+        List<JLabel> list;
         removeModifiedBorder();
 
         for (Square square : squares){
@@ -2814,7 +2857,19 @@ public class Board {
         if (!chatOpen){
             buttonChat.setIcon(lButtonChatPing.getIcon());
         }
-        chat.append(name + ": " + mess + "\n");
+        StyleConstants.setForeground(colorStyle, getColorOpponent(name));
+        try{
+            doc.insertString(doc.getLength(), name, colorStyle);
+        }catch (BadLocationException e){
+            LOGGER.severe("InsertString Failed");
+        }
+        StyleConstants.setForeground(colorStyle, Color.BLACK);
+        try{
+            doc.insertString(doc.getLength(), ": " + mess + "\n", colorStyle);
+        }catch (BadLocationException e){
+            LOGGER.severe("InsertString Failed");
+        }
+        //chat.append(name + ": " + mess + "\n");
         chat.setCaretPosition(chat.getDocument().getLength());
         field.setText("");
     }
@@ -2828,7 +2883,19 @@ public class Board {
         public void actionPerformed(ActionEvent e) {
             if (!field.getText().equals("")) {
                 String string = field.getText().toLowerCase();
-                chat.append(mePlayer.getNickName() + ": " + field.getText().toLowerCase() + "\n");
+                StyleConstants.setForeground(colorStyle, getColorPlayer(mePlayer));
+                try{
+                    doc.insertString(doc.getLength(), mePlayer.getNickName(), colorStyle);
+                }catch (BadLocationException be){
+                    LOGGER.severe("InsertString Failed");
+                }
+                StyleConstants.setForeground(colorStyle, Color.BLACK);
+                try{
+                    doc.insertString(doc.getLength(), ": " + field.getText().toLowerCase() + "\n", colorStyle);
+                }catch (BadLocationException be){
+                    LOGGER.severe("InsertString Failed");
+                }
+                //chat.append(mePlayer.getNickName() + ": " + field.getText().toLowerCase() + "\n");
                 chat.setCaretPosition(chat.getDocument().getLength());
                 field.setText("");
                 gui.sendChatMessage(string);
