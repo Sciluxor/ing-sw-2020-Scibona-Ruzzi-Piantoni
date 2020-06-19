@@ -384,7 +384,7 @@ public class Board {
         setColorWorkers1();
 
         windowPower = new JWindow();
-        windowPower.setBounds((int)(frameSize.width * 35.5/100), (int) (frameSize.height * 37/100), internalFrameSize40x45.width, internalFrameSize40x45.height);
+        windowPower.setBounds((int)(frameSize.width * 35.5/100), (frameSize.height * 37/100), internalFrameSize40x45.width, internalFrameSize40x45.height);
 
         setInternalFrames(internalFrameChallenger1);
         BasicInternalFrameUI bi = (BasicInternalFrameUI) internalFrameChallenger1.getUI();
@@ -433,19 +433,19 @@ public class Board {
 
         desktopPane.setPreferredSize(frameSize);
 
-        newGame.setBounds((int) ((frameSize.width * 40/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
+        newGame.setBounds(((frameSize.width * 40/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), buttonSize.width, buttonSize.height);
         newGame.setVisible(false);
-        close.setBounds((int) ((frameSize.width * 58/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
+        close.setBounds(((frameSize.width * 58/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), buttonSize.width, buttonSize.height);
         close.setVisible(false);
         close.addActionListener(new Close());
-        keepWatching.setBounds((int) ((frameSize.width * 50/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
+        keepWatching.setBounds(((frameSize.width * 50/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), buttonSize.width, buttonSize.height);
         keepWatching.setVisible(false);
         keepWatching.addActionListener(new KeepWatching());
 
-        closeTutorial.setBounds((int) ((frameSize.width * 40/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
+        closeTutorial.setBounds(((frameSize.width * 40/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), buttonSize.width, buttonSize.height);
         closeTutorial.setVisible(false);
         closeTutorial.addActionListener(new CloseTutorial());
-        continueTutorial.setBounds((int) ((frameSize.width * 58/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
+        continueTutorial.setBounds(((frameSize.width * 58/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), buttonSize.width, buttonSize.height);
         continueTutorial.setVisible(false);
         continueTutorial.addActionListener(new ContinueTutorial());
 
@@ -470,7 +470,7 @@ public class Board {
         tutorial2.setIcon(lTutorial2.getIcon());
         tutorial2.setVisible(false);
 
-        winner.setBounds((int) (frameSize.width * 39/100),frameSize.height * 20/100, frameSize.width * 30/100, frameSize.height * 50/100);
+        winner.setBounds((frameSize.width * 39/100),frameSize.height * 20/100, frameSize.width * 30/100, frameSize.height * 50/100);
         winner.setOpaque(false);
         winner.setContentAreaFilled(false);
         winner.setBorderPainted(false);
@@ -483,13 +483,13 @@ public class Board {
         glow.setIcon(lGlow.getIcon());
         glow.setVisible(false);
 
-        loser1.setBounds((int) (frameSize.width * 29/100),frameSize.height * 30/100, frameSize.width * 30/100, frameSize.height * 50/100);
+        loser1.setBounds((frameSize.width * 29/100),frameSize.height * 30/100, frameSize.width * 30/100, frameSize.height * 50/100);
         loser1.setOpaque(false);
         loser1.setContentAreaFilled(false);
         loser1.setBorderPainted(false);
         loser1.setVisible(false);
 
-        loser2.setBounds((int) (frameSize.width * 44/100),frameSize.height * 30/100, frameSize.width * 30/100, frameSize.height * 50/100);
+        loser2.setBounds((frameSize.width * 44/100),frameSize.height * 30/100, frameSize.width * 30/100, frameSize.height * 50/100);
         loser2.setOpaque(false);
         loser2.setContentAreaFilled(false);
         loser2.setBorderPainted(false);
@@ -538,7 +538,7 @@ public class Board {
         lLvl1.setFont(felixNormal);
         lLvl1.setVisible(true);
         frameBuildings.add(lLvl1);
-        buttonLvl1.setBounds((int) (frameChat.getWidth() * 55/ 100), (int) (frameChat.getHeight() * 21 / 100), buttonSize5x5.width, buttonSize5x5.height);
+        buttonLvl1.setBounds((frameChat.getWidth() * 55/ 100), (frameChat.getHeight() * 21 / 100), buttonSize5x5.width, buttonSize5x5.height);
         buttonLvl1.setVisible(true);
         chatStyleButtons(buttonLvl1, lvl1Building);
         frameBuildings.add(buttonLvl1);
@@ -546,7 +546,7 @@ public class Board {
         lLvl2.setFont(felixNormal);
         lLvl2.setVisible(true);
         frameBuildings.add(lLvl2);
-        buttonLvl2.setBounds((int) (frameChat.getWidth() * 55/ 100), (int) (frameChat.getHeight() * 33 / 100), buttonSize5x5.width, buttonSize5x5.height);
+        buttonLvl2.setBounds((frameChat.getWidth() * 55/ 100), (frameChat.getHeight() * 33 / 100), buttonSize5x5.width, buttonSize5x5.height);
         buttonLvl2.setVisible(true);
         chatStyleButtons(buttonLvl2, lvl2Building);
         frameBuildings.add(buttonLvl2);
@@ -554,7 +554,7 @@ public class Board {
         lLvl3.setFont(felixNormal);
         lLvl3.setVisible(true);
         frameBuildings.add(lLvl3);
-        buttonLvl3.setBounds((int) (frameChat.getWidth() * 55/ 100), (int) (frameChat.getHeight() * 45 / 100), buttonSize5x5.width, buttonSize5x5.height);
+        buttonLvl3.setBounds((frameChat.getWidth() * 55/ 100), (frameChat.getHeight() * 45 / 100), buttonSize5x5.width, buttonSize5x5.height);
         buttonLvl3.setVisible(true);
         chatStyleButtons(buttonLvl3, lvl3Building);
         frameBuildings.add(buttonLvl3);
@@ -562,12 +562,12 @@ public class Board {
         lDome.setFont(felixNormal);
         lDome.setVisible(true);
         frameBuildings.add(lDome);
-        buttonDome.setBounds((int) (frameChat.getWidth() * 55/ 100), (int) (frameChat.getHeight() * 58 / 100), buttonSize5x5.width, buttonSize5x5.height);
+        buttonDome.setBounds((frameChat.getWidth() * 55/ 100), (frameChat.getHeight() * 58 / 100), buttonSize5x5.width, buttonSize5x5.height);
         buttonDome.setVisible(true);
         chatStyleButtons(buttonDome, domeBuilding);
         frameBuildings.add(buttonDome);
 
-        backButton.setBounds((int) (((double)frameChat.getWidth() * 55/ 100) - (getD().getWidth() * 6 / 100)), (int) (frameChat.getHeight() * 71 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
+        backButton.setBounds((int) (((double)frameChat.getWidth() * 55/ 100) - (getD().getWidth() * 6 / 100)), (frameChat.getHeight() * 71 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
         frameBuildings.add(backButton);
         backButton.addActionListener(new BackLevel());
 
@@ -625,10 +625,10 @@ public class Board {
         }
 
 
-        lLvl1.setBounds((int) (sideSize.width * 35/100), (int) (sideSize.height * 21/100), size20x5.width, size20x5.height);
-        lLvl2.setBounds((int) (sideSize.width * 35/100), (int) (sideSize.height * 33/100), size20x5.width, size20x5.height);
-        lLvl3.setBounds((int) (sideSize.width * 35/100), (int) (sideSize.height * 45/100), size20x5.width, size20x5.height);
-        lDome.setBounds((int) (sideSize.width * 35/100), (int) (sideSize.height * 58/100), size20x5.width, size20x5.height);
+        lLvl1.setBounds((sideSize.width * 35/100), (sideSize.height * 21/100), size20x5.width, size20x5.height);
+        lLvl2.setBounds((sideSize.width * 35/100), (sideSize.height * 33/100), size20x5.width, size20x5.height);
+        lLvl3.setBounds((sideSize.width * 35/100), (sideSize.height * 45/100), size20x5.width, size20x5.height);
+        lDome.setBounds((sideSize.width * 35/100), (sideSize.height * 58/100), size20x5.width, size20x5.height);
 
         try{
             String os = System.getProperty("os.name").toLowerCase();
@@ -834,7 +834,7 @@ public class Board {
         if (numberOfPlayers == 3){
             desktopPane.add(opponent2);
         }
-
+        desktopPane.add(llost);
         loopSound.playLoop();
 
         labelMove.setFont(felixNormal);
@@ -867,20 +867,20 @@ public class Board {
         labelChooseCards.setFont(felixNormal);
         labelChooseCards.setVisible(false);
         desktopPane.add(labelChooseCards);
-        buttonChooseCards.setBounds((int) (frameSize.width * 84/100), (int) (frameSize.height * 22/100), buttonSize7x7.width, buttonSize7x7.height);
+        buttonChooseCards.setBounds((frameSize.width * 84/100), (frameSize.height * 22/100), buttonSize7x7.width, buttonSize7x7.height);
         consoleStyleButtons(buttonChooseCards, lButtonChooseCards);
 
 
         labelChooseFirst.setFont(felixNormal);
         labelChooseFirst.setVisible(false);
         desktopPane.add(labelChooseFirst);
-        buttonChooseFirst.setBounds((int) (frameSize.width * 84/100), (int) (frameSize.height * 34/100), buttonSize7x7.width, buttonSize7x7.height);
+        buttonChooseFirst.setBounds((frameSize.width * 84/100), (frameSize.height * 34/100), buttonSize7x7.width, buttonSize7x7.height);
         consoleStyleButtons(buttonChooseFirst, lbuttonChooseFirst);
 
         labelChoosePower.setFont(felixNormal);
         labelChoosePower.setVisible(false);
         desktopPane.add(labelChoosePower);
-        buttonChoosePower.setBounds((int) (frameSize.width * 84/100), (int) (frameSize.height * 22/100), buttonSize7x7.width, buttonSize7x7.height);
+        buttonChoosePower.setBounds((frameSize.width * 84/100), (frameSize.height * 22/100), buttonSize7x7.width, buttonSize7x7.height);
         consoleStyleButtons(buttonChoosePower, lButtonChoosePower);
         buttonChoosePower.setVisible(false);
 
@@ -888,7 +888,7 @@ public class Board {
         labelConfirmPlace.setFont(felixNormal);
         labelConfirmPlace.setVisible(false);
         desktopPane.add(labelConfirmPlace);
-        buttonMultiUse.setBounds((int) (frameSize.width * 84/100), (int) (frameSize.height * 22/100), buttonSize7x7.width, buttonSize7x7.height);
+        buttonMultiUse.setBounds((frameSize.width * 84/100), (frameSize.height * 22/100), buttonSize7x7.width, buttonSize7x7.height);
         consoleStyleButtons(buttonMultiUse, lButtonMove);
 
         labelChooseWorker.setFont(felixNormal);
@@ -899,7 +899,7 @@ public class Board {
         labelEndturn.setFont(felixNormal);
         labelEndturn.setVisible(false);
         desktopPane.add(labelEndturn);
-        buttonEndturn.setBounds((int) (frameSize.width * 84/100), (int) (frameSize.height * 22/100), buttonSize7x7.width, buttonSize7x7.height);
+        buttonEndturn.setBounds((frameSize.width * 84/100), (frameSize.height * 22/100), buttonSize7x7.width, buttonSize7x7.height);
         consoleStyleButtons(buttonEndturn, lbuttonEndturn);
         buttonEndturn.addActionListener(new EndTurn());
 
@@ -926,7 +926,6 @@ public class Board {
         desktopPane.add(glow);
         desktopPane.add(loser1);
         desktopPane.add(loser2);
-        desktopPane.add(llost);
         desktopPane.add(winLose);
 
         addMapButtons();
@@ -1101,7 +1100,7 @@ public class Board {
 
     private void setInternalFrames(JInternalFrame i){
         i.setPreferredSize(sideSize);
-        i.setBounds((int)((frameSize.width * 50/100) - (internalFrameSize90x90.width * 50/100)), (int) ((frameSize.height * 46/100) - (internalFrameSize90x90.height * 50/100)), internalFrameSize90x90.width, internalFrameSize90x90.height);
+        i.setBounds(((frameSize.width * 50/100) - (internalFrameSize90x90.width * 50/100)), ((frameSize.height * 46/100) - (internalFrameSize90x90.height * 50/100)), internalFrameSize90x90.width, internalFrameSize90x90.height);
         internalFrameSetUp(i);
     }
 
@@ -1269,7 +1268,7 @@ public class Board {
             } catch (IOException e) {
                 LOGGER.severe(e.getMessage());
             }
-            internalFrameChallenger1.setBounds((int)((frameSize.width * 50/100) - (internalFrameSize70x70.width * 50/100)), (int) ((frameSize.height * 46/100) - (internalFrameSize70x70.height * 50/100)), internalFrameSize70x70.width, internalFrameSize70x70.height);
+            internalFrameChallenger1.setBounds(((frameSize.width * 50/100) - (internalFrameSize70x70.width * 50/100)), ((frameSize.height * 46/100) - (internalFrameSize70x70.height * 50/100)), internalFrameSize70x70.width, internalFrameSize70x70.height);
             internalFrameChallenger1.getContentPane().add(youChosen);
             tutorial.setVisible(true);
             closeTutorial.setVisible(true);
@@ -1319,7 +1318,7 @@ public class Board {
             } catch (IOException ie) {
                 LOGGER.severe(ie.getMessage());
             }
-            internalFrameChallenger1.setBounds((int)((frameSize.width * 50/100) - (internalFrameSize90x90.width * 50/100)), (int) ((frameSize.height * 46/100) - (internalFrameSize90x90.height * 50/100)), internalFrameSize90x90.width, internalFrameSize90x90.height);
+            internalFrameChallenger1.setBounds(((frameSize.width * 50/100) - (internalFrameSize90x90.width * 50/100)), ((frameSize.height * 46/100) - (internalFrameSize90x90.height * 50/100)), internalFrameSize90x90.width, internalFrameSize90x90.height);
             internalFrameChallenger1.getContentPane().add(challengerChoiceCards);
             internalFrameChallenger1.setVisible(true);
         }
@@ -1472,7 +1471,7 @@ public class Board {
             } catch (IOException ie) {
                 LOGGER.severe(ie.getMessage());
             }
-            internalFrameChooseCards.setBounds((int)((frameSize.width * 50/100) - (internalFrameSize90x90.width * 50/100)), (int) ((frameSize.height * 46/100) - (internalFrameSize90x90.height * 50/100)), internalFrameSize90x90.width, internalFrameSize90x90.height);
+            internalFrameChooseCards.setBounds(((frameSize.width * 50/100) - (internalFrameSize90x90.width * 50/100)), ((frameSize.height * 46/100) - (internalFrameSize90x90.height * 50/100)), internalFrameSize90x90.width, internalFrameSize90x90.height);
             internalFrameChooseCards.getContentPane().add(chooseCard);
             internalFrameChooseCards.setVisible(true);
         }
@@ -2188,12 +2187,13 @@ public class Board {
         internalFrameUpdateBoard.setVisible(false);
         internalFrameStartTurn.setVisible(false);
         newGame.addActionListener(new NewGameLoose());
-        newGame.setBounds((int) ((frameSize.width * 35/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
-        close.setBounds((int) ((frameSize.width * 65/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
+        newGame.setBounds((frameSize.width * 35/100) - (buttonSize.width / 2), (int) (frameSize.height * 79.5 / 100), buttonSize.width, buttonSize.height);
+        close.setBounds((frameSize.width * 65/100) - (buttonSize.width / 2), (int) (frameSize.height * 79.5 / 100), buttonSize.width, buttonSize.height);
 
         try {
             if (isYourPlayer) {
                 border = ImageHandler.setImage(LOSEBORDER, 100, 100, frameSize.width * 50 / 100, frameSize.height * 80 / 100);
+                lLoser1 = ImageHandler.setImage(PODIUM + mePlayer.getPower().getName() + PNG, 100, 100, frameSize.width * 20/100, frameSize.height * 50/100);
             }
             else {
                 border = ImageHandler.setImage("resources/Graphics/gods/podium/lost_border.png", 100, 100, frameSize.width * 50 / 100, frameSize.height * 80 / 100);
@@ -2207,7 +2207,10 @@ public class Board {
             loopSound.stop();
             lose.play();
             winLose.setIcon(border.getIcon());
+            loser1.setIcon(lLoser1.getIcon());
+            loser1.setBounds((frameSize.width * 34/100),frameSize.height * 30/100, frameSize.width * 30/100, frameSize.height * 50/100);
             winLose.setVisible(true);
+            loser1.setVisible(true);
             newGame.setVisible(true);
             close.setVisible(true);
             keepWatching.setVisible(true);
@@ -2217,9 +2220,9 @@ public class Board {
             winLose.setVisible(true);
             llost = new JLabel(name);
             llost.setFont(felixBold);
-            llost.setBounds((int) (frameSize.width * 45/100), (int) (frameSize.height * 50 / 100), (int) frameSize.width * 50/100, frameSize.height * 5/100);
+            llost.setBounds((frameSize.width * 10/100), (frameSize.height * 10 / 100), frameSize.width * 50/100, frameSize.height * 5/100);
             llost.setVisible(true);
-            close.setBounds((int) ((frameSize.width * 48/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
+            close.setBounds((frameSize.width * 48/100) - (buttonSize.width / 2), (int) (frameSize.height * 79.5 / 100), buttonSize.width, buttonSize.height);
             eliminateActionClass(close, Close.class);
             close.setVisible(true);
             close.addActionListener(new CloseLost());
@@ -2271,10 +2274,10 @@ public class Board {
 
         if (numberOfPlayers == 3){
             loser2.setIcon(lLoser2.getIcon());
-            winner.setBounds((int) (frameSize.width * 34/100),frameSize.height * 20/100, frameSize.width * 30/100, frameSize.height * 50/100);
+            winner.setBounds((frameSize.width * 34/100),frameSize.height * 20/100, frameSize.width * 30/100, frameSize.height * 50/100);
             glow.setBounds((int) (frameSize.width * 41.5/100),frameSize.height * 33/100, frameSize.width * 15/100, frameSize.height * 35/100);
-            loser1.setBounds((int) (frameSize.width * 24/100),frameSize.height * 30/100, frameSize.width * 30/100, frameSize.height * 50/100);
-            loser2.setBounds((int) (frameSize.width * 44/100),frameSize.height * 30/100, frameSize.width * 30/100, frameSize.height * 50/100);
+            loser1.setBounds((frameSize.width * 24/100),frameSize.height * 30/100, frameSize.width * 30/100, frameSize.height * 50/100);
+            loser2.setBounds((frameSize.width * 44/100),frameSize.height * 30/100, frameSize.width * 30/100, frameSize.height * 50/100);
         }
         setVisibleWin(true, numberOfPlayers == 3);
     }
@@ -2330,7 +2333,7 @@ public class Board {
             } catch (IOException e) {
                 LOGGER.severe(e.getMessage());
             }
-            internalFrameConstraint.setBounds((int) ((frameSize.width * 50 / 100) - (internalFrameSize80x80.width / 2)), (int) ((frameSize.height * 46 / 100) - (internalFrameSize80x80.height / 2)), internalFrameSize80x80.width, internalFrameSize80x80.height);
+            internalFrameConstraint.setBounds(((frameSize.width * 50 / 100) - (internalFrameSize80x80.width / 2)), ((frameSize.height * 46 / 100) - (internalFrameSize80x80.height / 2)), internalFrameSize80x80.width, internalFrameSize80x80.height);
             internalFrameConstraint.getContentPane().add(seeConstraint);
             eliminateActionClass(buttonPower, ShowYourPower.class);
             buttonPower.addActionListener(new ShowConstraint());
@@ -2917,7 +2920,7 @@ public class Board {
                 tutorial1.setVisible(false);
                 tutorial2.setVisible(true);
                 continueTutorial.setVisible(false);
-                closeTutorial.setBounds((int) ((frameSize.width * 50/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
+                closeTutorial.setBounds(((frameSize.width * 50/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), buttonSize.width, buttonSize.height);
             }
         }
     }
@@ -2931,7 +2934,7 @@ public class Board {
         public void actionPerformed(ActionEvent e) {
             winLose.setVisible(false);
             eliminateActionClass(close, CloseLost.class);
-            close.setBounds((int) ((frameSize.width * 60/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
+            close.setBounds(((frameSize.width * 60/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), buttonSize.width, buttonSize.height);
             close.setVisible(false);
             llost.setVisible(false);
             close.addActionListener(new Close());
