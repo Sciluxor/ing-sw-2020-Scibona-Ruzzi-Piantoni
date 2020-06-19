@@ -12,6 +12,13 @@ import java.io.IOException;
 import java.util.*;
 import java.util.logging.Level;
 
+/**
+ * Class that implements the Server of the game,Insert and Remove players from the games
+ * @author alessandroruzzi
+ * @version 1.0
+ * @since 2020/06/19
+ */
+
 public class Server implements Runnable{
 
     private final Object clientsLock = new Object();
@@ -26,6 +33,10 @@ public class Server implements Runnable{
     private int numUserID;
     public static final java.util.logging.Logger LOGGER = java.util.logging.Logger.getLogger("Server");
 
+    /**
+     * Private constructor that initialize server parameters -> numGameID and numUserID
+     */
+
     private Server(){
         numGameID = 0;
         numUserID = 0;
@@ -33,8 +44,9 @@ public class Server implements Runnable{
 
     /**
      * Starts the Server
-     * @param args args
+     * @param args Args
      */
+
     public static void main( String[] args )
     {
         LOGGER.info("Welcome to Santorini Server");
@@ -42,7 +54,7 @@ public class Server implements Runnable{
         LOGGER.info("Please choose a Port (Default is 4700): ");
 
         ConfigLoader.loadSetting();
-        FlowStatutsLoader.loadFlow();  //aggiungere anche i controlli per gli errori
+        FlowStatutsLoader.loadFlow();
 
         Scanner in = new Scanner(System.in);
         int serverPort;
@@ -53,7 +65,7 @@ public class Server implements Runnable{
                 serverPort = ConfigLoader.getSocketPort();
             else {
                 serverPort = Integer.parseInt(port);
-                if(serverPort < 1024 || serverPort > 60000)  //rivedere questi numeri
+                if(serverPort < 1024 || serverPort > 60000)
                     serverPort = ConfigLoader.getSocketPort();
             }
         }catch (NumberFormatException numExc){
@@ -68,22 +80,25 @@ public class Server implements Runnable{
 
     /**
      * Set the socketPort
-     * @param port port in which the server will listen for new connections
+     * @param port Port in which the server will listen for new connections
      */
+
     public void setSocketPort(int port){ this.socketPort = port;}
 
     /**
-     * get the socketPort
-     * @return the port in which the server listen for new connections
+     * Get the socketPort
+     * @return The port in which the server listen for new connections
      */
+
     public int getSocketPort(){
         return this.socketPort;
     }
 
     /**
      * Starts the SocketHandler that listen for new connections,and a new thread that listen for shutdown requests
-     * @param port port in which the server will listen for new connections
+     * @param port Port in which the server will listen for new connections
      */
+
     public void startSocketServer(int port){
         try {
             this.socketHandler = new SocketHandler(port,this);
@@ -94,6 +109,10 @@ public class Server implements Runnable{
             LOGGER.severe(e.getMessage());
         }
     }
+
+    /**
+     * Stop the Server when it is requested by the administrator, closing all connection
+     */
 
     public void stopServer() {
         synchronized (clientsLock) {
@@ -111,14 +130,26 @@ public class Server implements Runnable{
             LOGGER.info("Server Shutted Down.");
             System.exit(0);
         }
-                                                               //vedere cosa fare per chiudere tutte le connessioni, bisogna inviare un mesaaggio.
+
     }
+
+    /**
+     * Remove the ClientHandler of a client from the list of connected clients
+     * @param connection ClientHandler of the client that has to be removed
+     */
 
     public void removeFromConnections(ClientHandler connection){
          synchronized (clientsLock) {
              connections.remove(connection);
          }
     }
+
+    /**
+     * Check if the configuration parameters received from the client are correct
+     * @param nick Nickname used by the client during a single game
+     * @param numberOfPlayer The modality that the client wants to play
+     * @return True if the configuration parameters are valid, false otherwise
+     */
 
     public boolean checkValidConfig(String nick,int numberOfPlayer){
         boolean isNickValid = true;
@@ -130,6 +161,10 @@ public class Server implements Runnable{
             isNumberOfPlayerValid = false;
         return isNumberOfPlayerValid && isNickValid;
     }
+
+    /**
+     * Function that move a game started from the lobby to the list of game started(actualMatches)
+     */
 
     public void moveGameStarted(){
         synchronized(clientsLock) {
@@ -143,6 +178,11 @@ public class Server implements Runnable{
             }
         }
     }
+
+    /**
+     * Function that remove from the actual Matches the games where there is a winner or where someone has left the game
+     * The function remove all link between controller of the match and the client
+     */
 
     public synchronized void removeGameEnded(){
         synchronized (clientsLock) {
@@ -170,6 +210,13 @@ public class Server implements Runnable{
 
         }
     }
+
+    /**
+     * Function that insert a new player in a game, if the game is not yet started it will start a new game with the number of player chosen by the client
+     * @param message Message received from the client with the nickname and number of player
+     * @param connection ClientHandler of the client
+     * @param isFirstTime Boolean used to see if the client has to be moved to another game, because he don't want to change nickName
+     */
 
     public void insertPlayerInGame(Message message,ClientHandler connection,boolean isFirstTime) {
         synchronized (clientsLock) {
@@ -206,6 +253,12 @@ public class Server implements Runnable{
         }
     }
 
+    /**
+     * Function that close the connection with a client, if he send a nickname not allowed, ot select wrong number of player
+     * @param connection ClientHandler of the client
+     * @param message Message received from the client with the nickname and number of player
+     */
+
     public void nickError(ClientHandler connection,Message message){
         synchronized (clientsLock) {
             if (getControllerFromUserID(connection.getUserID()) != null) {
@@ -220,6 +273,13 @@ public class Server implements Runnable{
         }
     }
 
+    /**
+     * Function that insert a player into a match already created and that is waiting other player to start
+     * @param match Controller of the match in which we are going to insert the player
+     * @param connection ClientHandler of the client
+     * @param message Message received from the client with the nickname and number of player
+     */
+
     public void insertFirstTime(GameController match,ClientHandler connection,Message message){
         synchronized (clientsLock){
             String userID = ConstantsContainer.USERIDPREFIX + numUserID;
@@ -229,6 +289,13 @@ public class Server implements Runnable{
         }
     }
 
+    /**
+     * Function that move a player in another match, if he keep sending the same nickname(already in use in that match)
+     * @param match Controller of the match in which we are going to insert the player
+     * @param connection ClientHandler of the client
+     * @param message Message received from the client with the nickname and number of player
+     */
+
     public void insertNotFirstTime(GameController match,ClientHandler connection,Message message){
         synchronized (clientsLock){
             addPlayer(match,connection, message,message.getSender());
@@ -236,6 +303,13 @@ public class Server implements Runnable{
             controllerFromUserID.put(message.getSender(),match);
         }
     }
+
+    /**
+     * Function called when there is not a game with the requested number of player,the function create a new game and insert the player in it
+     * @param connection ClientHandler of the client
+     * @param message Message received from the client with the nickname and number of player
+     * @param numberOfPlayer Number of players of the match that the function will start
+     */
 
     public void insertNewMatch(ClientHandler connection,Message message, int numberOfPlayer){
         synchronized (clientsLock){
@@ -247,25 +321,45 @@ public class Server implements Runnable{
         }
     }
 
-
+    /**
+     * Function that return the number of player(the modality) of a specific match
+     * @param controller Controller of the match in which we are interested
+     * @return The number of player of the match
+     */
 
     public int getNumberOfPlayer(GameController controller) {
         return controller.getNumberOfPlayers();
     }
 
-    public GameController getControllerFromGameID(String gameId){
-        return controllerFromGameID.get(gameId);
-    }
+    /**
+     * Function that return the controller of the match in which the Client with a specific UserID has been inserted
+     * @param userID The UserID of the Client in which we are interested
+     * @return The controller of the match of this UserID
+     */
 
     public GameController getControllerFromUserID(String userID){
         return controllerFromUserID.get(userID);
     }
 
+    /**
+     * Function that send the message to the VirtualView of a specific client
+     * @param msg Message to send to the virtualView
+     * @param view The VirtualView of the client to which we want to forward the message
+     */
+
     public void sendMsgToVirtualView(Message msg, VirtualView view) {
         view.processMessageReceived(msg);
     }
 
-    public void addPlayer(GameController controller,ClientHandler connection,Message message,String userID){ //aggiungere sincronizzazione?
+    /**
+     * Function that add the player in match, and that does all the setup for that player
+     * @param controller Controller of the macth in which we insert the player
+     * @param connection ClientHandler of the client
+     * @param message Message received from the client with the nickname and number of player
+     * @param userID UserID of the player to insert
+     */
+
+    public void addPlayer(GameController controller,ClientHandler connection,Message message,String userID){
         VirtualView view = new VirtualView(connection,controller);
         ((GameConfigMessage) message).setView(view);
         connection.setView(view);
@@ -277,19 +371,44 @@ public class Server implements Runnable{
         LOGGER.info(log);
     }
 
+    /**
+     * Function that check if a specific game is full
+     * @param controller Controller of the match to check
+     * @return True if the game is full, false otherwise
+     */
+
     public boolean isFull(GameController controller)
     {
         return controller.isFull();
     }
 
+    /**
+     * Function that check if a game is already started
+     * @param controller Controller of the match to check
+     * @return True if the game is started, false otherwise
+     */
+
     public boolean isStarted(GameController controller){
         return controller.isGameStarted();
     }
+
+    /**
+     * Function that check if a nickname is already in use in a match
+     * @param message Message received from the client
+     * @param controller Controller of the match in which to search
+     * @return True if is free, false otherwise
+     */
 
     public boolean checkNick(Message message, GameController controller){
         String nick = message.getNickName();
         return controller.isFreeNick(nick);
     }
+
+    /**
+     * Function that create a new controller, to create a new match
+     * @param numberOfPlayer Number of player of the new match created
+     * @return The controller of the new match
+     */
 
     public GameController newMatch(int numberOfPlayer) {
         String gameID = ConstantsContainer.GAMEIDPREFIX + numGameID;
@@ -300,6 +419,13 @@ public class Server implements Runnable{
         return match;
 
     }
+
+    /**
+     * Function that handle disconnection events, deliver the events to two specific function that handle disconnection before or during the game
+     * @param userID UserID of the Client to disconnect
+     * @param connection ClientHandler of the client to disconnect
+     * @param message Message received to understand the type of disconnection
+     */
 
     public void handleDisconnection(String userID,ClientHandler connection,Message message) {
         synchronized (clientsLock) {
@@ -323,6 +449,14 @@ public class Server implements Runnable{
         }
     }
 
+    /**
+     * Function that handle disconnection event before the game is started
+     * @param controller Controller of the match in which the player is
+     * @param userID UserID of the player to disconnect
+     * @param connection ClientHandler of the client to disconnect
+     * @param message Message received to understand the type of disconnection
+     */
+
     public synchronized void handleDisconnectionBeforeGame(GameController controller,String userID,ClientHandler connection,Message message){
     synchronized (clientsLock) {
         controllerFromUserID.remove(userID);
@@ -337,6 +471,13 @@ public class Server implements Runnable{
         }
     }
     }
+
+    /**
+     * Function that handle disconnection events during the game and stop the game
+     * @param controller Controller of the match to stop, due to a disconnection
+     * @param connection ClientHandler of the client to disconnect
+     * @param message Message received to understand the type of disconnection
+     */
 
     public synchronized void  handleDisconnectionDuringGame(GameController controller,Message message,ClientHandler connection){
         synchronized (clientsLock) {
@@ -363,6 +504,10 @@ public class Server implements Runnable{
         }
     }
 
+    /**
+     * Specific thread that listen for a shutdown request by the administrator of the server
+     */
+
     public void closeServerIfRequested(){
         new Thread(() -> {
             String input = "";
@@ -378,6 +523,10 @@ public class Server implements Runnable{
             System.exit(0);
         }).start();
     }
+
+    /**
+     * Specific thread that ping all the clients connected to the Server
+     */
 
     @Override
     public void run() {
