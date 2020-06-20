@@ -13,7 +13,7 @@ import java.util.*;
 import java.util.logging.Level;
 
 /**
- * Class that implements the Server of the game,Insert and Remove players from the games
+ * Class that represents the Server of the game,Insert and Remove players from the games
  * @author alessandroruzzi
  * @version 1.0
  * @since 2020/06/19
