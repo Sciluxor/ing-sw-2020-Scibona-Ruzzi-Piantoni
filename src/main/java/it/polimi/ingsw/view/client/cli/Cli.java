@@ -914,11 +914,11 @@ public class Cli extends ClientGameController {
 
     @Override
     public void cardChoice(String challengerNick, boolean isYourPlayer) {
-        opponents = new ArrayList<>();
+        /*opponents = new ArrayList<>();
         for(Player player: getPlayers()) {
             if(!getNickName().equalsIgnoreCase(player.getNickName()))
                 opponents.add(player);
-        }
+        }*/
 
         clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
 
@@ -946,11 +946,11 @@ public class Cli extends ClientGameController {
 
     @Override
     public void placeWorker(String challengerNick, boolean isYourPlayer) {
-        opponents = new ArrayList<>();
+        /*opponents = new ArrayList<>();
         for(Player player: getPlayers()) {
             if(!getNickName().equalsIgnoreCase(player.getNickName()))
                 opponents.add(player);
-        }
+        }*/
 
         clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
         if (isYourPlayer) {
@@ -970,8 +970,6 @@ public class Cli extends ClientGameController {
             printRed(" IS PLACING HIS WORKERS\n");
             printWaitForOtherPlayers(numberOfPlayers);
         }
-
-        //mainThread.start();
     }
 
     @Override
@@ -1117,7 +1115,6 @@ public class Cli extends ClientGameController {
             clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
             printRed("SELECT WITH ARROWS ONE OF THE OPTIONS BELOW, THEN PRESS ENTER TO GO ON...\n");
             startSelectedActions(scrollAvailableOptions(availableActions));
-            //selectAction --> move / build
         } else {
             printRed("IT'S NOT YOUR TURN! " + nick.toUpperCase() + " IS STARTING HIS TURN!\n");
             printWaitingStartTurn(numberOfPlayers);
