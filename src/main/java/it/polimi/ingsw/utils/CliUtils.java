@@ -61,6 +61,7 @@ public class CliUtils {
     private static boolean newChatMessage = false;
     private static Player lastPlayerOnChat;
     private static String lastChatMessage;
+    public static String terminalMode = "sane";
 
     public static final java.util.logging.Logger LOGGER = Logger.getLogger("Cli");
 
@@ -271,7 +272,6 @@ public class CliUtils {
         }
         if(newChatMessage) {
             printYellow("[CHAT]: ");
-            newChatMessage = false;
         }
         else
             printRed("[CHAT]: ");
@@ -292,6 +292,16 @@ public class CliUtils {
 
     public static void setNewChatMessage(boolean newChatMessage) {
         CliUtils.newChatMessage = newChatMessage;
+    }
+
+    /**
+     * Method used to set if a new chat message has been visualized
+     * @param visualized True if is visualized (entered in chat)
+     */
+
+    public static void setVisualized(boolean visualized) {
+        if(visualized)
+            newChatMessage = false;
     }
 
     /**
@@ -422,11 +432,14 @@ public class CliUtils {
      */
 
     public static void setTerminalMode(String mode) {
-        try {
-            String[] cmd = new String[]{"/bin/sh", "-c", "stty " + mode + " </dev/tty"};
-            Runtime.getRuntime().exec(cmd).waitFor();
-        }catch (IOException | InterruptedException e) {
-            LOGGER.severe(e.getMessage() + e.getClass());
+        if(!terminalMode.equalsIgnoreCase(mode)) {
+            terminalMode = mode.toLowerCase();
+            try {
+                String[] cmd = new String[]{"/bin/sh", "-c", "stty " + mode + " </dev/tty"};
+                Runtime.getRuntime().exec(cmd).waitFor();
+            } catch (IOException | InterruptedException e) {
+                LOGGER.severe(e.getMessage() + e.getClass());
+            }
         }
     }
 
