@@ -208,20 +208,6 @@ public class CliUtils {
      * @param currentPlayer Player that invoke this method
      * @param deck Set of all cards
      * @param constraints List of string of possible constraints
-     */
-
-    public static void clearAndPrintInfo(List<Player> opponents, Player currentPlayer, Map<String, Card> deck, List<String> constraints) {
-        Color.clearConsole();
-        printInfo(opponents, currentPlayer, deck, constraints);
-    }
-
-    /**
-     * Method used to clear the shell and print some info regards the match. Different from the previous because this
-     * print also the map of the current game
-     * @param opponents List of the opponents of the current player
-     * @param currentPlayer Player that invoke this method
-     * @param deck Set of all cards
-     * @param constraints List of string of possible constraints
      * @param map The map object of the current game
      */
 
