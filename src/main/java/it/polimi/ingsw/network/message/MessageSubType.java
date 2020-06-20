@@ -1,5 +1,9 @@
 package it.polimi.ingsw.network.message;
 
+/**
+ * enum containing all the possible message SubType
+ */
+
 public enum MessageSubType {
     ERROR,REQUEST,ANSWER,UPDATE,SETTED,
     ANOTHERMOVE,NEWBUILD,BACK,TIMEENDED,CONNECTIONLOST,NICKUSED,NICKMAXTRY,
