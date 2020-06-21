@@ -33,7 +33,7 @@ public class SeeConstraint extends JDesktopPane {
     JInternalFrame intFrame;
     JInternalFrame guiIntFrame;
     JButton buttonBackground = new JButton();
-    private List<JButton> godList = new ArrayList<>();
+    private final List<JButton> godList = new ArrayList<>();
     transient ButtonGodsList costructor;
     MyButton back = new MyButton(1);
     JLabel cover =new JLabel();
@@ -62,7 +62,6 @@ public class SeeConstraint extends JDesktopPane {
         cardSize.setSize((int) (frameSize.getWidth() * 9/100), (int) (frameSize.getHeight() * 23.15/100)); //(9, 22)
 
         final int yconst = frameSize.height * 35/100;
-        int y = yconst;
 
         costructor = new ButtonGodsList(frameSize, godList);
 
@@ -94,19 +93,19 @@ public class SeeConstraint extends JDesktopPane {
         if (constraint.size() == 3){
             mePower = getButtonFromConstraint(constraint.get(0));
             if (mePower != null) {
-                mePower.setBounds(frameSize.width * 25/100, y, cardSize.width, cardSize.height);
+                mePower.setBounds(frameSize.width * 25/100, yconst, cardSize.width, cardSize.height);
             }
             this.add(mePower);
 
             constraint1 = getButtonFromConstraint(constraint.get(1));
             if (constraint1 != null) {
-                constraint1.setBounds(frameSize.width * 57/100, y, cardSize.width, cardSize.height);
+                constraint1.setBounds(frameSize.width * 57/100, yconst, cardSize.width, cardSize.height);
             }
             this.add(constraint1);
 
             constraint2 = getButtonFromConstraint(constraint.get(2));
             if (constraint2 != null) {
-                constraint2.setBounds(frameSize.width * 69/100, y, cardSize.width, cardSize.height);
+                constraint2.setBounds(frameSize.width * 69/100, yconst, cardSize.width, cardSize.height);
             }
             this.add(constraint2);
         }
@@ -114,19 +113,19 @@ public class SeeConstraint extends JDesktopPane {
         if (constraint.size() == 2){
             mePower = getButtonFromConstraint(constraint.get(0));
             if (mePower != null) {
-                mePower.setBounds(frameSize.width * 25/100, y, cardSize.width, cardSize.height);
+                mePower.setBounds(frameSize.width * 25/100, yconst, cardSize.width, cardSize.height);
             }
             this.add(mePower);
 
             constraint1 = getButtonFromConstraint(constraint.get(1));
             if (constraint1 != null) {
-                constraint1.setBounds(frameSize.width * 63/100, y, cardSize.width, cardSize.height);
+                constraint1.setBounds(frameSize.width * 63/100, yconst, cardSize.width, cardSize.height);
             }
             this.add(constraint1);
         }
 
 
-        back.setBounds((int) (((double)frameSize.width * 50/ 100) - ((getD().getWidth() * 13 / 100) / 2)), (int) (frameSize.height * 81 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
+        back.setBounds((int) (((double)frameSize.width * 50/ 100) - ((getD().getWidth() * 13 / 100) / 2)), (frameSize.height * 81 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
         add(back);
         back.addActionListener(new Close());
 
@@ -160,16 +159,16 @@ public class SeeConstraint extends JDesktopPane {
         public void mouseEntered(MouseEvent e) {
             JButton c = (JButton)e.getSource();
             if (c.getX() < frameSize.width * 50/100 && c.getY() < frameSize.height * 40/100) {
-                intFrame.setBounds((int) ((frameSize.width * 9 / 100) + c.getX()), (int) (frameSize.height * 8.5 / 100), intFrameSize.width, intFrameSize.height);
+                intFrame.setBounds(((frameSize.width * 9 / 100) + c.getX()), (int) (frameSize.height * 8.5 / 100), intFrameSize.width, intFrameSize.height);
             }
             else if (c.getX() >= frameSize.width * 50/100 && c.getY() < frameSize.height * 40/100){
-                intFrame.setBounds((int) (c.getX() - (frameSize.width * 48 / 100)), (int) (frameSize.height * 8.5 / 100), intFrameSize.width, intFrameSize.height);
+                intFrame.setBounds((c.getX() - (frameSize.width * 48 / 100)), (int) (frameSize.height * 8.5 / 100), intFrameSize.width, intFrameSize.height);
             }
             else if (c.getX() < frameSize.width * 50/100 && c.getY() >= frameSize.height * 40/100){
-                intFrame.setBounds((int) ((frameSize.width * 9 / 100) + c.getX()), (int) (frameSize.height * 33 / 100), intFrameSize.width, intFrameSize.height);
+                intFrame.setBounds(((frameSize.width * 9 / 100) + c.getX()), (frameSize.height * 33 / 100), intFrameSize.width, intFrameSize.height);
             }
             else
-                intFrame.setBounds((int) (c.getX() - (frameSize.width * 48 / 100)), (int) (frameSize.height * 33 / 100), intFrameSize.width, intFrameSize.height);
+                intFrame.setBounds((c.getX() - (frameSize.width * 48 / 100)), (frameSize.height * 33 / 100), intFrameSize.width, intFrameSize.height);
 
             buttonBackground.setIcon(null);
             try {

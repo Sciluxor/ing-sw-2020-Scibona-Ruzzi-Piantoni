@@ -33,7 +33,7 @@ public class PopUp {
     JLabel label2;
     JLabel label3;
     JPanel panel;
-    String name = null;
+    String name;
     double bold = getBoldDimension();
 
     /**
@@ -67,11 +67,11 @@ public class PopUp {
         switch (n){
             case 0:
                 button1 = new MyButton(0);
-                button1.setBounds((int) ((intFrameSize.width * 50/100) - (buttonSize.width / 2)), (int) (intFrameSize.height * 79.5 / 100), buttonSize.width, buttonSize.height);
+                button1.setBounds(((intFrameSize.width * 50/100) - (buttonSize.width / 2)), (int) (intFrameSize.height * 79.5 / 100), buttonSize.width, buttonSize.height);
                 button1.addActionListener(new Send());
                 window.add(button1);
 
-                nickname.setBounds((int) (intFrameSize.width * 35/100), (int) (intFrameSize.height * 60/100), intFrameSize.width * 30/100,intFrameSize.height * 4/100);
+                nickname.setBounds((intFrameSize.width * 35/100), (intFrameSize.height * 60/100), intFrameSize.width * 30/100,intFrameSize.height * 4/100);
                 nickname.setText("AnotherNic");
                 window.add(nickname);
 
@@ -81,7 +81,7 @@ public class PopUp {
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }
-                label1.setBounds((int) (intFrameSize.width * 20/100), (int) (intFrameSize.height * 59.5/100), intFrameSize.width * 15/100,intFrameSize.height * 5/100);
+                label1.setBounds((intFrameSize.width * 20/100), (int) (intFrameSize.height * 59.5/100), intFrameSize.width * 15/100,intFrameSize.height * 5/100);
                 window.add(label1);
 
                 label2 = new JLabel();
@@ -90,7 +90,7 @@ public class PopUp {
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }
-                label2.setBounds((int) ((intFrameSize.width * 50/100) - (labelSize.width / 2)), (int) (intFrameSize.height * 10/100), labelSize.width, labelSize.height);
+                label2.setBounds(((intFrameSize.width * 50/100) - (labelSize.width / 2)), (intFrameSize.height * 10/100), labelSize.width, labelSize.height);
                 window.add(label2);
 
                 label3 = new JLabel();
@@ -99,7 +99,7 @@ public class PopUp {
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }
-                label3.setBounds((int) ((intFrameSize.width * 50/100) - (labelSize.width / 2)), (int) (intFrameSize.height * 25/100), labelSize.width, labelSize.height);
+                label3.setBounds(((intFrameSize.width * 50/100) - (labelSize.width / 2)), (intFrameSize.height * 25/100), labelSize.width, labelSize.height);
                 window.add(label3);
 
                 back.setBounds(0, 0, intFrameSize.width, intFrameSize.height);
@@ -121,7 +121,7 @@ public class PopUp {
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }
-                label1.setBounds((int) ((intFrameSize.width * 50/100) - (labelSize.width / 2)), (int) (intFrameSize.height * 35/100), labelSize.width, labelSize.height);
+                label1.setBounds(((intFrameSize.width * 50/100) - (labelSize.width / 2)), (intFrameSize.height * 35/100), labelSize.width, labelSize.height);
                 window.add(label1);
                 button1 = new MyButton(3);
                 button1.setBounds((int) (((double)intFrameSize.width * 50 / 100) -  ((getD().getWidth() * 13 / 100) / 2)), (int) (intFrameSize.height * 79.5 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
@@ -147,7 +147,7 @@ public class PopUp {
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }
-                label1.setBounds((int) (intFrameSize.width * 40/100), (int) (intFrameSize.height * 35/100), labelSize.width, labelSize.height);
+                label1.setBounds((intFrameSize.width * 40/100), (intFrameSize.height * 35/100), labelSize.width, labelSize.height);
                 window.add(label1);
 
                 setDisconnectionTime();
@@ -163,7 +163,7 @@ public class PopUp {
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }
-                label1.setBounds((int) (intFrameSize.width * 40/100), (int) (intFrameSize.height * 35/100), labelSize.width, labelSize.height);
+                label1.setBounds((intFrameSize.width * 40/100), (intFrameSize.height * 35/100), labelSize.width, labelSize.height);
                 window.add(label1);
 
                 setDisconnectionTime();
@@ -179,7 +179,7 @@ public class PopUp {
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }
-                label1.setBounds((int) ((intFrameSize.width * 50/100) - (labelSize.width / 2)), (int) (intFrameSize.height * 35/100), labelSize.width, labelSize.height);
+                label1.setBounds(((intFrameSize.width * 50/100) - (labelSize.width / 2)), (intFrameSize.height * 35/100), labelSize.width, labelSize.height);
                 window.add(label1);
 
                 setDisconnectionTime();
@@ -196,7 +196,7 @@ public class PopUp {
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }
-                label1.setBounds((int) ((intFrameSize.width * 50/100) - (labelSize.width / 2)), (int) (intFrameSize.height * 10/100), labelSize.width, labelSize.height);
+                label1.setBounds(((intFrameSize.width * 50/100) - (labelSize.width / 2)), (intFrameSize.height * 10/100), labelSize.width, labelSize.height);
                 window.add(label1);
 
                 label2 = new JLabel();
@@ -205,7 +205,7 @@ public class PopUp {
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }
-                label2.setBounds((int) ((intFrameSize.width * 50/100) - (labelSize.width / 2)), (int) (intFrameSize.height * 20/100), labelSize.width, labelSize.height);
+                label2.setBounds(((intFrameSize.width * 50/100) - (labelSize.width / 2)), (intFrameSize.height * 20/100), labelSize.width, labelSize.height);
                 window.add(label2);
 
                 label3 = new JLabel();
@@ -214,11 +214,11 @@ public class PopUp {
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }
-                label3.setBounds((int) ((intFrameSize.width * 50/100) - (labelSize.width / 2)), (int) (intFrameSize.height * 30/100), labelSize.width, labelSize.height);
+                label3.setBounds(((intFrameSize.width * 50/100) - (labelSize.width / 2)), (intFrameSize.height * 30/100), labelSize.width, labelSize.height);
                 window.add(label3);
 
                 button1 = new MyButton(3);
-                button1.setBounds((int) ((intFrameSize.width * 50/100) - (buttonSize.width / 2)), (int) (intFrameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
+                button1.setBounds(((intFrameSize.width * 50/100) - (buttonSize.width / 2)), (int) (intFrameSize.height * 79.5 / 100), buttonSize.width, buttonSize.height);
                 button1.addActionListener(new Close());
                 window.add(button1);
 
@@ -234,7 +234,7 @@ public class PopUp {
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }
-                label1.setBounds((int) ((intFrameSize.width * 30/100) - (labelSize.width / 2)), (int) (intFrameSize.height * 20/100), labelSize.width, labelSize.height);
+                label1.setBounds(((intFrameSize.width * 30/100) - (labelSize.width / 2)), (intFrameSize.height * 20/100), labelSize.width, labelSize.height);
                 window.add(label1);
 
                 label2 = new JLabel();
@@ -243,19 +243,19 @@ public class PopUp {
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }
-                label2.setBounds((int) ((intFrameSize.width * 50/100) - (labelSize.width / 2)), (int) (intFrameSize.height * 40/100), labelSize.width, labelSize.height);
+                label2.setBounds(((intFrameSize.width * 50/100) - (labelSize.width / 2)), (intFrameSize.height * 40/100), labelSize.width, labelSize.height);
                 window.add(label2);
 
                 label3 = new JLabel(name);
-                label3.setBounds((int) (((double)intFrameSize.width * 60/100)), (int) (intFrameSize.height * 27/100), intFrameSize.width * 60/100, intFrameSize.width * 5/100);
+                label3.setBounds((intFrameSize.width * 60/100), (intFrameSize.height * 27/100), intFrameSize.width * 60/100, intFrameSize.width * 5/100);
                 label3.setFont(felixBold);
                 window.add(label3);
 
 
                 button1 = new MyButton(2);
-                button1.setBounds((int) ((intFrameSize.width * 35/100) - (buttonSize.width / 2)), (int) (intFrameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
+                button1.setBounds(((intFrameSize.width * 35/100) - (buttonSize.width / 2)), (int) (intFrameSize.height * 79.5 / 100), buttonSize.width, buttonSize.height);
                 button2 = new MyButton(3);
-                button2.setBounds((int) ((intFrameSize.width * 65/100) - (buttonSize.width / 2)), (int) (intFrameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
+                button2.setBounds(((intFrameSize.width * 65/100) - (buttonSize.width / 2)), (int) (intFrameSize.height * 79.5 / 100), buttonSize.width, buttonSize.height);
                 window.add(button1);
                 button1.addActionListener(new NewGameError());
                 window.add(button2);
@@ -282,7 +282,7 @@ public class PopUp {
         } catch (IOException e) {
             LOGGER.severe(e.getMessage());
         }
-        label1.setBounds((int) ((intFrameSize.width * 50/100) - (labelSize.width / 2)), (int) (intFrameSize.height * 20/100), labelSize.width, labelSize.height);
+        label1.setBounds(((intFrameSize.width * 50/100) - (labelSize.width / 2)), (intFrameSize.height * 20/100), labelSize.width, labelSize.height);
         window.add(label1);
 
         label2 = new JLabel();
@@ -291,13 +291,13 @@ public class PopUp {
         } catch (IOException e) {
             LOGGER.severe(e.getMessage());
         }
-        label2.setBounds((int) ((intFrameSize.width * 50/100) - (labelSize.width / 2)), (int) (intFrameSize.height * 40/100), labelSize.width, labelSize.height);
+        label2.setBounds(((intFrameSize.width * 50/100) - (labelSize.width / 2)), (intFrameSize.height * 40/100), labelSize.width, labelSize.height);
         window.add(label2);
 
         button1 = new MyButton(2);
-        button1.setBounds((int) ((intFrameSize.width * 35/100) - (buttonSize.width / 2)), (int) (intFrameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
+        button1.setBounds(((intFrameSize.width * 35/100) - (buttonSize.width / 2)), (int) (intFrameSize.height * 79.5 / 100), buttonSize.width, buttonSize.height);
         button2 = new MyButton(3);
-        button2.setBounds((int) ((intFrameSize.width * 65/100) - (buttonSize.width / 2)), (int) (intFrameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
+        button2.setBounds(((intFrameSize.width * 65/100) - (buttonSize.width / 2)), (int) (intFrameSize.height * 79.5 / 100), buttonSize.width, buttonSize.height);
         window.add(button1);
         window.add(button2);
         button2.addActionListener(new Close());
@@ -314,9 +314,9 @@ public class PopUp {
         window.add(label2);
 
         button1 = new MyButton(2);
-        button1.setBounds((int) ((intFrameSize.width * 35/100) - (buttonSize.width / 2)), (int) (intFrameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
+        button1.setBounds(((intFrameSize.width * 35/100) - (buttonSize.width / 2)), (int) (intFrameSize.height * 79.5 / 100), buttonSize.width, buttonSize.height);
         button2 = new MyButton(3);
-        button2.setBounds((int) ((intFrameSize.width * 65/100) - (buttonSize.width / 2)), (int) (intFrameSize.height * 79.5 / 100), (int) buttonSize.width, buttonSize.height);
+        button2.setBounds(((intFrameSize.width * 65/100) - (buttonSize.width / 2)), (int) (intFrameSize.height * 79.5 / 100), buttonSize.width, buttonSize.height);
         window.add(button1);
         button1.addActionListener(new NewGameEndGame());
         window.add(button2);

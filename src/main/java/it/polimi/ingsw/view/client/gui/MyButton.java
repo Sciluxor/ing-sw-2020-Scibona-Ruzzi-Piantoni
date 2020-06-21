@@ -18,7 +18,7 @@ import static it.polimi.ingsw.view.client.gui.Gui.*;
 
 public class MyButton extends JButton{
 
-    int type = 0;
+    int type;
     Dimension labelSize = new Dimension(d.width * 13/100, d.height * 5/100);
     JLabel lconfirm;
     JLabel lconfirmPress;

@@ -70,7 +70,7 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
         lwhitePress = ImageHandler.setImage("resources/Graphics/button_white_press.png", 100, 100, labelSize.width, labelSize.height);
         JLabel namePlayer1 = new JLabel(players.get(0).getNickName());
         JLabel namePlayer2 = new JLabel(players.get(1).getNickName());
-        JLabel namePlayer3 = null;
+        JLabel namePlayer3;
 
 
         JButton player1 = new JButton();
@@ -115,7 +115,7 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
             add(player3);
             player3.addActionListener(new Choose());
         }
-        backButton.setBounds((int) (((double)frameSize.width * 50/ 100) - ((getD().getWidth() * 13 / 100) / 2)), (int) (frameSize.height * 81 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
+        backButton.setBounds((int) (((double)frameSize.width * 50/ 100) - ((getD().getWidth() * 13 / 100) / 2)), (frameSize.height * 81 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
         add(backButton);
         backButton.addActionListener(new Close());
 

@@ -62,7 +62,7 @@ public class ChallengerChoiceCards extends JDesktopPane{
         frameSize.setSize(dimensionFrame);
         numberPlayers = numberOfPlayer;
         intFrameSize.setSize(frameSize.getWidth() * 48/100, frameSize.getHeight() * 54/100);
-        cardSize.setSize((int) (frameSize.getWidth() * 9/100), (int) (frameSize.getHeight() * 23.15/100)); //(9, 22)
+        cardSize.setSize((int) (frameSize.getWidth() * 9/100), (int) (frameSize.getHeight() * 23.15/100));
         size30x10.setSize(frameSize.width * 30 / 100, frameSize.height * 10 / 100);
         click = new MP3("resources/Music/Click.mp3");
 
@@ -108,10 +108,10 @@ public class ChallengerChoiceCards extends JDesktopPane{
         choise.setBounds(((frameSize.width * 50/100) - (size30x10.width / 2)), frameSize.height * 10/100, size30x10.width, size30x10.height);
         add(choise);
 
-        confirm.setBounds((int) (frameSize.width * 31.5/ 100), (int) (frameSize.height * 81 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
+        confirm.setBounds((int) (frameSize.width * 31.5/ 100), (frameSize.height * 81 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
         add(confirm);
 
-        back.setBounds((int) (frameSize.width * 51.5/ 100), (int) (frameSize.height * 81 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
+        back.setBounds((int) (frameSize.width * 51.5/ 100), (frameSize.height * 81 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
         add(back);
         back.addActionListener(new Close());
 
@@ -229,16 +229,16 @@ public class ChallengerChoiceCards extends JDesktopPane{
         public void mouseEntered(MouseEvent e) {
             JButton c = (JButton)e.getSource();
             if (c.getX() < frameSize.width * 50/100 && c.getY() < frameSize.height * 40/100) {
-                intFrame.setBounds((int) ((frameSize.width * 9 / 100) + c.getX()), (int) (frameSize.height * 8.5 / 100), intFrameSize.width, intFrameSize.height);
+                intFrame.setBounds(((frameSize.width * 9 / 100) + c.getX()), (int) (frameSize.height * 8.5 / 100), intFrameSize.width, intFrameSize.height);
             }
             else if (c.getX() >= frameSize.width * 50/100 && c.getY() < frameSize.height * 40/100){
-                intFrame.setBounds((int) (c.getX() - (frameSize.width * 48 / 100)), (int) (frameSize.height * 8.5 / 100), intFrameSize.width, intFrameSize.height);
+                intFrame.setBounds((c.getX() - (frameSize.width * 48 / 100)), (int) (frameSize.height * 8.5 / 100), intFrameSize.width, intFrameSize.height);
             }
             else if (c.getX() < frameSize.width * 50/100 && c.getY() >= frameSize.height * 40/100){
-                intFrame.setBounds((int) ((frameSize.width * 9 / 100) + c.getX()), (int) (frameSize.height * 33 / 100), intFrameSize.width, intFrameSize.height);
+                intFrame.setBounds(((frameSize.width * 9 / 100) + c.getX()), (frameSize.height * 33 / 100), intFrameSize.width, intFrameSize.height);
             }
             else
-                intFrame.setBounds((int) (c.getX() - (frameSize.width * 48 / 100)), (int) (frameSize.height * 33 / 100), intFrameSize.width, intFrameSize.height);
+                intFrame.setBounds((c.getX() - (frameSize.width * 48 / 100)), (frameSize.height * 33 / 100), intFrameSize.width, intFrameSize.height);
 
             buttonBackground.setIcon(null);
             try {

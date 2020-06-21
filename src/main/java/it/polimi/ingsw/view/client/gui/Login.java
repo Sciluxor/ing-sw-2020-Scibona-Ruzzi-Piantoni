@@ -27,7 +27,7 @@ public class Login extends JPanel{
     JTextField port;
     JTextField address;
     MyButton confirm;
-    boolean firstConnection = true;
+    boolean firstConnection;
 
     /**
      * Class builder
@@ -73,30 +73,30 @@ public class Login extends JPanel{
         confirm = new MyButton(0);
         add(confirm);
 
-        nickname.setBounds((int) (frameSize.width * 40/100), (int) (frameSize.height * 35/100), frameSize.width * 20/100,frameSize.height * 3/100);
+        nickname.setBounds((frameSize.width * 40/100), (frameSize.height * 35/100), frameSize.width * 20/100,frameSize.height * 3/100);
         nickname.setText("Nickname");
         add(nickname);
-        nicknameLabel.setBounds((int) (frameSize.width * 24.5/100), (int) (frameSize.height * 34/100), frameSize.width * 15/100,frameSize.height * 5/100);
+        nicknameLabel.setBounds((int) (frameSize.width * 24.5/100), (frameSize.height * 34/100), frameSize.width * 15/100,frameSize.height * 5/100);
         add(nicknameLabel);
 
-        numberPlayers.setBounds( (frameSize.width * 40/100), (int) (frameSize.height * 45/100), frameSize.width * 20/100,frameSize.height * 3/100);
+        numberPlayers.setBounds((frameSize.width * 40/100), (frameSize.height * 45/100), frameSize.width * 20/100,frameSize.height * 3/100);
         numberPlayers.setText("2");
         add(numberPlayers);
-        numberPlayersLabel.setBounds((int) (frameSize.width * 19.5/100), (int) (frameSize.height * 44/100), frameSize.width * 20/100,frameSize.height * 5/100);
+        numberPlayersLabel.setBounds((int) (frameSize.width * 19.5/100), (frameSize.height * 44/100), frameSize.width * 20/100,frameSize.height * 5/100);
         add(numberPlayersLabel);
 
         if (firstConnection){
-        port.setBounds((int) (frameSize.width * 40/100), (int) (frameSize.height * 55/100), frameSize.width * 20/100,frameSize.height * 3/100);
+        port.setBounds((frameSize.width * 40/100), (frameSize.height * 55/100), frameSize.width * 20/100,frameSize.height * 3/100);
         port.setText("4700");
         add(port);
         add(port);
-        portlabel.setBounds((int) (frameSize.width * 34.5/100), (int) (frameSize.height * 54/100), frameSize.width * 5/100,frameSize.height * 5/100);
+        portlabel.setBounds((int) (frameSize.width * 34.5/100), (frameSize.height * 54/100), frameSize.width * 5/100,frameSize.height * 5/100);
         add(portlabel);
 
-        address.setBounds((int) (frameSize.width * 40/100), (int) (frameSize.height * 65/100), frameSize.width * 20/100,frameSize.height * 3/100);
+        address.setBounds((frameSize.width * 40/100), (frameSize.height * 65/100), frameSize.width * 20/100,frameSize.height * 3/100);
         address.setText("54.237.47.88");
         add(address);
-        addresslabel.setBounds((int) (frameSize.width * 29.5/100), (int) (frameSize.height * 64/100), frameSize.width * 10/100,frameSize.height * 5/100);
+        addresslabel.setBounds((int) (frameSize.width * 29.5/100), (frameSize.height * 64/100), frameSize.width * 10/100,frameSize.height * 5/100);
         add(addresslabel);
         }
 

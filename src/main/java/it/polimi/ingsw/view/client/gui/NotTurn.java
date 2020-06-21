@@ -38,11 +38,11 @@ public class NotTurn extends JDesktopPane {
         setLayout(null);
 
         JLabel label1 = ImageHandler.setImage("resources/Graphics/Texts/it's_not_your_turn.png", 99, 99, frameSize.width * 60/100, frameSize.height * 22/100);
-        label1.setBounds((int) (frameSize.width * 20/100), frameSize.height * 39/100, frameSize.width * 60/100, frameSize.height * 22/100);
+        label1.setBounds((frameSize.width * 20/100), frameSize.height * 39/100, frameSize.width * 60/100, frameSize.height * 22/100);
         add(label1);
 
         close.addActionListener(new Close());
-        close.setBounds((int) ((frameSize.width * 50/100) - (buttonSize.width / 2)), (int) (frameSize.height * 81 / 100),  buttonSize.width, buttonSize.height);
+        close.setBounds(((frameSize.width * 50/100) - (buttonSize.width / 2)), (frameSize.height * 81 / 100),  buttonSize.width, buttonSize.height);
         add(close);
 
         JButton back = backgroundButtonPersonalized(2, frameSize);

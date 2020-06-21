@@ -42,9 +42,9 @@ public class Gui extends ClientGameController {
     int panelInUse = 0;
     private int numberOfPlayers = 2;
 
-    static Font felixSmall;// = new Font(FELIX, Font.PLAIN, (int) (13 * screenSize.getHeight() / 1080));
-    static Font felixNormal;// = new Font(FELIX, Font.PLAIN, (int) (20 * screenSize.getHeight() / 1080));
-    static Font felixBold;// = new Font(FELIX, Font.BOLD, (int) (40 * screenSize.getHeight() / 1080));
+    static Font felixSmall;
+    static Font felixNormal;
+    static Font felixBold;
     static List<Player> players = new ArrayList<>();
     String nickname;
     JButton buttonBackground = new JButton();
@@ -90,7 +90,7 @@ public class Gui extends ClientGameController {
         popUp.setUndecorated(true);
         popUp.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         SwingUtilities.updateComponentTreeUI(popUp);
-        popUp.setBounds((int) ((d.width * 53/100) - (intFrameSize.width / 2)), (int) ((d.height * 60/100) - (intFrameSize.height / 2)), intFrameSize.width, intFrameSize.height);
+        popUp.setBounds(((d.width * 53/100) - (intFrameSize.width / 2)), ((d.height * 60/100) - (intFrameSize.height / 2)), intFrameSize.width, intFrameSize.height);
         popUp.pack();
         popUp.setResizable(false);
         popUp.setVisible(false);
@@ -115,7 +115,7 @@ public class Gui extends ClientGameController {
      */
 
     private void addFontFelix(){
-        GraphicsEnvironment ge = null;
+        GraphicsEnvironment ge;
         try{
             ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/Graphics/Felix.TTF")));

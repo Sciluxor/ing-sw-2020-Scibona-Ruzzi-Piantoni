@@ -17,7 +17,7 @@ import static it.polimi.ingsw.view.client.gui.Gui.*;
 
 public class BackgroundButton {
 
-    private static Dimension d = getD();
+    private static final Dimension d = getD();
     static JLabel cover;
     static JLabel cover2;
     static JLabel cover3;

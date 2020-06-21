@@ -27,9 +27,9 @@ public class LobbyGui{
     Dimension frameSize = new Dimension();
     Dimension intFrameSize = new Dimension();
     private final JDesktopPane pane;
-    MyButton backButton = null;
-    MyButton confirm = null;
-    JLabel lnumber = new JLabel();
+    MyButton backButton;
+    MyButton confirm;
+    JLabel lnumber;
     JLabel nicknameLabel;
     JTextField nickname = new JTextField(20);
     Style colorStyle;
@@ -113,7 +113,7 @@ public class LobbyGui{
         pane.add(lnumber);
 
 
-        textPane.setBounds((int) (frameSize.width * 30/100), frameSize.height * 43/100, frameSize.width * 40/100, frameSize.height * 20/100);
+        textPane.setBounds((frameSize.width * 30/100), frameSize.height * 43/100, frameSize.width * 40/100, frameSize.height * 20/100);
         textPane.setOpaque(false);
         textPane.setFont(Gui.felixBold);
         pane.add(textPane);
@@ -121,7 +121,7 @@ public class LobbyGui{
         StyleConstants.setAlignment(colorStyle, StyleConstants.ALIGN_CENTER);
         doc.setParagraphAttributes(0, doc.getLength(), colorStyle, false);
 
-        numberPane.setBounds((int) (frameSize.width * 42/100), frameSize.height * 20/100, frameSize.width * 5/100, frameSize.height * 5/100);
+        numberPane.setBounds((frameSize.width * 42/100), frameSize.height * 20/100, frameSize.width * 5/100, frameSize.height * 5/100);
         numberPane.setOpaque(false);
         numberPane.setFont(Gui.felixBold);
         pane.add(numberPane);

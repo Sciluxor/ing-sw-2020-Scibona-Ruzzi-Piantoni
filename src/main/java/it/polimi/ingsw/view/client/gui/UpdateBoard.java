@@ -65,7 +65,7 @@ public class UpdateBoard extends JDesktopPane {
         add(otherName);
 
         close.addActionListener(new Close());
-        close.setBounds((int) (((double)frameSize.width * 50/ 100) - ((getD().getWidth() * 13 / 100) * 50/100)), (int) (frameSize.height * 83 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
+        close.setBounds((int) (((double)frameSize.width * 50/ 100) - ((getD().getWidth() * 13 / 100) * 50/100)), (frameSize.height * 83 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
         add(close);
 
         JButton back = backgroundButtonPersonalized(2, frameSize );
