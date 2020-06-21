@@ -110,6 +110,10 @@ public class Gui extends ClientGameController {
 
     }
 
+    /**
+     * Method that add the font Felix for the game
+     */
+
     private void addFontFelix(){
         GraphicsEnvironment ge = null;
         try{
@@ -121,6 +125,10 @@ public class Gui extends ClientGameController {
         boolean found = false;
         int y = 0;
 
+        felixSmall = new Font(FELIX, Font.PLAIN, (int) (13 * screenSize.getHeight() / 1080));
+        felixNormal = new Font(FELIX, Font.PLAIN, (int) (20 * screenSize.getHeight() / 1080));
+        felixBold = new Font(FELIX, Font.BOLD, (int) (40 * screenSize.getHeight() / 1080));
+        /*
         while(!found){
             if (ge.getAvailableFontFamilyNames()[y].equalsIgnoreCase("felix titling")){
                 felixSmall = new Font(FELIX, Font.PLAIN, (int) (13 * screenSize.getHeight() / 1080));
@@ -134,7 +142,7 @@ public class Gui extends ClientGameController {
             else{
                 y++;
             }
-        }
+        }*/
     }
 
     /**
