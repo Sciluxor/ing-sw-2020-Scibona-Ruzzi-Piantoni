@@ -589,6 +589,7 @@ public class Board {
 
         doc = chat.getStyledDocument();
 
+        chat.setSize(new Dimension(200,200));
         chat.setPreferredSize(chatDimension);
         chat.setBounds(frameChat.getWidth() * 23/100 , frameChat.getHeight() * 28/100, frameChat.getWidth() * 63/100, frameChat.getHeight() * 38/100);
         chat.setEditable(false);
@@ -599,11 +600,15 @@ public class Board {
         //chat.setWrapStyleWord(true);
         chat.setVisible(true);
 
+        /*JPanel noWrapPanel = new JPanel(new BorderLayout());
+        noWrapPanel.setPreferredSize(chatDimension);
+        noWrapPanel.add(chat);*/
+
         scrollPane = new JScrollPane(chat);
-        scrollPane.setPreferredSize(scrollSize);
+        scrollPane.setPreferredSize(chatDimension);
         scrollPane.setBounds(frameChat.getWidth() * 23/100 , frameChat.getHeight() * 28/100, frameChat.getWidth() * 63/100, frameChat.getHeight() * 38/100);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        //scrollPane.setViewportView(chat);
+        scrollPane.setViewportView(chat);
         frameChat.add(scrollPane);
 
         colorStyle = chat.addStyle("colorStyle", null);
