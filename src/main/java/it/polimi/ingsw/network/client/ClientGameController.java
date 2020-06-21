@@ -24,6 +24,13 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.logging.Logger;
 
+/**
+ * Abstract Class that represents the Controller client side that handle all the logic functions, extended by both CLI and GUI
+ * @author alessandroruzzi
+ * @version 1.0
+ * @since 2020/06/20
+ */
+
 public abstract class ClientGameController implements Runnable, FunctionListener{
     public static final Logger LOGGER = Logger.getLogger("Client");
 
@@ -31,12 +38,19 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     private final BlockingQueue<Runnable> eventQueue = new LinkedBlockingQueue<>();
     private ClientConnection client;
 
+    /**
+     *
+     */
 
     public ClientGameController(){
         FlowStatutsLoader.loadFlow();
         ConfigLoader.loadSetting();    //farne uno solo per il client?
         new Thread(this).start();
     }
+
+    /**
+     *
+     */
 
     @Override
     public void run() {
@@ -51,11 +65,26 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         }
     }
 
+    /**
+     *
+     * @param name
+     * @param numberOfPlayer
+     * @param address
+     * @param port
+     * @throws ConnectException
+     */
+
     public synchronized void openConnection(String name, int numberOfPlayer, String address, int port) throws ConnectException {
         game = new SimplifiedGame(numberOfPlayer);
         client = new ClientConnection(name,address,port,this);
         client.connectToServer(numberOfPlayer);
     }
+
+    /**
+     *
+     * @param nickName
+     * @param numberOfPlayer
+     */
 
     public synchronized void newGame(String nickName, int numberOfPlayer){
         game = new SimplifiedGame(numberOfPlayer);
@@ -63,9 +92,18 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         client.sendMessage(new GameConfigMessage(client.getUserID(),nickName, MessageSubType.ANSWER,numberOfPlayer));
     }
 
+    /**
+     *
+     */
+
     public synchronized void onBackCommand(){
         client.sendMessage(new Message(client.getUserID(),client.getNickName(),MessageType.DISCONNECTION, MessageSubType.BACK));
     }
+
+    /**
+     *
+     * @param message
+     */
 
     public synchronized void onUpdateLobbyPlayer(Message message) {
         client.setUserID(message.getMessage());
@@ -74,19 +112,39 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         eventQueue.add(this::updateLobbyPlayer);
     }
 
+    /**
+     *
+     * @return
+     */
+
     public synchronized List<Player> getPlayers(){
         return new ArrayList<>(game.getPlayers());
     }
+
+    /**
+     *
+     * @param message
+     */
 
     public synchronized void nickUsed(Message message){
         client.setUserID(message.getMessage());
         eventQueue.add(this::nickUsed);
     }
 
+    /**
+     *
+     * @param nickName
+     */
+
     public synchronized void updateNickName(String nickName){
         client.setNickName(nickName);
         client.sendMessage(new GameConfigMessage(client.getUserID(),nickName,MessageSubType.UPDATE,game.getNumberOfPlayers()));
     }
+
+    /**
+     *
+     * @param message
+     */
 
     public synchronized void onGameStart(Message message){
         game.setGameStarted(true);
@@ -95,14 +153,30 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         eventQueue.add(this::startGame);
     }
 
+    /**
+     *
+     * @return
+     */
+
     public synchronized List<String> getAvailableCards(){
         return game.getAvailableCards();
     }
+
+    /**
+     *
+     * @param firstPlayer
+     * @param cards
+     */
 
     public synchronized void challengerResponse(String firstPlayer,List<String> cards){
         game.setAvailableCards(cards);
         client.sendMessage(new ChallengerChoiceMessage(client.getUserID(),client.getNickName(),MessageSubType.ANSWER,firstPlayer,cards));
     }
+
+    /**
+     *
+     * @param card
+     */
 
     public synchronized void cardChoiceResponse(String card){
         game.removeCard(card);
@@ -110,19 +184,31 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         client.sendMessage(new Message(client.getUserID(),MessageType.CHOOSECARD,MessageSubType.ANSWER,card));
     }
 
+    /**
+     *
+     * @param tile1
+     * @param tile2
+     */
+
     public synchronized void placeWorkersResponse(int tile1,int tile2){
         game.placeWorkersOnMap(tile1,tile2);
         client.sendMessage(new PlaceWorkersMessage(client.getUserID(),MessageSubType.ANSWER,game.getCoordinatesFromTile(tile1),
                 game.getCoordinatesFromTile(tile2)));
     }
 
-    public synchronized void cliPlaceWorkersResponse(Integer[] tile1,Integer[] tile2){
-
-    }
+    /**
+     *
+     * @param tile
+     * @return
+     */
 
     public synchronized int getLevel(int tile){
        return game.getGameMap().getMap().get(tile-1).getBuildingLevel();
     }
+
+    /**
+     *
+     */
 
     public synchronized void endTurn(){
         if(game.getCurrentPlayer().getPower() != null)
@@ -131,6 +217,11 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         game.getCurrentPlayer().setTurnStatus(TurnStatus.IDLE);
         client.sendMessage(new Message(client.getUserID(),client.getNickName(),MessageType.ENDTURN,MessageSubType.UPDATE));
     }
+
+    /**
+     *
+     * @param message
+     */
 
     public synchronized void handleChallengerChoice(Message message){
         if(message.getSubType().equals(MessageSubType.REQUEST)) {
@@ -143,6 +234,11 @@ public abstract class ClientGameController implements Runnable, FunctionListener
                 game.setAvailableCards(((ChallengerChoiceMessage) message).getCards());
         }
     }
+
+    /**
+     *
+     * @param message
+     */
 
     public synchronized void handleCardChoice(Message message){
         if(message.getSubType().equals(MessageSubType.REQUEST)) {
@@ -159,6 +255,11 @@ public abstract class ClientGameController implements Runnable, FunctionListener
             }
         }
     }
+
+    /**
+     *
+     * @param message
+     */
 
     public synchronized void handlePlaceWorkers(Message message){
         if(message.getSubType().equals(MessageSubType.REQUEST)) {
@@ -178,6 +279,11 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         }
     }
 
+    /**
+     *
+     * @param message
+     */
+
     public synchronized void handleStartTurn(Message message){
         game.getCurrentPlayer().setTurnStatus(TurnStatus.IDLE);
         game.setCurrentPlayer(message.getMessage());
@@ -187,9 +293,19 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         eventQueue.add(() -> startTurn(message.getMessage(), isYourPlayer));
     }
 
+    /**
+     *
+     * @return
+     */
+
     public synchronized List<Square> getModifiedsquare(){
         return game.getGameMap().getModifiedSquare();
     }
+
+    /**
+     *
+     * @return
+     */
 
     public synchronized List<Integer>  availableWorkers(){
         List<Worker> workers = game.getCurrentPlayer().getWorkers();
@@ -205,11 +321,20 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         return toSendWorkers;
     }
 
+    /**
+     *
+     * @param worker
+     */
+
     public synchronized void setWorker(int worker){
         game.getCurrentPlayer().setCurrentWorker(game.getCurrentPlayer().getWorkers().get(worker-1));
         client.sendMessage(new Message(client.getUserID(),MessageType.WORKERCHOICE,MessageSubType.ANSWER,worker==1 ? "worker1" : "worker2"));
         availableActions();
     }
+
+    /**
+     *
+     */
 
     public synchronized void availableActions(){
         List<MessageType> actions = FlowStatutsLoader.getNextMessageFromStatus(game.getGameStatus());
@@ -229,6 +354,11 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         eventQueue.add(() -> displayActions(actions));
     }
 
+    /**
+     *
+     * @param winStatus
+     */
+
     public synchronized void mapNextAction(Response winStatus){
         if(winStatus.equals(Response.WIN) || winStatus.equals(Response.BUILDWIN)){
             eventQueue.add(() -> notifyWin(game.getWinner().getNickName()));
@@ -237,6 +367,11 @@ public abstract class ClientGameController implements Runnable, FunctionListener
             availableActions();
         }
     }
+
+    /**
+     *
+     * @return
+     */
 
     public synchronized List<Integer> availableMoveSquare(){
         List<Directions> directions = game.getCurrentPlayer().findWorkerMove(game.getGameMap(),game.getCurrentPlayer().getCurrentWorker());
@@ -250,6 +385,12 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         }
         return availableTile;
     }
+
+    /**
+     *
+     * @param tile
+     * @return
+     */
 
     public synchronized Response moveWorker(int tile){
         Directions direction = null;
@@ -268,7 +409,10 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         return winStatus;
     }
 
-
+    /**
+     *
+     * @return
+     */
 
     public synchronized Response checkMoveVictory(){
         Response response = game.getCurrentPlayer().checkVictory(game.getGameMap());
@@ -288,6 +432,11 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         return response;
     }
 
+    /**
+     *
+     * @return
+     */
+
     public synchronized List<Integer> availableBuildSquare(){
         List<Directions> directions = game.getCurrentPlayer().findPossibleBuild(game.getGameMap(),game.getCurrentPlayer().getCurrentWorker());
         List<Integer> availableTile = new ArrayList<>();
@@ -296,6 +445,13 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         }
         return availableTile;
     }
+
+    /**
+     *
+     * @param tile
+     * @param building
+     * @return
+     */
 
     public synchronized Response buildWorker(int tile, Building building){
         Directions direction = null;
@@ -315,6 +471,11 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         return winStatus;
     }
 
+    /**
+     *
+     * @return
+     */
+
     public synchronized Response checkBuildVictory(){
         Response response = Response.NOTWIN;
         for(Player player: game.getPlayers()){
@@ -331,6 +492,10 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         return response;
     }
 
+    /**
+     *
+     */
+
     public synchronized void removeNonPermanentConstraint(){
             ArrayList<Card> nonPermanentConstraint = new ArrayList<>();
             for(Card constraint : game.getCurrentPlayer().getConstraint()){
@@ -345,6 +510,10 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         game.setGameStatus(Response.ENDTURN);
     }
 
+    /**
+     *
+     * @param message
+     */
 
     public synchronized void handleUpdateBoard(Message message){
         if(!message.getNickName().equals(client.getNickName())) {
@@ -366,6 +535,11 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         }
     }
 
+    /**
+     *
+     * @param message
+     */
+
     public synchronized void addPermConstraint(Message message){
         if(client.getNickName().equals(message.getNickName())) {
             game.getClientPlayer().setConstraint(game.getDeck().get(message.getMessage()));
@@ -373,12 +547,22 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         }
     }
 
+    /**
+     *
+     * @param message
+     */
+
     public synchronized void addNonPermConstraint(Message message){
         if(!game.getClientPlayer().getPower().getName().equals(message.getMessage())) {
             game.getClientPlayer().setConstraint(game.getDeck().get(message.getMessage()));
             eventQueue.add(() -> addConstraint(message.getMessage()));
         }
     }
+
+    /**
+     *
+     * @param message
+     */
 
     public synchronized void handleDisconnection(Message message){
         client.stopPingTimer();
@@ -398,13 +582,28 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         }
     }
 
+    /**
+     *
+     * @param chatMessage
+     */
+
     public synchronized void sendChatMessage(String chatMessage){
         client.sendMessage(new Message(client.getUserID(),client.getNickName(),MessageType.CHAT,MessageSubType.UPDATE,chatMessage));
     }
 
+    /**
+     *
+     * @param message
+     */
+
     public synchronized void handleChatMessage(Message message){
         eventQueue.add(() -> newChatMessage(message.getNickName(),message.getMessage()));
     }
+
+    /**
+     *
+     * @param message
+     */
 
     public synchronized void handleWin(Message message){
         if((message.getSubType().equals(MessageSubType.UPDATE) && !game.getCurrentPlayer().getNickName().equals(client.getNickName())) ||
@@ -413,6 +612,11 @@ public abstract class ClientGameController implements Runnable, FunctionListener
             game.setHasWinner(true);
         }
     }
+
+    /**
+     *
+     * @param message
+     */
 
     public synchronized void handleLose(Message message){
         game.getCurrentPlayer().setTurnStatus(TurnStatus.IDLE);
@@ -423,6 +627,11 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         boolean isYourPlayer = message.getMessage().equals(client.getNickName());
         eventQueue.add(() -> notifyLose(message.getMessage(), isYourPlayer));
     }
+
+    /**
+     *
+     * @param message
+     */
 
     public synchronized void handleGameStopped(Message message){
         game.setHasStopper(true);
@@ -438,14 +647,26 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         }
     }
 
+    /**
+     *
+     */
+
     public synchronized void handleLoseExit(){
         client.sendMessage(new Message(client.getUserID(),client.getNickName(),MessageType.DISCONNECTION,MessageSubType.LOSEEXITREQUEST));
     }
+
+    /**
+     *
+     */
 
     public synchronized void handleNotYourTurn(){
         eventQueue.add(this::notYourTurn);
     }
 
+    /**
+     *
+     * @param message
+     */
 
     public synchronized void onUpdate(Message message){
         switch (message.getType()){

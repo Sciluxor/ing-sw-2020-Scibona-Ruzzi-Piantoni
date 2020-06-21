@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.cards.Card;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.view.client.cli.Color;
 import it.polimi.ingsw.view.client.cli.SantoriniMap;
+import javafx.util.Pair;
 
 import java.io.IOException;
 import java.util.List;
@@ -57,6 +58,10 @@ public class CliUtils {
             "                                                                                        " + Color.RESET;
 
     public static boolean debug = true;
+    private static boolean newChatMessage = false;
+    private static Player lastPlayerOnChat;
+    private static String lastChatMessage;
+    public static String terminalMode = "sane";
 
     public static final java.util.logging.Logger LOGGER = Logger.getLogger("Cli");
 
@@ -203,20 +208,6 @@ public class CliUtils {
      * @param currentPlayer Player that invoke this method
      * @param deck Set of all cards
      * @param constraints List of string of possible constraints
-     */
-
-    public static void clearAndPrintInfo(List<Player> opponents, Player currentPlayer, Map<String, Card> deck, List<String> constraints) {
-        Color.clearConsole();
-        printInfo(opponents, currentPlayer, deck, constraints);
-    }
-
-    /**
-     * Method used to clear the shell and print some info regards the match. Different from the previous because this
-     * print also the map of the current game
-     * @param opponents List of the opponents of the current player
-     * @param currentPlayer Player that invoke this method
-     * @param deck Set of all cards
-     * @param constraints List of string of possible constraints
      * @param map The map object of the current game
      */
 
@@ -227,7 +218,7 @@ public class CliUtils {
     }
 
     /**
-     * Method use to print all the info required (not the map) by the clearAndPrintInfo methods
+     * Method used to print all the info required (not the map) by the clearAndPrintInfo methods
      * @param opponents List of the opponents of the current player
      * @param currentPlayer Player that invoke this method
      * @param deck Set of all cards
@@ -264,8 +255,64 @@ public class CliUtils {
                 printYellow("  " + constraint.toUpperCase() + ":");
                 printPower(constraint, deck);
             }
-        } else
+        }
+        if(newChatMessage) {
+            printYellow("[CHAT]: ");
+        }
+        else
+            printRed("[CHAT]: ");
+
+        try {
+            print("[" + lastPlayerOnChat.getNickName().toUpperCase() + "]: ", getColorCliFromPlayer(lastPlayerOnChat.getColor()));
+            printRed(lastChatMessage + "\n");
+        }catch (NullPointerException e) {
             printRed("\n");
+        }
+        printRed("\n");
+    }
+
+    /**
+     * Method used to set if there is a new chat message
+     * @param newChatMessage Boolean value (true = new chat message | false = no new chat message)
+     */
+
+    public static void setNewChatMessage(boolean newChatMessage) {
+        CliUtils.newChatMessage = newChatMessage;
+    }
+
+    /**
+     * Method used to set if a new chat message has been visualized
+     * @param visualized True if is visualized (entered in chat)
+     */
+
+    public static void setVisualized(boolean visualized) {
+        if(visualized)
+            newChatMessage = false;
+    }
+
+    /**
+     * Method used to set the last chat message
+     * @param player Last player that has sent a message in chat
+     * @param chatMessage Last chat message received in chat
+     */
+
+    public static void setLastChatMessage(Player player, String chatMessage) {
+        lastPlayerOnChat = player;
+        lastChatMessage = chatMessage;
+    }
+
+    /**
+     * Method used to handle the visualisation of the chat
+     * @param previousChatMessage Set of last 10 message of the chat
+     */
+
+    public static void printChat(List<Pair<Player, String>> previousChatMessage) {
+        printRed("[----- CHAT -----]\n");
+        for(Pair<Player, String> previousChat: previousChatMessage) {
+            Player player = previousChat.getKey();
+            print("[" + player.getNickName().toUpperCase() + "]: ", getColorCliFromPlayer(player.getColor()));
+            printRed(previousChat.getValue() + "\n");
+        }
     }
 
     /**
@@ -371,11 +418,14 @@ public class CliUtils {
      */
 
     public static void setTerminalMode(String mode) {
-        try {
-            String[] cmd = new String[]{"/bin/sh", "-c", "stty " + mode + " </dev/tty"};
-            Runtime.getRuntime().exec(cmd).waitFor();
-        }catch (IOException | InterruptedException e) {
-            LOGGER.severe(e.getMessage() + e.getClass());
+        if(!terminalMode.equalsIgnoreCase(mode)) {
+            terminalMode = mode.toLowerCase();
+            try {
+                String[] cmd = new String[]{"/bin/sh", "-c", "stty " + mode + " </dev/tty"};
+                Runtime.getRuntime().exec(cmd).waitFor();
+            } catch (IOException | InterruptedException e) {
+                LOGGER.severe(e.getMessage() + e.getClass());
+            }
         }
     }
 

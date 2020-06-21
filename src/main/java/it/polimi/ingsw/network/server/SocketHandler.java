@@ -8,7 +8,12 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-//socket that wait for all the connections
+/**
+ * Class that listen for new clients connections, and create a ClientHandler for each of them
+ * @author alessandroruzzi
+ * @version 1.0
+ * @since 2020/06/19
+ */
 
 public class SocketHandler extends Thread implements Closeable {
     private ServerSocket serverSocket;
@@ -16,12 +21,23 @@ public class SocketHandler extends Thread implements Closeable {
     private final Server server;
     private boolean isActive;
 
+    /**
+     * Public constructor for the SocketHandler Class that initialize the parameters of the class
+     * @param port Port in which it will listen for new connections
+     * @param server The Server to which refer
+     * @throws IOException IOException
+     */
+
     public SocketHandler(int port,Server server)throws IOException{
         this.port = port;
         this.server = server;
         this.isActive = true;
         startSocketHandler();
     }
+
+    /**
+     * Thread that listen for new connection requests
+     */
 
     @Override
     public void run() {
@@ -42,6 +58,11 @@ public class SocketHandler extends Thread implements Closeable {
 
         }
 
+    /**
+     * Function that create new Server Socket and start a thread that listen for new connections request
+     * @throws IOException IOException
+     */
+
     public void startSocketHandler()throws IOException {
 
         serverSocket = new ServerSocket(port);
@@ -50,13 +71,16 @@ public class SocketHandler extends Thread implements Closeable {
 
 }
 
+    /**
+     * Function that stop the Socket Handler when the Server is stopped
+     */
 
     @Override
     public void close(){
         try{
             isActive = false;
             serverSocket.close();
-            Server.LOGGER.info("ServerSocket --> Stopped");
+            Server.LOGGER.info("SocketHandler --> Stopped");
         }catch (IOException e){
             Server.LOGGER.severe(e.getMessage());
         }
