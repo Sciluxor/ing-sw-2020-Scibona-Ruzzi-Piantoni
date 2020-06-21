@@ -1187,6 +1187,7 @@ public class Board {
 
     private void chatStyleButtons(JButton button, JLabel label){
         button.setContentAreaFilled(false);
+        button.setFocusPainted(false);
         button.setOpaque(false);
         button.setBorderPainted(false);
         button.setIcon(label.getIcon());
