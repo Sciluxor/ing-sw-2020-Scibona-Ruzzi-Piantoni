@@ -42,9 +42,9 @@ public class Gui extends ClientGameController {
     int panelInUse = 0;
     private int numberOfPlayers = 2;
 
-    static Font felixSmall = new Font(FELIX, Font.PLAIN, (int) (13 * screenSize.getHeight() / 1080));
-    static Font felixNormal = new Font(FELIX, Font.PLAIN, (int) (20 * screenSize.getHeight() / 1080));
-    static Font felixBold = new Font(FELIX, Font.BOLD, (int) (40 * screenSize.getHeight() / 1080));
+    static Font felixSmall;// = new Font(FELIX, Font.PLAIN, (int) (13 * screenSize.getHeight() / 1080));
+    static Font felixNormal;// = new Font(FELIX, Font.PLAIN, (int) (20 * screenSize.getHeight() / 1080));
+    static Font felixBold;// = new Font(FELIX, Font.BOLD, (int) (40 * screenSize.getHeight() / 1080));
     static List<Player> players = new ArrayList<>();
     String nickname;
     JButton buttonBackground = new JButton();
@@ -66,6 +66,8 @@ public class Gui extends ClientGameController {
      */
 
     private void show() {
+
+        addFontFelix();
 
         sound = new MP3("resources/Music/Fruits.mp3");
 
@@ -106,6 +108,33 @@ public class Gui extends ClientGameController {
         frame.setResizable(false);
         frame.setVisible(true);
 
+    }
+
+    private void addFontFelix(){
+        GraphicsEnvironment ge = null;
+        try{
+            ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/Graphics/Felix.TTF")));
+        } catch(FontFormatException | IOException e){
+            LOGGER.severe(e.getMessage());
+        }
+        boolean found = false;
+        int y = 0;
+
+        while(!found){
+            if (ge.getAvailableFontFamilyNames()[y].equalsIgnoreCase("felix titling")){
+                felixSmall = new Font(FELIX, Font.PLAIN, (int) (13 * screenSize.getHeight() / 1080));
+                felixNormal = new Font(FELIX, Font.PLAIN, (int) (20 * screenSize.getHeight() / 1080));
+                felixBold = new Font(ge.getAvailableFontFamilyNames()[y], Font.BOLD, (int) (40 * screenSize.getHeight() / 1080));
+                found =true;
+            }
+            else if (y == ge.getAvailableFontFamilyNames().length - 1){
+                found = true;
+            }
+            else{
+                y++;
+            }
+        }
     }
 
     /**
