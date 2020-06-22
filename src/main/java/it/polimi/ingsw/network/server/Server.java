@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.util.*;
 import java.util.logging.Level;
 
+import static it.polimi.ingsw.utils.CliUtils.input;
+
 /**
  * Class that represents the Server of the game,Insert and Remove players from the games
  * @author alessandroruzzi
@@ -56,11 +58,10 @@ public class Server implements Runnable{
         ConfigLoader.loadSetting();
         FlowStatutsLoader.loadFlow();
 
-        Scanner in = new Scanner(System.in);
         int serverPort;
 
         try {
-            String port = in.nextLine();
+            String port = input();
             if (port.equals(""))
                 serverPort = ConfigLoader.getSocketPort();
             else {
@@ -513,7 +514,7 @@ public class Server implements Runnable{
             String input = "";
             while (!input.equalsIgnoreCase("close")) {
                 LOGGER.info("Type \"close\" to stop the server.");
-                input = new Scanner(System.in).nextLine();
+                input = input();
             }
 
             stopServer();

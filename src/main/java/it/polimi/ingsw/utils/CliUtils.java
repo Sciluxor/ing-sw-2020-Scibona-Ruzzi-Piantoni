@@ -63,7 +63,7 @@ public class CliUtils {
      */
 
     public static void printRed(String string) {
-        System.out.print(Color.ANSI_RED + string + Color.RESET);
+        print(string, Color.ANSI_RED);
     }
 
     /**
@@ -72,7 +72,7 @@ public class CliUtils {
      */
 
     public static void printWhite(String string) {
-        System.out.print(Color.ANSI_WHITE + string + Color.RESET);
+        print(string, Color.ANSI_WHITE);
     }
 
     /**
@@ -81,7 +81,7 @@ public class CliUtils {
      */
 
     public static void printYellow(String string) {
-        System.out.print(Color.ANSI_YELLOW + string + Color.RESET);
+        print(string, Color.ANSI_YELLOW);
     }
 
     /**
@@ -110,7 +110,7 @@ public class CliUtils {
 
     public static void printDebug(String string) {
         if(debug)
-            System.out.println(string);
+            print(Color.BACKGROUND_WHITE + string, Color.ANSI_BLACK);
     }
 
     /**
@@ -194,6 +194,21 @@ public class CliUtils {
         String keyboard;
         Scanner input = new Scanner(System.in);
         keyboard = input.nextLine();
+        return keyboard;
+    }
+
+    /**
+     * Method used to get an integer from System.in
+     * @return keyboard int value as input from System.in
+     */
+
+    public static int inputRead() {
+        int keyboard = -1;
+        try {
+            keyboard = System.in.read();
+        } catch (IOException e) {
+            LOGGER.severe(e.getMessage() + e.getClass());
+        }
         return keyboard;
     }
 
@@ -384,25 +399,23 @@ public class CliUtils {
      */
 
     public static int getArrow() {
-        int keyboard = 0, keyboard1 = 0, keyboard2 = 0;
+        int keyboard;
+        int keyboard1 = 0;
+        int keyboard2 = 0;
 
-        try {
-            setTerminalMode("raw");
+        setTerminalMode("raw");
 
-            keyboard = System.in.read();
-            if (keyboard == 27) {
-                keyboard1 = System.in.read();
-                if (keyboard1 == 91)
-                    keyboard2 = System.in.read();
-            }
-
-            keyboard = keyboard + keyboard1 + keyboard2;
-            printDebug(Integer.toString(keyboard));
-
-            setTerminalMode("sane");
-        } catch (IOException e) {
-            LOGGER.severe(e.getMessage() + e.getClass());
+        keyboard = inputRead();
+        if (keyboard == 27) {
+            keyboard1 = inputRead();
+            if (keyboard1 == 91)
+                keyboard2 = inputRead();
         }
+
+        keyboard = keyboard + keyboard1 + keyboard2;
+        printDebug(Integer.toString(keyboard));
+
+        setTerminalMode("sane");
 
         return keyboard;
     }
@@ -475,11 +488,6 @@ public class CliUtils {
                 do {
                     keyboardIn = getArrow();
                 }while(keyboardIn != 13 && keyboardIn != 185 && keyboardIn != 186);
-                break;
-            case "all":
-                do {
-                    keyboardIn = getArrow();
-                }while(keyboardIn != 13 && keyboardIn != 183 && keyboardIn != 184 && keyboardIn != 185 && keyboardIn != 186);
                 break;
             case "enter":
                 do {
