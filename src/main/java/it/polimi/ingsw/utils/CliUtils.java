@@ -45,6 +45,8 @@ public class CliUtils {
             "        │    ╵_____╵  ╵_____╵    ╵_____ ╵_____╵  _____╵ ╵_____     ╱_______________╲    \n" +
             "                                                                                        " + Color.RESET;
 
+    private static final String CLEAR_CONSOLE = "\033[H\033[2J";
+
     private static boolean debug = true;
     private static boolean newChatMessage = false;
     private static Player lastPlayerOnChat;
@@ -222,7 +224,7 @@ public class CliUtils {
      */
 
     public static void clearAndPrintInfo(List<Player> opponents, Player currentPlayer, Map<String, Card> deck, List<String> constraints, SantoriniMap map){
-        Color.clearConsole();
+        clearShell();
         map.printMap();
         printInfo(opponents, currentPlayer, deck, constraints);
     }
@@ -330,7 +332,7 @@ public class CliUtils {
      */
 
     public static void clearShell() {
-        Color.clearConsole();
+        print(CLEAR_CONSOLE, Color.ANSI_BLACK);
     }
 
     /**
