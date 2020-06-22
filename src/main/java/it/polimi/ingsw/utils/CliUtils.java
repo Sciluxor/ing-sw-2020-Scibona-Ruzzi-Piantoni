@@ -21,18 +21,6 @@ import java.util.logging.Logger;
 
 public class CliUtils {
 
-    /*protected static String upLeftAngle = "\u2554";
-    protected static String downLeftAngle = "\u255A";
-    protected static String upRightAngle = "\u2557";
-    protected static String downRightAngle = "\u255D";
-    protected static String orizzontalLinear = "\u2550";
-    protected static String verticalLinear = "\u2551";
-    protected static String middle = "\u256C";
-    protected static String middleLeft = "\u2560";
-    protected static String middleRight = "\u2563";
-    protected static String middleDown = "\u2569";
-    protected static String middleUp = "\u2566";*/
-
     public static final String TITLE = Color.BACKGROUND_WHITE +
             "                                                                                                                                                                                      \n" +
             "   __      __ __      __  _____ __      _____  _____              _____    _____  _____     _____                        _____  _____   _____                      │__│ ╷ │__│        \n" +
@@ -57,13 +45,15 @@ public class CliUtils {
             "        │    ╵_____╵  ╵_____╵    ╵_____ ╵_____╵  _____╵ ╵_____     ╱_______________╲    \n" +
             "                                                                                        " + Color.RESET;
 
-    public static boolean debug = true;
+    private static boolean debug = true;
     private static boolean newChatMessage = false;
     private static Player lastPlayerOnChat;
     private static String lastChatMessage;
-    public static String terminalMode = "sane";
+    private static String terminalMode = "sane";
 
     public static final java.util.logging.Logger LOGGER = Logger.getLogger("Cli");
+
+    private CliUtils() {}
 
     //--------------PRINTER----------------------
 
@@ -112,6 +102,11 @@ public class CliUtils {
     public static void printErr(String string) {
         System.err.println(string);
     }
+
+    /**
+     * Method used to print some debug info
+     * @param string String to print as debug string
+     */
 
     public static void printDebug(String string) {
         if(debug)
@@ -425,8 +420,18 @@ public class CliUtils {
                 Runtime.getRuntime().exec(cmd).waitFor();
             } catch (IOException | InterruptedException e) {
                 LOGGER.severe(e.getMessage() + e.getClass());
+                Thread.currentThread().interrupt();
             }
         }
+    }
+
+    /**
+     * Method used to get current terminal mode
+     * @return terminalMode Current value of terminal mode
+     */
+
+    public static String getTerminalMode() {
+        return terminalMode;
     }
 
     /**

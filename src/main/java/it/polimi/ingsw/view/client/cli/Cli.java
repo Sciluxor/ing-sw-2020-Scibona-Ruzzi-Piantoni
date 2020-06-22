@@ -562,11 +562,9 @@ public class Cli extends ClientGameController {
      */
 
     private String setSaneTerminalMode() {
-        String previousTerminalMode = "sane";
-        if(terminalMode.equalsIgnoreCase("raw")) {
-            previousTerminalMode = "raw";
+        String previousTerminalMode = getTerminalMode();
+        if(previousTerminalMode.equalsIgnoreCase("raw"))
             setTerminalMode("sane");
-        }
         return previousTerminalMode;
     }
 
@@ -1120,7 +1118,7 @@ public class Cli extends ClientGameController {
 
     @Override
     public void newChatMessage(String nick, String message) {
-        /*String previousTerminalMode = "sane";
+        /*String previousTerminalMode = getTerminalMode;
         if(!mainThread.isInterrupted())
             previousTerminalMode = setSaneTerminalMode();*/
 
