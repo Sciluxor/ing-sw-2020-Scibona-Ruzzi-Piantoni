@@ -36,12 +36,12 @@ public class Cli extends ClientGameController {
     private String myPower;
     private boolean isMyTurn = false;
 
-    private final String endTurnString = "endTurn";
-    private final String upAndDownString = "up&down";
-    private final String keyboardErr = "NO KEYBOARD CAUGHT";
-    private final String endTurnCase = "END TURN";
-    private final String selectWorkerCase = "SELECT WORKER";
-    private final String chatCase = "CHAT";
+    private static final String endTurnString = "endTurn";
+    private static final String upAndDownString = "up&down";
+    private static final String keyboardErr = "NO KEYBOARD CAUGHT";
+    private static final String endTurnCase = "END TURN";
+    private static final String selectWorkerCase = "SELECT WORKER";
+    private static final String chatCase = "CHAT";
 
     private Map<String, Card> deck = CardLoader.loadCards();
     private List<String> deckOrdered = new ArrayList<>();
@@ -200,12 +200,11 @@ public class Cli extends ClientGameController {
         int[] coordinateWorker1 = santoriniMap.getCoordinatesFromTile(tileNumber[0]);
         int[] coordinateWorker2 = santoriniMap.getCoordinatesFromTile(tileNumber[1]);
 
-        int coordinateWorker1X = coordinateWorker1[0];
-        int coordinateWorker1Y = coordinateWorker1[1];
-        int coordinateWorker2X = coordinateWorker2[0];
-        int coordinateWorker2Y = coordinateWorker2[1];
+        String worker1 = "] WORKER 1\n";
+        String worker2 = "] WORKER 2\n";
+        String centralSquareBrackets = "] [";
 
-        printRed("\nSELECT WITH ARROWS ONE OF YOUR WORKERS:\n  [" + coordinateWorker1X + "] [" + coordinateWorker1Y + "] WORKER 1\n  [" + coordinateWorker2X + "] [" + coordinateWorker2Y + "] WORKER 2\n");
+        printRed("\nSELECT WITH ARROWS ONE OF YOUR WORKERS:\n  [" + coordinateWorker1[0] + centralSquareBrackets + coordinateWorker1[1] + worker1 + "  [" + coordinateWorker2[0] + centralSquareBrackets + coordinateWorker2[1] + worker2);
 
         boolean goOut = false;
         int keyboard = getArrowUpDown();
@@ -218,8 +217,8 @@ public class Cli extends ClientGameController {
                     santoriniMap.setSelectedTile(tileNumber[1], false);
                     santoriniMap.printMap();
                     printRed("SELECT WITH ARROWS ONE OF YOUR WORKERS:\n");
-                    printYellow("> [" + coordinateWorker1[0] + "] [" + coordinateWorker1[1] + "] WORKER 1\n");
-                    printRed("  [" + coordinateWorker2[0] + "] [" + coordinateWorker2[1] + "] WORKER 2\n");
+                    printYellow("> [" + coordinateWorker1[0] + centralSquareBrackets + coordinateWorker1[1] + worker1);
+                    printRed("  [" + coordinateWorker2[0] + centralSquareBrackets + coordinateWorker2[1] + worker2);
 
 
                     keyboard = controlWaitEnter(upAndDownString);
@@ -230,8 +229,8 @@ public class Cli extends ClientGameController {
                     santoriniMap.setSelectedTile(tileNumber[0], false);
                     santoriniMap.setSelectedTile(tileNumber[1], true);
                     santoriniMap.printMap();
-                    printRed("SELECT WITH ARROWS ONE OF YOUR WORKERS:\n  [" + coordinateWorker1[0] + "] [" + coordinateWorker1[1] + "] WORKER 1\n");
-                    printYellow("> [" + coordinateWorker2[0] + "] [" + coordinateWorker2[1] + "] WORKER 2\n");
+                    printRed("SELECT WITH ARROWS ONE OF YOUR WORKERS:\n  [" + coordinateWorker1[0] + centralSquareBrackets + coordinateWorker1[1] + worker1);
+                    printYellow("> [" + coordinateWorker2[0] + centralSquareBrackets + coordinateWorker2[1] + worker2);
 
                     keyboard = controlWaitEnter(upAndDownString);
                     if (keyboard == 13)
@@ -721,23 +720,7 @@ public class Cli extends ClientGameController {
 
             if(!goOut) {
                 firstPosition = counter == 1;
-
-                selectedTile = availableTiles.get(counter-1);
-
-                santoriniMap.setSelectedTile(selectedTile, true);
-                clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
-
-                int[] coordinate;
-                for(int availableTile: availableTiles) {
-                    if(availableTile!=selectedTile) {
-                        coordinate = santoriniMap.getCoordinatesFromTile(availableTile);
-                        printRed("  [" + coordinate[0] + "] [" + coordinate[1] + "] Tile number: " + (availableTile+1) + "\n");
-                    } else {
-                        coordinate = santoriniMap.getCoordinatesFromTile(selectedTile);
-                        printYellow("> [" + coordinate[0] + "] [" + coordinate[1] + "] Tile number: " + (selectedTile+1) + "\n");
-                    }
-                }
-
+                selectedTile = selectTile(counter, availableTiles);
                 lastPosition = counter == size;
 
                 keyboard = controlWaitEnter(upAndDownString);
@@ -749,6 +732,32 @@ public class Cli extends ClientGameController {
         }while(!goOut);
 
         santoriniMap.setSelectedTile(selectedTile, false);
+        return selectedTile;
+    }
+
+    /**
+     * Method used to select a tile in availbleTiles
+     * @param counter Int value represents which tile from available tiles
+     * @param availableTiles List of available tile
+     * @return selectedTile Int tile number of the selected tile
+     */
+
+    private int selectTile(int counter, List<Integer> availableTiles) {
+        int selectedTile = availableTiles.get(counter-1);
+
+        santoriniMap.setSelectedTile(selectedTile, true);
+        clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
+
+        int[] coordinate;
+        for(int availableTile: availableTiles) {
+            if(availableTile!=selectedTile) {
+                coordinate = santoriniMap.getCoordinatesFromTile(availableTile);
+                printRed("  [" + coordinate[0] + "] [" + coordinate[1] + "] Tile number: " + (availableTile+1) + "\n");
+            } else {
+                coordinate = santoriniMap.getCoordinatesFromTile(selectedTile);
+                printYellow("> [" + coordinate[0] + "] [" + coordinate[1] + "] Tile number: " + (selectedTile+1) + "\n");
+            }
+        }
         return selectedTile;
     }
 
@@ -811,23 +820,11 @@ public class Cli extends ClientGameController {
             if (!goOut) {
                 clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
 
-                printRed("PLEASE, CHOOSE " + numberOfCardsToChoose + " CARDS:\n");
-                if (counter == 1)
-                    firstPosition = true;
-                else if (counter == 2)
-                    firstPosition = false;
-                else if (getNumberOfPlayers() == 3) {
-                    if (counter == 12)
-                        lastPosition = false;
-                    else if (counter == 13)
-                        lastPosition = true;
-                } else if (getNumberOfPlayers() != 3) {
-                    if (counter == 13)
-                        lastPosition = false;
-                    else if (counter == 14)
-                        lastPosition = true;
-                }
+                boolean[] position = getFirstOrLastPosition(counter);
+                firstPosition = position[0];
+                lastPosition = position[1];
 
+                printRed("PLEASE, CHOOSE " + numberOfCardsToChoose + " CARDS:\n");
                 if (counter != 0)
                     printCards(counter - 1);
 
@@ -838,6 +835,27 @@ public class Cli extends ClientGameController {
         String selectedCard = deckOrdered.get(counter-1);
         deckOrdered.remove(counter-1);
         return selectedCard;
+    }
+
+    private boolean[] getFirstOrLastPosition(int counter) {
+        boolean firstPosition = false;
+        boolean lastPosition = false;
+
+        if (counter == 1)
+            firstPosition = true;
+        else if (getNumberOfPlayers() == 3) {
+            if (counter == 13)
+                lastPosition = true;
+        } else if (getNumberOfPlayers() != 3) {
+            if (counter == 14)
+                lastPosition = true;
+        }
+
+        boolean[] position = new boolean[2];
+        position[0] = firstPosition;
+        position[1] = lastPosition;
+
+        return position;
     }
 
     /**
