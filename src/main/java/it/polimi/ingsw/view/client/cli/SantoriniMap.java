@@ -20,7 +20,7 @@ public class SantoriniMap {
 
     private Tile[] tile = new Tile[25];
     List<Integer> availableTiles = new ArrayList<>();
-    private final String internalTileSpace = "         ";
+    private static final String INTERNAL_TILE_SPACE = "         ";
 
     /**
      * Method that handle the initialization of coordinate value of single tiles and add them all to available tiles. This
@@ -78,7 +78,7 @@ public class SantoriniMap {
 
         printYellow("   ");
         for(int i=0; i<5; i++)
-            printYellow(internalTileSpace + i + internalTileSpace);
+            printYellow(INTERNAL_TILE_SPACE + i + INTERNAL_TILE_SPACE);
         printYellow("\n");
         for(int x=0; x<=5; x++) {
             printYellow("   ");
@@ -91,37 +91,48 @@ public class SantoriniMap {
             if(x==5)
                 break;
 
-            printInternalTileInfo(x);
+            printRawTileInfo(x);
         }
         printYellow("   ");
         for(int i=0; i<5; i++)
-            printYellow(internalTileSpace + i + internalTileSpace);
+            printYellow(INTERNAL_TILE_SPACE + i + INTERNAL_TILE_SPACE);
         printYellow("\n");
     }
 
     /**
-     * Method used to print a single tile with or without player/building
+     * Method used to print raws of a tile with or without player/building
      * @param x Int value represents coordinate x of the tile to print
      */
 
-    private void printInternalTileInfo(int x) {
-        int tileNumber;
+    private void printRawTileInfo(int x) {
         for(int raw=0; raw<7; raw++) {
-            for (int y=0; y<5; y++) {
-                tileNumber = getTileFromCoordinate(x, y);
-                if(y==0 && raw==3)
-                    printYellow(" " + x + " ");
-                else if(y==0)
-                    printYellow("   ");
+            printInternalTileInfo(x, raw);
+        }
+    }
+
+    /**
+     * Method used to print a single raw of a tile with or without player/building
+     * @param x Int value represents coordinate x of the tile to print
+     * @param raw Int value represents which raw is to print
+     */
+
+    private void printInternalTileInfo(int x, int raw) {
+        int tileNumber;
+
+        for (int y=0; y<5; y++) {
+            tileNumber = getTileFromCoordinate(x, y);
+            if(y==0 && raw==3)
+                printYellow(" " + x + " ");
+            else if(y==0)
+                printYellow("   ");
+            printWhite(setBlueBackgroundColor("│"));
+            printRed(this.tile[tileNumber].getPrintRawLevel(raw));
+            if(y==4) {
                 printWhite(setBlueBackgroundColor("│"));
-                printRed(this.tile[tileNumber].getPrintRawLevel(raw));
-                if(y==4) {
-                    printWhite(setBlueBackgroundColor("│"));
-                    if(raw==3)
-                        printYellow(" " + x + "\n");
-                    else
-                        printYellow("\n");
-                }
+                if(raw==3)
+                    printYellow(" " + x + "\n");
+                else
+                    printYellow("\n");
             }
         }
     }

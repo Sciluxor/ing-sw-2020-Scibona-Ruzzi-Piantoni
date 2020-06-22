@@ -36,12 +36,13 @@ public class Cli extends ClientGameController {
     private String myPower;
     private boolean isMyTurn = false;
 
-    private static final String endTurnString = "endTurn";
-    private static final String upAndDownString = "up&down";
-    private static final String keyboardErr = "NO KEYBOARD CAUGHT";
-    private static final String endTurnCase = "END TURN";
-    private static final String selectWorkerCase = "SELECT WORKER";
-    private static final String chatCase = "CHAT";
+    private static final String END_TURN_STRING = "endTurn";
+    private static final String UP_AND_DOWN_STRING = "up&down";
+    private static final String PLAYER_STRING = "PLAYER ";
+    private static final String NO_KEYBOARD_CAUGHT = "NO KEYBOARD CAUGHT";
+    private static final String END_TURN_CASE = "END TURN";
+    private static final String SELECT_WORKER_CASE = "SELECT WORKER";
+    private static final String CHAT_CASE = "CHAT";
 
     private Map<String, Card> deck = CardLoader.loadCards();
     private List<String> deckOrdered = new ArrayList<>();
@@ -105,7 +106,7 @@ public class Cli extends ClientGameController {
 
         selectedCards.clear();
         printDebug("CHALLENGERRESPONSE");
-        controlWaitEnter(endTurnString);
+        controlWaitEnter(END_TURN_STRING);
         endTurn();
         printDebug("AFTER ENDTURN");
     }
@@ -127,7 +128,7 @@ public class Cli extends ClientGameController {
 
         cardChoiceResponse(myPower);
         printDebug("CARDCHOICERESPONSE " + myPower);
-        controlWaitEnter(endTurnString);
+        controlWaitEnter(END_TURN_STRING);
         endTurn();
         printDebug("AFTER ENDTURN");
     }
@@ -184,9 +185,9 @@ public class Cli extends ClientGameController {
 
         placeWorkersResponse(tileNumber[0]+1, tileNumber[1]+1);
         printDebug("PLACEWORKERSRESPONSE");
-        controlWaitEnter(endTurnString);
+        controlWaitEnter(END_TURN_STRING);
         endTurn();
-        printDebug(endTurnString);
+        printDebug(END_TURN_STRING);
         santoriniMap.resetAvailableTiles();
     }
 
@@ -221,7 +222,7 @@ public class Cli extends ClientGameController {
                     printRed("  [" + coordinateWorker2[0] + centralSquareBrackets + coordinateWorker2[1] + worker2);
 
 
-                    keyboard = controlWaitEnter(upAndDownString);
+                    keyboard = controlWaitEnter(UP_AND_DOWN_STRING);
                     if (keyboard == 13)
                         selectedWorker = 1;
                     break;
@@ -232,7 +233,7 @@ public class Cli extends ClientGameController {
                     printRed("SELECT WITH ARROWS ONE OF YOUR WORKERS:\n  [" + coordinateWorker1[0] + centralSquareBrackets + coordinateWorker1[1] + worker1);
                     printYellow("> [" + coordinateWorker2[0] + centralSquareBrackets + coordinateWorker2[1] + worker2);
 
-                    keyboard = controlWaitEnter(upAndDownString);
+                    keyboard = controlWaitEnter(UP_AND_DOWN_STRING);
                     if (keyboard == 13)
                         selectedWorker = 2;
                     break;
@@ -244,7 +245,7 @@ public class Cli extends ClientGameController {
                     goOut = true;
                     break;
                 default:
-                    printErr(keyboardErr);
+                    printErr(NO_KEYBOARD_CAUGHT);
             }
         }while (!goOut);
     }
@@ -447,7 +448,7 @@ public class Cli extends ClientGameController {
 
             default:
                 if(keyboard != 13)
-                    printErr(keyboardErr);
+                    printErr(NO_KEYBOARD_CAUGHT);
         }
         return counter;
     }
@@ -491,7 +492,7 @@ public class Cli extends ClientGameController {
                     lastPosition = counter == size;
                 }
 
-                keyboard = controlWaitEnter(upAndDownString);
+                keyboard = controlWaitEnter(UP_AND_DOWN_STRING);
             }
         }while(!goOut);
 
@@ -521,13 +522,13 @@ public class Cli extends ClientGameController {
             case "BUILD":
                 playerBuild();
                 break;
-            case selectWorkerCase:
+            case SELECT_WORKER_CASE:
                 playerSelectWorker();
                 break;
-            case chatCase:
+            case CHAT_CASE:
                 handleChatCli();
                 break;
-            case endTurnCase:
+            case END_TURN_CASE:
                 endTurn();
                 clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
                 printWaitForOtherPlayers(numberOfPlayers);
@@ -646,7 +647,7 @@ public class Cli extends ClientGameController {
                     printSelectedPlayer(actualPlayers.get(2));
                 }
 
-                keyboard = controlWaitEnter(upAndDownString);
+                keyboard = controlWaitEnter(UP_AND_DOWN_STRING);
             }
         }while (!goOut);
 
@@ -723,7 +724,7 @@ public class Cli extends ClientGameController {
                 selectedTile = selectTile(counter, availableTiles);
                 lastPosition = counter == size;
 
-                keyboard = controlWaitEnter(upAndDownString);
+                keyboard = controlWaitEnter(UP_AND_DOWN_STRING);
                 if(keyboard != 13) {
                     santoriniMap.setSelectedTile(selectedTile, false);
                     santoriniMap.resetTileBackground(selectedTile);
@@ -828,7 +829,7 @@ public class Cli extends ClientGameController {
                 if (counter != 0)
                     printCards(counter - 1);
 
-                keyboard = controlWaitEnter(upAndDownString);
+                keyboard = controlWaitEnter(UP_AND_DOWN_STRING);
             }
         }while(!goOut);
 
@@ -843,12 +844,10 @@ public class Cli extends ClientGameController {
 
         if (counter == 1)
             firstPosition = true;
-        else if (getNumberOfPlayers() == 3) {
-            if (counter == 13)
-                lastPosition = true;
-        } else if (getNumberOfPlayers() != 3) {
-            if (counter == 14)
-                lastPosition = true;
+        else if (getNumberOfPlayers() == 3 && counter == 13) {
+            lastPosition = true;
+        } else if (getNumberOfPlayers() != 3 && counter == 14) {
+            lastPosition = true;
         }
 
         boolean[] position = new boolean[2];
@@ -935,7 +934,7 @@ public class Cli extends ClientGameController {
         if (isYourPlayer) {
 
             availableActions.clear();
-            availableActions.add(chatCase);
+            availableActions.add(CHAT_CASE);
             availableActions.add("CHOOSE CARDS");
 
             clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
@@ -945,7 +944,7 @@ public class Cli extends ClientGameController {
         } else {
 
             clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
-            printRed("PLAYER ");
+            printRed(PLAYER_STRING);
             printPlayer(getPlayerFromNickName(opponents, challengerNick));
             printRed(" IS CHOOSING CARDS\n");
             printWaitForOtherPlayers(numberOfPlayers);
@@ -965,7 +964,7 @@ public class Cli extends ClientGameController {
             printDebug("CARDCHOICE AVAILABLE: " + getAvailableCards());
 
             availableActions.clear();
-            availableActions.add(chatCase);
+            availableActions.add(CHAT_CASE);
             availableActions.add("CHOOSE POWER");
 
             clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
@@ -975,7 +974,7 @@ public class Cli extends ClientGameController {
         } else {
 
             clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
-            printRed("PLAYER ");
+            printRed(PLAYER_STRING);
             printPlayer(getPlayerFromNickName(opponents, challengerNick));
             printRed(" IS CHOOSING HIS POWER\n");
             printWaitForOtherPlayers(numberOfPlayers);
@@ -991,7 +990,7 @@ public class Cli extends ClientGameController {
         if (isYourPlayer) {
 
             availableActions = new ArrayList<>();
-            availableActions.add(chatCase);
+            availableActions.add(CHAT_CASE);
             availableActions.add("PLACE WORKERS");
 
             clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
@@ -1001,7 +1000,7 @@ public class Cli extends ClientGameController {
         } else {
 
             clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
-            printRed("PLAYER ");
+            printRed(PLAYER_STRING);
             printPlayer(myPlayerOnServer);
             printRed(" IS PLACING HIS WORKERS\n");
             printWaitForOtherPlayers(numberOfPlayers);
@@ -1058,7 +1057,7 @@ public class Cli extends ClientGameController {
         printDebug("DISPLAYACTIONS " + actions);
         try {
             availableActions = new ArrayList<>();
-            availableActions.add((chatCase));
+            availableActions.add((CHAT_CASE));
             for (MessageType m : actions) {
                 switch (m) {
                     case BUILDWORKER:
@@ -1068,10 +1067,10 @@ public class Cli extends ClientGameController {
                         availableActions.add("MOVE");
                         break;
                     case WORKERCHOICE:
-                        availableActions.add(selectWorkerCase);
+                        availableActions.add(SELECT_WORKER_CASE);
                         break;
                     case ENDTURN:
-                        availableActions.add(endTurnCase);
+                        availableActions.add(END_TURN_CASE);
                         break;
                     default:
                         printErr("NO ACTION TO DISPLAY");
@@ -1154,8 +1153,8 @@ public class Cli extends ClientGameController {
         if (isYourPlayer) {
 
             availableActions = new ArrayList<>();
-            availableActions.add(chatCase);
-            availableActions.add(selectWorkerCase);
+            availableActions.add(CHAT_CASE);
+            availableActions.add(SELECT_WORKER_CASE);
 
             clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
             printRed("IT'S YOUR TURN!\n");
