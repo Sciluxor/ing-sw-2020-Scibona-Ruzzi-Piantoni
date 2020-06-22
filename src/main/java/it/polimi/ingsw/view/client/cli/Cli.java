@@ -464,12 +464,13 @@ public class Cli extends ClientGameController {
         for(String action: availableOptions)
             printWhite("[" + action + "]\n");
 
-        int keyboard = getArrowUpDown();
-
         int counter = 0;
-        int size = availableOptions.size();
-        boolean goOut = false;
         boolean firstPosition = false;
+        boolean goOut = false;
+
+        int keyboard = getArrowUpDown();
+        int size = availableOptions.size();
+
         boolean lastPosition = counter == size;
 
         do {

@@ -100,7 +100,7 @@ public class CliUtils {
      */
 
     public static void printErr(String string) {
-        System.err.println(string);
+        LOGGER.info(string);
     }
 
     /**
@@ -355,7 +355,7 @@ public class CliUtils {
                     break;
                 default:
                     returnedColor = Color.ANSI_YELLOW;
-                    System.err.print("WRONG PLAYER COLOR PASSED");
+                    printErr("WRONG PLAYER COLOR PASSED");
             }
         } catch (NullPointerException e) {
             printErr("NULL POINTER");
