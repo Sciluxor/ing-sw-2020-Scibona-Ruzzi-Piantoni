@@ -39,6 +39,7 @@ public class Cli extends ClientGameController {
     private Player myPlayerOnServer;
     private String myPower;
     private boolean isMyTurn = false;
+    private boolean amIChallenger = false;
 
     private static final String END_TURN_STRING = "endTurn";
     private static final String UP_AND_DOWN_STRING = "up&down";
@@ -58,6 +59,8 @@ public class Cli extends ClientGameController {
     private List<Pair<Player, String>> previousChatMessage = new ArrayList<>();
 
     private Response fromServerResponse;
+
+    private Thread mainThread = new Thread();
 
     /**
      * Method that start the Cli
@@ -590,29 +593,29 @@ public class Cli extends ClientGameController {
         previousChatMessage.add(playerChatMessage);
     }
 
-    /**
+    /*
      * Method used to set sane terminal mode if the terminal mode was raw
      */
 
-    private void setSaneTerminalMode() {
+    /*private void setSaneTerminalMode() {
         String previousTerminalMode = getTerminalMode();
         if(previousTerminalMode.equalsIgnoreCase("raw"))
             setTerminalMode("sane");
-    }
+    }*/
 
-    /*
+    /**
      * Method used to set sane terminal mode if the terminal mode was raw
      * @return previousTerminalMode
      */
 
-    /*private String setSaneTerminalMode() {
+    private String setSaneTerminalMode() {
         String previousTerminalMode = "sane";
         if(getTerminalMode().equalsIgnoreCase("raw")) {
             previousTerminalMode = "raw";
             setTerminalMode("sane");
         }
         return previousTerminalMode;
-    }*/
+    }
 
     //----- MAP & TILES -----
 
@@ -970,7 +973,10 @@ public class Cli extends ClientGameController {
 
             clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
             printRed("YOU HAVE BEEN CHOSEN AS CHALLENGER!\n");
-            startSelectedActions(scrollAvailableOptions(availableActions));
+
+            mainThread = new Thread(() -> startSelectedActions(scrollAvailableOptions(availableActions)));
+            mainThread.start();
+            //startSelectedActions(scrollAvailableOptions(availableActions));
 
         } else {
 
@@ -981,6 +987,8 @@ public class Cli extends ClientGameController {
             printWaitForOtherPlayers(numberOfPlayers);
             printChat(previousChatMessage);
 
+            handleChatCli();
+
         }
     }
 
@@ -988,6 +996,7 @@ public class Cli extends ClientGameController {
     public void cardChoice(String challengerNick, boolean isYourPlayer) {
 
         isMyTurn = isYourPlayer;
+        amIChallenger = isYourPlayer;
 
         if (isYourPlayer) {
 
@@ -1000,7 +1009,12 @@ public class Cli extends ClientGameController {
 
             clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
             printRed("IT'S YOUR TURN TO CHOOSE YOUR POWER!\n");
-            startSelectedActions(scrollAvailableOptions(availableActions));
+
+            if (amIChallenger) {
+                mainThread = new Thread(() -> startSelectedActions(scrollAvailableOptions(availableActions)));
+                mainThread.start();
+            }
+            //startSelectedActions(scrollAvailableOptions(availableActions));
 
         } else {
 
@@ -1011,12 +1025,16 @@ public class Cli extends ClientGameController {
             printWaitForOtherPlayers(numberOfPlayers);
             printChat(previousChatMessage);
 
+            handleChatCli();
+
         }
     }
 
     @Override
     public synchronized void placeWorker(String challengerNick, boolean isYourPlayer) {
+
         isMyTurn = isYourPlayer;
+        amIChallenger = isYourPlayer;
 
         if (isYourPlayer) {
 
@@ -1026,7 +1044,12 @@ public class Cli extends ClientGameController {
 
             clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
             printRed("PLACE YOUR WORKERS!\n");
-            startSelectedActions(scrollAvailableOptions(availableActions));
+
+            if (amIChallenger) {
+                mainThread = new Thread(() -> startSelectedActions(scrollAvailableOptions(availableActions)));
+                mainThread.start();
+            }
+            //startSelectedActions(scrollAvailableOptions(availableActions));
 
         } else {
 
@@ -1036,6 +1059,8 @@ public class Cli extends ClientGameController {
             printRed(" IS PLACING HIS WORKERS\n");
             printWaitForOtherPlayers(numberOfPlayers);
             printChat(previousChatMessage);
+
+            handleChatCli();
 
         }
     }
@@ -1159,7 +1184,17 @@ public class Cli extends ClientGameController {
     @Override
     public void newChatMessage(String nick, String message) {
         //String previousTerminalMode = "sane";
-        /*try {
+        setSaneTerminalMode();
+
+        setNewChatMessage(true);
+        Player playerOnChat = getPlayerFromNickName(opponents, nick);
+        setLastChatMessage(playerOnChat, message);
+        handlePreviousChatMessage(playerOnChat, message);
+
+        clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
+        printChat(previousChatMessage);
+
+        try {
             Robot robot = new Robot();
 
             //previousTerminalMode = setSaneTerminalMode();
@@ -1171,15 +1206,7 @@ public class Cli extends ClientGameController {
 
         } catch (AWTException e) {
             e.printStackTrace();
-        }*/
-
-        setNewChatMessage(true);
-        Player playerOnChat = getPlayerFromNickName(opponents, nick);
-        setLastChatMessage(playerOnChat, message);
-        handlePreviousChatMessage(playerOnChat, message);
-
-        clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
-        printChat(previousChatMessage);
+        }
     }
 
     @Override
@@ -1212,6 +1239,8 @@ public class Cli extends ClientGameController {
             printRed("IT'S NOT YOUR TURN! " + nick.toUpperCase() + " IS STARTING HIS TURN!\n");
             printWaitingStartTurn(numberOfPlayers);
             printChat(previousChatMessage);
+
+            handleChatCli();
 
         }
     }
