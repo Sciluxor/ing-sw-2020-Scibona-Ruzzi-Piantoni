@@ -25,7 +25,7 @@ import static it.polimi.ingsw.utils.CliUtils.*;
 public class Cli extends ClientGameController {
 
     private int port = 4700;
-    private String address = "127.0.0.1";
+    private String address = "54.237.47.88";
     private String nickName;
     private int numberOfPlayers;
     private SantoriniMap santoriniMap = new SantoriniMap();
@@ -61,16 +61,20 @@ public class Cli extends ClientGameController {
 
     public static void main(String[] args) {
         Cli cli = new Cli();
-        cli.start();
+        boolean openedConnection;
+        do {
+            openedConnection = cli.start();
+        }while (!openedConnection);
     }
 
     //----- MAIN FUNCTIONS -----
 
     /**
      * Method that build the login and open the connection with the server
+     * @return openedConnection boolean (true if connection successful)
      */
 
-    public void start() {
+    public boolean start() {
         clearShell();
         printRed(TITLE);
         login();
@@ -83,7 +87,9 @@ public class Cli extends ClientGameController {
         }catch (Exception e) {
             printErr("FAILED TO OPENING CONNECTION");
             CliUtils.LOGGER.severe(e.getMessage());
+            return false;
         }
+        return true;
     }
 
     /**
