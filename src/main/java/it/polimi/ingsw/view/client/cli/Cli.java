@@ -10,7 +10,11 @@ import it.polimi.ingsw.network.client.ClientGameController;
 import it.polimi.ingsw.network.message.MessageType;
 import it.polimi.ingsw.utils.CliUtils;
 import javafx.util.Pair;
+
+import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.util.*;
+import java.util.List;
 
 import static it.polimi.ingsw.utils.ConstantsContainer.*;
 import static it.polimi.ingsw.utils.CliUtils.*;
@@ -24,8 +28,8 @@ import static it.polimi.ingsw.utils.CliUtils.*;
 
 public class Cli extends ClientGameController {
 
-    private int port = 4700;
-    private String address = "54.237.47.88";
+    private int port;
+    private String address;
     private String nickName;
     private int numberOfPlayers;
     private SantoriniMap santoriniMap = new SantoriniMap();
@@ -333,10 +337,13 @@ public class Cli extends ClientGameController {
      */
 
     public void setPort() {
-        printRed("INSERT THE PORT NUMBER (default as 4700): ");
+        int defaultPort = 4700;
+        printRed("INSERT THE PORT NUMBER (default as " + defaultPort + "): ");
         String portInput = input();
         if(!portInput.equals(""))
             this.port = Integer.parseInt(portInput);
+        else
+            this.port = defaultPort;
     }
 
     /**
@@ -352,10 +359,13 @@ public class Cli extends ClientGameController {
      */
 
     public void setAddress() {
-        printRed("INSERT THE IP ADDRESS (default as " + address + "): ");
+        String defaultAddress = "54.237.47.88";
+        printRed("INSERT THE IP ADDRESS (default as " + defaultAddress + "): ");
         String addressInput = input();
         if(!addressInput.equals(""))
             this.address = addressInput;
+        else
+            this.address = defaultAddress;
     }
 
     /**
@@ -589,6 +599,20 @@ public class Cli extends ClientGameController {
         if(previousTerminalMode.equalsIgnoreCase("raw"))
             setTerminalMode("sane");
     }
+
+    /*
+     * Method used to set sane terminal mode if the terminal mode was raw
+     * @return previousTerminalMode
+     */
+
+    /*private String setSaneTerminalMode() {
+        String previousTerminalMode = "sane";
+        if(getTerminalMode().equalsIgnoreCase("raw")) {
+            previousTerminalMode = "raw";
+            setTerminalMode("sane");
+        }
+        return previousTerminalMode;
+    }*/
 
     //----- MAP & TILES -----
 
@@ -1134,6 +1158,21 @@ public class Cli extends ClientGameController {
 
     @Override
     public void newChatMessage(String nick, String message) {
+        //String previousTerminalMode = "sane";
+        /*try {
+            Robot robot = new Robot();
+
+            //previousTerminalMode = setSaneTerminalMode();
+
+            // Simulate a key press
+            printDebug("ROBOT");
+            robot.keyPress(KeyEvent.VK_ENTER);
+            robot.keyRelease(KeyEvent.VK_ENTER);
+
+        } catch (AWTException e) {
+            e.printStackTrace();
+        }*/
+
         setNewChatMessage(true);
         Player playerOnChat = getPlayerFromNickName(opponents, nick);
         setLastChatMessage(playerOnChat, message);
