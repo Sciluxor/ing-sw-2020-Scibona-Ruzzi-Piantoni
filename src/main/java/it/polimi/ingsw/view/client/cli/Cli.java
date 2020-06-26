@@ -1183,11 +1183,22 @@ public class Cli extends ClientGameController {
     public void onStoppedGame(String stopper) {
         setSaneTerminalMode();
         printRed("\nGAME IS STOPPED...\nDO YOU WANT TO START NEW GAME? (use arrows to select one of the option)\n  [YES]\n  [QUIT]");
+
         int keyboard = getArrowUpDown();
+        boolean goOut = false;
 
-        /*do {
-
-        }while ();*/
+        do {
+            clearShell();
+            printRed("GAME IS STOPPED...\n");
+            if(keyboard == 183) {
+                printYellow("> [YES]\n");
+                printRed("  [QUIT]\n");
+            } else if(keyboard == 184) {
+                printRed("  [YES]\n");
+                printYellow("> [QUIT]\n");
+            } else if(keyboard == 13)
+                goOut = true;
+        }while (!goOut);
 
     }
 
