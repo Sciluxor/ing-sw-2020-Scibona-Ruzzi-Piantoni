@@ -468,33 +468,30 @@ public class Cli extends ClientGameController {
      */
 
     private void checkRestart() {
-        boolean restart;
-        synchronized (this) {
-            setSaneTerminalMode();
+        setSaneTerminalMode();
+        printRed("DO YOU WANT TO START NEW GAME? (use arrows to select one of the option)\\n  [YES]\\n  [QUIT]\n");
+        int keyboard = getArrowUpDown();
+        boolean goOut = false;
+        boolean restart = false;
+
+        do {
+            clearShell();
             printRed("DO YOU WANT TO START NEW GAME? (use arrows to select one of the option)\\n  [YES]\\n  [QUIT]\n");
-            int keyboard = getArrowUpDown();
-            boolean goOut = false;
-            restart = false;
+            if (keyboard == 183) {
+                printYellow("> [YES]\n");
+                printRed("  [QUIT]\n");
+                restart = true;
+            } else if (keyboard == 184) {
+                printRed("  [YES]\n");
+                printYellow("> [QUIT]\n");
+            }
 
-            do {
-                clearShell();
-                printRed("GAME IS STOPPED...\n");
-                if (keyboard == 183) {
-                    printYellow("> [YES]\n");
-                    printRed("  [QUIT]\n");
-                    restart = true;
-                } else if (keyboard == 184) {
-                    printRed("  [YES]\n");
-                    printYellow("> [QUIT]\n");
-                }
-
-                if (keyboard == 13) {
-                    goOut = true;
-                } else {
-                    keyboard = controlWaitEnter(UP_AND_DOWN_STRING);
-                }
-            } while (!goOut);
-        }
+            if (keyboard == 13) {
+                goOut = true;
+            } else {
+                keyboard = controlWaitEnter(UP_AND_DOWN_STRING);
+            }
+        } while (!goOut);
 
         if (restart) {
             Cli cli = new Cli();
@@ -1186,7 +1183,9 @@ public class Cli extends ClientGameController {
             }
         }
 
-        checkRestart();
+        synchronized (this) {
+            checkRestart();
+        }
     }
 
     @Override
@@ -1197,7 +1196,9 @@ public class Cli extends ClientGameController {
             printPlayer(getPlayerFromNickName(opponents, nick));
         }
 
-        checkRestart();
+        synchronized (this) {
+            checkRestart();
+        }
     }
 
     @Override
@@ -1254,7 +1255,9 @@ public class Cli extends ClientGameController {
     public void onStoppedGame(String stopper) {
         setSaneTerminalMode();
         printRed("\nGAME IS STOPPED...\n");
-        checkRestart();
+        synchronized (this) {
+            checkRestart();
+        }
     }
 
     @Override
@@ -1301,13 +1304,17 @@ public class Cli extends ClientGameController {
 
             if(isMyTurn) {
                 printDebug("ROBOT MY TURN");
-                setRawTerminalMode(previousTerminalMode);
+                setRawTerminalMode(RAW_STRING);
                 robot.keyPress(KeyEvent.VK_UP);
                 robot.keyRelease(KeyEvent.VK_UP);
             }
 
         } catch (AWTException e) {
             e.printStackTrace();
+        }
+
+        if(!isMyTurn) {
+            printRed("MESSAGE: ");
         }
 
         /*if(!isMyTurn) {
