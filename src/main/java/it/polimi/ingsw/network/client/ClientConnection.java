@@ -40,7 +40,7 @@ public class ClientConnection implements ConnectionInterface,Runnable {
      * Public Constructor for ClientConnection
      * @param name NickName used by the Client in a Game
      * @param address IP of the Server
-     * @param port Port Used by the Server
+     * @param port Port used by the Server
      * @param clientController ClientGameController of the Client (could be CLI or GUI)
      */
 

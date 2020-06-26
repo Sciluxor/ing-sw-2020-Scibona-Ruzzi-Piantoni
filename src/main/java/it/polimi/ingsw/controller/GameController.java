@@ -12,6 +12,13 @@ import it.polimi.ingsw.utils.Observer;
 import it.polimi.ingsw.view.server.VirtualView;
 import java.util.*;
 
+/**
+ * Class that represents the Controller server side that handle initial and final phases of the game and the turn
+ * @author alessandroruzzi
+ * @version 1.0
+ * @since 2020/06/26
+ */
+
 public class GameController implements Observer<Message> {
 
     protected Game game;
@@ -19,15 +26,22 @@ public class GameController implements Observer<Message> {
     private Timer turnTimer = new Timer();
     private final RoundController roundController;
 
+    /**
+     * Public Constructor
+     * @param numberOfPlayer
+     * @param gameID
+     */
+
     public GameController(int numberOfPlayer,String gameID) {
         this.game = initializeGame(numberOfPlayer,gameID);
         this.clients = new HashMap<>();
         this.roundController = new RoundController(game);
     }
 
-    //
-    //methods for new player
-    //
+    /**
+     *
+     * @param message
+     */
 
     public synchronized void handleNewPlayer(Message message) {
         VirtualView view = ((GameConfigMessage) message).getView();
@@ -39,6 +53,11 @@ public class GameController implements Observer<Message> {
         }
         addPlayer(view,nick);
     }
+
+    /**
+     *
+     * @param message
+     */
 
     public synchronized void handleNewNickname(Message message){
         String nick = message.getNickName();
@@ -56,6 +75,12 @@ public class GameController implements Observer<Message> {
 
     }
 
+    /**
+     *
+     * @param view
+     * @param nick
+     */
+
     public synchronized void addPlayer(VirtualView view, String nick){
         addNick(view,nick);
         game.setGameStatus(Response.PLAYERADDED);
@@ -64,11 +89,20 @@ public class GameController implements Observer<Message> {
         checkIfGameCanStart();
     }
 
+    /**
+     *
+     * @param view
+     */
+
     public synchronized void nickUsed(VirtualView view){
         game.setGameStatus(Response.NICKUSED);
         game.removeObserver(view);
         view.setYourTurn(false);
     }
+
+    /**
+     *
+     */
 
     public void checkIfGameCanStart(){
         if(game.getPlayers().size() == game.getNumberOfPlayers() && game.getConfigPlayer() == 0) {
@@ -88,64 +122,145 @@ public class GameController implements Observer<Message> {
         }
     }
 
+    /**
+     *
+     * @return
+     */
+
     public synchronized List<Player> getActualPlayers(){
 
         return game.getPlayers();
     }
 
+    /**
+     *
+     * @return
+     */
+
     public synchronized Player getCurrentPlayer(){
         return game.getCurrentPlayer();
     }
+
+    /**
+     *
+     * @return
+     */
 
     public synchronized boolean isGameStarted(){
         return game.isGameStarted();
     }
 
+    /**
+     *
+     * @param numberOfPlayers
+     * @param gameID
+     * @return
+     */
 
     public synchronized Game initializeGame(int numberOfPlayers, String gameID){
 
         return new Game(numberOfPlayers,gameID);
     }
 
+    /**
+     *
+     * @return
+     */
+
     public synchronized String getLastLosePlayer(){
         return game.getLastLosePlayer();
     }
+
+    /**
+     *
+     * @return
+     */
 
     public synchronized List<Player> getLosePlayers(){
         return game.getLosePlayers();
     }
 
+    /**
+     *
+     * @return
+     */
+
     public synchronized List<String> getAvailableCards(){
         return game.getAvailableCards();
     }
+
+    /**
+     *
+     * @return
+     */
 
     public synchronized boolean hasWinner(){
         return game.hasWinner();
     }
 
+    /**
+     *
+     * @param view
+     * @param nickName
+     */
+
     public synchronized void addNick(VirtualView view,String nickName){
         clients.put(nickName,view);
     }
+
+    /**
+     *
+     * @param view
+     * @param userID
+     */
 
     public synchronized void addUserID(VirtualView view,String userID){
         clients.put(userID,view);
     }
 
+    /**
+     *
+     * @param userID
+     * @return
+     */
+
     public VirtualView getViewFromUserID(String userID){
         return clients.get(userID);
     }
+
+    /**
+     *
+     * @param nick
+     * @return
+     */
 
     public VirtualView getViewFromNickName(String nick){
         return clients.get(nick);
     }
 
+    /**
+     *
+     * @return
+     */
+
     public synchronized List<Square> getModifiedSquares(){
         return  game.getGameMap().getModifiedSquare();
     }
 
+    /**
+     *
+     * @return
+     */
+
     public synchronized boolean isFull(){
         return (game.getPlayers().size()+game.getConfigPlayer()) == game.getNumberOfPlayers();
     }
+
+    /**
+     *
+     * @param nickName
+     * @return
+     */
 
     public synchronized boolean isStillInGame(String nickName){
         for(Player player: getActualPlayers()){
@@ -155,27 +270,54 @@ public class GameController implements Observer<Message> {
         return false;
     }
 
+    /**
+     *
+     * @return
+     */
+
     public synchronized String getStopper(){
         return game.getStopper();
     }
 
+    /**
+     *
+     * @return
+     */
+
     public synchronized boolean hasStopper(){return game.hasStopper();}
+
+    /**
+     *
+     * @return
+     */
 
     public String getWinner(){
         return game.getWinner().getNickName();
     }
 
+    /**
+     *
+     * @return
+     */
+
     public String getGameID(){
         return game.getGameID();
     }
+
+    /**
+     *
+     * @return
+     */
 
     public int getNumberOfPlayers(){
         return game.getNumberOfPlayers();
     }
 
-    //
-    //methods for disconnection from the Game
-    //
+    /**
+     *
+     * @param stopper
+     * @param newStatus
+     */
 
     public synchronized void stopStartedGame(String stopper,Response newStatus){
 
@@ -191,6 +333,11 @@ public class GameController implements Observer<Message> {
 
     }
 
+    /**
+     *
+     * @param playerView
+     */
+
     public synchronized void resetPlayer(VirtualView playerView){
         stopRoundTimer();
         playerView.getConnection().setUserID(ConstantsContainer.USERDIDDEF);
@@ -204,11 +351,20 @@ public class GameController implements Observer<Message> {
         }
     }
 
-
+    /**
+     *
+     * @param player
+     * @return
+     */
 
     public synchronized String  getUserIDFromPlayer(Player player){
         return getViewFromNickName(player.getNickName()).getConnection().getUserID();
     }
+
+    /**
+     *
+     * @param message
+     */
 
     public synchronized void handleLobbyTimerEnded(Message message){
         VirtualView view = clients.get(message.getSender());
@@ -218,13 +374,22 @@ public class GameController implements Observer<Message> {
         view.removeObserver(this);
     }
 
+    /**
+     *
+     */
+
     public synchronized void eliminatePlayer(){
         VirtualView view = clients.get(getCurrentPlayer().getNickName());
         view.setYourTurn(false);
         removePlayerFromBoard();
         checkIfStillCorrectGame();
-
     }
+
+    /**
+     *
+     * @param nickName
+     * @return
+     */
 
     public synchronized VirtualView removeViewFromGame(String nickName){
         VirtualView view = clients.get(nickName);
@@ -234,11 +399,19 @@ public class GameController implements Observer<Message> {
         return view;
     }
 
+    /**
+     *
+     */
+
     public synchronized void removePlayerFromBoard(){
         game.removePlayerLose();
         VirtualView newView = clients.get(getCurrentPlayer().getNickName());
         newView.setYourTurn(true);
     }
+
+    /**
+     *
+     */
 
     public synchronized void checkIfStillCorrectGame(){
         int numberOfPlayer = game.getPlayers().size();
@@ -254,6 +427,10 @@ public class GameController implements Observer<Message> {
         }
     }
 
+    /**
+     *
+     * @param message
+     */
 
     public synchronized void disconnectPlayerBeforeGameStart(Message message) {
         VirtualView view = clients.get(message.getSender());
@@ -275,6 +452,12 @@ public class GameController implements Observer<Message> {
 
     }
 
+    /**
+     *
+     * @param nick
+     * @return
+     */
+
     public synchronized boolean isFreeNick(String nick){
         List<Player> players = game.getPlayers();
 
@@ -286,9 +469,9 @@ public class GameController implements Observer<Message> {
         return true;
     }
 
-    //
-    //methods for Game beginning handling
-    //
+    /**
+     *
+     */
 
     public synchronized void handleMatchBeginning(){
         Player challenger = game.pickChallenger();
@@ -297,16 +480,20 @@ public class GameController implements Observer<Message> {
         startRoundTimer();
     }
 
+    /**
+     *
+     * @param message
+     */
+
     public synchronized void changeTurnPlayer(Message message){
         getViewFromNickName(message.getNickName()).setYourTurn(false);
         game.pickPlayer();
         getViewFromNickName(game.getCurrentPlayer().getNickName()).setYourTurn(true);
     }
 
-    //
-    //methods for ending the current turn and starting the next turn
-    //
-
+    /**
+     *
+     */
 
     public synchronized void handleTurnBeginning() {
         if (!game.getCurrentPlayer().checkIfLoose(game.getGameMap())) {
@@ -317,6 +504,11 @@ public class GameController implements Observer<Message> {
             eliminatePlayer();
         }
     }
+
+    /**
+     *
+     * @param message
+     */
 
     public synchronized void handleEndTurn(Message message){
         stopRoundTimer();
@@ -359,11 +551,10 @@ public class GameController implements Observer<Message> {
         }
     }
 
-
-
-    //
-    //method to send the messagge to the round controller
-    //
+    /**
+     *
+     * @param message
+     */
 
     public synchronized void sendToRoundController(Message message){
 
@@ -371,9 +562,9 @@ public class GameController implements Observer<Message> {
 
     }
 
-    //
-    //methods to start and stop the timer of the turn, and to handle the timer disconnection
-    //
+    /**
+     *
+     */
 
     public void startRoundTimer(){
       turnTimer = new Timer();
@@ -381,13 +572,18 @@ public class GameController implements Observer<Message> {
       turnTimer.schedule(task, (long) ConfigLoader.getTurnTimer()*1000);
     }
 
+    /**
+     *
+     */
+
     public void stopRoundTimer(){
         turnTimer.cancel();
     }
 
-    //
-    //methods to send the new chat message to the other players
-    //
+    /**
+     *
+     * @param message
+     */
 
     public synchronized void broadcastMessage(Message message){
         for(Player player: game.getPlayers()){
@@ -395,6 +591,10 @@ public class GameController implements Observer<Message> {
                 getViewFromNickName(player.getNickName()).handleChatMessage(message);
         }
     }
+
+    /**
+     *
+     */
 
     public synchronized void checkIfToReset(){
         if(game.getGameStatus().equals(Response.WIN) || game.getGameStatus().equals(Response.LOSEWIN)){
@@ -407,10 +607,10 @@ public class GameController implements Observer<Message> {
         }
     }
 
-
-    //
-    //method to dispatch the new messagge to the right place
-    //
+    /**
+     *
+     * @param message
+     */
 
     public synchronized void processMessage(Message message){
         String log = String.format("GameID -> %s || Received Message from -> || UserID: %s || Type: %s || SubType: %s",getGameID(),message.getSender(),message.getType().toString(),message.getSubType().toString());
@@ -443,6 +643,11 @@ public class GameController implements Observer<Message> {
                 }
         }
     }
+
+    /**
+     *
+     * @param message
+     */
 
     @Override
     public synchronized void update(Message message) {

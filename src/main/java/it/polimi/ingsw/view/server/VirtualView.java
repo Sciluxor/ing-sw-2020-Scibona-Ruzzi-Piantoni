@@ -10,7 +10,12 @@ import it.polimi.ingsw.utils.ConstantsContainer;
 import it.polimi.ingsw.utils.Observable;
 import it.polimi.ingsw.utils.Observer;
 
-
+/**
+ * Class that represents the VirtualView of a Specific Client Server Side
+ * @author alessandroruzzi
+ * @version 1.0
+ * @since 2020/06/26
+ */
 
 public class VirtualView extends Observable<Message> implements Observer<Response> {
 
@@ -18,26 +23,57 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
     private final GameController controller;
     private boolean isYourTurn = false;
 
+    /**
+     *
+     * @param connection
+     * @param controller
+     */
+
     public VirtualView(ClientHandler connection,GameController controller) {
         this.connection = connection;
         this.controller = controller;
     }
 
+    /**
+     *
+     * @return
+     */
+
     public ClientHandler getConnection() {
         return connection;
     }
+
+    /**
+     *
+     * @return
+     */
 
     public boolean isYourTurn() {
         return isYourTurn;
     }
 
+    /**
+     *
+     * @param yourTurn
+     */
+
     public void setYourTurn(boolean yourTurn) {
         isYourTurn = yourTurn;
     }
 
+    /**
+     *
+     * @param message
+     */
+
     public void processMessageReceived(Message message){
         notify(message);
     }
+
+    /**
+     *
+     * @param status
+     */
 
     public void onUpdatedStatus(Response status){
         switch (status) {
@@ -121,14 +157,20 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
 
     }
 
-    //
-    // methods for sending message to all the player connected
-    //
+    /**
+     *
+     */
 
     public void handlePlayerAdded(){
         WaitPlayerMessage message = new WaitPlayerMessage(ConstantsContainer.SERVERNAME,MessageSubType.UPDATE,connection.getUserID());
         connection.sendMessage(buildWaitLobbyMessage(message));
     }
+
+    /**
+     *
+     * @param message
+     * @return
+     */
 
     public Message buildWaitLobbyMessage(WaitPlayerMessage message){
         for(Player player: controller.getActualPlayers()){
@@ -137,6 +179,10 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
         }
         return message;
     }
+
+    /**
+     *
+     */
 
     public void handleNickUsed(){
         if(isYourTurn) {
@@ -147,21 +193,41 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
         }
     }
 
+    /**
+     *
+     */
+
     public void handleStartGame(){
         connection.sendMessage(new GameStartedMessage(ConstantsContainer.SERVERNAME,MessageSubType.UPDATE,controller.getGameID()));
     }
+
+    /**
+     *
+     */
 
     public void handleChallengerChoice(){
         connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.CHALLENGERCHOICE,MessageSubType.REQUEST,controller.getCurrentPlayer().getNickName()));
     }
 
+    /**
+     *
+     */
+
     public void handleChallengerChoiceDone(){
         connection.sendMessage(new ChallengerChoiceMessage(ConstantsContainer.SERVERNAME,controller.getCurrentPlayer().getNickName(),MessageSubType.SETTED,null,controller.getAvailableCards()));
     }
 
+    /**
+     *
+     */
+
     public void  handleCardChoice(){
         connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.CHOOSECARD,MessageSubType.REQUEST,controller.getCurrentPlayer().getNickName()));
     }
+
+    /**
+     *
+     */
 
     public void handleCardChoiceDone(){
         connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.CHOOSECARD,MessageSubType.SETTED,controller.getCurrentPlayer().getPower().getName()));

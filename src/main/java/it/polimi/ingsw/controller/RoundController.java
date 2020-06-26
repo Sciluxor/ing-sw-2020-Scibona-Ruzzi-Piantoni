@@ -16,13 +16,30 @@ import it.polimi.ingsw.utils.FlowStatutsLoader;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class that represents the Controller server side that handle the round phases (move,build,place workers, challenger ...)
+ * @author alessandroruzzi
+ * @version 1.0
+ * @since 2020/06/26
+ */
+
 public class RoundController {
 
     private final Game game;
 
+    /**
+     *
+     * @param game
+     */
+
     public RoundController(Game game){
         this.game = game;
     }
+
+    /**
+     *
+     * @param message
+     */
 
     public void processRoundEvent(Message message){
 
@@ -62,6 +79,10 @@ public class RoundController {
         }
     }
 
+    /**
+     *
+     * @param nextStatus
+     */
 
     public void mapNextAction(Response nextStatus){
 
@@ -80,9 +101,10 @@ public class RoundController {
         }
     }
 
-    //
-    //methods for challenger choice handling
-    //
+    /**
+     *
+     * @param message
+     */
 
     public synchronized void handleChallengerChoice(Message message){
             List<String> cards = ((ChallengerChoiceMessage) message).getCards();
@@ -101,6 +123,12 @@ public class RoundController {
             }
         }
 
+    /**
+     *
+     * @param cards
+     * @return
+     */
+
     public boolean checkCardsChoice(List<String> cards){
         if(cards.size() != game.getNumberOfPlayers())
             return false;
@@ -112,6 +140,12 @@ public class RoundController {
         return true;
     }
 
+    /**
+     *
+     * @param firstPlayer
+     * @return
+     */
+
     public boolean checkFirstPlayerChoice(String firstPlayer){
         for(Player player : game.getPlayers()){
             if(player.getNickName().equals(firstPlayer)){
@@ -121,9 +155,10 @@ public class RoundController {
         return false;
     }
 
-    //
-    //methods for the card choice of each player
-    //
+    /**
+     *
+     * @param message
+     */
 
     public synchronized void handleCardChoice(Message message) {
             String cardName = message.getMessage();
@@ -140,9 +175,10 @@ public class RoundController {
             }
         }
 
-    //
-    //methods for the workers positioning of each player
-    //
+    /**
+     *
+     * @param message
+     */
 
     public void handleWorkerPositioning(Message message){
             Integer[] tile1 = ((PlaceWorkersMessage) message).getTile1();
@@ -156,9 +192,10 @@ public class RoundController {
             }
         }
 
-    //
-    //methods for the workers to use in the turn
-    //
+    /**
+     *
+     * @param message
+     */
 
     public void handleWorkerChoice(Message message){
 
@@ -172,13 +209,18 @@ public class RoundController {
         }
     }
 
+    /**
+     *
+     */
+
     public void handleFirstAction(){
         game.setGameStatus(game.getCurrentPlayer().getFirstAction());
     }
 
-    //
-    //methods for the movement of the worker
-    //
+    /**
+     *
+     * @param message
+     */
 
     public void handleMovement(Message message) {
         List<Directions> possibleMoveSquare = game.getCurrentPlayer().findWorkerMove(game.getGameMap(), game.getCurrentPlayer().getCurrentWorker());
@@ -215,6 +257,10 @@ public class RoundController {
         }
     }
 
+    /**
+     *
+     */
+
     public void handleConstraint() {
         game.getCurrentPlayer().assignConstraint(game.getPlayers());
         Response response = Response.ASSIGNEDCONSTRAINT;
@@ -222,6 +268,12 @@ public class RoundController {
         mapNextAction(response);
 
     }
+
+    /**
+     *
+     * @param message
+     * @return
+     */
 
     public boolean checkMoveVictory(Message message){
         Response response = game.getCurrentPlayer().checkVictory(game.getGameMap());
@@ -248,10 +300,10 @@ public class RoundController {
 
     }
 
-    //
-    //methods for the building of the worker
-    //
-
+    /**
+     *
+     * @param message
+     */
 
     public void handleBuilding(Message message){
         List<Directions> possibleBuildSquare = game.getCurrentPlayer().findPossibleBuild(game.getGameMap(),game.getCurrentPlayer().getCurrentWorker());
@@ -287,6 +339,11 @@ public class RoundController {
         }
     }
 
+    /**
+     *
+     * @param message
+     * @return
+     */
 
     public boolean checkBuildVictory(Message message){
         Response response = Response.NOTBUILDWIN;
@@ -311,9 +368,9 @@ public class RoundController {
         return false;
     }
 
-    //
-    //methods for the end of the turn of the worker
-    //
+    /**
+     *
+     */
 
     public void removeNonPermanentConstraint(){
         ArrayList<Card> nonPermanentConstraint = new ArrayList<>();
@@ -328,14 +385,20 @@ public class RoundController {
 
     }
 
+    /**
+     *
+     */
+
     public void handleEndTurn(){
         removeNonPermanentConstraint();
         game.setGameStatus(Response.ENDTURN);
     }
 
-    //
-    //method to check if client has changed the right squares
-    //
+    /**
+     *
+     * @param clientModifiedSquares
+     * @return
+     */
 
     public boolean areRightSquares(List<Square> clientModifiedSquares){
         List<Square> realModifiedSquares = game.getGameMap().getModifiedSquare();
@@ -349,6 +412,13 @@ public class RoundController {
 
         return true;
     }
+
+    /**
+     *
+     * @param q1
+     * @param q2
+     * @return
+     */
 
     public boolean checkSquare(Square q1, Square q2){
 

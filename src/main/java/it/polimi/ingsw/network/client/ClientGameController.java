@@ -39,24 +39,24 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     private ClientConnection client;
 
     /**
-     *
+     * Public constructor for the Client Game Controller, start the thread that run the functions added to the queue, and load configuration parameters
      */
 
     public ClientGameController(){
         FlowStatutsLoader.loadFlow();
-        ConfigLoader.loadSetting();    //farne uno solo per il client?
+        ConfigLoader.loadSetting();
         new Thread(this).start();
     }
 
     /**
-     *
+     * Thread that run all the functions that it finds on the eventQueue
      */
 
     @Override
     public void run() {
         while (!Thread.currentThread().isInterrupted()){
             try{
-                eventQueue.take().run();  //bisogna sincronizzarla?
+                eventQueue.take().run();
 
             }catch (InterruptedException e) {
                 LOGGER.severe(e.getMessage());
@@ -66,12 +66,12 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     /**
-     *
-     * @param name
-     * @param numberOfPlayer
-     * @param address
-     * @param port
-     * @throws ConnectException
+     * Function that open the connection with the server, sending game configuration parameters
+     * @param name Nickname inserted by the Client
+     * @param numberOfPlayer Number of Player Selected by the Client(2/3)
+     * @param address IP address of the Server
+     * @param port Port used by the Server
+     * @throws ConnectException ConnectException
      */
 
     public synchronized void openConnection(String name, int numberOfPlayer, String address, int port) throws ConnectException {
@@ -81,9 +81,9 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     /**
-     *
-     * @param nickName
-     * @param numberOfPlayer
+     * Function that handle the "back" command, send to the Server the new nickname and new number of player
+     * @param nickName The new Nickname selected by the Client
+     * @param numberOfPlayer New number of player selected by the Client
      */
 
     public synchronized void newGame(String nickName, int numberOfPlayer){
@@ -93,7 +93,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     /**
-     *
+     * Function called when the Client exit from the lobby and go back to nickname and number of player selection(back command), notify the Server
      */
 
     public synchronized void onBackCommand(){
@@ -101,8 +101,8 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     /**
-     *
-     * @param message
+     * Function that handle new players inserted in lobby
+     * @param message Message containing all the players in the lobby with their colors
      */
 
     public synchronized void onUpdateLobbyPlayer(Message message) {
@@ -113,8 +113,8 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     /**
-     *
-     * @return
+     * Get Players in the Game
+     * @return the Players in the Game
      */
 
     public synchronized List<Player> getPlayers(){
@@ -122,8 +122,8 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     /**
-     *
-     * @param message
+     * Function called when the nickname selected is already in use in the game
+     * @param message Message received from the Server
      */
 
     public synchronized void nickUsed(Message message){
@@ -132,8 +132,8 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     /**
-     *
-     * @param nickName
+     * Function that update the NickName of the client, if the old one was already in use, and also notify the Server
+     * @param nickName The new NickName selected by the Client
      */
 
     public synchronized void updateNickName(String nickName){
@@ -142,8 +142,8 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     /**
-     *
-     * @param message
+     * Function that handle the setup when the game is starting (lobby full)
+     * @param message Message received from the Server
      */
 
     public synchronized void onGameStart(Message message){
@@ -154,8 +154,8 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     /**
-     *
-     * @return
+     * Get The remaining cards, from the ones selected by the challenger (to chose a card)
+     * @return The remaining cards
      */
 
     public synchronized List<String> getAvailableCards(){
@@ -163,9 +163,9 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     /**
-     *
-     * @param firstPlayer
-     * @param cards
+     * Function that notify the Server about the choice of the challenger
+     * @param firstPlayer The name of the first player selected by the challenger
+     * @param cards The list of cards selected by the challenger
      */
 
     public synchronized void challengerResponse(String firstPlayer,List<String> cards){
@@ -174,8 +174,8 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     /**
-     *
-     * @param card
+     * Function that notify the Server about the card selected by the client
+     * @param card The name of the card selected by the client
      */
 
     public synchronized void cardChoiceResponse(String card){
@@ -185,9 +185,9 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     /**
-     *
-     * @param tile1
-     * @param tile2
+     * Function that notify the Server about the tile in which tha Client want to put his workers
+     * @param tile1 Tile of the first worker
+     * @param tile2 Tile of the second worker
      */
 
     public synchronized void placeWorkersResponse(int tile1,int tile2){
@@ -197,9 +197,9 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     /**
-     *
-     * @param tile
-     * @return
+     * Get The level of Building in a specific tile
+     * @param tile The number of the tile that we want to analise
+     * @return The level of building
      */
 
     public synchronized int getLevel(int tile){
@@ -207,7 +207,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     /**
-     *
+     * Function that notify the Server when the Client ends his turn
      */
 
     public synchronized void endTurn(){
@@ -219,8 +219,8 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     /**
-     *
-     * @param message
+     * Function that handle the Challenger choice phase and notify the other Clients about the choice
+     * @param message Message received from the Server
      */
 
     public synchronized void handleChallengerChoice(Message message){
@@ -236,8 +236,8 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     /**
-     *
-     * @param message
+     * Function that handle the Card choice phase and notify the other Clients about the choice
+     * @param message Message received from the Server
      */
 
     public synchronized void handleCardChoice(Message message){
@@ -257,8 +257,8 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     /**
-     *
-     * @param message
+     * Function that handle the Place Workers phase and notify the other Clients about the choice
+     * @param message Message received from the Server
      */
 
     public synchronized void handlePlaceWorkers(Message message){
@@ -280,8 +280,8 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     /**
-     *
-     * @param message
+     * Function that notify that a client is starting his turn
+     * @param message Message received from the Server
      */
 
     public synchronized void handleStartTurn(Message message){
@@ -294,8 +294,8 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     /**
-     *
-     * @return
+     * Get the Squares modified by a move,a build or after the workers are placed
+     * @return the Squares modified by a move,a build or after the workers are placed
      */
 
     public synchronized List<Square> getModifiedsquare(){
@@ -303,8 +303,8 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     /**
-     *
-     * @return
+     * Function that check which workers of the Client is able to do a move and a build
+     * @return The workers that are not blocked
      */
 
     public synchronized List<Integer>  availableWorkers(){
@@ -322,8 +322,8 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     /**
-     *
-     * @param worker
+     * Function called to set as Current worker the worker selected by the Client
+     * @param worker The worker selected by the Client
      */
 
     public synchronized void setWorker(int worker){
@@ -333,7 +333,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     /**
-     *
+     * Function that create a list of all the available actions for the client(move,build,end turn),and show them to the client
      */
 
     public synchronized void availableActions(){
@@ -355,8 +355,8 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     /**
-     *
-     * @param winStatus
+     * Function that decide what will be the next function to call
+     * @param winStatus Parameter to check if there is a winner
      */
 
     public synchronized void mapNextAction(Response winStatus){
@@ -369,8 +369,8 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     /**
-     *
-     * @return
+     * Function that calculate all the available squares in which a specific worker of the client can move
+     * @return A list of the available square
      */
 
     public synchronized List<Integer> availableMoveSquare(){
@@ -387,9 +387,9 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     /**
-     *
-     * @param tile
-     * @return
+     * Function that move a worker in the map
+     * @param tile The number of the tile in which the Client wants to move the worker
+     * @return The winResponse
      */
 
     public synchronized Response moveWorker(int tile){
@@ -410,8 +410,8 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     /**
-     *
-     * @return
+     * Function that check if the Client has won after a move
+     * @return The winResponse
      */
 
     public synchronized Response checkMoveVictory(){
@@ -433,8 +433,8 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     /**
-     *
-     * @return
+     * Function that calculate all the available squares in which a specific worker of the client can build
+     * @return A list of the available square
      */
 
     public synchronized List<Integer> availableBuildSquare(){
@@ -447,10 +447,10 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     /**
-     *
-     * @param tile
-     * @param building
-     * @return
+     * Function that build in the map
+     * @param tile The number of the tile in which the Client wants to build
+     * @param building The type of building to build
+     * @return The winResponse
      */
 
     public synchronized Response buildWorker(int tile, Building building){
@@ -472,8 +472,8 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     /**
-     *
-     * @return
+     * Function that check if the Client has won after a build
+     * @return The winResponse
      */
 
     public synchronized Response checkBuildVictory(){
@@ -493,7 +493,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     /**
-     *
+     * Function that remove a constraint from the Client
      */
 
     public synchronized void removeNonPermanentConstraint(){
@@ -511,8 +511,8 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     /**
-     *
-     * @param message
+     * Function that update the board after a move,build of other Clients
+     * @param message Message received from the Server, with the modified square
      */
 
     public synchronized void handleUpdateBoard(Message message){
@@ -536,8 +536,8 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     /**
-     *
-     * @param message
+     * Function that add permanent constraint to the Client
+     * @param message Message received from the Server, with the name of the constraint card
      */
 
     public synchronized void addPermConstraint(Message message){
@@ -548,8 +548,8 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     /**
-     *
-     * @param message
+     * Function that add non permanent constraint to the Client
+     * @param message Message received from the Server, with the name of the constraint card
      */
 
     public synchronized void addNonPermConstraint(Message message){
@@ -560,8 +560,8 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     /**
-     *
-     * @param message
+     * Function that handle disconnection events -> Ping timer, turn timer, lobby timer
+     * @param message Message received from the Server, with the disconnection information
      */
 
     public synchronized void handleDisconnection(Message message){
@@ -583,8 +583,8 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     /**
-     *
-     * @param chatMessage
+     * Function that send a message to the other clients (through the Server)
+     * @param chatMessage The message to send
      */
 
     public synchronized void sendChatMessage(String chatMessage){
@@ -592,8 +592,8 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     /**
-     *
-     * @param message
+     * Function that handle the chat messages received from other clients
+     * @param message Message received from the Server, with the message of another client
      */
 
     public synchronized void handleChatMessage(Message message){
@@ -601,8 +601,8 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     /**
-     *
-     * @param message
+     * Function that notify the Client that there is a winner
+     * @param message Message received from the server, with the winner name
      */
 
     public synchronized void handleWin(Message message){
@@ -614,8 +614,8 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     /**
-     *
-     * @param message
+     * Function that notify the Client that someone has lost (worker blocked or other reasons)
+     * @param message Message received from the Server, with the name of the player that has lost
      */
 
     public synchronized void handleLose(Message message){
@@ -629,8 +629,8 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     /**
-     *
-     * @param message
+     * Function that notify the Client that the game has been stopped
+     * @param message Message received from the Server, with the name of the player that left the game
      */
 
     public synchronized void handleGameStopped(Message message){
@@ -648,7 +648,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     /**
-     *
+     * Function that send a message to the server, if the client wants to left the game after he has lost
      */
 
     public synchronized void handleLoseExit(){
@@ -656,7 +656,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     /**
-     *
+     * Function that notify the Client if he send a message (except chat messages) during the turn of another client
      */
 
     public synchronized void handleNotYourTurn(){
@@ -664,8 +664,8 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     /**
-     *
-     * @param message
+     * Function called when the Client receive a new message from the Server, decide which function to call
+     * @param message Message received from the Server
      */
 
     public synchronized void onUpdate(Message message){
