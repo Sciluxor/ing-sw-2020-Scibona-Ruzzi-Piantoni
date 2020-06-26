@@ -61,6 +61,7 @@ public class Cli extends ClientGameController {
     private Response fromServerResponse;
 
     private Thread mainThread = new Thread();
+    private Thread chatThread = new Thread();
 
     /**
      * Method that start the Cli
@@ -617,6 +618,17 @@ public class Cli extends ClientGameController {
         return previousTerminalMode;
     }
 
+    /**
+     * Method used to set raw terminal mode if the terminal mode was raw and then it is set sane
+     * @param previousTerminalMode terminal mode before it is set sane
+     */
+
+    private void setRawTerminalMode(String previousTerminalMode) {
+        if (previousTerminalMode.equalsIgnoreCase("raw")) {
+            setTerminalMode("sane");
+        }
+    }
+
     //----- MAP & TILES -----
 
     /**
@@ -987,7 +999,9 @@ public class Cli extends ClientGameController {
             printWaitForOtherPlayers(numberOfPlayers);
             printChat(previousChatMessage);
 
-            handleChatCli();
+            chatThread = new Thread(this::handleChatCli);
+            chatThread.start();
+            //handleChatCli();
 
         }
     }
@@ -1025,7 +1039,11 @@ public class Cli extends ClientGameController {
             printWaitForOtherPlayers(numberOfPlayers);
             printChat(previousChatMessage);
 
-            handleChatCli();
+            if(!amIChallenger) {
+                chatThread = new Thread(this::handleChatCli);
+                chatThread.start();
+            }
+            //handleChatCli();
 
         }
     }
@@ -1060,7 +1078,11 @@ public class Cli extends ClientGameController {
             printWaitForOtherPlayers(numberOfPlayers);
             printChat(previousChatMessage);
 
-            handleChatCli();
+            if(!amIChallenger) {
+                chatThread = new Thread(this::handleChatCli);
+                chatThread.start();
+            }
+            //handleChatCli();
 
         }
     }
@@ -1160,7 +1182,13 @@ public class Cli extends ClientGameController {
     @Override
     public void onStoppedGame(String stopper) {
         setSaneTerminalMode();
-        printRed("\nGAME IS STOPPED...");
+        printRed("\nGAME IS STOPPED...\nDO YOU WANT TO START NEW GAME? (use arrows to select one of the option)\n  [YES]\n  [QUIT]");
+        int keyboard = getArrowUpDown();
+
+        /*do {
+
+        }while ();*/
+
     }
 
     @Override
@@ -1183,8 +1211,8 @@ public class Cli extends ClientGameController {
 
     @Override
     public void newChatMessage(String nick, String message) {
-        //String previousTerminalMode = "sane";
-        setSaneTerminalMode();
+        String previousTerminalMode = "sane";
+        previousTerminalMode = setSaneTerminalMode();
 
         setNewChatMessage(true);
         Player playerOnChat = getPlayerFromNickName(opponents, nick);
@@ -1197,8 +1225,6 @@ public class Cli extends ClientGameController {
         try {
             Robot robot = new Robot();
 
-            //previousTerminalMode = setSaneTerminalMode();
-
             // Simulate a key press
             printDebug("ROBOT");
             robot.keyPress(KeyEvent.VK_ENTER);
@@ -1206,6 +1232,7 @@ public class Cli extends ClientGameController {
 
             if(isMyTurn) {
                 printDebug("ROBOT MY TURN");
+                setRawTerminalMode(previousTerminalMode);
                 robot.keyPress(KeyEvent.VK_DOWN);
                 robot.keyRelease(KeyEvent.VK_DOWN);
             }
@@ -1249,7 +1276,11 @@ public class Cli extends ClientGameController {
             printWaitingStartTurn(numberOfPlayers);
             printChat(previousChatMessage);
 
-            handleChatCli();
+            if(!amIChallenger) {
+                chatThread = new Thread(this::handleChatCli);
+                chatThread.start();
+            }
+            //handleChatCli();
 
         }
     }
