@@ -1204,9 +1204,18 @@ public class Cli extends ClientGameController {
             robot.keyPress(KeyEvent.VK_ENTER);
             robot.keyRelease(KeyEvent.VK_ENTER);
 
+            if(isMyTurn) {
+                printDebug("ROBOT MY TURN");
+                robot.keyPress(KeyEvent.VK_DOWN);
+                robot.keyRelease(KeyEvent.VK_DOWN);
+            }
+
         } catch (AWTException e) {
             e.printStackTrace();
         }
+
+        if(!isMyTurn)
+            handleChatCli();
     }
 
     @Override
