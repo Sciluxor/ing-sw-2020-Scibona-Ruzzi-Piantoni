@@ -48,6 +48,8 @@ public class Cli extends ClientGameController {
     private static final String END_TURN_CASE = "END TURN";
     private static final String SELECT_WORKER_CASE = "SELECT WORKER";
     private static final String CHAT_CASE = "CHAT";
+    private static final String RAW_STRING = "raw";
+    private static final String SANE_STRING = "sane";
 
     private Map<String, Card> deck = CardLoader.loadCards();
     private List<String> deckOrdered = new ArrayList<>();
@@ -669,10 +671,10 @@ public class Cli extends ClientGameController {
      */
 
     private String setSaneTerminalMode() {
-        String previousTerminalMode = "sane";
-        if(getTerminalMode().equalsIgnoreCase("raw")) {
-            previousTerminalMode = "raw";
-            setTerminalMode("sane");
+        String previousTerminalMode = SANE_STRING;
+        if(getTerminalMode().equalsIgnoreCase(RAW_STRING)) {
+            previousTerminalMode = RAW_STRING;
+            setTerminalMode(SANE_STRING);
         }
         return previousTerminalMode;
     }
@@ -683,8 +685,8 @@ public class Cli extends ClientGameController {
      */
 
     private void setRawTerminalMode(String previousTerminalMode) {
-        if (previousTerminalMode.equalsIgnoreCase("raw")) {
-            setTerminalMode("sane");
+        if (previousTerminalMode.equalsIgnoreCase(RAW_STRING)) {
+            setTerminalMode(RAW_STRING);
         }
     }
 
