@@ -1291,9 +1291,6 @@ public class Cli extends ClientGameController {
         setLastChatMessage(playerOnChat, message);
         handlePreviousChatMessage(playerOnChat, message);
 
-        clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
-        printChat(previousChatMessage);
-
         try {
             Robot robot = new Robot();
 
@@ -1305,8 +1302,8 @@ public class Cli extends ClientGameController {
             if(isMyTurn) {
                 printDebug("ROBOT MY TURN");
                 setRawTerminalMode(RAW_STRING);
-                robot.keyPress(KeyEvent.VK_UP);
-                robot.keyRelease(KeyEvent.VK_UP);
+                robot.keyPress(KeyEvent.VK_DOWN);
+                robot.keyRelease(KeyEvent.VK_DOWN);
             }
 
         } catch (AWTException e) {
@@ -1314,6 +1311,8 @@ public class Cli extends ClientGameController {
         }
 
         if(!isMyTurn) {
+            clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
+            printChat(previousChatMessage);
             printRed("MESSAGE: ");
         }
 
