@@ -69,10 +69,7 @@ public class Cli extends ClientGameController {
 
     public static void main(String[] args) {
         Cli cli = new Cli();
-        boolean openedConnection;
-        do {
-            openedConnection = cli.start();
-        }while (!openedConnection);
+        mainHandler(cli);
     }
 
     //----- MAIN FUNCTIONS -----
@@ -434,6 +431,17 @@ public class Cli extends ClientGameController {
     //----- USEFUL FUNCTIONS -----
 
     /**
+     * Method used to handle main operation to start new game
+     */
+
+    private static void mainHandler(Cli cli) {
+        boolean openedConnection;
+        do {
+            openedConnection = cli.start();
+        }while (!openedConnection);
+    }
+
+    /**
      * Method that handle the login (setting the nickname, the number of players, the port and the IP address)
      */
 
@@ -576,8 +584,14 @@ public class Cli extends ClientGameController {
         }
 
         clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
-        if(isMyTurn)
-            startSelectedActions(scrollAvailableOptions(availableActions));
+        if(isMyTurn) {
+            mainThread = new Thread(() -> startSelectedActions(scrollAvailableOptions(availableActions)));
+            mainThread.start();
+        }
+        else {
+            chatThread = new Thread(this::handleChatCli);
+            chatThread.start();
+        }
     }
 
     /**
@@ -1183,11 +1197,34 @@ public class Cli extends ClientGameController {
     public void onStoppedGame(String stopper) {
         setSaneTerminalMode();
         printRed("\nGAME IS STOPPED...\nDO YOU WANT TO START NEW GAME? (use arrows to select one of the option)\n  [YES]\n  [QUIT]");
+
         int keyboard = getArrowUpDown();
+        boolean goOut = false;
+        boolean restart = false;
 
-        /*do {
+        do {
+            clearShell();
+            printRed("GAME IS STOPPED...\n");
+            if(keyboard == 183) {
+                printYellow("> [YES]\n");
+                printRed("  [QUIT]\n");
+            } else if(keyboard == 184) {
+                printRed("  [YES]\n");
+                printYellow("> [QUIT]\n");
+                restart = true;
+            }
 
-        }while ();*/
+            if(keyboard == 13) {
+                goOut = true;
+            } else {
+                keyboard = controlWaitEnter(UP_AND_DOWN_STRING);
+            }
+        }while (!goOut);
+
+        if(restart) {
+            Cli cli = new Cli();
+            mainHandler(cli);
+        }
 
     }
 
@@ -1211,7 +1248,7 @@ public class Cli extends ClientGameController {
 
     @Override
     public void newChatMessage(String nick, String message) {
-        String previousTerminalMode = "sane";
+        String previousTerminalMode;
         previousTerminalMode = setSaneTerminalMode();
 
         setNewChatMessage(true);
@@ -1241,8 +1278,11 @@ public class Cli extends ClientGameController {
             e.printStackTrace();
         }
 
-        if(!isMyTurn)
-            handleChatCli();
+        if(!isMyTurn) {
+            chatThread = new Thread(this::handleChatCli);
+            chatThread.start();
+        }
+            //handleChatCli();
     }
 
     @Override
