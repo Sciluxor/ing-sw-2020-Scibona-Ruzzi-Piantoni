@@ -48,6 +48,8 @@ public class Cli extends ClientGameController {
     private static final String END_TURN_CASE = "END TURN";
     private static final String SELECT_WORKER_CASE = "SELECT WORKER";
     private static final String CHAT_CASE = "CHAT";
+    private static final String RAW_STRING = "raw";
+    private static final String SANE_STRING = "sane";
 
     private Map<String, Card> deck = CardLoader.loadCards();
     private List<String> deckOrdered = new ArrayList<>();
@@ -453,6 +455,51 @@ public class Cli extends ClientGameController {
     }
 
     /**
+     * Method used to quit from the game
+     * @param status status of the game (1 = correct, -1 = error)
+     */
+
+    private void quitFromGame(int status) {
+        System.exit(status);
+    }
+
+    /**
+     * Method used to check if user wants to play another game or not
+     */
+
+    private void checkRestart() {
+        int keyboard = getArrowUpDown();
+        boolean goOut = false;
+        boolean restart = false;
+
+        do {
+            clearShell();
+            printRed("GAME IS STOPPED...\n");
+            if (keyboard == 183) {
+                printYellow("> [YES]\n");
+                printRed("  [QUIT]\n");
+                restart = true;
+            } else if (keyboard == 184) {
+                printRed("  [YES]\n");
+                printYellow("> [QUIT]\n");
+            }
+
+            if (keyboard == 13) {
+                goOut = true;
+            } else {
+                keyboard = controlWaitEnter(UP_AND_DOWN_STRING);
+            }
+        } while (!goOut);
+
+        if (restart) {
+            Cli cli = new Cli();
+            mainHandler(cli);
+        } else {
+            quitFromGame(1);
+        }
+    }
+
+    /**
      * Method that handle the standard up&down arrows construct
      * @param keyboard Keyboard value returned by the key pressed by the user
      * @param counter Old counter value we want to update
@@ -624,10 +671,10 @@ public class Cli extends ClientGameController {
      */
 
     private String setSaneTerminalMode() {
-        String previousTerminalMode = "sane";
-        if(getTerminalMode().equalsIgnoreCase("raw")) {
-            previousTerminalMode = "raw";
-            setTerminalMode("sane");
+        String previousTerminalMode = SANE_STRING;
+        if(getTerminalMode().equalsIgnoreCase(RAW_STRING)) {
+            previousTerminalMode = RAW_STRING;
+            setTerminalMode(SANE_STRING);
         }
         return previousTerminalMode;
     }
@@ -638,8 +685,8 @@ public class Cli extends ClientGameController {
      */
 
     private void setRawTerminalMode(String previousTerminalMode) {
-        if (previousTerminalMode.equalsIgnoreCase("raw")) {
-            setTerminalMode("sane");
+        if (previousTerminalMode.equalsIgnoreCase(RAW_STRING)) {
+            setTerminalMode(RAW_STRING);
         }
     }
 
@@ -1133,6 +1180,8 @@ public class Cli extends ClientGameController {
                 printRed("]\n");
             }
         }
+
+        checkRestart();
     }
 
     @Override
@@ -1142,6 +1191,8 @@ public class Cli extends ClientGameController {
             printRed("THE WINNER IS: ");
             printPlayer(getPlayerFromNickName(opponents, nick));
         }
+
+        checkRestart();
     }
 
     @Override
@@ -1191,39 +1242,16 @@ public class Cli extends ClientGameController {
     public void onTurnTimerEnded(String stopper) {
         setSaneTerminalMode();
         printRed("\nTIMER IS ENDED...");
+        System.exit(-1);
     }
 
     @Override
     public void onStoppedGame(String stopper) {
-        setSaneTerminalMode();
-        printRed("\nGAME IS STOPPED...\nDO YOU WANT TO START NEW GAME? (use arrows to select one of the option)\n  [YES]\n  [QUIT]");
+        synchronized (this) {
+            setSaneTerminalMode();
+            printRed("\nGAME IS STOPPED...\nDO YOU WANT TO START NEW GAME? (use arrows to select one of the option)\n  [YES]\n  [QUIT]");
 
-        int keyboard = getArrowUpDown();
-        boolean goOut = false;
-        boolean restart = false;
-
-        do {
-            clearShell();
-            printRed("GAME IS STOPPED...\n");
-            if(keyboard == 183) {
-                printYellow("> [YES]\n");
-                printRed("  [QUIT]\n");
-            } else if(keyboard == 184) {
-                printRed("  [YES]\n");
-                printYellow("> [QUIT]\n");
-                restart = true;
-            }
-
-            if(keyboard == 13) {
-                goOut = true;
-            } else {
-                keyboard = controlWaitEnter(UP_AND_DOWN_STRING);
-            }
-        }while (!goOut);
-
-        if(restart) {
-            Cli cli = new Cli();
-            mainHandler(cli);
+            checkRestart();
         }
 
     }
@@ -1232,18 +1260,21 @@ public class Cli extends ClientGameController {
     public void onLobbyDisconnection() {
         setSaneTerminalMode();
         printRed("\nYOU ARE DISCONNECTED FROM THE LOBBY...");
+        quitFromGame(-1);
     }
 
     @Override
     public void onPingDisconnection() {
         setSaneTerminalMode();
         printRed("\nPING DISCONNECTION...");
+        quitFromGame(-1);
     }
 
     @Override
     public void onEndGameDisconnection() {
         setSaneTerminalMode();
         printRed("\nDISCONNECTED FROM THE GAME...");
+        quitFromGame(-1);
     }
 
     @Override
@@ -1270,8 +1301,8 @@ public class Cli extends ClientGameController {
             if(isMyTurn) {
                 printDebug("ROBOT MY TURN");
                 setRawTerminalMode(previousTerminalMode);
-                robot.keyPress(KeyEvent.VK_DOWN);
-                robot.keyRelease(KeyEvent.VK_DOWN);
+                robot.keyPress(KeyEvent.VK_ENTER);
+                robot.keyRelease(KeyEvent.VK_ENTER);
             }
 
         } catch (AWTException e) {
