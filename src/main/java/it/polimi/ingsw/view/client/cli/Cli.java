@@ -468,28 +468,33 @@ public class Cli extends ClientGameController {
      */
 
     private void checkRestart() {
-        int keyboard = getArrowUpDown();
-        boolean goOut = false;
-        boolean restart = false;
+        boolean restart;
+        synchronized (this) {
+            setSaneTerminalMode();
+            printRed("DO YOU WANT TO START NEW GAME? (use arrows to select one of the option)\\n  [YES]\\n  [QUIT]\n");
+            int keyboard = getArrowUpDown();
+            boolean goOut = false;
+            restart = false;
 
-        do {
-            clearShell();
-            printRed("GAME IS STOPPED...\n");
-            if (keyboard == 183) {
-                printYellow("> [YES]\n");
-                printRed("  [QUIT]\n");
-                restart = true;
-            } else if (keyboard == 184) {
-                printRed("  [YES]\n");
-                printYellow("> [QUIT]\n");
-            }
+            do {
+                clearShell();
+                printRed("GAME IS STOPPED...\n");
+                if (keyboard == 183) {
+                    printYellow("> [YES]\n");
+                    printRed("  [QUIT]\n");
+                    restart = true;
+                } else if (keyboard == 184) {
+                    printRed("  [YES]\n");
+                    printYellow("> [QUIT]\n");
+                }
 
-            if (keyboard == 13) {
-                goOut = true;
-            } else {
-                keyboard = controlWaitEnter(UP_AND_DOWN_STRING);
-            }
-        } while (!goOut);
+                if (keyboard == 13) {
+                    goOut = true;
+                } else {
+                    keyboard = controlWaitEnter(UP_AND_DOWN_STRING);
+                }
+            } while (!goOut);
+        }
 
         if (restart) {
             Cli cli = new Cli();
@@ -1247,13 +1252,9 @@ public class Cli extends ClientGameController {
 
     @Override
     public void onStoppedGame(String stopper) {
-        synchronized (this) {
-            setSaneTerminalMode();
-            printRed("\nGAME IS STOPPED...\nDO YOU WANT TO START NEW GAME? (use arrows to select one of the option)\n  [YES]\n  [QUIT]");
-
-            checkRestart();
-        }
-
+        setSaneTerminalMode();
+        printRed("\nGAME IS STOPPED...\n");
+        checkRestart();
     }
 
     @Override
@@ -1301,18 +1302,18 @@ public class Cli extends ClientGameController {
             if(isMyTurn) {
                 printDebug("ROBOT MY TURN");
                 setRawTerminalMode(previousTerminalMode);
-                robot.keyPress(KeyEvent.VK_ENTER);
-                robot.keyRelease(KeyEvent.VK_ENTER);
+                robot.keyPress(KeyEvent.VK_UP);
+                robot.keyRelease(KeyEvent.VK_UP);
             }
 
         } catch (AWTException e) {
             e.printStackTrace();
         }
 
-        if(!isMyTurn) {
+        /*if(!isMyTurn) {
             chatThread = new Thread(this::handleChatCli);
             chatThread.start();
-        }
+        }*/
             //handleChatCli();
     }
 
