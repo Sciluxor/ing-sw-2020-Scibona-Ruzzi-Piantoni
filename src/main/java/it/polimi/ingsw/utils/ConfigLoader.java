@@ -5,24 +5,57 @@ import com.google.gson.stream.JsonReader;
 
 import java.io.InputStreamReader;
 
+/**
+ * Utility class that loads all the server configuration parameters
+ * @author Alessandro Ruzzi
+ * @version 1.0
+ * @since 2020/06/27
+ */
+
 public class ConfigLoader {
+
+    /**
+     * Private constructor, Since it's an utility class it can't be instantiated.
+     */
+
+    private ConfigLoader() { throw new IllegalStateException("ConfigLoader cannot be instantiated"); }
 
     private static int socketPort;
     private static int lobbyTimer;
     private static int turnTimer;
     private static int pingTimer;
 
+    /**
+     * Get the Port of the Server
+     * @return The port of the Server
+     */
+
     public static int getSocketPort() {
         return socketPort;
     }
+
+    /**
+     * Get lobby timer time
+     * @return The duration of the lobby timer
+     */
 
     public static int getLobbyTimer() {
         return lobbyTimer;
     }
 
+    /**
+     * Get turn timer time
+     * @return The duration of the turn timer
+     */
+
     public static int getTurnTimer() {
         return turnTimer;
     }
+
+    /**
+     * Get ping timer time
+     * @return The duration of the ping timer
+     */
 
     public static int getPingTimer() { return pingTimer; }
 
@@ -32,6 +65,10 @@ public class ConfigLoader {
         private int turnTimer;
         private int pingTimer;
     }
+
+    /**
+     * Function that load the setting for the server from a json file
+     */
 
     public static void loadSetting(){
         Gson gsonServer = new Gson();

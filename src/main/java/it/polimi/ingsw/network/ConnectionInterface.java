@@ -18,17 +18,17 @@ public interface ConnectionInterface {
     boolean isConnectionActive();
 
     /**
-     *
-     * @param message
+     * Send a message through the output stream
+     * @param message The Message to send to the Client or Server
      */
 
     void sendMessage(Message message);
 
     /**
-     *
-     * @return
-     * @throws IOException
-     * @throws ClassNotFoundException
+     * Receive a message through the input stream
+     * @return The Message received
+     * @throws IOException IOException
+     * @throws ClassNotFoundException ClassNotFoundException
      */
 
     Message receiveMessage() throws IOException, ClassNotFoundException;

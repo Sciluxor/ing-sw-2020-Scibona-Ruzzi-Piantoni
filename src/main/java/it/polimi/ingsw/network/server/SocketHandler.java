@@ -10,7 +10,7 @@ import java.util.concurrent.Executors;
 
 /**
  * Class that listen for new clients connections, and create a ClientHandler for each of them
- * @author alessandroruzzi
+ * @author Alessandro Ruzzi
  * @version 1.0
  * @since 2020/06/19
  */

@@ -2,7 +2,7 @@ package it.polimi.ingsw.network.message;
 
 /**
  * Class that extends Message and Represent the Message with the coordinates in which the Client wants to insert his workers
- * @author alessandroruzzi
+ * @author Alessandro Ruzzi
  * @version 1.0
  * @since 2020/06/20
  */

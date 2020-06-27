@@ -15,7 +15,7 @@ import java.util.Timer;
 
 /**
  * Class that represents the Connection client side, Exchange Messages(receive and send) with the server, handle also the ping task
- * @author alessandroruzzi
+ * @author Alessandro Ruzzi
  * @version 1.0
  * @since 2020/06/19
  */
@@ -37,11 +37,11 @@ public class ClientConnection implements ConnectionInterface,Runnable {
     private ObjectOutputStream out;
 
     /**
-     *
-     * @param name
-     * @param address
-     * @param port
-     * @param clientController
+     * Public Constructor for ClientConnection
+     * @param name NickName used by the Client in a Game
+     * @param address IP of the Server
+     * @param port Port used by the Server
+     * @param clientController ClientGameController of the Client (could be CLI or GUI)
      */
 
     public ClientConnection(String name, String address, int port,ClientGameController clientController){
@@ -53,8 +53,8 @@ public class ClientConnection implements ConnectionInterface,Runnable {
     }
 
     /**
-     *
-     * @return
+     * Get UserID of the Client
+     * @return The UserID of the Client
      */
 
     public String getUserID() {
@@ -62,8 +62,8 @@ public class ClientConnection implements ConnectionInterface,Runnable {
     }
 
     /**
-     *
-     * @param userID
+     * Set the UserID of the Client
+     * @param userID The new UserID of the Client
      */
 
     public void setUserID(String userID) {
@@ -71,8 +71,8 @@ public class ClientConnection implements ConnectionInterface,Runnable {
     }
 
     /**
-     *
-     * @return
+     * Get the NickName of the Client
+     * @return The NickName of the Client
      */
 
     public String getNickName() {
@@ -80,8 +80,8 @@ public class ClientConnection implements ConnectionInterface,Runnable {
     }
 
     /**
-     *
-     * @param nickName
+     * Set the NickName of the Client
+     * @param nickName The new NickName of the Client
      */
 
     public void setNickName(String nickName) {
@@ -89,9 +89,9 @@ public class ClientConnection implements ConnectionInterface,Runnable {
     }
 
     /**
-     *
-     * @param numberOfPlayer
-     * @throws ConnectException
+     * Function that handle the connection with the Server, and also send The Game configuration Parameters
+     * @param numberOfPlayer The number of player selected by the Client
+     * @throws ConnectException ConnectException
      */
 
     public void connectToServer(int numberOfPlayer) throws ConnectException {
@@ -130,7 +130,7 @@ public class ClientConnection implements ConnectionInterface,Runnable {
     }
 
     /**
-     *
+     * Function that close connection with the Server, close the Socket and the thread of the Message Listener
      */
 
     public void closeConnection() {
@@ -156,7 +156,7 @@ public class ClientConnection implements ConnectionInterface,Runnable {
     }
 
     /**
-     *
+     * Function that Start the Ping timer
      */
 
     public void startPingTimer(){
@@ -166,7 +166,7 @@ public class ClientConnection implements ConnectionInterface,Runnable {
     }
 
     /**
-     *
+     * Function that Stop the Ping Timer
      */
 
     public void stopPingTimer(){
@@ -174,7 +174,7 @@ public class ClientConnection implements ConnectionInterface,Runnable {
     }
 
     /**
-     *
+     * Thread that listen for new messages in the input stream, without blocking GUI and Cli, it also handle Ping task
      */
 
     @Override

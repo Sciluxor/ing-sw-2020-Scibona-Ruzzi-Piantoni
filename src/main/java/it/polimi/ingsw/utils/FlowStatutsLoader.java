@@ -8,20 +8,35 @@ import it.polimi.ingsw.network.message.MessageType;
 import java.io.InputStreamReader;
 import java.util.*;
 
+/**
+ * Utility class that load the flow of the game from a json file
+ * @author Alessandro Ruzzi
+ * @version 1.0
+ * @since 2020/06/27
+ */
+
 public class FlowStatutsLoader {
 
-        private FlowStatutsLoader() {
+    /**
+     * Private constructor, Since it's an utility class it can't be instantiated.
+     */
+
+    private FlowStatutsLoader() {
             throw new IllegalStateException("FLowStatusLoader class cannot be instantiated");
         }
 
-        private static final Map<Response,List<MessageType>> nextMessageFromStatus = new EnumMap<>(Response.class);
+    private static final Map<Response,List<MessageType>> nextMessageFromStatus = new EnumMap<>(Response.class);
 
-        private static class FlowContainer{
+    private static class FlowContainer{
             Response type;
             MessageType[] next;
         }
 
-        public static void loadFlow(){
+    /**
+     * Function that load the flow of the game from a json file
+     */
+
+    public static void loadFlow(){
             Gson gsonFlow = new Gson();
             FlowContainer[] containers;
 
@@ -46,16 +61,35 @@ public class FlowStatutsLoader {
 
         }
 
-        private static List<MessageType> createArrayListFromArray(MessageType[] types) {
+    /**
+     * Function that create a List of MessageType from an array
+     * @param types Array to convert
+     * @return The new List of MessageType
+     */
+
+    private static List<MessageType> createArrayListFromArray(MessageType[] types) {
 
             return new ArrayList<>(Arrays.asList(types));
         }
 
-        public static List<MessageType> getNextMessageFromStatus(Response status){
+    /**
+     * Function that take the next Actions available(depends on game status)
+     * @param status The game status
+     * @return The available actions
+     */
+
+    public static List<MessageType> getNextMessageFromStatus(Response status){
             return new ArrayList<>(nextMessageFromStatus.get(status));
         }
 
-        public static boolean isRightMessage(Response status, MessageType type){
+    /**
+     * Function that check if the Message received from the client is correct for the flow of the game
+     * @param status Game status
+     * @param type Type of the message received from the client
+     * @return True if the message is correct,false otherwise
+     */
+
+    public static boolean isRightMessage(Response status, MessageType type){
             List<MessageType> possibleType = getNextMessageFromStatus(status);
             for(MessageType messageType: possibleType){
                 if(type.equals(messageType)){

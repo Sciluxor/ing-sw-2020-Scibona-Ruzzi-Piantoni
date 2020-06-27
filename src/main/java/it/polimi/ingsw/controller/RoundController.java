@@ -16,13 +16,30 @@ import it.polimi.ingsw.utils.FlowStatutsLoader;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class that represents the Controller server side that handle the round phases (move,build,place workers, challenger ...)
+ * @author Alessandro Ruzzi
+ * @version 1.0
+ * @since 2020/06/26
+ */
+
 public class RoundController {
 
     private final Game game;
 
+    /**
+     * Public constructor for the game controller
+     * @param game The Game of the specific round controller
+     */
+
     public RoundController(Game game){
         this.game = game;
     }
+
+    /**
+     * Function that process the message and decide which function to call
+     * @param message Message received from the client
+     */
 
     public void processRoundEvent(Message message){
 
@@ -62,6 +79,10 @@ public class RoundController {
         }
     }
 
+    /**
+     * Function that decide what will be the next action (depends on the game status)
+     * @param nextStatus The new Status of the game
+     */
 
     public void mapNextAction(Response nextStatus){
 
@@ -80,9 +101,10 @@ public class RoundController {
         }
     }
 
-    //
-    //methods for challenger choice handling
-    //
+    /**
+     * Function that handle the challenger phase, check if the choice is correct
+     * @param message Message received from the challenger with the choice
+     */
 
     public synchronized void handleChallengerChoice(Message message){
             List<String> cards = ((ChallengerChoiceMessage) message).getCards();
@@ -101,6 +123,12 @@ public class RoundController {
             }
         }
 
+    /**
+     * Function that check if the cards selected by the challenger are correct
+     * @param cards List of cards selected
+     * @return True if the cards are correct, false otherwise
+     */
+
     public boolean checkCardsChoice(List<String> cards){
         if(cards.size() != game.getNumberOfPlayers())
             return false;
@@ -112,6 +140,12 @@ public class RoundController {
         return true;
     }
 
+    /**
+     * Function that check if the first player selected by the challenger is correct
+     * @param firstPlayer Name of the player selected by the challenger as the first player
+     * @return True if the player is correct, false otherwise
+     */
+
     public boolean checkFirstPlayerChoice(String firstPlayer){
         for(Player player : game.getPlayers()){
             if(player.getNickName().equals(firstPlayer)){
@@ -121,9 +155,10 @@ public class RoundController {
         return false;
     }
 
-    //
-    //methods for the card choice of each player
-    //
+    /**
+     * Function that handle the card choice phase, and check if the choices of the cards are correct
+     * @param message Message received from the client with the card selected
+     */
 
     public synchronized void handleCardChoice(Message message) {
             String cardName = message.getMessage();
@@ -140,9 +175,10 @@ public class RoundController {
             }
         }
 
-    //
-    //methods for the workers positioning of each player
-    //
+    /**
+     * Function that handle the place workers phase, put the workers on the map
+     * @param message Message received from the client with the position of the workers
+     */
 
     public void handleWorkerPositioning(Message message){
             Integer[] tile1 = ((PlaceWorkersMessage) message).getTile1();
@@ -156,9 +192,10 @@ public class RoundController {
             }
         }
 
-    //
-    //methods for the workers to use in the turn
-    //
+    /**
+     * Function that set the current workers for a specific turn
+     * @param message Message received from the client, with the worker selected
+     */
 
     public void handleWorkerChoice(Message message){
 
@@ -172,13 +209,18 @@ public class RoundController {
         }
     }
 
+    /**
+     * Function that check what could be the first action of the turn (depends on the card of the player)
+     */
+
     public void handleFirstAction(){
         game.setGameStatus(game.getCurrentPlayer().getFirstAction());
     }
 
-    //
-    //methods for the movement of the worker
-    //
+    /**
+     * Function that handle the movement phase, check if the client has done a correct move, and notify the other clients
+     * @param message Message received from the client, with the move(modified squares)
+     */
 
     public void handleMovement(Message message) {
         List<Directions> possibleMoveSquare = game.getCurrentPlayer().findWorkerMove(game.getGameMap(), game.getCurrentPlayer().getCurrentWorker());
@@ -215,6 +257,10 @@ public class RoundController {
         }
     }
 
+    /**
+     * Function that assign constraints to the players
+     */
+
     public void handleConstraint() {
         game.getCurrentPlayer().assignConstraint(game.getPlayers());
         Response response = Response.ASSIGNEDCONSTRAINT;
@@ -222,6 +268,12 @@ public class RoundController {
         mapNextAction(response);
 
     }
+
+    /**
+     * Function that check if the player has won with a specific move
+     * @param message Message received from the client with the move
+     * @return True if the Win Response is equal to the one sent by the client, false otherwise
+     */
 
     public boolean checkMoveVictory(Message message){
         Response response = game.getCurrentPlayer().checkVictory(game.getGameMap());
@@ -248,10 +300,10 @@ public class RoundController {
 
     }
 
-    //
-    //methods for the building of the worker
-    //
-
+    /**
+     * Function that handle the building phase, check if the client has done a correct build, and notify the other clients
+     * @param message Message received from the client, with the build(modified squares and type of building used)
+     */
 
     public void handleBuilding(Message message){
         List<Directions> possibleBuildSquare = game.getCurrentPlayer().findPossibleBuild(game.getGameMap(),game.getCurrentPlayer().getCurrentWorker());
@@ -287,6 +339,11 @@ public class RoundController {
         }
     }
 
+    /**
+     * Function that check if one of the players has won with a specific build
+     * @param message Message received from the client with the build
+     * @return True if the Win Response is equal to the one sent by the client, false otherwise
+     */
 
     public boolean checkBuildVictory(Message message){
         Response response = Response.NOTBUILDWIN;
@@ -311,9 +368,9 @@ public class RoundController {
         return false;
     }
 
-    //
-    //methods for the end of the turn of the worker
-    //
+    /**
+     * Function that remove constraint from the players
+     */
 
     public void removeNonPermanentConstraint(){
         ArrayList<Card> nonPermanentConstraint = new ArrayList<>();
@@ -328,14 +385,20 @@ public class RoundController {
 
     }
 
+    /**
+     * Function that handle the end turn phase
+     */
+
     public void handleEndTurn(){
         removeNonPermanentConstraint();
         game.setGameStatus(Response.ENDTURN);
     }
 
-    //
-    //method to check if client has changed the right squares
-    //
+    /**
+     * Function that check if the the modified squares sent by the client are correct
+     * @param clientModifiedSquares List of squares sent by the Client
+     * @return True if the square are correct, false otherwise
+     */
 
     public boolean areRightSquares(List<Square> clientModifiedSquares){
         List<Square> realModifiedSquares = game.getGameMap().getModifiedSquare();
@@ -349,6 +412,13 @@ public class RoundController {
 
         return true;
     }
+
+    /**
+     * Function that check if two squares are identical
+     * @param q1 First square to analise
+     * @param q2 Second square to analise
+     * @return True if the squares are identical, false otherwise
+     */
 
     public boolean checkSquare(Square q1, Square q2){
 
