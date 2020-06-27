@@ -60,7 +60,7 @@ public class SocketHandler extends Thread implements Closeable {
 
     /**
      * Function that create new Server Socket and start a thread that listen for new connections request
-     * @throws IOException IOException
+     * @throws IOException IOException, socket get closed
      */
 
     public void startSocketHandler()throws IOException {

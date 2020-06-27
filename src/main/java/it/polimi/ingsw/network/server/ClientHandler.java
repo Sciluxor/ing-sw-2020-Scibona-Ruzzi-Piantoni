@@ -159,7 +159,7 @@ public class ClientHandler implements Runnable, ConnectionInterface {
     /**
      * Function that receive a message through inputStream
      * @return The message received
-     * @throws IOException IOException
+     * @throws IOException IOException, socket get closed
      * @throws ClassNotFoundException ClassNotFoundException
      */
 

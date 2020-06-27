@@ -91,7 +91,7 @@ public class ClientConnection implements ConnectionInterface,Runnable {
     /**
      * Function that handle the connection with the Server, and also send The Game configuration Parameters
      * @param numberOfPlayer The number of player selected by the Client
-     * @throws ConnectException ConnectException
+     * @throws ConnectException ConnectException wrong parameters
      */
 
     public void connectToServer(int numberOfPlayer) throws ConnectException {

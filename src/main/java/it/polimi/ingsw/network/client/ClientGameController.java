@@ -71,7 +71,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
      * @param numberOfPlayer Number of Player Selected by the Client(2/3)
      * @param address IP address of the Server
      * @param port Port used by the Server
-     * @throws ConnectException ConnectException
+     * @throws ConnectException ConnectException wrong parameters
      */
 
     public synchronized void openConnection(String name, int numberOfPlayer, String address, int port) throws ConnectException {
