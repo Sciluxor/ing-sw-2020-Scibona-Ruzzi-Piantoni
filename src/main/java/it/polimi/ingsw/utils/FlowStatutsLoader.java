@@ -9,8 +9,8 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 /**
- * Utility class that contains all the constant of the game
- * @author alessandroruzzi
+ * Utility class that load the flow of the game from a json file
+ * @author Alessandro Ruzzi
  * @version 1.0
  * @since 2020/06/27
  */
@@ -18,7 +18,7 @@ import java.util.*;
 public class FlowStatutsLoader {
 
     /**
-     *
+     * Private constructor, Since it's an utility class it can't be instantiated.
      */
 
     private FlowStatutsLoader() {
@@ -33,7 +33,7 @@ public class FlowStatutsLoader {
         }
 
     /**
-     *
+     * Function that load the flow of the game from a json file
      */
 
     public static void loadFlow(){
@@ -62,9 +62,9 @@ public class FlowStatutsLoader {
         }
 
     /**
-     *
-     * @param types
-     * @return
+     * Function that create a List of MessageType from an array
+     * @param types Array to convert
+     * @return The new List of MessageType
      */
 
     private static List<MessageType> createArrayListFromArray(MessageType[] types) {
@@ -73,9 +73,9 @@ public class FlowStatutsLoader {
         }
 
     /**
-     *
-     * @param status
-     * @return
+     * Function that take the next Actions available(depends on game status)
+     * @param status The game status
+     * @return The available actions
      */
 
     public static List<MessageType> getNextMessageFromStatus(Response status){
@@ -83,10 +83,10 @@ public class FlowStatutsLoader {
         }
 
     /**
-     *
-     * @param status
-     * @param type
-     * @return
+     * Function that check if the Message received from the client is correct for the flow of the game
+     * @param status Game status
+     * @param type Type of the message received from the client
+     * @return True if the message is correct,false otherwise
      */
 
     public static boolean isRightMessage(Response status, MessageType type){

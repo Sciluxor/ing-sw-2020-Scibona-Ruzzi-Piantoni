@@ -8,8 +8,8 @@ import it.polimi.ingsw.network.server.Server;
 import java.util.TimerTask;
 
 /**
- * Utility class that contains all the constant of the game
- * @author alessandroruzzi
+ * Utility class that represent the timer task to execute when the lobby timer ends
+ * @author Alessandro Ruzzi
  * @version 1.0
  * @since 2020/06/27
  */
@@ -22,11 +22,11 @@ public class LobbyTimerTask extends TimerTask {
     private String nickName;
 
     /**
-     *
-     * @param server
-     * @param connection
-     * @param userID
-     * @param nickName
+     * Public constructor
+     * @param server The server of the game
+     * @param connection Connection of the client
+     * @param userID UserID of the client
+     * @param nickName NickName of the client
      */
 
     public LobbyTimerTask(Server server,ClientHandler connection,String userID,String nickName) {
@@ -37,7 +37,7 @@ public class LobbyTimerTask extends TimerTask {
     }
 
     /**
-     *
+     * Function that notify the server when the timer ends, with disconnection information
      */
 
     @Override

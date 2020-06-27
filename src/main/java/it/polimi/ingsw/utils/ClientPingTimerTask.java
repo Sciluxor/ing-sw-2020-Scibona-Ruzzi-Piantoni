@@ -8,8 +8,8 @@ import it.polimi.ingsw.network.message.MessageType;
 import java.util.TimerTask;
 
 /**
- * Utility class that contains all the constant of the game
- * @author alessandroruzzi
+ * Utility class that represent the timer task to execute when the client ping timer ends
+ * @author aAlessandro Ruzzi
  * @version 1.0
  * @since 2020/06/27
  */
@@ -19,8 +19,8 @@ public class ClientPingTimerTask extends TimerTask {
     private final ClientGameController controller;
 
     /**
-     *
-     * @param controller
+     * Public constructor
+     * @param controller Controller of the game
      */
 
     public ClientPingTimerTask(ClientGameController controller){
@@ -28,7 +28,7 @@ public class ClientPingTimerTask extends TimerTask {
     }
 
     /**
-     *
+     * Function that notify the server when the timer ends, with disconnection information
      */
 
     @Override

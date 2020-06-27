@@ -14,7 +14,7 @@ import java.util.*;
 
 /**
  * Class that represents the Controller server side that handle initial and final phases of the game and the turn
- * @author alessandroruzzi
+ * @author Alessandro Ruzzi
  * @version 1.0
  * @since 2020/06/26
  */

@@ -7,8 +7,8 @@ import it.polimi.ingsw.network.server.ClientHandler;
 import java.util.TimerTask;
 
 /**
- * Utility class that contains all the constant of the game
- * @author alessandroruzzi
+ * Utility class that represent the timer task to execute when the turn timer ends
+ * @author Alessandro Ruzzi
  * @version 1.0
  * @since 2020/06/27
  */
@@ -18,8 +18,8 @@ public class TurnTimerTask extends TimerTask {
     private ClientHandler connection;
 
     /**
-     *
-     * @param connection
+     * Public constructor
+     * @param connection Client Handler of the client
      */
 
     public TurnTimerTask(ClientHandler connection) {
@@ -27,7 +27,7 @@ public class TurnTimerTask extends TimerTask {
     }
 
     /**
-     *
+     * Function that notify the server when the timer ends, with disconnection information
      */
 
     @Override

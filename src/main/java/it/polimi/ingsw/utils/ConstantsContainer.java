@@ -2,7 +2,7 @@ package it.polimi.ingsw.utils;
 
 /**
  * Utility class that contains all the constant of the game
- * @author alessandroruzzi
+ * @author Alessandro Ruzzi
  * @version 1.0
  * @since 2020/06/27
  */
@@ -28,7 +28,6 @@ public class ConstantsContainer {
     public static final String USERIDPREFIX = "UID";
     public static final String USERDIDDEF = "default";
     public static final String NICKDEF = "def";
-    public static final int MAXCHATSIZE = 10;
     public static final String NULLPARAMETERS = "null parameters";
 
     //LobbyGui

@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * Class extended by the observable classes of the game
- * @author alessandroruzzi
+ * @author Alessandro Ruzzi
  * @version 1.0
  * @since 2020/06/27
  */
