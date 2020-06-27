@@ -13,8 +13,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Luigi Scibona, Alessandro Ruzzi, Edoardo Piantoni
+ * @version 1.0
+ * @since 2020/06/27
+ */
+
 public class Apollo extends Card {
 
+    /**
+     * Class Builder
+     * @param name Name of the card
+     * @param description Description of the power of the card
+     * @param isPlayableIn3 Boolean saying if the card is playable in 3 Players
+     * @param type Type of the card
+     * @param subType Subtype of the card
+     */
     public Apollo(String name, String description, boolean isPlayableIn3, CardType type, CardSubType subType) {
         super(name, description, isPlayableIn3, type, subType);
     }
@@ -45,6 +59,13 @@ public class Apollo extends Card {
         return  Response.MOVED;
     }
 
+    /**
+     * Method that find the reachable squares for the Worker provided
+     * @param gameMap Game map
+     * @param worker Worker you want to know the reachable squares
+     * @return List of the reachable directions
+     */
+
     public List<Directions> allReachableSquares(GameMap gameMap, Worker worker) {
         int levelPosition = worker.getBoardPosition().getBuildingLevel();
         Map<Directions,Integer> canAccess = worker.getBoardPosition().getCanAccess();
@@ -68,6 +89,12 @@ public class Apollo extends Card {
 
         return reachableSquares;
     }
+
+    /**
+     * Method that swap the Workers in the 2 squares provided
+     * @param square1 First square
+     * @param square2 Second square
+     */
 
     public void swapWorker(Square square1, Square square2) {
         Player playerTemp = square1.getPlayer();
