@@ -15,7 +15,7 @@ import static it.polimi.ingsw.view.client.gui.Gui.getD;
 
 /**
  * Class that extends JDesktopPane that builds the pane for updates during the game
- * @author Scilux
+ * @author Luigi Scibona
  * @version 1.0
  * @since 2020/06/13
  */

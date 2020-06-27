@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * Class for building the deck of cards as single JButtons
- * @author Scilux
+ * @author Luigi Scibona
  * @version 1.0
  * @since 2020/06/13
  */

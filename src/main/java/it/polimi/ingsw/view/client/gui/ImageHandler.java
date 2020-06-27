@@ -9,7 +9,7 @@ import java.io.*;
 
 /**
  * Class that handle the loading of the images
- * @author Scilux
+ * @author Luigi Scibona
  * @version 1.0
  * @since 2020/06/13
  */

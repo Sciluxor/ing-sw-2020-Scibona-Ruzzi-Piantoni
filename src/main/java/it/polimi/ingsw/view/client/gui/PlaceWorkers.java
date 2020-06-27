@@ -13,7 +13,7 @@ import static it.polimi.ingsw.view.client.gui.Gui.getD;
 
 /**
  * Class that extends JDesktopPane for the construction of the pane that warns of the game phase of the positioning of the Workers
- * @author Scilux
+ * @author Luigi Scibona
  * @version 1.0
  * @since 2020/06/13
  */

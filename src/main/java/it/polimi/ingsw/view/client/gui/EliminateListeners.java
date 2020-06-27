@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * Class that removes Listeners from the provided JButton
- * @author Scilux
+ * @author Luigi Scibona
  * @version 1.0
  * @since 2020/06/13
  */
