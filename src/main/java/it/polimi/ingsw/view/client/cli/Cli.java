@@ -39,6 +39,7 @@ public class Cli extends ClientGameController {
     private Player myPlayerOnServer;
     private String myPower;
     private boolean isMyTurn = false;
+    private boolean duringMyTurn = false;
     private boolean locked = false;
 
     private static final String END_TURN_STRING = "endTurn";
@@ -658,7 +659,7 @@ public class Cli extends ClientGameController {
         }
 
         clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
-        if(isMyTurn) {
+        if(duringMyTurn) {
             mainThread = new Thread(() -> startSelectedActions(scrollAvailableOptions(availableActions)));
             mainThread.start();
         }
@@ -1080,6 +1081,8 @@ public class Cli extends ClientGameController {
         isMyTurn = isYourPlayer;
         if (isYourPlayer) {
 
+            duringMyTurn = true;
+
             availableActions.clear();
             availableActions.add(CHAT_CASE);
             availableActions.add("CHOOSE CARDS");
@@ -1089,6 +1092,8 @@ public class Cli extends ClientGameController {
 
             mainThread = new Thread(() -> startSelectedActions(scrollAvailableOptions(availableActions)));
             mainThread.start();
+
+            duringMyTurn = false;
             //startSelectedActions(scrollAvailableOptions(availableActions));
 
         } else {
@@ -1121,6 +1126,8 @@ public class Cli extends ClientGameController {
 
         if (isYourPlayer) {
 
+            duringMyTurn = true;
+
             deckOrdered = new ArrayList<>(getAvailableCards());
             printDebug("CARDCHOICE AVAILABLE: " + getAvailableCards());
 
@@ -1133,6 +1140,8 @@ public class Cli extends ClientGameController {
 
             mainThread = new Thread(() -> startSelectedActions(scrollAvailableOptions(availableActions)));
             mainThread.start();
+
+            duringMyTurn = false;
             //startSelectedActions(scrollAvailableOptions(availableActions));
 
         } else {
@@ -1164,6 +1173,8 @@ public class Cli extends ClientGameController {
 
         if (isYourPlayer) {
 
+            duringMyTurn = true;
+
             availableActions = new ArrayList<>();
             availableActions.add(CHAT_CASE);
             availableActions.add("PLACE WORKERS");
@@ -1173,6 +1184,8 @@ public class Cli extends ClientGameController {
 
             mainThread = new Thread(() -> startSelectedActions(scrollAvailableOptions(availableActions)));
             mainThread.start();
+
+            duringMyTurn = false;
             //startSelectedActions(scrollAvailableOptions(availableActions));
 
         } else {
