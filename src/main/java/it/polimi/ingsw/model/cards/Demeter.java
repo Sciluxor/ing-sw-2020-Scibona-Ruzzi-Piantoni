@@ -49,7 +49,7 @@ public class Demeter extends Card {
     }
 
     /**
-     * Method that find the possible buildable squares in which the provided Worker can build without the previous built positions
+     * Method that find the possible buildable squares, in which the provided Worker can build, without the previous built positions
      * @param gameMap Map of the game
      * @param worker Worker you want to know the buildable squares
      * @return List of directions of the buildable squares

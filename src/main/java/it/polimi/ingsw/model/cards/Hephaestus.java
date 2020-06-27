@@ -49,7 +49,7 @@ public class Hephaestus extends Card {
     }
 
     /**
-     * Method that return the buildable squares in which the provided Worker can build where he built previously
+     * Method that return the buildable squares, in which the provided Worker can build, where he built previously
      * @param gameMap Map of the game
      * @param worker Worker you want to know the buildable squares
      * @return List of directions of the buildable squares
