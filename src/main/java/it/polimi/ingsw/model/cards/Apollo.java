@@ -29,6 +29,7 @@ public class Apollo extends Card {
      * @param type Type of the card
      * @param subType Subtype of the card
      */
+
     public Apollo(String name, String description, boolean isPlayableIn3, CardType type, CardSubType subType) {
         super(name, description, isPlayableIn3, type, subType);
     }
@@ -60,10 +61,10 @@ public class Apollo extends Card {
     }
 
     /**
-     * Method that find the reachable squares for the Worker provided
+     * Method that return the reachable squares for the Worker provided including those with other enemies workers
      * @param gameMap Game map
      * @param worker Worker you want to know the reachable squares
-     * @return List of the reachable directions
+     * @return List of directions of the reachable square
      */
 
     public List<Directions> allReachableSquares(GameMap gameMap, Worker worker) {
