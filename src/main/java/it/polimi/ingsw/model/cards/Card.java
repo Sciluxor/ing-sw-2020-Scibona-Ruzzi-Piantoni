@@ -130,7 +130,7 @@ public class Card implements Serializable {
     }
 
     /**
-     * Method that find the possible buildable square in which the provided Worker can build
+     * Method that find the possible buildable squares in which the provided Worker can build
      * @param gameMap Game map
      * @param worker Worker you want to know the buildable squares
      * @return List of directions of the buildable squares
@@ -223,7 +223,7 @@ public class Card implements Serializable {
     }
 
     /**
-     * Method that reset the card
+     * Method that reset the card variables
      */
 
     public void resetCard(){

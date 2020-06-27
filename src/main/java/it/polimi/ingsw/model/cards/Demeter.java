@@ -1,5 +1,12 @@
 package it.polimi.ingsw.model.cards;
 
+/**
+ * Class that extends Card that build the Chronus card
+ * @author Luigi Scibona, Alessandro Ruzzi, Edoardo Piantoni
+ * @version 1.0
+ * @since 2020/06/27
+ */
+
 import it.polimi.ingsw.model.map.Building;
 import it.polimi.ingsw.model.map.Directions;
 import it.polimi.ingsw.model.map.GameMap;
@@ -16,6 +23,15 @@ public class Demeter extends Card {
 
     private boolean hasBuilt;
 
+    /**
+     * Class Builder
+     * @param name Name of the card
+     * @param description Description of the power of the card
+     * @param isPlayableIn3 Boolean saying if the card is playable in 3 Players
+     * @param type Type of the card
+     * @param subType Subtype of the card
+     */
+
     public Demeter(String name, String description, boolean isPlayableIn3, CardType type, CardSubType subType) {
         super(name, description, isPlayableIn3, type, subType);
         hasBuilt = false;
@@ -31,6 +47,13 @@ public class Demeter extends Card {
 
         return gameMap.buildableSquare(worker);
     }
+
+    /**
+     * Method that find the possible buildable squares in which the provided Worker can build without the previous built positions
+     * @param gameMap Map of the game
+     * @param worker Worker you want to know the buildable squares
+     * @return List of directions of the buildable squares
+     */
 
     public List<Directions> notPreviousBuild(GameMap gameMap, Worker worker) {
         Map<Directions,Integer> canAccess = worker.getBoardPosition().getCanAccess();
