@@ -515,12 +515,12 @@ public class Cli extends ClientGameController {
             robot.keyPress(KeyEvent.VK_ENTER);
             robot.keyRelease(KeyEvent.VK_ENTER);
 
-            /*if(isMyTurn) {
+            if(isMyTurn) {
                 printDebug("ROBOT MY TURN");
                 setRawTerminalMode();
                 robot.keyPress(KeyEvent.VK_DOWN);
                 robot.keyRelease(KeyEvent.VK_DOWN);
-            }*/
+            }
 
         } catch (AWTException e) {
             e.printStackTrace();
@@ -659,14 +659,10 @@ public class Cli extends ClientGameController {
         }
 
         clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
-        if(duringMyTurn) {
-            mainThread = new Thread(() -> startSelectedActions(scrollAvailableOptions(availableActions)));
-            mainThread.start();
-        }
-        else {
-            chatThread = new Thread(this::handleChatCli);
-            chatThread.start();
-        }
+        if(duringMyTurn)
+            startSelectedActions(scrollAvailableOptions(availableActions));
+        else
+            handleChatCli();
     }
 
     /**
@@ -1113,11 +1109,7 @@ public class Cli extends ClientGameController {
     public void cardChoice(String challengerNick, boolean isYourPlayer) {
 
         if(locked) {
-            try {
-                Thread.sleep(200);
-            } catch (InterruptedException e) {
-                CliUtils.LOGGER.severe(e.getMessage());
-            }
+            chatThread.interrupt();
             robot();
             locked = false;
         }
