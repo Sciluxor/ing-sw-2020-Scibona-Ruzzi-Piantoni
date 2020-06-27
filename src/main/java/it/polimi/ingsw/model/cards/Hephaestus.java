@@ -12,9 +12,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Class that extends Card that build the Hephaestus card
+ * @author Luigi Scibona, Alessandro Ruzzi, Edoardo Piantoni
+ * @version 1.0
+ * @since 2020/06/27
+ */
+
 public class Hephaestus extends Card {
 
     private boolean hasBuilt;
+
+    /**
+     * Class Builder
+     * @param name Name of the card
+     * @param description Description of the power of the card
+     * @param isPlayableIn3 Boolean saying if the card is playable in 3 Players
+     * @param type Type of the card
+     * @param subType Subtype of the card
+     */
 
     public Hephaestus(String name, String description, boolean isPlayableIn3, CardType type, CardSubType subType) {
         super(name, description, isPlayableIn3, type, subType);
@@ -31,6 +47,13 @@ public class Hephaestus extends Card {
 
         return gameMap.buildableSquare(worker);
     }
+
+    /**
+     * Method that return the buildable squares, in which the provided Worker can build, where he built previously
+     * @param gameMap Map of the game
+     * @param worker Worker you want to know the buildable squares
+     * @return List of directions of the buildable squares
+     */
 
     public List<Directions> buildOnTop(GameMap gameMap, Worker worker) {
         Map<Directions,Integer> canAccess = worker.getBoardPosition().getCanAccess();

@@ -7,7 +7,7 @@ import java.awt.event.MouseEvent;
 
 /**
  * Class that extends MouseAdapter which colors the edge of the button, in which you pass over it with the mouse, in yellow
- * @author Scilux
+ * @author Luigi Scibona
  * @version 1.0
  * @since 2020/06/13
  */

@@ -19,7 +19,7 @@ import static it.polimi.ingsw.view.client.gui.Gui.getD;
 
 /**
  * Class that extends JDesktopPane for the build of the pane to display any limitations due to the other gods
- * @author Scilux
+ * @author Luigi Scibona
  * @version 1.0
  * @since 2020/06/13
  */

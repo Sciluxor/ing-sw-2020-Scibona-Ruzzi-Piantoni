@@ -8,23 +8,42 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Class that build tha cards deck
+ * @author Luigi Scibona, Alessandro Ruzzi, Edoardo Piantoni
+ * @version 1.0
+ * @since 2020/06/27
+ */
+
 public class CardLoader {
+
+    /**
+     * Private class builder
+     */
 
     private CardLoader() {
         throw new IllegalStateException("CardLoader class cannot be instantiated");
     }
 
-    private static class CardContainer{
+    /**
+     * Class CardContainer
+     */
 
+    private static class CardContainer{
         String name;
         String description;
         boolean isPlayableIn3;
         CardType type;
         CardSubType subType;
-
     }
 
+    /**
+     * Method that return the deck of cards
+     * @return Deck of the cards
+     */
+
     public static Map<String, Card> loadCards(){
+
         Gson gsonCard = new Gson();
         CardLoader.CardContainer[] containers;
 
@@ -35,9 +54,7 @@ public class CardLoader {
             containers = gsonCard.fromJson(gameCardsReader, CardLoader.CardContainer[].class);
 
         }catch (Exception e){
-
             throw new IllegalStateException("impossible to charge Cards");
-
         }
 
         Map<String,Card> deck = new HashMap<>();
@@ -69,8 +86,6 @@ public class CardLoader {
         deck.put(containers[i].name,new Hypnus(containers[i].name,containers[i].description,containers[i].isPlayableIn3,containers[i].type,containers[i].subType));
         i++;
         deck.put(containers[i].name,new Zeus(containers[i].name,containers[i].description,containers[i].isPlayableIn3,containers[i].type,containers[i].subType));
-
-
 
         return deck;
     }

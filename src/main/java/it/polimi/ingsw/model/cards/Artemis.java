@@ -13,9 +13,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Class that extends Card that build the Artemis card
+ * @author Luigi Scibona, Alessandro Ruzzi, Edoardo Piantoni
+ * @version 1.0
+ * @since 2020/06/27
+ */
+
 public class Artemis extends Card {
 
     private boolean hasMoved;
+
+    /**
+     * Class Builder
+     * @param name Name of the card
+     * @param description Description of the power of the card
+     * @param isPlayableIn3 Boolean saying if the card is playable in 3 Players
+     * @param type Type of the card
+     * @param subType Subtype of the card
+     */
 
     public Artemis(String name, String description, boolean isPlayableIn3, CardType type, CardSubType subType) {
         super(name, description, isPlayableIn3, type, subType);
@@ -32,6 +48,13 @@ public class Artemis extends Card {
 
         return gameMap.reachableSquares(worker);
     }
+
+    /**
+     * Method that return the reachable squares for the Worker provided without the previous position
+     * @param gameMap Map of the game
+     * @param worker Worker you want to know the reachable squares
+     * @return List of directions of the reachable squares
+     */
 
     public List<Directions> notPreviousMove(GameMap gameMap, Worker worker) {
         int levelPosition = worker.getBoardPosition().getBuildingLevel();

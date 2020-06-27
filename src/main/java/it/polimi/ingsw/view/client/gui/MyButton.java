@@ -11,7 +11,7 @@ import static it.polimi.ingsw.view.client.gui.Gui.*;
 
 /**
  * Class that extends JButton for the build of the buttons
- * @author Scilux
+ * @author Luigi Scibona
  * @version 1.0
  * @since 2020/06/13
  */

@@ -15,7 +15,7 @@ import static it.polimi.ingsw.view.client.gui.Gui.*;
 
 /**
  * Class that extends JDesktopPane for the build of the pane that make the Challenger choose the gods
- * @author Scilux
+ * @author Luigi Scibona
  * @version 1.0
  * @since 2020/06/13
  */
