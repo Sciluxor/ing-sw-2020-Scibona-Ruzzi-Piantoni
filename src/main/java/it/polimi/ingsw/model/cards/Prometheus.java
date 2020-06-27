@@ -13,10 +13,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Class that extends Card that build the Prometheus card
+ * @author Luigi Scibona, Alessandro Ruzzi, Edoardo Piantoni
+ * @version 1.0
+ * @since 2020/06/27
+ */
+
 public class Prometheus extends Card {
 
     private boolean hasBuiltBefore;
     private boolean hasMoved;
+
+    /**
+     * Class Builder
+     * @param name Name of the card
+     * @param description Description of the power of the card
+     * @param isPlayableIn3 Boolean saying if the card is playable in 3 Players
+     * @param type Type of the card
+     * @param subType Subtype of the card
+     */
 
     public Prometheus(String name, String description, boolean isPlayableIn3, CardType type, CardSubType subType) {
         super(name, description, isPlayableIn3, type, subType);
@@ -36,6 +52,13 @@ public class Prometheus extends Card {
         else
             return notUpMove(gameMap, worker);
     }
+
+    /**
+     * Method that return the reachable squares for the Worker provided without the ones that go up
+     * @param gameMap Map of the game
+     * @param worker Worker you want to know the reachable squares
+     * @return List of directions of the reachable squares
+     */
 
     public List<Directions> notUpMove(GameMap gameMap, Worker worker) {
         if (worker == null)
@@ -67,6 +90,14 @@ public class Prometheus extends Card {
             return possibleBuild;
         }
     }
+
+    /**
+     * Method that says if the Worker provided can't build in the direction provided
+     * @param gameMap Map of the game
+     * @param worker Worker you want to know if the build is accepted
+     * @param directions Direction of the square in which you want to build
+     * @return Boolean that says if it's a wrong build
+     */
 
     public boolean wrongBuild(GameMap gameMap,Worker worker,Directions directions){
         List<Directions> possibleMove = notUpMove(gameMap,worker);
