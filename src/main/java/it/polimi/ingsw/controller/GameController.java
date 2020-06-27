@@ -470,7 +470,7 @@ public class GameController implements Observer<Message> {
     }
 
     /**
-     * Function that select the challenger and starte the first turn
+     * Function that select the challenger and start the first turn
      */
 
     public synchronized void handleMatchBeginning(){
