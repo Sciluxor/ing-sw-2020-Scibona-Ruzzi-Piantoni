@@ -15,7 +15,7 @@ import java.util.Timer;
 
 /**
  * Class that represents the Connection client side, Exchange Messages(receive and send) with the server, handle also the ping task
- * @author alessandroruzzi
+ * @author Alessandro Ruzzi
  * @version 1.0
  * @since 2020/06/19
  */

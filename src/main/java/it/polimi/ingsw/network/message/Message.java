@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * Class that represents General Messages of the Game
- * @author alessandroruzzi
+ * @author Alessandro Ruzzi
  * @version 1.0
  * @since 2020/06/20
  */

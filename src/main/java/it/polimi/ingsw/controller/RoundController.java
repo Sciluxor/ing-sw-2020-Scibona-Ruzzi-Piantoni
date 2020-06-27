@@ -18,7 +18,7 @@ import java.util.List;
 
 /**
  * Class that represents the Controller server side that handle the round phases (move,build,place workers, challenger ...)
- * @author alessandroruzzi
+ * @author Alessandro Ruzzi
  * @version 1.0
  * @since 2020/06/26
  */

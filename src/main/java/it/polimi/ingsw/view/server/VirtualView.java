@@ -12,7 +12,7 @@ import it.polimi.ingsw.utils.Observer;
 
 /**
  * Class that represents the VirtualView of a Specific Client Server Side
- * @author alessandroruzzi
+ * @author Alessandro Ruzzi
  * @version 1.0
  * @since 2020/06/26
  */

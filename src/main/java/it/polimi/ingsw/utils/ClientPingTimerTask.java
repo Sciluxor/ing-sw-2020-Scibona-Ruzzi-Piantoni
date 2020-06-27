@@ -9,7 +9,7 @@ import java.util.TimerTask;
 
 /**
  * Utility class that represent the timer task to execute when the client ping timer ends
- * @author aAlessandro Ruzzi
+ * @author Alessandro Ruzzi
  * @version 1.0
  * @since 2020/06/27
  */

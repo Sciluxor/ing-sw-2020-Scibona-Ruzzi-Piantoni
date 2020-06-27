@@ -16,7 +16,7 @@ import static it.polimi.ingsw.utils.CliUtils.input;
 
 /**
  * Class that represents the Server of the game,Insert and Remove players from the games
- * @author alessandroruzzi
+ * @author Alessandro Ruzzi
  * @version 1.0
  * @since 2020/06/19
  */

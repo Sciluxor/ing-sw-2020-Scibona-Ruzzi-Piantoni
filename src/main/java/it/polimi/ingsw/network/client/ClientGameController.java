@@ -26,7 +26,7 @@ import java.util.logging.Logger;
 
 /**
  * Abstract Class that represents the Controller client side that handle all the logic functions, extended by both CLI and GUI
- * @author alessandroruzzi
+ * @author Alessandro Ruzzi
  * @version 1.0
  * @since 2020/06/20
  */

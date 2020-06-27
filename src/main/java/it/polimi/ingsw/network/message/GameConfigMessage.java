@@ -4,7 +4,7 @@ import it.polimi.ingsw.view.server.VirtualView;
 
 /**
  * Class that extends Message and Represent the Message with The Game Configuration Parameters
- * @author alessandroruzzi
+ * @author Alessandro Ruzzi
  * @version 1.0
  * @since 2020/06/20
  */

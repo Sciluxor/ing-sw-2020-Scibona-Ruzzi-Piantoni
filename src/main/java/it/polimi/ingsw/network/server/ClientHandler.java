@@ -17,7 +17,7 @@ import java.util.Timer;
 
 /**
  * Class that Handle a specific Client, listening for new messages through input stream and sending messages through output stream
- * @author alessandroruzzi
+ * @author Alessandro Ruzzi
  * @version 1.0
  * @since 2020/06/19
  */
