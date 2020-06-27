@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Class of the Apollo card
+ * Class that extends Card that build the Apollo card
  * @author Luigi Scibona, Alessandro Ruzzi, Edoardo Piantoni
  * @version 1.0
  * @since 2020/06/27
@@ -63,9 +63,9 @@ public class Apollo extends Card {
 
     /**
      * Method that return the reachable squares for the Worker provided including those with other enemies workers
-     * @param gameMap Game map
+     * @param gameMap Map of the game
      * @param worker Worker you want to know the reachable squares
-     * @return List of directions of the reachable square
+     * @return List of directions of the reachable squares
      */
 
     public List<Directions> allReachableSquares(GameMap gameMap, Worker worker) {

@@ -8,7 +8,7 @@ import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.model.Response;
 
 /**
- * Class of the Atlas card
+ * Class that extends Card that build the Atlas card
  * @author Luigi Scibona, Alessandro Ruzzi, Edoardo Piantoni
  * @version 1.0
  * @since 2020/06/27

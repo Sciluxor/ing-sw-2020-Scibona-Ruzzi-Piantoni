@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Class of the Artemis card
+ * Class that extends Card that build the Artemis card
  * @author Luigi Scibona, Alessandro Ruzzi, Edoardo Piantoni
  * @version 1.0
  * @since 2020/06/27
@@ -51,9 +51,9 @@ public class Artemis extends Card {
 
     /**
      * Method that return the reachable squares for the Worker provided without the previous position
-     * @param gameMap Game map
+     * @param gameMap Map of the game
      * @param worker Worker you want to know the reachable squares
-     * @return List of directions of the reachable square
+     * @return List of directions of the reachable squares
      */
 
     public List<Directions> notPreviousMove(GameMap gameMap, Worker worker) {
