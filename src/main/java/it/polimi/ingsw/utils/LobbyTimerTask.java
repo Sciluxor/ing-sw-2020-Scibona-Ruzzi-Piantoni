@@ -7,6 +7,13 @@ import it.polimi.ingsw.network.server.Server;
 
 import java.util.TimerTask;
 
+/**
+ * Utility class that contains all the constant of the game
+ * @author alessandroruzzi
+ * @version 1.0
+ * @since 2020/06/27
+ */
+
 public class LobbyTimerTask extends TimerTask {
 
     private ClientHandler connection;
@@ -14,12 +21,24 @@ public class LobbyTimerTask extends TimerTask {
     private Server server;
     private String nickName;
 
+    /**
+     *
+     * @param server
+     * @param connection
+     * @param userID
+     * @param nickName
+     */
+
     public LobbyTimerTask(Server server,ClientHandler connection,String userID,String nickName) {
         this.connection = connection;
         this.userID = userID;
         this.server = server;
         this.nickName = nickName;
     }
+
+    /**
+     *
+     */
 
     @Override
     public void run() {

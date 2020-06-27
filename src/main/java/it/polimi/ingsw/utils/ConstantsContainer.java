@@ -1,6 +1,17 @@
 package it.polimi.ingsw.utils;
 
+/**
+ * Utility class that contains all the constant of the game
+ * @author alessandroruzzi
+ * @version 1.0
+ * @since 2020/06/27
+ */
+
 public class ConstantsContainer {
+
+    /**
+     * Private constructor, Since it's an utility class it can't be instantiated.
+     */
 
     private ConstantsContainer() {
         throw new IllegalStateException("ConstantsContainer cannot be instantiated");

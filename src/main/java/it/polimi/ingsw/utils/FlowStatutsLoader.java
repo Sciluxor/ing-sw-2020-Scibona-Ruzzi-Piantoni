@@ -8,20 +8,35 @@ import it.polimi.ingsw.network.message.MessageType;
 import java.io.InputStreamReader;
 import java.util.*;
 
+/**
+ * Utility class that contains all the constant of the game
+ * @author alessandroruzzi
+ * @version 1.0
+ * @since 2020/06/27
+ */
+
 public class FlowStatutsLoader {
 
-        private FlowStatutsLoader() {
+    /**
+     *
+     */
+
+    private FlowStatutsLoader() {
             throw new IllegalStateException("FLowStatusLoader class cannot be instantiated");
         }
 
-        private static final Map<Response,List<MessageType>> nextMessageFromStatus = new EnumMap<>(Response.class);
+    private static final Map<Response,List<MessageType>> nextMessageFromStatus = new EnumMap<>(Response.class);
 
-        private static class FlowContainer{
+    private static class FlowContainer{
             Response type;
             MessageType[] next;
         }
 
-        public static void loadFlow(){
+    /**
+     *
+     */
+
+    public static void loadFlow(){
             Gson gsonFlow = new Gson();
             FlowContainer[] containers;
 
@@ -46,16 +61,35 @@ public class FlowStatutsLoader {
 
         }
 
-        private static List<MessageType> createArrayListFromArray(MessageType[] types) {
+    /**
+     *
+     * @param types
+     * @return
+     */
+
+    private static List<MessageType> createArrayListFromArray(MessageType[] types) {
 
             return new ArrayList<>(Arrays.asList(types));
         }
 
-        public static List<MessageType> getNextMessageFromStatus(Response status){
+    /**
+     *
+     * @param status
+     * @return
+     */
+
+    public static List<MessageType> getNextMessageFromStatus(Response status){
             return new ArrayList<>(nextMessageFromStatus.get(status));
         }
 
-        public static boolean isRightMessage(Response status, MessageType type){
+    /**
+     *
+     * @param status
+     * @param type
+     * @return
+     */
+
+    public static boolean isRightMessage(Response status, MessageType type){
             List<MessageType> possibleType = getNextMessageFromStatus(status);
             for(MessageType messageType: possibleType){
                 if(type.equals(messageType)){
