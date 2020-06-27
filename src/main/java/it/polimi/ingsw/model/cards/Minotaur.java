@@ -13,7 +13,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Class that extends Card that build the Minotaur card
+ * @author Luigi Scibona, Alessandro Ruzzi, Edoardo Piantoni
+ * @version 1.0
+ * @since 2020/06/27
+ */
+
 public class Minotaur extends Card {
+
+    /**
+     * Class Builder
+     * @param name Name of the card
+     * @param description Description of the power of the card
+     * @param isPlayableIn3 Boolean saying if the card is playable in 3 Players
+     * @param type Type of the card
+     * @param subType Subtype of the card
+     */
 
     public Minotaur(String name, String description, boolean isPlayableIn3, CardType type, CardSubType subType) {
         super(name, description, isPlayableIn3, type, subType);
@@ -72,6 +88,14 @@ public class Minotaur extends Card {
         return Response.MOVED;
     }
 
+    /**
+     * Method that says if the minotaur can push in the directions provided
+     * @param gameMap Map of the game
+     * @param possibleSquare Square where the possible pushed enemy worker would go
+     * @param directions Direction where can move the Worker of minotaur
+     * @return Boolean that says if he can push
+     */
+
     private boolean canPush(GameMap gameMap, Square possibleSquare, Directions directions) {
         if(gameMap == null || possibleSquare == null || directions == null)
             throw new NullPointerException("null gameMap or square or direction");
@@ -83,6 +107,13 @@ public class Minotaur extends Card {
         }
         return  false;
     }
+
+    /**
+     * Method that move the Worker in the direction provided and push the enemy worker
+     * @param gameMap Map of the game
+     * @param actualSquare Square where the Worker of minotaur want to move
+     * @param directions Direction provided
+     */
 
     public void push(GameMap gameMap, Square actualSquare, Directions directions) {
         if(gameMap == null || actualSquare == null || directions == null)
