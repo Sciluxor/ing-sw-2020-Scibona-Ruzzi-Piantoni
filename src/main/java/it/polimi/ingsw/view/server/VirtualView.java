@@ -233,53 +233,102 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
         connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.CHOOSECARD,MessageSubType.SETTED,controller.getCurrentPlayer().getPower().getName()));
     }
 
+    /**
+     *
+     */
+
     public void handlePlaceWorkers(){
         connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.PLACEWORKERS,MessageSubType.REQUEST,controller.getCurrentPlayer().getNickName()));
     }
 
+    /**
+     *
+     */
+
     public void handlePlaceWorkersDone(){
         connection.sendMessage(new PlaceWorkersMessage(ConstantsContainer.SERVERNAME,MessageSubType.SETTED,controller.getModifiedSquares().get(0).getCoordinates(),controller.getModifiedSquares().get(1).getCoordinates()));
     }
+
+    /**
+     *
+     */
 
     public void handlePermConstraint(){
         for(Player player: controller.getActualPlayers())
                 sendPermConstraint(player);
     }
 
+    /**
+     *
+     * @param player
+     */
+
     public void sendPermConstraint(Player player){
         for(Card card: player.getConstraint())
             connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,player.getNickName(),MessageType.PERMCONSTRAINT,MessageSubType.UPDATE,card.getName()));
     }
 
+    /**
+     *
+     */
+
     public void handleNonPermConstraint(){
         connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.NONPERMCONSTRAINT,MessageSubType.UPDATE,controller.getCurrentPlayer().getPower().getName()));
     }
+
+    /**
+     *
+     */
 
     public void handleStartTurn(){
         connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.STARTTURN,MessageSubType.REQUEST,controller.getCurrentPlayer().getNickName()));
     }
 
+    /**
+     *
+     */
+
     public void handleMove(){
         connection.sendMessage(new MoveWorkerMessage(ConstantsContainer.SERVERNAME,controller.getCurrentPlayer().getNickName(),controller.getModifiedSquares()));
     }
 
+    /**
+     *
+     */
+
     public void handleBuild(){
         connection.sendMessage(new BuildWorkerMessage(ConstantsContainer.SERVERNAME,controller.getCurrentPlayer().getNickName(),controller.getModifiedSquares()));
     }
+
+    /**
+     *
+     */
 
     public void handleWin(){
         connection.sendMessage(new Message(ConstantsContainer.SERVERNAME, MessageType.WIN, MessageSubType.UPDATE, controller.getWinner()));
         controller.resetPlayer(this);
     }
 
+    /**
+     *
+     */
+
     public void handleLoseWin(){
         connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.WIN,MessageSubType.REQUEST,controller.getWinner()));
         controller.resetPlayer(this);
     }
 
+    /**
+     *
+     */
+
     public void handleLose(){
         connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.LOSE,MessageSubType.UPDATE,controller.getLastLosePlayer()));
     }
+
+    /**
+     *
+     */
 
     public void handleGameStopped(){
         if(connection.isConnectionActive()){
@@ -287,9 +336,17 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
         }
     }
 
+    /**
+     *
+     */
+
     public void handlePlayerTimeEnded(){
         connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.STOPPEDGAME,MessageSubType.TIMEENDED,controller.getStopper()));
     }
+
+    /**
+     *
+     */
 
     public void handleClientError(){
         if(isYourTurn){
@@ -297,24 +354,37 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
         }
     }
 
+    /**
+     *
+     */
+
     public void handleGameStoppedError(){
         connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.STOPPEDGAME,MessageSubType.STOPPEDGAMEERROR,controller.getStopper()));
         if(connection.isErrorStopper())
             connection.closeAfterDisconnection();
     }
 
-    //
-    //methods for the idle turn of the player or current player
-    //
+    /**
+     *
+     * @param message
+     */
 
     public void handleChatMessage(Message message){
         connection.sendMessage(message);
     }
 
+    /**
+     *
+     */
+
     public void handleNotYourTurn(){
         connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.NOTYOURTURN,MessageSubType.ERROR));
     }
 
+    /**
+     *
+     * @param status
+     */
 
     @Override
     public void update(Response status) {

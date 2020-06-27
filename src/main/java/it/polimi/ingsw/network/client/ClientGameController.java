@@ -571,7 +571,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
         switch (message.getSubType()) {
             case TIMEENDED:
                 if (game.isGameStarted() && ( game.hasWinner() || game.hasStopper() ))
-                    eventQueue.add(this::onEndGameDisconnection); //devo stoppare il ping timer quando il server mi chiude la connesione?
+                    eventQueue.add(this::onEndGameDisconnection);
                 else
                     eventQueue.add(this::onLobbyDisconnection);
                 break;

@@ -27,9 +27,9 @@ public class GameController implements Observer<Message> {
     private final RoundController roundController;
 
     /**
-     * Public Constructor
-     * @param numberOfPlayer
-     * @param gameID
+     * Public Constructor for the Game controller
+     * @param numberOfPlayer Number of player of the game
+     * @param gameID GameID of the game
      */
 
     public GameController(int numberOfPlayer,String gameID) {
@@ -39,8 +39,8 @@ public class GameController implements Observer<Message> {
     }
 
     /**
-     *
-     * @param message
+     * Function that insert new players in the game
+     * @param message Message with the name of the new player, and his virtual View
      */
 
     public synchronized void handleNewPlayer(Message message) {
@@ -55,8 +55,8 @@ public class GameController implements Observer<Message> {
     }
 
     /**
-     *
-     * @param message
+     * Function that update the nickName of a player , if it was already in use
+     * @param message Message with the new NickName
      */
 
     public synchronized void handleNewNickname(Message message){
@@ -76,9 +76,9 @@ public class GameController implements Observer<Message> {
     }
 
     /**
-     *
-     * @param view
-     * @param nick
+     * Function that do the setup for the new player
+     * @param view VirtualView of the new player
+     * @param nick NickName of the new player
      */
 
     public synchronized void addPlayer(VirtualView view, String nick){
@@ -90,8 +90,8 @@ public class GameController implements Observer<Message> {
     }
 
     /**
-     *
-     * @param view
+     * Function that notify the Server that the nickName is already used
+     * @param view The virtualView of the client
      */
 
     public synchronized void nickUsed(VirtualView view){
@@ -101,7 +101,7 @@ public class GameController implements Observer<Message> {
     }
 
     /**
-     *
+     * Function that check if the lobby is full, and if the game can starts
      */
 
     public void checkIfGameCanStart(){
@@ -123,8 +123,8 @@ public class GameController implements Observer<Message> {
     }
 
     /**
-     *
-     * @return
+     * Get the Players in the game
+     * @return A list of the Actual players in the game
      */
 
     public synchronized List<Player> getActualPlayers(){
@@ -133,8 +133,8 @@ public class GameController implements Observer<Message> {
     }
 
     /**
-     *
-     * @return
+     * Get the Player that is playing his turn
+     * @return The current player
      */
 
     public synchronized Player getCurrentPlayer(){
@@ -142,8 +142,8 @@ public class GameController implements Observer<Message> {
     }
 
     /**
-     *
-     * @return
+     * Function that check if the game is started
+     * @return True if the game is started,false otherwise
      */
 
     public synchronized boolean isGameStarted(){
@@ -151,10 +151,10 @@ public class GameController implements Observer<Message> {
     }
 
     /**
-     *
-     * @param numberOfPlayers
-     * @param gameID
-     * @return
+     * Function that create a new Game
+     * @param numberOfPlayers Number of players of the new Game
+     * @param gameID GameID of the new Game
+     * @return The Game created
      */
 
     public synchronized Game initializeGame(int numberOfPlayers, String gameID){
@@ -163,8 +163,8 @@ public class GameController implements Observer<Message> {
     }
 
     /**
-     *
-     * @return
+     * Get the most recent players that has lost
+     * @return The most recent players that has lost
      */
 
     public synchronized String getLastLosePlayer(){
@@ -172,8 +172,8 @@ public class GameController implements Observer<Message> {
     }
 
     /**
-     *
-     * @return
+     * Get the list of all the players that have lost
+     * @return The list of all the players that have lost
      */
 
     public synchronized List<Player> getLosePlayers(){
@@ -181,8 +181,8 @@ public class GameController implements Observer<Message> {
     }
 
     /**
-     *
-     * @return
+     * Get the Available cards, from the ones selected by the Challenger
+     * @return The Available Cards
      */
 
     public synchronized List<String> getAvailableCards(){
@@ -190,8 +190,8 @@ public class GameController implements Observer<Message> {
     }
 
     /**
-     *
-     * @return
+     * Function that check if there is a winner
+     * @return True if there is a winner, false otherwise
      */
 
     public synchronized boolean hasWinner(){
@@ -199,9 +199,9 @@ public class GameController implements Observer<Message> {
     }
 
     /**
-     *
-     * @param view
-     * @param nickName
+     * Function that add the player and his virtualView in the hashmap
+     * @param view VirtualView of the new player
+     * @param nickName NickName of the new player
      */
 
     public synchronized void addNick(VirtualView view,String nickName){
@@ -209,9 +209,9 @@ public class GameController implements Observer<Message> {
     }
 
     /**
-     *
-     * @param view
-     * @param userID
+     * Function that add the UserID of the player and his virtualView in the hashmap
+     * @param view VirtualView of the new player
+     * @param userID UserID of the new player
      */
 
     public synchronized void addUserID(VirtualView view,String userID){
@@ -219,9 +219,9 @@ public class GameController implements Observer<Message> {
     }
 
     /**
-     *
-     * @param userID
-     * @return
+     * Get the VirtualView of the client given his userID
+     * @param userID UserID of the player
+     * @return The VirtualView of the player
      */
 
     public VirtualView getViewFromUserID(String userID){
@@ -229,9 +229,9 @@ public class GameController implements Observer<Message> {
     }
 
     /**
-     *
-     * @param nick
-     * @return
+     * Get the VirtualView of the client given his nickname
+     * @param nick NickName of the player
+     * @return The VirtualView of the player
      */
 
     public VirtualView getViewFromNickName(String nick){
@@ -239,8 +239,8 @@ public class GameController implements Observer<Message> {
     }
 
     /**
-     *
-     * @return
+     * Get the squares modified by a move or a build
+     * @return The Squares modified
      */
 
     public synchronized List<Square> getModifiedSquares(){
@@ -248,8 +248,8 @@ public class GameController implements Observer<Message> {
     }
 
     /**
-     *
-     * @return
+     * Function that check if the game is full
+     * @return True if the game is full, false otherwise
      */
 
     public synchronized boolean isFull(){
@@ -257,9 +257,9 @@ public class GameController implements Observer<Message> {
     }
 
     /**
-     *
-     * @param nickName
-     * @return
+     * Function that check if a specific player is still in the game or if he has lost
+     * @param nickName NickName of the player to search for
+     * @return True if the player is still in the game, false otherwise
      */
 
     public synchronized boolean isStillInGame(String nickName){
@@ -271,8 +271,8 @@ public class GameController implements Observer<Message> {
     }
 
     /**
-     *
-     * @return
+     * Get the name of player that has left the game
+     * @return The name of the player that has left the game
      */
 
     public synchronized String getStopper(){
@@ -280,15 +280,15 @@ public class GameController implements Observer<Message> {
     }
 
     /**
-     *
-     * @return
+     * Function that check if someone has left the game
+     * @return True if someone has left the game, false otherwise
      */
 
     public synchronized boolean hasStopper(){return game.hasStopper();}
 
     /**
-     *
-     * @return
+     * Get the name of the winner
+     * @return The name of the winner
      */
 
     public String getWinner(){
@@ -296,8 +296,8 @@ public class GameController implements Observer<Message> {
     }
 
     /**
-     *
-     * @return
+     * Get the GameID
+     * @return The GameID
      */
 
     public String getGameID(){
@@ -305,8 +305,8 @@ public class GameController implements Observer<Message> {
     }
 
     /**
-     *
-     * @return
+     * Get the number of players of the game
+     * @return The number of players of the game
      */
 
     public int getNumberOfPlayers(){
@@ -314,9 +314,9 @@ public class GameController implements Observer<Message> {
     }
 
     /**
-     *
-     * @param stopper
-     * @param newStatus
+     * Function that stop the Game if someone left the game
+     * @param stopper The nickName of the player that left the game
+     * @param newStatus The Game Status to set
      */
 
     public synchronized void stopStartedGame(String stopper,Response newStatus){
@@ -334,8 +334,8 @@ public class GameController implements Observer<Message> {
     }
 
     /**
-     *
-     * @param playerView
+     * Function that reset a client (nickname,userID...) and remove the observers
+     * @param playerView The VirtualView of the Client to reset
      */
 
     public synchronized void resetPlayer(VirtualView playerView){
@@ -352,9 +352,9 @@ public class GameController implements Observer<Message> {
     }
 
     /**
-     *
-     * @param player
-     * @return
+     * Get UserID given the player
+     * @param player Player that we want to analise
+     * @return The UserID of the specific player
      */
 
     public synchronized String  getUserIDFromPlayer(Player player){
@@ -362,8 +362,8 @@ public class GameController implements Observer<Message> {
     }
 
     /**
-     *
-     * @param message
+     * Function called when the lobby timer end,remove the player from the lobby
+     * @param message Message received, with disconnection information
      */
 
     public synchronized void handleLobbyTimerEnded(Message message){
@@ -375,7 +375,7 @@ public class GameController implements Observer<Message> {
     }
 
     /**
-     *
+     * Function that eliminate a player from the board and the game when he lose
      */
 
     public synchronized void eliminatePlayer(){
@@ -386,9 +386,9 @@ public class GameController implements Observer<Message> {
     }
 
     /**
-     *
-     * @param nickName
-     * @return
+     * Function that remove The Virtual View of the Player from the controller
+     * @param nickName The Nickname of the player to remove
+     * @return The Virtual View removed
      */
 
     public synchronized VirtualView removeViewFromGame(String nickName){
@@ -400,7 +400,7 @@ public class GameController implements Observer<Message> {
     }
 
     /**
-     *
+     * Function that remove the workers of the player from the board, and change the current player
      */
 
     public synchronized void removePlayerFromBoard(){
@@ -410,7 +410,7 @@ public class GameController implements Observer<Message> {
     }
 
     /**
-     *
+     * Function that check if the game can continue, called if a player gets eliminated
      */
 
     public synchronized void checkIfStillCorrectGame(){
@@ -428,8 +428,8 @@ public class GameController implements Observer<Message> {
     }
 
     /**
-     *
-     * @param message
+     * Function that disconnect the player from the lobby (before the game is started)
+     * @param message Message received, with disconnection information
      */
 
     public synchronized void disconnectPlayerBeforeGameStart(Message message) {
@@ -453,9 +453,9 @@ public class GameController implements Observer<Message> {
     }
 
     /**
-     *
-     * @param nick
-     * @return
+     * Function that check if a nickName is already in use or if it is available
+     * @param nick NickName to check
+     * @return True if the nickname if free, false otherwise
      */
 
     public synchronized boolean isFreeNick(String nick){
@@ -470,7 +470,7 @@ public class GameController implements Observer<Message> {
     }
 
     /**
-     *
+     * Function that select the challenger and starte the first turn
      */
 
     public synchronized void handleMatchBeginning(){
@@ -481,8 +481,8 @@ public class GameController implements Observer<Message> {
     }
 
     /**
-     *
-     * @param message
+     * Function that change the current player when the turn of a player end
+     * @param message Message received from the Client
      */
 
     public synchronized void changeTurnPlayer(Message message){
@@ -492,7 +492,7 @@ public class GameController implements Observer<Message> {
     }
 
     /**
-     *
+     * Function that check if the player has lost, and then start the turn or eliminate the player
      */
 
     public synchronized void handleTurnBeginning() {
@@ -506,8 +506,8 @@ public class GameController implements Observer<Message> {
     }
 
     /**
-     *
-     * @param message
+     * Function that handle the End turn phase,change current player and set the new Game Status
+     * @param message Message received from the Client
      */
 
     public synchronized void handleEndTurn(Message message){
@@ -552,8 +552,8 @@ public class GameController implements Observer<Message> {
     }
 
     /**
-     *
-     * @param message
+     * Function that forward the message to the round controller
+     * @param message Message to forward
      */
 
     public synchronized void sendToRoundController(Message message){
@@ -563,7 +563,7 @@ public class GameController implements Observer<Message> {
     }
 
     /**
-     *
+     * Function that start the round timer
      */
 
     public void startRoundTimer(){
@@ -573,7 +573,7 @@ public class GameController implements Observer<Message> {
     }
 
     /**
-     *
+     * Function that stop the round timer
      */
 
     public void stopRoundTimer(){
@@ -581,8 +581,8 @@ public class GameController implements Observer<Message> {
     }
 
     /**
-     *
-     * @param message
+     * Function that send a chat message to the other clients
+     * @param message Message to deliver
      */
 
     public synchronized void broadcastMessage(Message message){
@@ -593,7 +593,7 @@ public class GameController implements Observer<Message> {
     }
 
     /**
-     *
+     * Function that check if the game has been stopped or if there is a winner, and (if yes) reset all the players
      */
 
     public synchronized void checkIfToReset(){
@@ -608,8 +608,8 @@ public class GameController implements Observer<Message> {
     }
 
     /**
-     *
-     * @param message
+     * Function that process the message received and decide which function to call
+     * @param message Message to analise
      */
 
     public synchronized void processMessage(Message message){
@@ -645,8 +645,8 @@ public class GameController implements Observer<Message> {
     }
 
     /**
-     *
-     * @param message
+     * Update function of the observer
+     * @param message Message received from the Client
      */
 
     @Override
