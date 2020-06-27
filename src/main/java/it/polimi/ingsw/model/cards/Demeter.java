@@ -1,12 +1,5 @@
 package it.polimi.ingsw.model.cards;
 
-/**
- * Class that extends Card that build the Chronus card
- * @author Luigi Scibona, Alessandro Ruzzi, Edoardo Piantoni
- * @version 1.0
- * @since 2020/06/27
- */
-
 import it.polimi.ingsw.model.map.Building;
 import it.polimi.ingsw.model.map.Directions;
 import it.polimi.ingsw.model.map.GameMap;
@@ -18,6 +11,13 @@ import it.polimi.ingsw.utils.ConstantsContainer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+/**
+ * Class that extends Card that build the Demeter card
+ * @author Luigi Scibona, Alessandro Ruzzi, Edoardo Piantoni
+ * @version 1.0
+ * @since 2020/06/27
+ */
 
 public class Demeter extends Card {
 
