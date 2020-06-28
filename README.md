@@ -2,7 +2,7 @@
 <img src="https://github.com/Sciluxor/ing-sw-2020-Scibona-Ruzzi-Piantoni/blob/master/wiki-assets/gamebox.png" width="400" alt="Scatola del Gioco" align="center" /></a>
 
 
-The aim of the project is to implement the [Santorini](http://www.craniocreations.it/prodotto/santorini/) board game following the architectural model Model View Controller for the realization of the model according to the object-oriented programming paradigm, in this case with Java language. The final result completely covers the rules defined by the game and allows you to interact with both a command line interface (CLI) and a graphical interface (GUI), the network has been managed with the traditional socket approach.
+The aim of the project is to implement the [Santorini](http://www.craniocreations.it/prodotto/santorini/) board game following the architectural model Model View Controller for the realization of the model according to the object-oriented programming paradigm, in this case with Java language. The final result completely covers the [rules]() defined by the game and allows you to interact with both a command line interface (CLI) and a graphical interface (GUI), the network has been managed with the traditional socket approach.
 
 # Functionality
 
