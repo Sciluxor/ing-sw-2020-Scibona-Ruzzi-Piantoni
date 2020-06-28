@@ -50,7 +50,7 @@ public class Game extends Observable<Response> {
     private Player winner;
 
     /**
-     * Class builder
+     * Public constructor for the Game Class
      * @param numberOfPlayers Number of Player in game
      * @param gameID GameId of the current game
      */
@@ -80,8 +80,8 @@ public class Game extends Observable<Response> {
     }
 
     /**
-     * Getter for hasStopper
-     * @return HasStopper
+     * Function to check if the game has been interrupted
+     * @return True if the game has been interrupted, false otherwise
      */
 
     public boolean hasStopper() {
@@ -90,7 +90,7 @@ public class Game extends Observable<Response> {
 
     /**
      * Setter of hasStopper
-     * @param hasStopper Boolean that says if hasStopper
+     * @param hasStopper Boolean that says if the game has been interrupted
      */
 
     public void setHasStopper(boolean hasStopper) {
@@ -146,8 +146,8 @@ public class Game extends Observable<Response> {
     }
 
     /**
-     * Getter of the stopper
-     * @return Stopper
+     * Getter of the stopper, player that left the game
+     * @return Name of the Stopper
      */
 
     public String getStopper() {
@@ -156,7 +156,7 @@ public class Game extends Observable<Response> {
 
     /**
      * Setter of the stopper
-     * @param stopper Stopper to be set
+     * @param stopper Name of the player who left the game
      */
 
     public void setStopper(String stopper) {
@@ -173,8 +173,8 @@ public class Game extends Observable<Response> {
     }
 
     /**
-     * Getter of the List of Players have lost
-     * @return List of Players
+     * Getter of the List of Players that have lost
+     * @return List of Players that have lost
      */
 
     public List<Player> getLosePlayers() {
@@ -205,8 +205,8 @@ public class Game extends Observable<Response> {
     }
 
     /**
-     * Getter of the configPlayer
-     * @return ConfigPlayer
+     * Getter of the number of player in game that are still choosing nickname ( used only if the nickname selected is already in use)
+     * @return Number of config player
      */
 
     public int getConfigPlayer() {
@@ -260,7 +260,7 @@ public class Game extends Observable<Response> {
     }
 
     /**
-     * Method that add the Player provided to the list of Plyers in game
+     * Method that add the Player provided to the list of Players in game
      * @param player Player to be added
      * @param actualView VirtualView of the game
      * @return Boolean that says if the Player is added or not
@@ -312,9 +312,9 @@ public class Game extends Observable<Response> {
     }
 
     /**
-     * Method that add a new Player provided
-     * @param player Player to be added
-     * @return Boolean that says if the Player is added or not
+     * Method that move a player from the list of configPlayer to SettedPlayer, only if the the nickname is free
+     * @param player Player to be moved
+     * @return Boolean that says if the Player is moved or not
      */
 
     public boolean newNickName(Player player){
@@ -379,7 +379,7 @@ public class Game extends Observable<Response> {
     }
 
     /**
-     * Method that says if the game i started
+     * Method that says if the game is started
      * @return Boolean that says if the game is started or not
      */
 
@@ -393,6 +393,11 @@ public class Game extends Observable<Response> {
      */
 
     public void setGameStarted(boolean gameStarted) { isGameStarted = gameStarted;}
+
+    /**
+     * Function that set the new game status, and notify all the observers of the game (the virtual views of the clients)
+     * @param newStatus The new status of the game
+     */
 
     public void setGameStatus(Response newStatus){
         if(newStatus == null)
@@ -430,7 +435,7 @@ public class Game extends Observable<Response> {
     }
 
     /**
-     * Method that remove the currentPlayer from the game
+     * Method that remove the currentPlayer from the game if he has lost
      */
 
     public void removePlayerLose(){
@@ -444,8 +449,8 @@ public class Game extends Observable<Response> {
     }
 
     /**
-     * Method that says if all the Workers of all the Players in game are placed on the map
-     * @return Boolean that says if all the Workers are placed
+     * Method that check if all the Workers of all the Players in game are placed on the map
+     * @return True if all the players have placed their workers, false otherwise
      */
 
     public boolean allWorkersPlaced(){
@@ -478,7 +483,7 @@ public class Game extends Observable<Response> {
     }
 
     /**
-     * Method that create the Players Queue from the List of Players
+     * Method that create the Players Queue from the List of Players and using the choice of the challenger
      */
 
     public void createQueue() {
@@ -500,7 +505,7 @@ public class Game extends Observable<Response> {
     }
 
     /**
-     *
+     * Method that create the Players Queue from the List of Players placing the challenger in the last position(queue used for the card choice phase)
      */
 
     public void createCardQueue(){
@@ -529,6 +534,12 @@ public class Game extends Observable<Response> {
 
     public boolean checkCardIntoDeck(String card) { return deck.get(card) != null;}
 
+    /**
+     * Method that assign a specific card to the current player
+     * @param card The card to assign
+     * @return True if the card is in the deck, false otherwise
+     */
+
     public boolean assignCard(String card) {
         if(card == null)
             throw new NullPointerException("null card");
@@ -542,7 +553,7 @@ public class Game extends Observable<Response> {
 
     /**
      * Method that says the actual game status
-     * @return Respose of the game status
+     * @return The actual game status
      */
 
     public Response getGameStatus(){ return this.gameStatus;}
@@ -557,7 +568,7 @@ public class Game extends Observable<Response> {
     }
 
     /**
-     * Method that assign the constraints of all the gods in the game
+     * Method that assign the permanent constraints to the players
      */
 
     public void assignPermanentConstraint(){

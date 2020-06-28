@@ -34,8 +34,8 @@ public class SimplifiedGame{
     private Player winner;
 
     /**
-     * Class builder
-     * @param numberOfPlayers
+     * Public constructor
+     * @param numberOfPlayers Number of player in the game
      */
 
     public SimplifiedGame(int numberOfPlayers) {

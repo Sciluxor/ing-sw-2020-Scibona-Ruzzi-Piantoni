@@ -668,7 +668,7 @@ public class Cli extends ClientGameController {
     /**
      * Method that handle the set of previous message in chat. It saves only the last 10 message
      * @param player Player that sent the message
-     * @param chatMessage Message sended by the player
+     * @param chatMessage Message sent by the player
      */
 
     private void handlePreviousChatMessage(Player player, String chatMessage) {
