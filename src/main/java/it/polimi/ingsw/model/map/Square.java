@@ -6,6 +6,13 @@ import it.polimi.ingsw.model.player.Worker;
 import java.io.Serializable;
 import java.util.Map;
 
+/**
+ *
+ * @author Luigi Scibona, Alessandro Ruzzi, Edoardo Piantoni
+ * @version 1.0
+ * @since 2020/06/28
+ */
+
 public class Square implements Serializable{
 
 
@@ -18,6 +25,16 @@ public class Square implements Serializable{
     private Worker worker;
     private  Map<Directions,Integer> canAccess;
 
+    /**
+     *
+     * @param tile
+     * @param buildingLevel
+     * @param building
+     * @param hasPlayer
+     * @param canAccess
+     * @param coordinates
+     */
+
     public Square(Integer tile, int buildingLevel, Building building, boolean hasPlayer,Map<Directions,Integer> canAccess,Integer[] coordinates) {
         this.tile = tile;
         this.buildingLevel = buildingLevel;
@@ -27,18 +44,36 @@ public class Square implements Serializable{
         this.coordinates = coordinates;
     }
 
+    /**
+     *
+     * @return
+     */
 
     public Integer getTile() {
         return tile;
     }
 
+    /**
+     *
+     * @return
+     */
+
     public int getBuildingLevel() {
         return buildingLevel;
     }
 
+    /**
+     *
+     * @param level
+     */
+
     public void setBuildingLevel(int level){
         this.buildingLevel = level;
     }
+
+    /**
+     *
+     */
 
     public void addBuildingLevel() {
         if(buildingLevel<=3)
@@ -46,9 +81,19 @@ public class Square implements Serializable{
         else throw new IllegalStateException("level 4 already reached");
     }
 
+    /**
+     *
+     * @return
+     */
+
     public Building getBuilding() {
         return building;
     }
+
+    /**
+     *
+     * @param building
+     */
 
     public void setBuilding(Building building) {
         if(building == null)
@@ -56,17 +101,37 @@ public class Square implements Serializable{
         this.building = building;
     }
 
+    /**
+     *
+     * @return
+     */
+
     public Integer[] getCoordinates() {
         return coordinates;
     }
+
+    /**
+     *
+     * @return
+     */
 
     public boolean hasPlayer() {
         return hasPlayer;
     }
 
+    /**
+     *
+     * @param hasPlayer
+     */
+
     public void setHasPlayer(boolean hasPlayer) {
         this.hasPlayer = hasPlayer;
     }
+
+    /**
+     *
+     * @return
+     */
 
     public Player getPlayer() {
         if(!hasPlayer)
@@ -74,11 +139,21 @@ public class Square implements Serializable{
         return player;
     }
 
+    /**
+     *
+     * @param player
+     */
+
     public void setPlayer(Player player) {
         if(player == null)
             throw new NullPointerException("player null");
         this.player = player;
     }
+
+    /**
+     *
+     * @return
+     */
 
     public Worker getWorker() {
         if(!hasPlayer)
@@ -86,15 +161,31 @@ public class Square implements Serializable{
         return worker;
     }
 
+    /**
+     *
+     * @param worker
+     */
+
     public void setWorker(Worker worker) {
         if(worker == null)
             throw new NullPointerException("null worker");
         this.worker = worker;
     }
 
+    /**
+     *
+     * @return
+     */
+
     public Map<Directions, Integer> getCanAccess() {
         return canAccess;
     }
+
+    /**
+     *
+     * @param player
+     * @param worker
+     */
 
     public void setMovement(Player player,Worker worker){
         setHasPlayer(true);
@@ -102,8 +193,5 @@ public class Square implements Serializable{
         setWorker(worker);
 
     }
-
-
-
 
 }

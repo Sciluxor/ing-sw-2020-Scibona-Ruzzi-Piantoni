@@ -8,11 +8,21 @@ import it.polimi.ingsw.utils.PathContainer;
 import java.io.InputStreamReader;
 import java.util.*;
 
+/**
+ *
+ * @author Luigi Scibona, Alessandro Ruzzi, Edoardo Piantoni
+ * @version 1.0
+ * @since 2020/06/28
+ */
 
 public class MapLoader {
     private MapLoader() {
         throw new IllegalStateException("MapLoader class cannot be instantiated");
     }
+
+    /**
+     *
+     */
 
     private static class SquareContainer{
 
@@ -23,6 +33,11 @@ public class MapLoader {
         Integer[] canAccess;
         Integer[] xy;
     }
+
+    /**
+     *
+     * @return
+     */
 
     public static List<Square> loadMap(){
         Gson gsonMap = new Gson();
@@ -51,6 +66,12 @@ public class MapLoader {
 
         return squares;
     }
+
+    /**
+     *
+     * @param canAccess
+     * @return
+     */
 
     private static Map<Directions,Integer> createHashMapFromArray(Integer[] canAccess) {
 

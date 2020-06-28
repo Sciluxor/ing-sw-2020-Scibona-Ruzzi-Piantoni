@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 /**
  * Class that implements Serializable. It is used to implements all methods and declare all attributes of the worker object
- * @author edoardopiantoni, alessandroruzzi, luigiscibona
+ * @author Luigi Scibona, Alessandro Ruzzi, Edoardo Piantoni
  * @version 1.0
  * @since 2020/06/28
  */

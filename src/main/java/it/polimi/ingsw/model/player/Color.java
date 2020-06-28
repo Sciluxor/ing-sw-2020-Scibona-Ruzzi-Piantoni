@@ -1,7 +1,8 @@
 package it.polimi.ingsw.model.player;
 
 /**
- * @author edoardopiantoni, alessandroruzzi, luigiscibona
+ * Enumeration used for the players'colors
+ * @author Luigi Scibona, Alessandro Ruzzi, Edoardo Piantoni
  * @version 1.0
  * @since 2020/06/28
  */

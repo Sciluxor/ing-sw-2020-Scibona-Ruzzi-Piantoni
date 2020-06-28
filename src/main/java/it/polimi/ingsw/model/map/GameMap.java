@@ -8,6 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ *
+ * @author Luigi Scibona, Alessandro Ruzzi, Edoardo Piantoni
+ * @version 1.0
+ * @since 2020/06/28
+ */
+
 public class GameMap {
 
 
@@ -15,6 +22,10 @@ public class GameMap {
     private final List<Square> map;
     private final Square [][]linkToCoordinates = new Square[ConstantsContainer.MAXMAPPOSITION][ConstantsContainer.MAXMAPPOSITION]; // mettere come costanti
     private final List<Square> modifiedSquare = new ArrayList<>();
+
+    /**
+     *
+     */
 
     public GameMap() {
         this.map = MapLoader.loadMap();
@@ -28,6 +39,12 @@ public class GameMap {
     //Function to obtain the number of tile from coordinates
     //
 
+    /**
+     *
+     * @param coordinates
+     * @return
+     */
+
     public Square getTileFromCoordinates(Integer[] coordinates){
         return linkToCoordinates[coordinates[0]][coordinates[1]];
     }
@@ -35,6 +52,12 @@ public class GameMap {
     //
     //function to find all the reachable square moving from a specific square
     //
+
+    /**
+     *
+     * @param worker
+     * @return
+     */
 
     public List<Directions> reachableSquares(Worker worker){
           if(worker == null)
@@ -61,6 +84,12 @@ public class GameMap {
     //function that change the position of the worker
     //
 
+    /**
+     *
+     * @param player
+     * @param direction
+     */
+
     public void moveWorkerTo(Player player, Directions direction){
         if(player == null || direction == null)
             throw new NullPointerException("null player or direction");
@@ -79,6 +108,12 @@ public class GameMap {
     //
     //function that change the position of the worker
     //
+
+    /**
+     *
+     * @param worker
+     * @return
+     */
 
     public List<Directions> buildableSquare(Worker worker){
         if(worker == null)
@@ -103,6 +138,14 @@ public class GameMap {
     //function that build in the position selected,with the type of building selected
     //
 
+    /**
+     *
+     * @param worker
+     * @param direction
+     * @param building
+     * @return
+     */
+
     public boolean buildInSquare(Worker worker, Directions direction, Building building){
         if(worker == null || direction == null || building == null){
             throw new NullPointerException("null worker or building or direction");
@@ -122,6 +165,13 @@ public class GameMap {
 
     }
 
+    /**
+     *
+     * @param square1
+     * @param square2
+     * @param currentPlayer
+     */
+
     public void placeWorkerOnMap(Square square1,Square square2, Player currentPlayer){
         clearModifiedSquare();
 
@@ -135,6 +185,13 @@ public class GameMap {
 
     }
 
+    /**
+     *
+     * @param square
+     * @param player
+     * @param worker
+     */
+
     public void placeWorker(Square square,Player player,Worker worker){
         square.setMovement(player,worker);
         modifiedSquare.add(square);
@@ -143,6 +200,12 @@ public class GameMap {
     //
     //function that return the positions of both player's workers
     //
+
+    /**
+     *
+     * @param actualPlayer
+     * @return
+     */
 
     public List<Square> getWorkersSquares(Player actualPlayer){
         if(actualPlayer == null)
@@ -156,12 +219,23 @@ public class GameMap {
         return workerSquare;
     }
 
+    /**
+     *
+     * @return
+     */
+
     public List<Square> getMap(){ return map;}
 
 
     //
     //function that check if a square is in the perimeter
     //
+
+    /**
+     *
+     * @param tile
+     * @return
+     */
 
     public  boolean isInPerimeter(Integer tile){
         if(tile == null)
@@ -170,18 +244,36 @@ public class GameMap {
         return tile <= ConstantsContainer.PERIMETERPOSITION;
     }
 
+    /**
+     *
+     * @param square
+     */
 
     public void addModifiedSquare(Square square){
         this.modifiedSquare.add(square);
     }
 
+    /**
+     *
+     * @return
+     */
+
     public List<Square> getModifiedSquare() {
         return modifiedSquare;
     }
 
+    /**
+     *
+     */
+
     public void clearModifiedSquare(){
         this.modifiedSquare.clear();
     }
+
+    /**
+     *
+     * @param player
+     */
 
     public void removeWorkersOfPlayer(Player player){
 
@@ -194,6 +286,11 @@ public class GameMap {
             remove(square);
         }
     }
+
+    /**
+     *
+     * @param square
+     */
 
     public void remove(Square square){
         square.setHasPlayer(false);

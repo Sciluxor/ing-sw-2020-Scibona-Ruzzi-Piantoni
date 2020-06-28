@@ -20,7 +20,7 @@ import java.util.*;
 
 /**
  *
- * @author edoardopiantoni, alessandroruzzi, luigiscibona
+ * @author Luigi Scibona, Alessandro Ruzzi, Edoardo Piantoni
  * @version 1.0
  * @since 2020/06/28
  */
