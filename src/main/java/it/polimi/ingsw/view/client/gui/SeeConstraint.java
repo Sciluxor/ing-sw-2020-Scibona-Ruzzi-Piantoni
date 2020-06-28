@@ -9,9 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
-import static it.polimi.ingsw.view.client.gui.GuiUtils.eliminateActionClass;
 import static it.polimi.ingsw.view.client.gui.Gui.getD;
-import static it.polimi.ingsw.view.client.gui.GuiUtils.internalAndBackgroundSetter;
+import static it.polimi.ingsw.view.client.gui.GuiUtils.*;
 
 /**
  * Class that extends JDesktopPane for the build of the pane to display any limitations due to the other gods
@@ -72,7 +71,7 @@ public class SeeConstraint extends JDesktopPane {
 
         setPreferredSize(frameSize);
 
-        buttonStyle();
+        setButtonStyle(godList, intFrame, frameSize, intFrameSize, buttonBackground, cover, label, true, 1);
 
         if (constraint.size() == 3){
             mePower = getButtonFromConstraint(constraint.get(0));
@@ -117,21 +116,6 @@ public class SeeConstraint extends JDesktopPane {
         backBack.setBounds(0, 0, frameSize.width, frameSize.height);
         add(backBack);
 
-    }
-
-    /**
-     * Method for setting the JButtons of the cards
-     */
-
-    private void buttonStyle(){
-        for (JButton button : godList){
-            button.setOpaque(false);
-            button.setContentAreaFilled(false);
-            button.setFocusPainted(false);
-            button.setBorderPainted(false);
-            button.addMouseListener(new ColorBorderGodCards());
-            button.addMouseListener(new ShowPower(intFrame, frameSize, intFrameSize, buttonBackground, cover, label, true));
-        }
     }
 
     /**

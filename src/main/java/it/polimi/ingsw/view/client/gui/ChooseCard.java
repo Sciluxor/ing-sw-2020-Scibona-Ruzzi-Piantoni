@@ -90,6 +90,7 @@ public class ChooseCard extends JDesktopPane{
 
         selectGodsChosen();
 
+        setButtonStyle(godChoosen, intFrame, frameSize, intFrameSize, buttonBackground, cover, label, true, 2);
         buttonStyle();
 
         if(numberOfPanel == 3 || numberOfPanel == 2) {
@@ -176,49 +177,12 @@ public class ChooseCard extends JDesktopPane{
     }
 
     /**
-     * Class that extends MouseAdapter to show the description of the card as the mouse cursor moves over it
-     */
-
-    private class ShowPower extends MouseAdapter {
-
-        @Override
-        public void mouseEntered(MouseEvent e) {
-            JButton c = (JButton)e.getSource();
-            if (c.getX() < frameSize.width * 50/100 && c.getY() < frameSize.height * 40/100) {
-                intFrame.setBounds(((frameSize.width * 11 / 100) + c.getX()), (frameSize.height * 25 / 100), intFrameSize.width, intFrameSize.height);
-            }
-            else
-                intFrame.setBounds((int) (c.getX() - (frameSize.width * 41.5 / 100)), (frameSize.height * 25 / 100), intFrameSize.width, intFrameSize.height);
-
-            buttonBackground.setIcon(null);
-            try {
-                cover = ImageHandler.setImage("resources/Graphics/gods/" + c.getName() + "_description.png", 100, 100, intFrame.getWidth() , intFrame.getHeight() );
-            } catch (IOException ex) {
-                LOGGER.severe(ex.getMessage());
-            }
-            label.setIcon(cover.getIcon());
-            buttonBackground.setIcon(label.getIcon());
-            intFrame.setVisible(true);
-        }
-
-        @Override
-        public void mouseExited(MouseEvent e) {
-            intFrame.setVisible(false);
-        }
-    }
-
-    /**
-     * Method for setting the JButtons of the cards
+     * Method for adding the ChooseGod mouseAdapter to the JButtons of the cards
      */
 
     private void buttonStyle(){
+
         for (JButton button : godChoosen){
-            button.setOpaque(false);
-            button.setContentAreaFilled(false);
-            button.setFocusPainted(false);
-            button.setBorderPainted(false);
-            button.addMouseListener(new ColorBorderGodCards());
-            button.addMouseListener(new ShowPower());
             button.addActionListener(new ChooseGod());
         }
     }

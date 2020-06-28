@@ -78,6 +78,7 @@ public class ChallengerChoiceCards extends JDesktopPane{
         JButton chronus = new JButton();
         chronus.setName("chronus");
 
+        setButtonStyle(godList, intFrame, frameSize, intFrameSize, buttonBackground, cover, label, false, 1);
         buttonStyle();
 
         JLabel choise;
@@ -113,17 +114,11 @@ public class ChallengerChoiceCards extends JDesktopPane{
     }
 
     /**
-     * Method for setting the JButtons of the cards
+     * Method for adding the ChooseGod mouseAdapter to the JButtons of the cards
      */
 
     private void buttonStyle(){
          for (JButton button : godList){
-             button.setOpaque(false);
-             button.setContentAreaFilled(false);
-             button.setFocusPainted(false);
-             button.setBorderPainted(false);
-             button.addMouseListener(new ColorBorderGodCards());
-             button.addMouseListener(new ShowPower(intFrame, frameSize, intFrameSize, buttonBackground, cover, label, false));
              button.addActionListener(new ChooseGod());
          }
      }
