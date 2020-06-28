@@ -8,9 +8,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButtonPersonalized;
 import static it.polimi.ingsw.view.client.gui.Board.getBolddimension;
 import static it.polimi.ingsw.view.client.gui.Gui.*;
+import static it.polimi.ingsw.view.client.gui.GuiUtils.backAndCloseSetter;
 
 /**
  * Class that extends JDesktopPane that builds the pane for updates during the game
@@ -23,6 +23,7 @@ public class UpdateBoard extends JDesktopPane {
 
     transient Board board;
     Dimension frameSize = new Dimension();
+    Dimension buttonSize = new Dimension();
     MyButton close = new MyButton(3);
     JInternalFrame intFrame;
     double bold = getBolddimension();
@@ -44,6 +45,7 @@ public class UpdateBoard extends JDesktopPane {
         intFrame = frame;
         board = istance;
         nameChoosing = name;
+        buttonSize.setSize((getD().getWidth() * 13 / 100), (getD().getHeight() * 5 / 100));
         setPreferredSize(frameSize);
         setLayout(null);
 
@@ -64,12 +66,7 @@ public class UpdateBoard extends JDesktopPane {
         add(otherName);
 
         close.addActionListener(new Close());
-        close.setBounds((int) (((double)frameSize.width * 50/ 100) - ((getD().getWidth() * 13 / 100) * 50/100)), (frameSize.height * 83 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
-        add(close);
-
-        JButton back = backgroundButtonPersonalized(2, frameSize );
-        back.setBounds(0, 0, frameSize.width, frameSize.height);
-        add(back);
+        backAndCloseSetter(this, frameSize, buttonSize, close);
     }
 
     /**

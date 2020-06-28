@@ -15,8 +15,8 @@ import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButtonPersonalized;
 import static it.polimi.ingsw.view.client.gui.Board.getBolddimension;
 import static it.polimi.ingsw.view.client.gui.Board.internalFrameSetUp;
-import static it.polimi.ingsw.view.client.gui.EliminateListeners.eliminateActionClass;
-import static it.polimi.ingsw.view.client.gui.EliminateListeners.eliminateMouseClass;
+import static it.polimi.ingsw.view.client.gui.GuiUtils.eliminateActionClass;
+import static it.polimi.ingsw.view.client.gui.GuiUtils.eliminateMouseClass;
 import static it.polimi.ingsw.view.client.gui.Gui.*;
 
 /**

@@ -107,7 +107,7 @@ public class LobbyGui{
 
 
         of.setBounds(frameSize.width * 47/100, frameSize.height * 20/100, frameSize.width * 5/100, frameSize.height * 5/100);
-        of.setFont(Gui.felixBold);
+        of.setFont(Gui.getFelixBold());
         pane.add(of);
         lnumber.setBounds(frameSize.width * 52/100, frameSize.height * 20/100, frameSize.width * 5/100, frameSize.height * 5/100);
         pane.add(lnumber);
@@ -115,7 +115,7 @@ public class LobbyGui{
 
         textPane.setBounds((frameSize.width * 30/100), frameSize.height * 43/100, frameSize.width * 40/100, frameSize.height * 20/100);
         textPane.setOpaque(false);
-        textPane.setFont(Gui.felixBold);
+        textPane.setFont(Gui.getFelixBold());
         pane.add(textPane);
         colorStyle = textPane.addStyle("colorStyle", null);
         StyleConstants.setAlignment(colorStyle, StyleConstants.ALIGN_CENTER);
@@ -123,7 +123,7 @@ public class LobbyGui{
 
         numberPane.setBounds((frameSize.width * 42/100), frameSize.height * 20/100, frameSize.width * 5/100, frameSize.height * 5/100);
         numberPane.setOpaque(false);
-        numberPane.setFont(Gui.felixBold);
+        numberPane.setFont(Gui.getFelixBold());
         pane.add(numberPane);
         fontSize = numberPane.getInputAttributes();
         numberStyle = numberPane.addStyle("colorStyle", null);

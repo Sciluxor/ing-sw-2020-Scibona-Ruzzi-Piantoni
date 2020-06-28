@@ -89,14 +89,14 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
         add(choose);
 
         namePlayer1.setBounds((int) (((double)frameSize.width * 49/100) - ((namePlayer1.getText().length() * bold) / 2)), frameSize.height * 37/100, labelSize.width, labelSize.height);
-        namePlayer1.setFont(felixBold);
+        namePlayer1.setFont(getFelixBold());
         add(namePlayer1);
         player1.setBounds((frameSize.width * 35/100), frameSize.height * 38/100, labelSize.width, labelSize.height);
         add(player1);
         player1.addActionListener(new Choose());
 
         namePlayer2.setBounds((int) (((double)frameSize.width * 49/100) - ((namePlayer2.getText().length() * bold) / 2)), frameSize.height * 49/100, labelSize.width, labelSize.height);
-        namePlayer2.setFont(felixBold);
+        namePlayer2.setFont(getFelixBold());
         add(namePlayer2);
         player2.setBounds((frameSize.width * 35/100), frameSize.height * 50/100, labelSize.width, labelSize.height);
         add(player2);
@@ -107,7 +107,7 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
             namePlayer3  = new JLabel(players.get(2).getNickName());
             player3.setName(players.get(2).getNickName());
             namePlayer3.setBounds((int) (((double)frameSize.width * 49/100) - ((namePlayer3.getText().length() * bold) / 2)), frameSize.height * 61/100, labelSize.width, labelSize.height);
-            namePlayer3.setFont(felixBold);
+            namePlayer3.setFont(getFelixBold());
             add(namePlayer3);
             addColorButton(player3);
             buttonStyle(player3);

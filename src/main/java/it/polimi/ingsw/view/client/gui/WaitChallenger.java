@@ -6,8 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButtonPersonalized;
 import static it.polimi.ingsw.view.client.gui.Gui.*;
+import static it.polimi.ingsw.view.client.gui.GuiUtils.backAndCloseSetter;
 
 /**
  * Class that extends JDesktopPane that builds pane for the message of waiting for the challenger choices
@@ -19,6 +19,7 @@ import static it.polimi.ingsw.view.client.gui.Gui.*;
 public class WaitChallenger extends JDesktopPane{
 
     Dimension frameSize = new Dimension();
+    Dimension buttonSize = new Dimension();
     MyButton close = new MyButton(3);
     JInternalFrame intFrame;
     String nameChoosing;
@@ -36,6 +37,7 @@ public class WaitChallenger extends JDesktopPane{
 
         frameSize.setSize(dimensionFrame);
         intFrame = frame;
+        buttonSize.setSize((getD().getWidth() * 13 / 100), (getD().getHeight() * 5 / 100));
         setPreferredSize(frameSize);
         setLayout(null);
         nameChoosing = name;
@@ -59,12 +61,7 @@ public class WaitChallenger extends JDesktopPane{
 
 
         close.addActionListener(new Close());
-        close.setBounds((int) (((double)frameSize.width * 50/ 100) - ((getD().getWidth() * 13 / 100) * 50/100)), (frameSize.height * 81 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
-        add(close);
-
-        JButton back = backgroundButtonPersonalized(2, frameSize);
-        back.setBounds(0, 0, frameSize.width, frameSize.height);
-        add(back);
+        backAndCloseSetter(this, frameSize, buttonSize, close);
     }
 
     /**

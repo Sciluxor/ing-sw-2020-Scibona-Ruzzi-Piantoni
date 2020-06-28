@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static it.polimi.ingsw.utils.ConstantsContainer.*;
-import static it.polimi.ingsw.view.client.gui.EliminateListeners.*;
+import static it.polimi.ingsw.view.client.gui.GuiUtils.*;
 import static it.polimi.ingsw.view.client.gui.Gui.*;
 
 /**

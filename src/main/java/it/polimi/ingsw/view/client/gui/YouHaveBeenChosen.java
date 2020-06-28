@@ -6,8 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButtonPersonalized;
 import static it.polimi.ingsw.view.client.gui.Gui.getD;
+import static it.polimi.ingsw.view.client.gui.GuiUtils.backAndCloseSetter;
 
 /**
  * Class that extends JDesktopPane that build the pane for the message of chosen as Challenger
@@ -20,6 +20,7 @@ public class YouHaveBeenChosen extends JDesktopPane {
 
     transient Board board;
     Dimension frameSize = new Dimension();
+    Dimension buttonSize = new Dimension();
     MyButton close = new MyButton(3);
     JInternalFrame intFrame;
 
@@ -36,6 +37,7 @@ public class YouHaveBeenChosen extends JDesktopPane {
         frameSize.setSize(dimensionFrame);
         intFrame = frame;
         board = istance;
+        buttonSize.setSize((getD().getWidth() * 13 / 100), (getD().getHeight() * 5 / 100));
         setPreferredSize(frameSize);
         setLayout(null);
 
@@ -52,12 +54,7 @@ public class YouHaveBeenChosen extends JDesktopPane {
         add(label2);
 
         close.addActionListener(new Close());
-        close.setBounds((int) (((double)frameSize.width * 50/ 100) - ((getD().getWidth() * 13 / 100) * 50/100)), (frameSize.height * 83 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
-        add(close);
-
-        JButton back = backgroundButtonPersonalized(2, frameSize );
-        back.setBounds(0, 0, frameSize.width, frameSize.height);
-        add(back);
+        backAndCloseSetter(this, frameSize, buttonSize, close);
     }
 
     /**

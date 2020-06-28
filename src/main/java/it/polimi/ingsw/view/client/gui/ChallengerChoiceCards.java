@@ -10,7 +10,7 @@ import java.util.List;
 
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
 import static it.polimi.ingsw.view.client.gui.Board.internalFrameSetUp;
-import static it.polimi.ingsw.view.client.gui.EliminateListeners.*;
+import static it.polimi.ingsw.view.client.gui.GuiUtils.*;
 import static it.polimi.ingsw.view.client.gui.Gui.*;
 
 /**

@@ -1,26 +1,28 @@
 package it.polimi.ingsw.view.client.gui;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButtonPersonalized;
+
 /**
- * Class that removes Listeners from the provided JButton
+ * Class with generic utils methods
  * @author Luigi Scibona
  * @version 1.0
- * @since 2020/06/13
+ * @since 2020/06/28
  */
 
-public class EliminateListeners {
+public class GuiUtils {
+
     /**
-     * Private class builder
+     * Private Class Builder
      */
 
-    private EliminateListeners() {
-        throw new IllegalStateException("EliminateListeners class cannot be instantiated");
-    }
+    private GuiUtils(){throw new IllegalStateException("GuiUtils class cannot be instantiated");}
 
     /**
      * Method that remove the ActionListener selected from the supplied JButton
@@ -29,7 +31,7 @@ public class EliminateListeners {
      */
 
     public static void eliminateActionClass(JButton button, Class clas){
-        List<ActionListener> toRemove = new ArrayList<>();
+        java.util.List<ActionListener> toRemove = new ArrayList<>();
         for (int x = 0; x < button.getActionListeners().length; x++){
             if (button.getActionListeners()[x].getClass().equals(clas))
                 toRemove.add(button.getActionListeners()[x]);
@@ -46,7 +48,7 @@ public class EliminateListeners {
      */
 
     public static void eliminateMouseClass(JButton button, Class clas){
-        List<MouseListener> toRemove = new ArrayList<>();
+        java.util.List<MouseListener> toRemove = new ArrayList<>();
         for (int x = 0; x < button.getMouseListeners().length; x++){
             if (button.getMouseListeners()[x].getClass().equals(clas))
                 toRemove.add(button.getMouseListeners()[x]);
@@ -54,7 +56,6 @@ public class EliminateListeners {
         for (MouseListener mouse : toRemove){
             button.removeMouseListener(mouse);
         }
-
     }
 
     /**
@@ -63,7 +64,7 @@ public class EliminateListeners {
      */
 
     public static void eliminateAllActionClass(JButton button){
-        List<ActionListener> toRemove = new ArrayList<>();
+        java.util.List<ActionListener> toRemove = new ArrayList<>();
         for (int x = 0; x < button.getActionListeners().length; x++){
             toRemove.add(button.getActionListeners()[x]);
         }
@@ -85,5 +86,22 @@ public class EliminateListeners {
         for (MouseListener mouse : toRemove){
             button.removeMouseListener(mouse);
         }
+    }
+
+    /**
+     * Method that set the close button and the background of the provided JDesktopPane
+     * @param pane JDesktopPane provided
+     * @param frame Dimension of the frame
+     * @param button Dimension of the button
+     * @param close MyButton close
+     */
+
+    public static void backAndCloseSetter(JDesktopPane pane, Dimension frame, Dimension button, MyButton close){
+        close.setBounds(((frame.width * 50/100) - (button.width / 2)), (frame.height * 83 / 100),  button.width, button.height);
+        pane.add(close);
+
+        JButton back = backgroundButtonPersonalized(2, frame);
+        back.setBounds(0, 0, frame.width, frame.height);
+        pane.add(back);
     }
 }

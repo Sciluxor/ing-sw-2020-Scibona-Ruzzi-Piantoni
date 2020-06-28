@@ -8,8 +8,7 @@ import java.io.IOException;
 
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButtonPersonalized;
 import static it.polimi.ingsw.view.client.gui.Board.getBolddimension;
-import static it.polimi.ingsw.view.client.gui.Gui.felixBold;
-import static it.polimi.ingsw.view.client.gui.Gui.getD;
+import static it.polimi.ingsw.view.client.gui.Gui.*;
 
 /**
  * Class that extends JDesktopPane for the construction of the pane that warns of the game phase of the positioning of the Workers
@@ -45,7 +44,7 @@ public class PlaceWorkers extends JDesktopPane{
         JLabel label;
         JLabel otherName = new JLabel(nameChoosing);
         otherName.setBounds((int) (((double)frameSize.width * 48/100) - ((otherName.getText().length() * bold) / 2)), (int) (frameSize.height * 32.5/100), frameSize.width * 60/100, frameSize.width * 5/100);
-        otherName.setFont(felixBold);
+        otherName.setFont(getFelixBold());
 
         if (numberOfPanel == 0) {
             label = ImageHandler.setImage("resources/Graphics/Texts/place_your_two_workers.png", 100, 100, frameSize.width * 85/100, frameSize.height * 25/100);

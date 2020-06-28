@@ -6,9 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButtonPersonalized;
 import static it.polimi.ingsw.view.client.gui.Board.getBolddimension;
 import static it.polimi.ingsw.view.client.gui.Gui.*;
+import static it.polimi.ingsw.view.client.gui.GuiUtils.backAndCloseSetter;
 
 /**
  * Class that extends JDesktopPane for the build of the pane for warning the start of the turn
@@ -62,13 +62,7 @@ public class StartTurn extends JDesktopPane{
 
 
         close.addActionListener(new Close());
-        close.setBounds(((frameSize.width * 50/100) - (buttonSize.width / 2)), (frameSize.height * 81 / 100),  buttonSize.width, buttonSize.height);
-        add(close);
-
-
-        JButton back = backgroundButtonPersonalized(2, frameSize);
-        back.setBounds(0, 0, frameSize.width, frameSize.height);
-        add(back);
+        backAndCloseSetter(this, frameSize, buttonSize, close);
     }
 
     /**

@@ -13,7 +13,7 @@ import java.util.List;
 
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
 import static it.polimi.ingsw.view.client.gui.Board.internalFrameSetUp;
-import static it.polimi.ingsw.view.client.gui.EliminateListeners.eliminateActionClass;
+import static it.polimi.ingsw.view.client.gui.GuiUtils.eliminateActionClass;
 import static it.polimi.ingsw.view.client.gui.Gui.LOGGER;
 import static it.polimi.ingsw.view.client.gui.Gui.getD;
 
