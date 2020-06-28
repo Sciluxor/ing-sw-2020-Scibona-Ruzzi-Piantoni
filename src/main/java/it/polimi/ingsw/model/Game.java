@@ -224,7 +224,7 @@ public class Game extends Observable<Response> {
 
     /**
      * Setter of hasWinner
-     * @param hasWinner Boolean to set
+     * @param hasWinner Boolean that is true if the game has a winner
      */
 
     public void setHasWinner(boolean hasWinner) {
