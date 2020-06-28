@@ -2,7 +2,7 @@ package it.polimi.ingsw.view.client.cli;
 
 /**
  * Enumeration Class that represent some useful values (Colors & Clear Shell) used in the Cli
- * @author _theonlyonepiantu
+ * @author edoardopiantoni
  * @version 1.0
  * @since 2020/06/18
  */

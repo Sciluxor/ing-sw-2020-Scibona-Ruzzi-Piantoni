@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 
 /**
  * Class that define and implements some useful functions that are used by the Cli
- * @author _theonlyonepiantu
+ * @author edoardopiantoni
  * @version 1.0
  * @since 2020/06/18
  */
