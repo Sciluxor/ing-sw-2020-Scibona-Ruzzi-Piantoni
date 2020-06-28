@@ -8,8 +8,19 @@ import it.polimi.ingsw.utils.PathContainer;
 import java.io.InputStreamReader;
 import java.util.*;
 
+/**
+ * Class that build the game map from a json file
+ * @author Luigi Scibona, Alessandro Ruzzi, Edoardo Piantoni
+ * @version 1.0
+ * @since 2020/06/28
+ */
 
 public class MapLoader {
+
+    /**
+     * Private constructor, Since it's a loader class it can't be instantiated.
+     */
+
     private MapLoader() {
         throw new IllegalStateException("MapLoader class cannot be instantiated");
     }
@@ -23,6 +34,11 @@ public class MapLoader {
         Integer[] canAccess;
         Integer[] xy;
     }
+
+    /**
+     * Function that build the map from a json file, create all squares and the maps
+     * @return The list of squares created(the entire map)
+     */
 
     public static List<Square> loadMap(){
         Gson gsonMap = new Gson();
@@ -51,6 +67,12 @@ public class MapLoader {
 
         return squares;
     }
+
+    /**
+     * Function that create a map using the directions(key) and an array of integer(value)
+     * @param canAccess array of all the tile that can be accessed from a specific tile
+     * @return The map created with the input parameters
+     */
 
     private static Map<Directions,Integer> createHashMapFromArray(Integer[] canAccess) {
 

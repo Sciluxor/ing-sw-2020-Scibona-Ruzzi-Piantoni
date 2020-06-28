@@ -15,7 +15,7 @@ import java.util.List;
 
 /**
  * Class that implements all methods and declare all attributes regarding the model of a player
- * @author edoardopiantoni, alessandroruzzi, luigiscibona
+ * @author Luigi Scibona, Alessandro Ruzzi, Edoardo Piantoni
  * @version 1.0
  * @since 2020/06/28
  */

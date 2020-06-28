@@ -6,7 +6,7 @@ import com.google.gson.stream.JsonReader;
 import java.io.InputStreamReader;
 
 /**
- * Utility class that loads all the server configuration parameters
+ * Class that loads all the server configuration parameters
  * @author Alessandro Ruzzi
  * @version 1.0
  * @since 2020/06/27
@@ -15,7 +15,7 @@ import java.io.InputStreamReader;
 public class ConfigLoader {
 
     /**
-     * Private constructor, Since it's an utility class it can't be instantiated.
+     * Private constructor, Since it's a loader class it can't be instantiated.
      */
 
     private ConfigLoader() { throw new IllegalStateException("ConfigLoader cannot be instantiated"); }

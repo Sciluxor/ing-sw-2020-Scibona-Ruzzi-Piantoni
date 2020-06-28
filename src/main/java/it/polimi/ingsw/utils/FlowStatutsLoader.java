@@ -9,7 +9,7 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 /**
- * Utility class that load the flow of the game from a json file
+ * Class that load the flow of the game from a json file
  * @author Alessandro Ruzzi
  * @version 1.0
  * @since 2020/06/27
@@ -18,7 +18,7 @@ import java.util.*;
 public class FlowStatutsLoader {
 
     /**
-     * Private constructor, Since it's an utility class it can't be instantiated.
+     * Private constructor, Since it's a loader class it can't be instantiated.
      */
 
     private FlowStatutsLoader() {
