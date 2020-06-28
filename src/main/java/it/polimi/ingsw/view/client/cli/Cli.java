@@ -21,7 +21,7 @@ import static it.polimi.ingsw.utils.CliUtils.*;
 
 /**
  * Class that extends ClientGameController that start the application for the Cli
- * @author _theonlyonepiantu
+ * @author edoardopiantoni
  * @version 1.0
  * @since 2020/06/18
  */
@@ -1334,7 +1334,7 @@ public class Cli extends ClientGameController {
             printChat(previousChatMessage);
             printRed("MESSAGE: ");
         } else {
-            printRed("USE ARROWS TO COME BACK TO YOUR ACTIONS...\n");
+            printRed("USE ARROWS TO COME BACK TO YOUR ACTIONS...");
             setRawTerminalMode();
         }
     }

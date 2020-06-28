@@ -6,7 +6,7 @@ import static it.polimi.ingsw.utils.CliUtils.printErr;
 
 /**
  * Class that define and implement the single tile's object
- * @author _theonlyonepiantu
+ * @author edoardopiantoni
  * @version 1.0
  * @since 2020/06/18
  */

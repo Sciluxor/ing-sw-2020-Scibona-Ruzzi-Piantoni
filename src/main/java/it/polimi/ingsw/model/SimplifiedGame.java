@@ -11,6 +11,13 @@ import it.polimi.ingsw.utils.ConstantsContainer;
 
 import java.util.*;
 
+/**
+ *
+ * @author edoardopiantoni, alessandroruzzi, luigiscibona
+ * @version 1.0
+ * @since 2020/06/28
+ */
+
 public class SimplifiedGame{
     private final Integer numberOfPlayers;
     private List<Player> settedPlayers =new ArrayList<>();
