@@ -18,6 +18,13 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.*;
 
+/**
+ *
+ * @author edoardopiantoni, alessandroruzzi, luigiscibona
+ * @version 1.0
+ * @since 2020/06/28
+ */
+
 public class Game extends Observable<Response> {
     private Integer numberOfPlayers;
     private List<Player> settedPlayers;
