@@ -450,7 +450,7 @@ public class CliUtils {
     }
 
     /**
-     * Method use to get (through getArrow) only up&down arrows
+     * Method use to get (through getArrow) only up and down arrows
      * @return upOrDown Int value that represents the user's choice (up or down)
      */
 

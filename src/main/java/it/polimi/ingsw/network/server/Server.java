@@ -36,7 +36,7 @@ public class Server implements Runnable{
     public static final java.util.logging.Logger LOGGER = java.util.logging.Logger.getLogger("Server");
 
     /**
-     * Private constructor that initialize server parameters -> numGameID and numUserID
+     * Private constructor that initialize server parameters: numGameID and numUserID
      */
 
     private Server(){

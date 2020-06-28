@@ -560,7 +560,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
     }
 
     /**
-     * Function that handle disconnection events -> Ping timer, turn timer, lobby timer
+     * Function that handle disconnection events: Ping timer, turn timer, lobby timer
      * @param message Message received from the Server, with the disconnection information
      */
 

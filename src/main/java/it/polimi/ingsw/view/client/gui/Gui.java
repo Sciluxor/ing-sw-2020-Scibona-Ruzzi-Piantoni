@@ -62,6 +62,7 @@ public class Gui extends ClientGameController {
 
     /**
      * Method that start the Gui
+     * @param args args
      */
 
     public static void main(String[] args) {

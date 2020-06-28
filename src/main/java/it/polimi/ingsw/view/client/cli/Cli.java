@@ -68,6 +68,7 @@ public class Cli extends ClientGameController {
 
     /**
      * Method that start the Cli
+     * @param args args
      */
 
     public static void main(String[] args) {
@@ -330,6 +331,7 @@ public class Cli extends ClientGameController {
 
     /**
      * Method that get the port in which open the connection
+     * @return the port used by the server
      */
 
     public int getPort() {
@@ -352,6 +354,7 @@ public class Cli extends ClientGameController {
 
     /**
      * Method that get the IP address in which open the connection
+     * @return The IP address of the server
      */
 
     public String getAddress() {
@@ -374,6 +377,7 @@ public class Cli extends ClientGameController {
 
     /**
      * Method that get his own nickName
+     * @return The nickname
      */
 
     public String getNickName() {
@@ -398,6 +402,7 @@ public class Cli extends ClientGameController {
 
     /**
      * Method that get the number of players of the game someone wants to play
+     * @return Number of players in the game
      */
 
     public int getNumberOfPlayers() {
@@ -435,6 +440,7 @@ public class Cli extends ClientGameController {
 
     /**
      * Method used to handle main operation to start new game
+     * @param cli cli of the game
      */
 
     private static void mainHandler(Cli cli) {
@@ -528,7 +534,7 @@ public class Cli extends ClientGameController {
     }
 
     /**
-     * Method that handle the standard up&down arrows construct
+     * Method that handle the standard up and down arrows construct
      * @param keyboard Keyboard value returned by the key pressed by the user
      * @param counter Old counter value we want to update
      * @param firstPosition First position boolean value (if it is on the beginning of the available options list)
