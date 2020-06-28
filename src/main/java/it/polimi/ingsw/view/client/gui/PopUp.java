@@ -113,19 +113,9 @@ public class PopUp {
                 break;
 
             case 2:
-                newLabel(1);
-                try {
-                    label1 = ImageHandler.setImage("resources/Graphics/Texts/you_have_been_disconnected.png", 97, 100, labelSize.width, labelSize.height);
-                } catch (IOException e) {
-                    LOGGER.severe(e.getMessage());
-                }
-                setLabel1(50, 35);
-                addLabel1();
+                setPopUp("resources/Graphics/Texts/you_have_been_disconnected.png");
 
-                button1 = new MyButton(3);
-                button1.setBounds((int) (((double)intFrameSize.width * 50 / 100) -  ((getD().getWidth() * 13 / 100) / 2)), (int) (intFrameSize.height * 79.5 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
-                button1.addActionListener(new Close());
-                window.add(button1);
+                setButtonClose();
 
                 setBack();
                 break;
@@ -138,44 +128,17 @@ public class PopUp {
                 break;
 
             case 4:
-                newLabel(1);
-                try {
-                    label1 = ImageHandler.setImage("resources/Graphics/Texts/has_disconnected.png", 97, 100, labelSize.width, labelSize.height);
-                } catch (IOException e) {
-                    LOGGER.severe(e.getMessage());
-                }
-                setLabel1NoCenter();
-                addLabel1();
+                setPopUp4or5("resources/Graphics/Texts/has_disconnected.png");
 
-                setDisconnectionTime();
-
-                setBack();
                 break;
 
             case 5:
-                newLabel(1);
-                try {
-                    label1 = ImageHandler.setImage("resources/Graphics/Texts/did_not_play.png", 97, 100, labelSize.width, labelSize.height);
-                } catch (IOException e) {
-                    LOGGER.severe(e.getMessage());
-                }
-                setLabel1NoCenter();
-                addLabel1();
+                setPopUp4or5("resources/Graphics/Texts/did_not_play.png");
 
-                setDisconnectionTime();
-
-                setBack();
                 break;
 
             case 6:
-                newLabel(1);
-                try {
-                    label1 = ImageHandler.setImage("resources/Graphics/Texts/time_is_up.png", 97, 100, labelSize.width, labelSize.height);
-                } catch (IOException e) {
-                    LOGGER.severe(e.getMessage());
-                }
-                setLabel1(50, 35);
-                addLabel1();
+                setPopUp("resources/Graphics/Texts/time_is_up.png");
 
                 setDisconnectionTime();
                 window.remove(label2);
@@ -184,23 +147,7 @@ public class PopUp {
                 break;
 
             case 7:
-                newLabel(1);
-                try {
-                    label1 = ImageHandler.setImage("resources/Graphics/Texts/there_was_an_error.png", 97, 100, labelSize.width, labelSize.height);
-                } catch (IOException e) {
-                    LOGGER.severe(e.getMessage());
-                }
-                setLabel1(50, 10);
-                addLabel1();
-
-                newLabel(2);
-                try {
-                    label2 = ImageHandler.setImage("resources/Graphics/Texts/please_use_an_original.png", 97, 100, labelSize.width, labelSize.height);
-                } catch (IOException e) {
-                    LOGGER.severe(e.getMessage());
-                }
-                setLabel2(20);
-                addLabel2();
+                setPopUp("resources/Graphics/Texts/there_was_an_error.png", 50, 10, "resources/Graphics/Texts/please_use_an_original.png", 20);
 
                 newLabel(3);
                 try {
@@ -211,33 +158,13 @@ public class PopUp {
                 label3.setBounds(((intFrameSize.width * 50/100) - (labelSize.width / 2)), (intFrameSize.height * 30/100), labelSize.width, labelSize.height);
                 addLabel3();
 
-                button1 = new MyButton(3);
-                button1.setBounds(((intFrameSize.width * 50/100) - (buttonSize.width / 2)), (int) (intFrameSize.height * 79.5 / 100), buttonSize.width, buttonSize.height);
-                button1.addActionListener(new Close());
-                window.add(button1);
+                setButtonClose();
 
                 setBack();
                 break;
 
             case 8:
-
-                newLabel(1);
-                try {
-                    label1 = ImageHandler.setImage("resources/Graphics/Texts/there_was_an_error_with.png", 97, 100, labelSize.width, labelSize.height);
-                } catch (IOException e) {
-                    LOGGER.severe(e.getMessage());
-                }
-                setLabel1(30, 20);
-                addLabel1();
-
-                newLabel(2);
-                try {
-                    label2 = ImageHandler.setImage("resources/Graphics/Texts/start_new_game_or_close.png", 97, 100, labelSize.width, labelSize.height);
-                } catch (IOException e) {
-                    LOGGER.severe(e.getMessage());
-                }
-                setLabel2(40);
-                addLabel2();
+                setPopUp("resources/Graphics/Texts/there_was_an_error_with.png", 30, 20, "resources/Graphics/Texts/start_new_game_or_close.png", 40);
 
                 label3 = new JLabel(name);
                 label3.setBounds((intFrameSize.width * 60/100), (intFrameSize.height * 27/100), intFrameSize.width * 60/100, intFrameSize.width * 5/100);
@@ -265,14 +192,6 @@ public class PopUp {
 
     private void setLabel1(int x, int y){
         label1.setBounds(((intFrameSize.width * x/100) - (labelSize.width / 2)), (intFrameSize.height * y/100), labelSize.width, labelSize.height);
-    }
-
-    /**
-     * Method that set the position of the label1 not centered respect of the label length
-     */
-
-    private void setLabel1NoCenter(){
-        label1.setBounds((intFrameSize.width * 40/100), (intFrameSize.height * 35/100), labelSize.width, labelSize.height);
     }
 
     /**
@@ -331,6 +250,71 @@ public class PopUp {
         }
         else
             label3 = new JLabel();
+    }
+
+    /**
+     * Method that set the 4th or 5th popup
+     * @param path Path to the message of the popup
+     */
+
+    private void setPopUp4or5(String path){
+        newLabel(1);
+        try {
+            label1 = ImageHandler.setImage(path, 97, 100, labelSize.width, labelSize.height);
+        } catch (IOException e) {
+            LOGGER.severe(e.getMessage());
+        }
+        label1.setBounds((intFrameSize.width * 40/100), (intFrameSize.height * 35/100), labelSize.width, labelSize.height);
+        addLabel1();
+
+        setDisconnectionTime();
+
+        setBack();
+    }
+
+    /**
+     * Method that set the label1 in the popup
+     * @param path Path to the message of the popup
+     */
+
+    private void setPopUp(String path){
+        newLabel(1);
+        try {
+            label1 = ImageHandler.setImage(path, 97, 100, labelSize.width, labelSize.height);
+        } catch (IOException e) {
+            LOGGER.severe(e.getMessage());
+        }
+        setLabel1(50, 35);
+        addLabel1();
+    }
+
+    /**
+     * Method that set the label1 and label2 in the popup
+     * @param path1 Path to the message of the label1
+     * @param x1 Horizontal position provided for label1
+     * @param y1 Vertical position provided for label1
+     * @param path2 Path to the message of the label2
+     * @param y2 Horizontal position provided for label2
+     */
+
+    private void setPopUp(String path1, int x1, int y1, String path2, int y2){
+        newLabel(1);
+        try {
+            label1 = ImageHandler.setImage(path1, 97, 100, labelSize.width, labelSize.height);
+        } catch (IOException e) {
+            LOGGER.severe(e.getMessage());
+        }
+        setLabel1(x1, y1);
+        addLabel1();
+
+        newLabel(2);
+        try {
+            label2 = ImageHandler.setImage(path2, 97, 100, labelSize.width, labelSize.height);
+        } catch (IOException e) {
+            LOGGER.severe(e.getMessage());
+        }
+        setLabel2(y2);
+        addLabel2();
     }
 
     /**
@@ -395,6 +379,17 @@ public class PopUp {
         button2.setBounds(((intFrameSize.width * 65/100) - (buttonSize.width / 2)), (int) (intFrameSize.height * 79.5 / 100), buttonSize.width, buttonSize.height);
         window.add(button1);
         window.add(button2);
+    }
+
+    /**
+     * Method that set the button close
+     */
+
+    private void setButtonClose(){
+        button1 = new MyButton(3);
+        button1.setBounds(((intFrameSize.width * 50/100) - (buttonSize.width / 2)), (int) (intFrameSize.height * 79.5 / 100), buttonSize.width, buttonSize.height);
+        button1.addActionListener(new Close());
+        window.add(button1);
     }
 
     /**
