@@ -1,0 +1,448 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ChallengerChoiceCards</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.view.client.gui</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ChallengerChoiceCards (it.polimi.ingsw.view.client.gui)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ChallengerChoiceCards</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 88)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">ChallengerChoiceCards$ChooseGod</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 20)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">ChallengerChoiceCards$Close</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 3)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">ChallengerChoiceCards$Confirm</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 9)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">ChallengerChoiceCards$RemoveGod</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 12)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 132)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.view.client.gui;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import javax.swing.*;
+<i>4</i>&nbsp;import java.awt.*;
+<i>5</i>&nbsp;import java.awt.event.*;
+<i>6</i>&nbsp;import java.io.IOException;
+<i>7</i>&nbsp;import java.util.ArrayList;
+<i>8</i>&nbsp;import java.util.List;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;import static it.polimi.ingsw.utils.ConstantsContainer.MUSIC;
+<i>11</i>&nbsp;import static it.polimi.ingsw.utils.ConstantsContainer.TEXT;
+<i>12</i>&nbsp;import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
+<i>13</i>&nbsp;import static it.polimi.ingsw.view.client.gui.GuiUtils.*;
+<i>14</i>&nbsp;import static it.polimi.ingsw.view.client.gui.Gui.*;
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;/**
+<i>17</i>&nbsp; * Class that extends JDesktopPane for the build of the pane that make the Challenger choose the gods
+<i>18</i>&nbsp; * @author Luigi Scibona
+<i>19</i>&nbsp; * @version 1.0
+<i>20</i>&nbsp; * @since 2020/06/13
+<i>21</i>&nbsp; */
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;public class ChallengerChoiceCards extends JDesktopPane{
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    transient Gui gui;
+<i>26</i>&nbsp;    transient Board board;
+<b class="nc"><i>27</i>&nbsp;    Dimension frameSize = new Dimension();</b>
+<b class="nc"><i>28</i>&nbsp;    Dimension intFrameSize = new Dimension();</b>
+<b class="nc"><i>29</i>&nbsp;    Dimension cardSize = new Dimension();</b>
+<b class="nc"><i>30</i>&nbsp;    Dimension size30x10 = new Dimension();</b>
+<i>31</i>&nbsp;    JInternalFrame intFrame;
+<i>32</i>&nbsp;    JInternalFrame guiIntFrame;
+<b class="nc"><i>33</i>&nbsp;    JButton buttonBackground = new JButton();</b>
+<b class="nc"><i>34</i>&nbsp;    JLabel cover =new JLabel();</b>
+<b class="nc"><i>35</i>&nbsp;    JLabel label =new JLabel();</b>
+<b class="nc"><i>36</i>&nbsp;    private int count = 0;</b>
+<b class="nc"><i>37</i>&nbsp;    private int chosen = 0;</b>
+<i>38</i>&nbsp;    private final int numberPlayers;
+<b class="nc"><i>39</i>&nbsp;    private final List&lt;JButton&gt; godChosen = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>40</i>&nbsp;    MyButton confirm = new MyButton(0);</b>
+<b class="nc"><i>41</i>&nbsp;    MyButton back = new MyButton(1);</b>
+<b class="nc"><i>42</i>&nbsp;    private final List&lt;String&gt; cardsChosen = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>43</i>&nbsp;    private final List&lt;JButton&gt; godList = new ArrayList&lt;&gt;();</b>
+<i>44</i>&nbsp;    transient ButtonGodsList costructor;
+<i>45</i>&nbsp;    transient MP3 click;
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;    /**
+<i>48</i>&nbsp;     * Class builder
+<i>49</i>&nbsp;     * @param instance Reference to the client GUI class
+<i>50</i>&nbsp;     * @param instance2 Reference to the Board class instanced by the GUI
+<i>51</i>&nbsp;     * @param frame Reference to the JInternalFrame where the current JDesktopPane ChallengerChoiceCards will be inserted
+<i>52</i>&nbsp;     * @param dimensionFrame Size of the JInternalFrame
+<i>53</i>&nbsp;     * @param numberOfPlayer Number of Players in play
+<i>54</i>&nbsp;     * @throws IOException if the loading of the inscription or the descriptions of the gods was not successful
+<i>55</i>&nbsp;     */
+<i>56</i>&nbsp;
+<b class="nc"><i>57</i>&nbsp;    public ChallengerChoiceCards(Gui instance, Board instance2, JInternalFrame frame, Dimension dimensionFrame, Integer numberOfPlayer) throws IOException {</b>
+<i>58</i>&nbsp;
+<b class="nc"><i>59</i>&nbsp;        gui = instance;</b>
+<b class="nc"><i>60</i>&nbsp;        board = instance2;</b>
+<b class="nc"><i>61</i>&nbsp;        guiIntFrame = frame;</b>
+<b class="nc"><i>62</i>&nbsp;        frameSize.setSize(dimensionFrame);</b>
+<b class="nc"><i>63</i>&nbsp;        numberPlayers = numberOfPlayer;</b>
+<b class="nc"><i>64</i>&nbsp;        intFrameSize.setSize(frameSize.getWidth() * 48/100, frameSize.getHeight() * 54/100);</b>
+<b class="nc"><i>65</i>&nbsp;        cardSize.setSize((int) (frameSize.getWidth() * 9/100), (int) (frameSize.getHeight() * 23.15/100));</b>
+<b class="nc"><i>66</i>&nbsp;        size30x10.setSize(frameSize.width * 30 / 100, frameSize.height * 10 / 100);</b>
+<b class="nc"><i>67</i>&nbsp;        click = new MP3(MUSIC + &quot;Click.mp3&quot;);</b>
+<i>68</i>&nbsp;
+<b class="nc"><i>69</i>&nbsp;        final int xconst = frameSize.width * 9/100;</b>
+<b class="nc"><i>70</i>&nbsp;        final int yconst = frameSize.height * 24/100;</b>
+<i>71</i>&nbsp;
+<b class="nc"><i>72</i>&nbsp;        costructor = new ButtonGodsList(frameSize, godList);</b>
+<i>73</i>&nbsp;
+<b class="nc"><i>74</i>&nbsp;        intFrame = internalAndBackgroundSetter(this, intFrameSize, buttonBackground);</b>
+<i>75</i>&nbsp;
+<b class="nc"><i>76</i>&nbsp;        setPreferredSize(frameSize);</b>
+<i>77</i>&nbsp;
+<b class="nc"><i>78</i>&nbsp;        JButton chronus = new JButton();</b>
+<b class="nc"><i>79</i>&nbsp;        chronus.setName(&quot;chronus&quot;);</b>
+<i>80</i>&nbsp;
+<b class="nc"><i>81</i>&nbsp;        setButtonStyle(godList, intFrame, frameSize, intFrameSize, buttonBackground, cover, false, 1);</b>
+<b class="nc"><i>82</i>&nbsp;        buttonStyle();</b>
+<i>83</i>&nbsp;
+<i>84</i>&nbsp;        JLabel choise;
+<b class="nc"><i>85</i>&nbsp;        if (numberOfPlayer == 2){</b>
+<b class="nc"><i>86</i>&nbsp;            choise = ImageHandler.setImage(TEXT + &quot;choose_2_gods.png&quot;, 100, 100, size30x10.width, size30x10.height);</b>
+<i>87</i>&nbsp;        }
+<i>88</i>&nbsp;        else{
+<b class="nc"><i>89</i>&nbsp;            choise = ImageHandler.setImage(TEXT + &quot;choose_3_gods.png&quot;, 100, 100, size30x10.width, size30x10.height);</b>
+<i>90</i>&nbsp;        }
+<b class="nc"><i>91</i>&nbsp;        choise.setBounds(((frameSize.width * 50/100) - (size30x10.width / 2)), frameSize.height * 10/100, size30x10.width, size30x10.height);</b>
+<b class="nc"><i>92</i>&nbsp;        add(choise);</b>
+<i>93</i>&nbsp;
+<b class="nc"><i>94</i>&nbsp;        confirm.setBounds((int) (frameSize.width * 31.5/ 100), (frameSize.height * 81 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));</b>
+<b class="nc"><i>95</i>&nbsp;        add(confirm);</b>
+<i>96</i>&nbsp;
+<b class="nc"><i>97</i>&nbsp;        back.setBounds((int) (frameSize.width * 51.5/ 100), (frameSize.height * 81 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));</b>
+<b class="nc"><i>98</i>&nbsp;        add(back);</b>
+<b class="nc"><i>99</i>&nbsp;        back.addActionListener(new Close());</b>
+<i>100</i>&nbsp;
+<i>101</i>&nbsp;
+<b class="nc"><i>102</i>&nbsp;        if(numberOfPlayer == 2){</b>
+<b class="nc"><i>103</i>&nbsp;            addForTwo(xconst, yconst, yconst);</b>
+<i>104</i>&nbsp;        }
+<i>105</i>&nbsp;        else{
+<b class="nc"><i>106</i>&nbsp;            addForThree(chronus, xconst, yconst, yconst);</b>
+<i>107</i>&nbsp;        }
+<i>108</i>&nbsp;
+<b class="nc"><i>109</i>&nbsp;        JButton backBack = backgroundButton(0);</b>
+<b class="nc"><i>110</i>&nbsp;        backBack.setBounds(0, 0, frameSize.width, frameSize.height);</b>
+<b class="nc"><i>111</i>&nbsp;        add(backBack);</b>
+<i>112</i>&nbsp;
+<i>113</i>&nbsp;
+<b class="nc"><i>114</i>&nbsp;    }</b>
+<i>115</i>&nbsp;
+<i>116</i>&nbsp;    /**
+<i>117</i>&nbsp;     * Method for adding the ChooseGod mouseAdapter to the JButtons of the cards
+<i>118</i>&nbsp;     */
+<i>119</i>&nbsp;
+<i>120</i>&nbsp;    private void buttonStyle(){
+<b class="nc"><i>121</i>&nbsp;         for (JButton button : godList){</b>
+<b class="nc"><i>122</i>&nbsp;             button.addActionListener(new ChooseGod());</b>
+<b class="nc"><i>123</i>&nbsp;         }</b>
+<b class="nc"><i>124</i>&nbsp;     }</b>
+<i>125</i>&nbsp;
+<i>126</i>&nbsp;    /**
+<i>127</i>&nbsp;     * Method for positioning the JButton according to parameters
+<i>128</i>&nbsp;     * @param button JButton to be positioned
+<i>129</i>&nbsp;     * @param x Position x in the window
+<i>130</i>&nbsp;     * @param y Position y in the window
+<i>131</i>&nbsp;     */
+<i>132</i>&nbsp;
+<i>133</i>&nbsp;     private void buttonPositioning(JButton button, int x, int y){
+<b class="nc"><i>134</i>&nbsp;         button.setBounds(x, y, cardSize.width, cardSize.height);</b>
+<b class="nc"><i>135</i>&nbsp;         add(button);</b>
+<b class="nc"><i>136</i>&nbsp;     }</b>
+<i>137</i>&nbsp;
+<i>138</i>&nbsp;    /**
+<i>139</i>&nbsp;     * Method for placing cards if it&#39;s a game for two players
+<i>140</i>&nbsp;     * @param x Position x of the first card in the window
+<i>141</i>&nbsp;     * @param y Position y of the first card in the window
+<i>142</i>&nbsp;     * @param yconst Constant of the y position of the first card in the window
+<i>143</i>&nbsp;     */
+<i>144</i>&nbsp;
+<i>145</i>&nbsp;     private void addForTwo(int x, int y, int yconst){
+<b class="nc"><i>146</i>&nbsp;         for (JButton button : godList){</b>
+<b class="nc"><i>147</i>&nbsp;            if(count == 0){</b>
+<b class="nc"><i>148</i>&nbsp;                buttonPositioning(button, x, y);</b>
+<b class="nc"><i>149</i>&nbsp;                count++;</b>
+<i>150</i>&nbsp;            }
+<b class="nc"><i>151</i>&nbsp;            else if(count &lt; 7){</b>
+<b class="nc"><i>152</i>&nbsp;                x = x + frameSize.width * 12/100;</b>
+<b class="nc"><i>153</i>&nbsp;                buttonPositioning(button, x, y);</b>
+<b class="nc"><i>154</i>&nbsp;                count++;</b>
+<i>155</i>&nbsp;            }
+<i>156</i>&nbsp;             else{
+<b class="nc"><i>157</i>&nbsp;                if (y == yconst){</b>
+<i>158</i>&nbsp;
+<b class="nc"><i>159</i>&nbsp;                    x = - frameSize.width * 3/100;</b>
+<b class="nc"><i>160</i>&nbsp;                    y = frameSize.height * 49/100;</b>
+<i>161</i>&nbsp;                }
+<b class="nc"><i>162</i>&nbsp;                x = x + frameSize.width * 12/100;</b>
+<b class="nc"><i>163</i>&nbsp;                buttonPositioning(button, x, y);</b>
+<i>164</i>&nbsp;            }
+<b class="nc"><i>165</i>&nbsp;         }</b>
+<b class="nc"><i>166</i>&nbsp;     }</b>
+<i>167</i>&nbsp;
+<i>168</i>&nbsp;    /**
+<i>169</i>&nbsp;     * Method for placing cards if it&#39;s a game for three players
+<i>170</i>&nbsp;     * @param chronus JButton of the god to be excluded in positioning
+<i>171</i>&nbsp;     * @param x Position x of the first card in the window
+<i>172</i>&nbsp;     * @param y Position y of the first card in the window
+<i>173</i>&nbsp;     * @param yconst Constant of the y position of the first card in the window
+<i>174</i>&nbsp;     */
+<i>175</i>&nbsp;
+<i>176</i>&nbsp;     private void addForThree(JButton chronus, int x, int y, int yconst){
+<b class="nc"><i>177</i>&nbsp;         for (JButton button : godList){</b>
+<b class="nc"><i>178</i>&nbsp;             if(count == 0){</b>
+<b class="nc"><i>179</i>&nbsp;                buttonPositioning(button, x, y);</b>
+<b class="nc"><i>180</i>&nbsp;                count++;</b>
+<i>181</i>&nbsp;            }
+<b class="nc"><i>182</i>&nbsp;            else if(count &lt; 7 &amp;&amp; !button.getName().equalsIgnoreCase(chronus.getName())){</b>
+<b class="nc"><i>183</i>&nbsp;                x = x + frameSize.width * 12/100;</b>
+<b class="nc"><i>184</i>&nbsp;                buttonPositioning(button, x, y);</b>
+<b class="nc"><i>185</i>&nbsp;                count++;</b>
+<i>186</i>&nbsp;            }
+<b class="nc"><i>187</i>&nbsp;            else if(!button.getName().equalsIgnoreCase(chronus.getName())){</b>
+<b class="nc"><i>188</i>&nbsp;                if (y == yconst){</b>
+<i>189</i>&nbsp;
+<b class="nc"><i>190</i>&nbsp;                    x = frameSize.width * 3/100;</b>
+<b class="nc"><i>191</i>&nbsp;                    y = frameSize.height * 49/100;</b>
+<i>192</i>&nbsp;                }
+<b class="nc"><i>193</i>&nbsp;                x = x + frameSize.width * 12/100;</b>
+<b class="nc"><i>194</i>&nbsp;                buttonPositioning(button, x, y);</b>
+<i>195</i>&nbsp;            }
+<b class="nc"><i>196</i>&nbsp;         }</b>
+<b class="nc"><i>197</i>&nbsp;     }</b>
+<i>198</i>&nbsp;
+<i>199</i>&nbsp;    /**
+<i>200</i>&nbsp;     * Class that implements ActionListener for the choice of the god
+<i>201</i>&nbsp;     */
+<i>202</i>&nbsp;
+<b class="nc"><i>203</i>&nbsp;    private class ChooseGod implements ActionListener{</b>
+<i>204</i>&nbsp;        @Override
+<i>205</i>&nbsp;        public void actionPerformed(ActionEvent e) {
+<b class="nc"><i>206</i>&nbsp;            click.play();</b>
+<b class="nc"><i>207</i>&nbsp;            JButton c = (JButton)e.getSource();</b>
+<b class="nc"><i>208</i>&nbsp;            if (0 &lt;= chosen &amp;&amp; chosen &lt; numberPlayers){</b>
+<i>209</i>&nbsp;
+<b class="nc"><i>210</i>&nbsp;                eliminateMouseClass(c, ColorBorderGodCards.class);</b>
+<b class="nc"><i>211</i>&nbsp;                eliminateActionClass(c, ChooseGod.class);</b>
+<b class="nc"><i>212</i>&nbsp;                c.setBorder(BorderFactory.createLineBorder(Color.red, 4));</b>
+<b class="nc"><i>213</i>&nbsp;                c.setBorderPainted(true);</b>
+<b class="nc"><i>214</i>&nbsp;                addGod(c);</b>
+<b class="nc"><i>215</i>&nbsp;                chosen++;</b>
+<b class="nc"><i>216</i>&nbsp;                c.addActionListener(new RemoveGod());</b>
+<i>217</i>&nbsp;            }
+<b class="nc"><i>218</i>&nbsp;            if (chosen == numberPlayers &amp;&amp; confirm.getActionListeners().length == 0){</b>
+<b class="nc"><i>219</i>&nbsp;                confirm.addActionListener(new Confirm());</b>
+<i>220</i>&nbsp;            }
+<b class="nc"><i>221</i>&nbsp;        }</b>
+<i>222</i>&nbsp;
+<i>223</i>&nbsp;        private void addGod(JButton god){
+<i>224</i>&nbsp;
+<b class="nc"><i>225</i>&nbsp;            for (int x = 0; x &lt; godChosen.size(); x++){</b>
+<b class="nc"><i>226</i>&nbsp;                if (godChosen.get(x).getName().compareTo(god.getName()) &gt; 0){</b>
+<b class="nc"><i>227</i>&nbsp;                    godChosen.add(x, god);</b>
+<b class="nc"><i>228</i>&nbsp;                    return;</b>
+<i>229</i>&nbsp;                }
+<i>230</i>&nbsp;            }
+<b class="nc"><i>231</i>&nbsp;            godChosen.add(god);</b>
+<b class="nc"><i>232</i>&nbsp;        }</b>
+<i>233</i>&nbsp;    }
+<i>234</i>&nbsp;
+<i>235</i>&nbsp;    /**
+<i>236</i>&nbsp;     * Class that implements ActionListener for removing the god from the choices made so far
+<i>237</i>&nbsp;     */
+<i>238</i>&nbsp;
+<b class="nc"><i>239</i>&nbsp;    private class RemoveGod implements ActionListener{</b>
+<i>240</i>&nbsp;        @Override
+<i>241</i>&nbsp;        public void actionPerformed(ActionEvent e) {
+<b class="nc"><i>242</i>&nbsp;            click.play();</b>
+<b class="nc"><i>243</i>&nbsp;            JButton c = (JButton)e.getSource();</b>
+<b class="nc"><i>244</i>&nbsp;            eliminateActionClass(c, RemoveGod.class);</b>
+<b class="nc"><i>245</i>&nbsp;            c.setBorder(null);</b>
+<b class="nc"><i>246</i>&nbsp;            c.setBorderPainted(false);</b>
+<b class="nc"><i>247</i>&nbsp;            c.addMouseListener(new ColorBorderGodCards());</b>
+<b class="nc"><i>248</i>&nbsp;            godChosen.remove(c);</b>
+<b class="nc"><i>249</i>&nbsp;            chosen--;</b>
+<b class="nc"><i>250</i>&nbsp;            c.addActionListener(new ChooseGod());</b>
+<b class="nc"><i>251</i>&nbsp;            eliminateActionClass(confirm, ChallengerChoiceCards.Confirm.class);</b>
+<b class="nc"><i>252</i>&nbsp;        }</b>
+<i>253</i>&nbsp;    }
+<i>254</i>&nbsp;
+<i>255</i>&nbsp;    /**
+<i>256</i>&nbsp;     * Class that implements ActionListener for the JButton Close which closes the current JInternalFrame
+<i>257</i>&nbsp;     */
+<i>258</i>&nbsp;
+<b class="nc"><i>259</i>&nbsp;    private class Close implements ActionListener {</b>
+<i>260</i>&nbsp;        @Override
+<i>261</i>&nbsp;        public void actionPerformed(ActionEvent e) {
+<b class="nc"><i>262</i>&nbsp;            guiIntFrame.setVisible(false);</b>
+<b class="nc"><i>263</i>&nbsp;        }</b>
+<i>264</i>&nbsp;    }
+<i>265</i>&nbsp;
+<i>266</i>&nbsp;    /**
+<i>267</i>&nbsp;     * Class that implements ActionListener for the JButton Confirm which confirms the chosen gods
+<i>268</i>&nbsp;     */
+<i>269</i>&nbsp;
+<b class="nc"><i>270</i>&nbsp;    private class Confirm implements ActionListener {</b>
+<i>271</i>&nbsp;        @Override
+<i>272</i>&nbsp;        public void actionPerformed(ActionEvent e) {
+<b class="nc"><i>273</i>&nbsp;            for (JButton button : godChosen){</b>
+<b class="nc"><i>274</i>&nbsp;                cardsChosen.add(button.getName());</b>
+<b class="nc"><i>275</i>&nbsp;            }</b>
+<b class="nc"><i>276</i>&nbsp;            board.setCardsChosen(cardsChosen);</b>
+<b class="nc"><i>277</i>&nbsp;            guiIntFrame.setVisible(false);</b>
+<b class="nc"><i>278</i>&nbsp;            board.callChallengerResponse();</b>
+<b class="nc"><i>279</i>&nbsp;            board.buttonChooseCards.setEnabled(false);</b>
+<b class="nc"><i>280</i>&nbsp;        }</b>
+<i>281</i>&nbsp;    }
+<i>282</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-29 01:13</div>
+</div>
+</body>
+</html>

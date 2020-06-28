@@ -1,0 +1,475 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ClientHandler</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.network.server</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ClientHandler (it.polimi.ingsw.network.server)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ClientHandler</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    22,2%
+  </span>
+  <span class="absValue">
+    (6/ 27)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    12,8%
+  </span>
+  <span class="absValue">
+    (17/ 133)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.network.server;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.network.ConnectionInterface;
+<i>4</i>&nbsp;import it.polimi.ingsw.network.message.GameConfigMessage;
+<i>5</i>&nbsp;import it.polimi.ingsw.network.message.Message;
+<i>6</i>&nbsp;import it.polimi.ingsw.network.message.MessageSubType;
+<i>7</i>&nbsp;import it.polimi.ingsw.network.message.MessageType;
+<i>8</i>&nbsp;import it.polimi.ingsw.utils.ConfigLoader;
+<i>9</i>&nbsp;import it.polimi.ingsw.utils.ConstantsContainer;
+<i>10</i>&nbsp;import it.polimi.ingsw.utils.LobbyTimerTask;
+<i>11</i>&nbsp;import it.polimi.ingsw.utils.ServerPingTimerTask;
+<i>12</i>&nbsp;import it.polimi.ingsw.view.server.VirtualView;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;import java.io.*;
+<i>15</i>&nbsp;import java.net.Socket;
+<i>16</i>&nbsp;import java.util.Timer;
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;/**
+<i>19</i>&nbsp; * Class that Handle a specific Client, listening for new messages through input stream and sending messages through output stream
+<i>20</i>&nbsp; * @author Alessandro Ruzzi
+<i>21</i>&nbsp; * @version 1.0
+<i>22</i>&nbsp; * @since 2020/06/19
+<i>23</i>&nbsp; */
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;public class ClientHandler implements Runnable, ConnectionInterface {
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    private ObjectInputStream objectIn;
+<i>28</i>&nbsp;    private ObjectOutputStream objectOut;
+<i>29</i>&nbsp;
+<b class="fc"><i>30</i>&nbsp;    private final Object inputLock = new Object();</b>
+<b class="fc"><i>31</i>&nbsp;    private final Object outputLock = new Object();</b>
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    private final Socket socket;
+<i>34</i>&nbsp;    private final Server server;
+<i>35</i>&nbsp;    private boolean isConnectionActive;
+<i>36</i>&nbsp;    private boolean isErrorStopper;
+<i>37</i>&nbsp;    private VirtualView view;
+<i>38</i>&nbsp;    private Timer lobbyTimer;
+<i>39</i>&nbsp;    private Timer pingTimer;
+<i>40</i>&nbsp;    private int newNickCounter;
+<i>41</i>&nbsp;
+<b class="fc"><i>42</i>&nbsp;    private String userID = ConstantsContainer.USERDIDDEF;</b>
+<b class="fc"><i>43</i>&nbsp;    private String nickName = ConstantsContainer.NICKDEF;</b>
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    /**
+<i>46</i>&nbsp;     * Public constructor for the Socket Handler, initialize parameters
+<i>47</i>&nbsp;     * @param socket Socket of the connection
+<i>48</i>&nbsp;     * @param server The Server to which refer
+<i>49</i>&nbsp;     */
+<i>50</i>&nbsp;
+<b class="fc"><i>51</i>&nbsp;    public ClientHandler(Server server, Socket socket){</b>
+<b class="fc"><i>52</i>&nbsp;        this.socket = socket;</b>
+<b class="fc"><i>53</i>&nbsp;        this.server = server;</b>
+<b class="fc"><i>54</i>&nbsp;        this.isConnectionActive = true;</b>
+<b class="fc"><i>55</i>&nbsp;        this.isErrorStopper = false;</b>
+<i>56</i>&nbsp;
+<b class="fc"><i>57</i>&nbsp;    }</b>
+<i>58</i>&nbsp;
+<i>59</i>&nbsp;    /**
+<i>60</i>&nbsp;     * Function that check if The client of this ClientHandler is the one that stopped the game
+<i>61</i>&nbsp;     * @return True if it&#39;s the stopper, false otherwise
+<i>62</i>&nbsp;     */
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;    public boolean isErrorStopper() {
+<b class="nc"><i>65</i>&nbsp;        return isErrorStopper;</b>
+<i>66</i>&nbsp;    }
+<i>67</i>&nbsp;
+<i>68</i>&nbsp;    /**
+<i>69</i>&nbsp;     * Get the Nickname of the Client
+<i>70</i>&nbsp;     * @return The Nickname of the Client
+<i>71</i>&nbsp;     */
+<i>72</i>&nbsp;
+<i>73</i>&nbsp;    public String getNickName() {
+<b class="fc"><i>74</i>&nbsp;        return nickName;</b>
+<i>75</i>&nbsp;    }
+<i>76</i>&nbsp;
+<i>77</i>&nbsp;    /**
+<i>78</i>&nbsp;     * Set The Nickname of the Client
+<i>79</i>&nbsp;     * @param nickName New Nickname of the Client
+<i>80</i>&nbsp;     */
+<i>81</i>&nbsp;
+<i>82</i>&nbsp;    public void setNickName(String nickName) {
+<b class="fc"><i>83</i>&nbsp;        this.nickName = nickName;</b>
+<b class="fc"><i>84</i>&nbsp;    }</b>
+<i>85</i>&nbsp;
+<i>86</i>&nbsp;    /**
+<i>87</i>&nbsp;     * Get UserID of the Client
+<i>88</i>&nbsp;     * @return The UserID of the Client
+<i>89</i>&nbsp;     */
+<i>90</i>&nbsp;
+<i>91</i>&nbsp;    public String getUserID() {
+<b class="fc"><i>92</i>&nbsp;        return userID;</b>
+<i>93</i>&nbsp;    }
+<i>94</i>&nbsp;
+<i>95</i>&nbsp;    /**
+<i>96</i>&nbsp;     * Set UserID of the Client
+<i>97</i>&nbsp;     * @param userID New UserID of the Client
+<i>98</i>&nbsp;     */
+<i>99</i>&nbsp;
+<i>100</i>&nbsp;    public void setUserID(String userID) {
+<b class="fc"><i>101</i>&nbsp;        this.userID = userID;</b>
+<b class="fc"><i>102</i>&nbsp;    }</b>
+<i>103</i>&nbsp;
+<i>104</i>&nbsp;    /**
+<i>105</i>&nbsp;     * Function that check if the connection with the client is active
+<i>106</i>&nbsp;     * @return True if the connection is active, false otherwise
+<i>107</i>&nbsp;     */
+<i>108</i>&nbsp;
+<i>109</i>&nbsp;    public boolean isConnectionActive() {
+<b class="fc"><i>110</i>&nbsp;        return isConnectionActive;</b>
+<i>111</i>&nbsp;    }
+<i>112</i>&nbsp;
+<i>113</i>&nbsp;    /**
+<i>114</i>&nbsp;     * Set the connection to active or not active
+<i>115</i>&nbsp;     * @param connectionActive New state of connection, could be true or false
+<i>116</i>&nbsp;     */
+<i>117</i>&nbsp;
+<i>118</i>&nbsp;    public void setConnectionActive(boolean connectionActive) {
+<b class="nc"><i>119</i>&nbsp;        isConnectionActive = connectionActive;</b>
+<b class="nc"><i>120</i>&nbsp;    }</b>
+<i>121</i>&nbsp;
+<i>122</i>&nbsp;    /**
+<i>123</i>&nbsp;     * Get the VirtualView of the Client
+<i>124</i>&nbsp;     * @return The VirtualView of the Client
+<i>125</i>&nbsp;     */
+<i>126</i>&nbsp;
+<i>127</i>&nbsp;    public VirtualView getView() {
+<b class="nc"><i>128</i>&nbsp;        return view;</b>
+<i>129</i>&nbsp;    }
+<i>130</i>&nbsp;
+<i>131</i>&nbsp;    /**
+<i>132</i>&nbsp;     * Set the VirtualView of the Client
+<i>133</i>&nbsp;     * @param view New VirtualView of the Client
+<i>134</i>&nbsp;     */
+<i>135</i>&nbsp;
+<i>136</i>&nbsp;    public void setView(VirtualView view) {
+<b class="nc"><i>137</i>&nbsp;        this.view = view;</b>
+<b class="nc"><i>138</i>&nbsp;    }</b>
+<i>139</i>&nbsp;
+<i>140</i>&nbsp;    /**
+<i>141</i>&nbsp;     * Function that send a message to the Client, through output stream
+<i>142</i>&nbsp;     * @param msg The message to send
+<i>143</i>&nbsp;     */
+<i>144</i>&nbsp;
+<i>145</i>&nbsp;    public synchronized void sendMessage(Message msg){
+<b class="nc"><i>146</i>&nbsp;      synchronized (outputLock) {</b>
+<i>147</i>&nbsp;          try {
+<b class="nc"><i>148</i>&nbsp;              objectOut.writeObject(msg);</b>
+<b class="nc"><i>149</i>&nbsp;              objectOut.flush();</b>
+<b class="nc"><i>150</i>&nbsp;              objectOut.reset();</b>
+<i>151</i>&nbsp;
+<b class="nc"><i>152</i>&nbsp;          } catch (IOException e) {</b>
+<b class="nc"><i>153</i>&nbsp;              Server.LOGGER.severe(e.getMessage());</b>
+<b class="nc"><i>154</i>&nbsp;          }</b>
+<b class="nc"><i>155</i>&nbsp;      }</b>
+<i>156</i>&nbsp;
+<b class="nc"><i>157</i>&nbsp;    }</b>
+<i>158</i>&nbsp;
+<i>159</i>&nbsp;    /**
+<i>160</i>&nbsp;     * Function that receive a message through inputStream
+<i>161</i>&nbsp;     * @return The message received
+<i>162</i>&nbsp;     * @throws IOException IOException, socket get closed
+<i>163</i>&nbsp;     * @throws ClassNotFoundException ClassNotFoundException
+<i>164</i>&nbsp;     */
+<i>165</i>&nbsp;
+<i>166</i>&nbsp;    public Message receiveMessage() throws IOException, ClassNotFoundException {
+<i>167</i>&nbsp;        try{
+<b class="nc"><i>168</i>&nbsp;            return (Message) objectIn.readObject();</b>
+<i>169</i>&nbsp;        }
+<b class="nc"><i>170</i>&nbsp;        catch (IOException e){</b>
+<b class="nc"><i>171</i>&nbsp;            throw new IOException();</b>
+<i>172</i>&nbsp;        }
+<b class="nc"><i>173</i>&nbsp;        catch (ClassNotFoundException c){</b>
+<b class="nc"><i>174</i>&nbsp;            throw new ClassNotFoundException();</b>
+<i>175</i>&nbsp;        }
+<i>176</i>&nbsp;    }
+<i>177</i>&nbsp;
+<i>178</i>&nbsp;    /**
+<i>179</i>&nbsp;     * Function that close connection with the client sending a message
+<i>180</i>&nbsp;     * @param message The message to send to the client for the disconnection
+<i>181</i>&nbsp;     */
+<i>182</i>&nbsp;
+<i>183</i>&nbsp;    public void closeConnection(Message message){
+<b class="nc"><i>184</i>&nbsp;        sendMessage(message);</b>
+<b class="nc"><i>185</i>&nbsp;        server.removeFromConnections(this);</b>
+<b class="nc"><i>186</i>&nbsp;        close();</b>
+<b class="nc"><i>187</i>&nbsp;    }</b>
+<i>188</i>&nbsp;
+<i>189</i>&nbsp;    /**
+<i>190</i>&nbsp;     * Function that close the socket and input and output stream
+<i>191</i>&nbsp;     */
+<i>192</i>&nbsp;
+<i>193</i>&nbsp;    public void close(){
+<i>194</i>&nbsp;        try{
+<b class="nc"><i>195</i>&nbsp;            objectIn.close();</b>
+<b class="nc"><i>196</i>&nbsp;            objectOut.close();</b>
+<b class="nc"><i>197</i>&nbsp;            socket.close();</b>
+<b class="nc"><i>198</i>&nbsp;        }catch (IOException e){</b>
+<b class="nc"><i>199</i>&nbsp;            Server.LOGGER.severe(e.getMessage());</b>
+<b class="nc"><i>200</i>&nbsp;        }</b>
+<b class="nc"><i>201</i>&nbsp;    }</b>
+<i>202</i>&nbsp;
+<i>203</i>&nbsp;    /**
+<i>204</i>&nbsp;     * Function that close the connection after a disconnection without sending a message to the Client
+<i>205</i>&nbsp;     */
+<i>206</i>&nbsp;
+<i>207</i>&nbsp;    public void closeAfterDisconnection()
+<i>208</i>&nbsp;    {
+<b class="nc"><i>209</i>&nbsp;        server.removeFromConnections(this);</b>
+<i>210</i>&nbsp;        try{
+<b class="nc"><i>211</i>&nbsp;            socket.close();</b>
+<b class="nc"><i>212</i>&nbsp;        }catch (IOException e){</b>
+<b class="nc"><i>213</i>&nbsp;            Server.LOGGER.severe(e.getMessage());</b>
+<b class="nc"><i>214</i>&nbsp;        }</b>
+<b class="nc"><i>215</i>&nbsp;    }</b>
+<i>216</i>&nbsp;
+<i>217</i>&nbsp;    /**
+<i>218</i>&nbsp;     * Function that close connection with the client when the server is stopped by the administrator
+<i>219</i>&nbsp;     */
+<i>220</i>&nbsp;
+<i>221</i>&nbsp;    public void closeConnectionFromServer(){
+<b class="nc"><i>222</i>&nbsp;        sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.DISCONNECTION,MessageSubType.SERVERSTOPPED));</b>
+<b class="nc"><i>223</i>&nbsp;        close();</b>
+<b class="nc"><i>224</i>&nbsp;    }</b>
+<i>225</i>&nbsp;
+<i>226</i>&nbsp;    /**
+<i>227</i>&nbsp;     * Function that forward the message to the VirtualView of the Client
+<i>228</i>&nbsp;     * @param message Message received from the Client to send to the VirtualView
+<i>229</i>&nbsp;     */
+<i>230</i>&nbsp;
+<i>231</i>&nbsp;    public void dispatchMessageToVirtualView(Message message){
+<b class="nc"><i>232</i>&nbsp;        view.processMessageReceived(message);</b>
+<b class="nc"><i>233</i>&nbsp;    }</b>
+<i>234</i>&nbsp;
+<i>235</i>&nbsp;    /**
+<i>236</i>&nbsp;     * Function that start the timer for the Client in the lobby
+<i>237</i>&nbsp;     */
+<i>238</i>&nbsp;
+<i>239</i>&nbsp;    public void startLobbyTimer(){
+<b class="nc"><i>240</i>&nbsp;        lobbyTimer = new Timer();</b>
+<b class="nc"><i>241</i>&nbsp;        LobbyTimerTask task = new LobbyTimerTask(server,this,userID,nickName);</b>
+<b class="nc"><i>242</i>&nbsp;        lobbyTimer.schedule(task, (long) ConfigLoader.getLobbyTimer() * 1000);</b>
+<b class="nc"><i>243</i>&nbsp;    }</b>
+<i>244</i>&nbsp;
+<i>245</i>&nbsp;    /**
+<i>246</i>&nbsp;     * Function that Stop the Lobby timer for the Client
+<i>247</i>&nbsp;     */
+<i>248</i>&nbsp;
+<i>249</i>&nbsp;    public void stopLobbyTimer(){
+<b class="nc"><i>250</i>&nbsp;        lobbyTimer.cancel();</b>
+<i>251</i>&nbsp;
+<b class="nc"><i>252</i>&nbsp;    }</b>
+<i>253</i>&nbsp;
+<i>254</i>&nbsp;    /**
+<i>255</i>&nbsp;     * Function that start the timer for the ping
+<i>256</i>&nbsp;     */
+<i>257</i>&nbsp;
+<i>258</i>&nbsp;    public void startPingTimer(){
+<b class="nc"><i>259</i>&nbsp;        pingTimer = new Timer();</b>
+<b class="nc"><i>260</i>&nbsp;        ServerPingTimerTask task = new ServerPingTimerTask(server,this,userID,nickName);</b>
+<b class="nc"><i>261</i>&nbsp;        pingTimer.schedule(task, (long) ConfigLoader.getPingTimer() * 1000);</b>
+<b class="nc"><i>262</i>&nbsp;    }</b>
+<i>263</i>&nbsp;
+<i>264</i>&nbsp;    /**
+<i>265</i>&nbsp;     * Function that Stop the Ping timer for the Client
+<i>266</i>&nbsp;     */
+<i>267</i>&nbsp;
+<i>268</i>&nbsp;    public void stopPingTimer(){
+<b class="nc"><i>269</i>&nbsp;        pingTimer.cancel();</b>
+<b class="nc"><i>270</i>&nbsp;    }</b>
+<i>271</i>&nbsp;
+<i>272</i>&nbsp;    /**
+<i>273</i>&nbsp;     * Function that send a ping message to the client
+<i>274</i>&nbsp;     */
+<i>275</i>&nbsp;
+<i>276</i>&nbsp;    public void ping(){
+<b class="nc"><i>277</i>&nbsp;        sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.PING,MessageSubType.UPDATE));</b>
+<b class="nc"><i>278</i>&nbsp;    }</b>
+<i>279</i>&nbsp;
+<i>280</i>&nbsp;    /**
+<i>281</i>&nbsp;     * Function that advise the Server if the Timer for the Turn has ended
+<i>282</i>&nbsp;     * @param message The disconnection message to send to the Server
+<i>283</i>&nbsp;     */
+<i>284</i>&nbsp;
+<i>285</i>&nbsp;    public void turnTimerEnded(Message message){
+<b class="nc"><i>286</i>&nbsp;        server.handleDisconnection(userID,this,message);</b>
+<b class="nc"><i>287</i>&nbsp;    }</b>
+<i>288</i>&nbsp;
+<i>289</i>&nbsp;    /**
+<i>290</i>&nbsp;     * Function called when the Client of this ClientHandler disconnect during the game
+<i>291</i>&nbsp;     * @param message The disconnection message to send to the Server
+<i>292</i>&nbsp;     */
+<i>293</i>&nbsp;
+<i>294</i>&nbsp;    public void clientError(Message message){
+<b class="nc"><i>295</i>&nbsp;        isErrorStopper = true;</b>
+<b class="nc"><i>296</i>&nbsp;        server.handleDisconnection(userID,this,message);</b>
+<b class="nc"><i>297</i>&nbsp;    }</b>
+<i>298</i>&nbsp;
+<i>299</i>&nbsp;    /**
+<i>300</i>&nbsp;     * Specific Thread that receive messages from the Client and forward them to the Server or to the VirtualView(depends on the type of message)
+<i>301</i>&nbsp;     * It also handle the Ping task
+<i>302</i>&nbsp;     */
+<i>303</i>&nbsp;
+<i>304</i>&nbsp;    @Override
+<i>305</i>&nbsp;    public void run() {
+<i>306</i>&nbsp;
+<i>307</i>&nbsp;            try{
+<b class="nc"><i>308</i>&nbsp;                this.objectOut = new ObjectOutputStream(socket.getOutputStream());</b>
+<b class="nc"><i>309</i>&nbsp;                this.objectIn = new ObjectInputStream(socket.getInputStream());</b>
+<b class="nc"><i>310</i>&nbsp;                startLobbyTimer();</b>
+<b class="nc"><i>311</i>&nbsp;                startPingTimer();</b>
+<b class="nc"><i>312</i>&nbsp;                while(isConnectionActive()) {</b>
+<b class="nc"><i>313</i>&nbsp;                    synchronized (inputLock) {</b>
+<b class="nc"><i>314</i>&nbsp;                        Message input = receiveMessage();</b>
+<b class="nc"><i>315</i>&nbsp;                        if (input.getType() == MessageType.CONFIG &amp;&amp; input.getSubType() == MessageSubType.ANSWER) {</b>
+<b class="nc"><i>316</i>&nbsp;                            stopLobbyTimer();</b>
+<b class="nc"><i>317</i>&nbsp;                            this.newNickCounter = 0;</b>
+<b class="nc"><i>318</i>&nbsp;                            server.insertPlayerInGame(input, this, true);</b>
+<b class="nc"><i>319</i>&nbsp;                            server.moveGameStarted();</b>
+<b class="nc"><i>320</i>&nbsp;                        } else if (input.getType() == MessageType.PING) {</b>
+<b class="nc"><i>321</i>&nbsp;                            stopPingTimer();</b>
+<b class="nc"><i>322</i>&nbsp;                            startPingTimer();</b>
+<b class="nc"><i>323</i>&nbsp;                        } else if (input.getType() == MessageType.CONFIG &amp;&amp; input.getSubType() == MessageSubType.UPDATE) {</b>
+<b class="nc"><i>324</i>&nbsp;                            nickMaxTry(input);</b>
+<i>325</i>&nbsp;
+<b class="nc"><i>326</i>&nbsp;                        } else if ((input.getType() == MessageType.DISCONNECTION)) {</b>
+<b class="nc"><i>327</i>&nbsp;                            server.handleDisconnection(userID, this, input);</b>
+<i>328</i>&nbsp;
+<b class="nc"><i>329</i>&nbsp;                            if (!input.getSubType().equals(MessageSubType.BACK))</b>
+<b class="nc"><i>330</i>&nbsp;                                break;</b>
+<i>331</i>&nbsp;
+<i>332</i>&nbsp;                        } else {
+<b class="nc"><i>333</i>&nbsp;                            dispatchMessageToVirtualView(input);</b>
+<i>334</i>&nbsp;                        }
+<i>335</i>&nbsp;
+<b class="nc"><i>336</i>&nbsp;                    }</b>
+<i>337</i>&nbsp;                }
+<i>338</i>&nbsp;
+<b class="nc"><i>339</i>&nbsp;            }catch (IOException e){</b>
+<b class="nc"><i>340</i>&nbsp;                stopLobbyTimer();</b>
+<b class="nc"><i>341</i>&nbsp;                stopPingTimer();</b>
+<b class="nc"><i>342</i>&nbsp;                isConnectionActive = false;</b>
+<b class="nc"><i>343</i>&nbsp;                server.handleDisconnection(userID,this,new Message(userID,nickName,MessageType.DISCONNECTION,MessageSubType.ERROR));</b>
+<i>344</i>&nbsp;            }
+<b class="nc"><i>345</i>&nbsp;            catch(ClassNotFoundException c){</b>
+<b class="nc"><i>346</i>&nbsp;                Server.LOGGER.severe(c.getMessage());</b>
+<i>347</i>&nbsp;            }
+<i>348</i>&nbsp;            finally {
+<b class="nc"><i>349</i>&nbsp;                onFinalDisconnection();</b>
+<b class="nc"><i>350</i>&nbsp;            }</b>
+<b class="nc"><i>351</i>&nbsp;        }</b>
+<i>352</i>&nbsp;
+<i>353</i>&nbsp;    /**
+<i>354</i>&nbsp;     * Function called to move the Client in another game,called when the Client keep sending the same nickname(already in use in the match)
+<i>355</i>&nbsp;     * @param input The Configuration message received from the Client
+<i>356</i>&nbsp;     */
+<i>357</i>&nbsp;
+<i>358</i>&nbsp;    public void nickMaxTry(Message input){
+<b class="nc"><i>359</i>&nbsp;        synchronized (inputLock) {</b>
+<b class="nc"><i>360</i>&nbsp;            stopLobbyTimer();</b>
+<b class="nc"><i>361</i>&nbsp;            newNickCounter++;</b>
+<b class="nc"><i>362</i>&nbsp;            if (newNickCounter &gt; ConstantsContainer.MAXTRYTOCHANGENICK) {</b>
+<b class="nc"><i>363</i>&nbsp;                input.setMessageSubType(MessageSubType.ANSWER);</b>
+<b class="nc"><i>364</i>&nbsp;                this.newNickCounter = 0;</b>
+<b class="nc"><i>365</i>&nbsp;                server.handleDisconnection(userID, this, new Message(input.getSender(), input.getNickName(), MessageType.DISCONNECTION, MessageSubType.NICKMAXTRY));</b>
+<b class="nc"><i>366</i>&nbsp;                server.insertPlayerInGame(input, this, false);</b>
+<i>367</i>&nbsp;            } else {
+<b class="nc"><i>368</i>&nbsp;                if(!server.checkValidConfig(input.getNickName(),((GameConfigMessage) input).getNumberOfPlayer())) {</b>
+<b class="nc"><i>369</i>&nbsp;                    server.nickError(this, input);</b>
+<b class="nc"><i>370</i>&nbsp;                    return;</b>
+<i>371</i>&nbsp;                }
+<b class="nc"><i>372</i>&nbsp;                dispatchMessageToVirtualView(input);</b>
+<i>373</i>&nbsp;            }
+<b class="nc"><i>374</i>&nbsp;            server.moveGameStarted();</b>
+<b class="nc"><i>375</i>&nbsp;         }</b>
+<b class="nc"><i>376</i>&nbsp;        }</b>
+<i>377</i>&nbsp;
+<i>378</i>&nbsp;    /**
+<i>379</i>&nbsp;     * Function Called when the Client Disconnect, handle disconnection phase, stop the timers and call the functions to close the socket
+<i>380</i>&nbsp;     */
+<i>381</i>&nbsp;
+<i>382</i>&nbsp;    public void onFinalDisconnection(){
+<b class="nc"><i>383</i>&nbsp;            stopLobbyTimer();</b>
+<b class="nc"><i>384</i>&nbsp;            stopPingTimer();</b>
+<b class="nc"><i>385</i>&nbsp;            if(isConnectionActive)</b>
+<b class="nc"><i>386</i>&nbsp;                closeConnection(new Message(ConstantsContainer.SERVERNAME, MessageType.DISCONNECTION, MessageSubType.UPDATE));</b>
+<i>387</i>&nbsp;            else
+<b class="nc"><i>388</i>&nbsp;                closeAfterDisconnection();</b>
+<b class="nc"><i>389</i>&nbsp;            Server.LOGGER.info(&quot;player disconnected&quot;);</b>
+<b class="nc"><i>390</i>&nbsp;        }</b>
+<i>391</i>&nbsp;
+<i>392</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-29 01:13</div>
+</div>
+</body>
+</html>

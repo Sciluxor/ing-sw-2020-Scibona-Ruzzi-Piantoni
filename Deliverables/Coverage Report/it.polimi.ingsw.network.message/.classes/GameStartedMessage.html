@@ -1,0 +1,118 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: GameStartedMessage</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.network.message</a> ]
+</div>
+
+<h1>Coverage Summary for Class: GameStartedMessage (it.polimi.ingsw.network.message)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GameStartedMessage</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 4)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.network.message;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;/**
+<i>4</i>&nbsp; * Class that extends Message and Represent the Message That Notify that the Game is started
+<i>5</i>&nbsp; * @author Alessandro Ruzzi
+<i>6</i>&nbsp; * @version 1.0
+<i>7</i>&nbsp; * @since 2020/06/20
+<i>8</i>&nbsp; */
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;public class GameStartedMessage extends Message {
+<i>11</i>&nbsp;    private String gameID;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;    /**
+<i>14</i>&nbsp;     * Public constructor of the message
+<i>15</i>&nbsp;     * @param sender The sender of the Message
+<i>16</i>&nbsp;     * @param subType The subtype of the Message
+<i>17</i>&nbsp;     * @param gameID The GameID of the Game
+<i>18</i>&nbsp;     */
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    public GameStartedMessage(String sender, MessageSubType subType, String gameID) {
+<b class="nc"><i>21</i>&nbsp;        super(sender, MessageType.GAMESTART, subType);</b>
+<b class="nc"><i>22</i>&nbsp;        this.gameID = gameID;</b>
+<b class="nc"><i>23</i>&nbsp;    }</b>
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    /**
+<i>26</i>&nbsp;     * Get the GameID of the Game in which the server has inserted the Client
+<i>27</i>&nbsp;     * @return The GameID of the Game
+<i>28</i>&nbsp;     */
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    public String getGameID() {
+<b class="nc"><i>31</i>&nbsp;        return gameID;</b>
+<i>32</i>&nbsp;    }
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-29 01:13</div>
+</div>
+</body>
+</html>

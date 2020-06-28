@@ -1,0 +1,130 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Observable</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.utils</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Observable (it.polimi.ingsw.utils)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Observable</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (10/ 10)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.utils;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;
+<i>4</i>&nbsp;import java.util.ArrayList;
+<i>5</i>&nbsp;import java.util.List;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;/**
+<i>8</i>&nbsp; * Class extended by the observable classes of the game
+<i>9</i>&nbsp; * @author Alessandro Ruzzi
+<i>10</i>&nbsp; * @version 1.0
+<i>11</i>&nbsp; * @since 2020/06/27
+<i>12</i>&nbsp; */
+<i>13</i>&nbsp;
+<b class="fc"><i>14</i>&nbsp;public class Observable&lt;T&gt; {</b>
+<i>15</i>&nbsp;
+<b class="fc"><i>16</i>&nbsp;    private List&lt;Observer&lt;T&gt;&gt; observers = new ArrayList&lt;&gt;();</b>
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    /**
+<i>19</i>&nbsp;     * Function that add an observer to the list of observers of the object
+<i>20</i>&nbsp;     * @param observer The new observer to add
+<i>21</i>&nbsp;     */
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    public void addObservers(Observer&lt;T&gt; observer){
+<b class="fc"><i>24</i>&nbsp;        observers.add(observer);</b>
+<b class="fc"><i>25</i>&nbsp;    }</b>
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    /**
+<i>28</i>&nbsp;     * Function that remove an observer from the list of observers of the object
+<i>29</i>&nbsp;     * @param observer The observer to remove
+<i>30</i>&nbsp;     */
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;    public void removeObserver(Observer&lt;T&gt; observer){
+<b class="fc"><i>33</i>&nbsp;        observers.remove(observer);</b>
+<b class="fc"><i>34</i>&nbsp;    }</b>
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;    /**
+<i>37</i>&nbsp;     * Function that notify all the observers of the object
+<i>38</i>&nbsp;     * @param message The message to send to the observers
+<i>39</i>&nbsp;     */
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;    public void notify(T message){
+<b class="fc"><i>42</i>&nbsp;        for(Observer&lt;T&gt; observer: observers){</b>
+<b class="fc"><i>43</i>&nbsp;            observer.update(message);</b>
+<b class="fc"><i>44</i>&nbsp;        }</b>
+<b class="fc"><i>45</i>&nbsp;    }</b>
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-29 01:13</div>
+</div>
+</body>
+</html>

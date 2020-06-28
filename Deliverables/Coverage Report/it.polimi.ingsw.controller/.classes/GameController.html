@@ -1,0 +1,773 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: GameController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: GameController (it.polimi.ingsw.controller)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GameController</td>
+<td class="coverageStat">
+  <span class="percent">
+    93,6%
+  </span>
+  <span class="absValue">
+    (44/ 47)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    91,4%
+  </span>
+  <span class="absValue">
+    (201/ 220)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">GameController$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/ 2)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    93,8%
+  </span>
+  <span class="absValue">
+    (45/ 48)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    91,4%
+  </span>
+  <span class="absValue">
+    (203/ 222)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.model.Game;
+<i>4</i>&nbsp;import it.polimi.ingsw.model.map.Square;
+<i>5</i>&nbsp;import it.polimi.ingsw.model.player.Player;
+<i>6</i>&nbsp;import it.polimi.ingsw.model.Response;
+<i>7</i>&nbsp;import it.polimi.ingsw.model.player.TurnStatus;
+<i>8</i>&nbsp;import it.polimi.ingsw.network.message.*;
+<i>9</i>&nbsp;import it.polimi.ingsw.network.server.Server;
+<i>10</i>&nbsp;import it.polimi.ingsw.utils.*;
+<i>11</i>&nbsp;import it.polimi.ingsw.utils.Observer;
+<i>12</i>&nbsp;import it.polimi.ingsw.view.server.VirtualView;
+<i>13</i>&nbsp;import java.util.*;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;/**
+<i>16</i>&nbsp; * Class that represents the Controller server side that handle initial and final phases of the game and the turn
+<i>17</i>&nbsp; * @author Alessandro Ruzzi
+<i>18</i>&nbsp; * @version 1.0
+<i>19</i>&nbsp; * @since 2020/06/26
+<i>20</i>&nbsp; */
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;public class GameController implements Observer&lt;Message&gt; {
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    protected Game game;
+<i>25</i>&nbsp;    protected final Map&lt;String, VirtualView&gt; clients;
+<b class="fc"><i>26</i>&nbsp;    private Timer turnTimer = new Timer();</b>
+<i>27</i>&nbsp;    private final RoundController roundController;
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    /**
+<i>30</i>&nbsp;     * Public Constructor for the Game controller
+<i>31</i>&nbsp;     * @param numberOfPlayer Number of player of the game
+<i>32</i>&nbsp;     * @param gameID GameID of the game
+<i>33</i>&nbsp;     */
+<i>34</i>&nbsp;
+<b class="fc"><i>35</i>&nbsp;    public GameController(int numberOfPlayer,String gameID) {</b>
+<b class="fc"><i>36</i>&nbsp;        this.game = initializeGame(numberOfPlayer,gameID);</b>
+<b class="fc"><i>37</i>&nbsp;        this.clients = new HashMap&lt;&gt;();</b>
+<b class="fc"><i>38</i>&nbsp;        this.roundController = new RoundController(game);</b>
+<b class="fc"><i>39</i>&nbsp;    }</b>
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;    /**
+<i>42</i>&nbsp;     * Function that insert new players in the game
+<i>43</i>&nbsp;     * @param message Message with the name of the new player, and his virtual View
+<i>44</i>&nbsp;     */
+<i>45</i>&nbsp;
+<i>46</i>&nbsp;    public synchronized void handleNewPlayer(Message message) {
+<b class="fc"><i>47</i>&nbsp;        VirtualView view = ((GameConfigMessage) message).getView();</b>
+<b class="fc"><i>48</i>&nbsp;        view.setYourTurn(true);</b>
+<b class="fc"><i>49</i>&nbsp;        String nick = message.getNickName();</b>
+<b class="fc"><i>50</i>&nbsp;        if(!game.addPlayer(new Player(nick),view)){</b>
+<b class="fc"><i>51</i>&nbsp;              nickUsed(view);</b>
+<b class="fc"><i>52</i>&nbsp;              return;</b>
+<i>53</i>&nbsp;        }
+<b class="fc"><i>54</i>&nbsp;        addPlayer(view,nick);</b>
+<b class="fc"><i>55</i>&nbsp;    }</b>
+<i>56</i>&nbsp;
+<i>57</i>&nbsp;    /**
+<i>58</i>&nbsp;     * Function that update the nickName of a player , if it was already in use
+<i>59</i>&nbsp;     * @param message Message with the new NickName
+<i>60</i>&nbsp;     */
+<i>61</i>&nbsp;
+<i>62</i>&nbsp;    public synchronized void handleNewNickname(Message message){
+<b class="fc"><i>63</i>&nbsp;        String nick = message.getNickName();</b>
+<b class="fc"><i>64</i>&nbsp;        VirtualView view = getViewFromUserID(message.getSender());</b>
+<b class="fc"><i>65</i>&nbsp;        view.setYourTurn(true);</b>
+<b class="fc"><i>66</i>&nbsp;        game.addObservers(view);</b>
+<i>67</i>&nbsp;
+<b class="fc"><i>68</i>&nbsp;        if(!game.newNickName(new Player(nick))){</b>
+<b class="fc"><i>69</i>&nbsp;            nickUsed(view);</b>
+<b class="fc"><i>70</i>&nbsp;            return;</b>
+<i>71</i>&nbsp;        }
+<i>72</i>&nbsp;
+<b class="fc"><i>73</i>&nbsp;        addPlayer(view,nick);</b>
+<b class="fc"><i>74</i>&nbsp;        Server.LOGGER.info(&quot;Inserted with a new Nickname -&gt; || GameID: &quot; + getGameID() + &quot; || UserID: &quot;+ message.getSender() + &quot; || NickName: &quot; + message.getNickName());</b>
+<i>75</i>&nbsp;
+<b class="fc"><i>76</i>&nbsp;    }</b>
+<i>77</i>&nbsp;
+<i>78</i>&nbsp;    /**
+<i>79</i>&nbsp;     * Function that do the setup for the new player
+<i>80</i>&nbsp;     * @param view VirtualView of the new player
+<i>81</i>&nbsp;     * @param nick NickName of the new player
+<i>82</i>&nbsp;     */
+<i>83</i>&nbsp;
+<i>84</i>&nbsp;    public synchronized void addPlayer(VirtualView view, String nick){
+<b class="fc"><i>85</i>&nbsp;        addNick(view,nick);</b>
+<b class="fc"><i>86</i>&nbsp;        game.setGameStatus(Response.PLAYERADDED);</b>
+<b class="fc"><i>87</i>&nbsp;        view.getConnection().setNickName(nick);</b>
+<b class="fc"><i>88</i>&nbsp;        view.setYourTurn(false);</b>
+<b class="fc"><i>89</i>&nbsp;        checkIfGameCanStart();</b>
+<b class="fc"><i>90</i>&nbsp;    }</b>
+<i>91</i>&nbsp;
+<i>92</i>&nbsp;    /**
+<i>93</i>&nbsp;     * Function that notify the Server that the nickName is already used
+<i>94</i>&nbsp;     * @param view The virtualView of the client
+<i>95</i>&nbsp;     */
+<i>96</i>&nbsp;
+<i>97</i>&nbsp;    public synchronized void nickUsed(VirtualView view){
+<b class="fc"><i>98</i>&nbsp;        game.setGameStatus(Response.NICKUSED);</b>
+<b class="fc"><i>99</i>&nbsp;        game.removeObserver(view);</b>
+<b class="fc"><i>100</i>&nbsp;        view.setYourTurn(false);</b>
+<b class="fc"><i>101</i>&nbsp;    }</b>
+<i>102</i>&nbsp;
+<i>103</i>&nbsp;    /**
+<i>104</i>&nbsp;     * Function that check if the lobby is full, and if the game can starts
+<i>105</i>&nbsp;     */
+<i>106</i>&nbsp;
+<i>107</i>&nbsp;    public void checkIfGameCanStart(){
+<b class="fc"><i>108</i>&nbsp;        if(game.getPlayers().size() == game.getNumberOfPlayers() &amp;&amp; game.getConfigPlayer() == 0) {</b>
+<b class="fc"><i>109</i>&nbsp;            game.setGameStarted(true);</b>
+<i>110</i>&nbsp;
+<b class="fc"><i>111</i>&nbsp;            for(VirtualView values :clients.values()){</b>
+<b class="fc"><i>112</i>&nbsp;             values.setYourTurn(true);</b>
+<b class="fc"><i>113</i>&nbsp;            }</b>
+<i>114</i>&nbsp;
+<b class="fc"><i>115</i>&nbsp;            game.setGameStatus(Response.GAMESTARTED);</b>
+<i>116</i>&nbsp;
+<b class="fc"><i>117</i>&nbsp;            for(VirtualView values :clients.values()){</b>
+<b class="fc"><i>118</i>&nbsp;                values.setYourTurn(false);</b>
+<b class="fc"><i>119</i>&nbsp;            }</b>
+<i>120</i>&nbsp;
+<b class="fc"><i>121</i>&nbsp;            handleMatchBeginning();</b>
+<i>122</i>&nbsp;        }
+<b class="fc"><i>123</i>&nbsp;    }</b>
+<i>124</i>&nbsp;
+<i>125</i>&nbsp;    /**
+<i>126</i>&nbsp;     * Get the Players in the game
+<i>127</i>&nbsp;     * @return A list of the Actual players in the game
+<i>128</i>&nbsp;     */
+<i>129</i>&nbsp;
+<i>130</i>&nbsp;    public synchronized List&lt;Player&gt; getActualPlayers(){
+<i>131</i>&nbsp;
+<b class="fc"><i>132</i>&nbsp;        return game.getPlayers();</b>
+<i>133</i>&nbsp;    }
+<i>134</i>&nbsp;
+<i>135</i>&nbsp;    /**
+<i>136</i>&nbsp;     * Get the Player that is playing his turn
+<i>137</i>&nbsp;     * @return The current player
+<i>138</i>&nbsp;     */
+<i>139</i>&nbsp;
+<i>140</i>&nbsp;    public synchronized Player getCurrentPlayer(){
+<b class="fc"><i>141</i>&nbsp;        return game.getCurrentPlayer();</b>
+<i>142</i>&nbsp;    }
+<i>143</i>&nbsp;
+<i>144</i>&nbsp;    /**
+<i>145</i>&nbsp;     * Function that check if the game is started
+<i>146</i>&nbsp;     * @return True if the game is started,false otherwise
+<i>147</i>&nbsp;     */
+<i>148</i>&nbsp;
+<i>149</i>&nbsp;    public synchronized boolean isGameStarted(){
+<b class="fc"><i>150</i>&nbsp;        return game.isGameStarted();</b>
+<i>151</i>&nbsp;    }
+<i>152</i>&nbsp;
+<i>153</i>&nbsp;    /**
+<i>154</i>&nbsp;     * Function that create a new Game
+<i>155</i>&nbsp;     * @param numberOfPlayers Number of players of the new Game
+<i>156</i>&nbsp;     * @param gameID GameID of the new Game
+<i>157</i>&nbsp;     * @return The Game created
+<i>158</i>&nbsp;     */
+<i>159</i>&nbsp;
+<i>160</i>&nbsp;    public synchronized Game initializeGame(int numberOfPlayers, String gameID){
+<i>161</i>&nbsp;
+<b class="fc"><i>162</i>&nbsp;        return new Game(numberOfPlayers,gameID);</b>
+<i>163</i>&nbsp;    }
+<i>164</i>&nbsp;
+<i>165</i>&nbsp;    /**
+<i>166</i>&nbsp;     * Get the most recent players that has lost
+<i>167</i>&nbsp;     * @return The most recent players that has lost
+<i>168</i>&nbsp;     */
+<i>169</i>&nbsp;
+<i>170</i>&nbsp;    public synchronized String getLastLosePlayer(){
+<b class="fc"><i>171</i>&nbsp;        return game.getLastLosePlayer();</b>
+<i>172</i>&nbsp;    }
+<i>173</i>&nbsp;
+<i>174</i>&nbsp;    /**
+<i>175</i>&nbsp;     * Get the list of all the players that have lost
+<i>176</i>&nbsp;     * @return The list of all the players that have lost
+<i>177</i>&nbsp;     */
+<i>178</i>&nbsp;
+<i>179</i>&nbsp;    public synchronized List&lt;Player&gt; getLosePlayers(){
+<b class="fc"><i>180</i>&nbsp;        return game.getLosePlayers();</b>
+<i>181</i>&nbsp;    }
+<i>182</i>&nbsp;
+<i>183</i>&nbsp;    /**
+<i>184</i>&nbsp;     * Get the Available cards, from the ones selected by the Challenger
+<i>185</i>&nbsp;     * @return The Available Cards
+<i>186</i>&nbsp;     */
+<i>187</i>&nbsp;
+<i>188</i>&nbsp;    public synchronized List&lt;String&gt; getAvailableCards(){
+<b class="fc"><i>189</i>&nbsp;        return game.getAvailableCards();</b>
+<i>190</i>&nbsp;    }
+<i>191</i>&nbsp;
+<i>192</i>&nbsp;    /**
+<i>193</i>&nbsp;     * Function that check if there is a winner
+<i>194</i>&nbsp;     * @return True if there is a winner, false otherwise
+<i>195</i>&nbsp;     */
+<i>196</i>&nbsp;
+<i>197</i>&nbsp;    public synchronized boolean hasWinner(){
+<b class="fc"><i>198</i>&nbsp;        return game.hasWinner();</b>
+<i>199</i>&nbsp;    }
+<i>200</i>&nbsp;
+<i>201</i>&nbsp;    /**
+<i>202</i>&nbsp;     * Function that add the player and his virtualView in the hashmap
+<i>203</i>&nbsp;     * @param view VirtualView of the new player
+<i>204</i>&nbsp;     * @param nickName NickName of the new player
+<i>205</i>&nbsp;     */
+<i>206</i>&nbsp;
+<i>207</i>&nbsp;    public synchronized void addNick(VirtualView view,String nickName){
+<b class="fc"><i>208</i>&nbsp;        clients.put(nickName,view);</b>
+<b class="fc"><i>209</i>&nbsp;    }</b>
+<i>210</i>&nbsp;
+<i>211</i>&nbsp;    /**
+<i>212</i>&nbsp;     * Function that add the UserID of the player and his virtualView in the hashmap
+<i>213</i>&nbsp;     * @param view VirtualView of the new player
+<i>214</i>&nbsp;     * @param userID UserID of the new player
+<i>215</i>&nbsp;     */
+<i>216</i>&nbsp;
+<i>217</i>&nbsp;    public synchronized void addUserID(VirtualView view,String userID){
+<b class="fc"><i>218</i>&nbsp;        clients.put(userID,view);</b>
+<b class="fc"><i>219</i>&nbsp;    }</b>
+<i>220</i>&nbsp;
+<i>221</i>&nbsp;    /**
+<i>222</i>&nbsp;     * Get the VirtualView of the client given his userID
+<i>223</i>&nbsp;     * @param userID UserID of the player
+<i>224</i>&nbsp;     * @return The VirtualView of the player
+<i>225</i>&nbsp;     */
+<i>226</i>&nbsp;
+<i>227</i>&nbsp;    public VirtualView getViewFromUserID(String userID){
+<b class="fc"><i>228</i>&nbsp;        return clients.get(userID);</b>
+<i>229</i>&nbsp;    }
+<i>230</i>&nbsp;
+<i>231</i>&nbsp;    /**
+<i>232</i>&nbsp;     * Get the VirtualView of the client given his nickname
+<i>233</i>&nbsp;     * @param nick NickName of the player
+<i>234</i>&nbsp;     * @return The VirtualView of the player
+<i>235</i>&nbsp;     */
+<i>236</i>&nbsp;
+<i>237</i>&nbsp;    public VirtualView getViewFromNickName(String nick){
+<b class="fc"><i>238</i>&nbsp;        return clients.get(nick);</b>
+<i>239</i>&nbsp;    }
+<i>240</i>&nbsp;
+<i>241</i>&nbsp;    /**
+<i>242</i>&nbsp;     * Get the squares modified by a move or a build
+<i>243</i>&nbsp;     * @return The Squares modified
+<i>244</i>&nbsp;     */
+<i>245</i>&nbsp;
+<i>246</i>&nbsp;    public synchronized List&lt;Square&gt; getModifiedSquares(){
+<b class="fc"><i>247</i>&nbsp;        return  game.getGameMap().getModifiedSquare();</b>
+<i>248</i>&nbsp;    }
+<i>249</i>&nbsp;
+<i>250</i>&nbsp;    /**
+<i>251</i>&nbsp;     * Function that check if the game is full
+<i>252</i>&nbsp;     * @return True if the game is full, false otherwise
+<i>253</i>&nbsp;     */
+<i>254</i>&nbsp;
+<i>255</i>&nbsp;    public synchronized boolean isFull(){
+<b class="fc"><i>256</i>&nbsp;        return (game.getPlayers().size()+game.getConfigPlayer()) == game.getNumberOfPlayers();</b>
+<i>257</i>&nbsp;    }
+<i>258</i>&nbsp;
+<i>259</i>&nbsp;    /**
+<i>260</i>&nbsp;     * Function that check if a specific player is still in the game or if he has lost
+<i>261</i>&nbsp;     * @param nickName NickName of the player to search for
+<i>262</i>&nbsp;     * @return True if the player is still in the game, false otherwise
+<i>263</i>&nbsp;     */
+<i>264</i>&nbsp;
+<i>265</i>&nbsp;    public synchronized boolean isStillInGame(String nickName){
+<b class="fc"><i>266</i>&nbsp;        for(Player player: getActualPlayers()){</b>
+<b class="fc"><i>267</i>&nbsp;            if(player.getNickName().equals(nickName))</b>
+<b class="fc"><i>268</i>&nbsp;                return true;</b>
+<b class="fc"><i>269</i>&nbsp;        }</b>
+<b class="fc"><i>270</i>&nbsp;        return false;</b>
+<i>271</i>&nbsp;    }
+<i>272</i>&nbsp;
+<i>273</i>&nbsp;    /**
+<i>274</i>&nbsp;     * Get the name of player that has left the game
+<i>275</i>&nbsp;     * @return The name of the player that has left the game
+<i>276</i>&nbsp;     */
+<i>277</i>&nbsp;
+<i>278</i>&nbsp;    public synchronized String getStopper(){
+<b class="fc"><i>279</i>&nbsp;        return game.getStopper();</b>
+<i>280</i>&nbsp;    }
+<i>281</i>&nbsp;
+<i>282</i>&nbsp;    /**
+<i>283</i>&nbsp;     * Function that check if someone has left the game
+<i>284</i>&nbsp;     * @return True if someone has left the game, false otherwise
+<i>285</i>&nbsp;     */
+<i>286</i>&nbsp;
+<b class="fc"><i>287</i>&nbsp;    public synchronized boolean hasStopper(){return game.hasStopper();}</b>
+<i>288</i>&nbsp;
+<i>289</i>&nbsp;    /**
+<i>290</i>&nbsp;     * Get the name of the winner
+<i>291</i>&nbsp;     * @return The name of the winner
+<i>292</i>&nbsp;     */
+<i>293</i>&nbsp;
+<i>294</i>&nbsp;    public String getWinner(){
+<b class="fc"><i>295</i>&nbsp;        return game.getWinner().getNickName();</b>
+<i>296</i>&nbsp;    }
+<i>297</i>&nbsp;
+<i>298</i>&nbsp;    /**
+<i>299</i>&nbsp;     * Get the GameID
+<i>300</i>&nbsp;     * @return The GameID
+<i>301</i>&nbsp;     */
+<i>302</i>&nbsp;
+<i>303</i>&nbsp;    public String getGameID(){
+<b class="fc"><i>304</i>&nbsp;        return game.getGameID();</b>
+<i>305</i>&nbsp;    }
+<i>306</i>&nbsp;
+<i>307</i>&nbsp;    /**
+<i>308</i>&nbsp;     * Get the number of players of the game
+<i>309</i>&nbsp;     * @return The number of players of the game
+<i>310</i>&nbsp;     */
+<i>311</i>&nbsp;
+<i>312</i>&nbsp;    public int getNumberOfPlayers(){
+<b class="fc"><i>313</i>&nbsp;        return game.getNumberOfPlayers();</b>
+<i>314</i>&nbsp;    }
+<i>315</i>&nbsp;
+<i>316</i>&nbsp;    /**
+<i>317</i>&nbsp;     * Function that stop the Game if someone left the game
+<i>318</i>&nbsp;     * @param stopper The nickName of the player that left the game
+<i>319</i>&nbsp;     * @param newStatus The Game Status to set
+<i>320</i>&nbsp;     */
+<i>321</i>&nbsp;
+<i>322</i>&nbsp;    public synchronized void stopStartedGame(String stopper,Response newStatus){
+<i>323</i>&nbsp;
+<b class="fc"><i>324</i>&nbsp;        game.setStopper(stopper);</b>
+<b class="fc"><i>325</i>&nbsp;        game.setHasStopper(true);</b>
+<b class="fc"><i>326</i>&nbsp;        game.setGameStatus(newStatus);</b>
+<b class="fc"><i>327</i>&nbsp;        stopRoundTimer();</b>
+<i>328</i>&nbsp;
+<b class="fc"><i>329</i>&nbsp;        for(Player player :getActualPlayers()){</b>
+<b class="fc"><i>330</i>&nbsp;            VirtualView playerView = removeViewFromGame(player.getNickName());</b>
+<b class="fc"><i>331</i>&nbsp;            resetPlayer(playerView);</b>
+<b class="fc"><i>332</i>&nbsp;        }</b>
+<i>333</i>&nbsp;
+<b class="fc"><i>334</i>&nbsp;    }</b>
+<i>335</i>&nbsp;
+<i>336</i>&nbsp;    /**
+<i>337</i>&nbsp;     * Function that reset a client (nickname,userID...) and remove the observers
+<i>338</i>&nbsp;     * @param playerView The VirtualView of the Client to reset
+<i>339</i>&nbsp;     */
+<i>340</i>&nbsp;
+<i>341</i>&nbsp;    public synchronized void resetPlayer(VirtualView playerView){
+<b class="fc"><i>342</i>&nbsp;        stopRoundTimer();</b>
+<b class="fc"><i>343</i>&nbsp;        playerView.getConnection().setUserID(ConstantsContainer.USERDIDDEF);</b>
+<b class="fc"><i>344</i>&nbsp;        playerView.getConnection().setNickName(ConstantsContainer.NICKDEF);</b>
+<b class="fc"><i>345</i>&nbsp;        if(!game.hasWinner()) {</b>
+<b class="fc"><i>346</i>&nbsp;            playerView.removeObserver(this);</b>
+<b class="fc"><i>347</i>&nbsp;            game.removeObserver(playerView);</b>
+<i>348</i>&nbsp;        }
+<b class="fc"><i>349</i>&nbsp;        if(playerView.getConnection().isConnectionActive()) {</b>
+<b class="fc"><i>350</i>&nbsp;            playerView.getConnection().startLobbyTimer();</b>
+<i>351</i>&nbsp;        }
+<b class="fc"><i>352</i>&nbsp;    }</b>
+<i>353</i>&nbsp;
+<i>354</i>&nbsp;    /**
+<i>355</i>&nbsp;     * Get UserID given the player
+<i>356</i>&nbsp;     * @param player Player that we want to analise
+<i>357</i>&nbsp;     * @return The UserID of the specific player
+<i>358</i>&nbsp;     */
+<i>359</i>&nbsp;
+<i>360</i>&nbsp;    public synchronized String  getUserIDFromPlayer(Player player){
+<b class="fc"><i>361</i>&nbsp;        return getViewFromNickName(player.getNickName()).getConnection().getUserID();</b>
+<i>362</i>&nbsp;    }
+<i>363</i>&nbsp;
+<i>364</i>&nbsp;    /**
+<i>365</i>&nbsp;     * Function called when the lobby timer end,remove the player from the lobby
+<i>366</i>&nbsp;     * @param message Message received, with disconnection information
+<i>367</i>&nbsp;     */
+<i>368</i>&nbsp;
+<i>369</i>&nbsp;    public synchronized void handleLobbyTimerEnded(Message message){
+<b class="fc"><i>370</i>&nbsp;        VirtualView view = clients.get(message.getSender());</b>
+<b class="fc"><i>371</i>&nbsp;        game.removeConfigPlayer();</b>
+<b class="fc"><i>372</i>&nbsp;        clients.remove(message.getSender());</b>
+<b class="fc"><i>373</i>&nbsp;        game.removeObserver(view);</b>
+<b class="fc"><i>374</i>&nbsp;        view.removeObserver(this);</b>
+<b class="fc"><i>375</i>&nbsp;    }</b>
+<i>376</i>&nbsp;
+<i>377</i>&nbsp;    /**
+<i>378</i>&nbsp;     * Function that eliminate a player from the board and the game when he lose
+<i>379</i>&nbsp;     */
+<i>380</i>&nbsp;
+<i>381</i>&nbsp;    public synchronized void eliminatePlayer(){
+<b class="fc"><i>382</i>&nbsp;        VirtualView view = clients.get(getCurrentPlayer().getNickName());</b>
+<b class="fc"><i>383</i>&nbsp;        view.setYourTurn(false);</b>
+<b class="fc"><i>384</i>&nbsp;        removePlayerFromBoard();</b>
+<b class="fc"><i>385</i>&nbsp;        checkIfStillCorrectGame();</b>
+<b class="fc"><i>386</i>&nbsp;    }</b>
+<i>387</i>&nbsp;
+<i>388</i>&nbsp;    /**
+<i>389</i>&nbsp;     * Function that remove The Virtual View of the Player from the controller
+<i>390</i>&nbsp;     * @param nickName The Nickname of the player to remove
+<i>391</i>&nbsp;     * @return The Virtual View removed
+<i>392</i>&nbsp;     */
+<i>393</i>&nbsp;
+<i>394</i>&nbsp;    public synchronized VirtualView removeViewFromGame(String nickName){
+<b class="fc"><i>395</i>&nbsp;        VirtualView view = clients.get(nickName);</b>
+<b class="fc"><i>396</i>&nbsp;        view.setYourTurn(false);</b>
+<b class="fc"><i>397</i>&nbsp;        clients.remove(nickName);</b>
+<b class="fc"><i>398</i>&nbsp;        clients.remove(view.getConnection().getUserID());</b>
+<b class="fc"><i>399</i>&nbsp;        return view;</b>
+<i>400</i>&nbsp;    }
+<i>401</i>&nbsp;
+<i>402</i>&nbsp;    /**
+<i>403</i>&nbsp;     * Function that remove the workers of the player from the board, and change the current player
+<i>404</i>&nbsp;     */
+<i>405</i>&nbsp;
+<i>406</i>&nbsp;    public synchronized void removePlayerFromBoard(){
+<b class="fc"><i>407</i>&nbsp;        game.removePlayerLose();</b>
+<b class="fc"><i>408</i>&nbsp;        VirtualView newView = clients.get(getCurrentPlayer().getNickName());</b>
+<b class="fc"><i>409</i>&nbsp;        newView.setYourTurn(true);</b>
+<b class="fc"><i>410</i>&nbsp;    }</b>
+<i>411</i>&nbsp;
+<i>412</i>&nbsp;    /**
+<i>413</i>&nbsp;     * Function that check if the game can continue, called if a player gets eliminated
+<i>414</i>&nbsp;     */
+<i>415</i>&nbsp;
+<i>416</i>&nbsp;    public synchronized void checkIfStillCorrectGame(){
+<b class="fc"><i>417</i>&nbsp;        int numberOfPlayer = game.getPlayers().size();</b>
+<b class="fc"><i>418</i>&nbsp;        if( numberOfPlayer &gt;= ConstantsContainer.MINPLAYERLOBBY &amp;&amp; numberOfPlayer &lt;= game.getNumberOfPlayers()){</b>
+<b class="fc"><i>419</i>&nbsp;            game.setGameStatus(Response.PLAYERLOSE);</b>
+<b class="fc"><i>420</i>&nbsp;            startRoundTimer();</b>
+<b class="fc"><i>421</i>&nbsp;            handleTurnBeginning();</b>
+<i>422</i>&nbsp;        }
+<i>423</i>&nbsp;        else{
+<b class="fc"><i>424</i>&nbsp;            game.setWinner(getCurrentPlayer());</b>
+<b class="fc"><i>425</i>&nbsp;            game.setHasWinner(true);</b>
+<b class="fc"><i>426</i>&nbsp;            game.setGameStatus(Response.LOSEWIN);</b>
+<i>427</i>&nbsp;        }
+<b class="fc"><i>428</i>&nbsp;    }</b>
+<i>429</i>&nbsp;
+<i>430</i>&nbsp;    /**
+<i>431</i>&nbsp;     * Function that disconnect the player from the lobby (before the game is started)
+<i>432</i>&nbsp;     * @param message Message received, with disconnection information
+<i>433</i>&nbsp;     */
+<i>434</i>&nbsp;
+<i>435</i>&nbsp;    public synchronized void disconnectPlayerBeforeGameStart(Message message) {
+<b class="fc"><i>436</i>&nbsp;        VirtualView view = clients.get(message.getSender());</b>
+<b class="fc"><i>437</i>&nbsp;        view.setYourTurn(false);</b>
+<i>438</i>&nbsp;
+<b class="fc"><i>439</i>&nbsp;        game.removeObserver(view);</b>
+<b class="fc"><i>440</i>&nbsp;        clients.remove(message.getSender());</b>
+<i>441</i>&nbsp;
+<i>442</i>&nbsp;
+<b class="fc"><i>443</i>&nbsp;        if (message.getSubType().equals(MessageSubType.NICKMAXTRY) || message.getSubType().equals(MessageSubType.STOPPEDGAMEERROR)</b>
+<b class="fc"><i>444</i>&nbsp;              || view.getConnection().getNickName().equalsIgnoreCase(ConstantsContainer.NICKDEF)) {</b>
+<b class="fc"><i>445</i>&nbsp;            game.removeConfigPlayer();</b>
+<i>446</i>&nbsp;        }
+<i>447</i>&nbsp;        else {
+<b class="fc"><i>448</i>&nbsp;            game.removeSettedPlayer(message.getNickName());</b>
+<b class="fc"><i>449</i>&nbsp;            clients.remove(message.getNickName());</b>
+<b class="fc"><i>450</i>&nbsp;            game.setGameStatus(Response.REMOVEDPLAYER);</b>
+<i>451</i>&nbsp;        }
+<i>452</i>&nbsp;
+<b class="fc"><i>453</i>&nbsp;    }</b>
+<i>454</i>&nbsp;
+<i>455</i>&nbsp;    /**
+<i>456</i>&nbsp;     * Function that check if a nickName is already in use or if it is available
+<i>457</i>&nbsp;     * @param nick NickName to check
+<i>458</i>&nbsp;     * @return True if the nickname if free, false otherwise
+<i>459</i>&nbsp;     */
+<i>460</i>&nbsp;
+<i>461</i>&nbsp;    public synchronized boolean isFreeNick(String nick){
+<b class="fc"><i>462</i>&nbsp;        List&lt;Player&gt; players = game.getPlayers();</b>
+<i>463</i>&nbsp;
+<b class="fc"><i>464</i>&nbsp;        for(Player player : players){</b>
+<b class="fc"><i>465</i>&nbsp;            if(player.getNickName().equals(nick))</b>
+<b class="fc"><i>466</i>&nbsp;                return false;</b>
+<b class="fc"><i>467</i>&nbsp;        }</b>
+<i>468</i>&nbsp;
+<b class="fc"><i>469</i>&nbsp;        return true;</b>
+<i>470</i>&nbsp;    }
+<i>471</i>&nbsp;
+<i>472</i>&nbsp;    /**
+<i>473</i>&nbsp;     * Function that select the challenger and start the first turn
+<i>474</i>&nbsp;     */
+<i>475</i>&nbsp;
+<i>476</i>&nbsp;    public synchronized void handleMatchBeginning(){
+<b class="fc"><i>477</i>&nbsp;        Player challenger = game.pickChallenger();</b>
+<b class="fc"><i>478</i>&nbsp;        getViewFromNickName(challenger.getNickName()).setYourTurn(true);</b>
+<b class="fc"><i>479</i>&nbsp;        game.setGameStatus(Response.CHALLENGERCHOICE);</b>
+<b class="fc"><i>480</i>&nbsp;        startRoundTimer();</b>
+<b class="fc"><i>481</i>&nbsp;    }</b>
+<i>482</i>&nbsp;
+<i>483</i>&nbsp;    /**
+<i>484</i>&nbsp;     * Function that change the current player when the turn of a player end
+<i>485</i>&nbsp;     * @param message Message received from the Client
+<i>486</i>&nbsp;     */
+<i>487</i>&nbsp;
+<i>488</i>&nbsp;    public synchronized void changeTurnPlayer(Message message){
+<b class="fc"><i>489</i>&nbsp;        getViewFromNickName(message.getNickName()).setYourTurn(false);</b>
+<b class="fc"><i>490</i>&nbsp;        game.pickPlayer();</b>
+<b class="fc"><i>491</i>&nbsp;        getViewFromNickName(game.getCurrentPlayer().getNickName()).setYourTurn(true);</b>
+<b class="fc"><i>492</i>&nbsp;    }</b>
+<i>493</i>&nbsp;
+<i>494</i>&nbsp;    /**
+<i>495</i>&nbsp;     * Function that check if the player has lost, and then start the turn or eliminate the player
+<i>496</i>&nbsp;     */
+<i>497</i>&nbsp;
+<i>498</i>&nbsp;    public synchronized void handleTurnBeginning() {
+<b class="fc"><i>499</i>&nbsp;        if (!game.getCurrentPlayer().checkIfLoose(game.getGameMap())) {</b>
+<b class="fc"><i>500</i>&nbsp;              game.getCurrentPlayer().setTurnStatus(TurnStatus.PLAYTURN);</b>
+<b class="fc"><i>501</i>&nbsp;              game.setGameStatus(Response.STARTTURN);</b>
+<i>502</i>&nbsp;        } else {
+<b class="fc"><i>503</i>&nbsp;            stopRoundTimer();</b>
+<b class="fc"><i>504</i>&nbsp;            eliminatePlayer();</b>
+<i>505</i>&nbsp;        }
+<b class="fc"><i>506</i>&nbsp;    }</b>
+<i>507</i>&nbsp;
+<i>508</i>&nbsp;    /**
+<i>509</i>&nbsp;     * Function that handle the End turn phase,change current player and set the new Game Status
+<i>510</i>&nbsp;     * @param message Message received from the Client
+<i>511</i>&nbsp;     */
+<i>512</i>&nbsp;
+<i>513</i>&nbsp;    public synchronized void handleEndTurn(Message message){
+<b class="fc"><i>514</i>&nbsp;        stopRoundTimer();</b>
+<b class="fc"><i>515</i>&nbsp;        if(FlowStatutsLoader.isRightMessage(game.getGameStatus(),message.getType())) {</b>
+<b class="fc"><i>516</i>&nbsp;            game.getCurrentPlayer().setTurnStatus(TurnStatus.IDLE);</b>
+<i>517</i>&nbsp;
+<b class="fc"><i>518</i>&nbsp;            if(game.getCurrentPlayer().getPower() != null)</b>
+<b class="fc"><i>519</i>&nbsp;                game.getCurrentPlayer().getPower().resetCard();</b>
+<i>520</i>&nbsp;
+<b class="fc"><i>521</i>&nbsp;            changeTurnPlayer(message);</b>
+<b class="fc"><i>522</i>&nbsp;            startRoundTimer();</b>
+<i>523</i>&nbsp;
+<b class="fc"><i>524</i>&nbsp;            switch (game.getGameStatus()) {</b>
+<i>525</i>&nbsp;                case CHALLENGERCHOICEDONE:
+<b class="fc"><i>526</i>&nbsp;                    game.setGameStatus(Response.CARDCHOICE);</b>
+<b class="fc"><i>527</i>&nbsp;                    break;</b>
+<i>528</i>&nbsp;                case CARDCHOICEDONE:
+<b class="fc"><i>529</i>&nbsp;                    if (game.getAvailableCards().isEmpty()) {</b>
+<b class="fc"><i>530</i>&nbsp;                        game.assignPermanentConstraint();</b>
+<b class="fc"><i>531</i>&nbsp;                        game.setGameStatus(Response.ASSIGNEDPERMCONSTRAINT);</b>
+<b class="fc"><i>532</i>&nbsp;                        game.setGameStatus(Response.PLACEWORKERS);</b>
+<i>533</i>&nbsp;                    } else {
+<b class="fc"><i>534</i>&nbsp;                        game.setGameStatus(Response.CARDCHOICE);</b>
+<i>535</i>&nbsp;                    }
+<b class="fc"><i>536</i>&nbsp;                    break;</b>
+<i>537</i>&nbsp;                case PLACEWORKERSDONE:
+<b class="fc"><i>538</i>&nbsp;                    if(game.allWorkersPlaced()){</b>
+<b class="fc"><i>539</i>&nbsp;                        handleTurnBeginning();</b>
+<i>540</i>&nbsp;                    }
+<i>541</i>&nbsp;                    else{
+<b class="fc"><i>542</i>&nbsp;                        game.setGameStatus(Response.PLACEWORKERS);</b>
+<i>543</i>&nbsp;                    }
+<b class="fc"><i>544</i>&nbsp;                    break;</b>
+<i>545</i>&nbsp;                default:
+<b class="fc"><i>546</i>&nbsp;                    handleTurnBeginning();</b>
+<i>547</i>&nbsp;            }
+<i>548</i>&nbsp;        }
+<i>549</i>&nbsp;        else {
+<b class="fc"><i>550</i>&nbsp;            game.setGameStatus(Response.STATUSERROR);</b>
+<i>551</i>&nbsp;        }
+<b class="fc"><i>552</i>&nbsp;    }</b>
+<i>553</i>&nbsp;
+<i>554</i>&nbsp;    /**
+<i>555</i>&nbsp;     * Function that forward the message to the round controller
+<i>556</i>&nbsp;     * @param message Message to forward
+<i>557</i>&nbsp;     */
+<i>558</i>&nbsp;
+<i>559</i>&nbsp;    public synchronized void sendToRoundController(Message message){
+<i>560</i>&nbsp;
+<b class="fc"><i>561</i>&nbsp;        roundController.processRoundEvent(message);</b>
+<i>562</i>&nbsp;
+<b class="fc"><i>563</i>&nbsp;    }</b>
+<i>564</i>&nbsp;
+<i>565</i>&nbsp;    /**
+<i>566</i>&nbsp;     * Function that start the round timer
+<i>567</i>&nbsp;     */
+<i>568</i>&nbsp;
+<i>569</i>&nbsp;    public void startRoundTimer(){
+<b class="nc"><i>570</i>&nbsp;      turnTimer = new Timer();</b>
+<b class="nc"><i>571</i>&nbsp;      TurnTimerTask task = new TurnTimerTask(clients.get(getCurrentPlayer().getNickName()).getConnection());</b>
+<b class="nc"><i>572</i>&nbsp;      turnTimer.schedule(task, (long) ConfigLoader.getTurnTimer()*1000);</b>
+<b class="nc"><i>573</i>&nbsp;    }</b>
+<i>574</i>&nbsp;
+<i>575</i>&nbsp;    /**
+<i>576</i>&nbsp;     * Function that stop the round timer
+<i>577</i>&nbsp;     */
+<i>578</i>&nbsp;
+<i>579</i>&nbsp;    public void stopRoundTimer(){
+<b class="nc"><i>580</i>&nbsp;        turnTimer.cancel();</b>
+<b class="nc"><i>581</i>&nbsp;    }</b>
+<i>582</i>&nbsp;
+<i>583</i>&nbsp;    /**
+<i>584</i>&nbsp;     * Function that send a chat message to the other clients
+<i>585</i>&nbsp;     * @param message Message to deliver
+<i>586</i>&nbsp;     */
+<i>587</i>&nbsp;
+<i>588</i>&nbsp;    public synchronized void broadcastMessage(Message message){
+<b class="nc"><i>589</i>&nbsp;        for(Player player: game.getPlayers()){</b>
+<b class="nc"><i>590</i>&nbsp;            if(!player.getNickName().equals(message.getNickName()))</b>
+<b class="nc"><i>591</i>&nbsp;                getViewFromNickName(player.getNickName()).handleChatMessage(message);</b>
+<b class="nc"><i>592</i>&nbsp;        }</b>
+<b class="nc"><i>593</i>&nbsp;    }</b>
+<i>594</i>&nbsp;
+<i>595</i>&nbsp;    /**
+<i>596</i>&nbsp;     * Function that check if the game has been stopped or if there is a winner, and (if yes) reset all the players
+<i>597</i>&nbsp;     */
+<i>598</i>&nbsp;
+<i>599</i>&nbsp;    public synchronized void checkIfToReset(){
+<b class="fc"><i>600</i>&nbsp;        if(game.getGameStatus().equals(Response.WIN) || game.getGameStatus().equals(Response.LOSEWIN)){</b>
+<b class="fc"><i>601</i>&nbsp;            for(Player player :getActualPlayers()){</b>
+<b class="fc"><i>602</i>&nbsp;                game.removeObserver(getViewFromNickName(player.getNickName()));</b>
+<b class="fc"><i>603</i>&nbsp;            }</b>
+<b class="fc"><i>604</i>&nbsp;            for(Player player :game.getLosePlayers()){</b>
+<b class="nc"><i>605</i>&nbsp;                game.removeObserver(getViewFromNickName(player.getNickName()));</b>
+<b class="nc"><i>606</i>&nbsp;            }</b>
+<i>607</i>&nbsp;        }
+<b class="fc"><i>608</i>&nbsp;    }</b>
+<i>609</i>&nbsp;
+<i>610</i>&nbsp;    /**
+<i>611</i>&nbsp;     * Function that process the message received and decide which function to call
+<i>612</i>&nbsp;     * @param message Message to analise
+<i>613</i>&nbsp;     */
+<i>614</i>&nbsp;
+<i>615</i>&nbsp;    public synchronized void processMessage(Message message){
+<b class="fc"><i>616</i>&nbsp;        String log = String.format(&quot;GameID -&gt; %s || Received Message from -&gt; || UserID: %s || Type: %s || SubType: %s&quot;,getGameID(),message.getSender(),message.getType().toString(),message.getSubType().toString());</b>
+<b class="fc"><i>617</i>&nbsp;        Server.LOGGER.info(log);</b>
+<b class="fc"><i>618</i>&nbsp;        switch (message.getType()) {</b>
+<i>619</i>&nbsp;            case CONFIG:
+<b class="fc"><i>620</i>&nbsp;                if (message.getSubType().equals(MessageSubType.ANSWER))</b>
+<b class="fc"><i>621</i>&nbsp;                    handleNewPlayer(message);</b>
+<b class="fc"><i>622</i>&nbsp;                else if (message.getSubType().equals(MessageSubType.UPDATE))</b>
+<b class="fc"><i>623</i>&nbsp;                    handleNewNickname(message);</b>
+<i>624</i>&nbsp;                break;
+<i>625</i>&nbsp;            case CHAT:
+<b class="nc"><i>626</i>&nbsp;                broadcastMessage(message);</b>
+<b class="nc"><i>627</i>&nbsp;                break;</b>
+<i>628</i>&nbsp;            case ENDTURN:
+<b class="fc"><i>629</i>&nbsp;                if(!getViewFromUserID(message.getSender()).isYourTurn()){</b>
+<b class="nc"><i>630</i>&nbsp;                    getViewFromUserID(message.getSender()).handleNotYourTurn();</b>
+<i>631</i>&nbsp;                }else {
+<b class="fc"><i>632</i>&nbsp;                    handleEndTurn(message);</b>
+<b class="fc"><i>633</i>&nbsp;                    break;</b>
+<i>634</i>&nbsp;                }
+<i>635</i>&nbsp;                break;
+<i>636</i>&nbsp;            default:
+<b class="fc"><i>637</i>&nbsp;                if(!getViewFromUserID(message.getSender()).isYourTurn()){</b>
+<b class="nc"><i>638</i>&nbsp;                    getViewFromUserID(message.getSender()).handleNotYourTurn();</b>
+<i>639</i>&nbsp;                }else {
+<b class="fc"><i>640</i>&nbsp;                    sendToRoundController(message);</b>
+<b class="fc"><i>641</i>&nbsp;                    checkIfToReset();</b>
+<i>642</i>&nbsp;                    break;
+<i>643</i>&nbsp;                }
+<i>644</i>&nbsp;        }
+<b class="fc"><i>645</i>&nbsp;    }</b>
+<i>646</i>&nbsp;
+<i>647</i>&nbsp;    /**
+<i>648</i>&nbsp;     * Update function of the observer
+<i>649</i>&nbsp;     * @param message Message received from the Client
+<i>650</i>&nbsp;     */
+<i>651</i>&nbsp;
+<i>652</i>&nbsp;    @Override
+<i>653</i>&nbsp;    public synchronized void update(Message message) {
+<b class="fc"><i>654</i>&nbsp;        if(message == null)</b>
+<b class="fc"><i>655</i>&nbsp;            throw new IllegalStateException(&quot;invalid message&quot;);</b>
+<i>656</i>&nbsp;        try{
+<b class="fc"><i>657</i>&nbsp;            processMessage(message);</b>
+<b class="nc"><i>658</i>&nbsp;        }catch (IllegalStateException ill){</b>
+<b class="nc"><i>659</i>&nbsp;            Server.LOGGER.severe(ill.getMessage());</b>
+<b class="fc"><i>660</i>&nbsp;        }</b>
+<b class="fc"><i>661</i>&nbsp;    }</b>
+<i>662</i>&nbsp;
+<i>663</i>&nbsp;
+<i>664</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-29 01:13</div>
+</div>
+</body>
+</html>

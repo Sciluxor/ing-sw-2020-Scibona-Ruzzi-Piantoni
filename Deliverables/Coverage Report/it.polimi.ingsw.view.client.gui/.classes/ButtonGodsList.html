@@ -1,0 +1,188 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ButtonGodsList</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.view.client.gui</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ButtonGodsList (it.polimi.ingsw.view.client.gui)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ButtonGodsList</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 74)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.view.client.gui;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import javax.swing.*;
+<i>4</i>&nbsp;import java.awt.*;
+<i>5</i>&nbsp;import java.io.IOException;
+<i>6</i>&nbsp;import java.util.List;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;import static it.polimi.ingsw.utils.ConstantsContainer.GODS;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;/**
+<i>11</i>&nbsp; * Class for building the deck of cards as single JButtons
+<i>12</i>&nbsp; * @author Luigi Scibona
+<i>13</i>&nbsp; * @version 1.0
+<i>14</i>&nbsp; * @since 2020/06/13
+<i>15</i>&nbsp; */
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;public class ButtonGodsList {
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    /**
+<i>20</i>&nbsp;     * Class builder
+<i>21</i>&nbsp;     * @param dimensionFrame Window size to scale the size of the cards
+<i>22</i>&nbsp;     * @param buttons Reference to the List of JButton to be filled with cards
+<i>23</i>&nbsp;     * @throws IOException if the loading of the images of the cards was not successful
+<i>24</i>&nbsp;     */
+<i>25</i>&nbsp;
+<b class="nc"><i>26</i>&nbsp;    public ButtonGodsList(Dimension dimensionFrame, List&lt;JButton&gt; buttons) throws IOException {</b>
+<i>27</i>&nbsp;
+<b class="nc"><i>28</i>&nbsp;        Dimension cardSize = new Dimension();</b>
+<b class="nc"><i>29</i>&nbsp;        cardSize.setSize((int) (dimensionFrame.getWidth() * 9/100), (int) (dimensionFrame.getHeight() * 23.15/100)); //(9, 22)</b>
+<i>30</i>&nbsp;
+<b class="nc"><i>31</i>&nbsp;        JButton apollo = new JButton();</b>
+<b class="nc"><i>32</i>&nbsp;        apollo.setName(&quot;apollo&quot;);</b>
+<b class="nc"><i>33</i>&nbsp;        buttons.add(apollo);</b>
+<b class="nc"><i>34</i>&nbsp;        JButton artemis = new JButton();</b>
+<b class="nc"><i>35</i>&nbsp;        artemis.setName(&quot;artemis&quot;);</b>
+<b class="nc"><i>36</i>&nbsp;        buttons.add(artemis);</b>
+<b class="nc"><i>37</i>&nbsp;        JButton athena = new JButton();</b>
+<b class="nc"><i>38</i>&nbsp;        athena.setName(&quot;athena&quot;);</b>
+<b class="nc"><i>39</i>&nbsp;        buttons.add(athena);</b>
+<b class="nc"><i>40</i>&nbsp;        JButton atlas = new JButton();</b>
+<b class="nc"><i>41</i>&nbsp;        atlas.setName(&quot;atlas&quot;);</b>
+<b class="nc"><i>42</i>&nbsp;        buttons.add(atlas);</b>
+<b class="nc"><i>43</i>&nbsp;        JButton chronus = new JButton();</b>
+<b class="nc"><i>44</i>&nbsp;        chronus.setName(&quot;chronus&quot;);</b>
+<b class="nc"><i>45</i>&nbsp;        buttons.add(chronus);</b>
+<b class="nc"><i>46</i>&nbsp;        JButton demeter = new JButton();</b>
+<b class="nc"><i>47</i>&nbsp;        demeter.setName(&quot;demeter&quot;);</b>
+<b class="nc"><i>48</i>&nbsp;        buttons.add(demeter);</b>
+<b class="nc"><i>49</i>&nbsp;        JButton hepha = new JButton();</b>
+<b class="nc"><i>50</i>&nbsp;        hepha.setName(&quot;hephaestus&quot;);</b>
+<b class="nc"><i>51</i>&nbsp;        buttons.add(hepha);</b>
+<b class="nc"><i>52</i>&nbsp;        JButton hera = new JButton();</b>
+<b class="nc"><i>53</i>&nbsp;        hera.setName(&quot;hera&quot;);</b>
+<b class="nc"><i>54</i>&nbsp;        buttons.add(hera);</b>
+<b class="nc"><i>55</i>&nbsp;        JButton hestia = new JButton();</b>
+<b class="nc"><i>56</i>&nbsp;        hestia.setName(&quot;hestia&quot;);</b>
+<b class="nc"><i>57</i>&nbsp;        buttons.add(hestia);</b>
+<b class="nc"><i>58</i>&nbsp;        JButton hypnus = new JButton();</b>
+<b class="nc"><i>59</i>&nbsp;        hypnus.setName(&quot;hypnus&quot;);</b>
+<b class="nc"><i>60</i>&nbsp;        buttons.add(hypnus);</b>
+<b class="nc"><i>61</i>&nbsp;        JButton mino = new JButton();</b>
+<b class="nc"><i>62</i>&nbsp;        mino.setName(&quot;minotaur&quot;);</b>
+<b class="nc"><i>63</i>&nbsp;        buttons.add(mino);</b>
+<b class="nc"><i>64</i>&nbsp;        JButton pan = new JButton();</b>
+<b class="nc"><i>65</i>&nbsp;        pan.setName(&quot;pan&quot;);</b>
+<b class="nc"><i>66</i>&nbsp;        buttons.add(pan);</b>
+<b class="nc"><i>67</i>&nbsp;        JButton prome = new JButton();</b>
+<b class="nc"><i>68</i>&nbsp;        prome.setName(&quot;prometheus&quot;);</b>
+<b class="nc"><i>69</i>&nbsp;        buttons.add(prome);</b>
+<b class="nc"><i>70</i>&nbsp;        JButton zeus = new JButton();</b>
+<b class="nc"><i>71</i>&nbsp;        zeus.setName(&quot;zeus&quot;);</b>
+<b class="nc"><i>72</i>&nbsp;        buttons.add(zeus);</b>
+<i>73</i>&nbsp;
+<i>74</i>&nbsp;
+<b class="nc"><i>75</i>&nbsp;        JLabel lapollo = ImageHandler.setImage(GODS + &quot;apollo.png&quot;, 100, 100, cardSize.width, cardSize.height);</b>
+<b class="nc"><i>76</i>&nbsp;        JLabel lartemis = ImageHandler.setImage(GODS + &quot;artemis.png&quot;, 100, 100, cardSize.width, cardSize.height);</b>
+<b class="nc"><i>77</i>&nbsp;        JLabel lathena = ImageHandler.setImage(GODS + &quot;athena.png&quot;, 100, 100, cardSize.width, cardSize.height);</b>
+<b class="nc"><i>78</i>&nbsp;        JLabel latlas = ImageHandler.setImage(GODS + &quot;atlas.png&quot;, 100, 100, cardSize.width, cardSize.height);</b>
+<b class="nc"><i>79</i>&nbsp;        JLabel lchronus = ImageHandler.setImage(GODS + &quot;chronus.png&quot;, 100, 100, cardSize.width, cardSize.height);</b>
+<b class="nc"><i>80</i>&nbsp;        JLabel ldemeter = ImageHandler.setImage(GODS + &quot;demeter.png&quot;, 100, 100, cardSize.width, cardSize.height);</b>
+<b class="nc"><i>81</i>&nbsp;        JLabel lhepha = ImageHandler.setImage(GODS + &quot;hephaestus.png&quot;, 100, 100, cardSize.width, cardSize.height);</b>
+<b class="nc"><i>82</i>&nbsp;        JLabel lhera = ImageHandler.setImage(GODS + &quot;hera.png&quot;, 100, 100, cardSize.width, cardSize.height);</b>
+<b class="nc"><i>83</i>&nbsp;        JLabel lhestia = ImageHandler.setImage(GODS + &quot;hestia.png&quot;, 100, 100, cardSize.width, cardSize.height);</b>
+<b class="nc"><i>84</i>&nbsp;        JLabel lhypnus = ImageHandler.setImage(GODS + &quot;hypnus.png&quot;, 100, 100, cardSize.width, cardSize.height);</b>
+<b class="nc"><i>85</i>&nbsp;        JLabel lmino = ImageHandler.setImage(GODS + &quot;minotaur.png&quot;, 100, 100, cardSize.width, cardSize.height);</b>
+<b class="nc"><i>86</i>&nbsp;        JLabel lpan = ImageHandler.setImage(GODS + &quot;pan.png&quot;, 100, 100, cardSize.width, cardSize.height);</b>
+<b class="nc"><i>87</i>&nbsp;        JLabel lprome = ImageHandler.setImage(GODS + &quot;prometheus.png&quot;, 100, 100, cardSize.width, cardSize.height);</b>
+<b class="nc"><i>88</i>&nbsp;        JLabel lzeus = ImageHandler.setImage(GODS + &quot;zeus.png&quot;, 100, 100, cardSize.width, cardSize.height);</b>
+<i>89</i>&nbsp;
+<b class="nc"><i>90</i>&nbsp;        apollo.setIcon(lapollo.getIcon());</b>
+<b class="nc"><i>91</i>&nbsp;        artemis.setIcon(lartemis.getIcon());</b>
+<b class="nc"><i>92</i>&nbsp;        athena.setIcon(lathena.getIcon());</b>
+<b class="nc"><i>93</i>&nbsp;        atlas.setIcon(latlas.getIcon());</b>
+<b class="nc"><i>94</i>&nbsp;        chronus.setIcon(lchronus.getIcon());</b>
+<b class="nc"><i>95</i>&nbsp;        demeter.setIcon(ldemeter.getIcon());</b>
+<b class="nc"><i>96</i>&nbsp;        hepha.setIcon(lhepha.getIcon());</b>
+<b class="nc"><i>97</i>&nbsp;        hera.setIcon(lhera.getIcon());</b>
+<b class="nc"><i>98</i>&nbsp;        hestia.setIcon(lhestia.getIcon());</b>
+<b class="nc"><i>99</i>&nbsp;        hypnus.setIcon(lhypnus.getIcon());</b>
+<b class="nc"><i>100</i>&nbsp;        mino.setIcon(lmino.getIcon());</b>
+<b class="nc"><i>101</i>&nbsp;        pan.setIcon(lpan.getIcon());</b>
+<b class="nc"><i>102</i>&nbsp;        prome.setIcon(lprome.getIcon());</b>
+<b class="nc"><i>103</i>&nbsp;        zeus.setIcon(lzeus.getIcon());</b>
+<b class="nc"><i>104</i>&nbsp;    }</b>
+<i>105</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-29 01:13</div>
+</div>
+</body>
+</html>

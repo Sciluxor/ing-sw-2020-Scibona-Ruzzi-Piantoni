@@ -1,0 +1,185 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Demeter</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.model.cards</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Demeter (it.polimi.ingsw.model.cards)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Demeter</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+  <span class="absValue">
+    (4/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    93,5%
+  </span>
+  <span class="absValue">
+    (29/ 31)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.model.cards;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.model.map.Building;
+<i>4</i>&nbsp;import it.polimi.ingsw.model.map.Directions;
+<i>5</i>&nbsp;import it.polimi.ingsw.model.map.GameMap;
+<i>6</i>&nbsp;import it.polimi.ingsw.model.map.Square;
+<i>7</i>&nbsp;import it.polimi.ingsw.model.player.Worker;
+<i>8</i>&nbsp;import it.polimi.ingsw.model.Response;
+<i>9</i>&nbsp;import it.polimi.ingsw.utils.ConstantsContainer;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;import java.util.ArrayList;
+<i>12</i>&nbsp;import java.util.List;
+<i>13</i>&nbsp;import java.util.Map;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;/**
+<i>16</i>&nbsp; * Class that extends Card that build the Demeter card
+<i>17</i>&nbsp; * @author Luigi Scibona, Alessandro Ruzzi, Edoardo Piantoni
+<i>18</i>&nbsp; * @version 1.0
+<i>19</i>&nbsp; * @since 2020/06/27
+<i>20</i>&nbsp; */
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;public class Demeter extends Card {
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    private boolean hasBuilt;
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    /**
+<i>27</i>&nbsp;     * Class Builder
+<i>28</i>&nbsp;     * @param name Name of the card
+<i>29</i>&nbsp;     * @param description Description of the power of the card
+<i>30</i>&nbsp;     * @param isPlayableIn3 Boolean saying if the card is playable in 3 Players
+<i>31</i>&nbsp;     * @param type Type of the card
+<i>32</i>&nbsp;     * @param subType Subtype of the card
+<i>33</i>&nbsp;     */
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;    public Demeter(String name, String description, boolean isPlayableIn3, CardType type, CardSubType subType) {
+<b class="fc"><i>36</i>&nbsp;        super(name, description, isPlayableIn3, type, subType);</b>
+<b class="fc"><i>37</i>&nbsp;        hasBuilt = false;</b>
+<b class="fc"><i>38</i>&nbsp;    }</b>
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;    @Override
+<i>41</i>&nbsp;    public List&lt;Directions&gt; findPossibleBuild(GameMap gameMap, Worker worker) {
+<b class="fc"><i>42</i>&nbsp;        if(gameMap == null || worker == null)</b>
+<b class="fc"><i>43</i>&nbsp;            throw new NullPointerException(&quot;null gameMap or worker&quot;);</b>
+<i>44</i>&nbsp;
+<b class="fc"><i>45</i>&nbsp;        if(hasBuilt)</b>
+<b class="fc"><i>46</i>&nbsp;            return notPreviousBuild(gameMap, worker);</b>
+<i>47</i>&nbsp;
+<b class="fc"><i>48</i>&nbsp;        return gameMap.buildableSquare(worker);</b>
+<i>49</i>&nbsp;    }
+<i>50</i>&nbsp;
+<i>51</i>&nbsp;    /**
+<i>52</i>&nbsp;     * Method that find the possible buildable squares, in which the provided Worker can build, without the previous built positions
+<i>53</i>&nbsp;     * @param gameMap Map of the game
+<i>54</i>&nbsp;     * @param worker Worker you want to know the buildable squares
+<i>55</i>&nbsp;     * @return List of directions of the buildable squares
+<i>56</i>&nbsp;     */
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;    public List&lt;Directions&gt; notPreviousBuild(GameMap gameMap, Worker worker) {
+<b class="fc"><i>59</i>&nbsp;        Map&lt;Directions,Integer&gt; canAccess = worker.getBoardPosition().getCanAccess();</b>
+<b class="fc"><i>60</i>&nbsp;        List&lt;Directions&gt; reachableSquares = new ArrayList&lt;&gt;();</b>
+<i>61</i>&nbsp;
+<b class="fc"><i>62</i>&nbsp;        for(Directions dir: Directions.values()){</b>
+<b class="fc"><i>63</i>&nbsp;            int squareTile = canAccess.get(dir);</b>
+<b class="fc"><i>64</i>&nbsp;            if(squareTile &gt; ConstantsContainer.MINMAPPOSITION &amp;&amp; squareTile &lt;= ConstantsContainer.MAXMAPPOSITION) { //rivedere questo if</b>
+<b class="fc"><i>65</i>&nbsp;                Square possibleSquare = gameMap.getMap().get(squareTile- 1);</b>
+<b class="fc"><i>66</i>&nbsp;                if(!possibleSquare.hasPlayer() &amp;&amp; !worker.getBoardPosition().equals(possibleSquare)</b>
+<b class="fc"><i>67</i>&nbsp;                        &amp;&amp; possibleSquare.getBuilding() != Building.DOME &amp;&amp; !(possibleSquare.equals(worker.getPreviousBuildPosition()))) {</b>
+<b class="fc"><i>68</i>&nbsp;                    reachableSquares.add(dir);</b>
+<i>69</i>&nbsp;                }
+<i>70</i>&nbsp;            }
+<i>71</i>&nbsp;        }
+<i>72</i>&nbsp;
+<b class="fc"><i>73</i>&nbsp;        return reachableSquares;</b>
+<i>74</i>&nbsp;    }
+<i>75</i>&nbsp;
+<i>76</i>&nbsp;    @Override
+<i>77</i>&nbsp;    public Response executeBuild(GameMap gameMap, Building building, Directions directions, Worker worker) {
+<b class="fc"><i>78</i>&nbsp;        if(gameMap == null || worker == null || building == null || directions == null)</b>
+<b class="fc"><i>79</i>&nbsp;            throw new NullPointerException(&quot;null gameMap or worker or building or direction&quot;);</b>
+<i>80</i>&nbsp;
+<b class="fc"><i>81</i>&nbsp;        if(!hasBuilt) {</b>
+<b class="fc"><i>82</i>&nbsp;            if(gameMap.buildInSquare(worker, directions, building)) {</b>
+<b class="fc"><i>83</i>&nbsp;                hasBuilt = true;</b>
+<b class="fc"><i>84</i>&nbsp;                return Response.NEWBUILD;</b>
+<i>85</i>&nbsp;            }
+<i>86</i>&nbsp;            else
+<b class="fc"><i>87</i>&nbsp;                return Response.NOTBUILD;</b>
+<i>88</i>&nbsp;        }
+<i>89</i>&nbsp;
+<b class="fc"><i>90</i>&nbsp;        if(gameMap.buildInSquare(worker, directions, building)) {</b>
+<b class="fc"><i>91</i>&nbsp;            hasBuilt = false;</b>
+<b class="fc"><i>92</i>&nbsp;            return Response.BUILD;</b>
+<i>93</i>&nbsp;        }
+<i>94</i>&nbsp;        else
+<b class="fc"><i>95</i>&nbsp;            return Response.NOTBUILD;</b>
+<i>96</i>&nbsp;    }
+<i>97</i>&nbsp;
+<i>98</i>&nbsp;    @Override
+<i>99</i>&nbsp;    public void resetCard() {
+<b class="nc"><i>100</i>&nbsp;        hasBuilt=false;</b>
+<b class="nc"><i>101</i>&nbsp;    }</b>
+<i>102</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-29 01:13</div>
+</div>
+</body>
+</html>

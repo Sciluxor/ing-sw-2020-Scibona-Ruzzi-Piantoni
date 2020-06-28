@@ -1,0 +1,660 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: PopUp</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.view.client.gui</a> ]
+</div>
+
+<h1>Coverage Summary for Class: PopUp (it.polimi.ingsw.view.client.gui)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PopUp</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 17)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 181)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">PopUp$Close</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 5)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">PopUp$NewGame</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 7)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">PopUp$NewGameEndGame</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 7)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">PopUp$NewGameError</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 11)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">PopUp$Send</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 7)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 27)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 218)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.view.client.gui;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.utils.ConstantsContainer;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;import javax.swing.*;
+<i>6</i>&nbsp;import java.awt.*;
+<i>7</i>&nbsp;import java.awt.event.ActionEvent;
+<i>8</i>&nbsp;import java.awt.event.ActionListener;
+<i>9</i>&nbsp;import java.io.IOException;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;import static it.polimi.ingsw.utils.ConstantsContainer.TEXT;
+<i>12</i>&nbsp;import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
+<i>13</i>&nbsp;import static it.polimi.ingsw.view.client.gui.Board.getBolddimension;
+<i>14</i>&nbsp;import static it.polimi.ingsw.view.client.gui.Gui.*;
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;/**
+<i>17</i>&nbsp; * Class for the build of the JPanel of the various PopUp
+<i>18</i>&nbsp; * @author Luigi Scibona
+<i>19</i>&nbsp; * @version 1.0
+<i>20</i>&nbsp; * @since 2020/06/13
+<i>21</i>&nbsp; */
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;public class PopUp {
+<i>24</i>&nbsp;    Gui gui;
+<i>25</i>&nbsp;    JPanel window;
+<b class="nc"><i>26</i>&nbsp;    Dimension intFrameSize = new Dimension();</b>
+<b class="nc"><i>27</i>&nbsp;    Dimension labelSize = new Dimension();</b>
+<b class="nc"><i>28</i>&nbsp;    Dimension buttonSize = new Dimension();</b>
+<i>29</i>&nbsp;    MyButton button1;
+<i>30</i>&nbsp;    MyButton button2;
+<b class="nc"><i>31</i>&nbsp;    JButton back = backgroundButton(1);</b>
+<i>32</i>&nbsp;    JTextField nickname;
+<i>33</i>&nbsp;    JLabel label1;
+<i>34</i>&nbsp;    JLabel label2;
+<i>35</i>&nbsp;    JLabel label3;
+<i>36</i>&nbsp;    JPanel panel;
+<i>37</i>&nbsp;    String name;
+<b class="nc"><i>38</i>&nbsp;    double bold = getBolddimension();</b>
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;    /**
+<i>41</i>&nbsp;     * Class builder
+<i>42</i>&nbsp;     * @param istance2 Reference to the client GUI class
+<i>43</i>&nbsp;     * @param d Main window size
+<i>44</i>&nbsp;     * @param stopper Parameter indicating the possible player causing an exception
+<i>45</i>&nbsp;     */
+<i>46</i>&nbsp;
+<b class="nc"><i>47</i>&nbsp;    public PopUp(Gui istance2, Dimension d, String stopper){</b>
+<i>48</i>&nbsp;
+<b class="nc"><i>49</i>&nbsp;        gui = istance2;</b>
+<b class="nc"><i>50</i>&nbsp;        window = new JPanel();</b>
+<b class="nc"><i>51</i>&nbsp;        intFrameSize.setSize(d.getWidth() * 55/100, d.getHeight() * 60/100);</b>
+<b class="nc"><i>52</i>&nbsp;        labelSize.setSize(intFrameSize.width * 55/100,intFrameSize.height * 20/100);</b>
+<b class="nc"><i>53</i>&nbsp;        buttonSize.setSize((getD().getWidth() * 13 / 100), (getD().getHeight() * 5 / 100));</b>
+<b class="nc"><i>54</i>&nbsp;        nickname = new JTextField(20);</b>
+<b class="nc"><i>55</i>&nbsp;        panel = new JPanel();</b>
+<b class="nc"><i>56</i>&nbsp;        name = stopper;</b>
+<b class="nc"><i>57</i>&nbsp;    }</b>
+<i>58</i>&nbsp;
+<i>59</i>&nbsp;    /**
+<i>60</i>&nbsp;     * Method that build the JPanel based on parameter n
+<i>61</i>&nbsp;     * @param n Parameter indicating the JPanel to be built according to the situation
+<i>62</i>&nbsp;     * @return The JPanel Built
+<i>63</i>&nbsp;     */
+<i>64</i>&nbsp;
+<i>65</i>&nbsp;    public JPanel lobbyPopUp(int n){
+<b class="nc"><i>66</i>&nbsp;        window.removeAll();</b>
+<b class="nc"><i>67</i>&nbsp;        window.setLayout(null);</b>
+<b class="nc"><i>68</i>&nbsp;        switch (n){</b>
+<i>69</i>&nbsp;            case 0:
+<b class="nc"><i>70</i>&nbsp;                button1 = new MyButton(0);</b>
+<b class="nc"><i>71</i>&nbsp;                button1.setBounds(((intFrameSize.width * 50/100) - (buttonSize.width / 2)), (int) (intFrameSize.height * 79.5 / 100), buttonSize.width, buttonSize.height);</b>
+<b class="nc"><i>72</i>&nbsp;                button1.addActionListener(new Send());</b>
+<b class="nc"><i>73</i>&nbsp;                window.add(button1);</b>
+<i>74</i>&nbsp;
+<b class="nc"><i>75</i>&nbsp;                nickname.setBounds((intFrameSize.width * 35/100), (intFrameSize.height * 60/100), intFrameSize.width * 30/100,intFrameSize.height * 4/100);</b>
+<b class="nc"><i>76</i>&nbsp;                nickname.setText(&quot;AnotherNic&quot;);</b>
+<b class="nc"><i>77</i>&nbsp;                window.add(nickname);</b>
+<i>78</i>&nbsp;
+<b class="nc"><i>79</i>&nbsp;                newLabel(1);</b>
+<i>80</i>&nbsp;                try {
+<b class="nc"><i>81</i>&nbsp;                    label1 = ImageHandler.setImage(TEXT + &quot;nickname.png&quot;, 97, 100, intFrameSize.width * 15/100,intFrameSize.height * 5/100);</b>
+<b class="nc"><i>82</i>&nbsp;                } catch (IOException e) {</b>
+<b class="nc"><i>83</i>&nbsp;                    LOGGER.severe(e.getMessage());</b>
+<b class="nc"><i>84</i>&nbsp;                }</b>
+<b class="nc"><i>85</i>&nbsp;                label1.setBounds((intFrameSize.width * 20/100), (int) (intFrameSize.height * 59.5/100), intFrameSize.width * 15/100,intFrameSize.height * 5/100);</b>
+<b class="nc"><i>86</i>&nbsp;                addLabel1();</b>
+<i>87</i>&nbsp;
+<b class="nc"><i>88</i>&nbsp;                newLabel(2);</b>
+<i>89</i>&nbsp;                try {
+<b class="nc"><i>90</i>&nbsp;                    label2 = ImageHandler.setImage(TEXT + &quot;your_nickname_is_already_used.png&quot;, 97, 100, labelSize.width, labelSize.height);</b>
+<b class="nc"><i>91</i>&nbsp;                } catch (IOException e) {</b>
+<b class="nc"><i>92</i>&nbsp;                    LOGGER.severe(e.getMessage());</b>
+<b class="nc"><i>93</i>&nbsp;                }</b>
+<b class="nc"><i>94</i>&nbsp;                setLabel2(10);</b>
+<b class="nc"><i>95</i>&nbsp;                addLabel2();</b>
+<i>96</i>&nbsp;
+<b class="nc"><i>97</i>&nbsp;                newLabel(3);</b>
+<i>98</i>&nbsp;                try {
+<b class="nc"><i>99</i>&nbsp;                    label3 = ImageHandler.setImage(TEXT + &quot;change_your_nickname.png&quot;, 97, 100, labelSize.width, labelSize.height);</b>
+<b class="nc"><i>100</i>&nbsp;                } catch (IOException e) {</b>
+<b class="nc"><i>101</i>&nbsp;                    LOGGER.severe(e.getMessage());</b>
+<b class="nc"><i>102</i>&nbsp;                }</b>
+<b class="nc"><i>103</i>&nbsp;                label3.setBounds(((intFrameSize.width * 50/100) - (labelSize.width / 2)), (intFrameSize.height * 25/100), labelSize.width, labelSize.height);</b>
+<b class="nc"><i>104</i>&nbsp;                addLabel3();</b>
+<i>105</i>&nbsp;
+<b class="nc"><i>106</i>&nbsp;                setBack();</b>
+<b class="nc"><i>107</i>&nbsp;                break;</b>
+<i>108</i>&nbsp;
+<i>109</i>&nbsp;            case 1:
+<b class="nc"><i>110</i>&nbsp;                setDisconnection();</b>
+<b class="nc"><i>111</i>&nbsp;                button1.addActionListener(new NewGame());</b>
+<i>112</i>&nbsp;
+<b class="nc"><i>113</i>&nbsp;                setBack();</b>
+<b class="nc"><i>114</i>&nbsp;                break;</b>
+<i>115</i>&nbsp;
+<i>116</i>&nbsp;            case 2:
+<b class="nc"><i>117</i>&nbsp;                setPopUp(TEXT + &quot;you_have_been_disconnected.png&quot;);</b>
+<i>118</i>&nbsp;
+<b class="nc"><i>119</i>&nbsp;                setButtonClose();</b>
+<i>120</i>&nbsp;
+<b class="nc"><i>121</i>&nbsp;                setBack();</b>
+<b class="nc"><i>122</i>&nbsp;                break;</b>
+<i>123</i>&nbsp;
+<i>124</i>&nbsp;            case 3:
+<b class="nc"><i>125</i>&nbsp;                setDisconnection();</b>
+<b class="nc"><i>126</i>&nbsp;                button1.addActionListener(new NewGameEndGame());</b>
+<i>127</i>&nbsp;
+<b class="nc"><i>128</i>&nbsp;                setBack();</b>
+<b class="nc"><i>129</i>&nbsp;                break;</b>
+<i>130</i>&nbsp;
+<i>131</i>&nbsp;            case 4:
+<b class="nc"><i>132</i>&nbsp;                setPopUp4or5(TEXT + &quot;has_disconnected.png&quot;);</b>
+<i>133</i>&nbsp;
+<b class="nc"><i>134</i>&nbsp;                break;</b>
+<i>135</i>&nbsp;
+<i>136</i>&nbsp;            case 5:
+<b class="nc"><i>137</i>&nbsp;                setPopUp4or5(TEXT + &quot;did_not_play.png&quot;);</b>
+<i>138</i>&nbsp;
+<b class="nc"><i>139</i>&nbsp;                break;</b>
+<i>140</i>&nbsp;
+<i>141</i>&nbsp;            case 6:
+<b class="nc"><i>142</i>&nbsp;                setPopUp(TEXT + &quot;time_is_up.png&quot;);</b>
+<i>143</i>&nbsp;
+<b class="nc"><i>144</i>&nbsp;                setDisconnectionTime();</b>
+<b class="nc"><i>145</i>&nbsp;                window.remove(label2);</b>
+<i>146</i>&nbsp;
+<b class="nc"><i>147</i>&nbsp;                setBack();</b>
+<b class="nc"><i>148</i>&nbsp;                break;</b>
+<i>149</i>&nbsp;
+<i>150</i>&nbsp;            case 7:
+<b class="nc"><i>151</i>&nbsp;                setPopUp(TEXT + &quot;there_was_an_error.png&quot;, 50, 10, TEXT + &quot;please_use_an_original.png&quot;, 20);</b>
+<i>152</i>&nbsp;
+<b class="nc"><i>153</i>&nbsp;                newLabel(3);</b>
+<i>154</i>&nbsp;                try {
+<b class="nc"><i>155</i>&nbsp;                    label3 = ImageHandler.setImage(TEXT + &quot;version_of_the_game.png&quot;, 97, 100, labelSize.width, labelSize.height);</b>
+<b class="nc"><i>156</i>&nbsp;                } catch (IOException e) {</b>
+<b class="nc"><i>157</i>&nbsp;                    LOGGER.severe(e.getMessage());</b>
+<b class="nc"><i>158</i>&nbsp;                }</b>
+<b class="nc"><i>159</i>&nbsp;                label3.setBounds(((intFrameSize.width * 50/100) - (labelSize.width / 2)), (intFrameSize.height * 30/100), labelSize.width, labelSize.height);</b>
+<b class="nc"><i>160</i>&nbsp;                addLabel3();</b>
+<i>161</i>&nbsp;
+<b class="nc"><i>162</i>&nbsp;                setButtonClose();</b>
+<i>163</i>&nbsp;
+<b class="nc"><i>164</i>&nbsp;                setBack();</b>
+<b class="nc"><i>165</i>&nbsp;                break;</b>
+<i>166</i>&nbsp;
+<i>167</i>&nbsp;            case 8:
+<b class="nc"><i>168</i>&nbsp;                setPopUp(TEXT + &quot;there_was_an_error_with.png&quot;, 30, 20, TEXT + &quot;start_new_game_or_close.png&quot;, 40);</b>
+<i>169</i>&nbsp;
+<b class="nc"><i>170</i>&nbsp;                label3 = new JLabel(name);</b>
+<b class="nc"><i>171</i>&nbsp;                label3.setBounds((intFrameSize.width * 60/100), (intFrameSize.height * 27/100), intFrameSize.width * 60/100, intFrameSize.width * 5/100);</b>
+<b class="nc"><i>172</i>&nbsp;                label3.setFont(getFelixBold());</b>
+<b class="nc"><i>173</i>&nbsp;                addLabel3();</b>
+<i>174</i>&nbsp;
+<b class="nc"><i>175</i>&nbsp;                setButtons();</b>
+<i>176</i>&nbsp;
+<b class="nc"><i>177</i>&nbsp;                button1.addActionListener(new NewGameError());</b>
+<b class="nc"><i>178</i>&nbsp;                button2.addActionListener(new Close());</b>
+<i>179</i>&nbsp;
+<b class="nc"><i>180</i>&nbsp;                setBack();</b>
+<b class="nc"><i>181</i>&nbsp;                break;</b>
+<i>182</i>&nbsp;
+<i>183</i>&nbsp;            default:
+<i>184</i>&nbsp;        }
+<b class="nc"><i>185</i>&nbsp;        return window;</b>
+<i>186</i>&nbsp;    }
+<i>187</i>&nbsp;
+<i>188</i>&nbsp;    /**
+<i>189</i>&nbsp;     * Method that set the position of the label1
+<i>190</i>&nbsp;     * @param x Horizontal position provided
+<i>191</i>&nbsp;     * @param y Vertical position provided
+<i>192</i>&nbsp;     */
+<i>193</i>&nbsp;
+<i>194</i>&nbsp;    private void setLabel1(int x, int y){
+<b class="nc"><i>195</i>&nbsp;        label1.setBounds(((intFrameSize.width * x/100) - (labelSize.width / 2)), (intFrameSize.height * y/100), labelSize.width, labelSize.height);</b>
+<b class="nc"><i>196</i>&nbsp;    }</b>
+<i>197</i>&nbsp;
+<i>198</i>&nbsp;    /**
+<i>199</i>&nbsp;     * Method that set the position of the label2
+<i>200</i>&nbsp;     * @param y Vertical position provided
+<i>201</i>&nbsp;     */
+<i>202</i>&nbsp;
+<i>203</i>&nbsp;    private void setLabel2(int y){
+<b class="nc"><i>204</i>&nbsp;        label2.setBounds(((intFrameSize.width * 50/100) - (labelSize.width / 2)), (intFrameSize.height * y/100), labelSize.width, labelSize.height);</b>
+<b class="nc"><i>205</i>&nbsp;    }</b>
+<i>206</i>&nbsp;
+<i>207</i>&nbsp;    /**
+<i>208</i>&nbsp;     * Method that set the background
+<i>209</i>&nbsp;     */
+<i>210</i>&nbsp;
+<i>211</i>&nbsp;    private void setBack(){
+<b class="nc"><i>212</i>&nbsp;        back.setBounds(0, 0, intFrameSize.width, intFrameSize.height);</b>
+<b class="nc"><i>213</i>&nbsp;        window.add(back);</b>
+<b class="nc"><i>214</i>&nbsp;    }</b>
+<i>215</i>&nbsp;
+<i>216</i>&nbsp;    /**
+<i>217</i>&nbsp;     * Method that add label1 to window
+<i>218</i>&nbsp;     */
+<i>219</i>&nbsp;
+<i>220</i>&nbsp;    private void addLabel1(){
+<b class="nc"><i>221</i>&nbsp;        window.add(label1);</b>
+<b class="nc"><i>222</i>&nbsp;    }</b>
+<i>223</i>&nbsp;
+<i>224</i>&nbsp;    /**
+<i>225</i>&nbsp;     * Method that add label2 to window
+<i>226</i>&nbsp;     */
+<i>227</i>&nbsp;
+<i>228</i>&nbsp;    private void addLabel2(){
+<b class="nc"><i>229</i>&nbsp;        window.add(label2);</b>
+<b class="nc"><i>230</i>&nbsp;    }</b>
+<i>231</i>&nbsp;
+<i>232</i>&nbsp;    /**
+<i>233</i>&nbsp;     * Method that add label3 to window
+<i>234</i>&nbsp;     */
+<i>235</i>&nbsp;
+<i>236</i>&nbsp;    private void addLabel3(){
+<b class="nc"><i>237</i>&nbsp;        window.add(label3);</b>
+<b class="nc"><i>238</i>&nbsp;    }</b>
+<i>239</i>&nbsp;
+<i>240</i>&nbsp;    /**
+<i>241</i>&nbsp;     * Method that initialize the label selected
+<i>242</i>&nbsp;     * @param x Number of the label selected
+<i>243</i>&nbsp;     */
+<i>244</i>&nbsp;
+<i>245</i>&nbsp;    private void newLabel(int x){
+<b class="nc"><i>246</i>&nbsp;        if (x == 1){</b>
+<b class="nc"><i>247</i>&nbsp;            label1 = new JLabel();</b>
+<i>248</i>&nbsp;        }
+<b class="nc"><i>249</i>&nbsp;        else if (x == 2){</b>
+<b class="nc"><i>250</i>&nbsp;            label2 = new JLabel();</b>
+<i>251</i>&nbsp;        }
+<i>252</i>&nbsp;        else
+<b class="nc"><i>253</i>&nbsp;            label3 = new JLabel();</b>
+<b class="nc"><i>254</i>&nbsp;    }</b>
+<i>255</i>&nbsp;
+<i>256</i>&nbsp;    /**
+<i>257</i>&nbsp;     * Method that set the 4th or 5th popup
+<i>258</i>&nbsp;     * @param path Path to the message of the popup
+<i>259</i>&nbsp;     */
+<i>260</i>&nbsp;
+<i>261</i>&nbsp;    private void setPopUp4or5(String path){
+<b class="nc"><i>262</i>&nbsp;        newLabel(1);</b>
+<i>263</i>&nbsp;        try {
+<b class="nc"><i>264</i>&nbsp;            label1 = ImageHandler.setImage(path, 97, 100, labelSize.width, labelSize.height);</b>
+<b class="nc"><i>265</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>266</i>&nbsp;            LOGGER.severe(e.getMessage());</b>
+<b class="nc"><i>267</i>&nbsp;        }</b>
+<b class="nc"><i>268</i>&nbsp;        label1.setBounds((intFrameSize.width * 40/100), (intFrameSize.height * 35/100), labelSize.width, labelSize.height);</b>
+<b class="nc"><i>269</i>&nbsp;        addLabel1();</b>
+<i>270</i>&nbsp;
+<b class="nc"><i>271</i>&nbsp;        setDisconnectionTime();</b>
+<i>272</i>&nbsp;
+<b class="nc"><i>273</i>&nbsp;        setBack();</b>
+<b class="nc"><i>274</i>&nbsp;    }</b>
+<i>275</i>&nbsp;
+<i>276</i>&nbsp;    /**
+<i>277</i>&nbsp;     * Method that set the label1 in the popup
+<i>278</i>&nbsp;     * @param path Path to the message of the popup
+<i>279</i>&nbsp;     */
+<i>280</i>&nbsp;
+<i>281</i>&nbsp;    private void setPopUp(String path){
+<b class="nc"><i>282</i>&nbsp;        newLabel(1);</b>
+<i>283</i>&nbsp;        try {
+<b class="nc"><i>284</i>&nbsp;            label1 = ImageHandler.setImage(path, 97, 100, labelSize.width, labelSize.height);</b>
+<b class="nc"><i>285</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>286</i>&nbsp;            LOGGER.severe(e.getMessage());</b>
+<b class="nc"><i>287</i>&nbsp;        }</b>
+<b class="nc"><i>288</i>&nbsp;        setLabel1(50, 35);</b>
+<b class="nc"><i>289</i>&nbsp;        addLabel1();</b>
+<b class="nc"><i>290</i>&nbsp;    }</b>
+<i>291</i>&nbsp;
+<i>292</i>&nbsp;    /**
+<i>293</i>&nbsp;     * Method that set the label1 and label2 in the popup
+<i>294</i>&nbsp;     * @param path1 Path to the message of the label1
+<i>295</i>&nbsp;     * @param x1 Horizontal position provided for label1
+<i>296</i>&nbsp;     * @param y1 Vertical position provided for label1
+<i>297</i>&nbsp;     * @param path2 Path to the message of the label2
+<i>298</i>&nbsp;     * @param y2 Horizontal position provided for label2
+<i>299</i>&nbsp;     */
+<i>300</i>&nbsp;
+<i>301</i>&nbsp;    private void setPopUp(String path1, int x1, int y1, String path2, int y2){
+<b class="nc"><i>302</i>&nbsp;        newLabel(1);</b>
+<i>303</i>&nbsp;        try {
+<b class="nc"><i>304</i>&nbsp;            label1 = ImageHandler.setImage(path1, 97, 100, labelSize.width, labelSize.height);</b>
+<b class="nc"><i>305</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>306</i>&nbsp;            LOGGER.severe(e.getMessage());</b>
+<b class="nc"><i>307</i>&nbsp;        }</b>
+<b class="nc"><i>308</i>&nbsp;        setLabel1(x1, y1);</b>
+<b class="nc"><i>309</i>&nbsp;        addLabel1();</b>
+<i>310</i>&nbsp;
+<b class="nc"><i>311</i>&nbsp;        newLabel(2);</b>
+<i>312</i>&nbsp;        try {
+<b class="nc"><i>313</i>&nbsp;            label2 = ImageHandler.setImage(path2, 97, 100, labelSize.width, labelSize.height);</b>
+<b class="nc"><i>314</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>315</i>&nbsp;            LOGGER.severe(e.getMessage());</b>
+<b class="nc"><i>316</i>&nbsp;        }</b>
+<b class="nc"><i>317</i>&nbsp;        setLabel2(y2);</b>
+<b class="nc"><i>318</i>&nbsp;        addLabel2();</b>
+<b class="nc"><i>319</i>&nbsp;    }</b>
+<i>320</i>&nbsp;
+<i>321</i>&nbsp;    /**
+<i>322</i>&nbsp;     * Method that builds the popup messages for connection loss
+<i>323</i>&nbsp;     */
+<i>324</i>&nbsp;
+<i>325</i>&nbsp;    private void setDisconnection(){
+<b class="nc"><i>326</i>&nbsp;        newLabel(1);</b>
+<i>327</i>&nbsp;        try {
+<b class="nc"><i>328</i>&nbsp;            label1 = ImageHandler.setImage(TEXT + &quot;you_have_been_disconnected.png&quot;, 97, 100, labelSize.width, labelSize.height);</b>
+<b class="nc"><i>329</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>330</i>&nbsp;            LOGGER.severe(e.getMessage());</b>
+<b class="nc"><i>331</i>&nbsp;        }</b>
+<b class="nc"><i>332</i>&nbsp;        setLabel1(50, 20);</b>
+<b class="nc"><i>333</i>&nbsp;        window.add(label1);</b>
+<i>334</i>&nbsp;
+<b class="nc"><i>335</i>&nbsp;        newLabel(2);</b>
+<i>336</i>&nbsp;        try {
+<b class="nc"><i>337</i>&nbsp;            label2 = ImageHandler.setImage(TEXT + &quot;start_new_game_or_close.png&quot;, 97, 100, labelSize.width, labelSize.height);</b>
+<b class="nc"><i>338</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>339</i>&nbsp;            LOGGER.severe(e.getMessage());</b>
+<b class="nc"><i>340</i>&nbsp;        }</b>
+<b class="nc"><i>341</i>&nbsp;        setLabel2(40);</b>
+<i>342</i>&nbsp;
+<b class="nc"><i>343</i>&nbsp;        setButtonsForDisconnection();</b>
+<i>344</i>&nbsp;
+<b class="nc"><i>345</i>&nbsp;        button2.addActionListener(new Close());</b>
+<b class="nc"><i>346</i>&nbsp;    }</b>
+<i>347</i>&nbsp;
+<i>348</i>&nbsp;    /**
+<i>349</i>&nbsp;     * Method that sets the popup messages for unplayed turn
+<i>350</i>&nbsp;     */
+<i>351</i>&nbsp;
+<i>352</i>&nbsp;    private void setDisconnectionTime(){
+<b class="nc"><i>353</i>&nbsp;        label2 = new JLabel(name);</b>
+<b class="nc"><i>354</i>&nbsp;        label2.setBounds((int) (((double)intFrameSize.width * 30/100) - (name.length() * bold)), (int) (intFrameSize.height * 41.5/100), intFrameSize.width * 60/100, intFrameSize.width * 5/100);</b>
+<b class="nc"><i>355</i>&nbsp;        label2.setFont(getFelixBold());</b>
+<i>356</i>&nbsp;
+<b class="nc"><i>357</i>&nbsp;        setButtonsForDisconnection();</b>
+<i>358</i>&nbsp;
+<b class="nc"><i>359</i>&nbsp;        button1.addActionListener(new NewGameEndGame());</b>
+<b class="nc"><i>360</i>&nbsp;        button2.addActionListener(new Close());</b>
+<b class="nc"><i>361</i>&nbsp;    }</b>
+<i>362</i>&nbsp;
+<i>363</i>&nbsp;    /**
+<i>364</i>&nbsp;     * Method that set buttons for the setDisconnections methods
+<i>365</i>&nbsp;     */
+<i>366</i>&nbsp;
+<i>367</i>&nbsp;    private void setButtonsForDisconnection() {
+<b class="nc"><i>368</i>&nbsp;        window.add(label2);</b>
+<b class="nc"><i>369</i>&nbsp;        setButtons();</b>
+<b class="nc"><i>370</i>&nbsp;    }</b>
+<i>371</i>&nbsp;
+<i>372</i>&nbsp;    /**
+<i>373</i>&nbsp;     * Method that set the buttons
+<i>374</i>&nbsp;     */
+<i>375</i>&nbsp;
+<i>376</i>&nbsp;    private void setButtons(){
+<b class="nc"><i>377</i>&nbsp;        button1 = new MyButton(2);</b>
+<b class="nc"><i>378</i>&nbsp;        button1.setBounds(((intFrameSize.width * 35/100) - (buttonSize.width / 2)), (int) (intFrameSize.height * 79.5 / 100), buttonSize.width, buttonSize.height);</b>
+<b class="nc"><i>379</i>&nbsp;        button2 = new MyButton(3);</b>
+<b class="nc"><i>380</i>&nbsp;        button2.setBounds(((intFrameSize.width * 65/100) - (buttonSize.width / 2)), (int) (intFrameSize.height * 79.5 / 100), buttonSize.width, buttonSize.height);</b>
+<b class="nc"><i>381</i>&nbsp;        window.add(button1);</b>
+<b class="nc"><i>382</i>&nbsp;        window.add(button2);</b>
+<b class="nc"><i>383</i>&nbsp;    }</b>
+<i>384</i>&nbsp;
+<i>385</i>&nbsp;    /**
+<i>386</i>&nbsp;     * Method that set the button close
+<i>387</i>&nbsp;     */
+<i>388</i>&nbsp;
+<i>389</i>&nbsp;    private void setButtonClose(){
+<b class="nc"><i>390</i>&nbsp;        button1 = new MyButton(3);</b>
+<b class="nc"><i>391</i>&nbsp;        button1.setBounds(((intFrameSize.width * 50/100) - (buttonSize.width / 2)), (int) (intFrameSize.height * 79.5 / 100), buttonSize.width, buttonSize.height);</b>
+<b class="nc"><i>392</i>&nbsp;        button1.addActionListener(new Close());</b>
+<b class="nc"><i>393</i>&nbsp;        window.add(button1);</b>
+<b class="nc"><i>394</i>&nbsp;    }</b>
+<i>395</i>&nbsp;
+<i>396</i>&nbsp;    /**
+<i>397</i>&nbsp;     * Class that extends ActionListener to send the new nickname
+<i>398</i>&nbsp;     */
+<i>399</i>&nbsp;
+<b class="nc"><i>400</i>&nbsp;    private class Send implements ActionListener {</b>
+<i>401</i>&nbsp;        @Override
+<i>402</i>&nbsp;        public void actionPerformed(ActionEvent e) {
+<b class="nc"><i>403</i>&nbsp;            if (!nickname.getText().equals(&quot;&quot;) &amp;&amp; nickname.getText().length() &gt; ConstantsContainer.MIN_LENGHT_NICK &amp;&amp;  nickname.getText().length() &lt; ConstantsContainer.MAX_LENGHT_NICK){</b>
+<b class="nc"><i>404</i>&nbsp;                gui.setNamePlayer(nickname.getText());</b>
+<b class="nc"><i>405</i>&nbsp;                gui.updateNickName(nickname.getText());</b>
+<b class="nc"><i>406</i>&nbsp;                gui.popUp.setVisible(false);</b>
+<b class="nc"><i>407</i>&nbsp;                gui.lobby.backButton.setEnabled(true);</b>
+<i>408</i>&nbsp;            }
+<b class="nc"><i>409</i>&nbsp;        }</b>
+<i>410</i>&nbsp;    }
+<i>411</i>&nbsp;
+<i>412</i>&nbsp;    /**
+<i>413</i>&nbsp;     * Class that extends ActionListener to return to login for a new game
+<i>414</i>&nbsp;     */
+<i>415</i>&nbsp;
+<b class="nc"><i>416</i>&nbsp;    private class NewGame implements ActionListener {</b>
+<i>417</i>&nbsp;        @Override
+<i>418</i>&nbsp;        public void actionPerformed(ActionEvent e) {
+<b class="nc"><i>419</i>&nbsp;            gui.backToLogin(true);</b>
+<b class="nc"><i>420</i>&nbsp;            gui.popUp.dispose();</b>
+<b class="nc"><i>421</i>&nbsp;            gui.popUp.getContentPane().removeAll();</b>
+<b class="nc"><i>422</i>&nbsp;            gui.newPopUp();</b>
+<b class="nc"><i>423</i>&nbsp;            gui.lobby.backButton.setEnabled(true);</b>
+<b class="nc"><i>424</i>&nbsp;        }</b>
+<i>425</i>&nbsp;    }
+<i>426</i>&nbsp;
+<i>427</i>&nbsp;    /**
+<i>428</i>&nbsp;     * Class that extends ActionListener to return to login for a new game after the end of a game
+<i>429</i>&nbsp;     */
+<i>430</i>&nbsp;
+<b class="nc"><i>431</i>&nbsp;    private class NewGameEndGame implements ActionListener {</b>
+<i>432</i>&nbsp;        @Override
+<i>433</i>&nbsp;        public void actionPerformed(ActionEvent e) {
+<b class="nc"><i>434</i>&nbsp;            gui.board.f.dispose();</b>
+<b class="nc"><i>435</i>&nbsp;            gui.backToLogin(false);</b>
+<b class="nc"><i>436</i>&nbsp;            gui.frame.setVisible(true);</b>
+<b class="nc"><i>437</i>&nbsp;            gui.popUp.dispose();</b>
+<b class="nc"><i>438</i>&nbsp;            gui.board.stopMusic();</b>
+<i>439</i>&nbsp;
+<b class="nc"><i>440</i>&nbsp;        }</b>
+<i>441</i>&nbsp;    }
+<i>442</i>&nbsp;
+<i>443</i>&nbsp;    /**
+<i>444</i>&nbsp;     * Class that extends ActionListener to return to login for a new game after game error
+<i>445</i>&nbsp;     */
+<i>446</i>&nbsp;
+<b class="nc"><i>447</i>&nbsp;    private class NewGameError implements ActionListener {</b>
+<i>448</i>&nbsp;        @Override
+<i>449</i>&nbsp;        public void actionPerformed(ActionEvent e) {
+<b class="nc"><i>450</i>&nbsp;            if (gui.board != null) {</b>
+<b class="nc"><i>451</i>&nbsp;                gui.board.f.dispose();</b>
+<b class="nc"><i>452</i>&nbsp;                gui.board.stopMusic();</b>
+<i>453</i>&nbsp;            }
+<b class="nc"><i>454</i>&nbsp;            gui.popUp.dispose();</b>
+<b class="nc"><i>455</i>&nbsp;            gui.popUp.getContentPane().removeAll();</b>
+<b class="nc"><i>456</i>&nbsp;            gui.newPopUp();</b>
+<b class="nc"><i>457</i>&nbsp;            gui.backToLogin(false);</b>
+<b class="nc"><i>458</i>&nbsp;            gui.frame.setVisible(true);</b>
+<b class="nc"><i>459</i>&nbsp;            gui.lobby.backButton.setEnabled(true);</b>
+<b class="nc"><i>460</i>&nbsp;        }</b>
+<i>461</i>&nbsp;    }
+<i>462</i>&nbsp;
+<i>463</i>&nbsp;    /**
+<i>464</i>&nbsp;     * Class that implements ActionListener for the JButton Close which closes the current PopUp
+<i>465</i>&nbsp;     */
+<i>466</i>&nbsp;
+<b class="nc"><i>467</i>&nbsp;    private class Close implements ActionListener {</b>
+<i>468</i>&nbsp;        @Override
+<i>469</i>&nbsp;        public void actionPerformed(ActionEvent e) {
+<b class="nc"><i>470</i>&nbsp;            gui.popUp.dispose();</b>
+<b class="nc"><i>471</i>&nbsp;            gui.frame.dispose();</b>
+<b class="nc"><i>472</i>&nbsp;            System.exit(0);</b>
+<b class="nc"><i>473</i>&nbsp;        }</b>
+<i>474</i>&nbsp;    }
+<i>475</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-29 01:13</div>
+</div>
+</body>
+</html>

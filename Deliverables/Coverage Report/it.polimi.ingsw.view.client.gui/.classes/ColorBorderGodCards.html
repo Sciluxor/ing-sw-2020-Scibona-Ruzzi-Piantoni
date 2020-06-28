@@ -1,0 +1,112 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ColorBorderGodCards</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.view.client.gui</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ColorBorderGodCards (it.polimi.ingsw.view.client.gui)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ColorBorderGodCards</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 8)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.view.client.gui;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import javax.swing.*;
+<i>4</i>&nbsp;import java.awt.*;
+<i>5</i>&nbsp;import java.awt.event.MouseAdapter;
+<i>6</i>&nbsp;import java.awt.event.MouseEvent;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;/**
+<i>9</i>&nbsp; * Class that extends MouseAdapter which colors the edge of the button, in which you pass over it with the mouse, in yellow
+<i>10</i>&nbsp; * @author Luigi Scibona
+<i>11</i>&nbsp; * @version 1.0
+<i>12</i>&nbsp; * @since 2020/06/13
+<i>13</i>&nbsp; */
+<i>14</i>&nbsp;
+<b class="nc"><i>15</i>&nbsp;public class ColorBorderGodCards extends MouseAdapter {</b>
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;    @Override
+<i>18</i>&nbsp;    public void mouseEntered(MouseEvent e) {
+<b class="nc"><i>19</i>&nbsp;        JButton c = (JButton)e.getSource();</b>
+<b class="nc"><i>20</i>&nbsp;        c.setBorder(BorderFactory.createLineBorder(Color.yellow, 3));</b>
+<b class="nc"><i>21</i>&nbsp;        c.setBorderPainted(true);</b>
+<b class="nc"><i>22</i>&nbsp;    }</b>
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    @Override
+<i>25</i>&nbsp;    public void mouseExited(MouseEvent e) {
+<b class="nc"><i>26</i>&nbsp;        JButton c = (JButton)e.getSource();</b>
+<b class="nc"><i>27</i>&nbsp;        c.setBorderPainted(false);</b>
+<b class="nc"><i>28</i>&nbsp;    }</b>
+<i>29</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-29 01:13</div>
+</div>
+</body>
+</html>

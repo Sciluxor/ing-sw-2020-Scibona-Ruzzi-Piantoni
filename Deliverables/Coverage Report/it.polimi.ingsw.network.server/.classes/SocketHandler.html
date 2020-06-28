@@ -1,0 +1,173 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: SocketHandler</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.network.server</a> ]
+</div>
+
+<h1>Coverage Summary for Class: SocketHandler (it.polimi.ingsw.network.server)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SocketHandler</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 27)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.network.server;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;
+<i>4</i>&nbsp;import java.io.Closeable;
+<i>5</i>&nbsp;import java.io.IOException;
+<i>6</i>&nbsp;import java.net.ServerSocket;
+<i>7</i>&nbsp;import java.net.Socket;
+<i>8</i>&nbsp;import java.util.concurrent.ExecutorService;
+<i>9</i>&nbsp;import java.util.concurrent.Executors;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;/**
+<i>12</i>&nbsp; * Class that listen for new clients connections, and create a ClientHandler for each of them
+<i>13</i>&nbsp; * @author Alessandro Ruzzi
+<i>14</i>&nbsp; * @version 1.0
+<i>15</i>&nbsp; * @since 2020/06/19
+<i>16</i>&nbsp; */
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;public class SocketHandler extends Thread implements Closeable {
+<i>19</i>&nbsp;    private ServerSocket serverSocket;
+<i>20</i>&nbsp;    int port;
+<i>21</i>&nbsp;    private final Server server;
+<i>22</i>&nbsp;    private boolean isActive;
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    /**
+<i>25</i>&nbsp;     * Public constructor for the SocketHandler Class that initialize the parameters of the class
+<i>26</i>&nbsp;     * @param port Port in which it will listen for new connections
+<i>27</i>&nbsp;     * @param server The Server to which refer
+<i>28</i>&nbsp;     * @throws IOException IOException
+<i>29</i>&nbsp;     */
+<i>30</i>&nbsp;
+<b class="nc"><i>31</i>&nbsp;    public SocketHandler(int port,Server server)throws IOException{</b>
+<b class="nc"><i>32</i>&nbsp;        this.port = port;</b>
+<b class="nc"><i>33</i>&nbsp;        this.server = server;</b>
+<b class="nc"><i>34</i>&nbsp;        this.isActive = true;</b>
+<b class="nc"><i>35</i>&nbsp;        startSocketHandler();</b>
+<b class="nc"><i>36</i>&nbsp;    }</b>
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    /**
+<i>39</i>&nbsp;     * Thread that listen for new connection requests
+<i>40</i>&nbsp;     */
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;    @Override
+<i>43</i>&nbsp;    public void run() {
+<b class="nc"><i>44</i>&nbsp;        ExecutorService executor = Executors.newCachedThreadPool();</b>
+<i>45</i>&nbsp;
+<b class="nc"><i>46</i>&nbsp;            while(isActive) {</b>
+<i>47</i>&nbsp;                try {
+<b class="nc"><i>48</i>&nbsp;                    Socket connection = serverSocket.accept();</b>
+<b class="nc"><i>49</i>&nbsp;                    connection.setTcpNoDelay(true);</b>
+<i>50</i>&nbsp;
+<b class="nc"><i>51</i>&nbsp;                    Server.LOGGER.info(&quot;ServerSocket --&gt; accepted, sock:&quot; + connection.getInetAddress());</b>
+<b class="nc"><i>52</i>&nbsp;                    executor.submit(new ClientHandler(server,connection));</b>
+<i>53</i>&nbsp;
+<b class="nc"><i>54</i>&nbsp;                } catch (IOException s) {</b>
+<b class="nc"><i>55</i>&nbsp;                    Server.LOGGER.severe(s.getMessage());</b>
+<b class="nc"><i>56</i>&nbsp;                }</b>
+<i>57</i>&nbsp;            }
+<i>58</i>&nbsp;
+<b class="nc"><i>59</i>&nbsp;        }</b>
+<i>60</i>&nbsp;
+<i>61</i>&nbsp;    /**
+<i>62</i>&nbsp;     * Function that create new Server Socket and start a thread that listen for new connections request
+<i>63</i>&nbsp;     * @throws IOException IOException, socket get closed
+<i>64</i>&nbsp;     */
+<i>65</i>&nbsp;
+<i>66</i>&nbsp;    public void startSocketHandler()throws IOException {
+<i>67</i>&nbsp;
+<b class="nc"><i>68</i>&nbsp;        serverSocket = new ServerSocket(port);</b>
+<b class="nc"><i>69</i>&nbsp;        Thread clientSocketThread = new Thread(this);</b>
+<b class="nc"><i>70</i>&nbsp;        clientSocketThread.start();</b>
+<i>71</i>&nbsp;
+<b class="nc"><i>72</i>&nbsp;}</b>
+<i>73</i>&nbsp;
+<i>74</i>&nbsp;    /**
+<i>75</i>&nbsp;     * Function that stop the Socket Handler when the Server is stopped
+<i>76</i>&nbsp;     */
+<i>77</i>&nbsp;
+<i>78</i>&nbsp;    @Override
+<i>79</i>&nbsp;    public void close(){
+<i>80</i>&nbsp;        try{
+<b class="nc"><i>81</i>&nbsp;            isActive = false;</b>
+<b class="nc"><i>82</i>&nbsp;            serverSocket.close();</b>
+<b class="nc"><i>83</i>&nbsp;            Server.LOGGER.info(&quot;SocketHandler --&gt; Stopped&quot;);</b>
+<b class="nc"><i>84</i>&nbsp;        }catch (IOException e){</b>
+<b class="nc"><i>85</i>&nbsp;            Server.LOGGER.severe(e.getMessage());</b>
+<b class="nc"><i>86</i>&nbsp;        }</b>
+<b class="nc"><i>87</i>&nbsp;    }</b>
+<i>88</i>&nbsp;}
+<i>89</i>&nbsp;
+<i>90</i>&nbsp;
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-29 01:13</div>
+</div>
+</body>
+</html>

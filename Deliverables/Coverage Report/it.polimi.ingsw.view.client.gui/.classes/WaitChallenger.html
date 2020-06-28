@@ -1,0 +1,187 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: WaitChallenger</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.view.client.gui</a> ]
+</div>
+
+<h1>Coverage Summary for Class: WaitChallenger (it.polimi.ingsw.view.client.gui)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">WaitChallenger</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 27)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">WaitChallenger$Close</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 3)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 30)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.view.client.gui;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import javax.swing.*;
+<i>4</i>&nbsp;import java.awt.*;
+<i>5</i>&nbsp;import java.awt.event.ActionEvent;
+<i>6</i>&nbsp;import java.awt.event.ActionListener;
+<i>7</i>&nbsp;import java.io.IOException;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;import static it.polimi.ingsw.utils.ConstantsContainer.TEXT;
+<i>10</i>&nbsp;import static it.polimi.ingsw.view.client.gui.Gui.*;
+<i>11</i>&nbsp;import static it.polimi.ingsw.view.client.gui.GuiUtils.backAndCloseSetter;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;/**
+<i>14</i>&nbsp; * Class that extends JDesktopPane that builds pane for the message of waiting for the challenger choices
+<i>15</i>&nbsp; * @author Luigi Scibona
+<i>16</i>&nbsp; * @version 1.0
+<i>17</i>&nbsp; * @since 2020/06/13
+<i>18</i>&nbsp; */
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;public class WaitChallenger extends JDesktopPane{
+<i>21</i>&nbsp;
+<b class="nc"><i>22</i>&nbsp;    Dimension frameSize = new Dimension();</b>
+<b class="nc"><i>23</i>&nbsp;    Dimension buttonSize = new Dimension();</b>
+<b class="nc"><i>24</i>&nbsp;    MyButton close = new MyButton(3);</b>
+<i>25</i>&nbsp;    JInternalFrame intFrame;
+<i>26</i>&nbsp;    String nameChoosing;
+<i>27</i>&nbsp;    double posx;
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    /**
+<i>30</i>&nbsp;     * Class builder
+<i>31</i>&nbsp;     * @param frame Reference to the JInternalFrame where the current JDesktopPane WaitChallenger will be inserted
+<i>32</i>&nbsp;     * @param dimensionFrame Size of the JInternalFrame
+<i>33</i>&nbsp;     * @param name Name of the Player designated as a Challenger
+<i>34</i>&nbsp;     * @throws IOException if the loading of the inscription was not successful
+<i>35</i>&nbsp;     */
+<i>36</i>&nbsp;
+<b class="nc"><i>37</i>&nbsp;    public WaitChallenger(JInternalFrame frame, Dimension dimensionFrame, String name) throws IOException {</b>
+<i>38</i>&nbsp;
+<b class="nc"><i>39</i>&nbsp;        frameSize.setSize(dimensionFrame);</b>
+<b class="nc"><i>40</i>&nbsp;        intFrame = frame;</b>
+<b class="nc"><i>41</i>&nbsp;        buttonSize.setSize((getD().getWidth() * 13 / 100), (getD().getHeight() * 5 / 100));</b>
+<b class="nc"><i>42</i>&nbsp;        setPreferredSize(frameSize);</b>
+<b class="nc"><i>43</i>&nbsp;        setLayout(null);</b>
+<b class="nc"><i>44</i>&nbsp;        nameChoosing = name;</b>
+<b class="nc"><i>45</i>&nbsp;        posx = (double) nameChoosing.length() / 2;</b>
+<i>46</i>&nbsp;
+<b class="nc"><i>47</i>&nbsp;        JLabel label = ImageHandler.setImage(TEXT + &quot;wait_for.png&quot;, 99, 99, frameSize.width * 25/100, frameSize.height * 20/100);</b>
+<b class="nc"><i>48</i>&nbsp;        JLabel label2 = ImageHandler.setImage(TEXT + &quot;as_challenger_to_choose_the_gods.png&quot;, 99, 99, frameSize.width * 85/100, frameSize.height * 22/100);</b>
+<b class="nc"><i>49</i>&nbsp;        JLabel label3 = ImageHandler.setImage(TEXT + &quot;and_the_first_player.png&quot;, 99, 99, frameSize.width * 60/100, frameSize.height * 22/100);</b>
+<b class="nc"><i>50</i>&nbsp;        label.setBounds((int) (frameSize.width * 18.5/100), (int) (frameSize.height * 25.5/100), frameSize.width * 25/100, frameSize.height * 20/100);</b>
+<b class="nc"><i>51</i>&nbsp;        label2.setBounds((int) (frameSize.width * 7.5/100), (int) (frameSize.height * 39.5/100), frameSize.width * 85/100, frameSize.height * 22/100);</b>
+<b class="nc"><i>52</i>&nbsp;        label3.setBounds((frameSize.width * 20/100), (int) (frameSize.height * 54.5/100), frameSize.width * 60/100, frameSize.height * 22/100);</b>
+<i>53</i>&nbsp;
+<b class="nc"><i>54</i>&nbsp;        JLabel otherName = new JLabel(nameChoosing);</b>
+<b class="nc"><i>55</i>&nbsp;        otherName.setBounds((int) (frameSize.width * 45.75/100), (int) (frameSize.height * 32.5/100), frameSize.width * 50/100, frameSize.width * 5/100);</b>
+<b class="nc"><i>56</i>&nbsp;        otherName.setFont(getFelixBold());</b>
+<i>57</i>&nbsp;
+<b class="nc"><i>58</i>&nbsp;        add(label);</b>
+<b class="nc"><i>59</i>&nbsp;        add(label2);</b>
+<b class="nc"><i>60</i>&nbsp;        add(label3);</b>
+<b class="nc"><i>61</i>&nbsp;        add(otherName);</b>
+<i>62</i>&nbsp;
+<i>63</i>&nbsp;
+<b class="nc"><i>64</i>&nbsp;        close.addActionListener(new Close());</b>
+<b class="nc"><i>65</i>&nbsp;        backAndCloseSetter(this, frameSize, buttonSize, close);</b>
+<b class="nc"><i>66</i>&nbsp;    }</b>
+<i>67</i>&nbsp;
+<i>68</i>&nbsp;    /**
+<i>69</i>&nbsp;     * Class that implements ActionListener for the JButton Close which closes the current JInternalFrame
+<i>70</i>&nbsp;     */
+<i>71</i>&nbsp;
+<b class="nc"><i>72</i>&nbsp;    private class Close implements ActionListener {</b>
+<i>73</i>&nbsp;        @Override
+<i>74</i>&nbsp;        public void actionPerformed(ActionEvent e) {
+<b class="nc"><i>75</i>&nbsp;            intFrame.setVisible(false);</b>
+<b class="nc"><i>76</i>&nbsp;        }</b>
+<i>77</i>&nbsp;    }
+<i>78</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-29 01:13</div>
+</div>
+</body>
+</html>

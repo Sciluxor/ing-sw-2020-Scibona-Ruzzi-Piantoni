@@ -1,0 +1,418 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Tile</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.view.client.cli</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Tile (it.polimi.ingsw.view.client.cli)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Tile</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 21)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 110)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Tile$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 22)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 111)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.view.client.cli;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.model.map.Building;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;import static it.polimi.ingsw.utils.CliUtils.printErr;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;/**
+<i>8</i>&nbsp; * Class that define and implement the single tile&#39;s object
+<i>9</i>&nbsp; * @author edoardopiantoni
+<i>10</i>&nbsp; * @version 1.0
+<i>11</i>&nbsp; * @since 2020/06/18
+<i>12</i>&nbsp; */
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;public class Tile {
+<i>15</i>&nbsp;
+<b class="nc"><i>16</i>&nbsp;    private int[] coordinates = new int[2];</b>
+<b class="nc"><i>17</i>&nbsp;    private String[] printRawLevel = new String[7];</b>
+<b class="nc"><i>18</i>&nbsp;    private boolean hasPlayer = false;</b>
+<b class="nc"><i>19</i>&nbsp;    private int buildingLevel = 0;</b>
+<b class="nc"><i>20</i>&nbsp;    private Building buildingType = Building.GROUND;</b>
+<b class="nc"><i>21</i>&nbsp;    private Color playerColor = Color.ANSI_GREEN;</b>
+<b class="nc"><i>22</i>&nbsp;    private Color backgroundColor = Color.BACKGROUND_BLACK;</b>
+<b class="nc"><i>23</i>&nbsp;    private boolean available = false;</b>
+<b class="nc"><i>24</i>&nbsp;    private boolean selected = false;</b>
+<i>25</i>&nbsp;    private Building availableBuilding;
+<b class="nc"><i>26</i>&nbsp;    private Color printColor = Color.ANSI_RED;</b>
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    /**
+<i>29</i>&nbsp;     * Method used to initialize the initial raw&#39; string value
+<i>30</i>&nbsp;     */
+<i>31</i>&nbsp;
+<b class="nc"><i>32</i>&nbsp;    public Tile() {</b>
+<b class="nc"><i>33</i>&nbsp;        for(int raw=0; raw&lt;7; raw++)</b>
+<b class="nc"><i>34</i>&nbsp;            this.setPrintRawLevel(raw);</b>
+<b class="nc"><i>35</i>&nbsp;    }</b>
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;    /**
+<i>38</i>&nbsp;     * Method used to get the raw value necessary to print the board in SantoriniMap
+<i>39</i>&nbsp;     * @param raw Int value of the corresponding raw that contains the string asked
+<i>40</i>&nbsp;     * @return stringRaw String value contained in the raw
+<i>41</i>&nbsp;     */
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;    public String getPrintRawLevel (int raw) {
+<b class="nc"><i>44</i>&nbsp;        setBackgroundColor();</b>
+<b class="nc"><i>45</i>&nbsp;        return backgroundColor + printRawLevel[raw] + printColor;</b>
+<i>46</i>&nbsp;    }
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;    /**
+<i>49</i>&nbsp;     * Method used to set (update) a correct value in the raw (using attributes&#39; value contained in the tile&#39;s object)
+<i>50</i>&nbsp;     * @param raw Int value of the raw that is going to be updated
+<i>51</i>&nbsp;     */
+<i>52</i>&nbsp;
+<i>53</i>&nbsp;    public void setPrintRawLevel (int raw) {
+<b class="nc"><i>54</i>&nbsp;        if(buildingType == Building.GROUND) {</b>
+<b class="nc"><i>55</i>&nbsp;            if(raw==3)</b>
+<b class="nc"><i>56</i>&nbsp;                this.printRawLevel[raw] = &quot;        &quot; + printPlayerColor() + &quot;       &quot;;</b>
+<i>57</i>&nbsp;            else
+<b class="nc"><i>58</i>&nbsp;                this.printRawLevel[raw] = &quot;                  &quot;;</b>
+<i>59</i>&nbsp;
+<i>60</i>&nbsp;        } else {
+<b class="nc"><i>61</i>&nbsp;            if ((raw == 0 || raw==6) &amp;&amp; buildingType != Building.DOME)</b>
+<b class="nc"><i>62</i>&nbsp;                this.printRawLevel[raw] = setBuildBackgroundColor(&quot; ──────────────── &quot;, Color.BACKGROUND_BLUE);</b>
+<i>63</i>&nbsp;
+<b class="nc"><i>64</i>&nbsp;            setBuildingTypeString(raw);</b>
+<i>65</i>&nbsp;        }
+<b class="nc"><i>66</i>&nbsp;        setAvailableBuilding();</b>
+<b class="nc"><i>67</i>&nbsp;    }</b>
+<i>68</i>&nbsp;
+<i>69</i>&nbsp;    private void setBuildingTypeString(int raw) {
+<b class="nc"><i>70</i>&nbsp;        String buildingString = &quot; ────────────── &quot;;</b>
+<i>71</i>&nbsp;
+<b class="nc"><i>72</i>&nbsp;        switch (buildingType) {</b>
+<i>73</i>&nbsp;            case LVL1:
+<b class="nc"><i>74</i>&nbsp;                setBackgroundColor();</b>
+<b class="nc"><i>75</i>&nbsp;                if (raw == 3)</b>
+<b class="nc"><i>76</i>&nbsp;                    this.printRawLevel[raw] = setBuildBackgroundColor(&quot;│&quot;, Color.BACKGROUND_BLUE) + backgroundColor + &quot;       &quot; + printPlayerColor() + &quot;      &quot; + setBuildBackgroundColor(&quot;│&quot;, Color.BACKGROUND_BLUE);</b>
+<b class="nc"><i>77</i>&nbsp;                else if (raw != 0 &amp;&amp; raw != 6)</b>
+<b class="nc"><i>78</i>&nbsp;                    this.printRawLevel[raw] = setBuildBackgroundColor(&quot;│&quot;, Color.BACKGROUND_BLUE) + backgroundColor + &quot;                &quot; + setBuildBackgroundColor(&quot;│&quot;, Color.BACKGROUND_BLUE);</b>
+<i>79</i>&nbsp;
+<i>80</i>&nbsp;                break;
+<i>81</i>&nbsp;            case LVL2:
+<b class="nc"><i>82</i>&nbsp;                setBackgroundColor();</b>
+<b class="nc"><i>83</i>&nbsp;                if (raw == 1 || raw == 5)</b>
+<b class="nc"><i>84</i>&nbsp;                    this.printRawLevel[raw] = setBuildBackgroundColor(&quot;│&quot;, Color.BACKGROUND_BLUE) + setBuildBackgroundColor(buildingString, Color.BACKGROUND_YELLOW) + setBuildBackgroundColor(&quot;│&quot;, Color.BACKGROUND_BLUE);</b>
+<b class="nc"><i>85</i>&nbsp;                else if (raw == 3)</b>
+<b class="nc"><i>86</i>&nbsp;                    this.printRawLevel[raw] = setBuildBackgroundColor(&quot;│&quot;, Color.BACKGROUND_BLUE) + setBuildBackgroundColor(&quot;│&quot;, Color.BACKGROUND_YELLOW) + backgroundColor + &quot;      &quot; + printPlayerColor() + &quot;     &quot; + setBuildBackgroundColor(&quot;│&quot;, Color.BACKGROUND_YELLOW) + setBuildBackgroundColor(&quot;│&quot;, Color.BACKGROUND_BLUE);</b>
+<b class="nc"><i>87</i>&nbsp;                else if (raw != 0 &amp;&amp; raw != 6)</b>
+<b class="nc"><i>88</i>&nbsp;                    this.printRawLevel[raw] = setBuildBackgroundColor(&quot;│&quot;, Color.BACKGROUND_BLUE) + setBuildBackgroundColor(&quot;│&quot;, Color.BACKGROUND_YELLOW) + backgroundColor + &quot;              &quot; + setBuildBackgroundColor(&quot;│&quot;, Color.BACKGROUND_YELLOW) + setBuildBackgroundColor(&quot;│&quot;, Color.BACKGROUND_BLUE);</b>
+<i>89</i>&nbsp;
+<i>90</i>&nbsp;                break;
+<i>91</i>&nbsp;            case LVL3:
+<b class="nc"><i>92</i>&nbsp;                setBackgroundColor();</b>
+<b class="nc"><i>93</i>&nbsp;                if (raw == 1 || raw == 5)</b>
+<b class="nc"><i>94</i>&nbsp;                    this.printRawLevel[raw] = setBuildBackgroundColor(&quot;│&quot;, Color.BACKGROUND_BLUE) + setBuildBackgroundColor(buildingString, Color.BACKGROUND_YELLOW) + setBuildBackgroundColor(&quot;│&quot;, Color.BACKGROUND_BLUE);</b>
+<b class="nc"><i>95</i>&nbsp;                else if (raw == 2 || raw == 4)</b>
+<b class="nc"><i>96</i>&nbsp;                    this.printRawLevel[raw] = setBuildBackgroundColor(&quot;│&quot;, Color.BACKGROUND_BLUE) + setBuildBackgroundColor(&quot;│&quot;, Color.BACKGROUND_YELLOW) + setBuildBackgroundColor(&quot; ──────────── &quot;, Color.BACKGROUND_BLACK) + setBuildBackgroundColor(&quot;│&quot;, Color.BACKGROUND_YELLOW) + setBuildBackgroundColor(&quot;│&quot;, Color.BACKGROUND_BLUE);</b>
+<b class="nc"><i>97</i>&nbsp;                else if (raw == 3)</b>
+<b class="nc"><i>98</i>&nbsp;                    this.printRawLevel[raw] = setBuildBackgroundColor(&quot;│&quot;, Color.BACKGROUND_BLUE) + setBuildBackgroundColor(&quot;│&quot;, Color.BACKGROUND_YELLOW) + setBuildBackgroundColor(&quot;│&quot;, Color.BACKGROUND_BLACK) + backgroundColor + &quot;     &quot; + printPlayerColor() + &quot;    &quot; + setBuildBackgroundColor(&quot;│&quot;, Color.BACKGROUND_BLACK) + setBuildBackgroundColor(&quot;│&quot;, Color.BACKGROUND_YELLOW) + setBuildBackgroundColor(&quot;│&quot;, Color.BACKGROUND_BLUE);</b>
+<b class="nc"><i>99</i>&nbsp;                else if (raw != 0 &amp;&amp; raw != 6)</b>
+<b class="nc"><i>100</i>&nbsp;                    this.printRawLevel[raw] = setBuildBackgroundColor(&quot;│&quot;, Color.BACKGROUND_BLUE) + setBuildBackgroundColor(&quot;│&quot;, Color.BACKGROUND_YELLOW) + setBuildBackgroundColor(&quot;│&quot;, Color.BACKGROUND_BLACK) + backgroundColor + &quot;            &quot; + setBuildBackgroundColor(&quot;│&quot;, Color.BACKGROUND_BLACK) + setBuildBackgroundColor(&quot;│&quot;, Color.BACKGROUND_YELLOW) + setBuildBackgroundColor(&quot;│&quot;, Color.BACKGROUND_BLUE);</b>
+<i>101</i>&nbsp;
+<i>102</i>&nbsp;                break;
+<i>103</i>&nbsp;            case DOME:
+<b class="nc"><i>104</i>&nbsp;                if (buildingLevel != 4) {</b>
+<b class="nc"><i>105</i>&nbsp;                    if (raw == 3)</b>
+<b class="nc"><i>106</i>&nbsp;                        this.printRawLevel[raw] = &quot;    &quot; + setBuildBackgroundColor(&quot;  ──────  &quot;, Color.BACKGROUND_PURPLE) + backgroundColor + Color.ANSI_RED + &quot;    &quot;;</b>
+<b class="nc"><i>107</i>&nbsp;                    else if(raw == 2 || raw == 4)</b>
+<b class="nc"><i>108</i>&nbsp;                        this.printRawLevel[raw] = &quot;    &quot; + setBuildBackgroundColor(&quot;          &quot;, Color.BACKGROUND_PURPLE) + backgroundColor + Color.ANSI_RED + &quot;    &quot;;</b>
+<b class="nc"><i>109</i>&nbsp;                    else if(raw != 0 &amp;&amp; raw != 6)</b>
+<b class="nc"><i>110</i>&nbsp;                        this.printRawLevel[raw] = &quot;                  &quot;;</b>
+<i>111</i>&nbsp;                } else {
+<b class="nc"><i>112</i>&nbsp;                    if (raw == 1 || raw == 5)</b>
+<b class="nc"><i>113</i>&nbsp;                        this.printRawLevel[raw] = setBuildBackgroundColor(&quot;│&quot;, Color.BACKGROUND_BLUE) + setBuildBackgroundColor(buildingString, Color.BACKGROUND_YELLOW) + setBuildBackgroundColor(&quot;│&quot;, Color.BACKGROUND_BLUE);</b>
+<b class="nc"><i>114</i>&nbsp;                    else if (raw == 2 || raw == 4)</b>
+<b class="nc"><i>115</i>&nbsp;                        this.printRawLevel[raw] = setBuildBackgroundColor(&quot;│&quot;, Color.BACKGROUND_BLUE) + setBuildBackgroundColor(&quot;│&quot;, Color.BACKGROUND_YELLOW) + setBuildBackgroundColor(&quot; ──────────── &quot;, Color.BACKGROUND_BLACK) + setBuildBackgroundColor(&quot;│&quot;, Color.BACKGROUND_YELLOW) + setBuildBackgroundColor(&quot;│&quot;, Color.BACKGROUND_BLUE);</b>
+<b class="nc"><i>116</i>&nbsp;                    else if (raw == 3)</b>
+<b class="nc"><i>117</i>&nbsp;                        this.printRawLevel[raw] = setBuildBackgroundColor(&quot;│&quot;, Color.BACKGROUND_BLUE) + setBuildBackgroundColor(&quot;│&quot;, Color.BACKGROUND_YELLOW) + setBuildBackgroundColor(&quot;│ &quot;, Color.BACKGROUND_BLACK) + setBuildBackgroundColor(&quot;│ ────── │&quot;, Color.BACKGROUND_PURPLE) + setBuildBackgroundColor(&quot; │&quot;, Color.BACKGROUND_BLACK) + setBuildBackgroundColor(&quot;│&quot;, Color.BACKGROUND_YELLOW) + setBuildBackgroundColor(&quot;│&quot;, Color.BACKGROUND_BLUE);</b>
+<i>118</i>&nbsp;                }
+<i>119</i>&nbsp;                break;
+<i>120</i>&nbsp;            default:
+<b class="nc"><i>121</i>&nbsp;                this.printRawLevel[raw] = Color.BACKGROUND_BLUE + &quot;      ERROR!      &quot; + printColor;</b>
+<i>122</i>&nbsp;        }
+<b class="nc"><i>123</i>&nbsp;    }</b>
+<i>124</i>&nbsp;
+<i>125</i>&nbsp;    /**
+<i>126</i>&nbsp;     * Method used to set a building in the current tile
+<i>127</i>&nbsp;     * @param buildingType Building type this method set on the current object
+<i>128</i>&nbsp;     */
+<i>129</i>&nbsp;
+<i>130</i>&nbsp;    public void setBuildingType (Building buildingType) {
+<b class="nc"><i>131</i>&nbsp;        this.buildingType = buildingType;</b>
+<b class="nc"><i>132</i>&nbsp;    }</b>
+<i>133</i>&nbsp;
+<i>134</i>&nbsp;    /**
+<i>135</i>&nbsp;     * Method used to get the building type of the current tile
+<i>136</i>&nbsp;     * @return buildingType Building contained in the current object
+<i>137</i>&nbsp;     */
+<i>138</i>&nbsp;
+<i>139</i>&nbsp;    public Building getBuildingType() {
+<b class="nc"><i>140</i>&nbsp;        return buildingType;</b>
+<i>141</i>&nbsp;    }
+<i>142</i>&nbsp;
+<i>143</i>&nbsp;    /**
+<i>144</i>&nbsp;     * Method used to get the building level
+<i>145</i>&nbsp;     * @return buildingLevel Int value corresponding to the level of the building
+<i>146</i>&nbsp;     */
+<i>147</i>&nbsp;
+<i>148</i>&nbsp;    public int getBuildingLevel() {
+<b class="nc"><i>149</i>&nbsp;        return buildingLevel;</b>
+<i>150</i>&nbsp;    }
+<i>151</i>&nbsp;
+<i>152</i>&nbsp;    /**
+<i>153</i>&nbsp;     * Method used to set the building level
+<i>154</i>&nbsp;     * @param buildingLevel Int value corresponting to the level value of the building
+<i>155</i>&nbsp;     */
+<i>156</i>&nbsp;
+<i>157</i>&nbsp;    public void setBuildingLevel (int buildingLevel) {
+<b class="nc"><i>158</i>&nbsp;        this.buildingLevel = buildingLevel;</b>
+<b class="nc"><i>159</i>&nbsp;    }</b>
+<i>160</i>&nbsp;
+<i>161</i>&nbsp;    /**
+<i>162</i>&nbsp;     * Method used to print the worker symbol (if tile has player) with its correct color
+<i>163</i>&nbsp;     * @return coloredString String with worker&#39; symbol (if tile has player) colored
+<i>164</i>&nbsp;     */
+<i>165</i>&nbsp;
+<i>166</i>&nbsp;    private String printPlayerColor() {
+<b class="nc"><i>167</i>&nbsp;        return getPlayerColor() + this.isHasPlayerSymbol() + Color.ANSI_RED;</b>
+<i>168</i>&nbsp;    }
+<i>169</i>&nbsp;
+<i>170</i>&nbsp;    /**
+<i>171</i>&nbsp;     * Method used to get corresponding coordinates of the current tile
+<i>172</i>&nbsp;     * @return coordinates[] An array of int that contain the coordinates of the current tile
+<i>173</i>&nbsp;     * (coordinate[0] = coordinate X | coordinate[1] = coordiante Y)
+<i>174</i>&nbsp;     * */
+<i>175</i>&nbsp;
+<i>176</i>&nbsp;    public int[] getCoordinates() {
+<b class="nc"><i>177</i>&nbsp;        return coordinates;</b>
+<i>178</i>&nbsp;    }
+<i>179</i>&nbsp;
+<i>180</i>&nbsp;    /**
+<i>181</i>&nbsp;     * Method used to set coordinates to the current tile
+<i>182</i>&nbsp;     * @param x Coordiante X int value
+<i>183</i>&nbsp;     * @param y Coordiante Y int value
+<i>184</i>&nbsp;     */
+<i>185</i>&nbsp;
+<i>186</i>&nbsp;    public void setCoordinate (int x, int y) {
+<b class="nc"><i>187</i>&nbsp;        this.coordinates[0] = x;</b>
+<b class="nc"><i>188</i>&nbsp;        this.coordinates[1] = y;</b>
+<b class="nc"><i>189</i>&nbsp;    }</b>
+<i>190</i>&nbsp;
+<i>191</i>&nbsp;    /**
+<i>192</i>&nbsp;     * Method used to get the current symbol in case of presence or not of a player
+<i>193</i>&nbsp;     * @return workerSymbol String that represents the correct value to print in case of presence of a player
+<i>194</i>&nbsp;     */
+<i>195</i>&nbsp;
+<i>196</i>&nbsp;    private String isHasPlayerSymbol() {
+<b class="nc"><i>197</i>&nbsp;        if(hasPlayer)</b>
+<b class="nc"><i>198</i>&nbsp;            return &quot;〠 &quot;;</b>
+<i>199</i>&nbsp;        else
+<b class="nc"><i>200</i>&nbsp;            return &quot;   &quot;;</b>
+<i>201</i>&nbsp;    }
+<i>202</i>&nbsp;
+<i>203</i>&nbsp;    /**
+<i>204</i>&nbsp;     * Method used to get self player color
+<i>205</i>&nbsp;     * @return playerColor Color of his proper player
+<i>206</i>&nbsp;     */
+<i>207</i>&nbsp;
+<i>208</i>&nbsp;    private Color getPlayerColor() {
+<b class="nc"><i>209</i>&nbsp;        return this.playerColor;</b>
+<i>210</i>&nbsp;    }
+<i>211</i>&nbsp;
+<i>212</i>&nbsp;    /**
+<i>213</i>&nbsp;     * Method used to set some info: if tile has player and in case of positive response, it set also the local player color
+<i>214</i>&nbsp;     * @param hasPlayer Boolean value that represents the presence of a player (true = has player | false = hasn&#39;t player)
+<i>215</i>&nbsp;     * @param color Color of possible player
+<i>216</i>&nbsp;     */
+<i>217</i>&nbsp;
+<i>218</i>&nbsp;    public void setPlayerInfo (boolean hasPlayer, Color color) {
+<b class="nc"><i>219</i>&nbsp;        this.hasPlayer = hasPlayer;</b>
+<b class="nc"><i>220</i>&nbsp;        if(hasPlayer)</b>
+<b class="nc"><i>221</i>&nbsp;            this.playerColor = color;</b>
+<b class="nc"><i>222</i>&nbsp;    }</b>
+<i>223</i>&nbsp;
+<i>224</i>&nbsp;    /**
+<i>225</i>&nbsp;     * Method used to set if current tile is available or not
+<i>226</i>&nbsp;     * @param available Boolean value that represents availability (true = available | false = not available)
+<i>227</i>&nbsp;     */
+<i>228</i>&nbsp;
+<i>229</i>&nbsp;    public void setAvailable (boolean available) {
+<b class="nc"><i>230</i>&nbsp;        this.available = available;</b>
+<b class="nc"><i>231</i>&nbsp;    }</b>
+<i>232</i>&nbsp;
+<i>233</i>&nbsp;    /**
+<i>234</i>&nbsp;     * Method used to set if current tile is selected or not
+<i>235</i>&nbsp;     * @param selected Boolean value that represents if current tile is selected (true = selected | false = not selected)
+<i>236</i>&nbsp;     */
+<i>237</i>&nbsp;
+<i>238</i>&nbsp;    public void setSelected (boolean selected) {
+<b class="nc"><i>239</i>&nbsp;        this.selected = selected;</b>
+<b class="nc"><i>240</i>&nbsp;    }</b>
+<i>241</i>&nbsp;
+<i>242</i>&nbsp;    /**
+<i>243</i>&nbsp;     * Method used to set the correct background color in relation of the type of the building
+<i>244</i>&nbsp;     * @param string Parameter that contains the string on which applies the background color
+<i>245</i>&nbsp;     * @param backgroundBuildColor Color that corresponds to the building type
+<i>246</i>&nbsp;     * @return stringWithBackground String with the background color
+<i>247</i>&nbsp;     */
+<i>248</i>&nbsp;
+<i>249</i>&nbsp;    private String setBuildBackgroundColor (String string, Color backgroundBuildColor) {
+<b class="nc"><i>250</i>&nbsp;        return backgroundBuildColor + string + printColor;</b>
+<i>251</i>&nbsp;    }
+<i>252</i>&nbsp;
+<i>253</i>&nbsp;    /**
+<i>254</i>&nbsp;     * Method used to set the background color in case of availability, selection and presence of player
+<i>255</i>&nbsp;     */
+<i>256</i>&nbsp;
+<i>257</i>&nbsp;    private void setBackgroundColor () {
+<b class="nc"><i>258</i>&nbsp;        if (available &amp;&amp; !selected &amp;&amp; !hasPlayer)</b>
+<b class="nc"><i>259</i>&nbsp;            backgroundColor = Color.BACKGROUND_GREEN;</b>
+<b class="nc"><i>260</i>&nbsp;        else if (selected)</b>
+<b class="nc"><i>261</i>&nbsp;            backgroundColor = Color.BACKGROUND_YELLOW;</b>
+<b class="nc"><i>262</i>&nbsp;        else if(hasPlayer)</b>
+<b class="nc"><i>263</i>&nbsp;            backgroundColor = Color.BACKGROUND_BLACK;</b>
+<b class="nc"><i>264</i>&nbsp;    }</b>
+<i>265</i>&nbsp;
+<i>266</i>&nbsp;    /**
+<i>267</i>&nbsp;     * Method used to reset the background to a default value
+<i>268</i>&nbsp;     */
+<i>269</i>&nbsp;
+<i>270</i>&nbsp;    public void resetBackground() {
+<b class="nc"><i>271</i>&nbsp;        this.backgroundColor = Color.BACKGROUND_BLACK;</b>
+<b class="nc"><i>272</i>&nbsp;    }</b>
+<i>273</i>&nbsp;
+<i>274</i>&nbsp;    /**
+<i>275</i>&nbsp;     * Method used to get available building of the current tile
+<i>276</i>&nbsp;     * @return availableBuilding Building that is available
+<i>277</i>&nbsp;     */
+<i>278</i>&nbsp;
+<i>279</i>&nbsp;    public Building getAvailableBuilding () {
+<b class="nc"><i>280</i>&nbsp;        return availableBuilding;</b>
+<i>281</i>&nbsp;    }
+<i>282</i>&nbsp;
+<i>283</i>&nbsp;    /**
+<i>284</i>&nbsp;     * Method used to set the correct available building (the successor of the current tile building type.
+<i>285</i>&nbsp;     * Atlas constraint is handled in the main class)
+<i>286</i>&nbsp;     */
+<i>287</i>&nbsp;
+<i>288</i>&nbsp;    private void setAvailableBuilding () {
+<b class="nc"><i>289</i>&nbsp;        if (buildingLevel &lt; 4 &amp;&amp; buildingType != Building.DOME) {</b>
+<b class="nc"><i>290</i>&nbsp;            switch (buildingType) {</b>
+<i>291</i>&nbsp;                case GROUND:
+<b class="nc"><i>292</i>&nbsp;                    availableBuilding = Building.LVL1;</b>
+<b class="nc"><i>293</i>&nbsp;                    break;</b>
+<i>294</i>&nbsp;                case LVL1:
+<b class="nc"><i>295</i>&nbsp;                    availableBuilding = Building.LVL2;</b>
+<b class="nc"><i>296</i>&nbsp;                    break;</b>
+<i>297</i>&nbsp;                case LVL2:
+<b class="nc"><i>298</i>&nbsp;                    availableBuilding = Building.LVL3;</b>
+<b class="nc"><i>299</i>&nbsp;                    break;</b>
+<i>300</i>&nbsp;                case LVL3:
+<b class="nc"><i>301</i>&nbsp;                    availableBuilding = Building.DOME;</b>
+<b class="nc"><i>302</i>&nbsp;                    break;</b>
+<i>303</i>&nbsp;                default:
+<b class="nc"><i>304</i>&nbsp;                    printErr(&quot;BUILDING LEVEL ERROR&quot;);</b>
+<i>305</i>&nbsp;            }
+<i>306</i>&nbsp;        } else
+<b class="nc"><i>307</i>&nbsp;            availableBuilding = null;</b>
+<b class="nc"><i>308</i>&nbsp;    }</b>
+<i>309</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-29 01:13</div>
+</div>
+</body>
+</html>

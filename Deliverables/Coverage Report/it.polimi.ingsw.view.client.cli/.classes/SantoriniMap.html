@@ -1,0 +1,426 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: SantoriniMap</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.view.client.cli</a> ]
+</div>
+
+<h1>Coverage Summary for Class: SantoriniMap (it.polimi.ingsw.view.client.cli)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SantoriniMap</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 22)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 126)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.view.client.cli;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.model.map.Building;
+<i>4</i>&nbsp;import it.polimi.ingsw.model.map.Square;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;import java.util.ArrayList;
+<i>7</i>&nbsp;import java.util.List;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;import static it.polimi.ingsw.utils.CliUtils.*;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;/**
+<i>12</i>&nbsp; * Class that define and implements the visualisation of the board
+<i>13</i>&nbsp; * and an external (safety) access to the single tiles that compose the board
+<i>14</i>&nbsp; * @author edoardopiantoni
+<i>15</i>&nbsp; * @version 1.0
+<i>16</i>&nbsp; * @since 2020/06/18
+<i>17</i>&nbsp; */
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;public class SantoriniMap {
+<i>20</i>&nbsp;
+<b class="nc"><i>21</i>&nbsp;    private Tile[] tile = new Tile[25];</b>
+<b class="nc"><i>22</i>&nbsp;    List&lt;Integer&gt; availableTiles = new ArrayList&lt;&gt;();</b>
+<i>23</i>&nbsp;    private static final String INTERNAL_TILE_SPACE = &quot;         &quot;;
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    /**
+<i>26</i>&nbsp;     * Method that handle the initialization of coordinate value of single tiles and add them all to available tiles. This
+<i>27</i>&nbsp;     * model adopt this choice: tileNumber correspond to an index of the array Tile[] that contain all the board&#39;s tiles
+<i>28</i>&nbsp;     */
+<i>29</i>&nbsp;
+<b class="nc"><i>30</i>&nbsp;    public SantoriniMap() {</b>
+<b class="nc"><i>31</i>&nbsp;        for(int i=0; i&lt;25; i++)</b>
+<b class="nc"><i>32</i>&nbsp;            tile[i] = new Tile();</b>
+<i>33</i>&nbsp;
+<b class="nc"><i>34</i>&nbsp;        int counter = 0;</b>
+<b class="nc"><i>35</i>&nbsp;        for(int y=0; y&lt;5; y++) {</b>
+<b class="nc"><i>36</i>&nbsp;            this.tile[counter].setCoordinate(0, y);</b>
+<b class="nc"><i>37</i>&nbsp;            counter++;</b>
+<i>38</i>&nbsp;        }
+<b class="nc"><i>39</i>&nbsp;        for(int x=1; x&lt;4; x++) {</b>
+<b class="nc"><i>40</i>&nbsp;            this.tile[counter].setCoordinate(x, 4);</b>
+<b class="nc"><i>41</i>&nbsp;            counter++;</b>
+<i>42</i>&nbsp;        }
+<b class="nc"><i>43</i>&nbsp;        for(int y=4; y&gt;=0; y--) {</b>
+<b class="nc"><i>44</i>&nbsp;            this.tile[counter].setCoordinate(4, y);</b>
+<b class="nc"><i>45</i>&nbsp;            counter++;</b>
+<i>46</i>&nbsp;        }
+<b class="nc"><i>47</i>&nbsp;        for(int x=3; x&gt;=1; x--) {</b>
+<b class="nc"><i>48</i>&nbsp;            this.tile[counter].setCoordinate(x, 0);</b>
+<b class="nc"><i>49</i>&nbsp;            counter++;</b>
+<i>50</i>&nbsp;        }
+<b class="nc"><i>51</i>&nbsp;        for(int y=1; y&lt;4; y++) {</b>
+<b class="nc"><i>52</i>&nbsp;            this.tile[counter].setCoordinate(1, y);</b>
+<b class="nc"><i>53</i>&nbsp;            counter++;</b>
+<i>54</i>&nbsp;        }
+<b class="nc"><i>55</i>&nbsp;        for(int x=2; x&lt;=3; x++) {</b>
+<b class="nc"><i>56</i>&nbsp;            this.tile[counter].setCoordinate(x, 3);</b>
+<b class="nc"><i>57</i>&nbsp;            counter++;</b>
+<i>58</i>&nbsp;        }
+<b class="nc"><i>59</i>&nbsp;        for(int y=2; y&gt;=1; y--) {</b>
+<b class="nc"><i>60</i>&nbsp;            this.tile[counter].setCoordinate(3, y);</b>
+<b class="nc"><i>61</i>&nbsp;            counter++;</b>
+<i>62</i>&nbsp;        }
+<b class="nc"><i>63</i>&nbsp;        for(int y=1; y&lt;3; y++) {</b>
+<b class="nc"><i>64</i>&nbsp;            this.tile[counter].setCoordinate(2, y);</b>
+<b class="nc"><i>65</i>&nbsp;            counter++;</b>
+<i>66</i>&nbsp;        }
+<i>67</i>&nbsp;
+<b class="nc"><i>68</i>&nbsp;        for(int i=0; i&lt;25; i++)</b>
+<b class="nc"><i>69</i>&nbsp;            availableTiles.add(i);</b>
+<b class="nc"><i>70</i>&nbsp;    }</b>
+<i>71</i>&nbsp;
+<i>72</i>&nbsp;    /**
+<i>73</i>&nbsp;     * Method that handle the visualisation of the board using strings contained in the corresponding tiles
+<i>74</i>&nbsp;     */
+<i>75</i>&nbsp;
+<i>76</i>&nbsp;    public void printMap() {
+<b class="nc"><i>77</i>&nbsp;        clearShell();</b>
+<i>78</i>&nbsp;
+<b class="nc"><i>79</i>&nbsp;        printYellow(&quot;   &quot;);</b>
+<b class="nc"><i>80</i>&nbsp;        for(int i=0; i&lt;5; i++)</b>
+<b class="nc"><i>81</i>&nbsp;            printYellow(INTERNAL_TILE_SPACE + i + INTERNAL_TILE_SPACE);</b>
+<b class="nc"><i>82</i>&nbsp;        printYellow(&quot;\n&quot;);</b>
+<b class="nc"><i>83</i>&nbsp;        for(int x=0; x&lt;=5; x++) {</b>
+<b class="nc"><i>84</i>&nbsp;            printYellow(&quot;   &quot;);</b>
+<b class="nc"><i>85</i>&nbsp;            for(int t=0; t&lt;5; t++) {</b>
+<b class="nc"><i>86</i>&nbsp;                printWhite(setBlueBackgroundColor(&quot;───────────────────&quot;));</b>
+<b class="nc"><i>87</i>&nbsp;                if(t==4)</b>
+<b class="nc"><i>88</i>&nbsp;                    printWhite(setBlueBackgroundColor(&quot;─&quot;) + &quot;\n&quot;);</b>
+<i>89</i>&nbsp;            }
+<i>90</i>&nbsp;
+<b class="nc"><i>91</i>&nbsp;            if(x==5)</b>
+<b class="nc"><i>92</i>&nbsp;                break;</b>
+<i>93</i>&nbsp;
+<b class="nc"><i>94</i>&nbsp;            printRawTileInfo(x);</b>
+<i>95</i>&nbsp;        }
+<b class="nc"><i>96</i>&nbsp;        printYellow(&quot;   &quot;);</b>
+<b class="nc"><i>97</i>&nbsp;        for(int i=0; i&lt;5; i++)</b>
+<b class="nc"><i>98</i>&nbsp;            printYellow(INTERNAL_TILE_SPACE + i + INTERNAL_TILE_SPACE);</b>
+<b class="nc"><i>99</i>&nbsp;        printYellow(&quot;\n&quot;);</b>
+<b class="nc"><i>100</i>&nbsp;    }</b>
+<i>101</i>&nbsp;
+<i>102</i>&nbsp;    /**
+<i>103</i>&nbsp;     * Method used to print raws of a tile with or without player/building
+<i>104</i>&nbsp;     * @param x Int value represents coordinate x of the tile to print
+<i>105</i>&nbsp;     */
+<i>106</i>&nbsp;
+<i>107</i>&nbsp;    private void printRawTileInfo(int x) {
+<b class="nc"><i>108</i>&nbsp;        for(int raw=0; raw&lt;7; raw++) {</b>
+<b class="nc"><i>109</i>&nbsp;            printInternalTileInfo(x, raw);</b>
+<i>110</i>&nbsp;        }
+<b class="nc"><i>111</i>&nbsp;    }</b>
+<i>112</i>&nbsp;
+<i>113</i>&nbsp;    /**
+<i>114</i>&nbsp;     * Method used to print a single raw of a tile with or without player/building
+<i>115</i>&nbsp;     * @param x Int value represents coordinate x of the tile to print
+<i>116</i>&nbsp;     * @param raw Int value represents which raw is to print
+<i>117</i>&nbsp;     */
+<i>118</i>&nbsp;
+<i>119</i>&nbsp;    private void printInternalTileInfo(int x, int raw) {
+<i>120</i>&nbsp;        int tileNumber;
+<i>121</i>&nbsp;
+<b class="nc"><i>122</i>&nbsp;        for (int y=0; y&lt;5; y++) {</b>
+<b class="nc"><i>123</i>&nbsp;            tileNumber = getTileFromCoordinate(x, y);</b>
+<b class="nc"><i>124</i>&nbsp;            if(y==0 &amp;&amp; raw==3)</b>
+<b class="nc"><i>125</i>&nbsp;                printYellow(&quot; &quot; + x + &quot; &quot;);</b>
+<b class="nc"><i>126</i>&nbsp;            else if(y==0)</b>
+<b class="nc"><i>127</i>&nbsp;                printYellow(&quot;   &quot;);</b>
+<b class="nc"><i>128</i>&nbsp;            printWhite(setBlueBackgroundColor(&quot;│&quot;));</b>
+<b class="nc"><i>129</i>&nbsp;            printRed(this.tile[tileNumber].getPrintRawLevel(raw));</b>
+<b class="nc"><i>130</i>&nbsp;            if(y==4) {</b>
+<b class="nc"><i>131</i>&nbsp;                printWhite(setBlueBackgroundColor(&quot;│&quot;));</b>
+<b class="nc"><i>132</i>&nbsp;                if(raw==3)</b>
+<b class="nc"><i>133</i>&nbsp;                    printYellow(&quot; &quot; + x + &quot;\n&quot;);</b>
+<i>134</i>&nbsp;                else
+<b class="nc"><i>135</i>&nbsp;                    printYellow(&quot;\n&quot;);</b>
+<i>136</i>&nbsp;            }
+<i>137</i>&nbsp;        }
+<b class="nc"><i>138</i>&nbsp;    }</b>
+<i>139</i>&nbsp;
+<i>140</i>&nbsp;    /**
+<i>141</i>&nbsp;     * Method that handle the visualisation of a list of available tiles
+<i>142</i>&nbsp;     */
+<i>143</i>&nbsp;
+<i>144</i>&nbsp;    public void printAvailableTiles() {
+<b class="nc"><i>145</i>&nbsp;        printRed(&quot;AVAILABLE SQUARES:\n&quot;);</b>
+<i>146</i>&nbsp;
+<b class="nc"><i>147</i>&nbsp;        for(int availableTile: availableTiles) {</b>
+<b class="nc"><i>148</i>&nbsp;            int[] coordinate = getCoordinatesFromTile(availableTile);</b>
+<b class="nc"><i>149</i>&nbsp;            tile[availableTile].setAvailable(true);</b>
+<b class="nc"><i>150</i>&nbsp;            printRed(&quot;  [&quot; + coordinate[0] + &quot;] [&quot; + coordinate[1] + &quot;] Tile number: &quot; + (availableTile+1) + &quot;\n&quot;);</b>
+<b class="nc"><i>151</i>&nbsp;        }</b>
+<b class="nc"><i>152</i>&nbsp;    }</b>
+<i>153</i>&nbsp;
+<i>154</i>&nbsp;    /**
+<i>155</i>&nbsp;     * Method that set a blue background to the board
+<i>156</i>&nbsp;     * @param string String value to which this method applies the blue background color
+<i>157</i>&nbsp;     * @return backgroundString String value with the blue background
+<i>158</i>&nbsp;     */
+<i>159</i>&nbsp;
+<i>160</i>&nbsp;    public String setBlueBackgroundColor(String string) {
+<b class="nc"><i>161</i>&nbsp;        return setBackground(string, Color.BACKGROUND_BLUE);</b>
+<i>162</i>&nbsp;    }
+<i>163</i>&nbsp;
+<i>164</i>&nbsp;    /**
+<i>165</i>&nbsp;     * Method that set selected boolean value to tile number identified by tile number. This implies the set of the
+<i>166</i>&nbsp;     * selected background color on this tile
+<i>167</i>&nbsp;     * @param tileNumber Tile number that we want to set as selected
+<i>168</i>&nbsp;     * @param selected Boolean value (true = tile is selected / false = tile is not selected)
+<i>169</i>&nbsp;     */
+<i>170</i>&nbsp;
+<i>171</i>&nbsp;    public void setSelectedTile (int tileNumber, boolean selected) {
+<b class="nc"><i>172</i>&nbsp;        this.tile[tileNumber].setSelected(selected);</b>
+<b class="nc"><i>173</i>&nbsp;        iterateOnRawOfTile(tileNumber);</b>
+<b class="nc"><i>174</i>&nbsp;    }</b>
+<i>175</i>&nbsp;
+<i>176</i>&nbsp;    /**
+<i>177</i>&nbsp;     * Method that handle the setting of a worker or a player (with corresponding worker color) in a tile
+<i>178</i>&nbsp;     * @param hasPlayer Boolean value that represent if the tile has or hasn&#39;t the player (== false if to remove worker)
+<i>179</i>&nbsp;     * @param tileNumber Tile number user want to modify
+<i>180</i>&nbsp;     * @param playerColor Color of the player whose worker we want to set in this tile (== null if to remove worker)
+<i>181</i>&nbsp;     */
+<i>182</i>&nbsp;
+<i>183</i>&nbsp;    public void setTileHasPlayer(boolean hasPlayer, int tileNumber, Color playerColor) {
+<b class="nc"><i>184</i>&nbsp;        this.tile[tileNumber].setPlayerInfo(hasPlayer, playerColor);</b>
+<b class="nc"><i>185</i>&nbsp;        this.tile[tileNumber].setPrintRawLevel(3);</b>
+<b class="nc"><i>186</i>&nbsp;    }</b>
+<i>187</i>&nbsp;
+<i>188</i>&nbsp;    /**
+<i>189</i>&nbsp;     * Method to check if a tile is or isn&#39;t occupied by another worker
+<i>190</i>&nbsp;     * @param tileNumber Tile number to control
+<i>191</i>&nbsp;     * @return unoccupied Boolean value (true = unoccupied / false = occupied)
+<i>192</i>&nbsp;     */
+<i>193</i>&nbsp;
+<i>194</i>&nbsp;    public boolean checkUnoccupiedTile(int tileNumber) {
+<b class="nc"><i>195</i>&nbsp;        return availableTiles.contains(tileNumber);</b>
+<i>196</i>&nbsp;    }
+<i>197</i>&nbsp;
+<i>198</i>&nbsp;    /**
+<i>199</i>&nbsp;     * Method that update the strings corresponding to a tile with the corresponding building type
+<i>200</i>&nbsp;     * @param buildingType Type of the building of the tile
+<i>201</i>&nbsp;     * @param tileNumber Tile number to update type of building
+<i>202</i>&nbsp;     */
+<i>203</i>&nbsp;
+<i>204</i>&nbsp;    public void updateStringBoardBuilding(Building buildingType, int tileNumber) {
+<b class="nc"><i>205</i>&nbsp;        this.tile[tileNumber].setBuildingType(buildingType);</b>
+<b class="nc"><i>206</i>&nbsp;        this.tile[tileNumber].setBuildingLevel(tile[tileNumber].getBuildingLevel()+1);</b>
+<b class="nc"><i>207</i>&nbsp;        iterateOnRawOfTile(tileNumber);</b>
+<b class="nc"><i>208</i>&nbsp;    }</b>
+<i>209</i>&nbsp;
+<i>210</i>&nbsp;    /**
+<i>211</i>&nbsp;     * Same of the previous method but in this case all info are contained in a Square (from Server)
+<i>212</i>&nbsp;     * @param squareToModify Square with necessary info to update building type of the corresponding tile
+<i>213</i>&nbsp;     *                       (to update corresponding tile&#39; strings)
+<i>214</i>&nbsp;     */
+<i>215</i>&nbsp;
+<i>216</i>&nbsp;    public void updateStringBoardBuilding(Square squareToModify) {
+<b class="nc"><i>217</i>&nbsp;        int tileNumber = squareToModify.getTile()-1;</b>
+<b class="nc"><i>218</i>&nbsp;        this.tile[tileNumber].setBuildingType(squareToModify.getBuilding());</b>
+<b class="nc"><i>219</i>&nbsp;        this.tile[tileNumber].setBuildingLevel(squareToModify.getBuildingLevel());</b>
+<b class="nc"><i>220</i>&nbsp;        iterateOnRawOfTile(tileNumber);</b>
+<b class="nc"><i>221</i>&nbsp;    }</b>
+<i>222</i>&nbsp;
+<i>223</i>&nbsp;    /**
+<i>224</i>&nbsp;     * Method used to get a tile number from corresponding coordinates
+<i>225</i>&nbsp;     * @param x Coordinate X int value
+<i>226</i>&nbsp;     * @param y Coordinate Y int value
+<i>227</i>&nbsp;     * @return tileNumber
+<i>228</i>&nbsp;     */
+<i>229</i>&nbsp;
+<i>230</i>&nbsp;    public int getTileFromCoordinate(int x, int y) {
+<b class="nc"><i>231</i>&nbsp;        for(int tileNumber=0; tileNumber&lt;tile.length; tileNumber++) {</b>
+<b class="nc"><i>232</i>&nbsp;            if(tile[tileNumber].getCoordinates()[0] == x &amp;&amp; tile[tileNumber].getCoordinates()[1] == y)</b>
+<b class="nc"><i>233</i>&nbsp;                return tileNumber;</b>
+<i>234</i>&nbsp;        }
+<b class="nc"><i>235</i>&nbsp;        return -1;</b>
+<i>236</i>&nbsp;    }
+<i>237</i>&nbsp;
+<i>238</i>&nbsp;    /**
+<i>239</i>&nbsp;     * Method used to get coordinates from a tile
+<i>240</i>&nbsp;     * @param tileNumber Tile whose coordinate this method get
+<i>241</i>&nbsp;     * @return coordinate[] An array of int containing coordinate[0] = coordinate X | coordinate[1] = coordinate Y
+<i>242</i>&nbsp;     */
+<i>243</i>&nbsp;
+<i>244</i>&nbsp;    public int[] getCoordinatesFromTile(int tileNumber) {
+<b class="nc"><i>245</i>&nbsp;        return tile[tileNumber].getCoordinates();</b>
+<i>246</i>&nbsp;    }
+<i>247</i>&nbsp;
+<i>248</i>&nbsp;    /**
+<i>249</i>&nbsp;     * Method to get available tiles
+<i>250</i>&nbsp;     * @return availableTile List of Integer of the available tiles of the current map
+<i>251</i>&nbsp;     */
+<i>252</i>&nbsp;
+<i>253</i>&nbsp;    public List&lt;Integer&gt; getAvailableTiles() {
+<b class="nc"><i>254</i>&nbsp;        return availableTiles;</b>
+<i>255</i>&nbsp;    }
+<i>256</i>&nbsp;
+<i>257</i>&nbsp;    /**
+<i>258</i>&nbsp;     * Method used to reset the list of available tiles of the current map
+<i>259</i>&nbsp;     */
+<i>260</i>&nbsp;
+<i>261</i>&nbsp;    public void resetAvailableTiles() {
+<b class="nc"><i>262</i>&nbsp;        for(int availableTile: availableTiles) {</b>
+<b class="nc"><i>263</i>&nbsp;            tile[availableTile].setAvailable(false);</b>
+<b class="nc"><i>264</i>&nbsp;            resetTileBackground(availableTile);</b>
+<b class="nc"><i>265</i>&nbsp;        }</b>
+<b class="nc"><i>266</i>&nbsp;        this.availableTiles.clear();</b>
+<b class="nc"><i>267</i>&nbsp;    }</b>
+<i>268</i>&nbsp;
+<i>269</i>&nbsp;    /**
+<i>270</i>&nbsp;     * Method used to reset the background of a tile
+<i>271</i>&nbsp;     * @param tileNumber Tile number of the tile to reset the background
+<i>272</i>&nbsp;     */
+<i>273</i>&nbsp;
+<i>274</i>&nbsp;    public void resetTileBackground (int tileNumber) {
+<b class="nc"><i>275</i>&nbsp;        tile[tileNumber].resetBackground();</b>
+<b class="nc"><i>276</i>&nbsp;        iterateOnRawOfTile(tileNumber);</b>
+<b class="nc"><i>277</i>&nbsp;    }</b>
+<i>278</i>&nbsp;
+<i>279</i>&nbsp;    /**
+<i>280</i>&nbsp;     * Method used to iterate on the raws of a tile. Every tile is composed by 7 raws which are used to print the
+<i>281</i>&nbsp;     * correct tile representation
+<i>282</i>&nbsp;     * @param tileNumber Tile number of the tile on which iterate
+<i>283</i>&nbsp;     */
+<i>284</i>&nbsp;
+<i>285</i>&nbsp;    private void iterateOnRawOfTile (int tileNumber) {
+<b class="nc"><i>286</i>&nbsp;        for(int raw=0; raw&lt;7; raw++)</b>
+<b class="nc"><i>287</i>&nbsp;            tile[tileNumber].setPrintRawLevel(raw);</b>
+<b class="nc"><i>288</i>&nbsp;    }</b>
+<i>289</i>&nbsp;
+<i>290</i>&nbsp;    /**
+<i>291</i>&nbsp;     * Method used to set available tiles
+<i>292</i>&nbsp;     * @param availableTiles List of available tile to set
+<i>293</i>&nbsp;     */
+<i>294</i>&nbsp;
+<i>295</i>&nbsp;    public void setAvailableTiles(List&lt;Integer&gt; availableTiles) {
+<b class="nc"><i>296</i>&nbsp;        this.availableTiles.addAll(availableTiles);</b>
+<b class="nc"><i>297</i>&nbsp;        setAvailableTilesBackground(availableTiles);</b>
+<b class="nc"><i>298</i>&nbsp;    }</b>
+<i>299</i>&nbsp;
+<i>300</i>&nbsp;    /**
+<i>301</i>&nbsp;     * Methd to set the correct background of available tile
+<i>302</i>&nbsp;     * @param availableTiles List of available tiles on which set the &quot;available&quot; background
+<i>303</i>&nbsp;     */
+<i>304</i>&nbsp;
+<i>305</i>&nbsp;    private void setAvailableTilesBackground(List&lt;Integer&gt; availableTiles) {
+<b class="nc"><i>306</i>&nbsp;        for(int availableTile: availableTiles) {</b>
+<b class="nc"><i>307</i>&nbsp;            tile[availableTile].setAvailable(true);</b>
+<b class="nc"><i>308</i>&nbsp;            iterateOnRawOfTile(availableTile);</b>
+<b class="nc"><i>309</i>&nbsp;        }</b>
+<b class="nc"><i>310</i>&nbsp;    }</b>
+<i>311</i>&nbsp;
+<i>312</i>&nbsp;    /**
+<i>313</i>&nbsp;     * Method used by Cli.PlaceWorker to set modified tiles as not available
+<i>314</i>&nbsp;     * @param modifiedTiles List of tiles in which current player has placed his workers
+<i>315</i>&nbsp;     */
+<i>316</i>&nbsp;
+<i>317</i>&nbsp;    public void setPlaceWorkerNotAvailableTiles(List&lt;Integer&gt; modifiedTiles) {
+<b class="nc"><i>318</i>&nbsp;        for(int availableTile: modifiedTiles)</b>
+<b class="nc"><i>319</i>&nbsp;            tile[availableTile].setAvailable(false);</b>
+<b class="nc"><i>320</i>&nbsp;        this.availableTiles.removeAll(modifiedTiles);</b>
+<b class="nc"><i>321</i>&nbsp;        setAvailableTilesBackground(availableTiles);</b>
+<b class="nc"><i>322</i>&nbsp;    }</b>
+<i>323</i>&nbsp;
+<i>324</i>&nbsp;    /**
+<i>325</i>&nbsp;     * Method used to get available building from a tile
+<i>326</i>&nbsp;     * @param tileNumber Tile whose available building is asked
+<i>327</i>&nbsp;     * @return availableBuilding Building that is available in the tile
+<i>328</i>&nbsp;     */
+<i>329</i>&nbsp;
+<i>330</i>&nbsp;    public Building getAvailableBuildingFromTile (int tileNumber) {
+<b class="nc"><i>331</i>&nbsp;        return tile[tileNumber].getAvailableBuilding();</b>
+<i>332</i>&nbsp;    }
+<i>333</i>&nbsp;
+<i>334</i>&nbsp;    /**
+<i>335</i>&nbsp;     * Method used to get the current building of a tile
+<i>336</i>&nbsp;     * @param tileNumber Tile number whose current building is asked
+<i>337</i>&nbsp;     * @return currentBuilding Building currently present on the tile
+<i>338</i>&nbsp;     */
+<i>339</i>&nbsp;
+<i>340</i>&nbsp;    public Building getTileBuilding (int tileNumber) {
+<b class="nc"><i>341</i>&nbsp;        return this.tile[tileNumber].getBuildingType();</b>
+<i>342</i>&nbsp;    }
+<i>343</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-29 01:13</div>
+</div>
+</body>
+</html>

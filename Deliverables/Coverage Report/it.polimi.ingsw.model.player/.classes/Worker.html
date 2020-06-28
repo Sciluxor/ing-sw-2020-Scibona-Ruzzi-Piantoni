@@ -1,0 +1,177 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Worker</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.model.player</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Worker (it.polimi.ingsw.model.player)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Worker</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (8/ 8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (19/ 19)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.model.player;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.model.map.Square;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;import java.io.Serializable;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;/**
+<i>8</i>&nbsp; * Class that implements Serializable. It is used to implements all methods and declare all attributes of the worker object
+<i>9</i>&nbsp; * @author Luigi Scibona, Alessandro Ruzzi, Edoardo Piantoni
+<i>10</i>&nbsp; * @version 1.0
+<i>11</i>&nbsp; * @since 2020/06/28
+<i>12</i>&nbsp; */
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;public class Worker implements Serializable {
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;    private final WorkerName name;
+<i>17</i>&nbsp;    private transient Square boardPosition;
+<i>18</i>&nbsp;    private transient Square previousBoardPosition;
+<i>19</i>&nbsp;    private transient Square previousBuildPosition;
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    /**
+<i>22</i>&nbsp;     * Constructor method of the worker&#39;s object
+<i>23</i>&nbsp;     * @param name Name of the new worker
+<i>24</i>&nbsp;     */
+<i>25</i>&nbsp;
+<b class="fc"><i>26</i>&nbsp;    public Worker(WorkerName name){</b>
+<b class="fc"><i>27</i>&nbsp;        this.name = name;</b>
+<b class="fc"><i>28</i>&nbsp;    }</b>
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    /**
+<i>31</i>&nbsp;     * Method used to get tue board position of the current worker
+<i>32</i>&nbsp;     * @return boardPosition Square object corresponding to the worker&#39;s board position
+<i>33</i>&nbsp;     */
+<i>34</i>&nbsp;
+<b class="fc"><i>35</i>&nbsp;    public Square getBoardPosition() { return boardPosition;}</b>
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;    /**
+<i>38</i>&nbsp;     * Method used to set the worker&#39;s board position
+<i>39</i>&nbsp;     * @param boardPosition Square object to set as board position
+<i>40</i>&nbsp;     */
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;    public void setBoardPosition(Square boardPosition) {
+<b class="fc"><i>43</i>&nbsp;        if (boardPosition == null)</b>
+<b class="fc"><i>44</i>&nbsp;            throw new NullPointerException(&quot;boardPosition == null&quot;);</b>
+<i>45</i>&nbsp;
+<b class="fc"><i>46</i>&nbsp;        this.boardPosition = boardPosition;</b>
+<b class="fc"><i>47</i>&nbsp;    }</b>
+<i>48</i>&nbsp;
+<i>49</i>&nbsp;    /**
+<i>50</i>&nbsp;     * Method used to get the previous board position of the current worker
+<i>51</i>&nbsp;     * @return previousBoardPosition Square object corresponding to the previous board position
+<i>52</i>&nbsp;     */
+<i>53</i>&nbsp;
+<b class="fc"><i>54</i>&nbsp;    public Square getPreviousBoardPosition() { return previousBoardPosition;}</b>
+<i>55</i>&nbsp;
+<i>56</i>&nbsp;    /**
+<i>57</i>&nbsp;     * Method used to set worker&#39;s previous board position
+<i>58</i>&nbsp;     * @param previousBoardPosition Square object to set as previous board position
+<i>59</i>&nbsp;     */
+<i>60</i>&nbsp;
+<i>61</i>&nbsp;    public void setPreviousBoardPosition(Square previousBoardPosition) {
+<b class="fc"><i>62</i>&nbsp;        if (previousBoardPosition == null)</b>
+<b class="fc"><i>63</i>&nbsp;            throw new NullPointerException(&quot;previousBoardPosition == null&quot;);</b>
+<i>64</i>&nbsp;
+<b class="fc"><i>65</i>&nbsp;        this.previousBoardPosition = previousBoardPosition;</b>
+<b class="fc"><i>66</i>&nbsp;    }</b>
+<i>67</i>&nbsp;
+<i>68</i>&nbsp;    /**
+<i>69</i>&nbsp;     * Method used to get the previous build position
+<i>70</i>&nbsp;     * @return previousBuildPosition Square object corresponding to the previous square in which current player has built
+<i>71</i>&nbsp;     */
+<i>72</i>&nbsp;
+<b class="fc"><i>73</i>&nbsp;    public Square getPreviousBuildPosition() { return previousBuildPosition;}</b>
+<i>74</i>&nbsp;
+<i>75</i>&nbsp;    /**
+<i>76</i>&nbsp;     * Method used to set worker&#39;s previous build position
+<i>77</i>&nbsp;     * @param previousBuildPosition Square object to set as previous square in which worker has built
+<i>78</i>&nbsp;     */
+<i>79</i>&nbsp;
+<i>80</i>&nbsp;    public void setPreviousBuildPosition(Square previousBuildPosition) {
+<b class="fc"><i>81</i>&nbsp;        if (previousBuildPosition == null)</b>
+<b class="fc"><i>82</i>&nbsp;            throw new NullPointerException(&quot;boardPosition == null&quot;);</b>
+<i>83</i>&nbsp;
+<b class="fc"><i>84</i>&nbsp;        this.previousBuildPosition = previousBuildPosition;</b>
+<b class="fc"><i>85</i>&nbsp;    }</b>
+<i>86</i>&nbsp;
+<i>87</i>&nbsp;    /**
+<i>88</i>&nbsp;     * Method used to get worker&#39;s name
+<i>89</i>&nbsp;     * @return name WorkerName of the current worker
+<i>90</i>&nbsp;     */
+<i>91</i>&nbsp;
+<b class="fc"><i>92</i>&nbsp;    public WorkerName getName() { return name;}</b>
+<i>93</i>&nbsp;
+<i>94</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-29 01:13</div>
+</div>
+</body>
+</html>

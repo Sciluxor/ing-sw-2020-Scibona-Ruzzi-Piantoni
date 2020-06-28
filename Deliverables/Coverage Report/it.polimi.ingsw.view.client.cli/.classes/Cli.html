@@ -1,0 +1,1494 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Cli</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.view.client.cli</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Cli (it.polimi.ingsw.view.client.cli)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Cli</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 67)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 673)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Cli$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 68)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 674)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.view.client.cli;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.model.Response;
+<i>4</i>&nbsp;import it.polimi.ingsw.model.cards.Card;
+<i>5</i>&nbsp;import it.polimi.ingsw.model.cards.CardLoader;
+<i>6</i>&nbsp;import it.polimi.ingsw.model.map.Building;
+<i>7</i>&nbsp;import it.polimi.ingsw.model.map.Square;
+<i>8</i>&nbsp;import it.polimi.ingsw.model.player.Player;
+<i>9</i>&nbsp;import it.polimi.ingsw.network.client.ClientGameController;
+<i>10</i>&nbsp;import it.polimi.ingsw.network.message.MessageType;
+<i>11</i>&nbsp;import it.polimi.ingsw.utils.CliUtils;
+<i>12</i>&nbsp;import javafx.util.Pair;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;import java.awt.*;
+<i>15</i>&nbsp;import java.awt.event.KeyEvent;
+<i>16</i>&nbsp;import java.util.*;
+<i>17</i>&nbsp;import java.util.List;
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;import static it.polimi.ingsw.utils.ConstantsContainer.*;
+<i>20</i>&nbsp;import static it.polimi.ingsw.utils.CliUtils.*;
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;/**
+<i>23</i>&nbsp; * Class that extends ClientGameController that start the application for the Cli
+<i>24</i>&nbsp; * @author edoardopiantoni
+<i>25</i>&nbsp; * @version 1.0
+<i>26</i>&nbsp; * @since 2020/06/18
+<i>27</i>&nbsp; */
+<i>28</i>&nbsp;
+<b class="nc"><i>29</i>&nbsp;public class Cli extends ClientGameController {</b>
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;    private int port;
+<i>32</i>&nbsp;    private String address;
+<i>33</i>&nbsp;    private String nickName;
+<i>34</i>&nbsp;    private int numberOfPlayers;
+<b class="nc"><i>35</i>&nbsp;    private SantoriniMap santoriniMap = new SantoriniMap();</b>
+<i>36</i>&nbsp;    private Color myPlayerColor;
+<b class="nc"><i>37</i>&nbsp;    private int[] tileNumber = new int[2];</b>
+<i>38</i>&nbsp;    private int selectedWorker;
+<i>39</i>&nbsp;    private Player myPlayerOnServer;
+<i>40</i>&nbsp;    private String myPower;
+<b class="nc"><i>41</i>&nbsp;    private boolean isMyTurn = false;</b>
+<b class="nc"><i>42</i>&nbsp;    private boolean duringMyTurn = false;</b>
+<b class="nc"><i>43</i>&nbsp;    private boolean locked = false;</b>
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    private static final String END_TURN_STRING = &quot;endTurn&quot;;
+<i>46</i>&nbsp;    private static final String UP_AND_DOWN_STRING = &quot;up&amp;down&quot;;
+<i>47</i>&nbsp;    private static final String PLAYER_STRING = &quot;PLAYER &quot;;
+<i>48</i>&nbsp;    private static final String NO_KEYBOARD_CAUGHT = &quot;NO KEYBOARD CAUGHT&quot;;
+<i>49</i>&nbsp;    private static final String END_TURN_CASE = &quot;END TURN&quot;;
+<i>50</i>&nbsp;    private static final String SELECT_WORKER_CASE = &quot;SELECT WORKER&quot;;
+<i>51</i>&nbsp;    private static final String CHAT_CASE = &quot;CHAT&quot;;
+<i>52</i>&nbsp;    private static final String RAW_STRING = &quot;raw&quot;;
+<i>53</i>&nbsp;    private static final String SANE_STRING = &quot;sane&quot;;
+<i>54</i>&nbsp;
+<b class="nc"><i>55</i>&nbsp;    private Map&lt;String, Card&gt; deck = CardLoader.loadCards();</b>
+<b class="nc"><i>56</i>&nbsp;    private List&lt;String&gt; deckOrdered = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>57</i>&nbsp;    private List&lt;String&gt; selectedCards = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>58</i>&nbsp;    private static List&lt;Player&gt; opponents = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>59</i>&nbsp;    private static List&lt;Player&gt; actualPlayers = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>60</i>&nbsp;    private List&lt;String&gt; availableActions = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>61</i>&nbsp;    private List&lt;String&gt; constraints = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>62</i>&nbsp;    private List&lt;Pair&lt;Player, String&gt;&gt; previousChatMessage = new ArrayList&lt;&gt;();</b>
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;    private Response fromServerResponse;
+<i>65</i>&nbsp;
+<b class="nc"><i>66</i>&nbsp;    private Thread mainThread = new Thread();</b>
+<b class="nc"><i>67</i>&nbsp;    private Thread chatThread = new Thread();</b>
+<i>68</i>&nbsp;
+<i>69</i>&nbsp;    /**
+<i>70</i>&nbsp;     * Method that start the Cli
+<i>71</i>&nbsp;     * @param args args
+<i>72</i>&nbsp;     */
+<i>73</i>&nbsp;
+<i>74</i>&nbsp;    public static void main(String[] args) {
+<b class="nc"><i>75</i>&nbsp;        Cli cli = new Cli();</b>
+<b class="nc"><i>76</i>&nbsp;        mainHandler(cli);</b>
+<b class="nc"><i>77</i>&nbsp;    }</b>
+<i>78</i>&nbsp;
+<i>79</i>&nbsp;    //----- MAIN FUNCTIONS -----
+<i>80</i>&nbsp;
+<i>81</i>&nbsp;    /**
+<i>82</i>&nbsp;     * Method that build the login and open the connection with the server
+<i>83</i>&nbsp;     * @return openedConnection boolean (true if connection successful)
+<i>84</i>&nbsp;     */
+<i>85</i>&nbsp;
+<i>86</i>&nbsp;    public boolean start() {
+<b class="nc"><i>87</i>&nbsp;        clearShell();</b>
+<b class="nc"><i>88</i>&nbsp;        printRed(TITLE);</b>
+<b class="nc"><i>89</i>&nbsp;        login();</b>
+<i>90</i>&nbsp;
+<b class="nc"><i>91</i>&nbsp;        printDebug(&quot;HERE&quot;);</b>
+<b class="nc"><i>92</i>&nbsp;        printDebug(&quot;NICK: &quot; + getNickName() + &quot;\nNUMBER: &quot; + getNumberOfPlayers() + &quot;\nPORT: &quot; + getPort() + &quot;\nIP: &quot; + getAddress());</b>
+<i>93</i>&nbsp;
+<i>94</i>&nbsp;        try {
+<b class="nc"><i>95</i>&nbsp;            openConnection(getNickName(), getNumberOfPlayers(), getAddress(), getPort());</b>
+<b class="nc"><i>96</i>&nbsp;        }catch (Exception e) {</b>
+<b class="nc"><i>97</i>&nbsp;            printErr(&quot;FAILED TO OPENING CONNECTION&quot;);</b>
+<b class="nc"><i>98</i>&nbsp;            CliUtils.LOGGER.severe(e.getMessage());</b>
+<b class="nc"><i>99</i>&nbsp;            return false;</b>
+<b class="nc"><i>100</i>&nbsp;        }</b>
+<b class="nc"><i>101</i>&nbsp;        return true;</b>
+<i>102</i>&nbsp;    }
+<i>103</i>&nbsp;
+<i>104</i>&nbsp;    /**
+<i>105</i>&nbsp;     * Method that handle the choice of cards from the entire deck by the challenger
+<i>106</i>&nbsp;     */
+<i>107</i>&nbsp;
+<i>108</i>&nbsp;    private void challengerChooseCards() {
+<b class="nc"><i>109</i>&nbsp;        for(String card: deck.keySet())</b>
+<b class="nc"><i>110</i>&nbsp;            orderCards(card);</b>
+<i>111</i>&nbsp;
+<b class="nc"><i>112</i>&nbsp;        if(getNumberOfPlayers()==3)</b>
+<b class="nc"><i>113</i>&nbsp;            deckOrdered.remove(&quot;chronus&quot;);</b>
+<i>114</i>&nbsp;
+<b class="nc"><i>115</i>&nbsp;        selectCards();</b>
+<b class="nc"><i>116</i>&nbsp;        String firstPlayer = selectFirstPlayer();</b>
+<i>117</i>&nbsp;
+<b class="nc"><i>118</i>&nbsp;        printDebug(&quot;\nFIRSTPLAYER: &quot; + firstPlayer + &quot;\nSELECTED CARDS:\n&quot; + selectedCards);</b>
+<i>119</i>&nbsp;
+<b class="nc"><i>120</i>&nbsp;        challengerResponse(firstPlayer, new ArrayList&lt;&gt;(selectedCards));</b>
+<i>121</i>&nbsp;
+<b class="nc"><i>122</i>&nbsp;        selectedCards.clear();</b>
+<b class="nc"><i>123</i>&nbsp;        printDebug(&quot;CHALLENGERRESPONSE&quot;);</b>
+<b class="nc"><i>124</i>&nbsp;        controlWaitEnter(END_TURN_STRING);</b>
+<b class="nc"><i>125</i>&nbsp;        endTurn();</b>
+<b class="nc"><i>126</i>&nbsp;        printDebug(&quot;AFTER ENDTURN&quot;);</b>
+<b class="nc"><i>127</i>&nbsp;    }</b>
+<i>128</i>&nbsp;
+<i>129</i>&nbsp;    /**
+<i>130</i>&nbsp;     * Method that handle the choice of the power from availableCards (the cards that challenger has chosen in ChallengerChoiceCards) by the current player
+<i>131</i>&nbsp;     */
+<i>132</i>&nbsp;
+<i>133</i>&nbsp;    private void playerChoosePower() {
+<i>134</i>&nbsp;
+<b class="nc"><i>135</i>&nbsp;        printDebug(&quot;AVAILABLE CARDS: &quot; + getAvailableCards() + &quot;\nDECK ORDERED: &quot; + deckOrdered);</b>
+<i>136</i>&nbsp;
+<b class="nc"><i>137</i>&nbsp;        clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);</b>
+<i>138</i>&nbsp;
+<b class="nc"><i>139</i>&nbsp;        printRed(&quot;CHOOSE ONE OF THE CARDS BELOW:\n&quot;);</b>
+<b class="nc"><i>140</i>&nbsp;        printCards();</b>
+<b class="nc"><i>141</i>&nbsp;        printRed(&quot;USE ARROW TO SELECT YOUR POWER &amp; THEN PRESS ENTER TO CONFIRM...&quot;);</b>
+<b class="nc"><i>142</i>&nbsp;        myPower = scrollCards(1);</b>
+<i>143</i>&nbsp;
+<b class="nc"><i>144</i>&nbsp;        cardChoiceResponse(myPower);</b>
+<b class="nc"><i>145</i>&nbsp;        printDebug(&quot;CARDCHOICERESPONSE &quot; + myPower);</b>
+<b class="nc"><i>146</i>&nbsp;        controlWaitEnter(END_TURN_STRING);</b>
+<b class="nc"><i>147</i>&nbsp;        endTurn();</b>
+<b class="nc"><i>148</i>&nbsp;        printDebug(&quot;AFTER ENDTURN&quot;);</b>
+<b class="nc"><i>149</i>&nbsp;    }</b>
+<i>150</i>&nbsp;
+<i>151</i>&nbsp;    /**
+<i>152</i>&nbsp;     * Method that handle the placing of the workers of the current player
+<i>153</i>&nbsp;     */
+<i>154</i>&nbsp;
+<i>155</i>&nbsp;    private void playerPlaceWorkers() {
+<i>156</i>&nbsp;        int selectedTile;
+<i>157</i>&nbsp;        boolean occupied;
+<i>158</i>&nbsp;
+<b class="nc"><i>159</i>&nbsp;        List&lt;Integer&gt; modifiedTiles = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>160</i>&nbsp;        List&lt;Square&gt; modifiedSquares = getModifiedsquare();</b>
+<b class="nc"><i>161</i>&nbsp;        for (Square modifiedSquare : modifiedSquares) {</b>
+<b class="nc"><i>162</i>&nbsp;            modifiedTiles.add(modifiedSquare.getTile()-1);</b>
+<b class="nc"><i>163</i>&nbsp;        }</b>
+<i>164</i>&nbsp;
+<b class="nc"><i>165</i>&nbsp;        int i=0;</b>
+<b class="nc"><i>166</i>&nbsp;        while(i&lt;2) {</b>
+<b class="nc"><i>167</i>&nbsp;            santoriniMap.setPlaceWorkerNotAvailableTiles(modifiedTiles);</b>
+<b class="nc"><i>168</i>&nbsp;            clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);</b>
+<b class="nc"><i>169</i>&nbsp;            santoriniMap.printAvailableTiles();</b>
+<b class="nc"><i>170</i>&nbsp;            printRed(&quot;USE ARROWS TO SELECT TILE...\n&quot;);</b>
+<i>171</i>&nbsp;
+<i>172</i>&nbsp;           do {
+<b class="nc"><i>173</i>&nbsp;                occupied = false;</b>
+<b class="nc"><i>174</i>&nbsp;                selectedTile = selectAvailableTileWithArrows();</b>
+<i>175</i>&nbsp;
+<b class="nc"><i>176</i>&nbsp;                if(!santoriniMap.checkUnoccupiedTile(selectedTile)) {</b>
+<b class="nc"><i>177</i>&nbsp;                    occupied = true;</b>
+<b class="nc"><i>178</i>&nbsp;                    printRed(Color.BACKGROUND_YELLOW + &quot;OCCUPIED TILES + &quot; + selectedTile + Color.RESET + &quot;\n&quot;);</b>
+<i>179</i>&nbsp;                }
+<b class="nc"><i>180</i>&nbsp;            }while (occupied);</b>
+<i>181</i>&nbsp;
+<b class="nc"><i>182</i>&nbsp;            tileNumber[i] = selectedTile;</b>
+<b class="nc"><i>183</i>&nbsp;            santoriniMap.setTileHasPlayer(true, tileNumber[i], myPlayerColor);</b>
+<b class="nc"><i>184</i>&nbsp;            santoriniMap.printMap();</b>
+<i>185</i>&nbsp;
+<b class="nc"><i>186</i>&nbsp;            if(controlWaitEnter(&quot;confirm&quot;)==186) {</b>
+<b class="nc"><i>187</i>&nbsp;                printDebug(&quot;TILE TO REMOVE: &quot; + tileNumber[i]);</b>
+<b class="nc"><i>188</i>&nbsp;                santoriniMap.setTileHasPlayer(false, tileNumber[i], null);</b>
+<i>189</i>&nbsp;
+<b class="nc"><i>190</i>&nbsp;                i--;</b>
+<i>191</i>&nbsp;            } else {
+<b class="nc"><i>192</i>&nbsp;                modifiedTiles.add(tileNumber[i]);</b>
+<i>193</i>&nbsp;            }
+<b class="nc"><i>194</i>&nbsp;            i++;</b>
+<i>195</i>&nbsp;        }
+<i>196</i>&nbsp;
+<b class="nc"><i>197</i>&nbsp;        santoriniMap.setPlaceWorkerNotAvailableTiles(modifiedTiles);</b>
+<i>198</i>&nbsp;
+<b class="nc"><i>199</i>&nbsp;        printDebug(&quot;LOCAL TILE NUMBER: &quot; + Arrays.toString(tileNumber) + &quot;\nSENDED TILE NUMBER: &quot; + (tileNumber[0]+1) +  &quot; &quot;  + (tileNumber[1]+1));</b>
+<i>200</i>&nbsp;
+<b class="nc"><i>201</i>&nbsp;        placeWorkersResponse(tileNumber[0]+1, tileNumber[1]+1);</b>
+<b class="nc"><i>202</i>&nbsp;        printDebug(&quot;PLACEWORKERSRESPONSE&quot;);</b>
+<b class="nc"><i>203</i>&nbsp;        controlWaitEnter(END_TURN_STRING);</b>
+<b class="nc"><i>204</i>&nbsp;        endTurn();</b>
+<b class="nc"><i>205</i>&nbsp;        printDebug(END_TURN_STRING);</b>
+<b class="nc"><i>206</i>&nbsp;        santoriniMap.resetAvailableTiles();</b>
+<b class="nc"><i>207</i>&nbsp;    }</b>
+<i>208</i>&nbsp;
+<i>209</i>&nbsp;    /**
+<i>210</i>&nbsp;     * Method that handle the selection of one of the workers of the current player that will be the actual worker for the actual turn
+<i>211</i>&nbsp;     */
+<i>212</i>&nbsp;
+<i>213</i>&nbsp;    private void playerSelectWorker() {
+<b class="nc"><i>214</i>&nbsp;        santoriniMap.printMap();</b>
+<i>215</i>&nbsp;
+<b class="nc"><i>216</i>&nbsp;        int[] coordinateWorker1 = santoriniMap.getCoordinatesFromTile(tileNumber[0]);</b>
+<b class="nc"><i>217</i>&nbsp;        int[] coordinateWorker2 = santoriniMap.getCoordinatesFromTile(tileNumber[1]);</b>
+<i>218</i>&nbsp;
+<b class="nc"><i>219</i>&nbsp;        String worker1 = &quot;] WORKER 1\n&quot;;</b>
+<b class="nc"><i>220</i>&nbsp;        String worker2 = &quot;] WORKER 2\n&quot;;</b>
+<b class="nc"><i>221</i>&nbsp;        String centralSquareBrackets = &quot;] [&quot;;</b>
+<i>222</i>&nbsp;
+<b class="nc"><i>223</i>&nbsp;        printRed(&quot;\nSELECT WITH ARROWS ONE OF YOUR WORKERS:\n  [&quot; + coordinateWorker1[0] + centralSquareBrackets + coordinateWorker1[1] + worker1 + &quot;  [&quot; + coordinateWorker2[0] + centralSquareBrackets + coordinateWorker2[1] + worker2);</b>
+<i>224</i>&nbsp;
+<b class="nc"><i>225</i>&nbsp;        boolean goOut = false;</b>
+<b class="nc"><i>226</i>&nbsp;        int keyboard = getArrowUpDown();</b>
+<i>227</i>&nbsp;
+<i>228</i>&nbsp;        do{
+<b class="nc"><i>229</i>&nbsp;            clearShell();</b>
+<b class="nc"><i>230</i>&nbsp;            switch (keyboard) {</b>
+<i>231</i>&nbsp;                case 183:
+<b class="nc"><i>232</i>&nbsp;                    santoriniMap.setSelectedTile(tileNumber[0], true);</b>
+<b class="nc"><i>233</i>&nbsp;                    santoriniMap.setSelectedTile(tileNumber[1], false);</b>
+<b class="nc"><i>234</i>&nbsp;                    santoriniMap.printMap();</b>
+<b class="nc"><i>235</i>&nbsp;                    printRed(&quot;SELECT WITH ARROWS ONE OF YOUR WORKERS:\n&quot;);</b>
+<b class="nc"><i>236</i>&nbsp;                    printYellow(&quot;&gt; [&quot; + coordinateWorker1[0] + centralSquareBrackets + coordinateWorker1[1] + worker1);</b>
+<b class="nc"><i>237</i>&nbsp;                    printRed(&quot;  [&quot; + coordinateWorker2[0] + centralSquareBrackets + coordinateWorker2[1] + worker2);</b>
+<i>238</i>&nbsp;
+<i>239</i>&nbsp;
+<b class="nc"><i>240</i>&nbsp;                    keyboard = controlWaitEnter(UP_AND_DOWN_STRING);</b>
+<b class="nc"><i>241</i>&nbsp;                    if (keyboard == 13)</b>
+<b class="nc"><i>242</i>&nbsp;                        selectedWorker = 1;</b>
+<i>243</i>&nbsp;                    break;
+<i>244</i>&nbsp;                case 184:
+<b class="nc"><i>245</i>&nbsp;                    santoriniMap.setSelectedTile(tileNumber[0], false);</b>
+<b class="nc"><i>246</i>&nbsp;                    santoriniMap.setSelectedTile(tileNumber[1], true);</b>
+<b class="nc"><i>247</i>&nbsp;                    santoriniMap.printMap();</b>
+<b class="nc"><i>248</i>&nbsp;                    printRed(&quot;SELECT WITH ARROWS ONE OF YOUR WORKERS:\n  [&quot; + coordinateWorker1[0] + centralSquareBrackets + coordinateWorker1[1] + worker1);</b>
+<b class="nc"><i>249</i>&nbsp;                    printYellow(&quot;&gt; [&quot; + coordinateWorker2[0] + centralSquareBrackets + coordinateWorker2[1] + worker2);</b>
+<i>250</i>&nbsp;
+<b class="nc"><i>251</i>&nbsp;                    keyboard = controlWaitEnter(UP_AND_DOWN_STRING);</b>
+<b class="nc"><i>252</i>&nbsp;                    if (keyboard == 13)</b>
+<b class="nc"><i>253</i>&nbsp;                        selectedWorker = 2;</b>
+<i>254</i>&nbsp;                    break;
+<i>255</i>&nbsp;                case 13:
+<b class="nc"><i>256</i>&nbsp;                    santoriniMap.printMap();</b>
+<b class="nc"><i>257</i>&nbsp;                    santoriniMap.setSelectedTile(tileNumber[0], false);</b>
+<b class="nc"><i>258</i>&nbsp;                    santoriniMap.setSelectedTile(tileNumber[1], false);</b>
+<b class="nc"><i>259</i>&nbsp;                    setWorker(selectedWorker);</b>
+<b class="nc"><i>260</i>&nbsp;                    goOut = true;</b>
+<b class="nc"><i>261</i>&nbsp;                    break;</b>
+<i>262</i>&nbsp;                default:
+<b class="nc"><i>263</i>&nbsp;                    printErr(NO_KEYBOARD_CAUGHT);</b>
+<i>264</i>&nbsp;            }
+<b class="nc"><i>265</i>&nbsp;        }while (!goOut);</b>
+<b class="nc"><i>266</i>&nbsp;    }</b>
+<i>267</i>&nbsp;
+<i>268</i>&nbsp;    /**
+<i>269</i>&nbsp;     * Method that handle the move action of the selected worker of the current player
+<i>270</i>&nbsp;     */
+<i>271</i>&nbsp;
+<i>272</i>&nbsp;    private void playerMoveHisWorker() {
+<b class="nc"><i>273</i>&nbsp;        setAvailableTilesInMap(getAvailableTilesFromServer(availableMoveSquare()));</b>
+<i>274</i>&nbsp;
+<b class="nc"><i>275</i>&nbsp;        clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);</b>
+<b class="nc"><i>276</i>&nbsp;        santoriniMap.printAvailableTiles();</b>
+<i>277</i>&nbsp;
+<b class="nc"><i>278</i>&nbsp;        int tile = selectAvailableTileWithArrows();</b>
+<b class="nc"><i>279</i>&nbsp;        santoriniMap.resetAvailableTiles();</b>
+<i>280</i>&nbsp;
+<b class="nc"><i>281</i>&nbsp;        santoriniMap.setTileHasPlayer(false, tileNumber[selectedWorker-1], null);</b>
+<b class="nc"><i>282</i>&nbsp;        santoriniMap.setTileHasPlayer(true, tile, myPlayerColor);</b>
+<i>283</i>&nbsp;
+<b class="nc"><i>284</i>&nbsp;        fromServerResponse = moveWorker(tile+1);</b>
+<b class="nc"><i>285</i>&nbsp;        tileNumber[selectedWorker-1] = tile;</b>
+<i>286</i>&nbsp;
+<b class="nc"><i>287</i>&nbsp;        printDebug(&quot;MOVEWORKER: &quot; + (tile+1));</b>
+<i>288</i>&nbsp;
+<b class="nc"><i>289</i>&nbsp;        santoriniMap.printMap();</b>
+<b class="nc"><i>290</i>&nbsp;        new Thread(() -&gt; mapNextAction(fromServerResponse)).start();</b>
+<b class="nc"><i>291</i>&nbsp;    }</b>
+<i>292</i>&nbsp;
+<i>293</i>&nbsp;    /**
+<i>294</i>&nbsp;     * Method that handle the build action of the selected workers of the current player
+<i>295</i>&nbsp;     */
+<i>296</i>&nbsp;
+<i>297</i>&nbsp;    private void playerBuild() {
+<b class="nc"><i>298</i>&nbsp;        setAvailableTilesInMap(getAvailableTilesFromServer(availableBuildSquare()));</b>
+<i>299</i>&nbsp;
+<b class="nc"><i>300</i>&nbsp;        clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);</b>
+<b class="nc"><i>301</i>&nbsp;        santoriniMap.printAvailableTiles();</b>
+<i>302</i>&nbsp;
+<b class="nc"><i>303</i>&nbsp;        int tile = selectAvailableTileWithArrows();</b>
+<b class="nc"><i>304</i>&nbsp;        santoriniMap.resetAvailableTiles();</b>
+<i>305</i>&nbsp;
+<b class="nc"><i>306</i>&nbsp;        List&lt;Building&gt; availableBuildings = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>307</i>&nbsp;        availableBuildings.add(santoriniMap.getAvailableBuildingFromTile(tile));</b>
+<b class="nc"><i>308</i>&nbsp;        if(myPower.equalsIgnoreCase(&quot;ATLAS&quot;))</b>
+<b class="nc"><i>309</i>&nbsp;            availableBuildings.add(Building.DOME);</b>
+<i>310</i>&nbsp;
+<b class="nc"><i>311</i>&nbsp;        clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);</b>
+<b class="nc"><i>312</i>&nbsp;        printRed(&quot;SELECT THE TYPE OF BUILDING YOU WANT TO CONSTRUCT:\n&quot;);</b>
+<i>313</i>&nbsp;
+<b class="nc"><i>314</i>&nbsp;        List&lt;String&gt; availableBuildingsString = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>315</i>&nbsp;        for(Building availableBuilding: availableBuildings) {</b>
+<b class="nc"><i>316</i>&nbsp;            availableBuildingsString.add(availableBuilding.toString());</b>
+<b class="nc"><i>317</i>&nbsp;        }</b>
+<i>318</i>&nbsp;
+<b class="nc"><i>319</i>&nbsp;        int selectedBuildingType = scrollAvailableOptions(availableBuildingsString);</b>
+<i>320</i>&nbsp;
+<b class="nc"><i>321</i>&nbsp;        santoriniMap.updateStringBoardBuilding(availableBuildings.get(selectedBuildingType), tile);</b>
+<i>322</i>&nbsp;
+<b class="nc"><i>323</i>&nbsp;        fromServerResponse = buildWorker((tile+1), santoriniMap.getTileBuilding(tile));</b>
+<b class="nc"><i>324</i>&nbsp;        printDebug(&quot;BUILDWORKER: &quot; + (tile+1) +  &quot; &quot; + availableBuildings.get(selectedBuildingType));</b>
+<i>325</i>&nbsp;
+<b class="nc"><i>326</i>&nbsp;        santoriniMap.printMap();</b>
+<b class="nc"><i>327</i>&nbsp;        new Thread(() -&gt; mapNextAction(fromServerResponse)).start();</b>
+<b class="nc"><i>328</i>&nbsp;    }</b>
+<i>329</i>&nbsp;
+<i>330</i>&nbsp;    //----- SETTER &amp; GETTER -----
+<i>331</i>&nbsp;
+<i>332</i>&nbsp;    /**
+<i>333</i>&nbsp;     * Method that get the port in which open the connection
+<i>334</i>&nbsp;     * @return the port used by the server
+<i>335</i>&nbsp;     */
+<i>336</i>&nbsp;
+<i>337</i>&nbsp;    public int getPort() {
+<b class="nc"><i>338</i>&nbsp;        return port;</b>
+<i>339</i>&nbsp;    }
+<i>340</i>&nbsp;
+<i>341</i>&nbsp;    /**
+<i>342</i>&nbsp;     * Method that set the port in which open the connection
+<i>343</i>&nbsp;     */
+<i>344</i>&nbsp;
+<i>345</i>&nbsp;    public void setPort() {
+<b class="nc"><i>346</i>&nbsp;        int defaultPort = 4700;</b>
+<b class="nc"><i>347</i>&nbsp;        printRed(&quot;INSERT THE PORT NUMBER (default as &quot; + defaultPort + &quot;): &quot;);</b>
+<b class="nc"><i>348</i>&nbsp;        String portInput = input();</b>
+<b class="nc"><i>349</i>&nbsp;        if(!portInput.equals(&quot;&quot;))</b>
+<b class="nc"><i>350</i>&nbsp;            this.port = Integer.parseInt(portInput);</b>
+<i>351</i>&nbsp;        else
+<b class="nc"><i>352</i>&nbsp;            this.port = defaultPort;</b>
+<b class="nc"><i>353</i>&nbsp;    }</b>
+<i>354</i>&nbsp;
+<i>355</i>&nbsp;    /**
+<i>356</i>&nbsp;     * Method that get the IP address in which open the connection
+<i>357</i>&nbsp;     * @return The IP address of the server
+<i>358</i>&nbsp;     */
+<i>359</i>&nbsp;
+<i>360</i>&nbsp;    public String getAddress() {
+<b class="nc"><i>361</i>&nbsp;        return address;</b>
+<i>362</i>&nbsp;    }
+<i>363</i>&nbsp;
+<i>364</i>&nbsp;    /**
+<i>365</i>&nbsp;     * Method that set the IP address in which open the connection
+<i>366</i>&nbsp;     */
+<i>367</i>&nbsp;
+<i>368</i>&nbsp;    public void setAddress() {
+<b class="nc"><i>369</i>&nbsp;        String defaultAddress = &quot;54.237.47.88&quot;;</b>
+<b class="nc"><i>370</i>&nbsp;        printRed(&quot;INSERT THE IP ADDRESS (default as &quot; + defaultAddress + &quot;): &quot;);</b>
+<b class="nc"><i>371</i>&nbsp;        String addressInput = input();</b>
+<b class="nc"><i>372</i>&nbsp;        if(!addressInput.equals(&quot;&quot;))</b>
+<b class="nc"><i>373</i>&nbsp;            this.address = addressInput;</b>
+<i>374</i>&nbsp;        else
+<b class="nc"><i>375</i>&nbsp;            this.address = defaultAddress;</b>
+<b class="nc"><i>376</i>&nbsp;    }</b>
+<i>377</i>&nbsp;
+<i>378</i>&nbsp;    /**
+<i>379</i>&nbsp;     * Method that get his own nickName
+<i>380</i>&nbsp;     * @return The nickname
+<i>381</i>&nbsp;     */
+<i>382</i>&nbsp;
+<i>383</i>&nbsp;    public String getNickName() {
+<b class="nc"><i>384</i>&nbsp;        return nickName;</b>
+<i>385</i>&nbsp;    }
+<i>386</i>&nbsp;
+<i>387</i>&nbsp;    /**
+<i>388</i>&nbsp;     * Method that set his own nickName
+<i>389</i>&nbsp;     */
+<i>390</i>&nbsp;
+<i>391</i>&nbsp;    public void setNickName() {
+<i>392</i>&nbsp;
+<b class="nc"><i>393</i>&nbsp;        printRed(&quot;INSERT YOUR NICKNAME: &quot;);</b>
+<b class="nc"><i>394</i>&nbsp;        String nickNameInput = input();</b>
+<b class="nc"><i>395</i>&nbsp;        while(nickNameInput.length() &lt; MIN_LENGHT_NICK || nickNameInput.length() &gt; MAX_LENGHT_NICK) {</b>
+<b class="nc"><i>396</i>&nbsp;            printRed(&quot;INVALID NICKNAME LENGHT. PLEASE, REINSERT YOUR NICKNAME: &quot;);</b>
+<b class="nc"><i>397</i>&nbsp;            nickNameInput = input();</b>
+<i>398</i>&nbsp;        }
+<i>399</i>&nbsp;
+<b class="nc"><i>400</i>&nbsp;        this.nickName = nickNameInput;</b>
+<b class="nc"><i>401</i>&nbsp;    }</b>
+<i>402</i>&nbsp;
+<i>403</i>&nbsp;    /**
+<i>404</i>&nbsp;     * Method that get the number of players of the game someone wants to play
+<i>405</i>&nbsp;     * @return Number of players in the game
+<i>406</i>&nbsp;     */
+<i>407</i>&nbsp;
+<i>408</i>&nbsp;    public int getNumberOfPlayers() {
+<b class="nc"><i>409</i>&nbsp;        return numberOfPlayers;</b>
+<i>410</i>&nbsp;    }
+<i>411</i>&nbsp;
+<i>412</i>&nbsp;    /**
+<i>413</i>&nbsp;     * Method that set (and control if is correct) the number of players of the game someone wants to play
+<i>414</i>&nbsp;     */
+<i>415</i>&nbsp;
+<i>416</i>&nbsp;    public void setNumberOfPlayers() {
+<i>417</i>&nbsp;        String keyboard;
+<i>418</i>&nbsp;
+<b class="nc"><i>419</i>&nbsp;        printRed(&quot;INSERT THE NUMBER OF PLAYERS: &quot;);</b>
+<b class="nc"><i>420</i>&nbsp;        keyboard = input();</b>
+<i>421</i>&nbsp;
+<b class="nc"><i>422</i>&nbsp;        while (!keyboard.equals(&quot;2&quot;) &amp;&amp; !keyboard.equals(&quot;3&quot;)) {</b>
+<b class="nc"><i>423</i>&nbsp;            printRed(&quot;INVALID NUMBER OF PLAYERS. PLEASE, REINSERT THE NUMBER OF PLAYERS: &quot;);</b>
+<b class="nc"><i>424</i>&nbsp;            keyboard = input();</b>
+<i>425</i>&nbsp;        }
+<i>426</i>&nbsp;
+<b class="nc"><i>427</i>&nbsp;        this.numberOfPlayers = Integer.parseInt(keyboard);</b>
+<b class="nc"><i>428</i>&nbsp;    }</b>
+<i>429</i>&nbsp;
+<i>430</i>&nbsp;    /**
+<i>431</i>&nbsp;     * Method that set a list of actual players
+<i>432</i>&nbsp;     * @param actualPlayers List of Player currently in the game
+<i>433</i>&nbsp;     */
+<i>434</i>&nbsp;
+<i>435</i>&nbsp;    public static void setActualPlayers(List&lt;Player&gt; actualPlayers) {
+<b class="nc"><i>436</i>&nbsp;        Cli.actualPlayers = actualPlayers;</b>
+<b class="nc"><i>437</i>&nbsp;    }</b>
+<i>438</i>&nbsp;
+<i>439</i>&nbsp;    //----- USEFUL FUNCTIONS -----
+<i>440</i>&nbsp;
+<i>441</i>&nbsp;    /**
+<i>442</i>&nbsp;     * Method used to handle main operation to start new game
+<i>443</i>&nbsp;     * @param cli cli of the game
+<i>444</i>&nbsp;     */
+<i>445</i>&nbsp;
+<i>446</i>&nbsp;    private static void mainHandler(Cli cli) {
+<i>447</i>&nbsp;        boolean openedConnection;
+<i>448</i>&nbsp;        do {
+<b class="nc"><i>449</i>&nbsp;            openedConnection = cli.start();</b>
+<b class="nc"><i>450</i>&nbsp;        }while (!openedConnection);</b>
+<b class="nc"><i>451</i>&nbsp;    }</b>
+<i>452</i>&nbsp;
+<i>453</i>&nbsp;    /**
+<i>454</i>&nbsp;     * Method that handle the login (setting the nickname, the number of players, the port and the IP address)
+<i>455</i>&nbsp;     */
+<i>456</i>&nbsp;
+<i>457</i>&nbsp;    private void login() {
+<b class="nc"><i>458</i>&nbsp;        setNickName();</b>
+<b class="nc"><i>459</i>&nbsp;        setNumberOfPlayers();</b>
+<b class="nc"><i>460</i>&nbsp;        setPort();</b>
+<b class="nc"><i>461</i>&nbsp;        setAddress();</b>
+<b class="nc"><i>462</i>&nbsp;    }</b>
+<i>463</i>&nbsp;
+<i>464</i>&nbsp;    /**
+<i>465</i>&nbsp;     * Method used to quit from the game
+<i>466</i>&nbsp;     * @param status status of the game (1 = correct, -1 = error)
+<i>467</i>&nbsp;     */
+<i>468</i>&nbsp;
+<i>469</i>&nbsp;    private void quitFromGame(int status) {
+<b class="nc"><i>470</i>&nbsp;        System.exit(status);</b>
+<b class="nc"><i>471</i>&nbsp;    }</b>
+<i>472</i>&nbsp;
+<i>473</i>&nbsp;    /**
+<i>474</i>&nbsp;     * Method used to check if user wants to play another game or not
+<i>475</i>&nbsp;     */
+<i>476</i>&nbsp;
+<i>477</i>&nbsp;    private synchronized void checkRestart() {
+<b class="nc"><i>478</i>&nbsp;        setSaneTerminalMode();</b>
+<b class="nc"><i>479</i>&nbsp;        printRed(&quot;DO YOU WANT TO START NEW GAME? (use arrows to select one of the option)\n  [YES]\n  [QUIT]\n&quot;);</b>
+<b class="nc"><i>480</i>&nbsp;        int keyboard = getArrowUpDown();</b>
+<b class="nc"><i>481</i>&nbsp;        boolean goOut = false;</b>
+<b class="nc"><i>482</i>&nbsp;        boolean restart = false;</b>
+<i>483</i>&nbsp;
+<i>484</i>&nbsp;        do {
+<b class="nc"><i>485</i>&nbsp;            clearShell();</b>
+<b class="nc"><i>486</i>&nbsp;            printRed(&quot;DO YOU WANT TO START NEW GAME? (use arrows to select one of the option)\n&quot;);</b>
+<b class="nc"><i>487</i>&nbsp;            if (keyboard == 183) {</b>
+<b class="nc"><i>488</i>&nbsp;                printYellow(&quot;&gt; [YES]\n&quot;);</b>
+<b class="nc"><i>489</i>&nbsp;                printRed(&quot;  [QUIT]\n&quot;);</b>
+<b class="nc"><i>490</i>&nbsp;                restart = true;</b>
+<b class="nc"><i>491</i>&nbsp;            } else if (keyboard == 184) {</b>
+<b class="nc"><i>492</i>&nbsp;                printRed(&quot;  [YES]\n&quot;);</b>
+<b class="nc"><i>493</i>&nbsp;                printYellow(&quot;&gt; [QUIT]\n&quot;);</b>
+<i>494</i>&nbsp;            }
+<i>495</i>&nbsp;
+<b class="nc"><i>496</i>&nbsp;            if (keyboard == 13) {</b>
+<b class="nc"><i>497</i>&nbsp;                goOut = true;</b>
+<i>498</i>&nbsp;            } else {
+<b class="nc"><i>499</i>&nbsp;                keyboard = controlWaitEnter(UP_AND_DOWN_STRING);</b>
+<i>500</i>&nbsp;            }
+<b class="nc"><i>501</i>&nbsp;        } while (!goOut);</b>
+<i>502</i>&nbsp;
+<b class="nc"><i>503</i>&nbsp;        if (restart) {</b>
+<b class="nc"><i>504</i>&nbsp;            Cli cli = new Cli();</b>
+<b class="nc"><i>505</i>&nbsp;            mainHandler(cli);</b>
+<b class="nc"><i>506</i>&nbsp;        } else {</b>
+<b class="nc"><i>507</i>&nbsp;            quitFromGame(1);</b>
+<i>508</i>&nbsp;        }
+<b class="nc"><i>509</i>&nbsp;    }</b>
+<i>510</i>&nbsp;
+<i>511</i>&nbsp;    /**
+<i>512</i>&nbsp;     * Method used to simulate a key press
+<i>513</i>&nbsp;     */
+<i>514</i>&nbsp;
+<i>515</i>&nbsp;    private void robot() {
+<i>516</i>&nbsp;        try {
+<b class="nc"><i>517</i>&nbsp;            Robot robot = new Robot();</b>
+<i>518</i>&nbsp;
+<i>519</i>&nbsp;            // Simulate a key press
+<b class="nc"><i>520</i>&nbsp;            printDebug(&quot;ROBOT&quot;);</b>
+<b class="nc"><i>521</i>&nbsp;            robot.keyPress(KeyEvent.VK_ENTER);</b>
+<b class="nc"><i>522</i>&nbsp;            robot.keyRelease(KeyEvent.VK_ENTER);</b>
+<i>523</i>&nbsp;
+<b class="nc"><i>524</i>&nbsp;            if(isMyTurn) {</b>
+<b class="nc"><i>525</i>&nbsp;                printDebug(&quot;ROBOT MY TURN&quot;);</b>
+<b class="nc"><i>526</i>&nbsp;                setRawTerminalMode();</b>
+<b class="nc"><i>527</i>&nbsp;                robot.keyPress(KeyEvent.VK_DOWN);</b>
+<b class="nc"><i>528</i>&nbsp;                robot.keyRelease(KeyEvent.VK_DOWN);</b>
+<i>529</i>&nbsp;            }
+<i>530</i>&nbsp;
+<b class="nc"><i>531</i>&nbsp;        } catch (AWTException e) {</b>
+<b class="nc"><i>532</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>533</i>&nbsp;        }</b>
+<b class="nc"><i>534</i>&nbsp;    }</b>
+<i>535</i>&nbsp;
+<i>536</i>&nbsp;    /**
+<i>537</i>&nbsp;     * Method that handle the standard up and down arrows construct
+<i>538</i>&nbsp;     * @param keyboard Keyboard value returned by the key pressed by the user
+<i>539</i>&nbsp;     * @param counter Old counter value we want to update
+<i>540</i>&nbsp;     * @param firstPosition First position boolean value (if it is on the beginning of the available options list)
+<i>541</i>&nbsp;     * @param lastPosition Last position boolean value (if it is on the end of the available options list)
+<i>542</i>&nbsp;     * @return counter Updated counter value
+<i>543</i>&nbsp;     */
+<i>544</i>&nbsp;
+<i>545</i>&nbsp;    private int standardUpDownHandler(int keyboard, int counter, boolean firstPosition, boolean lastPosition) {
+<b class="nc"><i>546</i>&nbsp;        switch (keyboard) {</b>
+<i>547</i>&nbsp;            case 183:
+<b class="nc"><i>548</i>&nbsp;                if (counter == 0)</b>
+<b class="nc"><i>549</i>&nbsp;                    counter++;</b>
+<b class="nc"><i>550</i>&nbsp;                else if (!firstPosition)</b>
+<b class="nc"><i>551</i>&nbsp;                    counter--;</b>
+<i>552</i>&nbsp;                break;
+<i>553</i>&nbsp;            case 184:
+<b class="nc"><i>554</i>&nbsp;                if (!lastPosition)</b>
+<b class="nc"><i>555</i>&nbsp;                    counter++;</b>
+<i>556</i>&nbsp;                break;
+<i>557</i>&nbsp;
+<i>558</i>&nbsp;            default:
+<b class="nc"><i>559</i>&nbsp;                if(keyboard != 13)</b>
+<b class="nc"><i>560</i>&nbsp;                    printErr(NO_KEYBOARD_CAUGHT);</b>
+<i>561</i>&nbsp;        }
+<b class="nc"><i>562</i>&nbsp;        return counter;</b>
+<i>563</i>&nbsp;    }
+<i>564</i>&nbsp;
+<i>565</i>&nbsp;    /**
+<i>566</i>&nbsp;     * Method that handle the selection of one of the available options
+<i>567</i>&nbsp;     * @param availableOptions Available options (like choose power / place workers / move / build / etc.)
+<i>568</i>&nbsp;     * @return selectedOption Option that is chosen
+<i>569</i>&nbsp;     */
+<i>570</i>&nbsp;
+<i>571</i>&nbsp;    private int scrollAvailableOptions (List&lt;String&gt; availableOptions) {
+<b class="nc"><i>572</i>&nbsp;        printRed(&quot;SELECT WITH ARROWS ONE OF THE OPTIONS BELOW, THEN PRESS ENTER TO GO ON...\n&quot;);</b>
+<b class="nc"><i>573</i>&nbsp;        for(String action: availableOptions)</b>
+<b class="nc"><i>574</i>&nbsp;            printWhite(&quot;[&quot; + action + &quot;]\n&quot;);</b>
+<i>575</i>&nbsp;
+<b class="nc"><i>576</i>&nbsp;        int counter = 0;</b>
+<b class="nc"><i>577</i>&nbsp;        boolean firstPosition = false;</b>
+<b class="nc"><i>578</i>&nbsp;        boolean goOut = false;</b>
+<i>579</i>&nbsp;
+<b class="nc"><i>580</i>&nbsp;        int keyboard = getArrowUpDown();</b>
+<b class="nc"><i>581</i>&nbsp;        int size = availableOptions.size();</b>
+<i>582</i>&nbsp;
+<b class="nc"><i>583</i>&nbsp;        boolean lastPosition = counter == size;</b>
+<i>584</i>&nbsp;
+<i>585</i>&nbsp;        do {
+<b class="nc"><i>586</i>&nbsp;            counter = standardUpDownHandler(keyboard, counter, firstPosition, lastPosition);</b>
+<i>587</i>&nbsp;
+<b class="nc"><i>588</i>&nbsp;            if(keyboard == 13)</b>
+<b class="nc"><i>589</i>&nbsp;                goOut = true;</b>
+<i>590</i>&nbsp;
+<b class="nc"><i>591</i>&nbsp;            if(!goOut) {</b>
+<b class="nc"><i>592</i>&nbsp;                clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);</b>
+<i>593</i>&nbsp;
+<b class="nc"><i>594</i>&nbsp;                firstPosition = counter == 1;</b>
+<i>595</i>&nbsp;
+<b class="nc"><i>596</i>&nbsp;                for (int i = 1; i &lt;= size; i++) {</b>
+<b class="nc"><i>597</i>&nbsp;                    if (i == counter) {</b>
+<b class="nc"><i>598</i>&nbsp;                        printYellow(&quot;[&quot; + availableOptions.get(counter - 1) + &quot;]\n&quot;);</b>
+<i>599</i>&nbsp;                    } else {
+<b class="nc"><i>600</i>&nbsp;                        printWhite(&quot;[&quot; + availableOptions.get(i - 1) + &quot;]\n&quot;);</b>
+<i>601</i>&nbsp;                    }
+<b class="nc"><i>602</i>&nbsp;                    lastPosition = counter == size;</b>
+<i>603</i>&nbsp;                }
+<i>604</i>&nbsp;
+<b class="nc"><i>605</i>&nbsp;                keyboard = controlWaitEnter(UP_AND_DOWN_STRING);</b>
+<i>606</i>&nbsp;            }
+<b class="nc"><i>607</i>&nbsp;        }while(!goOut);</b>
+<i>608</i>&nbsp;
+<b class="nc"><i>609</i>&nbsp;        return counter-1;</b>
+<i>610</i>&nbsp;    }
+<i>611</i>&nbsp;
+<i>612</i>&nbsp;    /**
+<i>613</i>&nbsp;     * Method that handle the actuation of the selected action
+<i>614</i>&nbsp;     * @param choice Value that correspond in the List of available actions to the action we want to actuate
+<i>615</i>&nbsp;     */
+<i>616</i>&nbsp;
+<i>617</i>&nbsp;    private void startSelectedActions(int choice) {
+<b class="nc"><i>618</i>&nbsp;        String choiceString = availableActions.get(choice);</b>
+<b class="nc"><i>619</i>&nbsp;        switch (choiceString) {</b>
+<i>620</i>&nbsp;            case &quot;CHOOSE CARDS&quot;:
+<b class="nc"><i>621</i>&nbsp;                challengerChooseCards();</b>
+<b class="nc"><i>622</i>&nbsp;                break;</b>
+<i>623</i>&nbsp;            case &quot;CHOOSE POWER&quot;:
+<b class="nc"><i>624</i>&nbsp;                playerChoosePower();</b>
+<b class="nc"><i>625</i>&nbsp;                break;</b>
+<i>626</i>&nbsp;            case &quot;PLACE WORKERS&quot;:
+<b class="nc"><i>627</i>&nbsp;                playerPlaceWorkers();</b>
+<b class="nc"><i>628</i>&nbsp;                break;</b>
+<i>629</i>&nbsp;            case &quot;MOVE&quot;:
+<b class="nc"><i>630</i>&nbsp;                playerMoveHisWorker();</b>
+<b class="nc"><i>631</i>&nbsp;                break;</b>
+<i>632</i>&nbsp;            case &quot;BUILD&quot;:
+<b class="nc"><i>633</i>&nbsp;                playerBuild();</b>
+<b class="nc"><i>634</i>&nbsp;                break;</b>
+<i>635</i>&nbsp;            case SELECT_WORKER_CASE:
+<b class="nc"><i>636</i>&nbsp;                playerSelectWorker();</b>
+<b class="nc"><i>637</i>&nbsp;                break;</b>
+<i>638</i>&nbsp;            case CHAT_CASE:
+<b class="nc"><i>639</i>&nbsp;                handleChatCli();</b>
+<b class="nc"><i>640</i>&nbsp;                break;</b>
+<i>641</i>&nbsp;            case END_TURN_CASE:
+<b class="nc"><i>642</i>&nbsp;                endTurn();</b>
+<b class="nc"><i>643</i>&nbsp;                clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);</b>
+<b class="nc"><i>644</i>&nbsp;                printWaitForOtherPlayers(numberOfPlayers);</b>
+<b class="nc"><i>645</i>&nbsp;                break;</b>
+<i>646</i>&nbsp;            default:
+<b class="nc"><i>647</i>&nbsp;                printErr(&quot;ERROR IN SELECTED ACTION&quot;);</b>
+<i>648</i>&nbsp;        }
+<b class="nc"><i>649</i>&nbsp;    }</b>
+<i>650</i>&nbsp;
+<i>651</i>&nbsp;    /**
+<i>652</i>&nbsp;     * Method that handle the chat sending message
+<i>653</i>&nbsp;     */
+<i>654</i>&nbsp;
+<i>655</i>&nbsp;    private void handleChatCli() {
+<b class="nc"><i>656</i>&nbsp;        setVisualized(true);</b>
+<b class="nc"><i>657</i>&nbsp;        clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);</b>
+<b class="nc"><i>658</i>&nbsp;        printChat(previousChatMessage);</b>
+<b class="nc"><i>659</i>&nbsp;        printRed(&quot;MESSAGE: &quot;);</b>
+<b class="nc"><i>660</i>&nbsp;        String chatMessage = input();</b>
+<i>661</i>&nbsp;
+<b class="nc"><i>662</i>&nbsp;        if (!chatMessage.isEmpty()) {</b>
+<b class="nc"><i>663</i>&nbsp;            sendChatMessage(chatMessage);</b>
+<b class="nc"><i>664</i>&nbsp;            handlePreviousChatMessage(myPlayerOnServer, chatMessage);</b>
+<i>665</i>&nbsp;        }
+<i>666</i>&nbsp;
+<b class="nc"><i>667</i>&nbsp;        clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);</b>
+<b class="nc"><i>668</i>&nbsp;        if(duringMyTurn)</b>
+<b class="nc"><i>669</i>&nbsp;            startSelectedActions(scrollAvailableOptions(availableActions));</b>
+<i>670</i>&nbsp;        else
+<b class="nc"><i>671</i>&nbsp;            handleChatCli();</b>
+<b class="nc"><i>672</i>&nbsp;    }</b>
+<i>673</i>&nbsp;
+<i>674</i>&nbsp;    /**
+<i>675</i>&nbsp;     * Method that handle the set of previous message in chat. It saves only the last 10 message
+<i>676</i>&nbsp;     * @param player Player that sent the message
+<i>677</i>&nbsp;     * @param chatMessage Message sent by the player
+<i>678</i>&nbsp;     */
+<i>679</i>&nbsp;
+<i>680</i>&nbsp;    private void handlePreviousChatMessage(Player player, String chatMessage) {
+<b class="nc"><i>681</i>&nbsp;        if(previousChatMessage.size()&gt;9)</b>
+<b class="nc"><i>682</i>&nbsp;            previousChatMessage.remove(0);</b>
+<i>683</i>&nbsp;
+<b class="nc"><i>684</i>&nbsp;        Pair&lt;Player, String&gt; playerChatMessage = new Pair&lt;&gt;(player, chatMessage);</b>
+<b class="nc"><i>685</i>&nbsp;        previousChatMessage.add(playerChatMessage);</b>
+<b class="nc"><i>686</i>&nbsp;    }</b>
+<i>687</i>&nbsp;
+<i>688</i>&nbsp;    /*
+<i>689</i>&nbsp;     * Method used to set sane terminal mode if the terminal mode was raw
+<i>690</i>&nbsp;     */
+<i>691</i>&nbsp;
+<i>692</i>&nbsp;    /*private void setSaneTerminalMode() {
+<i>693</i>&nbsp;        String previousTerminalMode = getTerminalMode();
+<i>694</i>&nbsp;        if(previousTerminalMode.equalsIgnoreCase(&quot;raw&quot;))
+<i>695</i>&nbsp;            setTerminalMode(&quot;sane&quot;);
+<i>696</i>&nbsp;    }*/
+<i>697</i>&nbsp;
+<i>698</i>&nbsp;    /**
+<i>699</i>&nbsp;     * Method used to set sane terminal mode if the terminal mode was raw
+<i>700</i>&nbsp;     */
+<i>701</i>&nbsp;
+<i>702</i>&nbsp;    private /*String*/ void setSaneTerminalMode() {
+<i>703</i>&nbsp;        //String previousTerminalMode = SANE_STRING;
+<b class="nc"><i>704</i>&nbsp;        if(getTerminalMode().equalsIgnoreCase(RAW_STRING)) {</b>
+<i>705</i>&nbsp;            //previousTerminalMode = RAW_STRING;
+<b class="nc"><i>706</i>&nbsp;            setTerminalMode(SANE_STRING);</b>
+<i>707</i>&nbsp;        }
+<i>708</i>&nbsp;        //return previousTerminalMode;
+<b class="nc"><i>709</i>&nbsp;    }</b>
+<i>710</i>&nbsp;
+<i>711</i>&nbsp;    /**
+<i>712</i>&nbsp;     * Method used to set raw terminal mode if the terminal mode was raw and then it is set sane
+<i>713</i>&nbsp;     */
+<i>714</i>&nbsp;
+<i>715</i>&nbsp;    private void setRawTerminalMode() {
+<b class="nc"><i>716</i>&nbsp;            setTerminalMode(RAW_STRING);</b>
+<b class="nc"><i>717</i>&nbsp;    }</b>
+<i>718</i>&nbsp;
+<i>719</i>&nbsp;    //----- MAP &amp; TILES -----
+<i>720</i>&nbsp;
+<i>721</i>&nbsp;    /**
+<i>722</i>&nbsp;     * Method that handle the updating of the board when updateBoard is called from the server (an opponent do something)
+<i>723</i>&nbsp;     * @param modifiedSquares Modified squares sended from the server
+<i>724</i>&nbsp;     */
+<i>725</i>&nbsp;
+<i>726</i>&nbsp;    private void updateModification(List&lt;Square&gt; modifiedSquares) {
+<b class="nc"><i>727</i>&nbsp;        for(Square modifiedSquare: modifiedSquares) {</b>
+<b class="nc"><i>728</i>&nbsp;            Color playerColor = null;</b>
+<b class="nc"><i>729</i>&nbsp;            if(modifiedSquare.hasPlayer())</b>
+<b class="nc"><i>730</i>&nbsp;                playerColor = getColorCliFromPlayer(modifiedSquare.getPlayer().getColor());</b>
+<i>731</i>&nbsp;
+<b class="nc"><i>732</i>&nbsp;            santoriniMap.setTileHasPlayer(modifiedSquare.hasPlayer(), modifiedSquare.getTile()-1, playerColor);</b>
+<b class="nc"><i>733</i>&nbsp;            santoriniMap.updateStringBoardBuilding(modifiedSquare);</b>
+<b class="nc"><i>734</i>&nbsp;        }</b>
+<b class="nc"><i>735</i>&nbsp;    }</b>
+<i>736</i>&nbsp;
+<i>737</i>&nbsp;    /**
+<i>738</i>&nbsp;     * Method that handle the first player choice by the challenger
+<i>739</i>&nbsp;     * @return firstPlayer
+<i>740</i>&nbsp;     */
+<i>741</i>&nbsp;
+<i>742</i>&nbsp;    private String selectFirstPlayer() {
+<b class="nc"><i>743</i>&nbsp;        clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);</b>
+<b class="nc"><i>744</i>&nbsp;        printRed(&quot;PLEASE, SELECT THE ONE YOU WANT AS FIRST PLAYER: \n&quot;);</b>
+<b class="nc"><i>745</i>&nbsp;        for(Player player: actualPlayers) {</b>
+<b class="nc"><i>746</i>&nbsp;            printRed(&quot;  &quot;);</b>
+<b class="nc"><i>747</i>&nbsp;            printPlayer(player);</b>
+<b class="nc"><i>748</i>&nbsp;            printRed(&quot;\n&quot;);</b>
+<b class="nc"><i>749</i>&nbsp;        }</b>
+<i>750</i>&nbsp;
+<b class="nc"><i>751</i>&nbsp;        int keyboard = getArrowUpDown();</b>
+<b class="nc"><i>752</i>&nbsp;        int counter = 0;</b>
+<b class="nc"><i>753</i>&nbsp;        boolean goOut = false;</b>
+<b class="nc"><i>754</i>&nbsp;        boolean firstPosition = false;</b>
+<b class="nc"><i>755</i>&nbsp;        boolean lastPosition = false;</b>
+<b class="nc"><i>756</i>&nbsp;        boolean twoPlayers = getNumberOfPlayers() == 2;</b>
+<i>757</i>&nbsp;
+<i>758</i>&nbsp;        do {
+<b class="nc"><i>759</i>&nbsp;            counter = standardUpDownHandler(keyboard, counter, firstPosition, lastPosition);</b>
+<i>760</i>&nbsp;
+<b class="nc"><i>761</i>&nbsp;            if(keyboard == 13)</b>
+<b class="nc"><i>762</i>&nbsp;                goOut = true;</b>
+<i>763</i>&nbsp;
+<b class="nc"><i>764</i>&nbsp;            if(!goOut) {</b>
+<b class="nc"><i>765</i>&nbsp;                clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);</b>
+<b class="nc"><i>766</i>&nbsp;                printRed(&quot;PLEASE, SELECT THE ONE YOU WANT AS FIRST PLAYER: \n&quot;);</b>
+<b class="nc"><i>767</i>&nbsp;                if(counter == 1) {</b>
+<b class="nc"><i>768</i>&nbsp;                    firstPosition = true;</b>
+<b class="nc"><i>769</i>&nbsp;                    lastPosition = false;</b>
+<i>770</i>&nbsp;
+<b class="nc"><i>771</i>&nbsp;                    printSelectedPlayer(actualPlayers.get(0));</b>
+<b class="nc"><i>772</i>&nbsp;                } else if(counter == 2) {</b>
+<b class="nc"><i>773</i>&nbsp;                    firstPosition = false;</b>
+<b class="nc"><i>774</i>&nbsp;                    lastPosition = twoPlayers;</b>
+<i>775</i>&nbsp;
+<b class="nc"><i>776</i>&nbsp;                    printSelectedPlayer(actualPlayers.get(1));</b>
+<b class="nc"><i>777</i>&nbsp;                } else if(counter == 3) {</b>
+<b class="nc"><i>778</i>&nbsp;                    lastPosition = true;</b>
+<i>779</i>&nbsp;
+<b class="nc"><i>780</i>&nbsp;                    printSelectedPlayer(actualPlayers.get(2));</b>
+<i>781</i>&nbsp;                }
+<i>782</i>&nbsp;
+<b class="nc"><i>783</i>&nbsp;                keyboard = controlWaitEnter(UP_AND_DOWN_STRING);</b>
+<i>784</i>&nbsp;            }
+<b class="nc"><i>785</i>&nbsp;        }while (!goOut);</b>
+<i>786</i>&nbsp;
+<b class="nc"><i>787</i>&nbsp;        return actualPlayers.get(counter-1).getNickName();</b>
+<i>788</i>&nbsp;    }
+<i>789</i>&nbsp;
+<i>790</i>&nbsp;    /**
+<i>791</i>&nbsp;     * Method that handle the visualisation on the screen of the selected player
+<i>792</i>&nbsp;     * @param player Selected Player
+<i>793</i>&nbsp;     */
+<i>794</i>&nbsp;
+<i>795</i>&nbsp;    private void printSelectedPlayer(Player player) {
+<b class="nc"><i>796</i>&nbsp;        for(Player p: actualPlayers) {</b>
+<b class="nc"><i>797</i>&nbsp;            if(p == player)</b>
+<b class="nc"><i>798</i>&nbsp;                printYellow(&quot;&gt; &quot;);</b>
+<i>799</i>&nbsp;            else
+<b class="nc"><i>800</i>&nbsp;                printRed(&quot;  &quot;);</b>
+<i>801</i>&nbsp;
+<b class="nc"><i>802</i>&nbsp;            printPlayer(p);</b>
+<b class="nc"><i>803</i>&nbsp;            printYellow(&quot;\n&quot;);</b>
+<b class="nc"><i>804</i>&nbsp;        }</b>
+<b class="nc"><i>805</i>&nbsp;    }</b>
+<i>806</i>&nbsp;
+<i>807</i>&nbsp;    /**
+<i>808</i>&nbsp;     * Method that get available squares and get from them the corresponding tiles, adding these tiles to availableTiles
+<i>809</i>&nbsp;     * @param availableSquares Available Squares sended by the server to
+<i>810</i>&nbsp;     * @return availableTiles a list of available tiles
+<i>811</i>&nbsp;     */
+<i>812</i>&nbsp;
+<i>813</i>&nbsp;    private List&lt;Integer&gt; getAvailableTilesFromServer (List&lt;Integer&gt; availableSquares) {
+<b class="nc"><i>814</i>&nbsp;        printDebug(&quot;FROM SERVER: &quot; + availableSquares);</b>
+<i>815</i>&nbsp;
+<b class="nc"><i>816</i>&nbsp;        List&lt;Integer&gt; availableTiles = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>817</i>&nbsp;        for (Integer square : availableSquares)</b>
+<b class="nc"><i>818</i>&nbsp;            availableTiles.add(square - 1);</b>
+<i>819</i>&nbsp;
+<b class="nc"><i>820</i>&nbsp;        return availableTiles;</b>
+<i>821</i>&nbsp;    }
+<i>822</i>&nbsp;
+<i>823</i>&nbsp;    /**
+<i>824</i>&nbsp;     * Method that get available tiles from getAvailableTilesFromServer and set corresponding tiles in the map as available
+<i>825</i>&nbsp;     * @param availableTiles Available tiles number
+<i>826</i>&nbsp;     */
+<i>827</i>&nbsp;
+<i>828</i>&nbsp;    private void setAvailableTilesInMap (List&lt;Integer&gt; availableTiles) {
+<b class="nc"><i>829</i>&nbsp;        santoriniMap.setAvailableTiles(availableTiles);</b>
+<b class="nc"><i>830</i>&nbsp;    }</b>
+<i>831</i>&nbsp;
+<i>832</i>&nbsp;    /**
+<i>833</i>&nbsp;     * Method that handle the choice of an available tile with arrows
+<i>834</i>&nbsp;     * @return selectedTile Selected tile number
+<i>835</i>&nbsp;     */
+<i>836</i>&nbsp;
+<i>837</i>&nbsp;    private int selectAvailableTileWithArrows () {
+<b class="nc"><i>838</i>&nbsp;        List&lt;Integer&gt; availableTiles = santoriniMap.getAvailableTiles();</b>
+<i>839</i>&nbsp;
+<b class="nc"><i>840</i>&nbsp;        int keyboard = getArrowUpDown();</b>
+<i>841</i>&nbsp;
+<b class="nc"><i>842</i>&nbsp;        int counter = 0;</b>
+<b class="nc"><i>843</i>&nbsp;        int size = availableTiles.size();</b>
+<b class="nc"><i>844</i>&nbsp;        int selectedTile = -1;</b>
+<b class="nc"><i>845</i>&nbsp;        boolean goOut = false;</b>
+<b class="nc"><i>846</i>&nbsp;        boolean firstPosition = false;</b>
+<b class="nc"><i>847</i>&nbsp;        boolean lastPosition = counter == size;</b>
+<i>848</i>&nbsp;
+<i>849</i>&nbsp;        do {
+<b class="nc"><i>850</i>&nbsp;            counter = standardUpDownHandler(keyboard, counter, firstPosition, lastPosition);</b>
+<i>851</i>&nbsp;
+<b class="nc"><i>852</i>&nbsp;            if(keyboard == 13)</b>
+<b class="nc"><i>853</i>&nbsp;                goOut = true;</b>
+<i>854</i>&nbsp;
+<b class="nc"><i>855</i>&nbsp;            if(!goOut) {</b>
+<b class="nc"><i>856</i>&nbsp;                firstPosition = counter == 1;</b>
+<b class="nc"><i>857</i>&nbsp;                selectedTile = selectTile(counter, availableTiles);</b>
+<b class="nc"><i>858</i>&nbsp;                lastPosition = counter == size;</b>
+<i>859</i>&nbsp;
+<b class="nc"><i>860</i>&nbsp;                keyboard = controlWaitEnter(UP_AND_DOWN_STRING);</b>
+<b class="nc"><i>861</i>&nbsp;                if(keyboard != 13) {</b>
+<b class="nc"><i>862</i>&nbsp;                    santoriniMap.setSelectedTile(selectedTile, false);</b>
+<b class="nc"><i>863</i>&nbsp;                    santoriniMap.resetTileBackground(selectedTile);</b>
+<i>864</i>&nbsp;                }
+<i>865</i>&nbsp;            }
+<b class="nc"><i>866</i>&nbsp;        }while(!goOut);</b>
+<i>867</i>&nbsp;
+<b class="nc"><i>868</i>&nbsp;        santoriniMap.setSelectedTile(selectedTile, false);</b>
+<b class="nc"><i>869</i>&nbsp;        return selectedTile;</b>
+<i>870</i>&nbsp;    }
+<i>871</i>&nbsp;
+<i>872</i>&nbsp;    /**
+<i>873</i>&nbsp;     * Method used to select a tile in availbleTiles
+<i>874</i>&nbsp;     * @param counter Int value represents which tile from available tiles
+<i>875</i>&nbsp;     * @param availableTiles List of available tile
+<i>876</i>&nbsp;     * @return selectedTile Int tile number of the selected tile
+<i>877</i>&nbsp;     */
+<i>878</i>&nbsp;
+<i>879</i>&nbsp;    private int selectTile(int counter, List&lt;Integer&gt; availableTiles) {
+<b class="nc"><i>880</i>&nbsp;        int selectedTile = availableTiles.get(counter-1);</b>
+<i>881</i>&nbsp;
+<b class="nc"><i>882</i>&nbsp;        santoriniMap.setSelectedTile(selectedTile, true);</b>
+<b class="nc"><i>883</i>&nbsp;        clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);</b>
+<i>884</i>&nbsp;
+<i>885</i>&nbsp;        int[] coordinate;
+<b class="nc"><i>886</i>&nbsp;        for(int availableTile: availableTiles) {</b>
+<b class="nc"><i>887</i>&nbsp;            if(availableTile!=selectedTile) {</b>
+<b class="nc"><i>888</i>&nbsp;                coordinate = santoriniMap.getCoordinatesFromTile(availableTile);</b>
+<b class="nc"><i>889</i>&nbsp;                printRed(&quot;  [&quot; + coordinate[0] + &quot;] [&quot; + coordinate[1] + &quot;] Tile number: &quot; + (availableTile+1) + &quot;\n&quot;);</b>
+<i>890</i>&nbsp;            } else {
+<b class="nc"><i>891</i>&nbsp;                coordinate = santoriniMap.getCoordinatesFromTile(selectedTile);</b>
+<b class="nc"><i>892</i>&nbsp;                printYellow(&quot;&gt; [&quot; + coordinate[0] + &quot;] [&quot; + coordinate[1] + &quot;] Tile number: &quot; + (selectedTile+1) + &quot;\n&quot;);</b>
+<i>893</i>&nbsp;            }
+<b class="nc"><i>894</i>&nbsp;        }</b>
+<b class="nc"><i>895</i>&nbsp;        return selectedTile;</b>
+<i>896</i>&nbsp;    }
+<i>897</i>&nbsp;
+<i>898</i>&nbsp;    /**
+<i>899</i>&nbsp;     * Method used to print some info when it isn&#39;t the current user turn
+<i>900</i>&nbsp;     * @param challengerNick Turn player&#39;s nickname
+<i>901</i>&nbsp;     * @param s string to print
+<i>902</i>&nbsp;     */
+<i>903</i>&nbsp;
+<i>904</i>&nbsp;    private void printInfoNotMyTurn(String challengerNick, String s) {
+<b class="nc"><i>905</i>&nbsp;        clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);</b>
+<b class="nc"><i>906</i>&nbsp;        printRed(PLAYER_STRING);</b>
+<b class="nc"><i>907</i>&nbsp;        printPlayer(getPlayerFromNickName(opponents, challengerNick));</b>
+<b class="nc"><i>908</i>&nbsp;        printRed(s);</b>
+<b class="nc"><i>909</i>&nbsp;        printWaitForOtherPlayers(numberOfPlayers);</b>
+<b class="nc"><i>910</i>&nbsp;        printChat(previousChatMessage);</b>
+<i>911</i>&nbsp;
+<i>912</i>&nbsp;
+<b class="nc"><i>913</i>&nbsp;    }</b>
+<i>914</i>&nbsp;
+<i>915</i>&nbsp;    //----- CARDS -----
+<i>916</i>&nbsp;
+<i>917</i>&nbsp;    /**
+<i>918</i>&nbsp;     * Method that create an (alphabetical) ordered List of cards
+<i>919</i>&nbsp;     * @param card Card received from challengerChooseCards that we want to compare to other cards still in deckOrdered
+<i>920</i>&nbsp;     */
+<i>921</i>&nbsp;
+<i>922</i>&nbsp;    private void orderCards(String card) {
+<b class="nc"><i>923</i>&nbsp;        for(int x=0; x &lt; deckOrdered.size(); x++) {</b>
+<b class="nc"><i>924</i>&nbsp;            if (deckOrdered.get(x).compareTo(card) &gt; 0) {</b>
+<b class="nc"><i>925</i>&nbsp;                deckOrdered.add(x, card);</b>
+<b class="nc"><i>926</i>&nbsp;                return;</b>
+<i>927</i>&nbsp;            }
+<i>928</i>&nbsp;        }
+<b class="nc"><i>929</i>&nbsp;        deckOrdered.add(card);</b>
+<b class="nc"><i>930</i>&nbsp;    }</b>
+<i>931</i>&nbsp;
+<i>932</i>&nbsp;    /**
+<i>933</i>&nbsp;     * Method that handle the choice of cards (and print them corresponding power) that challenger wants to choose
+<i>934</i>&nbsp;     */
+<i>935</i>&nbsp;
+<i>936</i>&nbsp;    private void selectCards() {
+<i>937</i>&nbsp;
+<b class="nc"><i>938</i>&nbsp;        int cont = 0;</b>
+<b class="nc"><i>939</i>&nbsp;        int numberOfCardsToChoose = actualPlayers.size();</b>
+<i>940</i>&nbsp;
+<b class="nc"><i>941</i>&nbsp;        while (cont &lt; getNumberOfPlayers() &amp;&amp; numberOfCardsToChoose &gt; 0) {</b>
+<b class="nc"><i>942</i>&nbsp;            clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);</b>
+<b class="nc"><i>943</i>&nbsp;            printRed(&quot;PLEASE, CHOOSE &quot; + numberOfCardsToChoose + &quot; CARDS:\n&quot;);</b>
+<b class="nc"><i>944</i>&nbsp;            printCards();</b>
+<b class="nc"><i>945</i>&nbsp;            printRed(&quot;USE ARROWS UP&amp;DOWN TO SELECT, THEN PRESS ENTER...&quot;);</b>
+<b class="nc"><i>946</i>&nbsp;            selectedCards.add(scrollCards(numberOfCardsToChoose));</b>
+<b class="nc"><i>947</i>&nbsp;            cont++;</b>
+<b class="nc"><i>948</i>&nbsp;            numberOfCardsToChoose--;</b>
+<i>949</i>&nbsp;        }
+<b class="nc"><i>950</i>&nbsp;    }</b>
+<i>951</i>&nbsp;
+<i>952</i>&nbsp;    /**
+<i>953</i>&nbsp;     * Method that handle the player to use arrows to move through cards and then select one of them
+<i>954</i>&nbsp;     * @param numberOfCardsToChoose Number of cards that player has to choose from available cards
+<i>955</i>&nbsp;     * @return selectedCard the name of the card that player has choose
+<i>956</i>&nbsp;     */
+<i>957</i>&nbsp;
+<i>958</i>&nbsp;    private String scrollCards(int numberOfCardsToChoose) {
+<b class="nc"><i>959</i>&nbsp;        int keyboard = getArrowUpDown();</b>
+<b class="nc"><i>960</i>&nbsp;        int counter = 0;</b>
+<b class="nc"><i>961</i>&nbsp;        boolean goOut = false;</b>
+<b class="nc"><i>962</i>&nbsp;        boolean firstPosition = false;</b>
+<b class="nc"><i>963</i>&nbsp;        boolean lastPosition = false;</b>
+<i>964</i>&nbsp;
+<i>965</i>&nbsp;        do {
+<b class="nc"><i>966</i>&nbsp;            counter = standardUpDownHandler(keyboard, counter, firstPosition, lastPosition);</b>
+<i>967</i>&nbsp;
+<b class="nc"><i>968</i>&nbsp;            if(keyboard == 13)</b>
+<b class="nc"><i>969</i>&nbsp;                goOut = true;</b>
+<i>970</i>&nbsp;
+<b class="nc"><i>971</i>&nbsp;            if (!goOut) {</b>
+<b class="nc"><i>972</i>&nbsp;                clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);</b>
+<i>973</i>&nbsp;
+<b class="nc"><i>974</i>&nbsp;                boolean[] position = getFirstOrLastPosition(counter);</b>
+<b class="nc"><i>975</i>&nbsp;                firstPosition = position[0];</b>
+<b class="nc"><i>976</i>&nbsp;                lastPosition = position[1];</b>
+<i>977</i>&nbsp;
+<b class="nc"><i>978</i>&nbsp;                printRed(&quot;PLEASE, CHOOSE &quot; + numberOfCardsToChoose + &quot; CARDS:\n&quot;);</b>
+<b class="nc"><i>979</i>&nbsp;                if (counter != 0)</b>
+<b class="nc"><i>980</i>&nbsp;                    printCards(counter - 1);</b>
+<i>981</i>&nbsp;
+<b class="nc"><i>982</i>&nbsp;                keyboard = controlWaitEnter(UP_AND_DOWN_STRING);</b>
+<i>983</i>&nbsp;            }
+<b class="nc"><i>984</i>&nbsp;        }while(!goOut);</b>
+<i>985</i>&nbsp;
+<b class="nc"><i>986</i>&nbsp;        String selectedCard = deckOrdered.get(counter-1);</b>
+<b class="nc"><i>987</i>&nbsp;        deckOrdered.remove(counter-1);</b>
+<b class="nc"><i>988</i>&nbsp;        return selectedCard;</b>
+<i>989</i>&nbsp;    }
+<i>990</i>&nbsp;
+<i>991</i>&nbsp;    private boolean[] getFirstOrLastPosition(int counter) {
+<b class="nc"><i>992</i>&nbsp;        boolean firstPosition = false;</b>
+<b class="nc"><i>993</i>&nbsp;        boolean lastPosition = false;</b>
+<i>994</i>&nbsp;
+<b class="nc"><i>995</i>&nbsp;        if (counter == 1)</b>
+<b class="nc"><i>996</i>&nbsp;            firstPosition = true;</b>
+<b class="nc"><i>997</i>&nbsp;        else if (getNumberOfPlayers() == 3 &amp;&amp; counter == 13) {</b>
+<b class="nc"><i>998</i>&nbsp;            lastPosition = true;</b>
+<b class="nc"><i>999</i>&nbsp;        } else if (getNumberOfPlayers() != 3 &amp;&amp; counter == 14) {</b>
+<b class="nc"><i>1000</i>&nbsp;            lastPosition = true;</b>
+<i>1001</i>&nbsp;        }
+<i>1002</i>&nbsp;
+<b class="nc"><i>1003</i>&nbsp;        boolean[] position = new boolean[2];</b>
+<b class="nc"><i>1004</i>&nbsp;        position[0] = firstPosition;</b>
+<b class="nc"><i>1005</i>&nbsp;        position[1] = lastPosition;</b>
+<i>1006</i>&nbsp;
+<b class="nc"><i>1007</i>&nbsp;        return position;</b>
+<i>1008</i>&nbsp;    }
+<i>1009</i>&nbsp;
+<i>1010</i>&nbsp;    /**
+<i>1011</i>&nbsp;     * Method that handle the visualisation of the list of cards
+<i>1012</i>&nbsp;     * @param counter Counter that represents the selected card
+<i>1013</i>&nbsp;     */
+<i>1014</i>&nbsp;
+<i>1015</i>&nbsp;    private void printCards(int counter) {
+<i>1016</i>&nbsp;
+<b class="nc"><i>1017</i>&nbsp;        for(int i=0; i &lt; deckOrdered.size(); i++) {</b>
+<b class="nc"><i>1018</i>&nbsp;            if(counter == i) {</b>
+<b class="nc"><i>1019</i>&nbsp;                print(&quot;&gt; &quot; + deckOrdered.get(i).toUpperCase() + &quot;:\n&quot;, Color.ANSI_PURPLE);</b>
+<b class="nc"><i>1020</i>&nbsp;                printPower(deckOrdered.get(i), deck);</b>
+<i>1021</i>&nbsp;            }
+<i>1022</i>&nbsp;            else
+<b class="nc"><i>1023</i>&nbsp;                print(&quot;  &quot; + deckOrdered.get(i).toUpperCase() + &quot;\n&quot;, Color.ANSI_YELLOW);</b>
+<i>1024</i>&nbsp;        }
+<b class="nc"><i>1025</i>&nbsp;    }</b>
+<i>1026</i>&nbsp;
+<i>1027</i>&nbsp;    /**
+<i>1028</i>&nbsp;     * Method that handle the visualisation of the list of cards
+<i>1029</i>&nbsp;     */
+<i>1030</i>&nbsp;
+<i>1031</i>&nbsp;    private void printCards() {
+<b class="nc"><i>1032</i>&nbsp;        for (String s : deckOrdered) {</b>
+<b class="nc"><i>1033</i>&nbsp;            print(&quot;  &quot; + s.toUpperCase() + &quot;\n&quot;, Color.ANSI_YELLOW);</b>
+<b class="nc"><i>1034</i>&nbsp;        }</b>
+<b class="nc"><i>1035</i>&nbsp;    }</b>
+<i>1036</i>&nbsp;
+<i>1037</i>&nbsp;    //----- OVERRIDING FUNCTIONS -----
+<i>1038</i>&nbsp;
+<i>1039</i>&nbsp;    @Override
+<i>1040</i>&nbsp;    public void updateLobbyPlayer() {
+<b class="nc"><i>1041</i>&nbsp;        clearShell();</b>
+<b class="nc"><i>1042</i>&nbsp;        printRed(&quot;WAITING LOBBY\n&quot;);</b>
+<i>1043</i>&nbsp;        int waitingPlayers;
+<i>1044</i>&nbsp;
+<b class="nc"><i>1045</i>&nbsp;        waitingPlayers = getNumberOfPlayers() - getPlayers().size();</b>
+<b class="nc"><i>1046</i>&nbsp;        printRed(&quot;WAITING FOR &quot; + waitingPlayers + &quot; PLAYERS\nPLAYERS ACTUALLY IN THE LOBBY:\n&quot;);</b>
+<i>1047</i>&nbsp;
+<b class="nc"><i>1048</i>&nbsp;        setActualPlayers(getPlayers());</b>
+<b class="nc"><i>1049</i>&nbsp;        for (Player player: actualPlayers) {</b>
+<b class="nc"><i>1050</i>&nbsp;            printRed(&quot;&gt;&gt;&gt; &quot;);</b>
+<b class="nc"><i>1051</i>&nbsp;            printPlayer(player);</b>
+<b class="nc"><i>1052</i>&nbsp;            printRed(&quot;\n&quot;);</b>
+<b class="nc"><i>1053</i>&nbsp;        }</b>
+<b class="nc"><i>1054</i>&nbsp;    }</b>
+<i>1055</i>&nbsp;
+<i>1056</i>&nbsp;    @Override
+<i>1057</i>&nbsp;    public void nickUsed() {
+<b class="nc"><i>1058</i>&nbsp;        clearShell();</b>
+<b class="nc"><i>1059</i>&nbsp;        printRed(&quot;NICKNAME ALREADY USED. PLEASE, REINSERT A NEW NICKNAME: &quot;);</b>
+<b class="nc"><i>1060</i>&nbsp;        setNickName();</b>
+<b class="nc"><i>1061</i>&nbsp;        updateNickName(getNickName());</b>
+<b class="nc"><i>1062</i>&nbsp;    }</b>
+<i>1063</i>&nbsp;
+<i>1064</i>&nbsp;    @Override
+<i>1065</i>&nbsp;    public void startGame() {
+<i>1066</i>&nbsp;
+<b class="nc"><i>1067</i>&nbsp;        printDebug(&quot;START GAME&quot;);</b>
+<i>1068</i>&nbsp;
+<b class="nc"><i>1069</i>&nbsp;        for (Player player : getPlayers()) {</b>
+<b class="nc"><i>1070</i>&nbsp;            if (!player.getNickName().equalsIgnoreCase(getNickName()))</b>
+<b class="nc"><i>1071</i>&nbsp;                opponents.add(player);</b>
+<i>1072</i>&nbsp;            else {
+<b class="nc"><i>1073</i>&nbsp;                this.myPlayerColor = getColorCliFromPlayer(player.getColor());</b>
+<b class="nc"><i>1074</i>&nbsp;                this.myPlayerOnServer = player;</b>
+<i>1075</i>&nbsp;            }
+<b class="nc"><i>1076</i>&nbsp;        }</b>
+<b class="nc"><i>1077</i>&nbsp;    }</b>
+<i>1078</i>&nbsp;
+<i>1079</i>&nbsp;    @Override
+<i>1080</i>&nbsp;    public void challengerChoice(String challengerNick, boolean isYourPlayer) {
+<i>1081</i>&nbsp;
+<b class="nc"><i>1082</i>&nbsp;        printDebug(&quot;CHALLENGER CHOICE&quot;);</b>
+<b class="nc"><i>1083</i>&nbsp;        isMyTurn = isYourPlayer;</b>
+<b class="nc"><i>1084</i>&nbsp;        if (isYourPlayer) {</b>
+<i>1085</i>&nbsp;
+<b class="nc"><i>1086</i>&nbsp;            duringMyTurn = true;</b>
+<i>1087</i>&nbsp;
+<b class="nc"><i>1088</i>&nbsp;            availableActions.clear();</b>
+<b class="nc"><i>1089</i>&nbsp;            availableActions.add(CHAT_CASE);</b>
+<b class="nc"><i>1090</i>&nbsp;            availableActions.add(&quot;CHOOSE CARDS&quot;);</b>
+<i>1091</i>&nbsp;
+<b class="nc"><i>1092</i>&nbsp;            clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);</b>
+<b class="nc"><i>1093</i>&nbsp;            printRed(&quot;YOU HAVE BEEN CHOSEN AS CHALLENGER!\n&quot;);</b>
+<i>1094</i>&nbsp;
+<b class="nc"><i>1095</i>&nbsp;            mainThread = new Thread(() -&gt; startSelectedActions(scrollAvailableOptions(availableActions)));</b>
+<b class="nc"><i>1096</i>&nbsp;            mainThread.start();</b>
+<i>1097</i>&nbsp;
+<b class="nc"><i>1098</i>&nbsp;            duringMyTurn = false;</b>
+<i>1099</i>&nbsp;            //startSelectedActions(scrollAvailableOptions(availableActions));
+<i>1100</i>&nbsp;
+<i>1101</i>&nbsp;        } else {
+<i>1102</i>&nbsp;
+<b class="nc"><i>1103</i>&nbsp;            printInfoNotMyTurn(challengerNick, &quot; IS CHOOSING CARDS\n&quot;);</b>
+<i>1104</i>&nbsp;
+<b class="nc"><i>1105</i>&nbsp;            chatThread = new Thread(this::handleChatCli);</b>
+<b class="nc"><i>1106</i>&nbsp;            chatThread.start();</b>
+<b class="nc"><i>1107</i>&nbsp;            locked = true;</b>
+<i>1108</i>&nbsp;
+<i>1109</i>&nbsp;            //handleChatCli();
+<i>1110</i>&nbsp;
+<i>1111</i>&nbsp;        }
+<b class="nc"><i>1112</i>&nbsp;    }</b>
+<i>1113</i>&nbsp;
+<i>1114</i>&nbsp;    @Override
+<i>1115</i>&nbsp;    public void cardChoice(String challengerNick, boolean isYourPlayer) {
+<i>1116</i>&nbsp;
+<b class="nc"><i>1117</i>&nbsp;        if(locked) {</b>
+<b class="nc"><i>1118</i>&nbsp;            chatThread.interrupt();</b>
+<b class="nc"><i>1119</i>&nbsp;            robot();</b>
+<b class="nc"><i>1120</i>&nbsp;            locked = false;</b>
+<i>1121</i>&nbsp;        }
+<i>1122</i>&nbsp;
+<b class="nc"><i>1123</i>&nbsp;        isMyTurn = isYourPlayer;</b>
+<i>1124</i>&nbsp;
+<b class="nc"><i>1125</i>&nbsp;        if (isYourPlayer) {</b>
+<i>1126</i>&nbsp;
+<b class="nc"><i>1127</i>&nbsp;            duringMyTurn = true;</b>
+<i>1128</i>&nbsp;
+<b class="nc"><i>1129</i>&nbsp;            deckOrdered = new ArrayList&lt;&gt;(getAvailableCards());</b>
+<b class="nc"><i>1130</i>&nbsp;            printDebug(&quot;CARDCHOICE AVAILABLE: &quot; + getAvailableCards());</b>
+<i>1131</i>&nbsp;
+<b class="nc"><i>1132</i>&nbsp;            availableActions.clear();</b>
+<b class="nc"><i>1133</i>&nbsp;            availableActions.add(CHAT_CASE);</b>
+<b class="nc"><i>1134</i>&nbsp;            availableActions.add(&quot;CHOOSE POWER&quot;);</b>
+<i>1135</i>&nbsp;
+<b class="nc"><i>1136</i>&nbsp;            clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);</b>
+<b class="nc"><i>1137</i>&nbsp;            printRed(&quot;IT&#39;S YOUR TURN TO CHOOSE YOUR POWER!\n&quot;);</b>
+<i>1138</i>&nbsp;
+<b class="nc"><i>1139</i>&nbsp;            mainThread = new Thread(() -&gt; startSelectedActions(scrollAvailableOptions(availableActions)));</b>
+<b class="nc"><i>1140</i>&nbsp;            mainThread.start();</b>
+<i>1141</i>&nbsp;
+<b class="nc"><i>1142</i>&nbsp;            duringMyTurn = false;</b>
+<i>1143</i>&nbsp;            //startSelectedActions(scrollAvailableOptions(availableActions));
+<i>1144</i>&nbsp;
+<i>1145</i>&nbsp;        } else {
+<i>1146</i>&nbsp;
+<b class="nc"><i>1147</i>&nbsp;            printInfoNotMyTurn(challengerNick, &quot; IS CHOOSING HIS POWER\n&quot;);</b>
+<i>1148</i>&nbsp;
+<b class="nc"><i>1149</i>&nbsp;            chatThread = new Thread(this::handleChatCli);</b>
+<b class="nc"><i>1150</i>&nbsp;            chatThread.start();</b>
+<b class="nc"><i>1151</i>&nbsp;            locked = true;</b>
+<i>1152</i>&nbsp;            //handleChatCli();
+<i>1153</i>&nbsp;
+<i>1154</i>&nbsp;        }
+<b class="nc"><i>1155</i>&nbsp;    }</b>
+<i>1156</i>&nbsp;
+<i>1157</i>&nbsp;    @Override
+<i>1158</i>&nbsp;    public synchronized void placeWorker(String challengerNick, boolean isYourPlayer) {
+<i>1159</i>&nbsp;
+<b class="nc"><i>1160</i>&nbsp;        isMyTurn = isYourPlayer;</b>
+<i>1161</i>&nbsp;
+<b class="nc"><i>1162</i>&nbsp;        if(locked) {</b>
+<i>1163</i>&nbsp;            try {
+<b class="nc"><i>1164</i>&nbsp;                Thread.sleep(200);</b>
+<b class="nc"><i>1165</i>&nbsp;            } catch (InterruptedException e) {</b>
+<b class="nc"><i>1166</i>&nbsp;                CliUtils.LOGGER.severe(e.getMessage());</b>
+<b class="nc"><i>1167</i>&nbsp;            }</b>
+<b class="nc"><i>1168</i>&nbsp;            robot();</b>
+<b class="nc"><i>1169</i>&nbsp;            locked = false;</b>
+<i>1170</i>&nbsp;        }
+<i>1171</i>&nbsp;
+<b class="nc"><i>1172</i>&nbsp;        if (isYourPlayer) {</b>
+<i>1173</i>&nbsp;
+<b class="nc"><i>1174</i>&nbsp;            duringMyTurn = true;</b>
+<i>1175</i>&nbsp;
+<b class="nc"><i>1176</i>&nbsp;            availableActions = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>1177</i>&nbsp;            availableActions.add(CHAT_CASE);</b>
+<b class="nc"><i>1178</i>&nbsp;            availableActions.add(&quot;PLACE WORKERS&quot;);</b>
+<i>1179</i>&nbsp;
+<b class="nc"><i>1180</i>&nbsp;            clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);</b>
+<b class="nc"><i>1181</i>&nbsp;            printRed(&quot;PLACE YOUR WORKERS!\n&quot;);</b>
+<i>1182</i>&nbsp;
+<b class="nc"><i>1183</i>&nbsp;            mainThread = new Thread(() -&gt; startSelectedActions(scrollAvailableOptions(availableActions)));</b>
+<b class="nc"><i>1184</i>&nbsp;            mainThread.start();</b>
+<i>1185</i>&nbsp;
+<b class="nc"><i>1186</i>&nbsp;            duringMyTurn = false;</b>
+<i>1187</i>&nbsp;            //startSelectedActions(scrollAvailableOptions(availableActions));
+<i>1188</i>&nbsp;
+<i>1189</i>&nbsp;        } else {
+<i>1190</i>&nbsp;
+<b class="nc"><i>1191</i>&nbsp;            printInfoNotMyTurn(challengerNick, &quot; IS PLACING HIS WORKERS\n&quot;);</b>
+<i>1192</i>&nbsp;
+<b class="nc"><i>1193</i>&nbsp;            chatThread = new Thread(this::handleChatCli);</b>
+<b class="nc"><i>1194</i>&nbsp;            chatThread.start();</b>
+<b class="nc"><i>1195</i>&nbsp;            locked = true;</b>
+<i>1196</i>&nbsp;            //handleChatCli();
+<i>1197</i>&nbsp;
+<i>1198</i>&nbsp;        }
+<b class="nc"><i>1199</i>&nbsp;    }</b>
+<i>1200</i>&nbsp;
+<i>1201</i>&nbsp;    @Override
+<i>1202</i>&nbsp;    public void updatePlacedWorkers(List&lt;Square&gt; squares) {
+<b class="nc"><i>1203</i>&nbsp;        printDebug(&quot;HERE UPDATE&quot;);</b>
+<b class="nc"><i>1204</i>&nbsp;        for (Square square : squares) {</b>
+<b class="nc"><i>1205</i>&nbsp;            Color playerColor = null;</b>
+<b class="nc"><i>1206</i>&nbsp;            if (square.hasPlayer())</b>
+<b class="nc"><i>1207</i>&nbsp;                playerColor = getColorCliFromPlayer(square.getPlayer().getColor());</b>
+<i>1208</i>&nbsp;
+<b class="nc"><i>1209</i>&nbsp;            santoriniMap.setTileHasPlayer(square.hasPlayer(), square.getTile() - 1, playerColor);</b>
+<b class="nc"><i>1210</i>&nbsp;        }</b>
+<b class="nc"><i>1211</i>&nbsp;    }</b>
+<i>1212</i>&nbsp;
+<i>1213</i>&nbsp;    @Override
+<i>1214</i>&nbsp;    public void updateBoard(String nick, List&lt;Square&gt; squares, MessageType type) {
+<b class="nc"><i>1215</i>&nbsp;        updateModification(squares);</b>
+<b class="nc"><i>1216</i>&nbsp;        clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);</b>
+<b class="nc"><i>1217</i>&nbsp;        printWaitForOtherPlayers(numberOfPlayers);</b>
+<b class="nc"><i>1218</i>&nbsp;    }</b>
+<i>1219</i>&nbsp;
+<i>1220</i>&nbsp;    @Override
+<i>1221</i>&nbsp;    public synchronized void notifyWin(String nick) {
+<b class="nc"><i>1222</i>&nbsp;        clearShell();</b>
+<b class="nc"><i>1223</i>&nbsp;        if(nick.equalsIgnoreCase(getNickName()))</b>
+<b class="nc"><i>1224</i>&nbsp;            printRed(WINNER);</b>
+<i>1225</i>&nbsp;        else {
+<b class="nc"><i>1226</i>&nbsp;            printRed(&quot;LOSERS:\n&quot;);</b>
+<b class="nc"><i>1227</i>&nbsp;            for (Player opponent : opponents) {</b>
+<b class="nc"><i>1228</i>&nbsp;                printRed(&quot;&gt; [&quot;);</b>
+<b class="nc"><i>1229</i>&nbsp;                printPlayer(opponent);</b>
+<b class="nc"><i>1230</i>&nbsp;                printRed(&quot;]\n&quot;);</b>
+<b class="nc"><i>1231</i>&nbsp;            }</b>
+<i>1232</i>&nbsp;        }
+<i>1233</i>&nbsp;
+<b class="nc"><i>1234</i>&nbsp;        checkRestart();</b>
+<b class="nc"><i>1235</i>&nbsp;    }</b>
+<i>1236</i>&nbsp;
+<i>1237</i>&nbsp;    @Override
+<i>1238</i>&nbsp;    public synchronized void notifyLose(String nick, boolean isYourPlayer) {
+<b class="nc"><i>1239</i>&nbsp;        if(isYourPlayer) {</b>
+<b class="nc"><i>1240</i>&nbsp;            printRed(LOSER);</b>
+<b class="nc"><i>1241</i>&nbsp;            printRed(&quot;THE WINNER IS: &quot;);</b>
+<b class="nc"><i>1242</i>&nbsp;            printPlayer(getPlayerFromNickName(opponents, nick));</b>
+<i>1243</i>&nbsp;        }
+<i>1244</i>&nbsp;
+<b class="nc"><i>1245</i>&nbsp;        checkRestart();</b>
+<b class="nc"><i>1246</i>&nbsp;    }</b>
+<i>1247</i>&nbsp;
+<i>1248</i>&nbsp;    @Override
+<i>1249</i>&nbsp;    public void displayActions(List&lt;MessageType&gt; actions) {
+<b class="nc"><i>1250</i>&nbsp;        printDebug(&quot;DISPLAYACTIONS &quot; + actions);</b>
+<i>1251</i>&nbsp;        try {
+<b class="nc"><i>1252</i>&nbsp;            availableActions = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>1253</i>&nbsp;            availableActions.add((CHAT_CASE));</b>
+<b class="nc"><i>1254</i>&nbsp;            for (MessageType m : actions) {</b>
+<b class="nc"><i>1255</i>&nbsp;                switch (m) {</b>
+<i>1256</i>&nbsp;                    case BUILDWORKER:
+<b class="nc"><i>1257</i>&nbsp;                        availableActions.add(&quot;BUILD&quot;);</b>
+<b class="nc"><i>1258</i>&nbsp;                        break;</b>
+<i>1259</i>&nbsp;                    case MOVEWORKER:
+<b class="nc"><i>1260</i>&nbsp;                        availableActions.add(&quot;MOVE&quot;);</b>
+<b class="nc"><i>1261</i>&nbsp;                        break;</b>
+<i>1262</i>&nbsp;                    case WORKERCHOICE:
+<b class="nc"><i>1263</i>&nbsp;                        availableActions.add(SELECT_WORKER_CASE);</b>
+<b class="nc"><i>1264</i>&nbsp;                        break;</b>
+<i>1265</i>&nbsp;                    case ENDTURN:
+<b class="nc"><i>1266</i>&nbsp;                        availableActions.add(END_TURN_CASE);</b>
+<b class="nc"><i>1267</i>&nbsp;                        break;</b>
+<i>1268</i>&nbsp;                    default:
+<b class="nc"><i>1269</i>&nbsp;                        printErr(&quot;NO ACTION TO DISPLAY&quot;);</b>
+<i>1270</i>&nbsp;                }
+<b class="nc"><i>1271</i>&nbsp;            }</b>
+<b class="nc"><i>1272</i>&nbsp;        } catch (NullPointerException e) {</b>
+<b class="nc"><i>1273</i>&nbsp;            printErr(&quot;NULL POINTER&quot;);</b>
+<b class="nc"><i>1274</i>&nbsp;            CliUtils.LOGGER.severe(e.getMessage());</b>
+<b class="nc"><i>1275</i>&nbsp;        }</b>
+<i>1276</i>&nbsp;
+<b class="nc"><i>1277</i>&nbsp;        clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);</b>
+<b class="nc"><i>1278</i>&nbsp;        startSelectedActions(scrollAvailableOptions(availableActions));</b>
+<b class="nc"><i>1279</i>&nbsp;    }</b>
+<i>1280</i>&nbsp;
+<i>1281</i>&nbsp;    @Override
+<i>1282</i>&nbsp;    public void addConstraint(String name) {
+<b class="nc"><i>1283</i>&nbsp;        this.constraints.add(name);</b>
+<b class="nc"><i>1284</i>&nbsp;    }</b>
+<i>1285</i>&nbsp;
+<i>1286</i>&nbsp;    @Override
+<i>1287</i>&nbsp;    public void removeConstraint(String name) {
+<b class="nc"><i>1288</i>&nbsp;        this.constraints.remove(name);</b>
+<b class="nc"><i>1289</i>&nbsp;    }</b>
+<i>1290</i>&nbsp;
+<i>1291</i>&nbsp;    @Override
+<i>1292</i>&nbsp;    public void onTurnTimerEnded(String stopper) {
+<b class="nc"><i>1293</i>&nbsp;        setSaneTerminalMode();</b>
+<b class="nc"><i>1294</i>&nbsp;        printRed(&quot;\nTIMER IS ENDED...&quot;);</b>
+<b class="nc"><i>1295</i>&nbsp;        System.exit(-1);</b>
+<b class="nc"><i>1296</i>&nbsp;    }</b>
+<i>1297</i>&nbsp;
+<i>1298</i>&nbsp;    @Override
+<i>1299</i>&nbsp;    public synchronized void onStoppedGame(String stopper) {
+<b class="nc"><i>1300</i>&nbsp;        setSaneTerminalMode();</b>
+<b class="nc"><i>1301</i>&nbsp;        printRed(&quot;\nGAME IS STOPPED...\n&quot;);</b>
+<b class="nc"><i>1302</i>&nbsp;        checkRestart();</b>
+<b class="nc"><i>1303</i>&nbsp;    }</b>
+<i>1304</i>&nbsp;
+<i>1305</i>&nbsp;    @Override
+<i>1306</i>&nbsp;    public void onLobbyDisconnection() {
+<b class="nc"><i>1307</i>&nbsp;        setSaneTerminalMode();</b>
+<b class="nc"><i>1308</i>&nbsp;        printRed(&quot;\nYOU ARE DISCONNECTED FROM THE LOBBY...&quot;);</b>
+<b class="nc"><i>1309</i>&nbsp;        quitFromGame(-1);</b>
+<b class="nc"><i>1310</i>&nbsp;    }</b>
+<i>1311</i>&nbsp;
+<i>1312</i>&nbsp;    @Override
+<i>1313</i>&nbsp;    public void onPingDisconnection() {
+<b class="nc"><i>1314</i>&nbsp;        setSaneTerminalMode();</b>
+<b class="nc"><i>1315</i>&nbsp;        printRed(&quot;\nPING DISCONNECTION...&quot;);</b>
+<b class="nc"><i>1316</i>&nbsp;        quitFromGame(-1);</b>
+<b class="nc"><i>1317</i>&nbsp;    }</b>
+<i>1318</i>&nbsp;
+<i>1319</i>&nbsp;    @Override
+<i>1320</i>&nbsp;    public void onEndGameDisconnection() {
+<b class="nc"><i>1321</i>&nbsp;        setSaneTerminalMode();</b>
+<b class="nc"><i>1322</i>&nbsp;        printRed(&quot;\nDISCONNECTED FROM THE GAME...&quot;);</b>
+<b class="nc"><i>1323</i>&nbsp;        quitFromGame(-1);</b>
+<b class="nc"><i>1324</i>&nbsp;    }</b>
+<i>1325</i>&nbsp;
+<i>1326</i>&nbsp;    @Override
+<i>1327</i>&nbsp;    public void newChatMessage(String nick, String message) {
+<b class="nc"><i>1328</i>&nbsp;        setSaneTerminalMode();</b>
+<i>1329</i>&nbsp;
+<b class="nc"><i>1330</i>&nbsp;        setNewChatMessage(true);</b>
+<b class="nc"><i>1331</i>&nbsp;        Player playerOnChat = getPlayerFromNickName(opponents, nick);</b>
+<b class="nc"><i>1332</i>&nbsp;        setLastChatMessage(playerOnChat, message);</b>
+<b class="nc"><i>1333</i>&nbsp;        handlePreviousChatMessage(playerOnChat, message);</b>
+<i>1334</i>&nbsp;
+<b class="nc"><i>1335</i>&nbsp;        clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);</b>
+<i>1336</i>&nbsp;
+<b class="nc"><i>1337</i>&nbsp;        robot();</b>
+<i>1338</i>&nbsp;
+<b class="nc"><i>1339</i>&nbsp;        if(!isMyTurn) {</b>
+<b class="nc"><i>1340</i>&nbsp;            printChat(previousChatMessage);</b>
+<b class="nc"><i>1341</i>&nbsp;            printRed(&quot;MESSAGE: &quot;);</b>
+<i>1342</i>&nbsp;        } else {
+<b class="nc"><i>1343</i>&nbsp;            printRed(&quot;USE ARROWS TO COME BACK TO YOUR ACTIONS...&quot;);</b>
+<b class="nc"><i>1344</i>&nbsp;            setRawTerminalMode();</b>
+<i>1345</i>&nbsp;        }
+<b class="nc"><i>1346</i>&nbsp;    }</b>
+<i>1347</i>&nbsp;
+<i>1348</i>&nbsp;    @Override
+<i>1349</i>&nbsp;    public void onErrorMessage(String stopper, boolean isYourPlayer) {
+<b class="nc"><i>1350</i>&nbsp;        setSaneTerminalMode();</b>
+<b class="nc"><i>1351</i>&nbsp;        printRed(&quot;\nERROR MESSAGE...&quot;);</b>
+<b class="nc"><i>1352</i>&nbsp;    }</b>
+<i>1353</i>&nbsp;
+<i>1354</i>&nbsp;    @Override
+<i>1355</i>&nbsp;    public void notYourTurn() {
+<b class="nc"><i>1356</i>&nbsp;        setSaneTerminalMode();</b>
+<b class="nc"><i>1357</i>&nbsp;        printRed(&quot;\nIT&#39;S NOT YOUR TURN...&quot;);</b>
+<b class="nc"><i>1358</i>&nbsp;    }</b>
+<i>1359</i>&nbsp;
+<i>1360</i>&nbsp;    @Override
+<i>1361</i>&nbsp;    public void startTurn(String nick, boolean isYourPlayer) {
+<b class="nc"><i>1362</i>&nbsp;        if (isYourPlayer) {</b>
+<i>1363</i>&nbsp;
+<b class="nc"><i>1364</i>&nbsp;            availableActions = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>1365</i>&nbsp;            availableActions.add(CHAT_CASE);</b>
+<b class="nc"><i>1366</i>&nbsp;            availableActions.add(SELECT_WORKER_CASE);</b>
+<i>1367</i>&nbsp;
+<b class="nc"><i>1368</i>&nbsp;            clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);</b>
+<b class="nc"><i>1369</i>&nbsp;            printRed(&quot;IT&#39;S YOUR TURN!\n&quot;);</b>
+<b class="nc"><i>1370</i>&nbsp;            startSelectedActions(scrollAvailableOptions(availableActions));</b>
+<i>1371</i>&nbsp;
+<i>1372</i>&nbsp;        } else {
+<i>1373</i>&nbsp;
+<b class="nc"><i>1374</i>&nbsp;            clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);</b>
+<b class="nc"><i>1375</i>&nbsp;            printRed(&quot;IT&#39;S NOT YOUR TURN! &quot; + nick.toUpperCase() + &quot; IS STARTING HIS TURN!\n&quot;);</b>
+<b class="nc"><i>1376</i>&nbsp;            printWaitingStartTurn(numberOfPlayers);</b>
+<b class="nc"><i>1377</i>&nbsp;            printChat(previousChatMessage);</b>
+<i>1378</i>&nbsp;
+<b class="nc"><i>1379</i>&nbsp;            chatThread = new Thread(this::handleChatCli);</b>
+<b class="nc"><i>1380</i>&nbsp;            chatThread.start();</b>
+<i>1381</i>&nbsp;            //handleChatCli();
+<i>1382</i>&nbsp;
+<i>1383</i>&nbsp;        }
+<b class="nc"><i>1384</i>&nbsp;    }</b>
+<i>1385</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-29 01:13</div>
+</div>
+</body>
+</html>

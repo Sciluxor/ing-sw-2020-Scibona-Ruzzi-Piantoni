@@ -1,0 +1,173 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: MoveWorkerMessage</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.network.message</a> ]
+</div>
+
+<h1>Coverage Summary for Class: MoveWorkerMessage (it.polimi.ingsw.network.message)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MoveWorkerMessage</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    83,3%
+  </span>
+  <span class="absValue">
+    (5/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    76,9%
+  </span>
+  <span class="absValue">
+    (10/ 13)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.network.message;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.model.map.Directions;
+<i>4</i>&nbsp;import it.polimi.ingsw.model.map.Square;
+<i>5</i>&nbsp;import it.polimi.ingsw.model.Response;
+<i>6</i>&nbsp;import it.polimi.ingsw.model.player.Player;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;import java.util.List;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;/**
+<i>11</i>&nbsp; * Class that extends Message and Represent the Message with The Move made by the Client
+<i>12</i>&nbsp; * @author Alessandro Ruzzi
+<i>13</i>&nbsp; * @version 1.0
+<i>14</i>&nbsp; * @since 2020/06/20
+<i>15</i>&nbsp; */
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;public class MoveWorkerMessage extends Message{
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    private Directions direction;
+<i>20</i>&nbsp;    private List&lt;Square&gt; modifiedSquare;
+<i>21</i>&nbsp;    private Response winResponse;
+<i>22</i>&nbsp;    private Player winnerPlayer;
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    /**
+<i>25</i>&nbsp;     * Public constructor of the message
+<i>26</i>&nbsp;     * @param sender The Client that send the Message
+<i>27</i>&nbsp;     * @param nickName Nickname selected by the Client
+<i>28</i>&nbsp;     * @param direction The direction in which to move the worker
+<i>29</i>&nbsp;     * @param winResponse The Response that says if the player has win with this move
+<i>30</i>&nbsp;     * @param winnerPlayer The winner, selected only if there is a winner
+<i>31</i>&nbsp;     * @param squares The squares modified by this move
+<i>32</i>&nbsp;     */
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;    public MoveWorkerMessage(String sender, String nickName, Directions direction, Response winResponse, Player winnerPlayer
+<i>35</i>&nbsp;            , List&lt;Square&gt; squares) {
+<b class="fc"><i>36</i>&nbsp;        super(sender, nickName, MessageType.MOVEWORKER,MessageSubType.ANSWER);</b>
+<b class="fc"><i>37</i>&nbsp;        this.direction = direction;</b>
+<b class="fc"><i>38</i>&nbsp;        this.winResponse = winResponse;</b>
+<b class="fc"><i>39</i>&nbsp;        this.modifiedSquare = squares;</b>
+<b class="fc"><i>40</i>&nbsp;        this.winnerPlayer = winnerPlayer;</b>
+<b class="fc"><i>41</i>&nbsp;    }</b>
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;    /**
+<i>44</i>&nbsp;     * Public constructor for the update message forwarded to the other Client
+<i>45</i>&nbsp;     * @param sender Sender of the message
+<i>46</i>&nbsp;     * @param nickName NickName of the message
+<i>47</i>&nbsp;     * @param squares Squares modified by the Move
+<i>48</i>&nbsp;     */
+<i>49</i>&nbsp;
+<i>50</i>&nbsp;    public MoveWorkerMessage(String sender, String nickName,List&lt;Square&gt; squares) {
+<b class="nc"><i>51</i>&nbsp;        super(sender, nickName, MessageType.MOVEWORKER,MessageSubType.UPDATE);</b>
+<b class="nc"><i>52</i>&nbsp;        this.modifiedSquare = squares;</b>
+<b class="nc"><i>53</i>&nbsp;    }</b>
+<i>54</i>&nbsp;
+<i>55</i>&nbsp;    /**
+<i>56</i>&nbsp;     * Get the direction of the move
+<i>57</i>&nbsp;     * @return The direction
+<i>58</i>&nbsp;     */
+<i>59</i>&nbsp;
+<i>60</i>&nbsp;    public Directions getDirection() {
+<b class="fc"><i>61</i>&nbsp;        return direction;</b>
+<i>62</i>&nbsp;    }
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;    /**
+<i>65</i>&nbsp;     * Get the Squares modified by the move
+<i>66</i>&nbsp;     * @return A list of modified Squares
+<i>67</i>&nbsp;     */
+<i>68</i>&nbsp;
+<i>69</i>&nbsp;    public List&lt;Square&gt; getModifiedSquare() {
+<b class="fc"><i>70</i>&nbsp;        return modifiedSquare;</b>
+<i>71</i>&nbsp;    }
+<i>72</i>&nbsp;
+<i>73</i>&nbsp;    /**
+<i>74</i>&nbsp;     * Get the Win Response
+<i>75</i>&nbsp;     * @return The Win Response
+<i>76</i>&nbsp;     */
+<i>77</i>&nbsp;
+<i>78</i>&nbsp;    public Response getWinResponse() {
+<b class="fc"><i>79</i>&nbsp;        return winResponse;</b>
+<i>80</i>&nbsp;    }
+<i>81</i>&nbsp;
+<i>82</i>&nbsp;    /**
+<i>83</i>&nbsp;     * Get the Winner
+<i>84</i>&nbsp;     * @return The Winner
+<i>85</i>&nbsp;     */
+<i>86</i>&nbsp;
+<i>87</i>&nbsp;    public Player getWinnerPlayer() {
+<b class="fc"><i>88</i>&nbsp;        return winnerPlayer;</b>
+<i>89</i>&nbsp;    }
+<i>90</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-29 01:13</div>
+</div>
+</body>
+</html>

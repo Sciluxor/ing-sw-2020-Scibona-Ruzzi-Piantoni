@@ -1,0 +1,216 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: FunctionListener</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.network.client</a> ]
+</div>
+
+<h1>Coverage Summary for Class: FunctionListener (it.polimi.ingsw.network.client)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">FunctionListener</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.network.client;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.model.map.Square;
+<i>4</i>&nbsp;import it.polimi.ingsw.network.message.MessageType;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;import java.util.List;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;/**
+<i>9</i>&nbsp; * Interface implemented by both CLI and GUI, that represents all the graphical functions of the game
+<i>10</i>&nbsp; */
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;public interface FunctionListener {
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;    /**
+<i>15</i>&nbsp;     * Function that handle the graphical update of the players in the lobby
+<i>16</i>&nbsp;     */
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    void updateLobbyPlayer();
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    /**
+<i>21</i>&nbsp;     * Function that notify the Client that the nickName selected is already in use in the Game
+<i>22</i>&nbsp;     */
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    void nickUsed();
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    /**
+<i>27</i>&nbsp;     * Function that notify the Client that the game is about to Start (The Lobby is Full)
+<i>28</i>&nbsp;     */
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    void startGame();
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;    /**
+<i>33</i>&nbsp;     * Function that notify the Client that someone is Starting the turn
+<i>34</i>&nbsp;     * @param nick The NickName of the Player Starting the turn
+<i>35</i>&nbsp;     * @param isYourPlayer Boolean that is True if the Client is starting the turn
+<i>36</i>&nbsp;     */
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    void startTurn(String nick,boolean isYourPlayer);
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;    /**
+<i>41</i>&nbsp;     * Function that handle the Challenger phase
+<i>42</i>&nbsp;     * @param challengerNick The NickName of the challenger
+<i>43</i>&nbsp;     * @param isYourPlayer Boolean that is True if the Client is the Challenger
+<i>44</i>&nbsp;     */
+<i>45</i>&nbsp;
+<i>46</i>&nbsp;    void challengerChoice(String challengerNick,boolean isYourPlayer);
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;    /**
+<i>49</i>&nbsp;     * Function that handle the Card Choice phase
+<i>50</i>&nbsp;     * @param challengerNick The NickName of the Player that is choosing the Card
+<i>51</i>&nbsp;     * @param isYourPlayer Boolean that is True if the Client is choosing the Card
+<i>52</i>&nbsp;     */
+<i>53</i>&nbsp;
+<i>54</i>&nbsp;    void cardChoice(String challengerNick,boolean isYourPlayer);
+<i>55</i>&nbsp;
+<i>56</i>&nbsp;    /**
+<i>57</i>&nbsp;     * Function that handle the Place Workers phase
+<i>58</i>&nbsp;     * @param challengerNick The NickName of the Player that is placing the workers
+<i>59</i>&nbsp;     * @param isYourPlayer Boolean that is True if the Client is placing the workers
+<i>60</i>&nbsp;     */
+<i>61</i>&nbsp;
+<i>62</i>&nbsp;    void placeWorker(String challengerNick,boolean isYourPlayer);
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;    /**
+<i>65</i>&nbsp;     * Function that handle the graphical update of the board after the workers of the other Clients are placed
+<i>66</i>&nbsp;     * @param squares The squares in which the workers have been placed
+<i>67</i>&nbsp;     */
+<i>68</i>&nbsp;
+<i>69</i>&nbsp;    void updatePlacedWorkers(List&lt;Square&gt; squares);
+<i>70</i>&nbsp;
+<i>71</i>&nbsp;    /**
+<i>72</i>&nbsp;     * Function that handle the graphical update of the board after a move or build of other Clients
+<i>73</i>&nbsp;     * @param nick Nickname of the Client that made the move or build
+<i>74</i>&nbsp;     * @param squares The squares modified by the move or build
+<i>75</i>&nbsp;     * @param type The type of the Message(move or build)
+<i>76</i>&nbsp;     */
+<i>77</i>&nbsp;
+<i>78</i>&nbsp;    void updateBoard(String nick,List&lt;Square&gt; squares,MessageType type);
+<i>79</i>&nbsp;
+<i>80</i>&nbsp;    /**
+<i>81</i>&nbsp;     * Function that notify the Client that there is a winner
+<i>82</i>&nbsp;     * @param nick NickName of the Winner
+<i>83</i>&nbsp;     */
+<i>84</i>&nbsp;
+<i>85</i>&nbsp;    void notifyWin(String nick);
+<i>86</i>&nbsp;
+<i>87</i>&nbsp;    /**
+<i>88</i>&nbsp;     * Function that notify the Client that there is a loser
+<i>89</i>&nbsp;     * @param nick NickName of the Winner
+<i>90</i>&nbsp;     * @param isYourPlayer Boolean that is True the Client is the loser
+<i>91</i>&nbsp;     */
+<i>92</i>&nbsp;
+<i>93</i>&nbsp;    void notifyLose(String nick,boolean isYourPlayer);
+<i>94</i>&nbsp;
+<i>95</i>&nbsp;    /**
+<i>96</i>&nbsp;     * Function that handle the graphical display of the actions available in that moment(build,move,end turn)
+<i>97</i>&nbsp;     * @param actions The Actions available in that moment
+<i>98</i>&nbsp;     */
+<i>99</i>&nbsp;
+<i>100</i>&nbsp;    void displayActions(List&lt;MessageType&gt; actions);
+<i>101</i>&nbsp;
+<i>102</i>&nbsp;    /**
+<i>103</i>&nbsp;     * Function that add constraint to the Client
+<i>104</i>&nbsp;     * @param name Name of the hero(constraint) to add to the Client
+<i>105</i>&nbsp;     */
+<i>106</i>&nbsp;
+<i>107</i>&nbsp;    void addConstraint(String name);
+<i>108</i>&nbsp;
+<i>109</i>&nbsp;    /**
+<i>110</i>&nbsp;     * Function that remove constraint from the Client
+<i>111</i>&nbsp;     * @param name Name of the hero(constraint) to remove from the Client
+<i>112</i>&nbsp;     */
+<i>113</i>&nbsp;
+<i>114</i>&nbsp;    void removeConstraint(String name);
+<i>115</i>&nbsp;
+<i>116</i>&nbsp;    /**
+<i>117</i>&nbsp;     * Function that handle the Turn Time ended event
+<i>118</i>&nbsp;     * @param stopper Name of the client that stopped the Game
+<i>119</i>&nbsp;     */
+<i>120</i>&nbsp;
+<i>121</i>&nbsp;    void onTurnTimerEnded(String stopper);
+<i>122</i>&nbsp;
+<i>123</i>&nbsp;    /**
+<i>124</i>&nbsp;     * Function called when a Client leave the game and stop the game
+<i>125</i>&nbsp;     * @param stopper Name of the client that leave the game
+<i>126</i>&nbsp;     */
+<i>127</i>&nbsp;
+<i>128</i>&nbsp;    void onStoppedGame(String stopper);
+<i>129</i>&nbsp;
+<i>130</i>&nbsp;    /**
+<i>131</i>&nbsp;     * Function called when the client get disconnected from the lobby (timer ended), notify the Client
+<i>132</i>&nbsp;     */
+<i>133</i>&nbsp;
+<i>134</i>&nbsp;    void onLobbyDisconnection();
+<i>135</i>&nbsp;
+<i>136</i>&nbsp;    /**
+<i>137</i>&nbsp;     * Function called when the client don&#39;t receive ping messages from the server, notify the Client
+<i>138</i>&nbsp;     */
+<i>139</i>&nbsp;
+<i>140</i>&nbsp;    void onPingDisconnection();
+<i>141</i>&nbsp;
+<i>142</i>&nbsp;    /**
+<i>143</i>&nbsp;     * Function called if the Client get disconnected after the game is ended
+<i>144</i>&nbsp;     */
+<i>145</i>&nbsp;
+<i>146</i>&nbsp;    void onEndGameDisconnection();
+<i>147</i>&nbsp;
+<i>148</i>&nbsp;    /**
+<i>149</i>&nbsp;     * Function that handle new chat messages written by other clients
+<i>150</i>&nbsp;     * @param nick NickName of the Client that wrote the message
+<i>151</i>&nbsp;     * @param message The Message written by the Client
+<i>152</i>&nbsp;     */
+<i>153</i>&nbsp;
+<i>154</i>&nbsp;    void newChatMessage(String nick,String message);
+<i>155</i>&nbsp;
+<i>156</i>&nbsp;    /**
+<i>157</i>&nbsp;     * Function that handle non official CLI or GUI Version, called when the Server detect an error in the Messages
+<i>158</i>&nbsp;     * @param stopper The Client that stopped the game
+<i>159</i>&nbsp;     * @param isYourPlayer Boolean that is True the Client is the stopper
+<i>160</i>&nbsp;     */
+<i>161</i>&nbsp;
+<i>162</i>&nbsp;    void onErrorMessage(String stopper, boolean isYourPlayer);
+<i>163</i>&nbsp;
+<i>164</i>&nbsp;    /**
+<i>165</i>&nbsp;     * Function called when the Client send a message during the turn of the other Clients (except chat messages)
+<i>166</i>&nbsp;     */
+<i>167</i>&nbsp;
+<i>168</i>&nbsp;    void notYourTurn();
+<i>169</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-29 01:13</div>
+</div>
+</body>
+</html>

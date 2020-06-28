@@ -1,0 +1,835 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ClientGameController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.network.client</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ClientGameController (it.polimi.ingsw.network.client)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ClientGameController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 45)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 298)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">ClientGameController$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 46)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 300)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.network.client;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.model.Response;
+<i>4</i>&nbsp;import it.polimi.ingsw.model.SimplifiedGame;
+<i>5</i>&nbsp;import it.polimi.ingsw.model.cards.Card;
+<i>6</i>&nbsp;import it.polimi.ingsw.model.cards.CardLoader;
+<i>7</i>&nbsp;import it.polimi.ingsw.model.cards.CardSubType;
+<i>8</i>&nbsp;import it.polimi.ingsw.model.cards.CardType;
+<i>9</i>&nbsp;import it.polimi.ingsw.model.map.Building;
+<i>10</i>&nbsp;import it.polimi.ingsw.model.map.Directions;
+<i>11</i>&nbsp;import it.polimi.ingsw.model.map.Square;
+<i>12</i>&nbsp;import it.polimi.ingsw.model.player.Player;
+<i>13</i>&nbsp;import it.polimi.ingsw.model.player.TurnStatus;
+<i>14</i>&nbsp;import it.polimi.ingsw.model.player.Worker;
+<i>15</i>&nbsp;import it.polimi.ingsw.model.player.WorkerName;
+<i>16</i>&nbsp;import it.polimi.ingsw.network.message.*;
+<i>17</i>&nbsp;import it.polimi.ingsw.utils.ConfigLoader;
+<i>18</i>&nbsp;import it.polimi.ingsw.utils.FlowStatutsLoader;
+<i>19</i>&nbsp;import java.net.ConnectException;
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;import java.util.ArrayList;
+<i>22</i>&nbsp;import java.util.List;
+<i>23</i>&nbsp;import java.util.concurrent.BlockingQueue;
+<i>24</i>&nbsp;import java.util.concurrent.LinkedBlockingQueue;
+<i>25</i>&nbsp;import java.util.logging.Logger;
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;/**
+<i>28</i>&nbsp; * Abstract Class that represents the Controller client side that handle all the logic functions, extended by both CLI and GUI
+<i>29</i>&nbsp; * @author Alessandro Ruzzi
+<i>30</i>&nbsp; * @version 1.0
+<i>31</i>&nbsp; * @since 2020/06/20
+<i>32</i>&nbsp; */
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;public abstract class ClientGameController implements Runnable, FunctionListener{
+<b class="nc"><i>35</i>&nbsp;    public static final Logger LOGGER = Logger.getLogger(&quot;Client&quot;);</b>
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;    private SimplifiedGame game;
+<b class="nc"><i>38</i>&nbsp;    private final BlockingQueue&lt;Runnable&gt; eventQueue = new LinkedBlockingQueue&lt;&gt;();</b>
+<i>39</i>&nbsp;    private ClientConnection client;
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;    /**
+<i>42</i>&nbsp;     * Public constructor for the Client Game Controller, start the thread that run the functions added to the queue, and load configuration parameters
+<i>43</i>&nbsp;     */
+<i>44</i>&nbsp;
+<b class="nc"><i>45</i>&nbsp;    public ClientGameController(){</b>
+<b class="nc"><i>46</i>&nbsp;        FlowStatutsLoader.loadFlow();</b>
+<b class="nc"><i>47</i>&nbsp;        ConfigLoader.loadSetting();</b>
+<b class="nc"><i>48</i>&nbsp;        new Thread(this).start();</b>
+<b class="nc"><i>49</i>&nbsp;    }</b>
+<i>50</i>&nbsp;
+<i>51</i>&nbsp;    /**
+<i>52</i>&nbsp;     * Thread that run all the functions that it finds on the eventQueue
+<i>53</i>&nbsp;     */
+<i>54</i>&nbsp;
+<i>55</i>&nbsp;    @Override
+<i>56</i>&nbsp;    public void run() {
+<b class="nc"><i>57</i>&nbsp;        while (!Thread.currentThread().isInterrupted()){</b>
+<i>58</i>&nbsp;            try{
+<b class="nc"><i>59</i>&nbsp;                eventQueue.take().run();</b>
+<i>60</i>&nbsp;
+<b class="nc"><i>61</i>&nbsp;            }catch (InterruptedException e) {</b>
+<b class="nc"><i>62</i>&nbsp;                LOGGER.severe(e.getMessage());</b>
+<b class="nc"><i>63</i>&nbsp;                Thread.currentThread().interrupt();</b>
+<b class="nc"><i>64</i>&nbsp;            }</b>
+<i>65</i>&nbsp;        }
+<b class="nc"><i>66</i>&nbsp;    }</b>
+<i>67</i>&nbsp;
+<i>68</i>&nbsp;    /**
+<i>69</i>&nbsp;     * Function that open the connection with the server, sending game configuration parameters
+<i>70</i>&nbsp;     * @param name Nickname inserted by the Client
+<i>71</i>&nbsp;     * @param numberOfPlayer Number of Player Selected by the Client(2/3)
+<i>72</i>&nbsp;     * @param address IP address of the Server
+<i>73</i>&nbsp;     * @param port Port used by the Server
+<i>74</i>&nbsp;     * @throws ConnectException ConnectException wrong parameters
+<i>75</i>&nbsp;     */
+<i>76</i>&nbsp;
+<i>77</i>&nbsp;    public synchronized void openConnection(String name, int numberOfPlayer, String address, int port) throws ConnectException {
+<b class="nc"><i>78</i>&nbsp;        game = new SimplifiedGame(numberOfPlayer);</b>
+<b class="nc"><i>79</i>&nbsp;        client = new ClientConnection(name,address,port,this);</b>
+<b class="nc"><i>80</i>&nbsp;        client.connectToServer(numberOfPlayer);</b>
+<b class="nc"><i>81</i>&nbsp;    }</b>
+<i>82</i>&nbsp;
+<i>83</i>&nbsp;    /**
+<i>84</i>&nbsp;     * Function that handle the &quot;back&quot; command, send to the Server the new nickname and new number of player
+<i>85</i>&nbsp;     * @param nickName The new Nickname selected by the Client
+<i>86</i>&nbsp;     * @param numberOfPlayer New number of player selected by the Client
+<i>87</i>&nbsp;     */
+<i>88</i>&nbsp;
+<i>89</i>&nbsp;    public synchronized void newGame(String nickName, int numberOfPlayer){
+<b class="nc"><i>90</i>&nbsp;        game = new SimplifiedGame(numberOfPlayer);</b>
+<b class="nc"><i>91</i>&nbsp;        client.setNickName(nickName);</b>
+<b class="nc"><i>92</i>&nbsp;        client.sendMessage(new GameConfigMessage(client.getUserID(),nickName, MessageSubType.ANSWER,numberOfPlayer));</b>
+<b class="nc"><i>93</i>&nbsp;    }</b>
+<i>94</i>&nbsp;
+<i>95</i>&nbsp;    /**
+<i>96</i>&nbsp;     * Function called when the Client exit from the lobby and go back to nickname and number of player selection(back command), notify the Server
+<i>97</i>&nbsp;     */
+<i>98</i>&nbsp;
+<i>99</i>&nbsp;    public synchronized void onBackCommand(){
+<b class="nc"><i>100</i>&nbsp;        client.sendMessage(new Message(client.getUserID(),client.getNickName(),MessageType.DISCONNECTION, MessageSubType.BACK));</b>
+<b class="nc"><i>101</i>&nbsp;    }</b>
+<i>102</i>&nbsp;
+<i>103</i>&nbsp;    /**
+<i>104</i>&nbsp;     * Function that handle new players inserted in lobby
+<i>105</i>&nbsp;     * @param message Message containing all the players in the lobby with their colors
+<i>106</i>&nbsp;     */
+<i>107</i>&nbsp;
+<i>108</i>&nbsp;    public synchronized void onUpdateLobbyPlayer(Message message) {
+<b class="nc"><i>109</i>&nbsp;        client.setUserID(message.getMessage());</b>
+<b class="nc"><i>110</i>&nbsp;        game.initPlayers(client.getNickName(),((WaitPlayerMessage) message).getNickNames(),((WaitPlayerMessage) message).getColors());</b>
+<i>111</i>&nbsp;
+<b class="nc"><i>112</i>&nbsp;        eventQueue.add(this::updateLobbyPlayer);</b>
+<b class="nc"><i>113</i>&nbsp;    }</b>
+<i>114</i>&nbsp;
+<i>115</i>&nbsp;    /**
+<i>116</i>&nbsp;     * Get Players in the Game
+<i>117</i>&nbsp;     * @return the Players in the Game
+<i>118</i>&nbsp;     */
+<i>119</i>&nbsp;
+<i>120</i>&nbsp;    public synchronized List&lt;Player&gt; getPlayers(){
+<b class="nc"><i>121</i>&nbsp;        return new ArrayList&lt;&gt;(game.getPlayers());</b>
+<i>122</i>&nbsp;    }
+<i>123</i>&nbsp;
+<i>124</i>&nbsp;    /**
+<i>125</i>&nbsp;     * Function called when the nickname selected is already in use in the game
+<i>126</i>&nbsp;     * @param message Message received from the Server
+<i>127</i>&nbsp;     */
+<i>128</i>&nbsp;
+<i>129</i>&nbsp;    public synchronized void nickUsed(Message message){
+<b class="nc"><i>130</i>&nbsp;        client.setUserID(message.getMessage());</b>
+<b class="nc"><i>131</i>&nbsp;        eventQueue.add(this::nickUsed);</b>
+<b class="nc"><i>132</i>&nbsp;    }</b>
+<i>133</i>&nbsp;
+<i>134</i>&nbsp;    /**
+<i>135</i>&nbsp;     * Function that update the NickName of the client, if the old one was already in use, and also notify the Server
+<i>136</i>&nbsp;     * @param nickName The new NickName selected by the Client
+<i>137</i>&nbsp;     */
+<i>138</i>&nbsp;
+<i>139</i>&nbsp;    public synchronized void updateNickName(String nickName){
+<b class="nc"><i>140</i>&nbsp;        client.setNickName(nickName);</b>
+<b class="nc"><i>141</i>&nbsp;        client.sendMessage(new GameConfigMessage(client.getUserID(),nickName,MessageSubType.UPDATE,game.getNumberOfPlayers()));</b>
+<b class="nc"><i>142</i>&nbsp;    }</b>
+<i>143</i>&nbsp;
+<i>144</i>&nbsp;    /**
+<i>145</i>&nbsp;     * Function that handle the setup when the game is starting (lobby full)
+<i>146</i>&nbsp;     * @param message Message received from the Server
+<i>147</i>&nbsp;     */
+<i>148</i>&nbsp;
+<i>149</i>&nbsp;    public synchronized void onGameStart(Message message){
+<b class="nc"><i>150</i>&nbsp;        game.setGameStarted(true);</b>
+<b class="nc"><i>151</i>&nbsp;        game.setGameID(((GameStartedMessage) message).getGameID());</b>
+<b class="nc"><i>152</i>&nbsp;        game.setGameStatus(Response.GAMESTARTED);</b>
+<b class="nc"><i>153</i>&nbsp;        eventQueue.add(this::startGame);</b>
+<b class="nc"><i>154</i>&nbsp;    }</b>
+<i>155</i>&nbsp;
+<i>156</i>&nbsp;    /**
+<i>157</i>&nbsp;     * Get The remaining cards, from the ones selected by the challenger (to chose a card)
+<i>158</i>&nbsp;     * @return The remaining cards
+<i>159</i>&nbsp;     */
+<i>160</i>&nbsp;
+<i>161</i>&nbsp;    public synchronized List&lt;String&gt; getAvailableCards(){
+<b class="nc"><i>162</i>&nbsp;        return game.getAvailableCards();</b>
+<i>163</i>&nbsp;    }
+<i>164</i>&nbsp;
+<i>165</i>&nbsp;    /**
+<i>166</i>&nbsp;     * Function that notify the Server about the choice of the challenger
+<i>167</i>&nbsp;     * @param firstPlayer The name of the first player selected by the challenger
+<i>168</i>&nbsp;     * @param cards The list of cards selected by the challenger
+<i>169</i>&nbsp;     */
+<i>170</i>&nbsp;
+<i>171</i>&nbsp;    public synchronized void challengerResponse(String firstPlayer,List&lt;String&gt; cards){
+<b class="nc"><i>172</i>&nbsp;        game.setAvailableCards(cards);</b>
+<b class="nc"><i>173</i>&nbsp;        client.sendMessage(new ChallengerChoiceMessage(client.getUserID(),client.getNickName(),MessageSubType.ANSWER,firstPlayer,cards));</b>
+<b class="nc"><i>174</i>&nbsp;    }</b>
+<i>175</i>&nbsp;
+<i>176</i>&nbsp;    /**
+<i>177</i>&nbsp;     * Function that notify the Server about the card selected by the client
+<i>178</i>&nbsp;     * @param card The name of the card selected by the client
+<i>179</i>&nbsp;     */
+<i>180</i>&nbsp;
+<i>181</i>&nbsp;    public synchronized void cardChoiceResponse(String card){
+<b class="nc"><i>182</i>&nbsp;        game.removeCard(card);</b>
+<b class="nc"><i>183</i>&nbsp;        game.getCurrentPlayer().setPower(game.getDeck().get(card));</b>
+<b class="nc"><i>184</i>&nbsp;        client.sendMessage(new Message(client.getUserID(),MessageType.CHOOSECARD,MessageSubType.ANSWER,card));</b>
+<b class="nc"><i>185</i>&nbsp;    }</b>
+<i>186</i>&nbsp;
+<i>187</i>&nbsp;    /**
+<i>188</i>&nbsp;     * Function that notify the Server about the tile in which tha Client want to put his workers
+<i>189</i>&nbsp;     * @param tile1 Tile of the first worker
+<i>190</i>&nbsp;     * @param tile2 Tile of the second worker
+<i>191</i>&nbsp;     */
+<i>192</i>&nbsp;
+<i>193</i>&nbsp;    public synchronized void placeWorkersResponse(int tile1,int tile2){
+<b class="nc"><i>194</i>&nbsp;        game.placeWorkersOnMap(tile1,tile2);</b>
+<b class="nc"><i>195</i>&nbsp;        client.sendMessage(new PlaceWorkersMessage(client.getUserID(),MessageSubType.ANSWER,game.getCoordinatesFromTile(tile1),</b>
+<b class="nc"><i>196</i>&nbsp;                game.getCoordinatesFromTile(tile2)));</b>
+<b class="nc"><i>197</i>&nbsp;    }</b>
+<i>198</i>&nbsp;
+<i>199</i>&nbsp;    /**
+<i>200</i>&nbsp;     * Get The level of Building in a specific tile
+<i>201</i>&nbsp;     * @param tile The number of the tile that we want to analise
+<i>202</i>&nbsp;     * @return The level of building
+<i>203</i>&nbsp;     */
+<i>204</i>&nbsp;
+<i>205</i>&nbsp;    public synchronized int getLevel(int tile){
+<b class="nc"><i>206</i>&nbsp;       return game.getGameMap().getMap().get(tile-1).getBuildingLevel();</b>
+<i>207</i>&nbsp;    }
+<i>208</i>&nbsp;
+<i>209</i>&nbsp;    /**
+<i>210</i>&nbsp;     * Function that notify the Server when the Client ends his turn
+<i>211</i>&nbsp;     */
+<i>212</i>&nbsp;
+<i>213</i>&nbsp;    public synchronized void endTurn(){
+<b class="nc"><i>214</i>&nbsp;        if(game.getCurrentPlayer().getPower() != null)</b>
+<b class="nc"><i>215</i>&nbsp;            game.getCurrentPlayer().getPower().resetCard();</b>
+<i>216</i>&nbsp;
+<b class="nc"><i>217</i>&nbsp;        game.getCurrentPlayer().setTurnStatus(TurnStatus.IDLE);</b>
+<b class="nc"><i>218</i>&nbsp;        client.sendMessage(new Message(client.getUserID(),client.getNickName(),MessageType.ENDTURN,MessageSubType.UPDATE));</b>
+<b class="nc"><i>219</i>&nbsp;    }</b>
+<i>220</i>&nbsp;
+<i>221</i>&nbsp;    /**
+<i>222</i>&nbsp;     * Function that handle the Challenger choice phase and notify the other Clients about the choice
+<i>223</i>&nbsp;     * @param message Message received from the Server
+<i>224</i>&nbsp;     */
+<i>225</i>&nbsp;
+<i>226</i>&nbsp;    public synchronized void handleChallengerChoice(Message message){
+<b class="nc"><i>227</i>&nbsp;        if(message.getSubType().equals(MessageSubType.REQUEST)) {</b>
+<b class="nc"><i>228</i>&nbsp;            boolean isYourPlayer = message.getMessage().equals(client.getNickName());</b>
+<b class="nc"><i>229</i>&nbsp;            game.setCurrentPlayer(message.getMessage());</b>
+<b class="nc"><i>230</i>&nbsp;            eventQueue.add(() -&gt; challengerChoice(message.getMessage(),isYourPlayer));</b>
+<b class="nc"><i>231</i>&nbsp;        }</b>
+<i>232</i>&nbsp;        else{
+<b class="nc"><i>233</i>&nbsp;            if(!game.getCurrentPlayer().getNickName().equals(client.getNickName()))</b>
+<b class="nc"><i>234</i>&nbsp;                game.setAvailableCards(((ChallengerChoiceMessage) message).getCards());</b>
+<i>235</i>&nbsp;        }
+<b class="nc"><i>236</i>&nbsp;    }</b>
+<i>237</i>&nbsp;
+<i>238</i>&nbsp;    /**
+<i>239</i>&nbsp;     * Function that handle the Card choice phase and notify the other Clients about the choice
+<i>240</i>&nbsp;     * @param message Message received from the Server
+<i>241</i>&nbsp;     */
+<i>242</i>&nbsp;
+<i>243</i>&nbsp;    public synchronized void handleCardChoice(Message message){
+<b class="nc"><i>244</i>&nbsp;        if(message.getSubType().equals(MessageSubType.REQUEST)) {</b>
+<b class="nc"><i>245</i>&nbsp;            boolean isYourPlayer = message.getMessage().equals(client.getNickName());</b>
+<b class="nc"><i>246</i>&nbsp;            game.getCurrentPlayer().setTurnStatus(TurnStatus.IDLE);</b>
+<b class="nc"><i>247</i>&nbsp;            game.setCurrentPlayer(message.getMessage());</b>
+<b class="nc"><i>248</i>&nbsp;            game.getCurrentPlayer().setTurnStatus(TurnStatus.PLAYTURN);</b>
+<b class="nc"><i>249</i>&nbsp;            eventQueue.add(() -&gt; cardChoice(message.getMessage(), isYourPlayer));</b>
+<b class="nc"><i>250</i>&nbsp;        }</b>
+<i>251</i>&nbsp;        else{
+<b class="nc"><i>252</i>&nbsp;            if(!game.getCurrentPlayer().getNickName().equals(client.getNickName())) {</b>
+<b class="nc"><i>253</i>&nbsp;                game.getCurrentPlayer().setPower(CardLoader.loadCards().get(message.getMessage()));</b>
+<b class="nc"><i>254</i>&nbsp;                game.removeCard(message.getMessage());</b>
+<i>255</i>&nbsp;            }
+<i>256</i>&nbsp;        }
+<b class="nc"><i>257</i>&nbsp;    }</b>
+<i>258</i>&nbsp;
+<i>259</i>&nbsp;    /**
+<i>260</i>&nbsp;     * Function that handle the Place Workers phase and notify the other Clients about the choice
+<i>261</i>&nbsp;     * @param message Message received from the Server
+<i>262</i>&nbsp;     */
+<i>263</i>&nbsp;
+<i>264</i>&nbsp;    public synchronized void handlePlaceWorkers(Message message){
+<b class="nc"><i>265</i>&nbsp;        if(message.getSubType().equals(MessageSubType.REQUEST)) {</b>
+<b class="nc"><i>266</i>&nbsp;            boolean isYourPlayer = message.getMessage().equals(client.getNickName());</b>
+<b class="nc"><i>267</i>&nbsp;            game.getCurrentPlayer().setTurnStatus(TurnStatus.IDLE);</b>
+<b class="nc"><i>268</i>&nbsp;            game.setCurrentPlayer(message.getMessage());</b>
+<b class="nc"><i>269</i>&nbsp;            game.getCurrentPlayer().setTurnStatus(TurnStatus.PLAYTURN);</b>
+<b class="nc"><i>270</i>&nbsp;            eventQueue.add(() -&gt; placeWorker(message.getMessage(), isYourPlayer));</b>
+<b class="nc"><i>271</i>&nbsp;        }</b>
+<i>272</i>&nbsp;        else {
+<b class="nc"><i>273</i>&nbsp;            if(!game.getCurrentPlayer().getNickName().equals(client.getNickName())) {</b>
+<b class="nc"><i>274</i>&nbsp;                int tile1 = game.getGameMap().getTileFromCoordinates(((PlaceWorkersMessage) message).getTile1()).getTile();</b>
+<b class="nc"><i>275</i>&nbsp;                int tile2 = game.getGameMap().getTileFromCoordinates(((PlaceWorkersMessage) message).getTile2()).getTile();</b>
+<b class="nc"><i>276</i>&nbsp;                game.placeWorkersOnMap(tile1, tile2);</b>
+<b class="nc"><i>277</i>&nbsp;                eventQueue.add(() -&gt; updatePlacedWorkers(game.getGameMap().getModifiedSquare()));</b>
+<i>278</i>&nbsp;            }
+<i>279</i>&nbsp;        }
+<b class="nc"><i>280</i>&nbsp;    }</b>
+<i>281</i>&nbsp;
+<i>282</i>&nbsp;    /**
+<i>283</i>&nbsp;     * Function that notify that a client is starting his turn
+<i>284</i>&nbsp;     * @param message Message received from the Server
+<i>285</i>&nbsp;     */
+<i>286</i>&nbsp;
+<i>287</i>&nbsp;    public synchronized void handleStartTurn(Message message){
+<b class="nc"><i>288</i>&nbsp;        game.getCurrentPlayer().setTurnStatus(TurnStatus.IDLE);</b>
+<b class="nc"><i>289</i>&nbsp;        game.setCurrentPlayer(message.getMessage());</b>
+<b class="nc"><i>290</i>&nbsp;        game.setGameStatus(game.getCurrentPlayer().getPower().getFirstAction());</b>
+<b class="nc"><i>291</i>&nbsp;        game.getCurrentPlayer().setTurnStatus(TurnStatus.PLAYTURN);</b>
+<b class="nc"><i>292</i>&nbsp;        boolean isYourPlayer = message.getMessage().equals(client.getNickName());</b>
+<b class="nc"><i>293</i>&nbsp;        eventQueue.add(() -&gt; startTurn(message.getMessage(), isYourPlayer));</b>
+<b class="nc"><i>294</i>&nbsp;    }</b>
+<i>295</i>&nbsp;
+<i>296</i>&nbsp;    /**
+<i>297</i>&nbsp;     * Get the Squares modified by a move,a build or after the workers are placed
+<i>298</i>&nbsp;     * @return the Squares modified by a move,a build or after the workers are placed
+<i>299</i>&nbsp;     */
+<i>300</i>&nbsp;
+<i>301</i>&nbsp;    public synchronized List&lt;Square&gt; getModifiedsquare(){
+<b class="nc"><i>302</i>&nbsp;        return game.getGameMap().getModifiedSquare();</b>
+<i>303</i>&nbsp;    }
+<i>304</i>&nbsp;
+<i>305</i>&nbsp;    /**
+<i>306</i>&nbsp;     * Function that check which workers of the Client is able to do a move and a build
+<i>307</i>&nbsp;     * @return The workers that are not blocked
+<i>308</i>&nbsp;     */
+<i>309</i>&nbsp;
+<i>310</i>&nbsp;    public synchronized List&lt;Integer&gt;  availableWorkers(){
+<b class="nc"><i>311</i>&nbsp;        List&lt;Worker&gt; workers = game.getCurrentPlayer().getWorkers();</b>
+<b class="nc"><i>312</i>&nbsp;        List&lt;Integer&gt; toSendWorkers = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>313</i>&nbsp;        for(Worker worker: workers){</b>
+<b class="nc"><i>314</i>&nbsp;            if(game.getCurrentPlayer().checkIfCanMove(game.getGameMap(),worker)){</b>
+<b class="nc"><i>315</i>&nbsp;                if(worker.getName().equals(WorkerName.WORKER1))</b>
+<b class="nc"><i>316</i>&nbsp;                    toSendWorkers.add(1);</b>
+<i>317</i>&nbsp;                else
+<b class="nc"><i>318</i>&nbsp;                    toSendWorkers.add(2);</b>
+<i>319</i>&nbsp;            }
+<b class="nc"><i>320</i>&nbsp;        }</b>
+<b class="nc"><i>321</i>&nbsp;        return toSendWorkers;</b>
+<i>322</i>&nbsp;    }
+<i>323</i>&nbsp;
+<i>324</i>&nbsp;    /**
+<i>325</i>&nbsp;     * Function called to set as Current worker the worker selected by the Client
+<i>326</i>&nbsp;     * @param worker The worker selected by the Client
+<i>327</i>&nbsp;     */
+<i>328</i>&nbsp;
+<i>329</i>&nbsp;    public synchronized void setWorker(int worker){
+<b class="nc"><i>330</i>&nbsp;        game.getCurrentPlayer().setCurrentWorker(game.getCurrentPlayer().getWorkers().get(worker-1));</b>
+<b class="nc"><i>331</i>&nbsp;        client.sendMessage(new Message(client.getUserID(),MessageType.WORKERCHOICE,MessageSubType.ANSWER,worker==1 ? &quot;worker1&quot; : &quot;worker2&quot;));</b>
+<b class="nc"><i>332</i>&nbsp;        availableActions();</b>
+<b class="nc"><i>333</i>&nbsp;    }</b>
+<i>334</i>&nbsp;
+<i>335</i>&nbsp;    /**
+<i>336</i>&nbsp;     * Function that create a list of all the available actions for the client(move,build,end turn),and show them to the client
+<i>337</i>&nbsp;     */
+<i>338</i>&nbsp;
+<i>339</i>&nbsp;    public synchronized void availableActions(){
+<b class="nc"><i>340</i>&nbsp;        List&lt;MessageType&gt; actions = FlowStatutsLoader.getNextMessageFromStatus(game.getGameStatus());</b>
+<b class="nc"><i>341</i>&nbsp;        List&lt;MessageType&gt; toRemoveActions = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>342</i>&nbsp;        for(MessageType action: actions){</b>
+<b class="nc"><i>343</i>&nbsp;            if((action.equals(MessageType.MOVEWORKER) &amp;&amp; game.getCurrentPlayer().findWorkerMove(game.getGameMap(),game.getCurrentPlayer().getCurrentWorker()).isEmpty()) ||</b>
+<b class="nc"><i>344</i>&nbsp;                    (action.equals(MessageType.BUILDWORKER) &amp;&amp; game.getCurrentPlayer().findPossibleBuild(game.getGameMap(),game.getCurrentPlayer().getCurrentWorker()).isEmpty())){</b>
+<i>345</i>&nbsp;
+<b class="nc"><i>346</i>&nbsp;                    toRemoveActions.add(action);</b>
+<i>347</i>&nbsp;            }
+<b class="nc"><i>348</i>&nbsp;        }</b>
+<i>349</i>&nbsp;
+<b class="nc"><i>350</i>&nbsp;        for(MessageType toRemove :toRemoveActions) {</b>
+<b class="nc"><i>351</i>&nbsp;            actions.remove(toRemove);</b>
+<b class="nc"><i>352</i>&nbsp;        }</b>
+<i>353</i>&nbsp;
+<b class="nc"><i>354</i>&nbsp;        eventQueue.add(() -&gt; displayActions(actions));</b>
+<b class="nc"><i>355</i>&nbsp;    }</b>
+<i>356</i>&nbsp;
+<i>357</i>&nbsp;    /**
+<i>358</i>&nbsp;     * Function that decide what will be the next function to call
+<i>359</i>&nbsp;     * @param winStatus Parameter to check if there is a winner
+<i>360</i>&nbsp;     */
+<i>361</i>&nbsp;
+<i>362</i>&nbsp;    public synchronized void mapNextAction(Response winStatus){
+<b class="nc"><i>363</i>&nbsp;        if(winStatus.equals(Response.WIN) || winStatus.equals(Response.BUILDWIN)){</b>
+<b class="nc"><i>364</i>&nbsp;            eventQueue.add(() -&gt; notifyWin(game.getWinner().getNickName()));</b>
+<i>365</i>&nbsp;        }
+<i>366</i>&nbsp;        else{
+<b class="nc"><i>367</i>&nbsp;            availableActions();</b>
+<i>368</i>&nbsp;        }
+<b class="nc"><i>369</i>&nbsp;    }</b>
+<i>370</i>&nbsp;
+<i>371</i>&nbsp;    /**
+<i>372</i>&nbsp;     * Function that calculate all the available squares in which a specific worker of the client can move
+<i>373</i>&nbsp;     * @return A list of the available square
+<i>374</i>&nbsp;     */
+<i>375</i>&nbsp;
+<i>376</i>&nbsp;    public synchronized List&lt;Integer&gt; availableMoveSquare(){
+<b class="nc"><i>377</i>&nbsp;        List&lt;Directions&gt; directions = game.getCurrentPlayer().findWorkerMove(game.getGameMap(),game.getCurrentPlayer().getCurrentWorker());</b>
+<b class="nc"><i>378</i>&nbsp;        for (Card constraint : game.getCurrentPlayer().getConstraint()) {</b>
+<b class="nc"><i>379</i>&nbsp;            if (constraint.getType().equals(CardType.YOURMOVE) &amp;&amp; !constraint.getSubType().equals(CardSubType.NORMAL))</b>
+<b class="nc"><i>380</i>&nbsp;                directions = constraint.eliminateInvalidMove(game.getGameMap(), game.getCurrentPlayer().getCurrentWorker(), directions);</b>
+<b class="nc"><i>381</i>&nbsp;        }</b>
+<b class="nc"><i>382</i>&nbsp;        List&lt;Integer&gt; availableTile = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>383</i>&nbsp;        for(Directions direction: directions){</b>
+<b class="nc"><i>384</i>&nbsp;            availableTile.add(game.getCurrentPlayer().getCurrentWorker().getBoardPosition().getCanAccess().get(direction));</b>
+<b class="nc"><i>385</i>&nbsp;        }</b>
+<b class="nc"><i>386</i>&nbsp;        return availableTile;</b>
+<i>387</i>&nbsp;    }
+<i>388</i>&nbsp;
+<i>389</i>&nbsp;    /**
+<i>390</i>&nbsp;     * Function that move a worker in the map
+<i>391</i>&nbsp;     * @param tile The number of the tile in which the Client wants to move the worker
+<i>392</i>&nbsp;     * @return The winResponse
+<i>393</i>&nbsp;     */
+<i>394</i>&nbsp;
+<i>395</i>&nbsp;    public synchronized Response moveWorker(int tile){
+<b class="nc"><i>396</i>&nbsp;        Directions direction = null;</b>
+<b class="nc"><i>397</i>&nbsp;        for(Directions possibleDirection : Directions.values()){</b>
+<b class="nc"><i>398</i>&nbsp;            if(game.getCurrentPlayer().getCurrentWorker().getBoardPosition().getCanAccess().get(possibleDirection) == tile) {</b>
+<b class="nc"><i>399</i>&nbsp;                direction = possibleDirection;</b>
+<b class="nc"><i>400</i>&nbsp;                break;</b>
+<i>401</i>&nbsp;            }
+<i>402</i>&nbsp;        }
+<b class="nc"><i>403</i>&nbsp;        Response newStatus = game.getCurrentPlayer().executeWorkerMove(game.getGameMap(),direction);</b>
+<b class="nc"><i>404</i>&nbsp;        game.setGameStatus(newStatus);</b>
+<b class="nc"><i>405</i>&nbsp;        Response winStatus = checkMoveVictory();</b>
+<b class="nc"><i>406</i>&nbsp;        client.sendMessage(new MoveWorkerMessage(client.getUserID(),client.getNickName(),direction,</b>
+<b class="nc"><i>407</i>&nbsp;                winStatus,game.getWinner(),game.getGameMap().getModifiedSquare()));</b>
+<i>408</i>&nbsp;
+<b class="nc"><i>409</i>&nbsp;        return winStatus;</b>
+<i>410</i>&nbsp;    }
+<i>411</i>&nbsp;
+<i>412</i>&nbsp;    /**
+<i>413</i>&nbsp;     * Function that check if the Client has won after a move
+<i>414</i>&nbsp;     * @return The winResponse
+<i>415</i>&nbsp;     */
+<i>416</i>&nbsp;
+<i>417</i>&nbsp;    public synchronized Response checkMoveVictory(){
+<b class="nc"><i>418</i>&nbsp;        Response response = game.getCurrentPlayer().checkVictory(game.getGameMap());</b>
+<b class="nc"><i>419</i>&nbsp;        if(response.equals(Response.WIN)) {</b>
+<b class="nc"><i>420</i>&nbsp;            for (Card constraint : game.getCurrentPlayer().getConstraint()) {</b>
+<b class="nc"><i>421</i>&nbsp;                if (constraint.getType().equals(CardType.MOVEVICTORY) &amp;&amp; !constraint.getSubType().equals(CardSubType.NORMAL) &amp;&amp;</b>
+<b class="nc"><i>422</i>&nbsp;                        !constraint.isValidVictory(game.getGameMap(), game.getCurrentPlayer().getCurrentWorker()))</b>
+<b class="nc"><i>423</i>&nbsp;                    response = Response.NOTWIN;</b>
+<b class="nc"><i>424</i>&nbsp;            }</b>
+<i>425</i>&nbsp;        }
+<i>426</i>&nbsp;
+<b class="nc"><i>427</i>&nbsp;        if(response.equals(Response.WIN)) {</b>
+<b class="nc"><i>428</i>&nbsp;            game.setWinner(game.getCurrentPlayer());</b>
+<b class="nc"><i>429</i>&nbsp;            game.setHasWinner(true);</b>
+<i>430</i>&nbsp;        }
+<i>431</i>&nbsp;
+<b class="nc"><i>432</i>&nbsp;        return response;</b>
+<i>433</i>&nbsp;    }
+<i>434</i>&nbsp;
+<i>435</i>&nbsp;    /**
+<i>436</i>&nbsp;     * Function that calculate all the available squares in which a specific worker of the client can build
+<i>437</i>&nbsp;     * @return A list of the available square
+<i>438</i>&nbsp;     */
+<i>439</i>&nbsp;
+<i>440</i>&nbsp;    public synchronized List&lt;Integer&gt; availableBuildSquare(){
+<b class="nc"><i>441</i>&nbsp;        List&lt;Directions&gt; directions = game.getCurrentPlayer().findPossibleBuild(game.getGameMap(),game.getCurrentPlayer().getCurrentWorker());</b>
+<b class="nc"><i>442</i>&nbsp;        List&lt;Integer&gt; availableTile = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>443</i>&nbsp;        for(Directions direction: directions){</b>
+<b class="nc"><i>444</i>&nbsp;            availableTile.add(game.getCurrentPlayer().getCurrentWorker().getBoardPosition().getCanAccess().get(direction));</b>
+<b class="nc"><i>445</i>&nbsp;        }</b>
+<b class="nc"><i>446</i>&nbsp;        return availableTile;</b>
+<i>447</i>&nbsp;    }
+<i>448</i>&nbsp;
+<i>449</i>&nbsp;    /**
+<i>450</i>&nbsp;     * Function that build in the map
+<i>451</i>&nbsp;     * @param tile The number of the tile in which the Client wants to build
+<i>452</i>&nbsp;     * @param building The type of building to build
+<i>453</i>&nbsp;     * @return The winResponse
+<i>454</i>&nbsp;     */
+<i>455</i>&nbsp;
+<i>456</i>&nbsp;    public synchronized Response buildWorker(int tile, Building building){
+<b class="nc"><i>457</i>&nbsp;        Directions direction = null;</b>
+<b class="nc"><i>458</i>&nbsp;        for(Directions possibleDirection : Directions.values()){</b>
+<b class="nc"><i>459</i>&nbsp;            if(game.getCurrentPlayer().getCurrentWorker().getBoardPosition().getCanAccess().get(possibleDirection) == tile) {</b>
+<b class="nc"><i>460</i>&nbsp;                direction = possibleDirection;</b>
+<b class="nc"><i>461</i>&nbsp;                break;</b>
+<i>462</i>&nbsp;            }
+<i>463</i>&nbsp;        }
+<b class="nc"><i>464</i>&nbsp;        Response newStatus = game.getCurrentPlayer().executeBuild(game.getGameMap(),building,direction);</b>
+<b class="nc"><i>465</i>&nbsp;        game.setGameStatus(newStatus);</b>
+<b class="nc"><i>466</i>&nbsp;        Response winStatus = checkBuildVictory();</b>
+<b class="nc"><i>467</i>&nbsp;        client.sendMessage(new BuildWorkerMessage(client.getUserID(),client.getNickName(),direction</b>
+<b class="nc"><i>468</i>&nbsp;                ,building,winStatus,game.getWinner(),game.getGameMap().getModifiedSquare()));</b>
+<b class="nc"><i>469</i>&nbsp;        if(newStatus.equals(Response.BUILD))</b>
+<b class="nc"><i>470</i>&nbsp;            removeNonPermanentConstraint();</b>
+<b class="nc"><i>471</i>&nbsp;        return winStatus;</b>
+<i>472</i>&nbsp;    }
+<i>473</i>&nbsp;
+<i>474</i>&nbsp;    /**
+<i>475</i>&nbsp;     * Function that check if the Client has won after a build
+<i>476</i>&nbsp;     * @return The winResponse
+<i>477</i>&nbsp;     */
+<i>478</i>&nbsp;
+<i>479</i>&nbsp;    public synchronized Response checkBuildVictory(){
+<b class="nc"><i>480</i>&nbsp;        Response response = Response.NOTWIN;</b>
+<b class="nc"><i>481</i>&nbsp;        for(Player player: game.getPlayers()){</b>
+<b class="nc"><i>482</i>&nbsp;            if(player.getPower().getType().equals(CardType.BUILDVICTORY) &amp;&amp; player.getPower().getSubType().equals(CardSubType.NORMAL)){</b>
+<b class="nc"><i>483</i>&nbsp;                response = player.checkVictory(game.getGameMap());</b>
+<b class="nc"><i>484</i>&nbsp;                if(response.equals(Response.BUILDWIN)) {</b>
+<b class="nc"><i>485</i>&nbsp;                    game.setWinner(player);</b>
+<b class="nc"><i>486</i>&nbsp;                    game.setHasWinner(true);</b>
+<i>487</i>&nbsp;                }
+<i>488</i>&nbsp;            }
+<b class="nc"><i>489</i>&nbsp;        }</b>
+<b class="nc"><i>490</i>&nbsp;        if(response.equals(Response.NOTWIN))</b>
+<b class="nc"><i>491</i>&nbsp;            response = Response.NOTBUILDWIN;</b>
+<b class="nc"><i>492</i>&nbsp;        return response;</b>
+<i>493</i>&nbsp;    }
+<i>494</i>&nbsp;
+<i>495</i>&nbsp;    /**
+<i>496</i>&nbsp;     * Function that remove a constraint from the Client
+<i>497</i>&nbsp;     */
+<i>498</i>&nbsp;
+<i>499</i>&nbsp;    public synchronized void removeNonPermanentConstraint(){
+<b class="nc"><i>500</i>&nbsp;            ArrayList&lt;Card&gt; nonPermanentConstraint = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>501</i>&nbsp;            for(Card constraint : game.getCurrentPlayer().getConstraint()){</b>
+<b class="nc"><i>502</i>&nbsp;                if(constraint.getSubType().equals(CardSubType.NONPERMANENTCONSTRAINT))</b>
+<b class="nc"><i>503</i>&nbsp;                    nonPermanentConstraint.add(constraint);</b>
+<b class="nc"><i>504</i>&nbsp;            }</b>
+<i>505</i>&nbsp;
+<b class="nc"><i>506</i>&nbsp;            for(Card constraint : nonPermanentConstraint){</b>
+<b class="nc"><i>507</i>&nbsp;                game.getCurrentPlayer().removeConstraint(constraint);</b>
+<b class="nc"><i>508</i>&nbsp;                eventQueue.add(() -&gt; removeConstraint(constraint.getName()));</b>
+<b class="nc"><i>509</i>&nbsp;            }</b>
+<b class="nc"><i>510</i>&nbsp;        game.setGameStatus(Response.ENDTURN);</b>
+<b class="nc"><i>511</i>&nbsp;    }</b>
+<i>512</i>&nbsp;
+<i>513</i>&nbsp;    /**
+<i>514</i>&nbsp;     * Function that update the board after a move,build of other Clients
+<i>515</i>&nbsp;     * @param message Message received from the Server, with the modified square
+<i>516</i>&nbsp;     */
+<i>517</i>&nbsp;
+<i>518</i>&nbsp;    public synchronized void handleUpdateBoard(Message message){
+<b class="nc"><i>519</i>&nbsp;        if(!message.getNickName().equals(client.getNickName())) {</b>
+<b class="nc"><i>520</i>&nbsp;            List&lt;Square&gt; modifiedSquares = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>521</i>&nbsp;            List&lt;Square&gt; toSendSquare = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>522</i>&nbsp;            if (message.getType().equals(MessageType.MOVEWORKER) &amp;&amp; message.getSubType().equals(MessageSubType.UPDATE))</b>
+<b class="nc"><i>523</i>&nbsp;                modifiedSquares = ((MoveWorkerMessage) message).getModifiedSquare();</b>
+<b class="nc"><i>524</i>&nbsp;            else if (message.getType().equals(MessageType.BUILDWORKER) &amp;&amp; message.getSubType().equals(MessageSubType.UPDATE))</b>
+<b class="nc"><i>525</i>&nbsp;                modifiedSquares = ((BuildWorkerMessage) message).getModifiedSquare();</b>
+<i>526</i>&nbsp;
+<b class="nc"><i>527</i>&nbsp;            List&lt;Square&gt; finalModifiedSquares = modifiedSquares;</b>
+<i>528</i>&nbsp;
+<b class="nc"><i>529</i>&nbsp;            for (Square square : finalModifiedSquares) {</b>
+<b class="nc"><i>530</i>&nbsp;                game.copySquare(game.getGameMap().getMap().get(square.getTile() - 1), square);</b>
+<b class="nc"><i>531</i>&nbsp;                toSendSquare.add(game.getGameMap().getMap().get(square.getTile() - 1));</b>
+<b class="nc"><i>532</i>&nbsp;            }</b>
+<i>533</i>&nbsp;
+<b class="nc"><i>534</i>&nbsp;            eventQueue.add(() -&gt; updateBoard(message.getNickName(), toSendSquare, message.getType()));</b>
+<i>535</i>&nbsp;        }
+<b class="nc"><i>536</i>&nbsp;    }</b>
+<i>537</i>&nbsp;
+<i>538</i>&nbsp;    /**
+<i>539</i>&nbsp;     * Function that add permanent constraint to the Client
+<i>540</i>&nbsp;     * @param message Message received from the Server, with the name of the constraint card
+<i>541</i>&nbsp;     */
+<i>542</i>&nbsp;
+<i>543</i>&nbsp;    public synchronized void addPermConstraint(Message message){
+<b class="nc"><i>544</i>&nbsp;        if(client.getNickName().equals(message.getNickName())) {</b>
+<b class="nc"><i>545</i>&nbsp;            game.getClientPlayer().setConstraint(game.getDeck().get(message.getMessage()));</b>
+<b class="nc"><i>546</i>&nbsp;            eventQueue.add(() -&gt; addConstraint(message.getMessage()));</b>
+<i>547</i>&nbsp;        }
+<b class="nc"><i>548</i>&nbsp;    }</b>
+<i>549</i>&nbsp;
+<i>550</i>&nbsp;    /**
+<i>551</i>&nbsp;     * Function that add non permanent constraint to the Client
+<i>552</i>&nbsp;     * @param message Message received from the Server, with the name of the constraint card
+<i>553</i>&nbsp;     */
+<i>554</i>&nbsp;
+<i>555</i>&nbsp;    public synchronized void addNonPermConstraint(Message message){
+<b class="nc"><i>556</i>&nbsp;        if(!game.getClientPlayer().getPower().getName().equals(message.getMessage())) {</b>
+<b class="nc"><i>557</i>&nbsp;            game.getClientPlayer().setConstraint(game.getDeck().get(message.getMessage()));</b>
+<b class="nc"><i>558</i>&nbsp;            eventQueue.add(() -&gt; addConstraint(message.getMessage()));</b>
+<i>559</i>&nbsp;        }
+<b class="nc"><i>560</i>&nbsp;    }</b>
+<i>561</i>&nbsp;
+<i>562</i>&nbsp;    /**
+<i>563</i>&nbsp;     * Function that handle disconnection events: Ping timer, turn timer, lobby timer
+<i>564</i>&nbsp;     * @param message Message received from the Server, with the disconnection information
+<i>565</i>&nbsp;     */
+<i>566</i>&nbsp;
+<i>567</i>&nbsp;    public synchronized void handleDisconnection(Message message){
+<b class="nc"><i>568</i>&nbsp;        client.stopPingTimer();</b>
+<b class="nc"><i>569</i>&nbsp;        client.closeConnection();</b>
+<b class="nc"><i>570</i>&nbsp;        LOGGER.info(&quot;lost connection&quot;);</b>
+<b class="nc"><i>571</i>&nbsp;        switch (message.getSubType()) {</b>
+<i>572</i>&nbsp;            case TIMEENDED:
+<b class="nc"><i>573</i>&nbsp;                if (game.isGameStarted() &amp;&amp; ( game.hasWinner() || game.hasStopper() ))</b>
+<b class="nc"><i>574</i>&nbsp;                    eventQueue.add(this::onEndGameDisconnection);</b>
+<i>575</i>&nbsp;                else
+<b class="nc"><i>576</i>&nbsp;                    eventQueue.add(this::onLobbyDisconnection);</b>
+<b class="nc"><i>577</i>&nbsp;                break;</b>
+<i>578</i>&nbsp;            case PINGFAIL:
+<b class="nc"><i>579</i>&nbsp;                eventQueue.add(this::onPingDisconnection);</b>
+<b class="nc"><i>580</i>&nbsp;                break;</b>
+<i>581</i>&nbsp;            default:
+<i>582</i>&nbsp;        }
+<b class="nc"><i>583</i>&nbsp;    }</b>
+<i>584</i>&nbsp;
+<i>585</i>&nbsp;    /**
+<i>586</i>&nbsp;     * Function that send a message to the other clients (through the Server)
+<i>587</i>&nbsp;     * @param chatMessage The message to send
+<i>588</i>&nbsp;     */
+<i>589</i>&nbsp;
+<i>590</i>&nbsp;    public synchronized void sendChatMessage(String chatMessage){
+<b class="nc"><i>591</i>&nbsp;        client.sendMessage(new Message(client.getUserID(),client.getNickName(),MessageType.CHAT,MessageSubType.UPDATE,chatMessage));</b>
+<b class="nc"><i>592</i>&nbsp;    }</b>
+<i>593</i>&nbsp;
+<i>594</i>&nbsp;    /**
+<i>595</i>&nbsp;     * Function that handle the chat messages received from other clients
+<i>596</i>&nbsp;     * @param message Message received from the Server, with the message of another client
+<i>597</i>&nbsp;     */
+<i>598</i>&nbsp;
+<i>599</i>&nbsp;    public synchronized void handleChatMessage(Message message){
+<b class="nc"><i>600</i>&nbsp;        eventQueue.add(() -&gt; newChatMessage(message.getNickName(),message.getMessage()));</b>
+<b class="nc"><i>601</i>&nbsp;    }</b>
+<i>602</i>&nbsp;
+<i>603</i>&nbsp;    /**
+<i>604</i>&nbsp;     * Function that notify the Client that there is a winner
+<i>605</i>&nbsp;     * @param message Message received from the server, with the winner name
+<i>606</i>&nbsp;     */
+<i>607</i>&nbsp;
+<i>608</i>&nbsp;    public synchronized void handleWin(Message message){
+<b class="nc"><i>609</i>&nbsp;        if((message.getSubType().equals(MessageSubType.UPDATE) &amp;&amp; !game.getCurrentPlayer().getNickName().equals(client.getNickName())) ||</b>
+<b class="nc"><i>610</i>&nbsp;                (message.getSubType().equals(MessageSubType.REQUEST))) {</b>
+<b class="nc"><i>611</i>&nbsp;            eventQueue.add(() -&gt; notifyWin(message.getMessage()));</b>
+<b class="nc"><i>612</i>&nbsp;            game.setHasWinner(true);</b>
+<i>613</i>&nbsp;        }
+<b class="nc"><i>614</i>&nbsp;    }</b>
+<i>615</i>&nbsp;
+<i>616</i>&nbsp;    /**
+<i>617</i>&nbsp;     * Function that notify the Client that someone has lost (worker blocked or other reasons)
+<i>618</i>&nbsp;     * @param message Message received from the Server, with the name of the player that has lost
+<i>619</i>&nbsp;     */
+<i>620</i>&nbsp;
+<i>621</i>&nbsp;    public synchronized void handleLose(Message message){
+<b class="nc"><i>622</i>&nbsp;        game.getCurrentPlayer().setTurnStatus(TurnStatus.IDLE);</b>
+<b class="nc"><i>623</i>&nbsp;        game.setCurrentPlayer(message.getMessage());</b>
+<b class="nc"><i>624</i>&nbsp;        game.setGameStatus(game.getCurrentPlayer().getPower().getFirstAction());</b>
+<b class="nc"><i>625</i>&nbsp;        game.getCurrentPlayer().setTurnStatus(TurnStatus.PLAYTURN);</b>
+<b class="nc"><i>626</i>&nbsp;        game.removePlayerLose();</b>
+<b class="nc"><i>627</i>&nbsp;        boolean isYourPlayer = message.getMessage().equals(client.getNickName());</b>
+<b class="nc"><i>628</i>&nbsp;        eventQueue.add(() -&gt; notifyLose(message.getMessage(), isYourPlayer));</b>
+<b class="nc"><i>629</i>&nbsp;    }</b>
+<i>630</i>&nbsp;
+<i>631</i>&nbsp;    /**
+<i>632</i>&nbsp;     * Function that notify the Client that the game has been stopped
+<i>633</i>&nbsp;     * @param message Message received from the Server, with the name of the player that left the game
+<i>634</i>&nbsp;     */
+<i>635</i>&nbsp;
+<i>636</i>&nbsp;    public synchronized void handleGameStopped(Message message){
+<b class="nc"><i>637</i>&nbsp;        game.setHasStopper(true);</b>
+<b class="nc"><i>638</i>&nbsp;        if(message.getSubType().equals(MessageSubType.UPDATE)){</b>
+<b class="nc"><i>639</i>&nbsp;            eventQueue.add(() -&gt; onStoppedGame(message.getMessage()));</b>
+<i>640</i>&nbsp;        }
+<b class="nc"><i>641</i>&nbsp;        else if(message.getSubType().equals(MessageSubType.TIMEENDED)){</b>
+<b class="nc"><i>642</i>&nbsp;            eventQueue.add(() -&gt; onTurnTimerEnded(message.getMessage()));</b>
+<i>643</i>&nbsp;        }
+<b class="nc"><i>644</i>&nbsp;        else if(message.getSubType().equals(MessageSubType.STOPPEDGAMEERROR)){</b>
+<b class="nc"><i>645</i>&nbsp;            boolean isYourPlayer = message.getMessage().equals(client.getNickName());</b>
+<b class="nc"><i>646</i>&nbsp;            eventQueue.add(() -&gt; onErrorMessage(message.getMessage(),isYourPlayer));</b>
+<i>647</i>&nbsp;        }
+<b class="nc"><i>648</i>&nbsp;    }</b>
+<i>649</i>&nbsp;
+<i>650</i>&nbsp;    /**
+<i>651</i>&nbsp;     * Function that send a message to the server, if the client wants to left the game after he has lost
+<i>652</i>&nbsp;     */
+<i>653</i>&nbsp;
+<i>654</i>&nbsp;    public synchronized void handleLoseExit(){
+<b class="nc"><i>655</i>&nbsp;        client.sendMessage(new Message(client.getUserID(),client.getNickName(),MessageType.DISCONNECTION,MessageSubType.LOSEEXITREQUEST));</b>
+<b class="nc"><i>656</i>&nbsp;    }</b>
+<i>657</i>&nbsp;
+<i>658</i>&nbsp;    /**
+<i>659</i>&nbsp;     * Function that notify the Client if he send a message (except chat messages) during the turn of another client
+<i>660</i>&nbsp;     */
+<i>661</i>&nbsp;
+<i>662</i>&nbsp;    public synchronized void handleNotYourTurn(){
+<b class="nc"><i>663</i>&nbsp;        eventQueue.add(this::notYourTurn);</b>
+<b class="nc"><i>664</i>&nbsp;    }</b>
+<i>665</i>&nbsp;
+<i>666</i>&nbsp;    /**
+<i>667</i>&nbsp;     * Function called when the Client receive a new message from the Server, decide which function to call
+<i>668</i>&nbsp;     * @param message Message received from the Server
+<i>669</i>&nbsp;     */
+<i>670</i>&nbsp;
+<i>671</i>&nbsp;    public synchronized void onUpdate(Message message){
+<b class="nc"><i>672</i>&nbsp;        switch (message.getType()){</b>
+<i>673</i>&nbsp;            case WAITPLAYER:
+<b class="nc"><i>674</i>&nbsp;                onUpdateLobbyPlayer(message);</b>
+<b class="nc"><i>675</i>&nbsp;                break;</b>
+<i>676</i>&nbsp;            case CONFIG:
+<b class="nc"><i>677</i>&nbsp;                nickUsed(message);</b>
+<b class="nc"><i>678</i>&nbsp;                break;</b>
+<i>679</i>&nbsp;            case GAMESTART:
+<b class="nc"><i>680</i>&nbsp;                onGameStart(message);</b>
+<b class="nc"><i>681</i>&nbsp;                break;</b>
+<i>682</i>&nbsp;            case DISCONNECTION:
+<b class="nc"><i>683</i>&nbsp;                handleDisconnection(message);</b>
+<b class="nc"><i>684</i>&nbsp;                break;</b>
+<i>685</i>&nbsp;            case CHALLENGERCHOICE:
+<b class="nc"><i>686</i>&nbsp;                handleChallengerChoice(message);</b>
+<b class="nc"><i>687</i>&nbsp;                break;</b>
+<i>688</i>&nbsp;            case CHOOSECARD:
+<b class="nc"><i>689</i>&nbsp;                handleCardChoice(message);</b>
+<b class="nc"><i>690</i>&nbsp;                break;</b>
+<i>691</i>&nbsp;            case PLACEWORKERS:
+<b class="nc"><i>692</i>&nbsp;                handlePlaceWorkers(message);</b>
+<b class="nc"><i>693</i>&nbsp;                break;</b>
+<i>694</i>&nbsp;            case STARTTURN:
+<b class="nc"><i>695</i>&nbsp;                handleStartTurn(message);</b>
+<b class="nc"><i>696</i>&nbsp;                break;</b>
+<i>697</i>&nbsp;            case MOVEWORKER:
+<i>698</i>&nbsp;            case BUILDWORKER:
+<b class="nc"><i>699</i>&nbsp;                handleUpdateBoard(message);</b>
+<b class="nc"><i>700</i>&nbsp;                break;</b>
+<i>701</i>&nbsp;            case NONPERMCONSTRAINT:
+<b class="nc"><i>702</i>&nbsp;                addNonPermConstraint(message);</b>
+<b class="nc"><i>703</i>&nbsp;                break;</b>
+<i>704</i>&nbsp;            case PERMCONSTRAINT:
+<b class="nc"><i>705</i>&nbsp;                addPermConstraint(message);</b>
+<b class="nc"><i>706</i>&nbsp;                break;</b>
+<i>707</i>&nbsp;            case CHAT:
+<b class="nc"><i>708</i>&nbsp;                handleChatMessage(message);</b>
+<b class="nc"><i>709</i>&nbsp;                break;</b>
+<i>710</i>&nbsp;            case WIN:
+<b class="nc"><i>711</i>&nbsp;                handleWin(message);</b>
+<b class="nc"><i>712</i>&nbsp;                break;</b>
+<i>713</i>&nbsp;            case LOSE:
+<b class="nc"><i>714</i>&nbsp;                handleLose(message);</b>
+<b class="nc"><i>715</i>&nbsp;                break;</b>
+<i>716</i>&nbsp;            case STOPPEDGAME:
+<b class="nc"><i>717</i>&nbsp;                handleGameStopped(message);</b>
+<b class="nc"><i>718</i>&nbsp;                break;</b>
+<i>719</i>&nbsp;            case NOTYOURTURN:
+<b class="nc"><i>720</i>&nbsp;                handleNotYourTurn();</b>
+<b class="nc"><i>721</i>&nbsp;                break;</b>
+<i>722</i>&nbsp;            default:
+<b class="nc"><i>723</i>&nbsp;                throw new IllegalStateException(&quot;wrong message type&quot;);</b>
+<i>724</i>&nbsp;        }
+<b class="nc"><i>725</i>&nbsp;    }</b>
+<i>726</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-29 01:13</div>
+</div>
+</body>
+</html>

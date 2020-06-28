@@ -1,0 +1,635 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Server</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.network.server</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Server (it.polimi.ingsw.network.server)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Server</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    3,3%
+  </span>
+  <span class="absValue">
+    (1/ 30)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0,4%
+  </span>
+  <span class="absValue">
+    (1/ 242)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.network.server;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.controller.GameController;
+<i>4</i>&nbsp;import it.polimi.ingsw.model.Response;
+<i>5</i>&nbsp;import it.polimi.ingsw.model.player.Player;
+<i>6</i>&nbsp;import it.polimi.ingsw.network.message.*;
+<i>7</i>&nbsp;import it.polimi.ingsw.utils.ConfigLoader;
+<i>8</i>&nbsp;import it.polimi.ingsw.utils.ConstantsContainer;
+<i>9</i>&nbsp;import it.polimi.ingsw.utils.FlowStatutsLoader;
+<i>10</i>&nbsp;import it.polimi.ingsw.view.server.VirtualView;
+<i>11</i>&nbsp;import java.io.IOException;
+<i>12</i>&nbsp;import java.util.*;
+<i>13</i>&nbsp;import java.util.logging.Level;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;import static it.polimi.ingsw.utils.CliUtils.input;
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;/**
+<i>18</i>&nbsp; * Class that represents the Server of the game,Insert and Remove players from the games
+<i>19</i>&nbsp; * @author Alessandro Ruzzi
+<i>20</i>&nbsp; * @version 1.0
+<i>21</i>&nbsp; * @since 2020/06/19
+<i>22</i>&nbsp; */
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;public class Server implements Runnable{
+<i>25</i>&nbsp;
+<b class="nc"><i>26</i>&nbsp;    private final Object clientsLock = new Object();</b>
+<b class="nc"><i>27</i>&nbsp;    private final List&lt;GameController&gt; lobby = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>28</i>&nbsp;    private final List&lt;GameController&gt; actualMatches = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>29</i>&nbsp;    private final Map&lt;String, GameController&gt; controllerFromGameID = new HashMap&lt;&gt;();</b>
+<b class="nc"><i>30</i>&nbsp;    private final Map&lt;String, GameController&gt; controllerFromUserID = new HashMap&lt;&gt;();</b>
+<i>31</i>&nbsp;    private SocketHandler socketHandler;
+<b class="nc"><i>32</i>&nbsp;    private final List&lt;ClientHandler&gt; connections = new ArrayList&lt;&gt;();</b>
+<i>33</i>&nbsp;    private Integer socketPort;
+<i>34</i>&nbsp;    private int numGameID;
+<i>35</i>&nbsp;    private int numUserID;
+<b class="fc"><i>36</i>&nbsp;    public static final java.util.logging.Logger LOGGER = java.util.logging.Logger.getLogger(&quot;Server&quot;);</b>
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    /**
+<i>39</i>&nbsp;     * Private constructor that initialize server parameters: numGameID and numUserID
+<i>40</i>&nbsp;     */
+<i>41</i>&nbsp;
+<b class="nc"><i>42</i>&nbsp;    private Server(){</b>
+<b class="nc"><i>43</i>&nbsp;        numGameID = 0;</b>
+<b class="nc"><i>44</i>&nbsp;        numUserID = 0;</b>
+<b class="nc"><i>45</i>&nbsp;    }</b>
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;    /**
+<i>48</i>&nbsp;     * Starts the Server
+<i>49</i>&nbsp;     * @param args Args
+<i>50</i>&nbsp;     */
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;    public static void main( String[] args )
+<i>53</i>&nbsp;    {
+<b class="nc"><i>54</i>&nbsp;        LOGGER.info(&quot;Welcome to Santorini Server&quot;);</b>
+<b class="nc"><i>55</i>&nbsp;        LOGGER.info(&quot;Server is starting...&quot;);</b>
+<b class="nc"><i>56</i>&nbsp;        LOGGER.info(&quot;Please choose a Port (Default is 4700): &quot;);</b>
+<i>57</i>&nbsp;
+<b class="nc"><i>58</i>&nbsp;        ConfigLoader.loadSetting();</b>
+<b class="nc"><i>59</i>&nbsp;        FlowStatutsLoader.loadFlow();</b>
+<i>60</i>&nbsp;
+<i>61</i>&nbsp;        int serverPort;
+<i>62</i>&nbsp;
+<i>63</i>&nbsp;        try {
+<b class="nc"><i>64</i>&nbsp;            String port = input();</b>
+<b class="nc"><i>65</i>&nbsp;            if (port.equals(&quot;&quot;))</b>
+<b class="nc"><i>66</i>&nbsp;                serverPort = ConfigLoader.getSocketPort();</b>
+<i>67</i>&nbsp;            else {
+<b class="nc"><i>68</i>&nbsp;                serverPort = Integer.parseInt(port);</b>
+<b class="nc"><i>69</i>&nbsp;                if(serverPort &lt; 1024 || serverPort &gt; 60000)</b>
+<b class="nc"><i>70</i>&nbsp;                    serverPort = ConfigLoader.getSocketPort();</b>
+<i>71</i>&nbsp;            }
+<b class="nc"><i>72</i>&nbsp;        }catch (NumberFormatException numExc){</b>
+<b class="nc"><i>73</i>&nbsp;            serverPort = ConfigLoader.getSocketPort();</b>
+<b class="nc"><i>74</i>&nbsp;        }</b>
+<i>75</i>&nbsp;
+<i>76</i>&nbsp;
+<b class="nc"><i>77</i>&nbsp;        Server server = new Server();</b>
+<b class="nc"><i>78</i>&nbsp;        server.setSocketPort(serverPort);</b>
+<b class="nc"><i>79</i>&nbsp;        server.startSocketServer(server.getSocketPort());</b>
+<b class="nc"><i>80</i>&nbsp;    }</b>
+<i>81</i>&nbsp;
+<i>82</i>&nbsp;    /**
+<i>83</i>&nbsp;     * Set the socketPort
+<i>84</i>&nbsp;     * @param port Port in which the server will listen for new connections
+<i>85</i>&nbsp;     */
+<i>86</i>&nbsp;
+<b class="nc"><i>87</i>&nbsp;    public void setSocketPort(int port){ this.socketPort = port;}</b>
+<i>88</i>&nbsp;
+<i>89</i>&nbsp;    /**
+<i>90</i>&nbsp;     * Get the socketPort
+<i>91</i>&nbsp;     * @return The port in which the server listen for new connections
+<i>92</i>&nbsp;     */
+<i>93</i>&nbsp;
+<i>94</i>&nbsp;    public int getSocketPort(){
+<b class="nc"><i>95</i>&nbsp;        return this.socketPort;</b>
+<i>96</i>&nbsp;    }
+<i>97</i>&nbsp;
+<i>98</i>&nbsp;    /**
+<i>99</i>&nbsp;     * Starts the SocketHandler that listen for new connections,and a new thread that listen for shutdown requests
+<i>100</i>&nbsp;     * @param port Port in which the server will listen for new connections
+<i>101</i>&nbsp;     */
+<i>102</i>&nbsp;
+<i>103</i>&nbsp;    public void startSocketServer(int port){
+<i>104</i>&nbsp;        try {
+<b class="nc"><i>105</i>&nbsp;            this.socketHandler = new SocketHandler(port,this);</b>
+<b class="nc"><i>106</i>&nbsp;            LOGGER.log(Level.INFO,&quot;Server is listening on port: {0}&quot;,Integer.toString(port));</b>
+<b class="nc"><i>107</i>&nbsp;            closeServerIfRequested();</b>
+<b class="nc"><i>108</i>&nbsp;            new Thread(this).start();</b>
+<b class="nc"><i>109</i>&nbsp;        }catch (IOException e){</b>
+<b class="nc"><i>110</i>&nbsp;            LOGGER.severe(e.getMessage());</b>
+<b class="nc"><i>111</i>&nbsp;        }</b>
+<b class="nc"><i>112</i>&nbsp;    }</b>
+<i>113</i>&nbsp;
+<i>114</i>&nbsp;    /**
+<i>115</i>&nbsp;     * Stop the Server when it is requested by the administrator, closing all connection
+<i>116</i>&nbsp;     */
+<i>117</i>&nbsp;
+<i>118</i>&nbsp;    public void stopServer() {
+<b class="nc"><i>119</i>&nbsp;        synchronized (clientsLock) {</b>
+<b class="nc"><i>120</i>&nbsp;            ArrayList&lt;ClientHandler&gt; toRemove = new ArrayList&lt;&gt;();</b>
+<i>121</i>&nbsp;
+<b class="nc"><i>122</i>&nbsp;            for (ClientHandler connection : connections) {</b>
+<b class="nc"><i>123</i>&nbsp;                connection.closeConnectionFromServer();</b>
+<b class="nc"><i>124</i>&nbsp;                toRemove.add(connection);</b>
+<b class="nc"><i>125</i>&nbsp;            }</b>
+<i>126</i>&nbsp;
+<b class="nc"><i>127</i>&nbsp;            for(ClientHandler connection: toRemove){</b>
+<b class="nc"><i>128</i>&nbsp;                removeFromConnections(connection);</b>
+<b class="nc"><i>129</i>&nbsp;            }</b>
+<i>130</i>&nbsp;
+<b class="nc"><i>131</i>&nbsp;            LOGGER.info(&quot;Server Shutted Down.&quot;);</b>
+<b class="nc"><i>132</i>&nbsp;            System.exit(0);</b>
+<b class="nc"><i>133</i>&nbsp;        }</b>
+<i>134</i>&nbsp;
+<b class="nc"><i>135</i>&nbsp;    }</b>
+<i>136</i>&nbsp;
+<i>137</i>&nbsp;    /**
+<i>138</i>&nbsp;     * Remove the ClientHandler of a client from the list of connected clients
+<i>139</i>&nbsp;     * @param connection ClientHandler of the client that has to be removed
+<i>140</i>&nbsp;     */
+<i>141</i>&nbsp;
+<i>142</i>&nbsp;    public void removeFromConnections(ClientHandler connection){
+<b class="nc"><i>143</i>&nbsp;         synchronized (clientsLock) {</b>
+<b class="nc"><i>144</i>&nbsp;             connections.remove(connection);</b>
+<b class="nc"><i>145</i>&nbsp;         }</b>
+<b class="nc"><i>146</i>&nbsp;    }</b>
+<i>147</i>&nbsp;
+<i>148</i>&nbsp;    /**
+<i>149</i>&nbsp;     * Check if the configuration parameters received from the client are correct
+<i>150</i>&nbsp;     * @param nick Nickname used by the client during a single game
+<i>151</i>&nbsp;     * @param numberOfPlayer The modality that the client wants to play
+<i>152</i>&nbsp;     * @return True if the configuration parameters are valid, false otherwise
+<i>153</i>&nbsp;     */
+<i>154</i>&nbsp;
+<i>155</i>&nbsp;    public boolean checkValidConfig(String nick,int numberOfPlayer){
+<b class="nc"><i>156</i>&nbsp;        boolean isNickValid = true;</b>
+<b class="nc"><i>157</i>&nbsp;        boolean isNumberOfPlayerValid =true;</b>
+<i>158</i>&nbsp;
+<b class="nc"><i>159</i>&nbsp;        if(nick.length()&gt;ConstantsContainer.MAX_LENGHT_NICK || nick.length()&lt;ConstantsContainer.MIN_LENGHT_NICK)</b>
+<b class="nc"><i>160</i>&nbsp;            isNickValid = false;</b>
+<b class="nc"><i>161</i>&nbsp;        if(numberOfPlayer &gt; ConstantsContainer.MAXPLAYERLOBBY || numberOfPlayer &lt; ConstantsContainer.MINPLAYERLOBBY)</b>
+<b class="nc"><i>162</i>&nbsp;            isNumberOfPlayerValid = false;</b>
+<b class="nc"><i>163</i>&nbsp;        return isNumberOfPlayerValid &amp;&amp; isNickValid;</b>
+<i>164</i>&nbsp;    }
+<i>165</i>&nbsp;
+<i>166</i>&nbsp;    /**
+<i>167</i>&nbsp;     * Function that move a game started from the lobby to the list of game started(actualMatches)
+<i>168</i>&nbsp;     */
+<i>169</i>&nbsp;
+<i>170</i>&nbsp;    public void moveGameStarted(){
+<b class="nc"><i>171</i>&nbsp;        synchronized(clientsLock) {</b>
+<b class="nc"><i>172</i>&nbsp;            for (GameController match : lobby) {</b>
+<b class="nc"><i>173</i>&nbsp;                if (isStarted(match)) {</b>
+<b class="nc"><i>174</i>&nbsp;                    lobby.remove(match);</b>
+<b class="nc"><i>175</i>&nbsp;                    actualMatches.add(match);</b>
+<b class="nc"><i>176</i>&nbsp;                    LOGGER.log(Level.INFO,&quot;Game Started -&gt; || GameID: {0}&quot;, match.getGameID());</b>
+<b class="nc"><i>177</i>&nbsp;                    break;</b>
+<i>178</i>&nbsp;                }
+<b class="nc"><i>179</i>&nbsp;            }</b>
+<b class="nc"><i>180</i>&nbsp;        }</b>
+<b class="nc"><i>181</i>&nbsp;    }</b>
+<i>182</i>&nbsp;
+<i>183</i>&nbsp;    /**
+<i>184</i>&nbsp;     * Function that remove from the actual Matches the games where there is a winner or where someone has left the game
+<i>185</i>&nbsp;     * The function remove all link between controller of the match and the client
+<i>186</i>&nbsp;     */
+<i>187</i>&nbsp;
+<i>188</i>&nbsp;    public synchronized void removeGameEnded(){
+<b class="nc"><i>189</i>&nbsp;        synchronized (clientsLock) {</b>
+<i>190</i>&nbsp;            List&lt;Player&gt; toRemovePlayers;
+<b class="nc"><i>191</i>&nbsp;            List&lt;GameController&gt; toRemoveController = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>192</i>&nbsp;            for (GameController match : actualMatches) {</b>
+<b class="nc"><i>193</i>&nbsp;                if (match.hasWinner() || match.hasStopper()) {</b>
+<b class="nc"><i>194</i>&nbsp;                    toRemoveController.add(match);</b>
+<b class="nc"><i>195</i>&nbsp;                    LOGGER.log(Level.INFO,&quot;Game Terminated -&gt; || GameID: {0}&quot;, match.getGameID());</b>
+<i>196</i>&nbsp;                }
+<b class="nc"><i>197</i>&nbsp;            }</b>
+<b class="nc"><i>198</i>&nbsp;            for (GameController match : toRemoveController) {</b>
+<b class="nc"><i>199</i>&nbsp;                actualMatches.remove(match);</b>
+<b class="nc"><i>200</i>&nbsp;                toRemovePlayers = match.getActualPlayers();</b>
+<b class="nc"><i>201</i>&nbsp;                controllerFromGameID.remove(match.getGameID());</b>
+<b class="nc"><i>202</i>&nbsp;                for (Player player : toRemovePlayers) {</b>
+<b class="nc"><i>203</i>&nbsp;                    match.getViewFromNickName(player.getNickName()).removeObserver(match);</b>
+<b class="nc"><i>204</i>&nbsp;                    controllerFromUserID.remove(match.getUserIDFromPlayer(player));</b>
+<b class="nc"><i>205</i>&nbsp;                }</b>
+<b class="nc"><i>206</i>&nbsp;                for (Player player : match.getLosePlayers()) {</b>
+<b class="nc"><i>207</i>&nbsp;                    match.getViewFromNickName(player.getNickName()).removeObserver(match);</b>
+<b class="nc"><i>208</i>&nbsp;                    controllerFromUserID.remove(match.getUserIDFromPlayer(player));</b>
+<b class="nc"><i>209</i>&nbsp;                }</b>
+<b class="nc"><i>210</i>&nbsp;            }</b>
+<i>211</i>&nbsp;
+<b class="nc"><i>212</i>&nbsp;        }</b>
+<b class="nc"><i>213</i>&nbsp;    }</b>
+<i>214</i>&nbsp;
+<i>215</i>&nbsp;    /**
+<i>216</i>&nbsp;     * Function that insert a new player in a game, if the game is not yet started it will start a new game with the number of player chosen by the client
+<i>217</i>&nbsp;     * @param message Message received from the client with the nickname and number of player
+<i>218</i>&nbsp;     * @param connection ClientHandler of the client
+<i>219</i>&nbsp;     * @param isFirstTime Boolean used to see if the client has to be moved to another game, because he don&#39;t want to change nickName
+<i>220</i>&nbsp;     */
+<i>221</i>&nbsp;
+<i>222</i>&nbsp;    public void insertPlayerInGame(Message message,ClientHandler connection,boolean isFirstTime) {
+<b class="nc"><i>223</i>&nbsp;        synchronized (clientsLock) {</b>
+<b class="nc"><i>224</i>&nbsp;            String nick = message.getNickName();</b>
+<b class="nc"><i>225</i>&nbsp;            int numberOfPlayer = ((GameConfigMessage) message).getNumberOfPlayer();</b>
+<i>226</i>&nbsp;
+<b class="nc"><i>227</i>&nbsp;            if(!checkValidConfig(nick,numberOfPlayer)) {</b>
+<b class="nc"><i>228</i>&nbsp;                nickError(connection,message);</b>
+<b class="nc"><i>229</i>&nbsp;                return;</b>
+<i>230</i>&nbsp;            }
+<i>231</i>&nbsp;
+<b class="nc"><i>232</i>&nbsp;            if(isFirstTime) {</b>
+<b class="nc"><i>233</i>&nbsp;                connections.remove(connection);</b>
+<b class="nc"><i>234</i>&nbsp;                connections.add(connection);</b>
+<b class="nc"><i>235</i>&nbsp;                for (GameController match : lobby) {</b>
+<b class="nc"><i>236</i>&nbsp;                    if (getNumberOfPlayer(match) == numberOfPlayer &amp;&amp; !isFull(match)) {</b>
+<b class="nc"><i>237</i>&nbsp;                        insertFirstTime(match,connection,message);</b>
+<b class="nc"><i>238</i>&nbsp;                        return;</b>
+<i>239</i>&nbsp;                    }
+<b class="nc"><i>240</i>&nbsp;                }</b>
+<i>241</i>&nbsp;            }
+<i>242</i>&nbsp;            else
+<i>243</i>&nbsp;            {
+<b class="nc"><i>244</i>&nbsp;                for (GameController match : lobby) {</b>
+<b class="nc"><i>245</i>&nbsp;                  if (getNumberOfPlayer(match) == numberOfPlayer &amp;&amp; !isFull(match) &amp;&amp; checkNick(message,match)) {</b>
+<i>246</i>&nbsp;                      {
+<b class="nc"><i>247</i>&nbsp;                          insertNotFirstTime(match,connection,message);</b>
+<b class="nc"><i>248</i>&nbsp;                          return;</b>
+<i>249</i>&nbsp;                      }
+<i>250</i>&nbsp;                }
+<b class="nc"><i>251</i>&nbsp;            }</b>
+<i>252</i>&nbsp;            }
+<b class="nc"><i>253</i>&nbsp;            insertNewMatch(connection,message,numberOfPlayer);</b>
+<b class="nc"><i>254</i>&nbsp;        }</b>
+<b class="nc"><i>255</i>&nbsp;    }</b>
+<i>256</i>&nbsp;
+<i>257</i>&nbsp;    /**
+<i>258</i>&nbsp;     * Function that close the connection with a client, if he send a nickname not allowed, ot select wrong number of player
+<i>259</i>&nbsp;     * @param connection ClientHandler of the client
+<i>260</i>&nbsp;     * @param message Message received from the client with the nickname and number of player
+<i>261</i>&nbsp;     */
+<i>262</i>&nbsp;
+<i>263</i>&nbsp;    public void nickError(ClientHandler connection,Message message){
+<b class="nc"><i>264</i>&nbsp;        synchronized (clientsLock) {</b>
+<b class="nc"><i>265</i>&nbsp;            if (getControllerFromUserID(connection.getUserID()) != null) {</b>
+<b class="nc"><i>266</i>&nbsp;                GameController match = getControllerFromUserID(connection.getUserID());</b>
+<b class="nc"><i>267</i>&nbsp;                match.disconnectPlayerBeforeGameStart(new Message(connection.getUserID(), connection.getNickName(), MessageType.DISCONNECTION, MessageSubType.STOPPEDGAMEERROR));</b>
+<b class="nc"><i>268</i>&nbsp;                controllerFromUserID.remove(connection.getUserID());</b>
+<i>269</i>&nbsp;            }
+<b class="nc"><i>270</i>&nbsp;            connection.sendMessage(new Message(ConstantsContainer.SERVERNAME, MessageType.STOPPEDGAME, MessageSubType.STOPPEDGAMEERROR, message.getNickName()));</b>
+<b class="nc"><i>271</i>&nbsp;            removeFromConnections(connection);</b>
+<b class="nc"><i>272</i>&nbsp;            connection.setUserID(ConstantsContainer.USERDIDDEF);</b>
+<b class="nc"><i>273</i>&nbsp;            connection.setConnectionActive(false);</b>
+<b class="nc"><i>274</i>&nbsp;        }</b>
+<b class="nc"><i>275</i>&nbsp;    }</b>
+<i>276</i>&nbsp;
+<i>277</i>&nbsp;    /**
+<i>278</i>&nbsp;     * Function that insert a player into a match already created and that is waiting other player to start
+<i>279</i>&nbsp;     * @param match Controller of the match in which we are going to insert the player
+<i>280</i>&nbsp;     * @param connection ClientHandler of the client
+<i>281</i>&nbsp;     * @param message Message received from the client with the nickname and number of player
+<i>282</i>&nbsp;     */
+<i>283</i>&nbsp;
+<i>284</i>&nbsp;    public void insertFirstTime(GameController match,ClientHandler connection,Message message){
+<b class="nc"><i>285</i>&nbsp;        synchronized (clientsLock){</b>
+<b class="nc"><i>286</i>&nbsp;            String userID = ConstantsContainer.USERIDPREFIX + numUserID;</b>
+<b class="nc"><i>287</i>&nbsp;            numUserID ++;</b>
+<b class="nc"><i>288</i>&nbsp;            addPlayer(match,connection, message, userID);</b>
+<b class="nc"><i>289</i>&nbsp;            controllerFromUserID.put(userID,match);</b>
+<b class="nc"><i>290</i>&nbsp;        }</b>
+<b class="nc"><i>291</i>&nbsp;    }</b>
+<i>292</i>&nbsp;
+<i>293</i>&nbsp;    /**
+<i>294</i>&nbsp;     * Function that move a player in another match, if he keep sending the same nickname(already in use in that match)
+<i>295</i>&nbsp;     * @param match Controller of the match in which we are going to insert the player
+<i>296</i>&nbsp;     * @param connection ClientHandler of the client
+<i>297</i>&nbsp;     * @param message Message received from the client with the nickname and number of player
+<i>298</i>&nbsp;     */
+<i>299</i>&nbsp;
+<i>300</i>&nbsp;    public void insertNotFirstTime(GameController match,ClientHandler connection,Message message){
+<b class="nc"><i>301</i>&nbsp;        synchronized (clientsLock){</b>
+<b class="nc"><i>302</i>&nbsp;            addPlayer(match,connection, message,message.getSender());</b>
+<b class="nc"><i>303</i>&nbsp;            controllerFromUserID.remove(message.getSender());</b>
+<b class="nc"><i>304</i>&nbsp;            controllerFromUserID.put(message.getSender(),match);</b>
+<b class="nc"><i>305</i>&nbsp;        }</b>
+<b class="nc"><i>306</i>&nbsp;    }</b>
+<i>307</i>&nbsp;
+<i>308</i>&nbsp;    /**
+<i>309</i>&nbsp;     * Function called when there is not a game with the requested number of player,the function create a new game and insert the player in it
+<i>310</i>&nbsp;     * @param connection ClientHandler of the client
+<i>311</i>&nbsp;     * @param message Message received from the client with the nickname and number of player
+<i>312</i>&nbsp;     * @param numberOfPlayer Number of players of the match that the function will start
+<i>313</i>&nbsp;     */
+<i>314</i>&nbsp;
+<i>315</i>&nbsp;    public void insertNewMatch(ClientHandler connection,Message message, int numberOfPlayer){
+<b class="nc"><i>316</i>&nbsp;        synchronized (clientsLock){</b>
+<b class="nc"><i>317</i>&nbsp;            String userID = ConstantsContainer.USERIDPREFIX + numUserID;</b>
+<b class="nc"><i>318</i>&nbsp;            numUserID ++;</b>
+<b class="nc"><i>319</i>&nbsp;            GameController match = newMatch(numberOfPlayer);</b>
+<b class="nc"><i>320</i>&nbsp;            addPlayer(match,connection,message,userID);</b>
+<b class="nc"><i>321</i>&nbsp;            controllerFromUserID.put(userID,match);</b>
+<b class="nc"><i>322</i>&nbsp;        }</b>
+<b class="nc"><i>323</i>&nbsp;    }</b>
+<i>324</i>&nbsp;
+<i>325</i>&nbsp;    /**
+<i>326</i>&nbsp;     * Function that return the number of player(the modality) of a specific match
+<i>327</i>&nbsp;     * @param controller Controller of the match in which we are interested
+<i>328</i>&nbsp;     * @return The number of player of the match
+<i>329</i>&nbsp;     */
+<i>330</i>&nbsp;
+<i>331</i>&nbsp;    public int getNumberOfPlayer(GameController controller) {
+<b class="nc"><i>332</i>&nbsp;        return controller.getNumberOfPlayers();</b>
+<i>333</i>&nbsp;    }
+<i>334</i>&nbsp;
+<i>335</i>&nbsp;    /**
+<i>336</i>&nbsp;     * Function that return the controller of the match in which the Client with a specific UserID has been inserted
+<i>337</i>&nbsp;     * @param userID The UserID of the Client in which we are interested
+<i>338</i>&nbsp;     * @return The controller of the match of this UserID
+<i>339</i>&nbsp;     */
+<i>340</i>&nbsp;
+<i>341</i>&nbsp;    public GameController getControllerFromUserID(String userID){
+<b class="nc"><i>342</i>&nbsp;        return controllerFromUserID.get(userID);</b>
+<i>343</i>&nbsp;    }
+<i>344</i>&nbsp;
+<i>345</i>&nbsp;    /**
+<i>346</i>&nbsp;     * Function that send the message to the VirtualView of a specific client
+<i>347</i>&nbsp;     * @param msg Message to send to the virtualView
+<i>348</i>&nbsp;     * @param view The VirtualView of the client to which we want to forward the message
+<i>349</i>&nbsp;     */
+<i>350</i>&nbsp;
+<i>351</i>&nbsp;    public void sendMsgToVirtualView(Message msg, VirtualView view) {
+<b class="nc"><i>352</i>&nbsp;        view.processMessageReceived(msg);</b>
+<b class="nc"><i>353</i>&nbsp;    }</b>
+<i>354</i>&nbsp;
+<i>355</i>&nbsp;    /**
+<i>356</i>&nbsp;     * Function that add the player in match, and that does all the setup for that player
+<i>357</i>&nbsp;     * @param controller Controller of the macth in which we insert the player
+<i>358</i>&nbsp;     * @param connection ClientHandler of the client
+<i>359</i>&nbsp;     * @param message Message received from the client with the nickname and number of player
+<i>360</i>&nbsp;     * @param userID UserID of the player to insert
+<i>361</i>&nbsp;     */
+<i>362</i>&nbsp;
+<i>363</i>&nbsp;    public void addPlayer(GameController controller,ClientHandler connection,Message message,String userID){
+<b class="nc"><i>364</i>&nbsp;        VirtualView view = new VirtualView(connection,controller);</b>
+<b class="nc"><i>365</i>&nbsp;        ((GameConfigMessage) message).setView(view);</b>
+<b class="nc"><i>366</i>&nbsp;        connection.setView(view);</b>
+<b class="nc"><i>367</i>&nbsp;        view.addObservers(controller);</b>
+<b class="nc"><i>368</i>&nbsp;        connection.setUserID(userID);</b>
+<b class="nc"><i>369</i>&nbsp;        controller.addUserID(view,userID);</b>
+<b class="nc"><i>370</i>&nbsp;        sendMsgToVirtualView(message,view);</b>
+<b class="nc"><i>371</i>&nbsp;        String log = String.format(&quot;Inserted in game -&gt; || GameID: %s || UserID: %s || NickName: %s&quot;,controller.getGameID(),userID,message.getNickName());</b>
+<b class="nc"><i>372</i>&nbsp;        LOGGER.info(log);</b>
+<b class="nc"><i>373</i>&nbsp;    }</b>
+<i>374</i>&nbsp;
+<i>375</i>&nbsp;    /**
+<i>376</i>&nbsp;     * Function that check if a specific game is full
+<i>377</i>&nbsp;     * @param controller Controller of the match to check
+<i>378</i>&nbsp;     * @return True if the game is full, false otherwise
+<i>379</i>&nbsp;     */
+<i>380</i>&nbsp;
+<i>381</i>&nbsp;    public boolean isFull(GameController controller)
+<i>382</i>&nbsp;    {
+<b class="nc"><i>383</i>&nbsp;        return controller.isFull();</b>
+<i>384</i>&nbsp;    }
+<i>385</i>&nbsp;
+<i>386</i>&nbsp;    /**
+<i>387</i>&nbsp;     * Function that check if a game is already started
+<i>388</i>&nbsp;     * @param controller Controller of the match to check
+<i>389</i>&nbsp;     * @return True if the game is started, false otherwise
+<i>390</i>&nbsp;     */
+<i>391</i>&nbsp;
+<i>392</i>&nbsp;    public boolean isStarted(GameController controller){
+<b class="nc"><i>393</i>&nbsp;        return controller.isGameStarted();</b>
+<i>394</i>&nbsp;    }
+<i>395</i>&nbsp;
+<i>396</i>&nbsp;    /**
+<i>397</i>&nbsp;     * Function that check if a nickname is already in use in a match
+<i>398</i>&nbsp;     * @param message Message received from the client
+<i>399</i>&nbsp;     * @param controller Controller of the match in which to search
+<i>400</i>&nbsp;     * @return True if is free, false otherwise
+<i>401</i>&nbsp;     */
+<i>402</i>&nbsp;
+<i>403</i>&nbsp;    public boolean checkNick(Message message, GameController controller){
+<b class="nc"><i>404</i>&nbsp;        String nick = message.getNickName();</b>
+<b class="nc"><i>405</i>&nbsp;        return controller.isFreeNick(nick);</b>
+<i>406</i>&nbsp;    }
+<i>407</i>&nbsp;
+<i>408</i>&nbsp;    /**
+<i>409</i>&nbsp;     * Function that create a new controller, to create a new match
+<i>410</i>&nbsp;     * @param numberOfPlayer Number of player of the new match created
+<i>411</i>&nbsp;     * @return The controller of the new match
+<i>412</i>&nbsp;     */
+<i>413</i>&nbsp;
+<i>414</i>&nbsp;    public GameController newMatch(int numberOfPlayer) {
+<b class="nc"><i>415</i>&nbsp;        String gameID = ConstantsContainer.GAMEIDPREFIX + numGameID;</b>
+<b class="nc"><i>416</i>&nbsp;        numGameID++;</b>
+<b class="nc"><i>417</i>&nbsp;        GameController match = new GameController(numberOfPlayer,gameID);</b>
+<b class="nc"><i>418</i>&nbsp;        lobby.add(match);</b>
+<b class="nc"><i>419</i>&nbsp;        controllerFromGameID.put(gameID,match);</b>
+<b class="nc"><i>420</i>&nbsp;        return match;</b>
+<i>421</i>&nbsp;
+<i>422</i>&nbsp;    }
+<i>423</i>&nbsp;
+<i>424</i>&nbsp;    /**
+<i>425</i>&nbsp;     * Function that handle disconnection events, deliver the events to two specific function that handle disconnection before or during the game
+<i>426</i>&nbsp;     * @param userID UserID of the Client to disconnect
+<i>427</i>&nbsp;     * @param connection ClientHandler of the client to disconnect
+<i>428</i>&nbsp;     * @param message Message received to understand the type of disconnection
+<i>429</i>&nbsp;     */
+<i>430</i>&nbsp;
+<i>431</i>&nbsp;    public void handleDisconnection(String userID,ClientHandler connection,Message message) {
+<b class="nc"><i>432</i>&nbsp;        synchronized (clientsLock) {</b>
+<b class="nc"><i>433</i>&nbsp;            String log = String.format(&quot;Disconnected -&gt; || UserID: %s || NickName: %s || Type: %s&quot;,userID,message.getNickName(),message.getSubType().toString());</b>
+<b class="nc"><i>434</i>&nbsp;            LOGGER.info(log);</b>
+<b class="nc"><i>435</i>&nbsp;            if(message.getSubType().equals(MessageSubType.LOSEEXITREQUEST)){</b>
+<b class="nc"><i>436</i>&nbsp;                GameController controller = getControllerFromUserID(message.getSender());</b>
+<b class="nc"><i>437</i>&nbsp;                controllerFromUserID.remove(message.getSender());</b>
+<b class="nc"><i>438</i>&nbsp;                controller.removeViewFromGame(message.getNickName());</b>
+<b class="nc"><i>439</i>&nbsp;                controller.resetPlayer(connection.getView());</b>
+<b class="nc"><i>440</i>&nbsp;            }</b>
+<b class="nc"><i>441</i>&nbsp;            else if (!userID.equalsIgnoreCase(ConstantsContainer.USERDIDDEF)) {</b>
+<b class="nc"><i>442</i>&nbsp;                GameController controller = getControllerFromUserID(userID);</b>
+<b class="nc"><i>443</i>&nbsp;                if (controller.isGameStarted()) {</b>
+<b class="nc"><i>444</i>&nbsp;                             handleDisconnectionDuringGame(controller,message,connection);</b>
+<i>445</i>&nbsp;
+<i>446</i>&nbsp;                } else {
+<b class="nc"><i>447</i>&nbsp;                      handleDisconnectionBeforeGame(controller,userID,connection,message);</b>
+<i>448</i>&nbsp;                }
+<i>449</i>&nbsp;            }
+<b class="nc"><i>450</i>&nbsp;        }</b>
+<b class="nc"><i>451</i>&nbsp;    }</b>
+<i>452</i>&nbsp;
+<i>453</i>&nbsp;    /**
+<i>454</i>&nbsp;     * Function that handle disconnection event before the game is started
+<i>455</i>&nbsp;     * @param controller Controller of the match in which the player is
+<i>456</i>&nbsp;     * @param userID UserID of the player to disconnect
+<i>457</i>&nbsp;     * @param connection ClientHandler of the client to disconnect
+<i>458</i>&nbsp;     * @param message Message received to understand the type of disconnection
+<i>459</i>&nbsp;     */
+<i>460</i>&nbsp;
+<i>461</i>&nbsp;    public synchronized void handleDisconnectionBeforeGame(GameController controller,String userID,ClientHandler connection,Message message){
+<b class="nc"><i>462</i>&nbsp;    synchronized (clientsLock) {</b>
+<b class="nc"><i>463</i>&nbsp;        controllerFromUserID.remove(userID);</b>
+<b class="nc"><i>464</i>&nbsp;        if ((message.getSubType().equals(MessageSubType.TIMEENDED))) {</b>
+<b class="nc"><i>465</i>&nbsp;            controller.handleLobbyTimerEnded(message);</b>
+<i>466</i>&nbsp;        } else {
+<b class="nc"><i>467</i>&nbsp;                controller.disconnectPlayerBeforeGameStart(message);</b>
+<b class="nc"><i>468</i>&nbsp;                if (message.getSubType().equals(MessageSubType.BACK)) {</b>
+<b class="nc"><i>469</i>&nbsp;                    controller.resetPlayer(connection.getView());</b>
+<i>470</i>&nbsp;                }
+<i>471</i>&nbsp;
+<i>472</i>&nbsp;        }
+<b class="nc"><i>473</i>&nbsp;    }</b>
+<b class="nc"><i>474</i>&nbsp;    }</b>
+<i>475</i>&nbsp;
+<i>476</i>&nbsp;    /**
+<i>477</i>&nbsp;     * Function that handle disconnection events during the game and stop the game
+<i>478</i>&nbsp;     * @param controller Controller of the match to stop, due to a disconnection
+<i>479</i>&nbsp;     * @param connection ClientHandler of the client to disconnect
+<i>480</i>&nbsp;     * @param message Message received to understand the type of disconnection
+<i>481</i>&nbsp;     */
+<i>482</i>&nbsp;
+<i>483</i>&nbsp;    public synchronized void  handleDisconnectionDuringGame(GameController controller,Message message,ClientHandler connection){
+<b class="nc"><i>484</i>&nbsp;        synchronized (clientsLock) {</b>
+<b class="nc"><i>485</i>&nbsp;            if(!controller.isStillInGame(message.getNickName())){</b>
+<b class="nc"><i>486</i>&nbsp;                controllerFromUserID.remove(message.getSender());</b>
+<b class="nc"><i>487</i>&nbsp;                controller.removeViewFromGame(message.getNickName());</b>
+<b class="nc"><i>488</i>&nbsp;                controller.resetPlayer(connection.getView());</b>
+<b class="nc"><i>489</i>&nbsp;                return;</b>
+<i>490</i>&nbsp;            }
+<i>491</i>&nbsp;
+<b class="nc"><i>492</i>&nbsp;            actualMatches.remove(controller);</b>
+<i>493</i>&nbsp;
+<b class="nc"><i>494</i>&nbsp;            for (Player player : controller.getActualPlayers()) {</b>
+<b class="nc"><i>495</i>&nbsp;                controllerFromUserID.remove(controller.getUserIDFromPlayer(player));</b>
+<b class="nc"><i>496</i>&nbsp;            }</b>
+<b class="nc"><i>497</i>&nbsp;            controllerFromGameID.remove(controller.getGameID());</b>
+<b class="nc"><i>498</i>&nbsp;            if(message.getSubType().equals(MessageSubType.TIMEENDED))</b>
+<b class="nc"><i>499</i>&nbsp;                 controller.stopStartedGame(connection.getNickName(),Response.PLAYERTIMERENDED);</b>
+<b class="nc"><i>500</i>&nbsp;            else if(message.getSubType().equals(MessageSubType.STOPPEDGAMEERROR))</b>
+<b class="nc"><i>501</i>&nbsp;                controller.stopStartedGame(connection.getNickName(),Response.GAMESTOPPEDERROR);</b>
+<i>502</i>&nbsp;            else
+<b class="nc"><i>503</i>&nbsp;                controller.stopStartedGame(connection.getNickName(),Response.GAMESTOPPED);</b>
+<i>504</i>&nbsp;
+<b class="nc"><i>505</i>&nbsp;        }</b>
+<b class="nc"><i>506</i>&nbsp;    }</b>
+<i>507</i>&nbsp;
+<i>508</i>&nbsp;    /**
+<i>509</i>&nbsp;     * Specific thread that listen for a shutdown request by the administrator of the server
+<i>510</i>&nbsp;     */
+<i>511</i>&nbsp;
+<i>512</i>&nbsp;    public void closeServerIfRequested(){
+<b class="nc"><i>513</i>&nbsp;        new Thread(() -&gt; {</b>
+<b class="nc"><i>514</i>&nbsp;            String input = &quot;&quot;;</b>
+<b class="nc"><i>515</i>&nbsp;            while (!input.equalsIgnoreCase(&quot;close&quot;)) {</b>
+<b class="nc"><i>516</i>&nbsp;                LOGGER.info(&quot;Type \&quot;close\&quot; to stop the server.&quot;);</b>
+<b class="nc"><i>517</i>&nbsp;                input = input();</b>
+<i>518</i>&nbsp;            }
+<i>519</i>&nbsp;
+<b class="nc"><i>520</i>&nbsp;            stopServer();</b>
+<i>521</i>&nbsp;
+<b class="nc"><i>522</i>&nbsp;            if (socketHandler != null)</b>
+<b class="nc"><i>523</i>&nbsp;                socketHandler.close();</b>
+<b class="nc"><i>524</i>&nbsp;            System.exit(0);</b>
+<b class="nc"><i>525</i>&nbsp;        }).start();</b>
+<b class="nc"><i>526</i>&nbsp;    }</b>
+<i>527</i>&nbsp;
+<i>528</i>&nbsp;    /**
+<i>529</i>&nbsp;     * Specific thread that ping all the clients connected to the Server
+<i>530</i>&nbsp;     */
+<i>531</i>&nbsp;
+<i>532</i>&nbsp;    @Override
+<i>533</i>&nbsp;    public void run() {
+<b class="nc"><i>534</i>&nbsp;            while (!Thread.currentThread().isInterrupted()){</b>
+<b class="nc"><i>535</i>&nbsp;                synchronized (clientsLock){</b>
+<b class="nc"><i>536</i>&nbsp;                    removeGameEnded();</b>
+<b class="nc"><i>537</i>&nbsp;                    for(ClientHandler connection : connections){</b>
+<b class="nc"><i>538</i>&nbsp;                        if(connection.isConnectionActive()) {</b>
+<b class="nc"><i>539</i>&nbsp;                            LOGGER.info(&quot;Ping: &quot; + connection.getNickName());</b>
+<b class="nc"><i>540</i>&nbsp;                            connection.ping();</b>
+<i>541</i>&nbsp;                        }
+<b class="nc"><i>542</i>&nbsp;                    }</b>
+<i>543</i>&nbsp;                    try{
+<b class="nc"><i>544</i>&nbsp;                        clientsLock.wait(1500);</b>
+<b class="nc"><i>545</i>&nbsp;                    }catch (InterruptedException inter){</b>
+<b class="nc"><i>546</i>&nbsp;                        LOGGER.severe(inter.getMessage());</b>
+<b class="nc"><i>547</i>&nbsp;                        Thread.currentThread().interrupt();</b>
+<b class="nc"><i>548</i>&nbsp;                    }</b>
+<b class="nc"><i>549</i>&nbsp;            }</b>
+<i>550</i>&nbsp;        }
+<b class="nc"><i>551</i>&nbsp;    }</b>
+<i>552</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-29 01:13</div>
+</div>
+</body>
+</html>

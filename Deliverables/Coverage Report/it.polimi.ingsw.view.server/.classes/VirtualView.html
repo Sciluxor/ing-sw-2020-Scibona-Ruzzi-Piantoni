@@ -1,0 +1,502 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: VirtualView</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.view.server</a> ]
+</div>
+
+<h1>Coverage Summary for Class: VirtualView (it.polimi.ingsw.view.server)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">VirtualView</td>
+<td class="coverageStat">
+  <span class="percent">
+    12,5%
+  </span>
+  <span class="absValue">
+    (4/ 32)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    7,3%
+  </span>
+  <span class="absValue">
+    (9/ 123)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">VirtualView$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    12,1%
+  </span>
+  <span class="absValue">
+    (4/ 33)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    7,3%
+  </span>
+  <span class="absValue">
+    (9/ 124)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.view.server;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.controller.GameController;
+<i>4</i>&nbsp;import it.polimi.ingsw.model.cards.Card;
+<i>5</i>&nbsp;import it.polimi.ingsw.model.player.Player;
+<i>6</i>&nbsp;import it.polimi.ingsw.model.Response;
+<i>7</i>&nbsp;import it.polimi.ingsw.network.message.*;
+<i>8</i>&nbsp;import it.polimi.ingsw.network.server.ClientHandler;
+<i>9</i>&nbsp;import it.polimi.ingsw.utils.ConstantsContainer;
+<i>10</i>&nbsp;import it.polimi.ingsw.utils.Observable;
+<i>11</i>&nbsp;import it.polimi.ingsw.utils.Observer;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;/**
+<i>14</i>&nbsp; * Class that represents the VirtualView of a Specific Client Server Side
+<i>15</i>&nbsp; * @author Alessandro Ruzzi
+<i>16</i>&nbsp; * @version 1.0
+<i>17</i>&nbsp; * @since 2020/06/26
+<i>18</i>&nbsp; */
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;public class VirtualView extends Observable&lt;Message&gt; implements Observer&lt;Response&gt; {
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;    private final ClientHandler connection;
+<i>23</i>&nbsp;    private final GameController controller;
+<b class="fc"><i>24</i>&nbsp;    private boolean isYourTurn = false;</b>
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    /**
+<i>27</i>&nbsp;     * Public constructor for the Virtual View
+<i>28</i>&nbsp;     * @param connection Client Handler of the specific client
+<i>29</i>&nbsp;     * @param controller Controller of the specific game
+<i>30</i>&nbsp;     */
+<i>31</i>&nbsp;
+<b class="fc"><i>32</i>&nbsp;    public VirtualView(ClientHandler connection,GameController controller) {</b>
+<b class="fc"><i>33</i>&nbsp;        this.connection = connection;</b>
+<b class="fc"><i>34</i>&nbsp;        this.controller = controller;</b>
+<b class="fc"><i>35</i>&nbsp;    }</b>
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;    /**
+<i>38</i>&nbsp;     * Get the Client Handler of the client
+<i>39</i>&nbsp;     * @return The Client Handler of the client
+<i>40</i>&nbsp;     */
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;    public ClientHandler getConnection() {
+<b class="fc"><i>43</i>&nbsp;        return connection;</b>
+<i>44</i>&nbsp;    }
+<i>45</i>&nbsp;
+<i>46</i>&nbsp;    /**
+<i>47</i>&nbsp;     * Function that check if is the turn of the client of the virtual view
+<i>48</i>&nbsp;     * @return true if is the turn of the client, false otherwise
+<i>49</i>&nbsp;     */
+<i>50</i>&nbsp;
+<i>51</i>&nbsp;    public boolean isYourTurn() {
+<b class="fc"><i>52</i>&nbsp;        return isYourTurn;</b>
+<i>53</i>&nbsp;    }
+<i>54</i>&nbsp;
+<i>55</i>&nbsp;    /**
+<i>56</i>&nbsp;     * Set the boolean is your turn to true or false
+<i>57</i>&nbsp;     * @param yourTurn New value of the boolean is your turn
+<i>58</i>&nbsp;     */
+<i>59</i>&nbsp;
+<i>60</i>&nbsp;    public void setYourTurn(boolean yourTurn) {
+<b class="fc"><i>61</i>&nbsp;        isYourTurn = yourTurn;</b>
+<b class="fc"><i>62</i>&nbsp;    }</b>
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;    /**
+<i>65</i>&nbsp;     * Function that notify the controller about the message received from the client
+<i>66</i>&nbsp;     * @param message Message received from the client
+<i>67</i>&nbsp;     */
+<i>68</i>&nbsp;
+<i>69</i>&nbsp;    public void processMessageReceived(Message message){
+<b class="nc"><i>70</i>&nbsp;        notify(message);</b>
+<b class="nc"><i>71</i>&nbsp;    }</b>
+<i>72</i>&nbsp;
+<i>73</i>&nbsp;    /**
+<i>74</i>&nbsp;     * Function that process the new status of the game and decide which type of message to send to the client
+<i>75</i>&nbsp;     * @param status The new status of the game
+<i>76</i>&nbsp;     */
+<i>77</i>&nbsp;
+<i>78</i>&nbsp;    public void onUpdatedStatus(Response status){
+<b class="nc"><i>79</i>&nbsp;        switch (status) {</b>
+<i>80</i>&nbsp;            case PLAYERADDED:
+<i>81</i>&nbsp;            case REMOVEDPLAYER:
+<b class="nc"><i>82</i>&nbsp;                handlePlayerAdded();</b>
+<b class="nc"><i>83</i>&nbsp;                break;</b>
+<i>84</i>&nbsp;            case NICKUSED:
+<b class="nc"><i>85</i>&nbsp;                handleNickUsed();</b>
+<b class="nc"><i>86</i>&nbsp;                break;</b>
+<i>87</i>&nbsp;            case GAMESTARTED:
+<b class="nc"><i>88</i>&nbsp;                handleStartGame();</b>
+<b class="nc"><i>89</i>&nbsp;                break;</b>
+<i>90</i>&nbsp;            case PLACEWORKERSERROR:
+<i>91</i>&nbsp;            case STATUSERROR:
+<i>92</i>&nbsp;            case CARDCHOICEERROR:
+<i>93</i>&nbsp;            case CHALLENGERCHOICEERROR:
+<i>94</i>&nbsp;            case STARTTURNERROR:
+<i>95</i>&nbsp;            case MOVEWINMISMATCH:
+<i>96</i>&nbsp;            case BUILDWINMISMATCH:
+<i>97</i>&nbsp;            case WRONGSQUAREBUILD:
+<i>98</i>&nbsp;            case WRONGSQUAREMOVE:
+<b class="nc"><i>99</i>&nbsp;                handleClientError();</b>
+<b class="nc"><i>100</i>&nbsp;                break;</b>
+<i>101</i>&nbsp;            case GAMESTOPPEDERROR:
+<b class="nc"><i>102</i>&nbsp;                handleGameStoppedError();</b>
+<b class="nc"><i>103</i>&nbsp;                break;</b>
+<i>104</i>&nbsp;            case CHALLENGERCHOICE:
+<b class="nc"><i>105</i>&nbsp;                handleChallengerChoice();</b>
+<b class="nc"><i>106</i>&nbsp;                break;</b>
+<i>107</i>&nbsp;            case CHALLENGERCHOICEDONE:
+<b class="nc"><i>108</i>&nbsp;                handleChallengerChoiceDone();</b>
+<b class="nc"><i>109</i>&nbsp;                break;</b>
+<i>110</i>&nbsp;            case CARDCHOICE:
+<b class="nc"><i>111</i>&nbsp;                handleCardChoice();</b>
+<b class="nc"><i>112</i>&nbsp;                break;</b>
+<i>113</i>&nbsp;            case CARDCHOICEDONE:
+<b class="nc"><i>114</i>&nbsp;                handleCardChoiceDone();</b>
+<b class="nc"><i>115</i>&nbsp;                break;</b>
+<i>116</i>&nbsp;            case PLACEWORKERS:
+<b class="nc"><i>117</i>&nbsp;                handlePlaceWorkers();</b>
+<b class="nc"><i>118</i>&nbsp;                break;</b>
+<i>119</i>&nbsp;            case PLACEWORKERSDONE:
+<b class="nc"><i>120</i>&nbsp;                handlePlaceWorkersDone();</b>
+<b class="nc"><i>121</i>&nbsp;                break;</b>
+<i>122</i>&nbsp;            case ASSIGNEDPERMCONSTRAINT:
+<b class="nc"><i>123</i>&nbsp;                handlePermConstraint();</b>
+<b class="nc"><i>124</i>&nbsp;                break;</b>
+<i>125</i>&nbsp;            case ASSIGNEDCONSTRAINT:
+<b class="nc"><i>126</i>&nbsp;                handleNonPermConstraint();</b>
+<b class="nc"><i>127</i>&nbsp;                break;</b>
+<i>128</i>&nbsp;            case STARTTURN:
+<b class="nc"><i>129</i>&nbsp;                handleStartTurn();</b>
+<b class="nc"><i>130</i>&nbsp;                break;</b>
+<i>131</i>&nbsp;            case MOVED:
+<i>132</i>&nbsp;            case NEWMOVE:
+<b class="nc"><i>133</i>&nbsp;                handleMove();</b>
+<b class="nc"><i>134</i>&nbsp;                break;</b>
+<i>135</i>&nbsp;            case BUILD:
+<i>136</i>&nbsp;            case BUILDEDBEFORE:
+<i>137</i>&nbsp;            case NEWBUILD:
+<b class="nc"><i>138</i>&nbsp;                handleBuild();</b>
+<b class="nc"><i>139</i>&nbsp;                break;</b>
+<i>140</i>&nbsp;            case PLAYERLOSE:
+<b class="nc"><i>141</i>&nbsp;                handleLose();</b>
+<b class="nc"><i>142</i>&nbsp;                break;</b>
+<i>143</i>&nbsp;            case WIN:
+<b class="nc"><i>144</i>&nbsp;                handleWin();</b>
+<b class="nc"><i>145</i>&nbsp;                break;</b>
+<i>146</i>&nbsp;            case LOSEWIN:
+<b class="nc"><i>147</i>&nbsp;                handleLoseWin();</b>
+<b class="nc"><i>148</i>&nbsp;                break;</b>
+<i>149</i>&nbsp;            case GAMESTOPPED:
+<b class="nc"><i>150</i>&nbsp;                handleGameStopped();</b>
+<b class="nc"><i>151</i>&nbsp;                break;</b>
+<i>152</i>&nbsp;            case PLAYERTIMERENDED:
+<b class="nc"><i>153</i>&nbsp;                handlePlayerTimeEnded();</b>
+<b class="nc"><i>154</i>&nbsp;                break;</b>
+<i>155</i>&nbsp;            default:
+<i>156</i>&nbsp;        }
+<i>157</i>&nbsp;
+<b class="nc"><i>158</i>&nbsp;    }</b>
+<i>159</i>&nbsp;
+<i>160</i>&nbsp;    /**
+<i>161</i>&nbsp;     * Function that send the lobby update to the client
+<i>162</i>&nbsp;     */
+<i>163</i>&nbsp;
+<i>164</i>&nbsp;    public void handlePlayerAdded(){
+<b class="nc"><i>165</i>&nbsp;        WaitPlayerMessage message = new WaitPlayerMessage(ConstantsContainer.SERVERNAME,MessageSubType.UPDATE,connection.getUserID());</b>
+<b class="nc"><i>166</i>&nbsp;        connection.sendMessage(buildWaitLobbyMessage(message));</b>
+<b class="nc"><i>167</i>&nbsp;    }</b>
+<i>168</i>&nbsp;
+<i>169</i>&nbsp;    /**
+<i>170</i>&nbsp;     * Function that build the lobby message
+<i>171</i>&nbsp;     * @param message Message to send to the client
+<i>172</i>&nbsp;     * @return The complete message with the players in the lobby and their colors
+<i>173</i>&nbsp;     */
+<i>174</i>&nbsp;
+<i>175</i>&nbsp;    public Message buildWaitLobbyMessage(WaitPlayerMessage message){
+<b class="nc"><i>176</i>&nbsp;        for(Player player: controller.getActualPlayers()){</b>
+<b class="nc"><i>177</i>&nbsp;            message.addColor(player.getColor());</b>
+<b class="nc"><i>178</i>&nbsp;            message.addNickName(player.getNickName());</b>
+<b class="nc"><i>179</i>&nbsp;        }</b>
+<b class="nc"><i>180</i>&nbsp;        return message;</b>
+<i>181</i>&nbsp;    }
+<i>182</i>&nbsp;
+<i>183</i>&nbsp;    /**
+<i>184</i>&nbsp;     * Function that notify the client that the nickname is already in use
+<i>185</i>&nbsp;     */
+<i>186</i>&nbsp;
+<i>187</i>&nbsp;    public void handleNickUsed(){
+<b class="nc"><i>188</i>&nbsp;        if(isYourTurn) {</b>
+<b class="nc"><i>189</i>&nbsp;            WaitPlayerMessage message = new WaitPlayerMessage(ConstantsContainer.SERVERNAME, MessageSubType.UPDATE, connection.getUserID());</b>
+<b class="nc"><i>190</i>&nbsp;            connection.sendMessage(buildWaitLobbyMessage(message));</b>
+<b class="nc"><i>191</i>&nbsp;            connection.sendMessage(new Message(ConstantsContainer.SERVERNAME, MessageType.CONFIG, MessageSubType.NICKUSED, connection.getUserID()));</b>
+<b class="nc"><i>192</i>&nbsp;            connection.startLobbyTimer();</b>
+<i>193</i>&nbsp;        }
+<b class="nc"><i>194</i>&nbsp;    }</b>
+<i>195</i>&nbsp;
+<i>196</i>&nbsp;    /**
+<i>197</i>&nbsp;     * Function that notify the client that the game is starting
+<i>198</i>&nbsp;     */
+<i>199</i>&nbsp;
+<i>200</i>&nbsp;    public void handleStartGame(){
+<b class="nc"><i>201</i>&nbsp;        connection.sendMessage(new GameStartedMessage(ConstantsContainer.SERVERNAME,MessageSubType.UPDATE,controller.getGameID()));</b>
+<b class="nc"><i>202</i>&nbsp;    }</b>
+<i>203</i>&nbsp;
+<i>204</i>&nbsp;    /**
+<i>205</i>&nbsp;     * Function that notify the client about the challenger phase
+<i>206</i>&nbsp;     */
+<i>207</i>&nbsp;
+<i>208</i>&nbsp;    public void handleChallengerChoice(){
+<b class="nc"><i>209</i>&nbsp;        connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.CHALLENGERCHOICE,MessageSubType.REQUEST,controller.getCurrentPlayer().getNickName()));</b>
+<b class="nc"><i>210</i>&nbsp;    }</b>
+<i>211</i>&nbsp;
+<i>212</i>&nbsp;    /**
+<i>213</i>&nbsp;     * Function that notify the client about the challenger choice
+<i>214</i>&nbsp;     */
+<i>215</i>&nbsp;
+<i>216</i>&nbsp;    public void handleChallengerChoiceDone(){
+<b class="nc"><i>217</i>&nbsp;        connection.sendMessage(new ChallengerChoiceMessage(ConstantsContainer.SERVERNAME,controller.getCurrentPlayer().getNickName(),MessageSubType.SETTED,null,controller.getAvailableCards()));</b>
+<b class="nc"><i>218</i>&nbsp;    }</b>
+<i>219</i>&nbsp;
+<i>220</i>&nbsp;    /**
+<i>221</i>&nbsp;     * Function that notify the client the Card choice phase
+<i>222</i>&nbsp;     */
+<i>223</i>&nbsp;
+<i>224</i>&nbsp;    public void  handleCardChoice(){
+<b class="nc"><i>225</i>&nbsp;        connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.CHOOSECARD,MessageSubType.REQUEST,controller.getCurrentPlayer().getNickName()));</b>
+<b class="nc"><i>226</i>&nbsp;    }</b>
+<i>227</i>&nbsp;
+<i>228</i>&nbsp;    /**
+<i>229</i>&nbsp;     * Function that notify the client about the chosen card
+<i>230</i>&nbsp;     */
+<i>231</i>&nbsp;
+<i>232</i>&nbsp;    public void handleCardChoiceDone(){
+<b class="nc"><i>233</i>&nbsp;        connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.CHOOSECARD,MessageSubType.SETTED,controller.getCurrentPlayer().getPower().getName()));</b>
+<b class="nc"><i>234</i>&nbsp;    }</b>
+<i>235</i>&nbsp;
+<i>236</i>&nbsp;    /**
+<i>237</i>&nbsp;     * Function that notify the client about the place workers phase
+<i>238</i>&nbsp;     */
+<i>239</i>&nbsp;
+<i>240</i>&nbsp;    public void handlePlaceWorkers(){
+<b class="nc"><i>241</i>&nbsp;        connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.PLACEWORKERS,MessageSubType.REQUEST,controller.getCurrentPlayer().getNickName()));</b>
+<b class="nc"><i>242</i>&nbsp;    }</b>
+<i>243</i>&nbsp;
+<i>244</i>&nbsp;    /**
+<i>245</i>&nbsp;     * Function that notify the client about the position of the workers of a specific client
+<i>246</i>&nbsp;     */
+<i>247</i>&nbsp;
+<i>248</i>&nbsp;    public void handlePlaceWorkersDone(){
+<b class="nc"><i>249</i>&nbsp;        connection.sendMessage(new PlaceWorkersMessage(ConstantsContainer.SERVERNAME,MessageSubType.SETTED,controller.getModifiedSquares().get(0).getCoordinates(),controller.getModifiedSquares().get(1).getCoordinates()));</b>
+<b class="nc"><i>250</i>&nbsp;    }</b>
+<i>251</i>&nbsp;
+<i>252</i>&nbsp;    /**
+<i>253</i>&nbsp;     * Function that notify the client that he has a new permanent constraint
+<i>254</i>&nbsp;     */
+<i>255</i>&nbsp;
+<i>256</i>&nbsp;    public void handlePermConstraint(){
+<b class="nc"><i>257</i>&nbsp;        for(Player player: controller.getActualPlayers())</b>
+<b class="nc"><i>258</i>&nbsp;                sendPermConstraint(player);</b>
+<b class="nc"><i>259</i>&nbsp;    }</b>
+<i>260</i>&nbsp;
+<i>261</i>&nbsp;    /**
+<i>262</i>&nbsp;     * Function that notify the client that he has a new permanent constraint
+<i>263</i>&nbsp;     * @param player The Player to analise
+<i>264</i>&nbsp;     */
+<i>265</i>&nbsp;
+<i>266</i>&nbsp;    public void sendPermConstraint(Player player){
+<b class="nc"><i>267</i>&nbsp;        for(Card card: player.getConstraint())</b>
+<b class="nc"><i>268</i>&nbsp;            connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,player.getNickName(),MessageType.PERMCONSTRAINT,MessageSubType.UPDATE,card.getName()));</b>
+<b class="nc"><i>269</i>&nbsp;    }</b>
+<i>270</i>&nbsp;
+<i>271</i>&nbsp;    /**
+<i>272</i>&nbsp;     * Function that notify the client that he has a new non permanent constraint
+<i>273</i>&nbsp;     */
+<i>274</i>&nbsp;
+<i>275</i>&nbsp;    public void handleNonPermConstraint(){
+<b class="nc"><i>276</i>&nbsp;        connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.NONPERMCONSTRAINT,MessageSubType.UPDATE,controller.getCurrentPlayer().getPower().getName()));</b>
+<b class="nc"><i>277</i>&nbsp;    }</b>
+<i>278</i>&nbsp;
+<i>279</i>&nbsp;    /**
+<i>280</i>&nbsp;     * Function that notify the client that someone is starting the turn
+<i>281</i>&nbsp;     */
+<i>282</i>&nbsp;
+<i>283</i>&nbsp;    public void handleStartTurn(){
+<b class="nc"><i>284</i>&nbsp;        connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.STARTTURN,MessageSubType.REQUEST,controller.getCurrentPlayer().getNickName()));</b>
+<b class="nc"><i>285</i>&nbsp;    }</b>
+<i>286</i>&nbsp;
+<i>287</i>&nbsp;    /**
+<i>288</i>&nbsp;     * Function that notify the client about a move of another client
+<i>289</i>&nbsp;     */
+<i>290</i>&nbsp;
+<i>291</i>&nbsp;    public void handleMove(){
+<b class="nc"><i>292</i>&nbsp;        connection.sendMessage(new MoveWorkerMessage(ConstantsContainer.SERVERNAME,controller.getCurrentPlayer().getNickName(),controller.getModifiedSquares()));</b>
+<b class="nc"><i>293</i>&nbsp;    }</b>
+<i>294</i>&nbsp;
+<i>295</i>&nbsp;    /**
+<i>296</i>&nbsp;     * Function that notify the client about a build of another client
+<i>297</i>&nbsp;     */
+<i>298</i>&nbsp;
+<i>299</i>&nbsp;    public void handleBuild(){
+<b class="nc"><i>300</i>&nbsp;        connection.sendMessage(new BuildWorkerMessage(ConstantsContainer.SERVERNAME,controller.getCurrentPlayer().getNickName(),controller.getModifiedSquares()));</b>
+<b class="nc"><i>301</i>&nbsp;    }</b>
+<i>302</i>&nbsp;
+<i>303</i>&nbsp;    /**
+<i>304</i>&nbsp;     * Function that notify the client that there is a winner
+<i>305</i>&nbsp;     */
+<i>306</i>&nbsp;
+<i>307</i>&nbsp;    public void handleWin(){
+<b class="nc"><i>308</i>&nbsp;        connection.sendMessage(new Message(ConstantsContainer.SERVERNAME, MessageType.WIN, MessageSubType.UPDATE, controller.getWinner()));</b>
+<b class="nc"><i>309</i>&nbsp;        controller.resetPlayer(this);</b>
+<b class="nc"><i>310</i>&nbsp;    }</b>
+<i>311</i>&nbsp;
+<i>312</i>&nbsp;    /**
+<i>313</i>&nbsp;     * Function that notify the client that there is a winner(all the other players remained blocked)
+<i>314</i>&nbsp;     */
+<i>315</i>&nbsp;
+<i>316</i>&nbsp;    public void handleLoseWin(){
+<b class="nc"><i>317</i>&nbsp;        connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.WIN,MessageSubType.REQUEST,controller.getWinner()));</b>
+<b class="nc"><i>318</i>&nbsp;        controller.resetPlayer(this);</b>
+<b class="nc"><i>319</i>&nbsp;    }</b>
+<i>320</i>&nbsp;
+<i>321</i>&nbsp;    /**
+<i>322</i>&nbsp;     * Function that notify the client that someone has lost(remained blocked)
+<i>323</i>&nbsp;     */
+<i>324</i>&nbsp;
+<i>325</i>&nbsp;    public void handleLose(){
+<b class="nc"><i>326</i>&nbsp;        connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.LOSE,MessageSubType.UPDATE,controller.getLastLosePlayer()));</b>
+<b class="nc"><i>327</i>&nbsp;    }</b>
+<i>328</i>&nbsp;
+<i>329</i>&nbsp;    /**
+<i>330</i>&nbsp;     * Function that notify the client that the game is ended(a client left the game)
+<i>331</i>&nbsp;     */
+<i>332</i>&nbsp;
+<i>333</i>&nbsp;    public void handleGameStopped(){
+<b class="nc"><i>334</i>&nbsp;        if(connection.isConnectionActive()){</b>
+<b class="nc"><i>335</i>&nbsp;            connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.STOPPEDGAME,MessageSubType.UPDATE,controller.getStopper()));</b>
+<i>336</i>&nbsp;        }
+<b class="nc"><i>337</i>&nbsp;    }</b>
+<i>338</i>&nbsp;
+<i>339</i>&nbsp;    /**
+<i>340</i>&nbsp;     * Function that notify the client that turn timer has ended
+<i>341</i>&nbsp;     */
+<i>342</i>&nbsp;
+<i>343</i>&nbsp;    public void handlePlayerTimeEnded(){
+<b class="nc"><i>344</i>&nbsp;        connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.STOPPEDGAME,MessageSubType.TIMEENDED,controller.getStopper()));</b>
+<b class="nc"><i>345</i>&nbsp;    }</b>
+<i>346</i>&nbsp;
+<i>347</i>&nbsp;    /**
+<i>348</i>&nbsp;     * Function that notify the client that he is using a non official version of the game, or that there was an error in the server
+<i>349</i>&nbsp;     */
+<i>350</i>&nbsp;
+<i>351</i>&nbsp;    public void handleClientError(){
+<b class="nc"><i>352</i>&nbsp;        if(isYourTurn){</b>
+<b class="nc"><i>353</i>&nbsp;            connection.clientError(new Message(connection.getUserID(),connection.getNickName(), MessageType.DISCONNECTION, MessageSubType.STOPPEDGAMEERROR));</b>
+<i>354</i>&nbsp;        }
+<b class="nc"><i>355</i>&nbsp;    }</b>
+<i>356</i>&nbsp;
+<i>357</i>&nbsp;    /**
+<i>358</i>&nbsp;     * Function that notify the client that the game was stopped because someone was using a non official version of the game, or for an error in the server
+<i>359</i>&nbsp;     */
+<i>360</i>&nbsp;
+<i>361</i>&nbsp;    public void handleGameStoppedError(){
+<b class="nc"><i>362</i>&nbsp;        connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.STOPPEDGAME,MessageSubType.STOPPEDGAMEERROR,controller.getStopper()));</b>
+<b class="nc"><i>363</i>&nbsp;        if(connection.isErrorStopper())</b>
+<b class="nc"><i>364</i>&nbsp;            connection.closeAfterDisconnection();</b>
+<b class="nc"><i>365</i>&nbsp;    }</b>
+<i>366</i>&nbsp;
+<i>367</i>&nbsp;    /**
+<i>368</i>&nbsp;     * Function that send a chat message (received from other clients) to the client
+<i>369</i>&nbsp;     * @param message The message to forward
+<i>370</i>&nbsp;     */
+<i>371</i>&nbsp;
+<i>372</i>&nbsp;    public void handleChatMessage(Message message){
+<b class="nc"><i>373</i>&nbsp;        connection.sendMessage(message);</b>
+<b class="nc"><i>374</i>&nbsp;    }</b>
+<i>375</i>&nbsp;
+<i>376</i>&nbsp;    /**
+<i>377</i>&nbsp;     * Function that notify the client that he sent a message (except chat message) during the turn of another player
+<i>378</i>&nbsp;     */
+<i>379</i>&nbsp;
+<i>380</i>&nbsp;    public void handleNotYourTurn(){
+<b class="nc"><i>381</i>&nbsp;        connection.sendMessage(new Message(ConstantsContainer.SERVERNAME,MessageType.NOTYOURTURN,MessageSubType.ERROR));</b>
+<b class="nc"><i>382</i>&nbsp;    }</b>
+<i>383</i>&nbsp;
+<i>384</i>&nbsp;    /**
+<i>385</i>&nbsp;     * Update function of the observer
+<i>386</i>&nbsp;     * @param status The new game status
+<i>387</i>&nbsp;     */
+<i>388</i>&nbsp;
+<i>389</i>&nbsp;    @Override
+<i>390</i>&nbsp;    public void update(Response status) {
+<b class="nc"><i>391</i>&nbsp;        onUpdatedStatus(status);</b>
+<b class="nc"><i>392</i>&nbsp;    }</b>
+<i>393</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-29 01:13</div>
+</div>
+</body>
+</html>

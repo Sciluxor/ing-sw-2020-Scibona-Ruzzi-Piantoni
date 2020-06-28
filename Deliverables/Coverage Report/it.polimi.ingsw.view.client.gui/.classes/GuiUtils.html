@@ -1,0 +1,233 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: GuiUtils</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.view.client.gui</a> ]
+</div>
+
+<h1>Coverage Summary for Class: GuiUtils (it.polimi.ingsw.view.client.gui)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GuiUtils</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 59)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.view.client.gui;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import javax.swing.*;
+<i>4</i>&nbsp;import javax.swing.plaf.basic.BasicInternalFrameUI;
+<i>5</i>&nbsp;import java.awt.*;
+<i>6</i>&nbsp;import java.awt.event.ActionListener;
+<i>7</i>&nbsp;import java.awt.event.MouseListener;
+<i>8</i>&nbsp;import java.util.ArrayList;
+<i>9</i>&nbsp;import java.util.List;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButtonPersonalized;
+<i>12</i>&nbsp;import static it.polimi.ingsw.view.client.gui.Board.internalFrameSetUp;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;/**
+<i>15</i>&nbsp; * Class with generic utils methods
+<i>16</i>&nbsp; * @author Luigi Scibona
+<i>17</i>&nbsp; * @version 1.0
+<i>18</i>&nbsp; * @since 2020/06/28
+<i>19</i>&nbsp; */
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;public class GuiUtils {
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    /**
+<i>24</i>&nbsp;     * Private Class Builder
+<i>25</i>&nbsp;     */
+<i>26</i>&nbsp;
+<b class="nc"><i>27</i>&nbsp;    private GuiUtils(){throw new IllegalStateException(&quot;GuiUtils class cannot be instantiated&quot;);}</b>
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    /**
+<i>30</i>&nbsp;     * Method that remove the ActionListener selected from the supplied JButton
+<i>31</i>&nbsp;     * @param button JButton to delete the ActionListener
+<i>32</i>&nbsp;     * @param clas Class of the ActionListener to be deleted
+<i>33</i>&nbsp;     */
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;    public static void eliminateActionClass(JButton button, Class clas){
+<b class="nc"><i>36</i>&nbsp;        java.util.List&lt;ActionListener&gt; toRemove = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>37</i>&nbsp;        for (int x = 0; x &lt; button.getActionListeners().length; x++){</b>
+<b class="nc"><i>38</i>&nbsp;            if (button.getActionListeners()[x].getClass().equals(clas))</b>
+<b class="nc"><i>39</i>&nbsp;                toRemove.add(button.getActionListeners()[x]);</b>
+<i>40</i>&nbsp;        }
+<b class="nc"><i>41</i>&nbsp;        for (ActionListener action : toRemove){</b>
+<b class="nc"><i>42</i>&nbsp;            button.removeActionListener(action);</b>
+<b class="nc"><i>43</i>&nbsp;        }</b>
+<b class="nc"><i>44</i>&nbsp;    }</b>
+<i>45</i>&nbsp;
+<i>46</i>&nbsp;    /**
+<i>47</i>&nbsp;     * Method that remove the MouseListener selected from the supplied JButton
+<i>48</i>&nbsp;     * @param button JButton to delete the MouseListener
+<i>49</i>&nbsp;     * @param clas Class of the MouseListener to be deleted
+<i>50</i>&nbsp;     */
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;    public static void eliminateMouseClass(JButton button, Class clas){
+<b class="nc"><i>53</i>&nbsp;        java.util.List&lt;MouseListener&gt; toRemove = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>54</i>&nbsp;        for (int x = 0; x &lt; button.getMouseListeners().length; x++){</b>
+<b class="nc"><i>55</i>&nbsp;            if (button.getMouseListeners()[x].getClass().equals(clas))</b>
+<b class="nc"><i>56</i>&nbsp;                toRemove.add(button.getMouseListeners()[x]);</b>
+<i>57</i>&nbsp;        }
+<b class="nc"><i>58</i>&nbsp;        for (MouseListener mouse : toRemove){</b>
+<b class="nc"><i>59</i>&nbsp;            button.removeMouseListener(mouse);</b>
+<b class="nc"><i>60</i>&nbsp;        }</b>
+<b class="nc"><i>61</i>&nbsp;    }</b>
+<i>62</i>&nbsp;
+<i>63</i>&nbsp;    /**
+<i>64</i>&nbsp;     * Method that remove ALL the ActionListener from the supplied JButton
+<i>65</i>&nbsp;     * @param button JButton to delete the ActionListener
+<i>66</i>&nbsp;     */
+<i>67</i>&nbsp;
+<i>68</i>&nbsp;    public static void eliminateAllActionClass(JButton button){
+<b class="nc"><i>69</i>&nbsp;        java.util.List&lt;ActionListener&gt; toRemove = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>70</i>&nbsp;        for (int x = 0; x &lt; button.getActionListeners().length; x++){</b>
+<b class="nc"><i>71</i>&nbsp;            toRemove.add(button.getActionListeners()[x]);</b>
+<i>72</i>&nbsp;        }
+<b class="nc"><i>73</i>&nbsp;        for (ActionListener action : toRemove){</b>
+<b class="nc"><i>74</i>&nbsp;            button.removeActionListener(action);</b>
+<b class="nc"><i>75</i>&nbsp;        }</b>
+<b class="nc"><i>76</i>&nbsp;    }</b>
+<i>77</i>&nbsp;
+<i>78</i>&nbsp;    /**
+<i>79</i>&nbsp;     * Method that remove ALL the MouseListener from the supplied JButton
+<i>80</i>&nbsp;     * @param button JButton to delete the MouseListener
+<i>81</i>&nbsp;     */
+<i>82</i>&nbsp;
+<i>83</i>&nbsp;    public static void eliminateAllMouseClass(JButton button){
+<b class="nc"><i>84</i>&nbsp;        List&lt;MouseListener&gt; toRemove = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>85</i>&nbsp;        for (int x = 0; x &lt; button.getMouseListeners().length; x++){</b>
+<b class="nc"><i>86</i>&nbsp;            toRemove.add(button.getMouseListeners()[x]);</b>
+<i>87</i>&nbsp;        }
+<b class="nc"><i>88</i>&nbsp;        for (MouseListener mouse : toRemove){</b>
+<b class="nc"><i>89</i>&nbsp;            button.removeMouseListener(mouse);</b>
+<b class="nc"><i>90</i>&nbsp;        }</b>
+<b class="nc"><i>91</i>&nbsp;    }</b>
+<i>92</i>&nbsp;
+<i>93</i>&nbsp;    /**
+<i>94</i>&nbsp;     * Method that set the close button and the background of the provided JDesktopPane
+<i>95</i>&nbsp;     * @param pane JDesktopPane provided
+<i>96</i>&nbsp;     * @param frame Dimension of the frame
+<i>97</i>&nbsp;     * @param button Dimension of the button
+<i>98</i>&nbsp;     * @param close MyButton close
+<i>99</i>&nbsp;     */
+<i>100</i>&nbsp;
+<i>101</i>&nbsp;    public static void backAndCloseSetter(JDesktopPane pane, Dimension frame, Dimension button, MyButton close){
+<b class="nc"><i>102</i>&nbsp;        close.setBounds(((frame.width * 50/100) - (button.width / 2)), (frame.height * 83 / 100),  button.width, button.height);</b>
+<b class="nc"><i>103</i>&nbsp;        pane.add(close);</b>
+<i>104</i>&nbsp;
+<b class="nc"><i>105</i>&nbsp;        JButton back = backgroundButtonPersonalized(2, frame);</b>
+<b class="nc"><i>106</i>&nbsp;        back.setBounds(0, 0, frame.width, frame.height);</b>
+<b class="nc"><i>107</i>&nbsp;        pane.add(back);</b>
+<b class="nc"><i>108</i>&nbsp;    }</b>
+<i>109</i>&nbsp;
+<i>110</i>&nbsp;    /**
+<i>111</i>&nbsp;     * Method that set the JDesktopPane provided and the button background provided
+<i>112</i>&nbsp;     * @param pane JDesktopPane in which we will add the JInternalFrame
+<i>113</i>&nbsp;     * @param intFrameSize Dimension of the JInternalFrame
+<i>114</i>&nbsp;     * @param background Button Background
+<i>115</i>&nbsp;     * @return JInternalFrame setted
+<i>116</i>&nbsp;     */
+<i>117</i>&nbsp;
+<i>118</i>&nbsp;    public static JInternalFrame internalAndBackgroundSetter(JDesktopPane pane, Dimension intFrameSize, JButton background){
+<b class="nc"><i>119</i>&nbsp;        JInternalFrame intFrame = new JInternalFrame(&quot;&quot;, false, false, false, false);</b>
+<b class="nc"><i>120</i>&nbsp;        intFrame.setPreferredSize(intFrameSize);</b>
+<b class="nc"><i>121</i>&nbsp;        internalFrameSetUp(intFrame);</b>
+<b class="nc"><i>122</i>&nbsp;        BasicInternalFrameUI bii = (BasicInternalFrameUI) intFrame.getUI();</b>
+<b class="nc"><i>123</i>&nbsp;        bii.setNorthPane(null);</b>
+<b class="nc"><i>124</i>&nbsp;        intFrame.setVisible(false);</b>
+<b class="nc"><i>125</i>&nbsp;        pane.add(intFrame);</b>
+<i>126</i>&nbsp;
+<b class="nc"><i>127</i>&nbsp;        background.setBounds(0, 0,intFrameSize.width, intFrameSize.height);</b>
+<b class="nc"><i>128</i>&nbsp;        background.setOpaque(false);</b>
+<b class="nc"><i>129</i>&nbsp;        background.setContentAreaFilled(false);</b>
+<b class="nc"><i>130</i>&nbsp;        background.setBorderPainted(false);</b>
+<b class="nc"><i>131</i>&nbsp;        intFrame.add(background);</b>
+<i>132</i>&nbsp;
+<b class="nc"><i>133</i>&nbsp;        return intFrame;</b>
+<i>134</i>&nbsp;    }
+<i>135</i>&nbsp;
+<i>136</i>&nbsp;    /**
+<i>137</i>&nbsp;     * Method for setting the JButtons of the List provided
+<i>138</i>&nbsp;     */
+<i>139</i>&nbsp;
+<i>140</i>&nbsp;    public static void setButtonStyle(List&lt;JButton&gt; cards, JInternalFrame intFrame, Dimension frameSize, Dimension intFrameSize, JButton buttonBackground, JLabel cover, boolean center, int type){
+<b class="nc"><i>141</i>&nbsp;        for (JButton button : cards){</b>
+<b class="nc"><i>142</i>&nbsp;            button.setOpaque(false);</b>
+<b class="nc"><i>143</i>&nbsp;            button.setContentAreaFilled(false);</b>
+<b class="nc"><i>144</i>&nbsp;            button.setFocusPainted(false);</b>
+<b class="nc"><i>145</i>&nbsp;            button.setBorderPainted(false);</b>
+<b class="nc"><i>146</i>&nbsp;            button.addMouseListener(new ColorBorderGodCards());</b>
+<b class="nc"><i>147</i>&nbsp;            button.addMouseListener(new ShowPower(intFrame, frameSize, intFrameSize, buttonBackground, cover, center, type));</b>
+<b class="nc"><i>148</i>&nbsp;        }</b>
+<b class="nc"><i>149</i>&nbsp;    }</b>
+<i>150</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-29 01:13</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,161 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Building</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.model.map</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Building (it.polimi.ingsw.model.map)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Building</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (9/ 9)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Building$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (10/ 10)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.model.map;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.io.Serializable;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;/**
+<i>6</i>&nbsp; * Enumeration used to represent the building type
+<i>7</i>&nbsp; * @author Luigi Scibona, Alessandro Ruzzi, Edoardo Piantoni
+<i>8</i>&nbsp; * @version 1.0
+<i>9</i>&nbsp; * @since 2020/06/28
+<i>10</i>&nbsp; */
+<i>11</i>&nbsp;
+<b class="fc"><i>12</i>&nbsp;public enum Building implements Serializable {</b>
+<b class="fc"><i>13</i>&nbsp;    GROUND, LVL1, LVL2, LVL3, DOME;</b>
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;    /**
+<i>16</i>&nbsp;     * Method used to parse an input string to one of the possible enumeration&#39;s value
+<i>17</i>&nbsp;     * @param input The string to parse
+<i>18</i>&nbsp;     * @return The value of the enumeration corresponding to the string
+<i>19</i>&nbsp;     */
+<i>20</i>&nbsp;
+<b class="fc"><i>21</i>&nbsp;    public static Building parseInput(String input){ return Enum.valueOf(Building.class, input.toUpperCase());}</b>
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    /**
+<i>24</i>&nbsp;     * Function that calculate the building to place above another building
+<i>25</i>&nbsp;     * @param building The building to build on
+<i>26</i>&nbsp;     * @return The Building to build
+<i>27</i>&nbsp;     */
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    public static Building mapNext(Building building){
+<i>30</i>&nbsp;
+<b class="fc"><i>31</i>&nbsp;        switch (building){</b>
+<i>32</i>&nbsp;            case GROUND:
+<b class="fc"><i>33</i>&nbsp;                return Building.LVL1;</b>
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;            case LVL1:
+<b class="fc"><i>36</i>&nbsp;                return Building.LVL2;</b>
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;            case LVL2:
+<b class="fc"><i>39</i>&nbsp;                return Building.LVL3;</b>
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;            case LVL3:
+<b class="fc"><i>42</i>&nbsp;                return Building.DOME;</b>
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;            default:
+<b class="fc"><i>45</i>&nbsp;                throw new IllegalArgumentException(&quot;wrong parameter&quot;);</b>
+<i>46</i>&nbsp;        }
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;
+<i>49</i>&nbsp;
+<i>50</i>&nbsp;    }
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-29 01:13</div>
+</div>
+</body>
+</html>
