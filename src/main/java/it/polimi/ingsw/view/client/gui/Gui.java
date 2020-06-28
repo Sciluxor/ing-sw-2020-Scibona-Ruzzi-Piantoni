@@ -42,9 +42,9 @@ public class Gui extends ClientGameController {
     int panelInUse = 0;
     private int numberOfPlayers = 2;
 
-    static Font felixSmall;
-    static Font felixNormal;
-    static Font felixBold;
+    Font felixSmall;
+    Font felixNormal;
+    Font felixBold;
     static List<Player> players = new ArrayList<>();
     String nickname;
     JButton buttonBackground = new JButton();
