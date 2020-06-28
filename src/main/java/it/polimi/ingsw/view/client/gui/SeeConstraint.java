@@ -71,7 +71,7 @@ public class SeeConstraint extends JDesktopPane {
 
         setPreferredSize(frameSize);
 
-        setButtonStyle(godList, intFrame, frameSize, intFrameSize, buttonBackground, cover, label, true, 1);
+        setButtonStyle(godList, intFrame, frameSize, intFrameSize, buttonBackground, cover, true, 1);
 
         if (constraint.size() == 3){
             mePower = getButtonFromConstraint(constraint.get(0));

@@ -66,8 +66,6 @@ public class ChallengerChoiceCards extends JDesktopPane{
 
         final int xconst = frameSize.width * 9/100;
         final int yconst = frameSize.height * 24/100;
-        int x = xconst;
-        int y = yconst;
 
         costructor = new ButtonGodsList(frameSize, godList);
 
@@ -78,7 +76,7 @@ public class ChallengerChoiceCards extends JDesktopPane{
         JButton chronus = new JButton();
         chronus.setName("chronus");
 
-        setButtonStyle(godList, intFrame, frameSize, intFrameSize, buttonBackground, cover, label, false, 1);
+        setButtonStyle(godList, intFrame, frameSize, intFrameSize, buttonBackground, cover, false, 1);
         buttonStyle();
 
         JLabel choise;
@@ -100,10 +98,10 @@ public class ChallengerChoiceCards extends JDesktopPane{
 
 
         if(numberOfPlayer == 2){
-            addForTwo(x, y, yconst);
+            addForTwo(xconst, yconst, yconst);
         }
         else{
-            addForThree(chronus, x, y, yconst);
+            addForThree(chronus, xconst, yconst, yconst);
         }
 
         JButton backBack = backgroundButton(0);

@@ -86,7 +86,7 @@ public class ChooseCard extends JDesktopPane{
 
         selectGodsChosen();
 
-        setButtonStyle(godChoosen, intFrame, frameSize, intFrameSize, buttonBackground, cover, label, true, 2);
+        setButtonStyle(godChoosen, intFrame, frameSize, intFrameSize, buttonBackground, cover, true, 2);
         buttonStyle();
 
         if(numberOfPanel == 3 || numberOfPanel == 2) {

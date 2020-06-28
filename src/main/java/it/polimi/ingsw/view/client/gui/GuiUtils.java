@@ -137,14 +137,14 @@ public class GuiUtils {
      * Method for setting the JButtons of the List provided
      */
 
-    public static void setButtonStyle(List<JButton> cards, JInternalFrame intFrame, Dimension frameSize, Dimension intFrameSize, JButton buttonBackground, JLabel cover, JLabel label, boolean center, int type){
+    public static void setButtonStyle(List<JButton> cards, JInternalFrame intFrame, Dimension frameSize, Dimension intFrameSize, JButton buttonBackground, JLabel cover, boolean center, int type){
         for (JButton button : cards){
             button.setOpaque(false);
             button.setContentAreaFilled(false);
             button.setFocusPainted(false);
             button.setBorderPainted(false);
             button.addMouseListener(new ColorBorderGodCards());
-            button.addMouseListener(new ShowPower(intFrame, frameSize, intFrameSize, buttonBackground, cover, label, center, type));
+            button.addMouseListener(new ShowPower(intFrame, frameSize, intFrameSize, buttonBackground, cover, center, type));
         }
     }
 }

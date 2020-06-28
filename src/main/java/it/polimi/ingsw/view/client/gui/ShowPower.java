@@ -6,6 +6,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 
+import static it.polimi.ingsw.utils.ConstantsContainer.*;
 import static it.polimi.ingsw.view.client.gui.Gui.LOGGER;
 
 /**
@@ -21,7 +22,6 @@ public class ShowPower extends MouseAdapter {
     Dimension intFrameSize;
     JButton buttonBackground;
     JLabel cover;
-    JLabel label;
     double y;
     int typeOfAction;
 
@@ -32,18 +32,16 @@ public class ShowPower extends MouseAdapter {
      * @param intSize Size of the JInternalFrame
      * @param button Background button
      * @param cov Label of the cover
-     * @param lab Label for tha loading
      * @param center Boolean that says if the button is centered vertically
      * @param type Type of ShowPower
      */
 
-    public ShowPower(JInternalFrame frame, Dimension size, Dimension intSize, JButton button, JLabel cov, JLabel lab, boolean center, int type){
+    public ShowPower(JInternalFrame frame, Dimension size, Dimension intSize, JButton button, JLabel cov, boolean center, int type){
         intFrame = frame;
         frameSize = size;
         intFrameSize = intSize;
         buttonBackground = button;
         cover = cov;
-        label = lab;
         if (center){
             y = 19.5;
         }
@@ -82,12 +80,11 @@ public class ShowPower extends MouseAdapter {
 
         buttonBackground.setIcon(null);
         try {
-            cover = ImageHandler.setImage("resources/Graphics/gods/" + c.getName() + "_description.png", 100, 100, intFrame.getWidth() , intFrame.getHeight() );
+            cover = ImageHandler.setImage(GODS + c.getName() + DESCRIPTION, 100, 100, intFrame.getWidth() , intFrame.getHeight() );
         } catch (IOException ex) {
             LOGGER.severe(ex.getMessage());
         }
-        label.setIcon(cover.getIcon());
-        buttonBackground.setIcon(label.getIcon());
+        buttonBackground.setIcon(cover.getIcon());
         intFrame.setVisible(true);
     }
 
