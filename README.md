@@ -73,6 +73,7 @@ By default the server will be accessible through port 4700 and at address 127.0.
 ```
 java -jar Server-jar-with-dependencies.jar
 ```
+
 ## Componenti del gruppo
 - [__Luigi Scibona__](https://github.com/Sciluxor) as Scilux/Sciluxor
 - [__Alessandro Ruzzi__](https://github.com/alexruzzi98) as alexruzzi98

@@ -246,7 +246,7 @@ public class Board {
     List<JLabel> opponents2Labels = new ArrayList<>();
     boolean chatOpen = false;
     int tileBuildChoosen = 0;
-    private static final double boldDimension = (25 * screenSize.getHeight() / 1080);
+    private static final double BOLDDIMENSION = (25 * screenSize.getHeight() / 1080);
     List<String> constraint = new ArrayList<>();
     private static final MP3 click = new MP3("resources/Music/Click.mp3");
     MP3 place;
@@ -596,13 +596,7 @@ public class Board {
         chat.setBackground(new Color(232, 222, 208));
         chat.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         chat.setFont(felixNormal);
-        //chat.setLineWrap(true);
-        //chat.setWrapStyleWord(true);
         chat.setVisible(true);
-
-        /*JPanel noWrapPanel = new JPanel(new BorderLayout());
-        noWrapPanel.setPreferredSize(chatDimension);
-        noWrapPanel.add(chat);*/
 
         scrollPane = new JScrollPane(chat);
         scrollPane.setPreferredSize(chatDimension);
@@ -2758,8 +2752,8 @@ public class Board {
      * @return BoldDimension
      */
 
-    public static double getBoldDimension() {
-        return boldDimension;
+    public static double getBolddimension() {
+        return BOLDDIMENSION;
     }
 
     /**
@@ -2867,15 +2861,14 @@ public class Board {
         try{
             doc.insertString(doc.getLength(), name, colorStyle);
         }catch (BadLocationException e){
-            LOGGER.severe("InsertString Failed");
+            LOGGER.severe(INSERTFAILED);
         }
         StyleConstants.setForeground(colorStyle, Color.BLACK);
         try{
             doc.insertString(doc.getLength(), ": " + mess + "\n", colorStyle);
         }catch (BadLocationException e){
-            LOGGER.severe("InsertString Failed");
+            LOGGER.severe(INSERTFAILED);
         }
-        //chat.append(name + ": " + mess + "\n");
         chat.setCaretPosition(chat.getDocument().getLength());
         field.setText("");
     }
@@ -2893,15 +2886,14 @@ public class Board {
                 try{
                     doc.insertString(doc.getLength(), mePlayer.getNickName(), colorStyle);
                 }catch (BadLocationException be){
-                    LOGGER.severe("InsertString Failed");
+                    LOGGER.severe(INSERTFAILED);
                 }
                 StyleConstants.setForeground(colorStyle, Color.BLACK);
                 try{
                     doc.insertString(doc.getLength(), ": " + field.getText().toLowerCase() + "\n", colorStyle);
                 }catch (BadLocationException be){
-                    LOGGER.severe("InsertString Failed");
+                    LOGGER.severe(INSERTFAILED);
                 }
-                //chat.append(mePlayer.getNickName() + ": " + field.getText().toLowerCase() + "\n");
                 chat.setCaretPosition(chat.getDocument().getLength());
                 field.setText("");
                 gui.sendChatMessage(string);

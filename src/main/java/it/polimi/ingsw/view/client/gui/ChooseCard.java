@@ -13,7 +13,7 @@ import java.util.List;
 
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButtonPersonalized;
-import static it.polimi.ingsw.view.client.gui.Board.getBoldDimension;
+import static it.polimi.ingsw.view.client.gui.Board.getBolddimension;
 import static it.polimi.ingsw.view.client.gui.Board.internalFrameSetUp;
 import static it.polimi.ingsw.view.client.gui.EliminateListeners.eliminateActionClass;
 import static it.polimi.ingsw.view.client.gui.EliminateListeners.eliminateMouseClass;
@@ -47,7 +47,7 @@ public class ChooseCard extends JDesktopPane{
     String cardChosen = null;
     String nameChoosing;
     transient MP3 click;
-    double bold = getBoldDimension();
+    double bold = getBolddimension();
 
     /**
      * Class builder

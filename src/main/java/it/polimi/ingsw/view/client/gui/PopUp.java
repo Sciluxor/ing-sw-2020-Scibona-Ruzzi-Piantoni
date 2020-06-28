@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
-import static it.polimi.ingsw.view.client.gui.Board.getBoldDimension;
+import static it.polimi.ingsw.view.client.gui.Board.getBolddimension;
 import static it.polimi.ingsw.view.client.gui.Gui.*;
 
 /**
@@ -34,7 +34,7 @@ public class PopUp {
     JLabel label3;
     JPanel panel;
     String name;
-    double bold = getBoldDimension();
+    double bold = getBolddimension();
 
     /**
      * Class builder

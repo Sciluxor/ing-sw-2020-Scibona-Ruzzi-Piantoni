@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButtonPersonalized;
-import static it.polimi.ingsw.view.client.gui.Board.getBoldDimension;
+import static it.polimi.ingsw.view.client.gui.Board.getBolddimension;
 import static it.polimi.ingsw.view.client.gui.Gui.felixBold;
 import static it.polimi.ingsw.view.client.gui.Gui.getD;
 
@@ -24,7 +24,7 @@ public class PlaceWorkers extends JDesktopPane{
     MyButton close = new MyButton(3);
     JInternalFrame intFrame;
     String nameChoosing;
-    double bold = getBoldDimension();
+    double bold = getBolddimension();
 
     /**
      * Class builder

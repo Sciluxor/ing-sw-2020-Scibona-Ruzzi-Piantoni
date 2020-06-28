@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.List;
 
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
-import static it.polimi.ingsw.view.client.gui.Board.getBoldDimension;
+import static it.polimi.ingsw.view.client.gui.Board.getBolddimension;
 import static it.polimi.ingsw.view.client.gui.Gui.*;
 
 /**
@@ -38,7 +38,7 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
     JLabel lwhite;
     JLabel lwhitePress;
     transient MP3 click;
-    double bold = getBoldDimension();
+    double bold = getBolddimension();
 
     /**
      * Class builder

@@ -50,4 +50,5 @@ public class ConstantsContainer {
     public static final String PODIUM = "resources/Graphics/gods/podium/";
     public static final String GODS = "resources/Graphics/gods/";
     public static final String DESCRIPTION = "_description.png";
+    public static final String INSERTFAILED = "InsertString Failed";
 }
