@@ -49,6 +49,12 @@ public class Game extends Observable<Response> {
     private boolean hasWinner;
     private Player winner;
 
+    /**
+     * Class builder
+     * @param numberOfPlayers Number of Player in game
+     * @param gameID GameId of the current game
+     */
+
     public Game(int numberOfPlayers, String gameID) {
 
         settedPlayers = new ArrayList<>();
@@ -64,33 +70,73 @@ public class Game extends Observable<Response> {
         availableColors.addAll(Arrays.asList(Color.values()));
     }
 
+    /**
+     * Setter of the First Player
+     * @param firstPlayer First Player entered in the game
+     */
+
     public void setFirstPlayer(String firstPlayer) {
         this.firstPlayer = firstPlayer;
     }
+
+    /**
+     * Getter for hasStopper
+     * @return HasStopper
+     */
 
     public boolean hasStopper() {
         return hasStopper;
     }
 
+    /**
+     * Setter of hasStopper
+     * @param hasStopper Boolean that says if hasStopper
+     */
+
     public void setHasStopper(boolean hasStopper) {
         this.hasStopper = hasStopper;
     }
+
+    /**
+     * Getter for the availableCards
+     * @return List of string of the available cards
+     */
 
     public List<String> getAvailableCards() {
         return availableCards;
     }
 
+    /**
+     * Setter of the availableCards
+     * @param cardNames List of string of the availableCards
+     */
+
     public void setAvailableCards(List<String> cardNames) {
         availableCards = cardNames;
     }
+
+    /**
+     * Method that remove the provided card from the List of availableCards
+     * @param toRemoveCard Card to be removed
+     */
 
     public void removeCard(String toRemoveCard){
         availableCards.remove(toRemoveCard);
     }
 
+    /**
+     * Getter of the number of Players in game
+     * @return Number of the Players in the current game
+     */
+
     public  Integer getNumberOfPlayers() {
         return numberOfPlayers;
     }
+
+    /**
+     * Setter of the number of Player in game
+     * @param numberOfPlayers Number of the Players
+     */
 
     public void  setNumberOfPlayers(Integer numberOfPlayers) {
         if(numberOfPlayers == null)
@@ -99,60 +145,126 @@ public class Game extends Observable<Response> {
         this.numberOfPlayers = numberOfPlayers;
     }
 
+    /**
+     * Getter of the stopper
+     * @return Stopper
+     */
+
     public String getStopper() {
         return stopper;
     }
+
+    /**
+     * Setter of the stopper
+     * @param stopper Stopper to be set
+     */
 
     public void setStopper(String stopper) {
         this.stopper = stopper;
     }
 
+    /**
+     * Getter of the last Player who lost
+     * @return Last Player that lost
+     */
+
     public String getLastLosePlayer() {
         return lastLosePlayer;
     }
 
+    /**
+     * Getter of the List of Players have lost
+     * @return List of Players
+     */
+
     public List<Player> getLosePlayers() {
         return losePlayers;
     }
+
+    /**
+     * Getter of the provided card from the List of available cards
+     * @param card Card to be selected
+     * @return Card
+     */
 
     public String getCardFromAvailableCards(String card) {
         for(String possibileCard : availableCards){
             if(possibileCard.equals(card))
                 return possibileCard;
         }
-
         return null;
-
     }
 
+    /**
+     * Getter of the List of Players in game
+     * @return List of Players in game
+     */
 
     public List<Player> getPlayers() {
         return settedPlayers;
     }
 
+    /**
+     * Getter of the configPlayer
+     * @return ConfigPlayer
+     */
+
     public int getConfigPlayer() {
         return configPlayer;
     }
+
+    /**
+     * Method that says if the game has a winner
+     * @return Boolean that says if the game has a winner
+     */
 
     public boolean hasWinner() {
         return hasWinner;
     }
 
+    /**
+     * Setter of hasWinner
+     * @param hasWinner Boolean to set
+     */
+
     public void setHasWinner(boolean hasWinner) {
         this.hasWinner = hasWinner;
     }
+
+    /**
+     * Method that return the winner Player
+     * @return Winner Player
+     */
 
     public Player getWinner() {
         return winner;
     }
 
+    /**
+     * Setter of the winner Player
+     * @param winner Player that win the game
+     */
+
     public void setWinner(Player winner) {
         this.winner = winner;
     }
 
+    /**
+     * Method that return the card provided from the deck of cards
+     * @param cardName Card wanted from the deck
+     * @return Card
+     */
+
     public Card getCardFromDeck(String cardName){
         return deck.get(cardName);
     }
+
+    /**
+     * Method that add the Player provided to the list of Plyers in game
+     * @param player Player to be added
+     * @param actualView VirtualView of the game
+     * @return Boolean that says if the Player is added or not
+     */
 
     public boolean addPlayer(Player player, VirtualView actualView){
         if(isGameStarted)
@@ -176,6 +288,11 @@ public class Game extends Observable<Response> {
         return true;
     }
 
+    /**
+     * Method that remove the provided Player form the list of settedPlayers
+     * @param nick Player to be removed
+     */
+
     public void removeSettedPlayer(String nick){
         for(Player player:settedPlayers){
             if(player.getNickName().equals(nick)){
@@ -184,11 +301,21 @@ public class Game extends Observable<Response> {
                 break;
             }
         }
-
     }
+
+    /**
+     * Method that remove a configPlayer
+     */
+
     public void removeConfigPlayer(){
         configPlayer--;
     }
+
+    /**
+     * Method that add a new Player provided
+     * @param player Player to be added
+     * @return Boolean that says if the Player is added or not
+     */
 
     public boolean newNickName(Player player){
         for(Player player1: settedPlayers){
@@ -203,13 +330,28 @@ public class Game extends Observable<Response> {
         return true;
     }
 
+    /**
+     * Getter of the deck of cards
+     * @return Deck of cards
+     */
+
     public Map<String, Card> getDeck() {
         return deck;
     }
 
+    /**
+     * Getter of the Player is playing in this moment
+     * @return Current Player
+     */
+
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
+
+    /**
+     * Setter of the currentPlayer with the Player provided
+     * @param currentPlayer Player to be set
+     */
 
     public void setCurrentPlayer(Player currentPlayer) {
         if(currentPlayer == null)
@@ -218,18 +360,37 @@ public class Game extends Observable<Response> {
         this.currentPlayer = currentPlayer;
     }
 
+    /**
+     * Method that pick the first Player from the playerQueue
+     */
+
     public void pickPlayer(){
         setCurrentPlayer(playerQueue.peekFirst());
         playerQueue.changeTurn();
     }
 
+    /**
+     * Getter of the map of the game
+     * @return Map of the game
+     */
+
     public GameMap getGameMap() {
         return gameMap;
     }
 
+    /**
+     * Method that says if the game i started
+     * @return Boolean that says if the game is started or not
+     */
+
     public boolean isGameStarted() {
         return isGameStarted;
     }
+
+    /**
+     * Setter of the isGameStarted
+     * @param gameStarted Boolean to set
+     */
 
     public void setGameStarted(boolean gameStarted) { isGameStarted = gameStarted;}
 
@@ -242,6 +403,13 @@ public class Game extends Observable<Response> {
         Server.LOGGER.info(stringStatus);
         notify(gameStatus);
     }
+
+    /**
+     * Method that set the Workers of the currentPlayer on the map
+     * @param tile1 First square to set the Worker
+     * @param tile2 Second square to set the Worker
+     * @return Boolean that says if the Workers are placed or not
+     */
 
     public boolean placeWorkersOnMap(Integer[] tile1,Integer[] tile2) {
          if(tile1[0]> ConstantsContainer.MAXMAPCOORD || tile1[0]<ConstantsContainer.MINMAPPOSITION
@@ -259,8 +427,11 @@ public class Game extends Observable<Response> {
         gameMap.placeWorkerOnMap(square1,square2,currentPlayer);
 
         return true;
-
     }
+
+    /**
+     * Method that remove the currentPlayer from the game
+     */
 
     public void removePlayerLose(){
         Player toRemovePlayer = currentPlayer;
@@ -272,6 +443,11 @@ public class Game extends Observable<Response> {
         pickPlayer();
     }
 
+    /**
+     * Method that says if all the Workers of all the Players in game are placed on the map
+     * @return Boolean that says if all the Workers are placed
+     */
+
     public boolean allWorkersPlaced(){
         for(Player player : settedPlayers){
             if(!player.hasPlacedWorkers())
@@ -279,6 +455,11 @@ public class Game extends Observable<Response> {
         }
         return true;
     }
+
+    /**
+     * Method that choose randomly the Challenger from the Players in game
+     * @return Player chosen as Challenger
+     */
 
     public Player pickChallenger() {
         try {
@@ -296,6 +477,9 @@ public class Game extends Observable<Response> {
         return newChallenger;
     }
 
+    /**
+     * Method that create the Players Queue from the List of Players
+     */
 
     public void createQueue() {
         playerQueue.clear();
@@ -312,9 +496,12 @@ public class Game extends Observable<Response> {
                 queue.add(player1);
             }
         }
-
         this.playerQueue = new PlayerQueue(queue);
     }
+
+    /**
+     *
+     */
 
     public void createCardQueue(){
         List<Player> queue = new ArrayList<>();
@@ -334,6 +521,12 @@ public class Game extends Observable<Response> {
         this.playerQueue = new PlayerQueue(queue);
     }
 
+    /**
+     * Method that check if the Card provided is in the deck of cards
+     * @param card Card to be checked
+     * @return Boolean that says if the Card is in the deck or not
+     */
+
     public boolean checkCardIntoDeck(String card) { return deck.get(card) != null;}
 
     public boolean assignCard(String card) {
@@ -347,11 +540,25 @@ public class Game extends Observable<Response> {
         return true;
     }
 
+    /**
+     * Method that says the actual game status
+     * @return Respose of the game status
+     */
+
     public Response getGameStatus(){ return this.gameStatus;}
+
+    /**
+     * Getter of the GameId
+     * @return GameId of the current game
+     */
 
     public String getGameID() {
         return gameID;
     }
+
+    /**
+     * Method that assign the constraints of all the gods in the game
+     */
 
     public void assignPermanentConstraint(){
         for(Player player : settedPlayers){
@@ -359,8 +566,6 @@ public class Game extends Observable<Response> {
                 player.assignConstraint(getPlayers());
             }
         }
-
     }
-
 
 }

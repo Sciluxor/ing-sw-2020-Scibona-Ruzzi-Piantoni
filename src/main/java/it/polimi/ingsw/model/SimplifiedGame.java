@@ -33,6 +33,11 @@ public class SimplifiedGame{
     private boolean hasWinner;
     private Player winner;
 
+    /**
+     * Class builder
+     * @param numberOfPlayers
+     */
+
     public SimplifiedGame(int numberOfPlayers) {
 
         this.numberOfPlayers = numberOfPlayers;
