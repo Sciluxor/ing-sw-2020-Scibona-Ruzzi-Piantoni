@@ -5,6 +5,7 @@ import javax.swing.*;
 
 import java.awt.*;
 import java.io.IOException;
+import java.util.Objects;
 
 import static it.polimi.ingsw.view.client.gui.Gui.*;
 
@@ -77,46 +78,48 @@ public class BackgroundButton {
 
     public static JButton backgroundButtonPersonalized(int n, Dimension frame){
         JButton back = new JButton();
-        JLabel cover11 = new JLabel();
+        JLabel cover11 = null;
         JLabel backgroundPanel;
 
         switch (n){
             case 0:
-                try {
-                   cover11 = ImageHandler.setImage("resources/Graphics/background_panels.png", 100, 100, frame.width, frame.height);
-                } catch (IOException e) {
-                    LOGGER.severe(e.getMessage());
-                }
+                cover11 = loadBackGround("resources/Graphics/background_panels.png", frame);
                 break;
             case 1:
-                try {
-                    cover11 = ImageHandler.setImage("resources/Graphics/background.png", 100, 100, frame.width, frame.height);
-                } catch (IOException e) {
-                    LOGGER.severe(e.getMessage());
-                }
+                cover11 = loadBackGround("resources/Graphics/background.png", frame);
                 break;
             case 2:
-                try {
-                    cover11 = ImageHandler.setImage("resources/Graphics/background2.png", 100, 100, frame.width, frame.height);
-                } catch (IOException e) {
-                    LOGGER.severe(e.getMessage());
-                }
+                cover11 = loadBackGround("resources/Graphics/background2.png", frame);
                 break;
 
             case 3:
-                try {
-                    cover11 = ImageHandler.setImage("resources/Graphics/panel_buildings.png", 100, 100, frame.width, frame.height);
-                } catch (IOException e) {
-                    LOGGER.severe(e.getMessage());
-                }
+                cover11 = loadBackGround("resources/Graphics/panel_buildings.png", frame);
                 break;
             default:
         }
-        backgroundPanel = new JLabel(cover11.getIcon());
+        backgroundPanel = new JLabel(Objects.requireNonNull(cover11).getIcon());
         back.setIcon(backgroundPanel.getIcon());
         back.setOpaque(false);
         back.setContentAreaFilled(false);
         back.setBorderPainted(false);
         return back;
     }
+
+    /**
+     * Method that return the background wanted
+     * @param path Path to the background
+     * @param frame Dimension of the frame
+     * @return The background in a JLabel
+     */
+
+    private static JLabel loadBackGround(String path, Dimension frame) {
+        JLabel label = null;
+        try {
+            label = ImageHandler.setImage(path, 100, 100, frame.width, frame.height);
+        } catch (IOException e) {
+            LOGGER.severe(e.getMessage());
+        }
+        return label;
+    }
+
 }

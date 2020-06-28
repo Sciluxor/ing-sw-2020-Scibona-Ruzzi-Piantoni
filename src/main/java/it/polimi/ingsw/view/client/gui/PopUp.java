@@ -213,7 +213,7 @@ public class PopUp {
     }
 
     /**
-     * Method that add label1 to the window
+     * Method that add label1 to window
      */
 
     private void addLabel1(){
@@ -221,7 +221,7 @@ public class PopUp {
     }
 
     /**
-     * Method that add label2 to the window
+     * Method that add label2 to window
      */
 
     private void addLabel2(){
@@ -229,7 +229,7 @@ public class PopUp {
     }
 
     /**
-     * Method that add label3 to the window
+     * Method that add label3 to window
      */
 
     private void addLabel3(){

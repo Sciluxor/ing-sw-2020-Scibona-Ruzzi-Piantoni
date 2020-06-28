@@ -10,8 +10,7 @@ import java.io.IOException;
 
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButtonPersonalized;
 import static it.polimi.ingsw.view.client.gui.Board.getBolddimension;
-import static it.polimi.ingsw.view.client.gui.Gui.felixBold;
-import static it.polimi.ingsw.view.client.gui.Gui.getD;
+import static it.polimi.ingsw.view.client.gui.Gui.*;
 
 /**
  * Class that extends JDesktopPane that builds the pane for updates during the game
@@ -61,7 +60,7 @@ public class UpdateBoard extends JDesktopPane {
 
         JLabel otherName = new JLabel(nameChoosing);
         otherName.setBounds((int) (((double)frameSize.width * 48/100) - (otherName.getText().length() * bold)), (int) (frameSize.height * 41.5/100), frameSize.width * 60/100, frameSize.width * 5/100);
-        otherName.setFont(felixBold);
+        otherName.setFont(getFelixBold());
         add(otherName);
 
         close.addActionListener(new Close());

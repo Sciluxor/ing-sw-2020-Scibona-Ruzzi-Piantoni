@@ -99,7 +99,7 @@ public class ChooseCard extends JDesktopPane{
         JLabel first = ImageHandler.setImage("resources/Graphics/Texts/choose_your_god_power.png", 100, 100, frameSize.width * 85/100, frameSize.height * 25/100);
         JLabel otherName = new JLabel(nameChoosing);
         otherName.setBounds((int) (((double)frameSize.width * 50/ 100) - ((otherName.getText().length() * bold) / 2)), (int) (frameSize.height * 36.5/100), frameSize.width * 60/100, frameSize.width * 5/100);
-        otherName.setFont(felixBold);
+        otherName.setFont(getFelixBold());
 
         selectGodsChosen();
 

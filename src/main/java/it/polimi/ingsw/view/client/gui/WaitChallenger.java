@@ -7,8 +7,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButtonPersonalized;
-import static it.polimi.ingsw.view.client.gui.Gui.felixBold;
-import static it.polimi.ingsw.view.client.gui.Gui.getD;
+import static it.polimi.ingsw.view.client.gui.Gui.*;
 
 /**
  * Class that extends JDesktopPane that builds pane for the message of waiting for the challenger choices
@@ -51,7 +50,7 @@ public class WaitChallenger extends JDesktopPane{
 
         JLabel otherName = new JLabel(nameChoosing);
         otherName.setBounds((int) (frameSize.width * 45.75/100), (int) (frameSize.height * 32.5/100), frameSize.width * 50/100, frameSize.width * 5/100);
-        otherName.setFont(felixBold);
+        otherName.setFont(getFelixBold());
 
         add(label);
         add(label2);
