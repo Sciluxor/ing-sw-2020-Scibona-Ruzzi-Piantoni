@@ -75,7 +75,7 @@ public class PopUp {
                 nickname.setText("AnotherNic");
                 window.add(nickname);
 
-                label1 = new JLabel();
+                newLabel(1);
                 try {
                     label1 = ImageHandler.setImage("resources/Graphics/Texts/nickname.png", 97, 100, intFrameSize.width * 15/100,intFrameSize.height * 5/100);
                 } catch (IOException e) {
@@ -84,7 +84,7 @@ public class PopUp {
                 label1.setBounds((intFrameSize.width * 20/100), (int) (intFrameSize.height * 59.5/100), intFrameSize.width * 15/100,intFrameSize.height * 5/100);
                 addLabel1();
 
-                label2 = new JLabel();
+                newLabel(2);
                 try {
                     label2 = ImageHandler.setImage("resources/Graphics/Texts/your_nickname_is_already_used.png", 97, 100, labelSize.width, labelSize.height);
                 } catch (IOException e) {
@@ -93,7 +93,7 @@ public class PopUp {
                 setLabel2(10);
                 addLabel2();
 
-                label3 = new JLabel();
+                newLabel(3);
                 try {
                     label3 = ImageHandler.setImage("resources/Graphics/Texts/change_your_nickname.png", 97, 100, labelSize.width, labelSize.height);
                 } catch (IOException e) {
@@ -113,7 +113,7 @@ public class PopUp {
                 break;
 
             case 2:
-                label1 = new JLabel();
+                newLabel(1);
                 try {
                     label1 = ImageHandler.setImage("resources/Graphics/Texts/you_have_been_disconnected.png", 97, 100, labelSize.width, labelSize.height);
                 } catch (IOException e) {
@@ -138,7 +138,7 @@ public class PopUp {
                 break;
 
             case 4:
-                label1 = new JLabel();
+                newLabel(1);
                 try {
                     label1 = ImageHandler.setImage("resources/Graphics/Texts/has_disconnected.png", 97, 100, labelSize.width, labelSize.height);
                 } catch (IOException e) {
@@ -153,7 +153,7 @@ public class PopUp {
                 break;
 
             case 5:
-                label1 = new JLabel();
+                newLabel(1);
                 try {
                     label1 = ImageHandler.setImage("resources/Graphics/Texts/did_not_play.png", 97, 100, labelSize.width, labelSize.height);
                 } catch (IOException e) {
@@ -168,7 +168,7 @@ public class PopUp {
                 break;
 
             case 6:
-                label1 = new JLabel();
+                newLabel(1);
                 try {
                     label1 = ImageHandler.setImage("resources/Graphics/Texts/time_is_up.png", 97, 100, labelSize.width, labelSize.height);
                 } catch (IOException e) {
@@ -184,7 +184,7 @@ public class PopUp {
                 break;
 
             case 7:
-                label1 = new JLabel();
+                newLabel(1);
                 try {
                     label1 = ImageHandler.setImage("resources/Graphics/Texts/there_was_an_error.png", 97, 100, labelSize.width, labelSize.height);
                 } catch (IOException e) {
@@ -193,7 +193,7 @@ public class PopUp {
                 setLabel1(50, 10);
                 addLabel1();
 
-                label2 = new JLabel();
+                newLabel(2);
                 try {
                     label2 = ImageHandler.setImage("resources/Graphics/Texts/please_use_an_original.png", 97, 100, labelSize.width, labelSize.height);
                 } catch (IOException e) {
@@ -202,7 +202,7 @@ public class PopUp {
                 setLabel2(20);
                 addLabel2();
 
-                label3 = new JLabel();
+                newLabel(3);
                 try {
                     label3 = ImageHandler.setImage("resources/Graphics/Texts/version_of_the_game.png", 97, 100, labelSize.width, labelSize.height);
                 } catch (IOException e) {
@@ -221,7 +221,7 @@ public class PopUp {
 
             case 8:
 
-                label1 = new JLabel();
+                newLabel(1);
                 try {
                     label1 = ImageHandler.setImage("resources/Graphics/Texts/there_was_an_error_with.png", 97, 100, labelSize.width, labelSize.height);
                 } catch (IOException e) {
@@ -230,7 +230,7 @@ public class PopUp {
                 setLabel1(30, 20);
                 addLabel1();
 
-                label2 = new JLabel();
+                newLabel(2);
                 try {
                     label2 = ImageHandler.setImage("resources/Graphics/Texts/start_new_game_or_close.png", 97, 100, labelSize.width, labelSize.height);
                 } catch (IOException e) {
@@ -318,11 +318,27 @@ public class PopUp {
     }
 
     /**
+     * Method that initialize the label selected
+     * @param x Number of the label selected
+     */
+
+    private void newLabel(int x){
+        if (x == 1){
+            label1 = new JLabel();
+        }
+        else if (x == 2){
+            label2 = new JLabel();
+        }
+        else
+            label3 = new JLabel();
+    }
+
+    /**
      * Method that builds the popup messages for connection loss
      */
 
     private void setDisconnection(){
-        label1 = new JLabel();
+        newLabel(1);
         try {
             label1 = ImageHandler.setImage("resources/Graphics/Texts/you_have_been_disconnected.png", 97, 100, labelSize.width, labelSize.height);
         } catch (IOException e) {
@@ -331,7 +347,7 @@ public class PopUp {
         setLabel1(50, 20);
         window.add(label1);
 
-        label2 = new JLabel();
+        newLabel(2);
         try {
             label2 = ImageHandler.setImage("resources/Graphics/Texts/start_new_game_or_close.png", 97, 100, labelSize.width, labelSize.height);
         } catch (IOException e) {
