@@ -17,14 +17,12 @@ import java.util.Map;
 
 public class GameMap {
 
-
-
     private final List<Square> map;
-    private final Square [][]linkToCoordinates = new Square[ConstantsContainer.MAXMAPPOSITION][ConstantsContainer.MAXMAPPOSITION]; // mettere come costanti
+    private final Square [][]linkToCoordinates = new Square[ConstantsContainer.MAXMAPPOSITION][ConstantsContainer.MAXMAPPOSITION];
     private final List<Square> modifiedSquare = new ArrayList<>();
 
     /**
-     *
+     * Public constructor for the map, initialize all the parameters
      */
 
     public GameMap() {
@@ -35,28 +33,20 @@ public class GameMap {
         }
     }
 
-    //
-    //Function to obtain the number of tile from coordinates
-    //
-
     /**
-     *
-     * @param coordinates
-     * @return
+     * Function to obtain the number of tile from coordinates
+     * @param coordinates The coordinates of the square to analise
+     * @return The number of tile of the specific square
      */
 
     public Square getTileFromCoordinates(Integer[] coordinates){
         return linkToCoordinates[coordinates[0]][coordinates[1]];
     }
 
-    //
-    //function to find all the reachable square moving from a specific square
-    //
-
     /**
-     *
-     * @param worker
-     * @return
+     * Function to find all the reachable square moving from a specific square
+     * @param worker The worker placed in the specific square to analise
+     * @return A list of possible directions in which to move
      */
 
     public List<Directions> reachableSquares(Worker worker){
@@ -68,7 +58,7 @@ public class GameMap {
 
           for(Directions dir: Directions.values()){
               int squareTile  =canAccess.get(dir);
-              if(squareTile > ConstantsContainer.MINMAPPOSITION && squareTile <= ConstantsContainer.MAXMAPPOSITION) {                                              //mettere come costanti
+              if(squareTile > ConstantsContainer.MINMAPPOSITION && squareTile <= ConstantsContainer.MAXMAPPOSITION) {
                   Square possibleSquare = map.get(squareTile- 1);
                   if(!possibleSquare.hasPlayer() && (possibleSquare.getBuildingLevel() >= 0 && possibleSquare.getBuildingLevel() <= levelPosition + 1 && !worker.getBoardPosition().equals(possibleSquare) )
                           && possibleSquare.getBuilding() != Building.DOME ){
@@ -80,14 +70,10 @@ public class GameMap {
            return reachableSquares;
     }
 
-    //
-    //function that change the position of the worker
-    //
-
     /**
-     *
-     * @param player
-     * @param direction
+     * Function that move a specific worker in the map
+     * @param player Player that own the worker to move
+     * @param direction Direction in which to move the specific worker
      */
 
     public void moveWorkerTo(Player player, Directions direction){
@@ -105,14 +91,10 @@ public class GameMap {
         modifiedSquare.add(currentWorker.getBoardPosition());
     }
 
-    //
-    //function that change the position of the worker
-    //
-
     /**
-     *
-     * @param worker
-     * @return
+     * Function to find all the possible squares in which a specific worker can build
+     * @param worker The worker placed in the specific square to analise
+     * @return A list of possible directions in which to build
      */
 
     public List<Directions> buildableSquare(Worker worker){
@@ -123,7 +105,7 @@ public class GameMap {
 
         for(Directions dir: Directions.values()){
               int squareTile = canAccess.get(dir);
-              if(squareTile > ConstantsContainer.MINMAPPOSITION && squareTile <= ConstantsContainer.MAXMAPPOSITION){  //mettere come costanti
+              if(squareTile > ConstantsContainer.MINMAPPOSITION && squareTile <= ConstantsContainer.MAXMAPPOSITION){
                   Square possibleBuild = map.get(squareTile - 1);
                   if(!possibleBuild.getBuilding().equals(Building.DOME) && !possibleBuild.hasPlayer() && !worker.getBoardPosition().equals(possibleBuild)){
                       buildableSquare.add(dir);
@@ -134,16 +116,12 @@ public class GameMap {
         return buildableSquare;
     }
 
-    //
-    //function that build in the position selected,with the type of building selected
-    //
-
     /**
-     *
-     * @param worker
-     * @param direction
-     * @param building
-     * @return
+     * Function that build in the position selected,with the type of building selected
+     * @param worker The worker that will build
+     * @param direction The direction in which to build
+     * @param building The type of building to build
+     * @return True if the type of building is correct, false otherwise
      */
 
     public boolean buildInSquare(Worker worker, Directions direction, Building building){
@@ -166,10 +144,10 @@ public class GameMap {
     }
 
     /**
-     *
-     * @param square1
-     * @param square2
-     * @param currentPlayer
+     * Function that place the workers of a specific player in the game map
+     * @param square1 First square in which to place the first worker
+     * @param square2 Second square in which to place the second worker
+     * @param currentPlayer The player that is placing the two workers
      */
 
     public void placeWorkerOnMap(Square square1,Square square2, Player currentPlayer){
@@ -186,10 +164,10 @@ public class GameMap {
     }
 
     /**
-     *
-     * @param square
-     * @param player
-     * @param worker
+     * Place a specific worker in the square
+     * @param square Square in which to place the worker
+     * @param player Player placing the worker
+     * @param worker Worker to place
      */
 
     public void placeWorker(Square square,Player player,Worker worker){
@@ -197,14 +175,10 @@ public class GameMap {
         modifiedSquare.add(square);
     }
 
-    //
-    //function that return the positions of both player's workers
-    //
-
     /**
-     *
-     * @param actualPlayer
-     * @return
+     * Function that return the positions of both player's workers
+     * @param actualPlayer Player to analise
+     * @return A list with the position of the two workers
      */
 
     public List<Square> getWorkersSquares(Player actualPlayer){
@@ -220,21 +194,16 @@ public class GameMap {
     }
 
     /**
-     *
-     * @return
+     * Function that return the map
+     * @return A list of squares(the entire map)
      */
 
     public List<Square> getMap(){ return map;}
 
-
-    //
-    //function that check if a square is in the perimeter
-    //
-
     /**
-     *
-     * @param tile
-     * @return
+     * Function that check if a square is in the perimeter
+     * @param tile Number of the square to analise
+     * @return True if the square is in the perimeter, false otherwise
      */
 
     public  boolean isInPerimeter(Integer tile){
@@ -245,8 +214,8 @@ public class GameMap {
     }
 
     /**
-     *
-     * @param square
+     * Function that add a square to the list of modified square, can be modified by a move,build or during the place workers phase
+     * @param square The square to add to the list
      */
 
     public void addModifiedSquare(Square square){
@@ -254,8 +223,8 @@ public class GameMap {
     }
 
     /**
-     *
-     * @return
+     * Get the list of squares modified by a specific action
+     * @return A list of modified squares
      */
 
     public List<Square> getModifiedSquare() {
@@ -263,7 +232,7 @@ public class GameMap {
     }
 
     /**
-     *
+     * Function that clear the list of modified squares
      */
 
     public void clearModifiedSquare(){
@@ -271,8 +240,8 @@ public class GameMap {
     }
 
     /**
-     *
-     * @param player
+     * Function that remove the workers of a specific player from the map (after he has lost)
+     * @param player The player that has lost
      */
 
     public void removeWorkersOfPlayer(Player player){
@@ -288,8 +257,8 @@ public class GameMap {
     }
 
     /**
-     *
-     * @param square
+     * Function that remove a specific worker from the map
+     * @param square The square in which is located the worker to remove
      */
 
     public void remove(Square square){

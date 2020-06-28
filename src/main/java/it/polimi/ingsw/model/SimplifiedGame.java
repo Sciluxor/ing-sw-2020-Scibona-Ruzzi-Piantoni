@@ -12,7 +12,7 @@ import it.polimi.ingsw.utils.ConstantsContainer;
 import java.util.*;
 
 /**
- *
+ * Simplified Class that represent a single match (used by the Client)
  * @author Luigi Scibona, Alessandro Ruzzi, Edoardo Piantoni
  * @version 1.0
  * @since 2020/06/28

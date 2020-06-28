@@ -19,7 +19,7 @@ import java.security.SecureRandom;
 import java.util.*;
 
 /**
- *
+ * Class that represent a single match (used by the Server)
  * @author Luigi Scibona, Alessandro Ruzzi, Edoardo Piantoni
  * @version 1.0
  * @since 2020/06/28

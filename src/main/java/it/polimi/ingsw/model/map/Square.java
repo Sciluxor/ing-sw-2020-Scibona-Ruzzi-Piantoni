@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Map;
 
 /**
- *
+ * Class that represent a single square of the game map
  * @author Luigi Scibona, Alessandro Ruzzi, Edoardo Piantoni
  * @version 1.0
  * @since 2020/06/28
@@ -26,13 +26,13 @@ public class Square implements Serializable{
     private  Map<Directions,Integer> canAccess;
 
     /**
-     *
-     * @param tile
-     * @param buildingLevel
-     * @param building
-     * @param hasPlayer
-     * @param canAccess
-     * @param coordinates
+     * Public constructor for the square
+     * @param tile Number of the square
+     * @param buildingLevel Level of the building
+     * @param building Type of the building
+     * @param hasPlayer Boolean to check if there is a player
+     * @param canAccess Map with the reachable squares from this square
+     * @param coordinates Coordinates of the square
      */
 
     public Square(Integer tile, int buildingLevel, Building building, boolean hasPlayer,Map<Directions,Integer> canAccess,Integer[] coordinates) {
@@ -45,8 +45,8 @@ public class Square implements Serializable{
     }
 
     /**
-     *
-     * @return
+     * Get the tile of the square
+     * @return The tile of the square
      */
 
     public Integer getTile() {
@@ -54,8 +54,8 @@ public class Square implements Serializable{
     }
 
     /**
-     *
-     * @return
+     * Get the building level in the square
+     * @return The building level in the square
      */
 
     public int getBuildingLevel() {
@@ -63,8 +63,8 @@ public class Square implements Serializable{
     }
 
     /**
-     *
-     * @param level
+     * Set the building level in the square
+     * @param level The new building level in the square
      */
 
     public void setBuildingLevel(int level){
@@ -72,7 +72,7 @@ public class Square implements Serializable{
     }
 
     /**
-     *
+     * Add one level to the building level in the square
      */
 
     public void addBuildingLevel() {
@@ -82,8 +82,8 @@ public class Square implements Serializable{
     }
 
     /**
-     *
-     * @return
+     * Get the building type in the square
+     * @return The building type in the square
      */
 
     public Building getBuilding() {
@@ -91,8 +91,8 @@ public class Square implements Serializable{
     }
 
     /**
-     *
-     * @param building
+     * Set the building type in the square
+     * @param building The new building type to put in the square
      */
 
     public void setBuilding(Building building) {
@@ -102,8 +102,8 @@ public class Square implements Serializable{
     }
 
     /**
-     *
-     * @return
+     * Get the coordinates of the squares
+     * @return The coordinates(x,y) in the map
      */
 
     public Integer[] getCoordinates() {
@@ -111,8 +111,8 @@ public class Square implements Serializable{
     }
 
     /**
-     *
-     * @return
+     * Function to check if there is a player in the square
+     * @return True if there is a player in the square, false otherwise
      */
 
     public boolean hasPlayer() {
@@ -120,8 +120,8 @@ public class Square implements Serializable{
     }
 
     /**
-     *
-     * @param hasPlayer
+     * Function to set the boolean hasPlayer
+     * @param hasPlayer New value of the boolean hasPlayer
      */
 
     public void setHasPlayer(boolean hasPlayer) {
@@ -129,8 +129,8 @@ public class Square implements Serializable{
     }
 
     /**
-     *
-     * @return
+     * Get the player placed into the square
+     * @return The player placed into the square
      */
 
     public Player getPlayer() {
@@ -140,8 +140,8 @@ public class Square implements Serializable{
     }
 
     /**
-     *
-     * @param player
+     * Set a player into the square
+     * @param player The new player that moved into the square
      */
 
     public void setPlayer(Player player) {
@@ -151,8 +151,8 @@ public class Square implements Serializable{
     }
 
     /**
-     *
-     * @return
+     * Get the specific player's worker placed in the square
+     * @return The specific player's worker placed in the square
      */
 
     public Worker getWorker() {
@@ -162,8 +162,8 @@ public class Square implements Serializable{
     }
 
     /**
-     *
-     * @param worker
+     * Set a specific worker of a player into the square
+     * @param worker The new worker that moved into the square
      */
 
     public void setWorker(Worker worker) {
@@ -173,8 +173,8 @@ public class Square implements Serializable{
     }
 
     /**
-     *
-     * @return
+     * Get the list of reachable squares from this square
+     * @return A Map with the reachable square
      */
 
     public Map<Directions, Integer> getCanAccess() {
@@ -182,9 +182,9 @@ public class Square implements Serializable{
     }
 
     /**
-     *
-     * @param player
-     * @param worker
+     * Function to execute a player move into the square
+     * @param player The player that moved into the square
+     * @param worker The specific worker that the player has moved
      */
 
     public void setMovement(Player player,Worker worker){
