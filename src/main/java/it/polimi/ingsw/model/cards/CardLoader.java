@@ -18,7 +18,7 @@ import java.util.Map;
 public class CardLoader {
 
     /**
-     * Private class builder
+     * Private constructor, Since it's a loader class it can't be instantiated.
      */
 
     private CardLoader() {
