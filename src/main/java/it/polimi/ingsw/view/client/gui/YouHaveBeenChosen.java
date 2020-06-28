@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+import static it.polimi.ingsw.utils.ConstantsContainer.TEXT;
 import static it.polimi.ingsw.view.client.gui.Gui.getD;
 import static it.polimi.ingsw.view.client.gui.GuiUtils.backAndCloseSetter;
 
@@ -41,15 +42,15 @@ public class YouHaveBeenChosen extends JDesktopPane {
         setPreferredSize(frameSize);
         setLayout(null);
 
-        JLabel label = ImageHandler.setImage("resources/Graphics/Texts/you_have_been_chosen_as_challenger.png", 100, 100, frameSize.width * 70/100, frameSize.height * 20/100);
+        JLabel label = ImageHandler.setImage(TEXT + "you_have_been_chosen_as_challenger.png", 100, 100, frameSize.width * 70/100, frameSize.height * 20/100);
         label.setBounds(frameSize.width * 15/100, frameSize.height * 25/100, frameSize.width * 70/100, frameSize.height * 20/100);
         add(label);
 
-        JLabel label1 = ImageHandler.setImage("resources/Graphics/Texts/please_chose_the_gods_and.png", 100, 100, frameSize.width * 60/100, frameSize.height * 20/100);
+        JLabel label1 = ImageHandler.setImage(TEXT + "please_chose_the_gods_and.png", 100, 100, frameSize.width * 60/100, frameSize.height * 20/100);
         label1.setBounds(frameSize.width * 20/100, frameSize.height * 40/100, frameSize.width * 60/100, frameSize.height * 20/100);
         add(label1);
 
-        JLabel label2 = ImageHandler.setImage("resources/Graphics/Texts/the_first_player_that_start.png", 100, 100, frameSize.width * 60/100, frameSize.height * 20/100);
+        JLabel label2 = ImageHandler.setImage(TEXT + "the_first_player_that_start.png", 100, 100, frameSize.width * 60/100, frameSize.height * 20/100);
         label2.setBounds(frameSize.width * 20/100, frameSize.height * 55/100, frameSize.width * 60/100, frameSize.height * 20/100);
         add(label2);
 

@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+import static it.polimi.ingsw.utils.ConstantsContainer.TEXT;
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
 import static it.polimi.ingsw.view.client.gui.Board.getBolddimension;
 import static it.polimi.ingsw.view.client.gui.Gui.*;
@@ -77,7 +78,7 @@ public class PopUp {
 
                 newLabel(1);
                 try {
-                    label1 = ImageHandler.setImage("resources/Graphics/Texts/nickname.png", 97, 100, intFrameSize.width * 15/100,intFrameSize.height * 5/100);
+                    label1 = ImageHandler.setImage(TEXT + "nickname.png", 97, 100, intFrameSize.width * 15/100,intFrameSize.height * 5/100);
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }
@@ -86,7 +87,7 @@ public class PopUp {
 
                 newLabel(2);
                 try {
-                    label2 = ImageHandler.setImage("resources/Graphics/Texts/your_nickname_is_already_used.png", 97, 100, labelSize.width, labelSize.height);
+                    label2 = ImageHandler.setImage(TEXT + "your_nickname_is_already_used.png", 97, 100, labelSize.width, labelSize.height);
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }
@@ -95,7 +96,7 @@ public class PopUp {
 
                 newLabel(3);
                 try {
-                    label3 = ImageHandler.setImage("resources/Graphics/Texts/change_your_nickname.png", 97, 100, labelSize.width, labelSize.height);
+                    label3 = ImageHandler.setImage(TEXT + "change_your_nickname.png", 97, 100, labelSize.width, labelSize.height);
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }
@@ -113,7 +114,7 @@ public class PopUp {
                 break;
 
             case 2:
-                setPopUp("resources/Graphics/Texts/you_have_been_disconnected.png");
+                setPopUp(TEXT + "you_have_been_disconnected.png");
 
                 setButtonClose();
 
@@ -128,17 +129,17 @@ public class PopUp {
                 break;
 
             case 4:
-                setPopUp4or5("resources/Graphics/Texts/has_disconnected.png");
+                setPopUp4or5(TEXT + "has_disconnected.png");
 
                 break;
 
             case 5:
-                setPopUp4or5("resources/Graphics/Texts/did_not_play.png");
+                setPopUp4or5(TEXT + "did_not_play.png");
 
                 break;
 
             case 6:
-                setPopUp("resources/Graphics/Texts/time_is_up.png");
+                setPopUp(TEXT + "time_is_up.png");
 
                 setDisconnectionTime();
                 window.remove(label2);
@@ -147,11 +148,11 @@ public class PopUp {
                 break;
 
             case 7:
-                setPopUp("resources/Graphics/Texts/there_was_an_error.png", 50, 10, "resources/Graphics/Texts/please_use_an_original.png", 20);
+                setPopUp(TEXT + "there_was_an_error.png", 50, 10, TEXT + "please_use_an_original.png", 20);
 
                 newLabel(3);
                 try {
-                    label3 = ImageHandler.setImage("resources/Graphics/Texts/version_of_the_game.png", 97, 100, labelSize.width, labelSize.height);
+                    label3 = ImageHandler.setImage(TEXT + "version_of_the_game.png", 97, 100, labelSize.width, labelSize.height);
                 } catch (IOException e) {
                     LOGGER.severe(e.getMessage());
                 }
@@ -164,7 +165,7 @@ public class PopUp {
                 break;
 
             case 8:
-                setPopUp("resources/Graphics/Texts/there_was_an_error_with.png", 30, 20, "resources/Graphics/Texts/start_new_game_or_close.png", 40);
+                setPopUp(TEXT + "there_was_an_error_with.png", 30, 20, TEXT + "start_new_game_or_close.png", 40);
 
                 label3 = new JLabel(name);
                 label3.setBounds((intFrameSize.width * 60/100), (intFrameSize.height * 27/100), intFrameSize.width * 60/100, intFrameSize.width * 5/100);
@@ -324,7 +325,7 @@ public class PopUp {
     private void setDisconnection(){
         newLabel(1);
         try {
-            label1 = ImageHandler.setImage("resources/Graphics/Texts/you_have_been_disconnected.png", 97, 100, labelSize.width, labelSize.height);
+            label1 = ImageHandler.setImage(TEXT + "you_have_been_disconnected.png", 97, 100, labelSize.width, labelSize.height);
         } catch (IOException e) {
             LOGGER.severe(e.getMessage());
         }
@@ -333,7 +334,7 @@ public class PopUp {
 
         newLabel(2);
         try {
-            label2 = ImageHandler.setImage("resources/Graphics/Texts/start_new_game_or_close.png", 97, 100, labelSize.width, labelSize.height);
+            label2 = ImageHandler.setImage(TEXT + "start_new_game_or_close.png", 97, 100, labelSize.width, labelSize.height);
         } catch (IOException e) {
             LOGGER.severe(e.getMessage());
         }

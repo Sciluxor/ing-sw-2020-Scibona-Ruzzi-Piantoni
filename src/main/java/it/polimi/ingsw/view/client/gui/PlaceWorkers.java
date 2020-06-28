@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+import static it.polimi.ingsw.utils.ConstantsContainer.TEXT;
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButtonPersonalized;
 import static it.polimi.ingsw.view.client.gui.Board.getBolddimension;
 import static it.polimi.ingsw.view.client.gui.Gui.*;
@@ -47,13 +48,13 @@ public class PlaceWorkers extends JDesktopPane{
         otherName.setFont(getFelixBold());
 
         if (numberOfPanel == 0) {
-            label = ImageHandler.setImage("resources/Graphics/Texts/place_your_two_workers.png", 100, 100, frameSize.width * 85/100, frameSize.height * 25/100);
+            label = ImageHandler.setImage(TEXT + "place_your_two_workers.png", 100, 100, frameSize.width * 85/100, frameSize.height * 25/100);
             label.setBounds((int) (frameSize.width * 7.5 / 100), (frameSize.height * 35 / 100), frameSize.width * 85 / 100, frameSize.height * 25 / 100);
             add(label);
         }
         else if (numberOfPanel == 1){
             add(otherName);
-            label = ImageHandler.setImage("resources/Graphics/Texts/is_placing_the_workers.png", 100, 100, frameSize.width * 85/100, frameSize.height * 25/100);
+            label = ImageHandler.setImage(TEXT + "is_placing_the_workers.png", 100, 100, frameSize.width * 85/100, frameSize.height * 25/100);
             label.setBounds((int) (frameSize.width * 7.5/100), (int) (frameSize.height * 37.5/100), frameSize.width * 85/100, frameSize.height * 25/100);
             add(label);
         }

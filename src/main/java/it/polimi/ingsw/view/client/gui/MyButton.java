@@ -7,6 +7,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 
+import static it.polimi.ingsw.utils.ConstantsContainer.*;
 import static it.polimi.ingsw.view.client.gui.Gui.*;
 
 /**
@@ -32,7 +33,7 @@ public class MyButton extends JButton{
     JLabel lkeepPress;
     JLabel lcontinue;
     JLabel lcontinuePress;
-    transient MP3 click = new MP3("resources/Music/Click.mp3");
+    transient MP3 click = new MP3(MUSIC + "Click.mp3");
 
     /**
      * Class builder
@@ -43,18 +44,18 @@ public class MyButton extends JButton{
         type = n;
 
         try {
-            lconfirm = ImageHandler.setImage("resources/Graphics/button_confirm.png", 100, 100, labelSize.width, labelSize.height);
-            lconfirmPress = ImageHandler.setImage("resources/Graphics/button_confirm_press.png", 100, 100, labelSize.width, labelSize.height);
-            lback = ImageHandler.setImage("resources/Graphics/button_back.png", 100, 100, labelSize.width, labelSize.height);
-            lbackPress = ImageHandler.setImage("resources/Graphics/button_back_press.png", 100, 100, labelSize.width, labelSize.height);
-            lnewGame = ImageHandler.setImage("resources/Graphics/button_newgame.png", 100, 100, labelSize.width, labelSize.height);
-            lnewGamePress = ImageHandler.setImage("resources/Graphics/button_newgame_press.png", 100, 100, labelSize.width, labelSize.height);
-            lclose = ImageHandler.setImage("resources/Graphics/button_close.png", 100, 100, labelSize.width, labelSize.height);
-            lclosePress = ImageHandler.setImage("resources/Graphics/button_close_press.png", 100, 100, labelSize.width, labelSize.height);
-            lkeep = ImageHandler.setImage("resources/Graphics/button_keep.png", 100, 100, labelSize.width, labelSize.height);
-            lkeepPress = ImageHandler.setImage("resources/Graphics/button_keep_press.png", 100, 100, labelSize.width, labelSize.height);
-            lcontinue = ImageHandler.setImage("resources/Graphics/button_continue.png", 100, 100, labelSize.width, labelSize.height);
-            lcontinuePress = ImageHandler.setImage("resources/Graphics/button_continue_press.png", 100, 100, labelSize.width, labelSize.height);
+            lconfirm = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_confirm.png", 100, 100, labelSize.width, labelSize.height);
+            lconfirmPress = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_confirm_press.png", 100, 100, labelSize.width, labelSize.height);
+            lback = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_back.png", 100, 100, labelSize.width, labelSize.height);
+            lbackPress = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_back_press.png", 100, 100, labelSize.width, labelSize.height);
+            lnewGame = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_newgame.png", 100, 100, labelSize.width, labelSize.height);
+            lnewGamePress = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_newgame_press.png", 100, 100, labelSize.width, labelSize.height);
+            lclose = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_close.png", 100, 100, labelSize.width, labelSize.height);
+            lclosePress = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_close_press.png", 100, 100, labelSize.width, labelSize.height);
+            lkeep = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_keep.png", 100, 100, labelSize.width, labelSize.height);
+            lkeepPress = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_keep_press.png", 100, 100, labelSize.width, labelSize.height);
+            lcontinue = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_continue.png", 100, 100, labelSize.width, labelSize.height);
+            lcontinuePress = ImageHandler.setImage(RESOURCES_GRAPHICS + " button_continue_press.png", 100, 100, labelSize.width, labelSize.height);
         } catch (IOException e) {
             LOGGER.severe(e.getMessage());
         }

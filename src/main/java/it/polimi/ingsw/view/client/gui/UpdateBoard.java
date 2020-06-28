@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+import static it.polimi.ingsw.utils.ConstantsContainer.TEXT;
 import static it.polimi.ingsw.view.client.gui.Board.getBolddimension;
 import static it.polimi.ingsw.view.client.gui.Gui.*;
 import static it.polimi.ingsw.view.client.gui.GuiUtils.backAndCloseSetter;
@@ -50,12 +51,12 @@ public class UpdateBoard extends JDesktopPane {
         setLayout(null);
 
         if (type.toString().equalsIgnoreCase("moveworker")){
-            JLabel label = ImageHandler.setImage("resources/Graphics/Texts/moved.png", 100, 100, frameSize.width * 25/100, frameSize.height * 20/100);
+            JLabel label = ImageHandler.setImage(TEXT + "moved.png", 100, 100, frameSize.width * 25/100, frameSize.height * 20/100);
             label.setBounds(frameSize.width * 55/100, frameSize.height * 35/100, frameSize.width * 25/100, frameSize.height * 20/100);
             add(label);
         }
         else if (type.toString().equalsIgnoreCase("buildworker")) {
-            JLabel label1 = ImageHandler.setImage("resources/Graphics/Texts/builded.png", 100, 100, frameSize.width * 25 / 100, frameSize.height * 20 / 100);
+            JLabel label1 = ImageHandler.setImage(TEXT + "builded.png", 100, 100, frameSize.width * 25 / 100, frameSize.height * 20 / 100);
             label1.setBounds(frameSize.width * 55 / 100, frameSize.height * 35 / 100, frameSize.width * 25 / 100, frameSize.height * 20 / 100);
             add(label1);
         }

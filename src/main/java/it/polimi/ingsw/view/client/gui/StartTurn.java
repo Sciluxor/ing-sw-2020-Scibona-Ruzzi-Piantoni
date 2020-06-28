@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+import static it.polimi.ingsw.utils.ConstantsContainer.TEXT;
 import static it.polimi.ingsw.view.client.gui.Board.getBolddimension;
 import static it.polimi.ingsw.view.client.gui.Gui.*;
 import static it.polimi.ingsw.view.client.gui.GuiUtils.backAndCloseSetter;
@@ -44,8 +45,8 @@ public class StartTurn extends JDesktopPane{
 
 
 
-        JLabel label = ImageHandler.setImage("resources/Graphics/Texts/is_starting_the_turn.png", 99, 99, frameSize.width * 85/100, frameSize.height * 22/100);
-        JLabel label2 = ImageHandler.setImage("resources/Graphics/Texts/it's_your_turn.png", 99, 99, frameSize.width * 60/100, frameSize.height * 22/100);
+        JLabel label = ImageHandler.setImage(TEXT + "is_starting_the_turn.png", 99, 99, frameSize.width * 85/100, frameSize.height * 22/100);
+        JLabel label2 = ImageHandler.setImage(TEXT + "it's_your_turn.png", 99, 99, frameSize.width * 60/100, frameSize.height * 22/100);
         label.setBounds((int) (frameSize.width * 7.5/100), (int) (frameSize.height * 39.5/100), frameSize.width * 85/100, frameSize.height * 22/100);
         label2.setBounds((frameSize.width * 20/100), frameSize.height * 39/100, frameSize.width * 60/100, frameSize.height * 22/100);
         JLabel otherName = new JLabel(nameChoosing);

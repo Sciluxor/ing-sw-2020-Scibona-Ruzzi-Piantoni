@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+import static it.polimi.ingsw.utils.ConstantsContainer.TEXT;
 import static it.polimi.ingsw.view.client.gui.Gui.getD;
 import static it.polimi.ingsw.view.client.gui.GuiUtils.backAndCloseSetter;
 
@@ -37,7 +38,7 @@ public class NotTurn extends JDesktopPane {
         setPreferredSize(frameSize);
         setLayout(null);
 
-        JLabel label1 = ImageHandler.setImage("resources/Graphics/Texts/it's_not_your_turn.png", 99, 99, frameSize.width * 60/100, frameSize.height * 22/100);
+        JLabel label1 = ImageHandler.setImage(TEXT + "it's_not_your_turn.png", 99, 99, frameSize.width * 60/100, frameSize.height * 22/100);
         label1.setBounds((frameSize.width * 20/100), frameSize.height * 39/100, frameSize.width * 60/100, frameSize.height * 22/100);
         add(label1);
 

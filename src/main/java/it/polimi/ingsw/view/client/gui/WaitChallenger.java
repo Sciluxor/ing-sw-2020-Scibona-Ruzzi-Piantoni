@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+import static it.polimi.ingsw.utils.ConstantsContainer.TEXT;
 import static it.polimi.ingsw.view.client.gui.Gui.*;
 import static it.polimi.ingsw.view.client.gui.GuiUtils.backAndCloseSetter;
 
@@ -43,9 +44,9 @@ public class WaitChallenger extends JDesktopPane{
         nameChoosing = name;
         posx = (double) nameChoosing.length() / 2;
 
-        JLabel label = ImageHandler.setImage("resources/Graphics/Texts/wait_for.png", 99, 99, frameSize.width * 25/100, frameSize.height * 20/100);
-        JLabel label2 = ImageHandler.setImage("resources/Graphics/Texts/as_challenger_to_choose_the_gods.png", 99, 99, frameSize.width * 85/100, frameSize.height * 22/100);
-        JLabel label3 = ImageHandler.setImage("resources/Graphics/Texts/and_the_first_player.png", 99, 99, frameSize.width * 60/100, frameSize.height * 22/100);
+        JLabel label = ImageHandler.setImage(TEXT + "wait_for.png", 99, 99, frameSize.width * 25/100, frameSize.height * 20/100);
+        JLabel label2 = ImageHandler.setImage(TEXT + "as_challenger_to_choose_the_gods.png", 99, 99, frameSize.width * 85/100, frameSize.height * 22/100);
+        JLabel label3 = ImageHandler.setImage(TEXT + "and_the_first_player.png", 99, 99, frameSize.width * 60/100, frameSize.height * 22/100);
         label.setBounds((int) (frameSize.width * 18.5/100), (int) (frameSize.height * 25.5/100), frameSize.width * 25/100, frameSize.height * 20/100);
         label2.setBounds((int) (frameSize.width * 7.5/100), (int) (frameSize.height * 39.5/100), frameSize.width * 85/100, frameSize.height * 22/100);
         label3.setBounds((frameSize.width * 20/100), (int) (frameSize.height * 54.5/100), frameSize.width * 60/100, frameSize.height * 22/100);

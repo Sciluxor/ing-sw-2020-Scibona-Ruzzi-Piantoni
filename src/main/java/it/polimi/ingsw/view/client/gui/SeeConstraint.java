@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static it.polimi.ingsw.utils.ConstantsContainer.TEXT;
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
 import static it.polimi.ingsw.view.client.gui.Gui.getD;
 import static it.polimi.ingsw.view.client.gui.GuiUtils.*;
@@ -62,10 +63,10 @@ public class SeeConstraint extends JDesktopPane {
 
         intFrame = internalAndBackgroundSetter(this, intFrameSize, buttonBackground);
 
-        power = ImageHandler.setImage("resources/Graphics/Texts/your_power.png", 99, 99, frameSize.width * 30/100, frameSize.height * 10/100);
+        power = ImageHandler.setImage(TEXT + "your_power.png", 99, 99, frameSize.width * 30/100, frameSize.height * 10/100);
         power.setBounds(frameSize.width * 15/100, frameSize.height * 10/100, frameSize.width * 30/100, frameSize.height * 10/100);
         add(power);
-        current = ImageHandler.setImage("resources/Graphics/Texts/current_constraints.png", 99, 99, frameSize.width * 40/100, frameSize.height * 10/100);
+        current = ImageHandler.setImage(TEXT + "current_constraints.png", 99, 99, frameSize.width * 40/100, frameSize.height * 10/100);
         current.setBounds(frameSize.width * 50/100, frameSize.height * 10/100, frameSize.width * 40/100, frameSize.height * 10/100);
         add(current);
 
