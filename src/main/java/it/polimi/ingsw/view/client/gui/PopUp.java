@@ -102,16 +102,14 @@ public class PopUp {
                 label3.setBounds(((intFrameSize.width * 50/100) - (labelSize.width / 2)), (intFrameSize.height * 25/100), labelSize.width, labelSize.height);
                 window.add(label3);
 
-                back.setBounds(0, 0, intFrameSize.width, intFrameSize.height);
-                window.add(back);
+                setBack();
                 break;
 
             case 1:
                 setDisconnection();
                 button1.addActionListener(new NewGame());
 
-                back.setBounds(0, 0, intFrameSize.width, intFrameSize.height);
-                window.add(back);
+                setBack();
                 break;
 
             case 2:
@@ -128,16 +126,14 @@ public class PopUp {
                 button1.addActionListener(new Close());
                 window.add(button1);
 
-                back.setBounds(0, 0, intFrameSize.width, intFrameSize.height);
-                window.add(back);
+                setBack();
                 break;
 
             case 3:
                 setDisconnection();
                 button1.addActionListener(new NewGameEndGame());
 
-                back.setBounds(0, 0, intFrameSize.width, intFrameSize.height);
-                window.add(back);
+                setBack();
                 break;
 
             case 4:
@@ -152,8 +148,7 @@ public class PopUp {
 
                 setDisconnectionTime();
 
-                back.setBounds(0, 0, intFrameSize.width, intFrameSize.height);
-                window.add(back);
+                setBack();
                 break;
 
             case 5:
@@ -168,8 +163,7 @@ public class PopUp {
 
                 setDisconnectionTime();
 
-                back.setBounds(0, 0, intFrameSize.width, intFrameSize.height);
-                window.add(back);
+                setBack();
                 break;
 
             case 6:
@@ -185,8 +179,7 @@ public class PopUp {
                 setDisconnectionTime();
                 window.remove(label2);
 
-                back.setBounds(0, 0, intFrameSize.width, intFrameSize.height);
-                window.add(back);
+                setBack();
                 break;
 
             case 7:
@@ -222,8 +215,7 @@ public class PopUp {
                 button1.addActionListener(new Close());
                 window.add(button1);
 
-                back.setBounds(0, 0, intFrameSize.width, intFrameSize.height);
-                window.add(back);
+                setBack();
                 break;
 
             case 8:
@@ -248,9 +240,8 @@ public class PopUp {
 
                 label3 = new JLabel(name);
                 label3.setBounds((intFrameSize.width * 60/100), (intFrameSize.height * 27/100), intFrameSize.width * 60/100, intFrameSize.width * 5/100);
-                label3.setFont(felixBold);
+                label3.setFont(getFelixBold());
                 window.add(label3);
-
 
                 button1 = new MyButton(2);
                 button1.setBounds(((intFrameSize.width * 35/100) - (buttonSize.width / 2)), (int) (intFrameSize.height * 79.5 / 100), buttonSize.width, buttonSize.height);
@@ -261,14 +252,17 @@ public class PopUp {
                 window.add(button2);
                 button2.addActionListener(new Close());
 
-
-                back.setBounds(0, 0, intFrameSize.width, intFrameSize.height);
-                window.add(back);
+                setBack();
                 break;
 
             default:
         }
         return window;
+    }
+
+    private void setBack(){
+        back.setBounds(0, 0, intFrameSize.width, intFrameSize.height);
+        window.add(back);
     }
 
     /**
@@ -310,7 +304,7 @@ public class PopUp {
     private void setDisconnectionTime(){
         label2 = new JLabel(name);
         label2.setBounds((int) (((double)intFrameSize.width * 30/100) - (name.length() * bold)), (int) (intFrameSize.height * 41.5/100), intFrameSize.width * 60/100, intFrameSize.width * 5/100);
-        label2.setFont(felixBold);
+        label2.setFont(getFelixBold());
         window.add(label2);
 
         button1 = new MyButton(2);

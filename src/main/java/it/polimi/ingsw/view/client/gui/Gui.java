@@ -51,6 +51,15 @@ public class Gui extends ClientGameController {
     MP3 sound;
 
     /**
+     * Getter of the bold dimension
+     * @return Bold dimension
+     */
+
+    public static Font getFelixBold() {
+        return new Font(FELIX, Font.BOLD, (int) (40 * screenSize.getHeight() / 1080));
+    }
+
+    /**
      * Method that start the Gui
      */
 
