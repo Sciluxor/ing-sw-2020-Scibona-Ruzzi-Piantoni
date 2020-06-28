@@ -196,7 +196,7 @@ public class PopUp {
 
     /**
      * Method that set the position of the label2
-     * @param y Horizontal position provided
+     * @param y Vertical position provided
      */
 
     private void setLabel2(int y){

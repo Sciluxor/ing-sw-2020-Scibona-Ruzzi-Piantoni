@@ -107,6 +107,14 @@ public class GuiUtils {
         pane.add(back);
     }
 
+    /**
+     * Method that set the JDesktopPane provided and the button background provided
+     * @param pane JDesktopPane in which we will add the JInternalFrame
+     * @param intFrameSize Dimension of the JInternalFrame
+     * @param background Button Background
+     * @return JInternalFrame setted
+     */
+
     public static JInternalFrame internalAndBackgroundSetter(JDesktopPane pane, Dimension intFrameSize, JButton background){
         JInternalFrame intFrame = new JInternalFrame("", false, false, false, false);
         intFrame.setPreferredSize(intFrameSize);
@@ -126,7 +134,7 @@ public class GuiUtils {
     }
 
     /**
-     * Method for setting the JButtons of the cards
+     * Method for setting the JButtons of the List provided
      */
 
     public static void setButtonStyle(List<JButton> cards, JInternalFrame intFrame, Dimension frameSize, Dimension intFrameSize, JButton buttonBackground, JLabel cover, JLabel label, boolean center, int type){
