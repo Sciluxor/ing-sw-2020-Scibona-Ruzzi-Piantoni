@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static it.polimi.ingsw.utils.ConstantsContainer.MUSIC;
+import static it.polimi.ingsw.utils.ConstantsContainer.TEXT;
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
 import static it.polimi.ingsw.view.client.gui.GuiUtils.*;
 import static it.polimi.ingsw.view.client.gui.Gui.*;
@@ -62,7 +64,7 @@ public class ChallengerChoiceCards extends JDesktopPane{
         intFrameSize.setSize(frameSize.getWidth() * 48/100, frameSize.getHeight() * 54/100);
         cardSize.setSize((int) (frameSize.getWidth() * 9/100), (int) (frameSize.getHeight() * 23.15/100));
         size30x10.setSize(frameSize.width * 30 / 100, frameSize.height * 10 / 100);
-        click = new MP3("resources/Music/Click.mp3");
+        click = new MP3(MUSIC + "Click.mp3");
 
         final int xconst = frameSize.width * 9/100;
         final int yconst = frameSize.height * 24/100;
@@ -81,10 +83,10 @@ public class ChallengerChoiceCards extends JDesktopPane{
 
         JLabel choise;
         if (numberOfPlayer == 2){
-            choise = ImageHandler.setImage("resources/Graphics/Texts/choose_2_gods.png", 100, 100, size30x10.width, size30x10.height);
+            choise = ImageHandler.setImage(TEXT + "choose_2_gods.png", 100, 100, size30x10.width, size30x10.height);
         }
         else{
-            choise = ImageHandler.setImage("resources/Graphics/Texts/choose_3_gods.png", 100, 100, size30x10.width, size30x10.height);
+            choise = ImageHandler.setImage(TEXT + "choose_3_gods.png", 100, 100, size30x10.width, size30x10.height);
         }
         choise.setBounds(((frameSize.width * 50/100) - (size30x10.width / 2)), frameSize.height * 10/100, size30x10.width, size30x10.height);
         add(choise);

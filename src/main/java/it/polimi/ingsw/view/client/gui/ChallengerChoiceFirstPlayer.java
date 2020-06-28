@@ -12,6 +12,7 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.List;
 
+import static it.polimi.ingsw.utils.ConstantsContainer.*;
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
 import static it.polimi.ingsw.view.client.gui.Board.getBolddimension;
 import static it.polimi.ingsw.view.client.gui.Gui.*;
@@ -60,14 +61,14 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
         labelSize.setSize(frameSize.width * 30/100, frameSize.height * 10/100);
         setPreferredSize(frameSize);
         setLayout(null);
-        click = new MP3("resources/Music/Click.mp3");
+        click = new MP3(MUSIC + "Click.mp3");
 
-        lblue = ImageHandler.setImage("resources/Graphics/button_blue.png", 100, 100, labelSize.width, labelSize.height);
-        lbluePress = ImageHandler.setImage("resources/Graphics/button_blue_press.png", 100, 100, labelSize.width, labelSize.height);
-        lpurple = ImageHandler.setImage("resources/Graphics/button_purple.png", 100, 100, labelSize.width, labelSize.height);
-        lpurplePress = ImageHandler.setImage("resources/Graphics/button_purple_press.png", 100, 100, labelSize.width, labelSize.height);
-        lwhite = ImageHandler.setImage("resources/Graphics/button_white.png", 100, 100, labelSize.width, labelSize.height);
-        lwhitePress = ImageHandler.setImage("resources/Graphics/button_white_press.png", 100, 100, labelSize.width, labelSize.height);
+        lblue = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_blue.png", 100, 100, labelSize.width, labelSize.height);
+        lbluePress = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_blue_press.png", 100, 100, labelSize.width, labelSize.height);
+        lpurple = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_purple.png", 100, 100, labelSize.width, labelSize.height);
+        lpurplePress = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_purple_press.png", 100, 100, labelSize.width, labelSize.height);
+        lwhite = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_white.png", 100, 100, labelSize.width, labelSize.height);
+        lwhitePress = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_white_press.png", 100, 100, labelSize.width, labelSize.height);
         JLabel namePlayer1 = new JLabel(players.get(0).getNickName());
         JLabel namePlayer2 = new JLabel(players.get(1).getNickName());
         JLabel namePlayer3;
@@ -84,7 +85,7 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
         addColorButton(player2);
         buttonStyle(player2);
 
-        JLabel choose = ImageHandler.setImage("resources/Graphics/Texts/choose_the_first_player.png", 100, 100, frameSize.width * 40/100, frameSize.height * 10/100);
+        JLabel choose = ImageHandler.setImage(TEXT + "choose_the_first_player.png", 100, 100, frameSize.width * 40/100, frameSize.height * 10/100);
         choose.setBounds(frameSize.width * 30/100, frameSize.height * 10/100, frameSize.width * 40/100, frameSize.height * 10/100);
         add(choose);
 

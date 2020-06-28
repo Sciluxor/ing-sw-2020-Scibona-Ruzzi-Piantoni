@@ -248,7 +248,7 @@ public class Board {
     int tileBuildChoosen = 0;
     private static final double BOLDDIMENSION = (25 * screenSize.getHeight() / 1080);
     List<String> constraint = new ArrayList<>();
-    private static final MP3 click = new MP3("resources/Music/Click.mp3");
+    private static final MP3 click = new MP3(MUSIC + "Click.mp3");
     MP3 place;
     MP3 build;
     MP3 loopSound;
@@ -303,22 +303,22 @@ public class Board {
         buttonSize5x5.setSize(frameSize.width * 5/100, frameSize.width * 5/100);
         size20x5.setSize(frameSize.width * 20/100, frameSize.width * 5/100);
 
-        JLabel coverBoard1 = ImageHandler.setImage("resources/Graphics/board.png", 100, 100, width, height);
+        JLabel coverBoard1 = ImageHandler.setImage(RESOURCES_GRAPHICS + "board.png", 100, 100, width, height);
         coverBoard = new JLabel(coverBoard1.getIcon());
 
-        JLabel coverChat1 = ImageHandler.setImage("resources/Graphics/panel_chat.png", 100, 100, sideSize.width, sideSize.height);
+        JLabel coverChat1 = ImageHandler.setImage(RESOURCES_GRAPHICS + "panel_chat.png", 100, 100, sideSize.width, sideSize.height);
         coverChat = new JLabel(coverChat1.getIcon());
 
-        JLabel coverBuildings1 = ImageHandler.setImage("resources/Graphics/panel_buildings.png", 100, 100, sideSize.width, sideSize.height);
+        JLabel coverBuildings1 = ImageHandler.setImage(RESOURCES_GRAPHICS + "panel_buildings.png", 100, 100, sideSize.width, sideSize.height);
         coverBuildings = new JLabel(coverBuildings1.getIcon());
 
-        coverBackground = ImageHandler.setImage("resources/Graphics/background2.png", 100, 100, internalFrameSize40x45.width, internalFrameSize40x45.height);
+        coverBackground = ImageHandler.setImage(RESOURCES_GRAPHICS + "background2.png", 100, 100, internalFrameSize40x45.width, internalFrameSize40x45.height);
         background = new JLabel(coverBackground.getIcon());
 
-        JLabel coverLeftBoard1 = ImageHandler.setImage("resources/Graphics/left_board.png", 100, 100, frameSize.width, frameSize.height);
+        JLabel coverLeftBoard1 = ImageHandler.setImage(RESOURCES_GRAPHICS + "left_board.png", 100, 100, frameSize.width, frameSize.height);
         coverLeftBoard = new JLabel(coverLeftBoard1.getIcon());
 
-        JLabel coverLeftGod1 = ImageHandler.setImage("resources/Graphics/left_god_board.png", 100, 100, frameSize.width, frameSize.height);
+        JLabel coverLeftGod1 = ImageHandler.setImage(RESOURCES_GRAPHICS + "left_god_board.png", 100, 100, frameSize.width, frameSize.height);
         coverLeftGod = new JLabel(coverLeftGod1.getIcon());
 
 
@@ -327,63 +327,63 @@ public class Board {
         felixBold = new Font(Gui.FELIX, Font.BOLD, (int) (25 * screenSize.getHeight() / 1080));
 
 
-        workerCyan = ImageHandler.setImage("resources/Graphics/worker_cyan.png", 100, 100, labelMapSize.width, labelMapSize.height);
-        workerWhite = ImageHandler.setImage("resources/Graphics/worker_white.png", 100, 100, labelMapSize.width, labelMapSize.height);
-        workerPurple = ImageHandler.setImage("resources/Graphics/worker_purple.png", 100, 100, labelMapSize.width, labelMapSize.height);
-        lvl1 = ImageHandler.setImage("resources/Graphics/lvl1.png", 85, 85, labelMapSize.width, labelMapSize.height);
-        lvl2 = ImageHandler.setImage("resources/Graphics/lvl2.png", 85, 85, labelMapSize.width, labelMapSize.height);
-        lvl3 = ImageHandler.setImage("resources/Graphics/lvl3.png", 85, 85, labelMapSize.width, labelMapSize.height);
-        lvl1Building = ImageHandler.setImage("resources/Graphics/lvl1.png", 95, 95, buttonSize5x5.width, buttonSize5x5.height);
-        lvl2Building = ImageHandler.setImage("resources/Graphics/lvl2.png", 95, 95, buttonSize5x5.width, buttonSize5x5.height);
-        lvl3Building = ImageHandler.setImage("resources/Graphics/lvl3.png", 95, 95, buttonSize5x5.width, buttonSize5x5.height);
-        domeBuilding = ImageHandler.setImage("resources/Graphics/dome.png", 95, 95, buttonSize5x5.width, buttonSize5x5.height);
-        lvl1Cyan = ImageHandler.setImage("resources/Graphics/lvl1_cyan.png", 85, 85, labelMapSize.width, labelMapSize.height);
-        lvl2Cyan = ImageHandler.setImage("resources/Graphics/lvl2_cyan.png", 85, 85, labelMapSize.width, labelMapSize.height);
-        lvl3Cyan = ImageHandler.setImage("resources/Graphics/lvl3_cyan.png", 85, 85, labelMapSize.width, labelMapSize.height);
-        lvl1Purple = ImageHandler.setImage("resources/Graphics/lvl1_purple.png", 85, 85, labelMapSize.width, labelMapSize.height);
-        lvl2Purple = ImageHandler.setImage("resources/Graphics/lvl2_purple.png", 85, 85, labelMapSize.width, labelMapSize.height);
-        lvl3Purple = ImageHandler.setImage("resources/Graphics/lvl3_purple.png", 85, 85, labelMapSize.width, labelMapSize.height);
-        lvl1White = ImageHandler.setImage("resources/Graphics/lvl1_white.png", 85, 85, labelMapSize.width, labelMapSize.height);
-        lvl2White = ImageHandler.setImage("resources/Graphics/lvl2_white.png", 85, 85, labelMapSize.width, labelMapSize.height);
-        lvl3White = ImageHandler.setImage("resources/Graphics/lvl3_white.png", 85, 85, labelMapSize.width, labelMapSize.height);
-        lvl1Dome = ImageHandler.setImage("resources/Graphics/lvl1_dome.png", 85, 85, labelMapSize.width, labelMapSize.height);
-        lvl2Dome = ImageHandler.setImage("resources/Graphics/lvl2_dome.png", 85, 85, labelMapSize.width, labelMapSize.height);
-        lvl3Dome = ImageHandler.setImage("resources/Graphics/lvl3_dome.png", 85, 85, labelMapSize.width, labelMapSize.height);
-        dome = ImageHandler.setImage("resources/Graphics/dome.png", 85, 85, buttonSize5x5.width, buttonSize5x5.height);
-        exit = ImageHandler.setImage("resources/Graphics/exit.png", 75, 75, sideSize.width * 12/100, sideSize.width * 12/100);
-        lButtonBuild = ImageHandler.setImage("resources/Graphics/button_build.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
-        lButtonMove = ImageHandler.setImage("resources/Graphics/button_move.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
-        lButtonPower = ImageHandler.setImage("resources/Graphics/button_power.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
-        lButtonPowerPing = ImageHandler.setImage("resources/Graphics/button_power_ping.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
-        lButtonChat = ImageHandler.setImage("resources/Graphics/button_chat.png", 100, 100, frameSize.width * 5/100, frameSize.height * 7/100);
-        lButtonChatPing = ImageHandler.setImage("resources/Graphics/button_chat_ping.png", 100, 100, frameSize.width * 5/100, frameSize.height * 7/100);
-        lButtonChooseCards = ImageHandler.setImage("resources/Graphics/button_choose_cards.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
-        lbuttonChooseFirst = ImageHandler.setImage("resources/Graphics/button_choose_first.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
-        lButtonChoosePower = ImageHandler.setImage("resources/Graphics/button_power.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
-        lbuttonEndturn = ImageHandler.setImage("resources/Graphics/button_endturn.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
-        lButtonBuildPress = ImageHandler.setImage("resources/Graphics/button_build_press.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
-        lButtonMovePress = ImageHandler.setImage("resources/Graphics/button_move_press.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
-        lButtonPowerPress = ImageHandler.setImage("resources/Graphics/button_power_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
-        lButtonPowerPressPing = ImageHandler.setImage("resources/Graphics/button_power_press_ping.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
-        lButtonChatPress = ImageHandler.setImage("resources/Graphics/button_chat_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 7/100);
-        lButtonChatPressPing = ImageHandler.setImage("resources/Graphics/button_chat_press_ping.png", 100, 100, frameSize.width * 5/100, frameSize.height * 7/100);
-        lButtonChooseCardsPress = ImageHandler.setImage("resources/Graphics/button_choose_cards_press.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
-        lbuttonChooseFirstPress = ImageHandler.setImage("resources/Graphics/button_choose_first_press.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
-        lButtonChoosePowerPress = ImageHandler.setImage("resources/Graphics/button_power_press.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
-        lbuttonEndturnPress = ImageHandler.setImage("resources/Graphics/button_endturn_press.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
+        workerCyan = ImageHandler.setImage(RESOURCES_GRAPHICS + "worker_cyan.png", 100, 100, labelMapSize.width, labelMapSize.height);
+        workerWhite = ImageHandler.setImage(RESOURCES_GRAPHICS + "worker_white.png", 100, 100, labelMapSize.width, labelMapSize.height);
+        workerPurple = ImageHandler.setImage(RESOURCES_GRAPHICS + "worker_purple.png", 100, 100, labelMapSize.width, labelMapSize.height);
+        lvl1 = ImageHandler.setImage(RESOURCES_GRAPHICS + "lvl1.png", 85, 85, labelMapSize.width, labelMapSize.height);
+        lvl2 = ImageHandler.setImage(RESOURCES_GRAPHICS + "lvl2.png", 85, 85, labelMapSize.width, labelMapSize.height);
+        lvl3 = ImageHandler.setImage(RESOURCES_GRAPHICS + "lvl3.png", 85, 85, labelMapSize.width, labelMapSize.height);
+        lvl1Building = ImageHandler.setImage(RESOURCES_GRAPHICS + "lvl1.png", 95, 95, buttonSize5x5.width, buttonSize5x5.height);
+        lvl2Building = ImageHandler.setImage(RESOURCES_GRAPHICS + "lvl2.png", 95, 95, buttonSize5x5.width, buttonSize5x5.height);
+        lvl3Building = ImageHandler.setImage(RESOURCES_GRAPHICS + "lvl3.png", 95, 95, buttonSize5x5.width, buttonSize5x5.height);
+        domeBuilding = ImageHandler.setImage(RESOURCES_GRAPHICS + "dome.png", 95, 95, buttonSize5x5.width, buttonSize5x5.height);
+        lvl1Cyan = ImageHandler.setImage(RESOURCES_GRAPHICS + "lvl1_cyan.png", 85, 85, labelMapSize.width, labelMapSize.height);
+        lvl2Cyan = ImageHandler.setImage(RESOURCES_GRAPHICS + "lvl2_cyan.png", 85, 85, labelMapSize.width, labelMapSize.height);
+        lvl3Cyan = ImageHandler.setImage(RESOURCES_GRAPHICS + "lvl3_cyan.png", 85, 85, labelMapSize.width, labelMapSize.height);
+        lvl1Purple = ImageHandler.setImage(RESOURCES_GRAPHICS + "lvl1_purple.png", 85, 85, labelMapSize.width, labelMapSize.height);
+        lvl2Purple = ImageHandler.setImage(RESOURCES_GRAPHICS + "lvl2_purple.png", 85, 85, labelMapSize.width, labelMapSize.height);
+        lvl3Purple = ImageHandler.setImage(RESOURCES_GRAPHICS + "lvl3_purple.png", 85, 85, labelMapSize.width, labelMapSize.height);
+        lvl1White = ImageHandler.setImage(RESOURCES_GRAPHICS + "lvl1_white.png", 85, 85, labelMapSize.width, labelMapSize.height);
+        lvl2White = ImageHandler.setImage(RESOURCES_GRAPHICS + "lvl2_white.png", 85, 85, labelMapSize.width, labelMapSize.height);
+        lvl3White = ImageHandler.setImage(RESOURCES_GRAPHICS + "lvl3_white.png", 85, 85, labelMapSize.width, labelMapSize.height);
+        lvl1Dome = ImageHandler.setImage(RESOURCES_GRAPHICS + "lvl1_dome.png", 85, 85, labelMapSize.width, labelMapSize.height);
+        lvl2Dome = ImageHandler.setImage(RESOURCES_GRAPHICS + "lvl2_dome.png", 85, 85, labelMapSize.width, labelMapSize.height);
+        lvl3Dome = ImageHandler.setImage(RESOURCES_GRAPHICS + "lvl3_dome.png", 85, 85, labelMapSize.width, labelMapSize.height);
+        dome = ImageHandler.setImage(RESOURCES_GRAPHICS + "dome.png", 85, 85, buttonSize5x5.width, buttonSize5x5.height);
+        exit = ImageHandler.setImage(RESOURCES_GRAPHICS + "exit.png", 75, 75, sideSize.width * 12/100, sideSize.width * 12/100);
+        lButtonBuild = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_build.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
+        lButtonMove = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_move.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
+        lButtonPower = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_power.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
+        lButtonPowerPing = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_power_ping.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
+        lButtonChat = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_chat.png", 100, 100, frameSize.width * 5/100, frameSize.height * 7/100);
+        lButtonChatPing = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_chat_ping.png", 100, 100, frameSize.width * 5/100, frameSize.height * 7/100);
+        lButtonChooseCards = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_choose_cards.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
+        lbuttonChooseFirst = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_choose_first.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
+        lButtonChoosePower = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_power.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
+        lbuttonEndturn = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_endturn.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
+        lButtonBuildPress = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_build_press.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
+        lButtonMovePress = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_move_press.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
+        lButtonPowerPress = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_power_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
+        lButtonPowerPressPing = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_power_press_ping.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
+        lButtonChatPress = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_chat_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 7/100);
+        lButtonChatPressPing = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_chat_press_ping.png", 100, 100, frameSize.width * 5/100, frameSize.height * 7/100);
+        lButtonChooseCardsPress = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_choose_cards_press.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
+        lbuttonChooseFirstPress = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_choose_first_press.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
+        lButtonChoosePowerPress = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_power_press.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
+        lbuttonEndturnPress = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_endturn_press.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
         border = ImageHandler.setImage(LOSEBORDER, 100, 100, frameSize.width * 50/100, frameSize.height * 80/100);
-        lGlow = ImageHandler.setImage("resources/Graphics/gods/podium/glow.png", 100, 100, frameSize.width * 15/100, frameSize.height * 35/100);
-        lTutorial = ImageHandler.setImage("resources/Graphics/tutorial.png", 100, 100, frameSize.width, frameSize.height);
-        lTutorial1 = ImageHandler.setImage("resources/Graphics/tutorial1.png", 100, 100, frameSize.width, frameSize.height);
-        lTutorial2 = ImageHandler.setImage("resources/Graphics/tutorial2.png", 100, 100, frameSize.width, frameSize.height);
+        lGlow = ImageHandler.setImage(PODIUM + "glow.png", 100, 100, frameSize.width * 15/100, frameSize.height * 35/100);
+        lTutorial = ImageHandler.setImage(RESOURCES_GRAPHICS + "tutorial.png", 100, 100, frameSize.width, frameSize.height);
+        lTutorial1 = ImageHandler.setImage(RESOURCES_GRAPHICS + "tutorial1.png", 100, 100, frameSize.width, frameSize.height);
+        lTutorial2 = ImageHandler.setImage(RESOURCES_GRAPHICS + "tutorial2.png", 100, 100, frameSize.width, frameSize.height);
 
-        loopSound = new MP3("resources/Music/Atlantis.mp3");
-        place = new MP3("resources/Music/Place.mp3");
-        build = new MP3("resources/Music/Build.mp3");
-        win = new MP3("resources/Music/win.mp3");
-        lose = new MP3("resources/Music/lose.mp3");
-        yourTurn = new MP3("resources/Music/your_turn.mp3");
-        tower = new MP3("resources/Music/complete_tower1.mp3");
+        loopSound = new MP3(MUSIC + "Atlantis.mp3");
+        place = new MP3(MUSIC + "Place.mp3");
+        build = new MP3(MUSIC + "Build.mp3");
+        win = new MP3(MUSIC + "win.mp3");
+        lose = new MP3(MUSIC + "lose.mp3");
+        yourTurn = new MP3(MUSIC + "your_turn.mp3");
+        tower = new MP3(MUSIC + "complete_tower1.mp3");
 
 
 
@@ -2239,7 +2239,7 @@ public class Board {
                 lLoser1 = ImageHandler.setImage(PODIUM + mePlayer.getPower().getName() + PNG, 100, 100, frameSize.width * 20/100, frameSize.height * 50/100);
             }
             else {
-                border = ImageHandler.setImage("resources/Graphics/gods/podium/lost_border.png", 100, 100, frameSize.width * 50 / 100, frameSize.height * 80 / 100);
+                border = ImageHandler.setImage(PODIUM + "lost_border.png", 100, 100, frameSize.width * 50 / 100, frameSize.height * 80 / 100);
             }
         } catch (IOException e) {
             LOGGER.severe(e.getMessage());
@@ -2290,7 +2290,7 @@ public class Board {
         loopSound.stop();
         try {
             if (winnerBool) {
-                border = ImageHandler.setImage("resources/Graphics/gods/podium/win_border.png", 100, 100, frameSize.width * 50/100, frameSize.height * 80/100);
+                border = ImageHandler.setImage(PODIUM + "win_border.png", 100, 100, frameSize.width * 50/100, frameSize.height * 80/100);
                 lwinner = ImageHandler.setImage(PODIUM + mePlayer.getPower().getName() + PNG, 100, 100, frameSize.width * 30/100, frameSize.height * 50/100);
                 lLoser1 = ImageHandler.setImage(PODIUM + opponent1.getName() + PNG, 100, 100, frameSize.width * 30/100, frameSize.height * 50/100);
                 if (numberOfPlayers == 3){

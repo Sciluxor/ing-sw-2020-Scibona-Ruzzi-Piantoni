@@ -5,6 +5,8 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.List;
 
+import static it.polimi.ingsw.utils.ConstantsContainer.GODS;
+
 /**
  * Class for building the deck of cards as single JButtons
  * @author Luigi Scibona
@@ -70,20 +72,20 @@ public class ButtonGodsList {
         buttons.add(zeus);
 
 
-        JLabel lapollo = ImageHandler.setImage("resources/Graphics/gods/apollo.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel lartemis = ImageHandler.setImage("resources/Graphics/gods/artemis.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel lathena = ImageHandler.setImage("resources/Graphics/gods/athena.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel latlas = ImageHandler.setImage("resources/Graphics/gods/atlas.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel lchronus = ImageHandler.setImage("resources/Graphics/gods/chronus.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel ldemeter = ImageHandler.setImage("resources/Graphics/gods/demeter.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel lhepha = ImageHandler.setImage("resources/Graphics/gods/hephaestus.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel lhera = ImageHandler.setImage("resources/Graphics/gods/hera.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel lhestia = ImageHandler.setImage("resources/Graphics/gods/hestia.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel lhypnus = ImageHandler.setImage("resources/Graphics/gods/hypnus.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel lmino = ImageHandler.setImage("resources/Graphics/gods/minotaur.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel lpan = ImageHandler.setImage("resources/Graphics/gods/pan.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel lprome = ImageHandler.setImage("resources/Graphics/gods/prometheus.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel lzeus = ImageHandler.setImage("resources/Graphics/gods/zeus.png", 100, 100, cardSize.width, cardSize.height);
+        JLabel lapollo = ImageHandler.setImage(GODS + "apollo.png", 100, 100, cardSize.width, cardSize.height);
+        JLabel lartemis = ImageHandler.setImage(GODS + "artemis.png", 100, 100, cardSize.width, cardSize.height);
+        JLabel lathena = ImageHandler.setImage(GODS + "athena.png", 100, 100, cardSize.width, cardSize.height);
+        JLabel latlas = ImageHandler.setImage(GODS + "atlas.png", 100, 100, cardSize.width, cardSize.height);
+        JLabel lchronus = ImageHandler.setImage(GODS + "chronus.png", 100, 100, cardSize.width, cardSize.height);
+        JLabel ldemeter = ImageHandler.setImage(GODS + "demeter.png", 100, 100, cardSize.width, cardSize.height);
+        JLabel lhepha = ImageHandler.setImage(GODS + "hephaestus.png", 100, 100, cardSize.width, cardSize.height);
+        JLabel lhera = ImageHandler.setImage(GODS + "hera.png", 100, 100, cardSize.width, cardSize.height);
+        JLabel lhestia = ImageHandler.setImage(GODS + "hestia.png", 100, 100, cardSize.width, cardSize.height);
+        JLabel lhypnus = ImageHandler.setImage(GODS + "hypnus.png", 100, 100, cardSize.width, cardSize.height);
+        JLabel lmino = ImageHandler.setImage(GODS + "minotaur.png", 100, 100, cardSize.width, cardSize.height);
+        JLabel lpan = ImageHandler.setImage(GODS + "pan.png", 100, 100, cardSize.width, cardSize.height);
+        JLabel lprome = ImageHandler.setImage(GODS + "prometheus.png", 100, 100, cardSize.width, cardSize.height);
+        JLabel lzeus = ImageHandler.setImage(GODS + "zeus.png", 100, 100, cardSize.width, cardSize.height);
 
         apollo.setIcon(lapollo.getIcon());
         artemis.setIcon(lartemis.getIcon());

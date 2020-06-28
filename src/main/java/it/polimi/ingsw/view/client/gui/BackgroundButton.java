@@ -7,6 +7,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.Objects;
 
+import static it.polimi.ingsw.utils.ConstantsContainer.RESOURCES_GRAPHICS;
 import static it.polimi.ingsw.view.client.gui.Gui.*;
 
 /**
@@ -83,17 +84,17 @@ public class BackgroundButton {
 
         switch (n){
             case 0:
-                cover11 = loadBackGround("resources/Graphics/background_panels.png", frame);
+                cover11 = loadBackGround(RESOURCES_GRAPHICS + "background_panels.png", frame);
                 break;
             case 1:
-                cover11 = loadBackGround("resources/Graphics/background.png", frame);
+                cover11 = loadBackGround(RESOURCES_GRAPHICS + "background.png", frame);
                 break;
             case 2:
-                cover11 = loadBackGround("resources/Graphics/background2.png", frame);
+                cover11 = loadBackGround(RESOURCES_GRAPHICS + "background2.png", frame);
                 break;
 
             case 3:
-                cover11 = loadBackGround("resources/Graphics/panel_buildings.png", frame);
+                cover11 = loadBackGround(RESOURCES_GRAPHICS + "panel_buildings.png", frame);
                 break;
             default:
         }

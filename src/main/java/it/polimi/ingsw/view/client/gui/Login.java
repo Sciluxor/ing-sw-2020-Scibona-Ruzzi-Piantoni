@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.ConnectException;
 
+import static it.polimi.ingsw.utils.ConstantsContainer.*;
 import static it.polimi.ingsw.view.client.gui.Gui.LOGGER;
 
 /**
@@ -50,7 +51,7 @@ public class Login extends JPanel{
         port = new JTextField(20);
         address = new JTextField(20);
 
-        JLabel cover = ImageHandler.setImage("resources/Graphics/background_login.png", 100, 100, frameSize.width, frameSize.height);
+        JLabel cover = ImageHandler.setImage(RESOURCES_GRAPHICS + "background_login.png", 100, 100, frameSize.width, frameSize.height);
         JLabel sfondo = new JLabel(cover.getIcon());
         JButton back = new JButton();
         back.setIcon(sfondo.getIcon());
@@ -59,11 +60,11 @@ public class Login extends JPanel{
         back.setContentAreaFilled(false);
         back.setBorderPainted(false);
 
-        JLabel santoriniLabel = ImageHandler.setImage("resources/Graphics/Texts/Santorini_HD.png", 100, 100, frameSize.width * 30/100,frameSize.height*20/100);
-        JLabel nicknameLabel = ImageHandler.setImage("resources/Graphics/Texts/nickname.png", 97, 100, frameSize.width * 15/100,frameSize.height * 5/100);
-        JLabel numberPlayersLabel = ImageHandler.setImage("resources/Graphics/Texts/number_of_players.png", 97, 100, frameSize.width * 20/100,frameSize.height * 5/100);
-        JLabel portlabel = ImageHandler.setImage("resources/Graphics/Texts/port.png", 97, 100, frameSize.width * 5/100,frameSize.height * 5/100);
-        JLabel addresslabel = ImageHandler.setImage("resources/Graphics/Texts/address.png", 97, 100, frameSize.width * 10/100,frameSize.height * 5/100);
+        JLabel santoriniLabel = ImageHandler.setImage(TEXT + "Santorini_HD.png", 100, 100, frameSize.width * 30/100,frameSize.height*20/100);
+        JLabel nicknameLabel = ImageHandler.setImage(TEXT + "nickname.png", 97, 100, frameSize.width * 15/100,frameSize.height * 5/100);
+        JLabel numberPlayersLabel = ImageHandler.setImage(TEXT + "number_of_players.png", 97, 100, frameSize.width * 20/100,frameSize.height * 5/100);
+        JLabel portlabel = ImageHandler.setImage(TEXT + "port.png", 97, 100, frameSize.width * 5/100,frameSize.height * 5/100);
+        JLabel addresslabel = ImageHandler.setImage(TEXT + "address.png", 97, 100, frameSize.width * 10/100,frameSize.height * 5/100);
 
 
         santoriniLabel.setBounds(frameSize.width * 35/100 , frameSize.height * 7/100, frameSize.width * 30/100,frameSize.height*20/100);

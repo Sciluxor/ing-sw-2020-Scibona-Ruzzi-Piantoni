@@ -47,6 +47,9 @@ public class ConstantsContainer {
     //Board
     public static final String LOSEBORDER = "resources/Graphics/gods/podium/lose_border.png";
     public static final String PNG = ".png";
+    public static final String RESOURCES_GRAPHICS = "resources/Graphics/";
+    public static final String MUSIC = "resources/Music/";
+    public static final String TEXT = "resources/Graphics/Texts/";
     public static final String PODIUM = "resources/Graphics/gods/podium/";
     public static final String GODS = "resources/Graphics/gods/";
     public static final String DESCRIPTION = "_description.png";

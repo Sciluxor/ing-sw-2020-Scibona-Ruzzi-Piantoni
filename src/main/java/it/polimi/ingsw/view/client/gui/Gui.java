@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import static it.polimi.ingsw.utils.ConstantsContainer.MUSIC;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 /**
@@ -78,7 +79,7 @@ public class Gui extends ClientGameController {
 
         addFontFelix();
 
-        sound = new MP3("resources/Music/Fruits.mp3");
+        sound = new MP3(MUSIC + "Fruits.mp3");
 
         constructorPopUp = new PopUp(this, d, null);
         newPopUp();

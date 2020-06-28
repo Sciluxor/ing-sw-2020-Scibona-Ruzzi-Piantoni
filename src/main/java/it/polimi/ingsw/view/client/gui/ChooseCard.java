@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static it.polimi.ingsw.utils.ConstantsContainer.*;
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButtonPersonalized;
 import static it.polimi.ingsw.view.client.gui.Board.getBolddimension;
@@ -67,7 +68,7 @@ public class ChooseCard extends JDesktopPane{
         nameChoosing = name;
         godCards = cards;
         costructor = new ButtonGodsList(frameSize, godList);
-        click = new MP3("resources/Music/Click.mp3");
+        click = new MP3(MUSIC + "Click.mp3");
 
         intFrame = internalAndBackgroundSetter(this, intFrameSize, buttonBackground);
 
@@ -76,10 +77,10 @@ public class ChooseCard extends JDesktopPane{
         Dimension cardSize = new Dimension();
         cardSize.setSize((int) (frameSize.getWidth() * 9/100), (int) (frameSize.getHeight() * 23.15/100));
 
-        JLabel choose = ImageHandler.setImage("resources/Graphics/Texts/choose_your_god.png", 100, 100, frameSize.width * 30/100, frameSize.height * 10/100);
-        JLabel choise = ImageHandler.setImage("resources/Graphics/Texts/this_is_your_god.png", 100, 100, frameSize.width * 30/100, frameSize.height * 10/100);
-        JLabel isChoosing = ImageHandler.setImage("resources/Graphics/Texts/is_choosing_the_god_power.png", 100, 100, frameSize.width * 85/100, frameSize.height * 25/100);
-        JLabel first = ImageHandler.setImage("resources/Graphics/Texts/choose_your_god_power.png", 100, 100, frameSize.width * 85/100, frameSize.height * 25/100);
+        JLabel choose = ImageHandler.setImage(TEXT + "choose_your_god.png", 100, 100, frameSize.width * 30/100, frameSize.height * 10/100);
+        JLabel choise = ImageHandler.setImage(TEXT + "this_is_your_god.png", 100, 100, frameSize.width * 30/100, frameSize.height * 10/100);
+        JLabel isChoosing = ImageHandler.setImage(TEXT + "is_choosing_the_god_power.png", 100, 100, frameSize.width * 85/100, frameSize.height * 25/100);
+        JLabel first = ImageHandler.setImage(TEXT + "choose_your_god_power.png", 100, 100, frameSize.width * 85/100, frameSize.height * 25/100);
         JLabel otherName = new JLabel(nameChoosing);
         otherName.setBounds((int) (((double)frameSize.width * 50/ 100) - ((otherName.getText().length() * bold) / 2)), (int) (frameSize.height * 36.5/100), frameSize.width * 60/100, frameSize.width * 5/100);
         otherName.setFont(getFelixBold());
