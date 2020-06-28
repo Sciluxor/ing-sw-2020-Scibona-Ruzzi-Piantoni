@@ -15,8 +15,7 @@ import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButtonPersonalized;
 import static it.polimi.ingsw.view.client.gui.Board.getBolddimension;
 import static it.polimi.ingsw.view.client.gui.Board.internalFrameSetUp;
-import static it.polimi.ingsw.view.client.gui.GuiUtils.eliminateActionClass;
-import static it.polimi.ingsw.view.client.gui.GuiUtils.eliminateMouseClass;
+import static it.polimi.ingsw.view.client.gui.GuiUtils.*;
 import static it.polimi.ingsw.view.client.gui.Gui.*;
 
 /**
@@ -74,19 +73,7 @@ public class ChooseCard extends JDesktopPane{
         costructor = new ButtonGodsList(frameSize, godList);
         click = new MP3("resources/Music/Click.mp3");
 
-        intFrame = new JInternalFrame("", false, false, false, false);
-        intFrame.setPreferredSize(intFrameSize);
-        internalFrameSetUp(intFrame);
-        BasicInternalFrameUI bii = (BasicInternalFrameUI)intFrame.getUI();
-        bii.setNorthPane(null);
-        intFrame.setVisible(false);
-        add(intFrame);
-
-        buttonBackground.setBounds(0, 0,intFrameSize.width, intFrameSize.height);
-        buttonBackground.setOpaque(false);
-        buttonBackground.setContentAreaFilled(false);
-        buttonBackground.setBorderPainted(false);
-        intFrame.add(buttonBackground);
+        intFrame = internalAndBackgroundSetter(this, intFrameSize, buttonBackground);
 
         int x = (int) (frameSize.width * 33.5/100);
         int y = (frameSize.height * 35/100);

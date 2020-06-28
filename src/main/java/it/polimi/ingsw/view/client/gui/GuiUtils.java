@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.client.gui;
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicInternalFrameUI;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButtonPersonalized;
+import static it.polimi.ingsw.view.client.gui.Board.internalFrameSetUp;
 
 /**
  * Class with generic utils methods
@@ -103,5 +105,23 @@ public class GuiUtils {
         JButton back = backgroundButtonPersonalized(2, frame);
         back.setBounds(0, 0, frame.width, frame.height);
         pane.add(back);
+    }
+
+    public static JInternalFrame internalAndBackgroundSetter(JDesktopPane pane, Dimension intFrameSize, JButton background){
+        JInternalFrame intFrame = new JInternalFrame("", false, false, false, false);
+        intFrame.setPreferredSize(intFrameSize);
+        internalFrameSetUp(intFrame);
+        BasicInternalFrameUI bii = (BasicInternalFrameUI) intFrame.getUI();
+        bii.setNorthPane(null);
+        intFrame.setVisible(false);
+        pane.add(intFrame);
+
+        background.setBounds(0, 0,intFrameSize.width, intFrameSize.height);
+        background.setOpaque(false);
+        background.setContentAreaFilled(false);
+        background.setBorderPainted(false);
+        intFrame.add(background);
+
+        return intFrame;
     }
 }

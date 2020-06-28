@@ -1,21 +1,17 @@
 package it.polimi.ingsw.view.client.gui;
 
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicInternalFrameUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
-import static it.polimi.ingsw.view.client.gui.Board.internalFrameSetUp;
 import static it.polimi.ingsw.view.client.gui.GuiUtils.eliminateActionClass;
-import static it.polimi.ingsw.view.client.gui.Gui.LOGGER;
 import static it.polimi.ingsw.view.client.gui.Gui.getD;
+import static it.polimi.ingsw.view.client.gui.GuiUtils.internalAndBackgroundSetter;
 
 /**
  * Class that extends JDesktopPane for the build of the pane to display any limitations due to the other gods
@@ -65,19 +61,7 @@ public class SeeConstraint extends JDesktopPane {
 
         costructor = new ButtonGodsList(frameSize, godList);
 
-        intFrame = new JInternalFrame("", false, false, false, false);
-        intFrame.setPreferredSize(intFrameSize);
-        internalFrameSetUp(intFrame);
-        BasicInternalFrameUI bii = (BasicInternalFrameUI) intFrame.getUI();
-        bii.setNorthPane(null);
-        intFrame.setVisible(false);
-        add(intFrame);
-
-        buttonBackground.setBounds(0, 0,intFrameSize.width, intFrameSize.height);
-        buttonBackground.setOpaque(false);
-        buttonBackground.setContentAreaFilled(false);
-        buttonBackground.setBorderPainted(false);
-        intFrame.add(buttonBackground);
+        intFrame = internalAndBackgroundSetter(this, intFrameSize, buttonBackground);
 
         power = ImageHandler.setImage("resources/Graphics/Texts/your_power.png", 99, 99, frameSize.width * 30/100, frameSize.height * 10/100);
         power.setBounds(frameSize.width * 15/100, frameSize.height * 10/100, frameSize.width * 30/100, frameSize.height * 10/100);
@@ -146,43 +130,7 @@ public class SeeConstraint extends JDesktopPane {
             button.setFocusPainted(false);
             button.setBorderPainted(false);
             button.addMouseListener(new ColorBorderGodCards());
-            button.addMouseListener(new ShowPower());
-        }
-    }
-
-    /**
-     * Class that extends MouseAdapter to show the description of the card as the mouse cursor moves over it
-     */
-
-    private class ShowPower extends MouseAdapter {
-        @Override
-        public void mouseEntered(MouseEvent e) {
-            JButton c = (JButton)e.getSource();
-            if (c.getX() < frameSize.width * 50/100 && c.getY() < frameSize.height * 40/100) {
-                intFrame.setBounds(((frameSize.width * 9 / 100) + c.getX()), (int) (frameSize.height * 8.5 / 100), intFrameSize.width, intFrameSize.height);
-            }
-            else if (c.getX() >= frameSize.width * 50/100 && c.getY() < frameSize.height * 40/100){
-                intFrame.setBounds((c.getX() - (frameSize.width * 48 / 100)), (int) (frameSize.height * 8.5 / 100), intFrameSize.width, intFrameSize.height);
-            }
-            else if (c.getX() < frameSize.width * 50/100 && c.getY() >= frameSize.height * 40/100){
-                intFrame.setBounds(((frameSize.width * 9 / 100) + c.getX()), (frameSize.height * 33 / 100), intFrameSize.width, intFrameSize.height);
-            }
-            else
-                intFrame.setBounds((c.getX() - (frameSize.width * 48 / 100)), (frameSize.height * 33 / 100), intFrameSize.width, intFrameSize.height);
-
-            buttonBackground.setIcon(null);
-            try {
-                cover = ImageHandler.setImage("resources/Graphics/gods/" + c.getName() + "_description.png", 100, 100, intFrame.getWidth() , intFrame.getHeight() );
-            } catch (IOException ex) {
-                LOGGER.severe(ex.getMessage());
-            }
-            label.setIcon(cover.getIcon());
-            buttonBackground.setIcon(label.getIcon());
-            intFrame.setVisible(true);
-        }
-        @Override
-        public void mouseExited(MouseEvent e) {
-            intFrame.setVisible(false);
+            button.addMouseListener(new ShowPower(intFrame, frameSize, intFrameSize, buttonBackground, cover, label, true));
         }
     }
 
