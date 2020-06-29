@@ -11,8 +11,6 @@ import it.polimi.ingsw.network.message.MessageType;
 import it.polimi.ingsw.utils.CliUtils;
 import javafx.util.Pair;
 
-import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.util.*;
 import java.util.List;
 
@@ -38,9 +36,6 @@ public class Cli extends ClientGameController {
     private int selectedWorker;
     private Player myPlayerOnServer;
     private String myPower;
-    private boolean isMyTurn = false;
-    private boolean duringMyTurn = false;
-    private boolean locked = false;
 
     private static final String END_TURN_STRING = "endTurn";
     private static final String UP_AND_DOWN_STRING = "up&down";
@@ -62,9 +57,6 @@ public class Cli extends ClientGameController {
     private List<Pair<Player, String>> previousChatMessage = new ArrayList<>();
 
     private Response fromServerResponse;
-
-    private Thread mainThread = new Thread();
-    private Thread chatThread = new Thread();
 
     /**
      * Method that start the Cli
@@ -462,21 +454,12 @@ public class Cli extends ClientGameController {
     }
 
     /**
-     * Method used to quit from the game
-     * @param status status of the game (1 = correct, -1 = error)
-     */
-
-    private void quitFromGame(int status) {
-        System.exit(status);
-    }
-
-    /**
      * Method used to check if user wants to play another game or not
      */
 
-    private synchronized void checkRestart() {
-        setSaneTerminalMode();
-        printRed("DO YOU WANT TO START NEW GAME? (use arrows to select one of the option)\n  [YES]\n  [QUIT]\n");
+    private void checkRestart(boolean loser) {
+        setSaneTerminalModeIfIsRaw();
+        printRed("DO YOU WANT TO START NEW GAME? (use arrows to select one of the option)\n  [YES]\n  [NO]\n");
         int keyboard = getArrowUpDown();
         boolean goOut = false;
         boolean restart = false;
@@ -486,11 +469,12 @@ public class Cli extends ClientGameController {
             printRed("DO YOU WANT TO START NEW GAME? (use arrows to select one of the option)\n");
             if (keyboard == 183) {
                 printYellow("> [YES]\n");
-                printRed("  [QUIT]\n");
+                printRed("  [NO]\n");
                 restart = true;
             } else if (keyboard == 184) {
                 printRed("  [YES]\n");
-                printYellow("> [QUIT]\n");
+                printYellow("> [NO]\n");
+                restart = false;
             }
 
             if (keyboard == 13) {
@@ -504,33 +488,47 @@ public class Cli extends ClientGameController {
             Cli cli = new Cli();
             mainHandler(cli);
         } else {
-            quitFromGame(1);
+            boolean watch = false;
+            if(loser && getNumberOfPlayers() == 3)
+                watch = checkLoserContinueWatch();
+
+            if(!watch)
+                quitFromGame(1);
         }
     }
 
     /**
-     * Method used to simulate a key press
+     * Method used to check if a loser wants to continue to watch the game
+     * @return boolean value (true = watch | false = exit from the game)
      */
 
-    private void robot() {
-        try {
-            Robot robot = new Robot();
+    private boolean checkLoserContinueWatch() {
+        printRed("DO YOU WANT TO CONTINUE WATCH THE GAME? (use arrows to select one of the option)\n  [YES]\n  [QUIT]\n");
+        int keyboard = getArrowUpDown();
+        boolean goOut = false;
+        boolean watch = false;
 
-            // Simulate a key press
-            printDebug("ROBOT");
-            robot.keyPress(KeyEvent.VK_ENTER);
-            robot.keyRelease(KeyEvent.VK_ENTER);
-
-            if(isMyTurn) {
-                printDebug("ROBOT MY TURN");
-                setRawTerminalMode();
-                robot.keyPress(KeyEvent.VK_DOWN);
-                robot.keyRelease(KeyEvent.VK_DOWN);
+        do {
+            clearShell();
+            printRed("DO YOU WANT TO CONTINUE WATCH THE GAME? (use arrows to select one of the option)\n");
+            if (keyboard == 183) {
+                printYellow("> [YES]\n");
+                printRed("  [QUIT]\n");
+                watch = true;
+            } else if (keyboard == 184) {
+                printRed("  [YES]\n");
+                printYellow("> [QUIT]\n");
+                watch = false;
             }
 
-        } catch (AWTException e) {
-            e.printStackTrace();
-        }
+            if (keyboard == 13) {
+                goOut = true;
+            } else {
+                keyboard = controlWaitEnter(UP_AND_DOWN_STRING);
+            }
+        } while (!goOut);
+
+        return watch;
     }
 
     /**
@@ -665,10 +663,7 @@ public class Cli extends ClientGameController {
         }
 
         clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
-        if(duringMyTurn)
-            startSelectedActions(scrollAvailableOptions(availableActions));
-        else
-            handleChatCli();
+        startSelectedActions(scrollAvailableOptions(availableActions));
     }
 
     /**
@@ -699,21 +694,10 @@ public class Cli extends ClientGameController {
      * Method used to set sane terminal mode if the terminal mode was raw
      */
 
-    private /*String*/ void setSaneTerminalMode() {
-        //String previousTerminalMode = SANE_STRING;
+    private void setSaneTerminalModeIfIsRaw() {
         if(getTerminalMode().equalsIgnoreCase(RAW_STRING)) {
-            //previousTerminalMode = RAW_STRING;
             setTerminalMode(SANE_STRING);
         }
-        //return previousTerminalMode;
-    }
-
-    /**
-     * Method used to set raw terminal mode if the terminal mode was raw and then it is set sane
-     */
-
-    private void setRawTerminalMode() {
-            setTerminalMode(RAW_STRING);
     }
 
     //----- MAP & TILES -----
@@ -1079,11 +1063,7 @@ public class Cli extends ClientGameController {
     @Override
     public void challengerChoice(String challengerNick, boolean isYourPlayer) {
 
-        printDebug("CHALLENGER CHOICE");
-        isMyTurn = isYourPlayer;
         if (isYourPlayer) {
-
-            duringMyTurn = true;
 
             availableActions.clear();
             availableActions.add(CHAT_CASE);
@@ -1092,21 +1072,11 @@ public class Cli extends ClientGameController {
             clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
             printRed("YOU HAVE BEEN CHOSEN AS CHALLENGER!\n");
 
-            mainThread = new Thread(() -> startSelectedActions(scrollAvailableOptions(availableActions)));
-            mainThread.start();
-
-            duringMyTurn = false;
-            //startSelectedActions(scrollAvailableOptions(availableActions));
+            startSelectedActions(scrollAvailableOptions(availableActions));
 
         } else {
 
             printInfoNotMyTurn(challengerNick, " IS CHOOSING CARDS\n");
-
-            chatThread = new Thread(this::handleChatCli);
-            chatThread.start();
-            locked = true;
-
-            //handleChatCli();
 
         }
     }
@@ -1114,17 +1084,7 @@ public class Cli extends ClientGameController {
     @Override
     public void cardChoice(String challengerNick, boolean isYourPlayer) {
 
-        if(locked) {
-            chatThread.interrupt();
-            robot();
-            locked = false;
-        }
-
-        isMyTurn = isYourPlayer;
-
         if (isYourPlayer) {
-
-            duringMyTurn = true;
 
             deckOrdered = new ArrayList<>(getAvailableCards());
             printDebug("CARDCHOICE AVAILABLE: " + getAvailableCards());
@@ -1136,20 +1096,11 @@ public class Cli extends ClientGameController {
             clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
             printRed("IT'S YOUR TURN TO CHOOSE YOUR POWER!\n");
 
-            mainThread = new Thread(() -> startSelectedActions(scrollAvailableOptions(availableActions)));
-            mainThread.start();
-
-            duringMyTurn = false;
-            //startSelectedActions(scrollAvailableOptions(availableActions));
+            startSelectedActions(scrollAvailableOptions(availableActions));
 
         } else {
 
             printInfoNotMyTurn(challengerNick, " IS CHOOSING HIS POWER\n");
-
-            chatThread = new Thread(this::handleChatCli);
-            chatThread.start();
-            locked = true;
-            //handleChatCli();
 
         }
     }
@@ -1157,21 +1108,7 @@ public class Cli extends ClientGameController {
     @Override
     public synchronized void placeWorker(String challengerNick, boolean isYourPlayer) {
 
-        isMyTurn = isYourPlayer;
-
-        if(locked) {
-            try {
-                Thread.sleep(200);
-            } catch (InterruptedException e) {
-                CliUtils.LOGGER.severe(e.getMessage());
-            }
-            robot();
-            locked = false;
-        }
-
         if (isYourPlayer) {
-
-            duringMyTurn = true;
 
             availableActions = new ArrayList<>();
             availableActions.add(CHAT_CASE);
@@ -1180,20 +1117,11 @@ public class Cli extends ClientGameController {
             clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
             printRed("PLACE YOUR WORKERS!\n");
 
-            mainThread = new Thread(() -> startSelectedActions(scrollAvailableOptions(availableActions)));
-            mainThread.start();
-
-            duringMyTurn = false;
-            //startSelectedActions(scrollAvailableOptions(availableActions));
+            startSelectedActions(scrollAvailableOptions(availableActions));
 
         } else {
 
             printInfoNotMyTurn(challengerNick, " IS PLACING HIS WORKERS\n");
-
-            chatThread = new Thread(this::handleChatCli);
-            chatThread.start();
-            locked = true;
-            //handleChatCli();
 
         }
     }
@@ -1218,7 +1146,7 @@ public class Cli extends ClientGameController {
     }
 
     @Override
-    public synchronized void notifyWin(String nick) {
+    public void notifyWin(String nick) {
         clearShell();
         if(nick.equalsIgnoreCase(getNickName()))
             printRed(WINNER);
@@ -1231,18 +1159,18 @@ public class Cli extends ClientGameController {
             }
         }
 
-        checkRestart();
+        checkRestart(false);
     }
 
     @Override
-    public synchronized void notifyLose(String nick, boolean isYourPlayer) {
+    public void notifyLose(String nick, boolean isYourPlayer) {
         if(isYourPlayer) {
             printRed(LOSER);
             printRed("THE WINNER IS: ");
             printPlayer(getPlayerFromNickName(opponents, nick));
         }
 
-        checkRestart();
+        checkRestart(true);
     }
 
     @Override
@@ -1290,42 +1218,42 @@ public class Cli extends ClientGameController {
 
     @Override
     public void onTurnTimerEnded(String stopper) {
-        setSaneTerminalMode();
+        setSaneTerminalModeIfIsRaw();
         printRed("\nTIMER IS ENDED...");
         System.exit(-1);
     }
 
     @Override
-    public synchronized void onStoppedGame(String stopper) {
-        setSaneTerminalMode();
+    public void onStoppedGame(String stopper) {
+        setSaneTerminalModeIfIsRaw();
         printRed("\nGAME IS STOPPED...\n");
-        checkRestart();
+        checkRestart(false);
     }
 
     @Override
     public void onLobbyDisconnection() {
-        setSaneTerminalMode();
+        setSaneTerminalModeIfIsRaw();
         printRed("\nYOU ARE DISCONNECTED FROM THE LOBBY...");
         quitFromGame(-1);
     }
 
     @Override
     public void onPingDisconnection() {
-        setSaneTerminalMode();
+        setSaneTerminalModeIfIsRaw();
         printRed("\nPING DISCONNECTION...");
         quitFromGame(-1);
     }
 
     @Override
     public void onEndGameDisconnection() {
-        setSaneTerminalMode();
+        setSaneTerminalModeIfIsRaw();
         printRed("\nDISCONNECTED FROM THE GAME...");
         quitFromGame(-1);
     }
 
     @Override
     public void newChatMessage(String nick, String message) {
-        setSaneTerminalMode();
+        setSaneTerminalModeIfIsRaw();
 
         setNewChatMessage(true);
         Player playerOnChat = getPlayerFromNickName(opponents, nick);
@@ -1333,27 +1261,18 @@ public class Cli extends ClientGameController {
         handlePreviousChatMessage(playerOnChat, message);
 
         clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
-
-        robot();
-
-        if(!isMyTurn) {
-            printChat(previousChatMessage);
-            printRed("MESSAGE: ");
-        } else {
-            printRed("USE ARROWS TO COME BACK TO YOUR ACTIONS...");
-            setRawTerminalMode();
-        }
+        printChat(previousChatMessage);
     }
 
     @Override
     public void onErrorMessage(String stopper, boolean isYourPlayer) {
-        setSaneTerminalMode();
+        setSaneTerminalModeIfIsRaw();
         printRed("\nERROR MESSAGE...");
     }
 
     @Override
     public void notYourTurn() {
-        setSaneTerminalMode();
+        setSaneTerminalModeIfIsRaw();
         printRed("\nIT'S NOT YOUR TURN...");
     }
 
@@ -1375,10 +1294,6 @@ public class Cli extends ClientGameController {
             printRed("IT'S NOT YOUR TURN! " + nick.toUpperCase() + " IS STARTING HIS TURN!\n");
             printWaitingStartTurn(numberOfPlayers);
             printChat(previousChatMessage);
-
-            chatThread = new Thread(this::handleChatCli);
-            chatThread.start();
-            //handleChatCli();
 
         }
     }

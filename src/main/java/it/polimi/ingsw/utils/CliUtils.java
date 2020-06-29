@@ -215,6 +215,15 @@ public class CliUtils {
     }
 
     /**
+     * Method used to quit from the game
+     * @param status status of the game (1 = correct, -1 = error)
+     */
+
+    public static void quitFromGame(int status) {
+        System.exit(status);
+    }
+
+    /**
      * Method used to clear the shell and print some info regards the match
      * @param opponents List of the opponents of the current player
      * @param currentPlayer Player that invoke this method
@@ -408,7 +417,10 @@ public class CliUtils {
         setTerminalMode("raw");
 
         keyboard = inputRead();
-        if (keyboard == 27) {
+
+        if(keyboard == 3)
+            quitFromGame(0);
+        else if (keyboard == 27) {
             keyboard1 = inputRead();
             if (keyboard1 == 91)
                 keyboard2 = inputRead();

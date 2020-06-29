@@ -272,12 +272,14 @@ public class Player implements Serializable {
     }
 
     /**
-     * Method used to check if to the list of direction is applied the constraint represents to the card
+     * Method used to check if one of the constraint assigned to the current player is a move constraint. In the case,
+     * this method delete squares in which the worker cannot move from the list of available squares. This method can check
+     * one constraint every method's call
      * @param gameMap Game map of the current game
-     * @param worker Worker to move/build
+     * @param worker Worker to move
      * @param card Card containing the constraint to check
-     * @param direction List of directions in which worker can move/build
-     * @return boolean value represents the applied/unapplied constraint status
+     * @param direction List of directions in which worker can move
+     * @return boolean value (true = there is at least one available square | false = it cannot move into any square)
      */
 
     private boolean checkConstraint (GameMap gameMap, Worker worker, Card card, List<Directions> direction){
