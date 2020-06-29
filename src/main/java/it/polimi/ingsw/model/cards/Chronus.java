@@ -18,7 +18,7 @@ import it.polimi.ingsw.utils.ConstantsContainer;
 public class Chronus extends Card {
 
     /**
-     * Class Builder
+     * Public constructor
      * @param name Name of the card
      * @param description Description of the power of the card
      * @param isPlayableIn3 Boolean saying if the card is playable in 3 Players

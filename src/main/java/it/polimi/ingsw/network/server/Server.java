@@ -164,7 +164,7 @@ public class Server implements Runnable{
     }
 
     /**
-     * Function that move a game started from the lobby to the list of game started(actualMatches)
+     * Method that move a game started from the lobby to the list of game started(actualMatches)
      */
 
     public void moveGameStarted(){
@@ -181,8 +181,8 @@ public class Server implements Runnable{
     }
 
     /**
-     * Function that remove from the actual Matches the games where there is a winner or where someone has left the game
-     * The function remove all link between controller of the match and the client
+     * Method that remove from the actual Matches the games where there is a winner or where someone has left the game
+     * The Method remove all link between controller of the match and the client
      */
 
     public synchronized void removeGameEnded(){
@@ -213,7 +213,7 @@ public class Server implements Runnable{
     }
 
     /**
-     * Function that insert a new player in a game, if the game is not yet started it will start a new game with the number of player chosen by the client
+     * Method that insert a new player in a game, if the game is not yet started it will start a new game with the number of player chosen by the client
      * @param message Message received from the client with the nickname and number of player
      * @param connection ClientHandler of the client
      * @param isFirstTime Boolean used to see if the client has to be moved to another game, because he don't want to change nickName
@@ -255,7 +255,7 @@ public class Server implements Runnable{
     }
 
     /**
-     * Function that close the connection with a client, if he send a nickname not allowed, ot select wrong number of player
+     * Method that close the connection with a client, if he send a nickname not allowed, ot select wrong number of player
      * @param connection ClientHandler of the client
      * @param message Message received from the client with the nickname and number of player
      */
@@ -275,7 +275,7 @@ public class Server implements Runnable{
     }
 
     /**
-     * Function that insert a player into a match already created and that is waiting other player to start
+     * Method that insert a player into a match already created and that is waiting other player to start
      * @param match Controller of the match in which we are going to insert the player
      * @param connection ClientHandler of the client
      * @param message Message received from the client with the nickname and number of player
@@ -291,7 +291,7 @@ public class Server implements Runnable{
     }
 
     /**
-     * Function that move a player in another match, if he keep sending the same nickname(already in use in that match)
+     * Method that move a player in another match, if he keep sending the same nickname(already in use in that match)
      * @param match Controller of the match in which we are going to insert the player
      * @param connection ClientHandler of the client
      * @param message Message received from the client with the nickname and number of player
@@ -306,10 +306,10 @@ public class Server implements Runnable{
     }
 
     /**
-     * Function called when there is not a game with the requested number of player,the function create a new game and insert the player in it
+     * Method called when there is not a game with the requested number of player,the Method create a new game and insert the player in it
      * @param connection ClientHandler of the client
      * @param message Message received from the client with the nickname and number of player
-     * @param numberOfPlayer Number of players of the match that the function will start
+     * @param numberOfPlayer Number of players of the match that the Method will start
      */
 
     public void insertNewMatch(ClientHandler connection,Message message, int numberOfPlayer){
@@ -323,7 +323,7 @@ public class Server implements Runnable{
     }
 
     /**
-     * Function that return the number of player(the modality) of a specific match
+     * Method that return the number of player(the modality) of a specific match
      * @param controller Controller of the match in which we are interested
      * @return The number of player of the match
      */
@@ -333,7 +333,7 @@ public class Server implements Runnable{
     }
 
     /**
-     * Function that return the controller of the match in which the Client with a specific UserID has been inserted
+     * Method that return the controller of the match in which the Client with a specific UserID has been inserted
      * @param userID The UserID of the Client in which we are interested
      * @return The controller of the match of this UserID
      */
@@ -343,7 +343,7 @@ public class Server implements Runnable{
     }
 
     /**
-     * Function that send the message to the VirtualView of a specific client
+     * Method that send the message to the VirtualView of a specific client
      * @param msg Message to send to the virtualView
      * @param view The VirtualView of the client to which we want to forward the message
      */
@@ -353,7 +353,7 @@ public class Server implements Runnable{
     }
 
     /**
-     * Function that add the player in match, and that does all the setup for that player
+     * Method that add the player in match, and that does all the setup for that player
      * @param controller Controller of the macth in which we insert the player
      * @param connection ClientHandler of the client
      * @param message Message received from the client with the nickname and number of player
@@ -373,7 +373,7 @@ public class Server implements Runnable{
     }
 
     /**
-     * Function that check if a specific game is full
+     * Method that check if a specific game is full
      * @param controller Controller of the match to check
      * @return True if the game is full, false otherwise
      */
@@ -384,7 +384,7 @@ public class Server implements Runnable{
     }
 
     /**
-     * Function that check if a game is already started
+     * Method that check if a game is already started
      * @param controller Controller of the match to check
      * @return True if the game is started, false otherwise
      */
@@ -394,7 +394,7 @@ public class Server implements Runnable{
     }
 
     /**
-     * Function that check if a nickname is already in use in a match
+     * Method that check if a nickname is already in use in a match
      * @param message Message received from the client
      * @param controller Controller of the match in which to search
      * @return True if is free, false otherwise
@@ -406,7 +406,7 @@ public class Server implements Runnable{
     }
 
     /**
-     * Function that create a new controller, to create a new match
+     * Method that create a new controller, to create a new match
      * @param numberOfPlayer Number of player of the new match created
      * @return The controller of the new match
      */
@@ -422,7 +422,7 @@ public class Server implements Runnable{
     }
 
     /**
-     * Function that handle disconnection events, deliver the events to two specific function that handle disconnection before or during the game
+     * Method that handle disconnection events, deliver the events to two specific Method that handle disconnection before or during the game
      * @param userID UserID of the Client to disconnect
      * @param connection ClientHandler of the client to disconnect
      * @param message Message received to understand the type of disconnection
@@ -451,7 +451,7 @@ public class Server implements Runnable{
     }
 
     /**
-     * Function that handle disconnection event before the game is started
+     * Method that handle disconnection event before the game is started
      * @param controller Controller of the match in which the player is
      * @param userID UserID of the player to disconnect
      * @param connection ClientHandler of the client to disconnect
@@ -474,7 +474,7 @@ public class Server implements Runnable{
     }
 
     /**
-     * Function that handle disconnection events during the game and stop the game
+     * Method that handle disconnection events during the game and stop the game
      * @param controller Controller of the match to stop, due to a disconnection
      * @param connection ClientHandler of the client to disconnect
      * @param message Message received to understand the type of disconnection

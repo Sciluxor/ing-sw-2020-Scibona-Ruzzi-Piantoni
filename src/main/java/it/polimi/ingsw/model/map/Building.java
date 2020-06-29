@@ -21,7 +21,7 @@ public enum Building implements Serializable {
     public static Building parseInput(String input){ return Enum.valueOf(Building.class, input.toUpperCase());}
 
     /**
-     * Function that calculate the building to place above another building
+     * Method that calculate the building to place above another building
      * @param building The building to build on
      * @return The Building to build
      */

@@ -33,7 +33,7 @@ public class FlowStatutsLoader {
         }
 
     /**
-     * Function that load the flow of the game from a json file
+     * Method that load the flow of the game from a json file
      */
 
     public static void loadFlow(){
@@ -62,7 +62,7 @@ public class FlowStatutsLoader {
         }
 
     /**
-     * Function that create a List of MessageType from an array
+     * Method that create a List of MessageType from an array
      * @param types Array to convert
      * @return The new List of MessageType
      */
@@ -73,7 +73,7 @@ public class FlowStatutsLoader {
         }
 
     /**
-     * Function that take the next Actions available(depends on game status)
+     * Method that take the next Actions available(depends on game status)
      * @param status The game status
      * @return The available actions
      */
@@ -83,7 +83,7 @@ public class FlowStatutsLoader {
         }
 
     /**
-     * Function that check if the Message received from the client is correct for the flow of the game
+     * Method that check if the Message received from the client is correct for the flow of the game
      * @param status Game status
      * @param type Type of the message received from the client
      * @return True if the message is correct,false otherwise

@@ -31,7 +31,7 @@ public class UpdateBoard extends JDesktopPane {
     String nameChoosing;
 
     /**
-     * Class builder
+     * Public constructor
      * @param istance Reference to the Board class instanced by the GUI
      * @param frame Reference to the JInternalFrame where the current JDesktopPane UpdateBoard will be inserted
      * @param dimensionFrame Size of the JInternalFrame

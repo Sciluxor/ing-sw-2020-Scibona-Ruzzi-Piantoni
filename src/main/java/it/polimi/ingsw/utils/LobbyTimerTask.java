@@ -37,7 +37,7 @@ public class LobbyTimerTask extends TimerTask {
     }
 
     /**
-     * Function that notify the server when the timer ends, with disconnection information
+     * Method that notify the server when the timer ends, with disconnection information
      */
 
     @Override

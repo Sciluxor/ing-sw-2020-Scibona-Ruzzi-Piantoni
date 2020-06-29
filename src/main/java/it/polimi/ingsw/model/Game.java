@@ -80,7 +80,7 @@ public class Game extends Observable<Response> {
     }
 
     /**
-     * Function to check if the game has been interrupted
+     * Method to check if the game has been interrupted
      * @return True if the game has been interrupted, false otherwise
      */
 
@@ -395,7 +395,7 @@ public class Game extends Observable<Response> {
     public void setGameStarted(boolean gameStarted) { isGameStarted = gameStarted;}
 
     /**
-     * Function that set the new game status, and notify all the observers of the game (the virtual views of the clients)
+     * Method that set the new game status, and notify all the observers of the game (the virtual views of the clients)
      * @param newStatus The new status of the game
      */
 

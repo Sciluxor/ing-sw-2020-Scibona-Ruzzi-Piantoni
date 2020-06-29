@@ -111,7 +111,7 @@ public class Square implements Serializable{
     }
 
     /**
-     * Function to check if there is a player in the square
+     * Method to check if there is a player in the square
      * @return True if there is a player in the square, false otherwise
      */
 
@@ -120,7 +120,7 @@ public class Square implements Serializable{
     }
 
     /**
-     * Function to set the boolean hasPlayer
+     * Method to set the boolean hasPlayer
      * @param hasPlayer New value of the boolean hasPlayer
      */
 
@@ -182,7 +182,7 @@ public class Square implements Serializable{
     }
 
     /**
-     * Function to execute a player move into the square
+     * Method to execute a player move into the square
      * @param player The player that moved into the square
      * @param worker The specific worker that the player has moved
      */

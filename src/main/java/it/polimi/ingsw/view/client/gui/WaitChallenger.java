@@ -27,7 +27,7 @@ public class WaitChallenger extends JDesktopPane{
     double posx;
 
     /**
-     * Class builder
+     * Public constructor
      * @param frame Reference to the JInternalFrame where the current JDesktopPane WaitChallenger will be inserted
      * @param dimensionFrame Size of the JInternalFrame
      * @param name Name of the Player designated as a Challenger

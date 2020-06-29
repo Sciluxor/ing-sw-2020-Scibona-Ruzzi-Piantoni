@@ -34,7 +34,7 @@ public class SimplifiedGame{
     private Player winner;
 
     /**
-     * Public constructor
+     * Public constructor for the simplified game
      * @param numberOfPlayers Number of player in the game
      */
 
@@ -49,7 +49,7 @@ public class SimplifiedGame{
     }
 
     /**
-     * Function to check if the game has been interrupted
+     * Method to check if the game has been interrupted
      * @return True if the game has been interrupted, false otherwise
      */
 
@@ -67,7 +67,7 @@ public class SimplifiedGame{
     }
 
     /**
-     * Function that return the the player of this client
+     * Method that return the the player of this client
      * @return The player of this client
      */
 
@@ -139,7 +139,7 @@ public class SimplifiedGame{
     }
 
     /**
-     * Function to get the coordinates of the square from the number of the square
+     * Method to get the coordinates of the square from the number of the square
      * @param tile The number of the specific square
      * @return The coordinates of the specific square
      */
@@ -149,7 +149,7 @@ public class SimplifiedGame{
     }
 
     /**
-     * Function that create the players in the game, called when received a lobby update message from the server
+     * Method that create the players in the game, called when received a lobby update message from the server
      * @param clientName The name of this client
      * @param names The list of players'name
      * @param colors The list of players'colors
@@ -297,7 +297,7 @@ public class SimplifiedGame{
     }
 
     /**
-     * Function that set the new game status
+     * Method that set the new game status
      * @param status The new status of the game
      */
 

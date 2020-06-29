@@ -26,7 +26,7 @@ public class ShowPower extends MouseAdapter {
     int typeOfAction;
 
     /**
-     * Class builder
+     * Public constructor
      * @param frame JInternalFrame to set visible
      * @param size Size of the main frame
      * @param intSize Size of the JInternalFrame

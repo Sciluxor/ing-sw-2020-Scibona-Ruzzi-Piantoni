@@ -37,7 +37,7 @@ public class RoundController {
     }
 
     /**
-     * Function that process the message and decide which function to call
+     * Method that process the message and decide which method to call
      * @param message Message received from the client
      */
 
@@ -80,7 +80,7 @@ public class RoundController {
     }
 
     /**
-     * Function that decide what will be the next action (depends on the game status)
+     * Method that decide what will be the next action (depends on the game status)
      * @param nextStatus The new Status of the game
      */
 
@@ -102,7 +102,7 @@ public class RoundController {
     }
 
     /**
-     * Function that handle the challenger phase, check if the choice is correct
+     * Method that handle the challenger phase, check if the choice is correct
      * @param message Message received from the challenger with the choice
      */
 
@@ -124,7 +124,7 @@ public class RoundController {
         }
 
     /**
-     * Function that check if the cards selected by the challenger are correct
+     * Method that check if the cards selected by the challenger are correct
      * @param cards List of cards selected
      * @return True if the cards are correct, false otherwise
      */
@@ -141,7 +141,7 @@ public class RoundController {
     }
 
     /**
-     * Function that check if the first player selected by the challenger is correct
+     * Method that check if the first player selected by the challenger is correct
      * @param firstPlayer Name of the player selected by the challenger as the first player
      * @return True if the player is correct, false otherwise
      */
@@ -156,7 +156,7 @@ public class RoundController {
     }
 
     /**
-     * Function that handle the card choice phase, and check if the choices of the cards are correct
+     * Method that handle the card choice phase, and check if the choices of the cards are correct
      * @param message Message received from the client with the card selected
      */
 
@@ -176,7 +176,7 @@ public class RoundController {
         }
 
     /**
-     * Function that handle the place workers phase, put the workers on the map
+     * Method that handle the place workers phase, put the workers on the map
      * @param message Message received from the client with the position of the workers
      */
 
@@ -193,7 +193,7 @@ public class RoundController {
         }
 
     /**
-     * Function that set the current workers for a specific turn
+     * Method that set the current workers for a specific turn
      * @param message Message received from the client, with the worker selected
      */
 
@@ -210,7 +210,7 @@ public class RoundController {
     }
 
     /**
-     * Function that check what could be the first action of the turn (depends on the card of the player)
+     * Method that check what could be the first action of the turn (depends on the card of the player)
      */
 
     public void handleFirstAction(){
@@ -218,7 +218,7 @@ public class RoundController {
     }
 
     /**
-     * Function that handle the movement phase, check if the client has done a correct move, and notify the other clients
+     * Method that handle the movement phase, check if the client has done a correct move, and notify the other clients
      * @param message Message received from the client, with the move(modified squares)
      */
 
@@ -258,7 +258,7 @@ public class RoundController {
     }
 
     /**
-     * Function that assign constraints to the players
+     * Method that assign constraints to the players
      */
 
     public void handleConstraint() {
@@ -270,7 +270,7 @@ public class RoundController {
     }
 
     /**
-     * Function that check if the player has won with a specific move
+     * Method that check if the player has won with a specific move
      * @param message Message received from the client with the move
      * @return True if the Win Response is equal to the one sent by the client, false otherwise
      */
@@ -301,7 +301,7 @@ public class RoundController {
     }
 
     /**
-     * Function that handle the building phase, check if the client has done a correct build, and notify the other clients
+     * Method that handle the building phase, check if the client has done a correct build, and notify the other clients
      * @param message Message received from the client, with the build(modified squares and type of building used)
      */
 
@@ -340,7 +340,7 @@ public class RoundController {
     }
 
     /**
-     * Function that check if one of the players has won with a specific build
+     * Method that check if one of the players has won with a specific build
      * @param message Message received from the client with the build
      * @return True if the Win Response is equal to the one sent by the client, false otherwise
      */
@@ -369,7 +369,7 @@ public class RoundController {
     }
 
     /**
-     * Function that remove constraint from the players
+     * Method that remove constraint from the players
      */
 
     public void removeNonPermanentConstraint(){
@@ -386,7 +386,7 @@ public class RoundController {
     }
 
     /**
-     * Function that handle the end turn phase
+     * Method that handle the end turn phase
      */
 
     public void handleEndTurn(){
@@ -395,7 +395,7 @@ public class RoundController {
     }
 
     /**
-     * Function that check if the the modified squares sent by the client are correct
+     * Method that check if the the modified squares sent by the client are correct
      * @param clientModifiedSquares List of squares sent by the Client
      * @return True if the square are correct, false otherwise
      */
@@ -414,7 +414,7 @@ public class RoundController {
     }
 
     /**
-     * Function that check if two squares are identical
+     * Method that check if two squares are identical
      * @param q1 First square to analise
      * @param q2 Second square to analise
      * @return True if the squares are identical, false otherwise

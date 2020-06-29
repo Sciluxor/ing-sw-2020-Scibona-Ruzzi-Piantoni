@@ -41,7 +41,7 @@ public class SeeConstraint extends JDesktopPane {
     JButton constraint2;
 
     /**
-     * Class builder
+     * Public constructor
      * @param istance Reference to the Board class instanced by the GUI
      * @param frame Reference to the JInternalFrame where the current JDesktopPane SeeConstraint will be inserted
      * @param dimensionFrame Size of the JInternalFrame

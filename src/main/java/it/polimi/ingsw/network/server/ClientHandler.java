@@ -57,7 +57,7 @@ public class ClientHandler implements Runnable, ConnectionInterface {
     }
 
     /**
-     * Function that check if The client of this ClientHandler is the one that stopped the game
+     * Method that check if The client of this ClientHandler is the one that stopped the game
      * @return True if it's the stopper, false otherwise
      */
 
@@ -102,7 +102,7 @@ public class ClientHandler implements Runnable, ConnectionInterface {
     }
 
     /**
-     * Function that check if the connection with the client is active
+     * Method that check if the connection with the client is active
      * @return True if the connection is active, false otherwise
      */
 
@@ -138,7 +138,7 @@ public class ClientHandler implements Runnable, ConnectionInterface {
     }
 
     /**
-     * Function that send a message to the Client, through output stream
+     * Method that send a message to the Client, through output stream
      * @param msg The message to send
      */
 
@@ -157,7 +157,7 @@ public class ClientHandler implements Runnable, ConnectionInterface {
     }
 
     /**
-     * Function that receive a message through inputStream
+     * Method that receive a message through inputStream
      * @return The message received
      * @throws IOException IOException, socket get closed
      * @throws ClassNotFoundException ClassNotFoundException
@@ -176,7 +176,7 @@ public class ClientHandler implements Runnable, ConnectionInterface {
     }
 
     /**
-     * Function that close connection with the client sending a message
+     * Method that close connection with the client sending a message
      * @param message The message to send to the client for the disconnection
      */
 
@@ -187,7 +187,7 @@ public class ClientHandler implements Runnable, ConnectionInterface {
     }
 
     /**
-     * Function that close the socket and input and output stream
+     * Method that close the socket and input and output stream
      */
 
     public void close(){
@@ -201,7 +201,7 @@ public class ClientHandler implements Runnable, ConnectionInterface {
     }
 
     /**
-     * Function that close the connection after a disconnection without sending a message to the Client
+     * Method that close the connection after a disconnection without sending a message to the Client
      */
 
     public void closeAfterDisconnection()
@@ -215,7 +215,7 @@ public class ClientHandler implements Runnable, ConnectionInterface {
     }
 
     /**
-     * Function that close connection with the client when the server is stopped by the administrator
+     * Method that close connection with the client when the server is stopped by the administrator
      */
 
     public void closeConnectionFromServer(){
@@ -224,7 +224,7 @@ public class ClientHandler implements Runnable, ConnectionInterface {
     }
 
     /**
-     * Function that forward the message to the VirtualView of the Client
+     * Method that forward the message to the VirtualView of the Client
      * @param message Message received from the Client to send to the VirtualView
      */
 
@@ -233,7 +233,7 @@ public class ClientHandler implements Runnable, ConnectionInterface {
     }
 
     /**
-     * Function that start the timer for the Client in the lobby
+     * Method that start the timer for the Client in the lobby
      */
 
     public void startLobbyTimer(){
@@ -243,7 +243,7 @@ public class ClientHandler implements Runnable, ConnectionInterface {
     }
 
     /**
-     * Function that Stop the Lobby timer for the Client
+     * Method that Stop the Lobby timer for the Client
      */
 
     public void stopLobbyTimer(){
@@ -252,7 +252,7 @@ public class ClientHandler implements Runnable, ConnectionInterface {
     }
 
     /**
-     * Function that start the timer for the ping
+     * Method that start the timer for the ping
      */
 
     public void startPingTimer(){
@@ -262,7 +262,7 @@ public class ClientHandler implements Runnable, ConnectionInterface {
     }
 
     /**
-     * Function that Stop the Ping timer for the Client
+     * Method that Stop the Ping timer for the Client
      */
 
     public void stopPingTimer(){
@@ -270,7 +270,7 @@ public class ClientHandler implements Runnable, ConnectionInterface {
     }
 
     /**
-     * Function that send a ping message to the client
+     * Method that send a ping message to the client
      */
 
     public void ping(){
@@ -278,7 +278,7 @@ public class ClientHandler implements Runnable, ConnectionInterface {
     }
 
     /**
-     * Function that advise the Server if the Timer for the Turn has ended
+     * Method that advise the Server if the Timer for the Turn has ended
      * @param message The disconnection message to send to the Server
      */
 
@@ -287,7 +287,7 @@ public class ClientHandler implements Runnable, ConnectionInterface {
     }
 
     /**
-     * Function called when the Client of this ClientHandler disconnect during the game
+     * Method called when the Client of this ClientHandler disconnect during the game
      * @param message The disconnection message to send to the Server
      */
 
@@ -351,7 +351,7 @@ public class ClientHandler implements Runnable, ConnectionInterface {
         }
 
     /**
-     * Function called to move the Client in another game,called when the Client keep sending the same nickname(already in use in the match)
+     * Method called to move the Client in another game,called when the Client keep sending the same nickname(already in use in the match)
      * @param input The Configuration message received from the Client
      */
 
@@ -376,7 +376,7 @@ public class ClientHandler implements Runnable, ConnectionInterface {
         }
 
     /**
-     * Function Called when the Client Disconnect, handle disconnection phase, stop the timers and call the functions to close the socket
+     * Method Called when the Client Disconnect, handle disconnection phase, stop the timers and call the functions to close the socket
      */
 
     public void onFinalDisconnection(){

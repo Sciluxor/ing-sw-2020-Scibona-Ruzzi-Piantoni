@@ -17,7 +17,7 @@ import java.io.*;
 public class ImageHandler {
 
     /**
-     * Private class builder
+     * Private constructor, it can't be instantiated.
      */
 
     private ImageHandler() {

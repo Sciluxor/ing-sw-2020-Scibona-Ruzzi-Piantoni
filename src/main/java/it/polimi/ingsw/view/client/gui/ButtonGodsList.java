@@ -17,7 +17,7 @@ import static it.polimi.ingsw.utils.ConstantsContainer.GODS;
 public class ButtonGodsList {
 
     /**
-     * Class builder
+     * Public constructor
      * @param dimensionFrame Window size to scale the size of the cards
      * @param buttons Reference to the List of JButton to be filled with cards
      * @throws IOException if the loading of the images of the cards was not successful

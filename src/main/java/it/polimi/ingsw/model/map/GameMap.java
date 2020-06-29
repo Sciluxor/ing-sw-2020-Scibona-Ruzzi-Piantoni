@@ -34,7 +34,7 @@ public class GameMap {
     }
 
     /**
-     * Function to obtain the number of tile from coordinates
+     * Method to obtain the number of tile from coordinates
      * @param coordinates The coordinates of the square to analise
      * @return The number of tile of the specific square
      */
@@ -44,7 +44,7 @@ public class GameMap {
     }
 
     /**
-     * Function to find all the reachable square moving from a specific square
+     * Method to find all the reachable square moving from a specific square
      * @param worker The worker placed in the specific square to analise
      * @return A list of possible directions in which to move
      */
@@ -71,7 +71,7 @@ public class GameMap {
     }
 
     /**
-     * Function that move a specific worker in the map
+     * Method that move a specific worker in the map
      * @param player Player that own the worker to move
      * @param direction Direction in which to move the specific worker
      */
@@ -92,7 +92,7 @@ public class GameMap {
     }
 
     /**
-     * Function to find all the possible squares in which a specific worker can build
+     * Method to find all the possible squares in which a specific worker can build
      * @param worker The worker placed in the specific square to analise
      * @return A list of possible directions in which to build
      */
@@ -117,7 +117,7 @@ public class GameMap {
     }
 
     /**
-     * Function that build in the position selected,with the type of building selected
+     * Method that build in the position selected,with the type of building selected
      * @param worker The worker that will build
      * @param direction The direction in which to build
      * @param building The type of building to build
@@ -144,7 +144,7 @@ public class GameMap {
     }
 
     /**
-     * Function that place the workers of a specific player in the game map
+     * Method that place the workers of a specific player in the game map
      * @param square1 First square in which to place the first worker
      * @param square2 Second square in which to place the second worker
      * @param currentPlayer The player that is placing the two workers
@@ -176,7 +176,7 @@ public class GameMap {
     }
 
     /**
-     * Function that return the positions of both player's workers
+     * Method that return the positions of both player's workers
      * @param actualPlayer Player to analise
      * @return A list with the position of the two workers
      */
@@ -194,14 +194,14 @@ public class GameMap {
     }
 
     /**
-     * Function that return the map
+     * Method that return the map
      * @return A list of squares(the entire map)
      */
 
     public List<Square> getMap(){ return map;}
 
     /**
-     * Function that check if a square is in the perimeter
+     * Method that check if a square is in the perimeter
      * @param tile Number of the square to analise
      * @return True if the square is in the perimeter, false otherwise
      */
@@ -214,7 +214,7 @@ public class GameMap {
     }
 
     /**
-     * Function that add a square to the list of modified square, can be modified by a move,build or during the place workers phase
+     * Method that add a square to the list of modified square, can be modified by a move,build or during the place workers phase
      * @param square The square to add to the list
      */
 
@@ -232,7 +232,7 @@ public class GameMap {
     }
 
     /**
-     * Function that clear the list of modified squares
+     * Method that clear the list of modified squares
      */
 
     public void clearModifiedSquare(){
@@ -240,7 +240,7 @@ public class GameMap {
     }
 
     /**
-     * Function that remove the workers of a specific player from the map (after he has lost)
+     * Method that remove the workers of a specific player from the map (after he has lost)
      * @param player The player that has lost
      */
 
@@ -257,7 +257,7 @@ public class GameMap {
     }
 
     /**
-     * Function that remove a specific worker from the map
+     * Method that remove a specific worker from the map
      * @param square The square in which is located the worker to remove
      */
 

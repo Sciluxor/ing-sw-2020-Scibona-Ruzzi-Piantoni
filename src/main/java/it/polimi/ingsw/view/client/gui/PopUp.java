@@ -38,7 +38,7 @@ public class PopUp {
     double bold = getBolddimension();
 
     /**
-     * Class builder
+     * Public constructor
      * @param istance2 Reference to the client GUI class
      * @param d Main window size
      * @param stopper Parameter indicating the possible player causing an exception

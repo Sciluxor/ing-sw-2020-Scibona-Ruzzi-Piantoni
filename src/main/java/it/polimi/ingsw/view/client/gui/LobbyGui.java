@@ -42,7 +42,7 @@ public class LobbyGui{
     List<Player> players;
 
     /**
-     * Class builder
+     * Public constructor
      * @param instance Reference to the Board class instanced by the GUI
      * @param dimensionFrame Size of the frame where the current JDesktopPane LobbyGui will be inserted
      * @param numberOfPlayer Number of Players in play

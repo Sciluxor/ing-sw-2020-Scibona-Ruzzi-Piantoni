@@ -36,7 +36,7 @@ public class MapLoader {
     }
 
     /**
-     * Function that build the map from a json file, create all squares and the maps
+     * Method that build the map from a json file, create all squares and the maps
      * @return The list of squares created(the entire map)
      */
 
@@ -69,7 +69,7 @@ public class MapLoader {
     }
 
     /**
-     * Function that create a map using the directions(key) and an array of integer(value)
+     * Method that create a map using the directions(key) and an array of integer(value)
      * @param canAccess array of all the tile that can be accessed from a specific tile
      * @return The map created with the input parameters
      */

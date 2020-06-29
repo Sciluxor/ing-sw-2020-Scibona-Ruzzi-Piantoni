@@ -36,7 +36,7 @@ public class MyButton extends JButton{
     transient MP3 click = new MP3(MUSIC + "Click.mp3");
 
     /**
-     * Class builder
+     * Public constructor
      * @param n Parameter to decide which button you want
      */
 

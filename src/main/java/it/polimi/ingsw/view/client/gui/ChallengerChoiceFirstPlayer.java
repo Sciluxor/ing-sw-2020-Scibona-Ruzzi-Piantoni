@@ -42,7 +42,7 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
     double bold = getBolddimension();
 
     /**
-     * Class builder
+     * Public constructor
      * @param istance Reference to the client GUI class
      * @param istance2 Reference to the Board class instanced by the GUI
      * @param frame Reference to the JInternalFrame where the current JDesktopPane ChallengerChoiceFirstPlayer will be inserted

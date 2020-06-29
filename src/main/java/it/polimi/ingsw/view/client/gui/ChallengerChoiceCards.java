@@ -45,7 +45,7 @@ public class ChallengerChoiceCards extends JDesktopPane{
     transient MP3 click;
 
     /**
-     * Class builder
+     * Public constructor
      * @param instance Reference to the client GUI class
      * @param instance2 Reference to the Board class instanced by the GUI
      * @param frame Reference to the JInternalFrame where the current JDesktopPane ChallengerChoiceCards will be inserted

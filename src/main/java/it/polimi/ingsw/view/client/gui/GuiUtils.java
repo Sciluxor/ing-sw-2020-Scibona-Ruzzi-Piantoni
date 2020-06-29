@@ -21,7 +21,7 @@ import static it.polimi.ingsw.view.client.gui.Board.internalFrameSetUp;
 public class GuiUtils {
 
     /**
-     * Private Class Builder
+     * Private constructor, it can't be instantiated.
      */
 
     private GuiUtils(){throw new IllegalStateException("GuiUtils class cannot be instantiated");}
@@ -134,7 +134,15 @@ public class GuiUtils {
     }
 
     /**
-     * Method for setting the JButtons of the List provided
+     * Method to set the JButtons of the List provided
+     * @param cards
+     * @param intFrame
+     * @param frameSize
+     * @param intFrameSize
+     * @param buttonBackground
+     * @param cover
+     * @param center
+     * @param type
      */
 
     public static void setButtonStyle(List<JButton> cards, JInternalFrame intFrame, Dimension frameSize, Dimension intFrameSize, JButton buttonBackground, JLabel cover, boolean center, int type){

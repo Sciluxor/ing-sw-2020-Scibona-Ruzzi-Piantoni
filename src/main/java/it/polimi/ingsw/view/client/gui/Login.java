@@ -31,7 +31,7 @@ public class Login extends JPanel{
     boolean firstConnection;
 
     /**
-     * Class builder
+     * Public constructor
      * @param istance Reference to the client GUI class
      * @param frame Size of the frame where the current JPanel Login will be inserted
      * @param connection Boolean saying if it's a first connection

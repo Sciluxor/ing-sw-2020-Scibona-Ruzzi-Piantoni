@@ -37,7 +37,7 @@ public class BackgroundButton {
     static JLabel internalBackgroundPanel2 = new JLabel(cover3.getIcon());
 
     /**
-     * Private class builder
+     * Private constructor, it can't be instantiated.
      */
     private BackgroundButton() {
         throw new IllegalStateException("BackgroundButton class cannot be instantiated");

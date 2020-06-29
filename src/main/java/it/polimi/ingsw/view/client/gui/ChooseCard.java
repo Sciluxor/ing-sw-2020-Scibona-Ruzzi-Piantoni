@@ -46,7 +46,7 @@ public class ChooseCard extends JDesktopPane{
     double bold = getBolddimension();
 
     /**
-     * Class builder
+     * Public constructor
      * @param instance Reference to the Board class instanced by the GUI
      * @param frame Reference to the JInternalFrame where the current JDesktopPane ChooseCard will be inserted
      * @param wi Width of the JInternalFrame

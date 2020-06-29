@@ -25,7 +25,7 @@ public class NotTurn extends JDesktopPane {
     JInternalFrame intFrame;
 
     /**
-     * Class builder
+     * Public constructor
      * @param frame Reference to the JInternalFrame where the current JDesktopPane NotTurn will be inserted
      * @param dimensionFrame Size of the JInternalFrame
      * @throws IOException if the loading of the inscription was not successful

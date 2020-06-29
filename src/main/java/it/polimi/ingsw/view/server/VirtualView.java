@@ -44,7 +44,7 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
     }
 
     /**
-     * Function that check if is the turn of the client of the virtual view
+     * Method that check if is the turn of the client of the virtual view
      * @return true if is the turn of the client, false otherwise
      */
 
@@ -62,7 +62,7 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
     }
 
     /**
-     * Function that notify the controller about the message received from the client
+     * Method that notify the controller about the message received from the client
      * @param message Message received from the client
      */
 
@@ -71,7 +71,7 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
     }
 
     /**
-     * Function that process the new status of the game and decide which type of message to send to the client
+     * Method that process the new status of the game and decide which type of message to send to the client
      * @param status The new status of the game
      */
 
@@ -158,7 +158,7 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
     }
 
     /**
-     * Function that send the lobby update to the client
+     * Method that send the lobby update to the client
      */
 
     public void handlePlayerAdded(){
@@ -167,7 +167,7 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
     }
 
     /**
-     * Function that build the lobby message
+     * Method that build the lobby message
      * @param message Message to send to the client
      * @return The complete message with the players in the lobby and their colors
      */
@@ -181,7 +181,7 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
     }
 
     /**
-     * Function that notify the client that the nickname is already in use
+     * Method that notify the client that the nickname is already in use
      */
 
     public void handleNickUsed(){
@@ -194,7 +194,7 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
     }
 
     /**
-     * Function that notify the client that the game is starting
+     * Method that notify the client that the game is starting
      */
 
     public void handleStartGame(){
@@ -202,7 +202,7 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
     }
 
     /**
-     * Function that notify the client about the challenger phase
+     * Method that notify the client about the challenger phase
      */
 
     public void handleChallengerChoice(){
@@ -210,7 +210,7 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
     }
 
     /**
-     * Function that notify the client about the challenger choice
+     * Method that notify the client about the challenger choice
      */
 
     public void handleChallengerChoiceDone(){
@@ -218,7 +218,7 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
     }
 
     /**
-     * Function that notify the client the Card choice phase
+     * Method that notify the client the Card choice phase
      */
 
     public void  handleCardChoice(){
@@ -226,7 +226,7 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
     }
 
     /**
-     * Function that notify the client about the chosen card
+     * Method that notify the client about the chosen card
      */
 
     public void handleCardChoiceDone(){
@@ -234,7 +234,7 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
     }
 
     /**
-     * Function that notify the client about the place workers phase
+     * Method that notify the client about the place workers phase
      */
 
     public void handlePlaceWorkers(){
@@ -242,7 +242,7 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
     }
 
     /**
-     * Function that notify the client about the position of the workers of a specific client
+     * Method that notify the client about the position of the workers of a specific client
      */
 
     public void handlePlaceWorkersDone(){
@@ -250,7 +250,7 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
     }
 
     /**
-     * Function that notify the client that he has a new permanent constraint
+     * Method that notify the client that he has a new permanent constraint
      */
 
     public void handlePermConstraint(){
@@ -259,7 +259,7 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
     }
 
     /**
-     * Function that notify the client that he has a new permanent constraint
+     * Method that notify the client that he has a new permanent constraint
      * @param player The Player to analise
      */
 
@@ -269,7 +269,7 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
     }
 
     /**
-     * Function that notify the client that he has a new non permanent constraint
+     * Method that notify the client that he has a new non permanent constraint
      */
 
     public void handleNonPermConstraint(){
@@ -277,7 +277,7 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
     }
 
     /**
-     * Function that notify the client that someone is starting the turn
+     * Method that notify the client that someone is starting the turn
      */
 
     public void handleStartTurn(){
@@ -285,7 +285,7 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
     }
 
     /**
-     * Function that notify the client about a move of another client
+     * Method that notify the client about a move of another client
      */
 
     public void handleMove(){
@@ -293,7 +293,7 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
     }
 
     /**
-     * Function that notify the client about a build of another client
+     * Method that notify the client about a build of another client
      */
 
     public void handleBuild(){
@@ -301,7 +301,7 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
     }
 
     /**
-     * Function that notify the client that there is a winner
+     * Method that notify the client that there is a winner
      */
 
     public void handleWin(){
@@ -310,7 +310,7 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
     }
 
     /**
-     * Function that notify the client that there is a winner(all the other players remained blocked)
+     * Method that notify the client that there is a winner(all the other players remained blocked)
      */
 
     public void handleLoseWin(){
@@ -319,7 +319,7 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
     }
 
     /**
-     * Function that notify the client that someone has lost(remained blocked)
+     * Method that notify the client that someone has lost(remained blocked)
      */
 
     public void handleLose(){
@@ -327,7 +327,7 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
     }
 
     /**
-     * Function that notify the client that the game is ended(a client left the game)
+     * Method that notify the client that the game is ended(a client left the game)
      */
 
     public void handleGameStopped(){
@@ -337,7 +337,7 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
     }
 
     /**
-     * Function that notify the client that turn timer has ended
+     * Method that notify the client that turn timer has ended
      */
 
     public void handlePlayerTimeEnded(){
@@ -345,7 +345,7 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
     }
 
     /**
-     * Function that notify the client that he is using a non official version of the game, or that there was an error in the server
+     * Method that notify the client that he is using a non official version of the game, or that there was an error in the server
      */
 
     public void handleClientError(){
@@ -355,7 +355,7 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
     }
 
     /**
-     * Function that notify the client that the game was stopped because someone was using a non official version of the game, or for an error in the server
+     * Method that notify the client that the game was stopped because someone was using a non official version of the game, or for an error in the server
      */
 
     public void handleGameStoppedError(){
@@ -365,7 +365,7 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
     }
 
     /**
-     * Function that send a chat message (received from other clients) to the client
+     * Method that send a chat message (received from other clients) to the client
      * @param message The message to forward
      */
 
@@ -374,7 +374,7 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
     }
 
     /**
-     * Function that notify the client that he sent a message (except chat message) during the turn of another player
+     * Method that notify the client that he sent a message (except chat message) during the turn of another player
      */
 
     public void handleNotYourTurn(){
@@ -382,7 +382,7 @@ public class VirtualView extends Observable<Message> implements Observer<Respons
     }
 
     /**
-     * Update function of the observer
+     * Update Method of the observer
      * @param status The new game status
      */
 

@@ -258,7 +258,7 @@ public class Board {
     MP3 tower;
 
     /**
-     * Class builder
+     * Public constructor for the board
      * @param instance Reference to the client GUI class
      * @param screenSize Size of the screen
      * @param numberOfPlayer Number of the Players in game

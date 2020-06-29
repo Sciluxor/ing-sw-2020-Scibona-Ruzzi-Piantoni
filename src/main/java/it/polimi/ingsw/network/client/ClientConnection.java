@@ -89,7 +89,7 @@ public class ClientConnection implements ConnectionInterface,Runnable {
     }
 
     /**
-     * Function that handle the connection with the Server, and also send The Game configuration Parameters
+     * Method that handle the connection with the Server, and also send The Game configuration Parameters
      * @param numberOfPlayer The number of player selected by the Client
      * @throws ConnectException ConnectException wrong parameters
      */
@@ -130,7 +130,7 @@ public class ClientConnection implements ConnectionInterface,Runnable {
     }
 
     /**
-     * Function that close connection with the Server, close the Socket and the thread of the Message Listener
+     * Method that close connection with the Server, close the Socket and the thread of the Message Listener
      */
 
     public void closeConnection() {
@@ -156,7 +156,7 @@ public class ClientConnection implements ConnectionInterface,Runnable {
     }
 
     /**
-     * Function that Start the Ping timer
+     * Method that Start the Ping timer
      */
 
     public void startPingTimer(){
@@ -166,7 +166,7 @@ public class ClientConnection implements ConnectionInterface,Runnable {
     }
 
     /**
-     * Function that Stop the Ping Timer
+     * Method that Stop the Ping Timer
      */
 
     public void stopPingTimer(){

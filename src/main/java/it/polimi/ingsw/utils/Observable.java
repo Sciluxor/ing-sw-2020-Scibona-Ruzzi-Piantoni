@@ -16,7 +16,7 @@ public class Observable<T> {
     private List<Observer<T>> observers = new ArrayList<>();
 
     /**
-     * Function that add an observer to the list of observers of the object
+     * Method that add an observer to the list of observers of the object
      * @param observer The new observer to add
      */
 
@@ -25,7 +25,7 @@ public class Observable<T> {
     }
 
     /**
-     * Function that remove an observer from the list of observers of the object
+     * Method that remove an observer from the list of observers of the object
      * @param observer The observer to remove
      */
 
@@ -34,7 +34,7 @@ public class Observable<T> {
     }
 
     /**
-     * Function that notify all the observers of the object
+     * Method that notify all the observers of the object
      * @param message The message to send to the observers
      */
 

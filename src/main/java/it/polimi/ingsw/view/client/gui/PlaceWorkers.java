@@ -27,7 +27,7 @@ public class PlaceWorkers extends JDesktopPane{
     double bold = getBolddimension();
 
     /**
-     * Class builder
+     * Public constructor
      * @param frame Reference to the JInternalFrame where the current JDesktopPane PlaceWorkers will be inserted
      * @param dimensionFrame Size of the JInternalFrame
      * @param numberOfPanel Parameter indicating the JDesktopPane to be built if you are the one who chooses or not

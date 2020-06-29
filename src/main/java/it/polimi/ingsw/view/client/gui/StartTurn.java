@@ -27,7 +27,7 @@ public class StartTurn extends JDesktopPane{
     double bold = getBolddimension();
 
     /**
-     * Class builder
+     * Public constructor
      * @param frame Reference to the JInternalFrame where the current JDesktopPane StartTurn will be inserted
      * @param dimensionFrame Size of the JInternalFrame
      * @param numberOfPanel Parameter indicating the JDesktopPane to be built based on who starts the turn

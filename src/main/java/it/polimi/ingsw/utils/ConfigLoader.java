@@ -67,7 +67,7 @@ public class ConfigLoader {
     }
 
     /**
-     * Function that load the setting for the server from a json file
+     * Method that load the setting for the server from a json file
      */
 
     public static void loadSetting(){

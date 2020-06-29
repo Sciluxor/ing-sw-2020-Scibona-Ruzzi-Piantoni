@@ -20,7 +20,7 @@ public class MP3 {
     private final JFXPanel fxPanel = new JFXPanel();
 
     /**
-     * Class builder
+     * Public constructor
      * @param name Path to the file audio
      */
 

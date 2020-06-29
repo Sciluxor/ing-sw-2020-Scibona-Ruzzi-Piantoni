@@ -59,7 +59,7 @@ public class SocketHandler extends Thread implements Closeable {
         }
 
     /**
-     * Function that create new Server Socket and start a thread that listen for new connections request
+     * Method that create new Server Socket and start a thread that listen for new connections request
      * @throws IOException IOException, socket get closed
      */
 
@@ -72,7 +72,7 @@ public class SocketHandler extends Thread implements Closeable {
 }
 
     /**
-     * Function that stop the Socket Handler when the Server is stopped
+     * Method that stop the Socket Handler when the Server is stopped
      */
 
     @Override
