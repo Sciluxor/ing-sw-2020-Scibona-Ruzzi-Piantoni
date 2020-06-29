@@ -680,16 +680,6 @@ public class Cli extends ClientGameController {
         previousChatMessage.add(playerChatMessage);
     }
 
-    /*
-     * Method used to set sane terminal mode if the terminal mode was raw
-     */
-
-    /*private void setSaneTerminalMode() {
-        String previousTerminalMode = getTerminalMode();
-        if(previousTerminalMode.equalsIgnoreCase("raw"))
-            setTerminalMode("sane");
-    }*/
-
     /**
      * Method used to set sane terminal mode if the terminal mode was raw
      */
