@@ -428,8 +428,10 @@ public class CliUtils {
 
         keyboard = inputRead();
 
-        if(keyboard == 3)
+        if(keyboard == 3) {
+            setTerminalMode("sane");
             quitFromGame(0);
+        }
         else if (keyboard == 27) {
             keyboard1 = inputRead();
             if (keyboard1 == 91)
@@ -495,7 +497,7 @@ public class CliUtils {
     public static int controlWaitEnter(String type) {
         int keyboardIn = 0;
         if(type.equalsIgnoreCase("endTurn")) {
-            printRed("PRESS ENTER TO END YOUR TURN...");
+            printRed("\nPRESS ENTER TO END YOUR TURN...");
             type = "enter";
         } else if(type.equalsIgnoreCase("confirm")) {
             printRed("PRESS ENTER TO CONFIRM, LEFT ARROW TO REINSERT COORDINATES...");

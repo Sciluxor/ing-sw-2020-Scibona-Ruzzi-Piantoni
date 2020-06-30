@@ -265,12 +265,12 @@ public class Tile {
      */
 
     private void setBackgroundColor () {
-        if (available && !selected /*&& !hasPlayer*/)
+        if (available && !selected /*|| available && hasPlayer*/)
             backgroundColor = Color.BACKGROUND_GREEN;
         else if (selected)
             backgroundColor = Color.BACKGROUND_YELLOW;
-        /*else if(hasPlayer)
-            backgroundColor = Color.BACKGROUND_BLACK;*/
+        else if(hasPlayer)
+            backgroundColor = Color.BACKGROUND_BLACK;
     }
 
     /**

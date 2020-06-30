@@ -261,7 +261,7 @@ public class Cli extends ClientGameController {
         santoriniMap.resetAvailableTiles();
 
         if(santoriniMap.checkOccupiedTile(tile)) {
-            santoriniMap.setTileHasPlayer(true, tileNumber[selectedWorker - 1], santoriniMap.getPlayerColorFromTile(tileNumber[selectedWorker - 1]));
+            santoriniMap.setTileHasPlayer(true, tileNumber[selectedWorker - 1], santoriniMap.getPlayerColorFromTile(tile));
         } else {
             santoriniMap.setTileHasPlayer(false, tileNumber[selectedWorker - 1], null);
         }
@@ -731,14 +731,24 @@ public class Cli extends ClientGameController {
 
     /**
      * Method that handle the updating of the board when updateBoard is called from the server (an opponent do something)
-     * @param modifiedSquares Modified squares sended from the server
+     * @param modifiedSquares Modified squares sent from the server
      */
 
     private void updateModification(List<Square> modifiedSquares) {
         for(Square modifiedSquare: modifiedSquares) {
             Color playerColor = null;
-            if(modifiedSquare.hasPlayer())
+            if(modifiedSquare.hasPlayer()) {
+                if(modifiedSquare.getPlayer().equals(myPlayerOnServer)) {
+                    String workerName = modifiedSquare.getWorker().getName().toString();
+                    int workerNumber;
+                    if(workerName.equalsIgnoreCase("worker1"))
+                        workerNumber = 0;
+                    else
+                        workerNumber = 1;
+                    tileNumber[workerNumber] = modifiedSquare.getTile()-1;
+                }
                 playerColor = getColorCliFromPlayer(modifiedSquare.getPlayer().getColor());
+            }
 
             santoriniMap.setTileHasPlayer(modifiedSquare.hasPlayer(), modifiedSquare.getTile()-1, playerColor);
             santoriniMap.updateStringBoardBuilding(modifiedSquare);
