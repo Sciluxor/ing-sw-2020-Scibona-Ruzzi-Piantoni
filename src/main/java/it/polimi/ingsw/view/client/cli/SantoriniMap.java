@@ -189,11 +189,22 @@ public class SantoriniMap {
     /**
      * Method to check if a tile is or isn't occupied by another worker
      * @param tileNumber Tile number to control
-     * @return unoccupied Boolean value (true = unoccupied / false = occupied)
+     * @return occupied Boolean value (true = occupied / false = unoccupied)
      */
 
-    public boolean checkUnoccupiedTile(int tileNumber) {
-        return availableTiles.contains(tileNumber);
+    public boolean checkOccupiedTile(int tileNumber) {
+        //return availableTiles.contains(tileNumber);
+        return this.tile[tileNumber].isHasPlayer();
+    }
+
+    /**
+     * Method used to get color of the player in the tile
+     * @param tileNumber Tile to control
+     * @return color Color of the player occupying the cell
+     */
+
+    public Color getPlayerColorFromTile(int tileNumber) {
+        return this.tile[tileNumber].getPlayerColor();
     }
 
     /**

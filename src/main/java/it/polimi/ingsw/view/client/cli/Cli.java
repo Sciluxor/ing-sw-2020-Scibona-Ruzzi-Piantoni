@@ -155,7 +155,7 @@ public class Cli extends ClientGameController {
                 occupied = false;
                 selectedTile = selectAvailableTileWithArrows();
 
-                if(!santoriniMap.checkUnoccupiedTile(selectedTile)) {
+                if(santoriniMap.checkOccupiedTile(selectedTile)) {
                     occupied = true;
                     printRed(Color.BACKGROUND_YELLOW + "OCCUPIED TILES + " + selectedTile + Color.RESET + "\n");
                 }
@@ -260,7 +260,11 @@ public class Cli extends ClientGameController {
         int tile = selectAvailableTileWithArrows();
         santoriniMap.resetAvailableTiles();
 
-        santoriniMap.setTileHasPlayer(false, tileNumber[selectedWorker-1], null);
+        if(santoriniMap.checkOccupiedTile(tile)) {
+            santoriniMap.setTileHasPlayer(true, tileNumber[selectedWorker - 1], santoriniMap.getPlayerColorFromTile(tileNumber[selectedWorker - 1]));
+        } else {
+            santoriniMap.setTileHasPlayer(false, tileNumber[selectedWorker - 1], null);
+        }
         santoriniMap.setTileHasPlayer(true, tile, myPlayerColor);
 
         fromServerResponse = moveWorker(tile+1);
@@ -1334,7 +1338,9 @@ public class Cli extends ClientGameController {
         } else {
 
             clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
-            printRed("IT'S NOT YOUR TURN! " + nick.toUpperCase() + " IS STARTING HIS TURN!\n");
+            printRed("IT'S NOT YOUR TURN! ");
+            printPlayer(getPlayerFromNickName(opponents, nick));
+            printRed(" IS STARTING HIS TURN!\n");
             printWaitingStartTurn(numberOfPlayers);
             printChat(previousChatMessage);
 

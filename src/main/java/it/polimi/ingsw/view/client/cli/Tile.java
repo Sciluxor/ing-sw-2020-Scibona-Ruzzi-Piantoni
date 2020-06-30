@@ -36,6 +36,15 @@ public class Tile {
     }
 
     /**
+     * Method used to check if current tile has player
+     * @return hasPlayer Boolean value
+     */
+
+    public boolean isHasPlayer() {
+        return this.hasPlayer;
+    }
+
+    /**
      * Method used to get the raw value necessary to print the board in SantoriniMap
      * @param raw Int value of the corresponding raw that contains the string asked
      * @return stringRaw String value contained in the raw
@@ -202,11 +211,11 @@ public class Tile {
     }
 
     /**
-     * Method used to get self player color
-     * @return playerColor Color of his proper player
+     * Method used to get current player color
+     * @return playerColor Color of current player
      */
 
-    private Color getPlayerColor() {
+    public Color getPlayerColor() {
         return this.playerColor;
     }
 
@@ -256,12 +265,12 @@ public class Tile {
      */
 
     private void setBackgroundColor () {
-        if (available && !selected && !hasPlayer)
+        if (available && !selected /*&& !hasPlayer*/)
             backgroundColor = Color.BACKGROUND_GREEN;
         else if (selected)
             backgroundColor = Color.BACKGROUND_YELLOW;
-        else if(hasPlayer)
-            backgroundColor = Color.BACKGROUND_BLACK;
+        /*else if(hasPlayer)
+            backgroundColor = Color.BACKGROUND_BLACK;*/
     }
 
     /**
