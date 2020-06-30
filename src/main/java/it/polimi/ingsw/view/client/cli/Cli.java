@@ -462,6 +462,8 @@ public class Cli extends ClientGameController {
         availableActions = new ArrayList<>();
         constraints = new ArrayList<>();
         previousChatMessage = new ArrayList<>();
+
+        resetChat();
     }
 
     /**
@@ -1170,11 +1172,10 @@ public class Cli extends ClientGameController {
             for (Player player : actualPlayers) {
                 if(!player.getNickName().equalsIgnoreCase(nick)) {
                     printRed("> [");
-                    printPlayer(player);
                 } else {
                     printRed("THE WINNER IS: [");
-                    printPlayer(player);
                 }
+                printPlayer(player);
                 printRed("]\n");
             }
             checkRestart(true);
