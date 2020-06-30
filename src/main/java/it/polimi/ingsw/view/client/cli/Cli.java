@@ -1152,36 +1152,46 @@ public class Cli extends ClientGameController {
     @Override
     public void updateBoard(String nick, List<Square> squares, MessageType type) {
         updateModification(squares);
+
         clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
         printWaitForOtherPlayers(numberOfPlayers);
+        printChat(previousChatMessage);
     }
 
     @Override
     public void notifyWin(String nick) {
         clearShell();
-        if(nick.equalsIgnoreCase(getNickName()))
+        if(nick.equalsIgnoreCase(getNickName())) {
             printRed(WINNER);
+            checkRestart(false);
+        }
         else {
-            printRed("LOSERS:\n");
-            for (Player opponent : opponents) {
-                printRed("> [");
-                printPlayer(opponent);
+            printRed(LOSER + "\nLOSERS:\n");
+            for (Player player : actualPlayers) {
+                if(!player.getNickName().equalsIgnoreCase(nick)) {
+                    printRed("> [");
+                    printPlayer(player);
+                } else {
+                    printRed("THE WINNER IS: [");
+                    printPlayer(player);
+                }
                 printRed("]\n");
             }
+            checkRestart(true);
         }
-
-        checkRestart(false);
     }
 
     @Override
     public void notifyLose(String nick, boolean isYourPlayer) {
+        clearShell();
         if(isYourPlayer) {
             printRed(LOSER);
-            printRed("THE WINNER IS: ");
-            printPlayer(getPlayerFromNickName(opponents, nick));
+            checkRestart(true);
+        } else {
+            printRed("PLAYER [");
+            printPlayer(getPlayerFromNickName(actualPlayers, nick));
+            printRed("] HAS BEEN ELIMINATED\n");
         }
-
-        checkRestart(true);
     }
 
     @Override
