@@ -44,7 +44,7 @@ public class ConstantsContainer {
     public static final Integer CHRONUSTOWERWIN = 5;
     public static final Integer PANLEVELWIN = 2;
 
-    //Board
+    //GUI
     public static final String LOSEBORDER = "resources/Graphics/gods/podium/lose_border.png";
     public static final String PNG = ".png";
     public static final String RESOURCES_GRAPHICS = "resources/Graphics/";
