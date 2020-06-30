@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static it.polimi.ingsw.utils.CliUtils.*;
+import static it.polimi.ingsw.utils.ConstantsContainer.*;
 
 /**
  * Class that define and implements the visualisation of the board
@@ -18,7 +19,7 @@ import static it.polimi.ingsw.utils.CliUtils.*;
 
 public class SantoriniMap {
 
-    private Tile[] tile = new Tile[25];
+    private Tile[] tile = new Tile[MAXMAPPOSITION];
     List<Integer> availableTiles = new ArrayList<>();
     private static final String INTERNAL_TILE_SPACE = "         ";
 
@@ -28,15 +29,15 @@ public class SantoriniMap {
      */
 
     public SantoriniMap() {
-        for(int i=0; i<25; i++)
+        for(int i=0; i<MAXMAPPOSITION; i++)
             tile[i] = new Tile();
 
         int counter = 0;
-        for(int y=0; y<5; y++) {
+        for(int y=0; y<=MAXMAPCOORD; y++) {
             this.tile[counter].setCoordinate(0, y);
             counter++;
         }
-        for(int x=1; x<4; x++) {
+        for(int x=1; x<MAXMAPCOORD; x++) {
             this.tile[counter].setCoordinate(x, 4);
             counter++;
         }
@@ -48,7 +49,7 @@ public class SantoriniMap {
             this.tile[counter].setCoordinate(x, 0);
             counter++;
         }
-        for(int y=1; y<4; y++) {
+        for(int y=1; y<MAXMAPCOORD; y++) {
             this.tile[counter].setCoordinate(1, y);
             counter++;
         }
@@ -65,7 +66,7 @@ public class SantoriniMap {
             counter++;
         }
 
-        for(int i=0; i<25; i++)
+        for(int i=0; i<MAXMAPPOSITION; i++)
             availableTiles.add(i);
     }
 
@@ -77,14 +78,14 @@ public class SantoriniMap {
         clearShell();
 
         printYellow("   ");
-        for(int i=0; i<5; i++)
+        for(int i=0; i<=MAXMAPCOORD; i++)
             printYellow(INTERNAL_TILE_SPACE + i + INTERNAL_TILE_SPACE);
         printYellow("\n");
         for(int x=0; x<=5; x++) {
             printYellow("   ");
-            for(int t=0; t<5; t++) {
+            for(int t=0; t<=MAXMAPCOORD; t++) {
                 printWhite(setBlueBackgroundColor("───────────────────"));
-                if(t==4)
+                if(t==MAXMAPCOORD)
                     printWhite(setBlueBackgroundColor("─") + "\n");
             }
 
@@ -94,7 +95,7 @@ public class SantoriniMap {
             printRawTileInfo(x);
         }
         printYellow("   ");
-        for(int i=0; i<5; i++)
+        for(int i=0; i<=MAXMAPCOORD; i++)
             printYellow(INTERNAL_TILE_SPACE + i + INTERNAL_TILE_SPACE);
         printYellow("\n");
     }
@@ -119,7 +120,7 @@ public class SantoriniMap {
     private void printInternalTileInfo(int x, int raw) {
         int tileNumber;
 
-        for (int y=0; y<5; y++) {
+        for (int y=0; y<=MAXMAPCOORD; y++) {
             tileNumber = getTileFromCoordinate(x, y);
             if(y==0 && raw==3)
                 printYellow(" " + x + " ");
