@@ -293,6 +293,16 @@ public class CliUtils {
     }
 
     /**
+     * Method used to initialize chat attributes when new game is started, without losing connection
+     */
+
+    public static void resetChat() {
+        newChatMessage = false;
+        lastPlayerOnChat = null;
+        lastChatMessage = null;
+    }
+
+    /**
      * Method used to set if there is a new chat message
      * @param newChatMessage Boolean value (true = new chat message | false = no new chat message)
      */
