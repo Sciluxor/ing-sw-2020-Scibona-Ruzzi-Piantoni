@@ -443,6 +443,38 @@ public class Cli extends ClientGameController {
     }
 
     /**
+     * Method used to start a new game
+     */
+
+    private void newGameHandler() {
+        clearShell();
+        printRed(TITLE);
+        setNickName();
+        setNumberOfPlayers();
+
+        resetAttributes();
+
+        newGame(getNickName(), getNumberOfPlayers());
+    }
+
+    /**
+     * Method used to reset attributes of this, to start new game
+     */
+
+    private void resetAttributes() {
+        santoriniMap = new SantoriniMap();
+        tileNumber = new int[2];
+        deck = CardLoader.loadCards();
+        deckOrdered = new ArrayList<>();
+        selectedCards = new ArrayList<>();
+        opponents = new ArrayList<>();
+        actualPlayers = new ArrayList<>();
+        availableActions = new ArrayList<>();
+        constraints = new ArrayList<>();
+        previousChatMessage = new ArrayList<>();
+    }
+
+    /**
      * Method that handle the login (setting the nickname, the number of players, the port and the IP address)
      */
 
@@ -485,8 +517,7 @@ public class Cli extends ClientGameController {
         } while (!goOut);
 
         if (restart) {
-            Cli cli = new Cli();
-            mainHandler(cli);
+            newGameHandler();
         } else {
             boolean watch = false;
             if(loser && getNumberOfPlayers() == 3)
@@ -1258,6 +1289,10 @@ public class Cli extends ClientGameController {
     public void onErrorMessage(String stopper, boolean isYourPlayer) {
         setSaneTerminalModeIfIsRaw();
         printRed("\nERROR MESSAGE...");
+        if(isYourPlayer)
+            quitFromGame(-2);
+        else
+            checkRestart(false);
     }
 
     @Override
