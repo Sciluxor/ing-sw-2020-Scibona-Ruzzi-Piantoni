@@ -85,14 +85,14 @@
 
     <dependency>
       <groupId>org.openjfx</groupId>
-      <artifactId>javafx-swing</artifactId>
+      <artifactId>javafx-graphics</artifactId>
       <version>15-ea+5</version>
       <classifier>win</classifier>
     </dependency>
 
     <dependency>
       <groupId>org.openjfx</groupId>
-      <artifactId>javafx-swing</artifactId>
+      <artifactId>javafx-graphics</artifactId>
       <version>15-ea+5</version>
       <classifier>mac</classifier>
     </dependency>
