@@ -86,7 +86,7 @@
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-graphics</artifactId>
-      <version>15-ea+6</version>
+      <version>15-ea+5</version>
       <classifier>win</classifier>
     </dependency>
 
