@@ -11,7 +11,7 @@ import java.util.List;
 import static it.polimi.ingsw.utils.ConstantsContainer.*;
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButtonPersonalized;
-import static it.polimi.ingsw.view.client.gui.Board.getBolddimension;
+import static it.polimi.ingsw.view.client.gui.Board.getBoldDimension;
 import static it.polimi.ingsw.view.client.gui.GuiUtils.*;
 import static it.polimi.ingsw.view.client.gui.Gui.*;
 
@@ -33,9 +33,9 @@ public class ChooseCard extends JDesktopPane{
     JLabel cover = new JLabel();
     JLabel label = new JLabel();
     private final List<String> godCards;
-    private final List<JButton> godChoosen = new ArrayList<>();
+    private final List<JButton> godChosen = new ArrayList<>();
     transient List<JButton> godList = new ArrayList<>();
-    transient ButtonGodsList costructor;
+    transient ButtonGodsList constructor;
     MyButton confirm = new MyButton(0);
     MyButton backButton = new MyButton(1);
     MyButton close = new MyButton(3);
@@ -43,12 +43,12 @@ public class ChooseCard extends JDesktopPane{
     String cardChosen = null;
     String nameChoosing;
     transient MP3 click;
-    double bold = getBolddimension();
+    double bold = getBoldDimension();
 
     /**
      * Public constructor
      * @param instance Reference to the Board class instanced by the GUI
-     * @param frame Reference to the JInternalFrame where the current JDesktopPane ChooseCard will be inserted
+     * @param intFrame Reference to the JInternalFrame where the current JDesktopPane ChooseCard will be inserted
      * @param wi Width of the JInternalFrame
      * @param he Height of the JInternalFrame
      * @param cards List of the chosen gods
@@ -57,20 +57,20 @@ public class ChooseCard extends JDesktopPane{
      * @throws IOException if the loading of the inscription was not successful
      */
 
-    public ChooseCard(Board instance, JInternalFrame frame, int wi, int he, List<String> cards, Integer numberOfPanel, String name) throws IOException {
+    public ChooseCard(Board instance, JInternalFrame intFrame, int wi, int he, List<String> cards, Integer numberOfPanel, String name) throws IOException {
 
         board = instance;
-        guiIntFrame = frame;
+        guiIntFrame = intFrame;
         frameSize.setSize(wi, he);
         intFrameSize.setSize(frameSize.getWidth() * 40/100, frameSize.getHeight() * 45/100);
         setPreferredSize(frameSize);
 
         nameChoosing = name;
         godCards = cards;
-        costructor = new ButtonGodsList(frameSize, godList);
+        constructor = new ButtonGodsList(frameSize, godList);
         click = new MP3(MUSIC + "Click.mp3");
 
-        intFrame = internalAndBackgroundSetter(this, intFrameSize, buttonBackground);
+        this.intFrame = internalAndBackgroundSetter(this, intFrameSize, buttonBackground);
 
         int x = (int) (frameSize.width * 33.5/100);
         int y = (frameSize.height * 35/100);
@@ -78,7 +78,7 @@ public class ChooseCard extends JDesktopPane{
         cardSize.setSize((int) (frameSize.getWidth() * 9/100), (int) (frameSize.getHeight() * 23.15/100));
 
         JLabel choose = ImageHandler.setImage(TEXT + "choose_your_god.png", 100, 100, frameSize.width * 30/100, frameSize.height * 10/100);
-        JLabel choise = ImageHandler.setImage(TEXT + "this_is_your_god.png", 100, 100, frameSize.width * 30/100, frameSize.height * 10/100);
+        JLabel choice = ImageHandler.setImage(TEXT + "this_is_your_god.png", 100, 100, frameSize.width * 30/100, frameSize.height * 10/100);
         JLabel isChoosing = ImageHandler.setImage(TEXT + "is_choosing_the_god_power.png", 100, 100, frameSize.width * 85/100, frameSize.height * 25/100);
         JLabel first = ImageHandler.setImage(TEXT + "choose_your_god_power.png", 100, 100, frameSize.width * 85/100, frameSize.height * 25/100);
         JLabel otherName = new JLabel(nameChoosing);
@@ -87,7 +87,7 @@ public class ChooseCard extends JDesktopPane{
 
         selectGodsChosen();
 
-        setButtonStyle(godChoosen, intFrame, frameSize, intFrameSize, buttonBackground, cover, true, 2);
+        setButtonStyle(godChosen, this.intFrame, frameSize, intFrameSize, buttonBackground, cover, true, 2);
         buttonStyle();
 
         if(numberOfPanel == 3 || numberOfPanel == 2) {
@@ -104,22 +104,22 @@ public class ChooseCard extends JDesktopPane{
 
 
             if (numberOfPanel == 3){
-                godChoosen.get(0).setBounds(x, y, cardSize.width, cardSize.height);
-                this.add(godChoosen.get(0));
+                godChosen.get(0).setBounds(x, y, cardSize.width, cardSize.height);
+                this.add(godChosen.get(0));
 
-                godChoosen.get(1).setBounds(x + frameSize.width * 12/100, y, cardSize.width, cardSize.height);
-                this.add(godChoosen.get(1));
+                godChosen.get(1).setBounds(x + frameSize.width * 12/100, y, cardSize.width, cardSize.height);
+                this.add(godChosen.get(1));
 
-                godChoosen.get(2).setBounds(x + frameSize.width * 24/100, y, cardSize.width, cardSize.height);
-                this.add(godChoosen.get(2));
+                godChosen.get(2).setBounds(x + frameSize.width * 24/100, y, cardSize.width, cardSize.height);
+                this.add(godChosen.get(2));
             }
 
             if (numberOfPanel == 2){
-                godChoosen.get(0).setBounds(x + frameSize.width * 6/100, y, cardSize.width, cardSize.height);
-                this.add(godChoosen.get(0));
+                godChosen.get(0).setBounds(x + frameSize.width * 6/100, y, cardSize.width, cardSize.height);
+                this.add(godChosen.get(0));
 
-                godChoosen.get(1).setBounds(x + frameSize.width * 18/100, y, cardSize.width, cardSize.height);
-                this.add(godChoosen.get(1));
+                godChosen.get(1).setBounds(x + frameSize.width * 18/100, y, cardSize.width, cardSize.height);
+                this.add(godChosen.get(1));
             }
             JButton back = backgroundButton(0);
             back.setBounds(0, 0, frameSize.width, frameSize.height);
@@ -130,11 +130,11 @@ public class ChooseCard extends JDesktopPane{
 
             if (numberOfPanel == 1){
 
-                choise.setBounds(frameSize.width * 35/100, frameSize.height * 10/100, frameSize.width * 30/100, frameSize.height * 10/100);
-                add(choise);
+                choice.setBounds(frameSize.width * 35/100, frameSize.height * 10/100, frameSize.width * 30/100, frameSize.height * 10/100);
+                add(choice);
 
-                godChoosen.get(0).setBounds((int) (frameSize.width * 45.5/100), y, cardSize.width, cardSize.height);
-                this.add(godChoosen.get(0));
+                godChosen.get(0).setBounds((int) (frameSize.width * 45.5/100), y, cardSize.width, cardSize.height);
+                this.add(godChosen.get(0));
 
                 confirm.setBounds((int) (((double)frameSize.width * 50/ 100) - ((getD().getWidth() * 13 / 100) * 50/100)), (frameSize.height * 81 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
                 add(confirm);
@@ -179,7 +179,7 @@ public class ChooseCard extends JDesktopPane{
 
     private void buttonStyle(){
 
-        for (JButton button : godChoosen){
+        for (JButton button : godChosen){
             button.addActionListener(new ChooseGod());
         }
     }
@@ -192,7 +192,7 @@ public class ChooseCard extends JDesktopPane{
         for (String god : godCards){
             for (JButton button : godList){
                 if (god.equalsIgnoreCase(button.getName())){
-                    godChoosen.add(button);
+                    godChosen.add(button);
                 }
             }
         }
@@ -236,7 +236,7 @@ public class ChooseCard extends JDesktopPane{
     }
 
     /**
-     * Class that implements ActionListener for removing the god from the choice made so far
+     * Class that implements ActionListener for removing the god from the choices made so far
      */
 
     private class RemoveGod implements ActionListener{

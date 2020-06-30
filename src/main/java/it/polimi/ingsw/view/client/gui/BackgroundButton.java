@@ -45,8 +45,8 @@ public class BackgroundButton {
 
     /**
      * Method for the construction of the chosen background
-     * @param n parameter for the choice of the background
-     * @return background as JButton
+     * @param n Parameter for the choice of the background
+     * @return Background as JButton
      */
 
     public static JButton backgroundButton(int n){
@@ -72,9 +72,9 @@ public class BackgroundButton {
 
     /**
      * Method for the construction of the chosen background by specifying the size
-     * @param n parameter for the choice of the background
-     * @param frame window size to size the background
-     * @return background as JButton
+     * @param n Parameter for the choice of the background
+     * @param frame Window size to size the background
+     * @return Background as JButton
      */
 
     public static JButton backgroundButtonPersonalized(int n, Dimension frame){
@@ -110,7 +110,7 @@ public class BackgroundButton {
      * Method that return the background wanted
      * @param path Path to the background
      * @param frame Dimension of the frame
-     * @return The background in a JLabel
+     * @return Background in a JLabel
      */
 
     private static JLabel loadBackGround(String path, Dimension frame) {

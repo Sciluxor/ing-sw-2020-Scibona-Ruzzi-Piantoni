@@ -29,13 +29,13 @@ public class GuiUtils {
     /**
      * Method that remove the ActionListener selected from the supplied JButton
      * @param button JButton to delete the ActionListener
-     * @param clas Class of the ActionListener to be deleted
+     * @param aClass Class of the ActionListener to be deleted
      */
 
-    public static void eliminateActionClass(JButton button, Class clas){
+    public static void eliminateActionClass(JButton button, Class aClass){
         java.util.List<ActionListener> toRemove = new ArrayList<>();
         for (int x = 0; x < button.getActionListeners().length; x++){
-            if (button.getActionListeners()[x].getClass().equals(clas))
+            if (button.getActionListeners()[x].getClass().equals(aClass))
                 toRemove.add(button.getActionListeners()[x]);
         }
         for (ActionListener action : toRemove){
@@ -46,13 +46,13 @@ public class GuiUtils {
     /**
      * Method that remove the MouseListener selected from the supplied JButton
      * @param button JButton to delete the MouseListener
-     * @param clas Class of the MouseListener to be deleted
+     * @param aClass Class of the MouseListener to be deleted
      */
 
-    public static void eliminateMouseClass(JButton button, Class clas){
+    public static void eliminateMouseClass(JButton button, Class aClass){
         java.util.List<MouseListener> toRemove = new ArrayList<>();
         for (int x = 0; x < button.getMouseListeners().length; x++){
-            if (button.getMouseListeners()[x].getClass().equals(clas))
+            if (button.getMouseListeners()[x].getClass().equals(aClass))
                 toRemove.add(button.getMouseListeners()[x]);
         }
         for (MouseListener mouse : toRemove){
@@ -135,14 +135,14 @@ public class GuiUtils {
 
     /**
      * Method to set the JButtons of the List provided
-     * @param cards
-     * @param intFrame
-     * @param frameSize
-     * @param intFrameSize
-     * @param buttonBackground
-     * @param cover
-     * @param center
-     * @param type
+     * @param cards List of JButtons of the cards to be set
+     * @param intFrame JInternalFrame used to set the ShowPower MouseListener
+     * @param frameSize Dimension of the main frame
+     * @param intFrameSize Dimension of the JInternalFrame
+     * @param buttonBackground JButton of the background
+     * @param cover JLabel used for the loading of the description of the gods
+     * @param center Boolean that says if the cards are vertically centered
+     * @param type Parameter used to select the type of ShowPower
      */
 
     public static void setButtonStyle(List<JButton> cards, JInternalFrame intFrame, Dimension frameSize, Dimension intFrameSize, JButton buttonBackground, JLabel cover, boolean center, int type){

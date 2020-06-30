@@ -10,7 +10,7 @@ import java.io.IOException;
 
 import static it.polimi.ingsw.utils.ConstantsContainer.TEXT;
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
-import static it.polimi.ingsw.view.client.gui.Board.getBolddimension;
+import static it.polimi.ingsw.view.client.gui.Board.getBoldDimension;
 import static it.polimi.ingsw.view.client.gui.Gui.*;
 
 /**
@@ -35,7 +35,7 @@ public class PopUp {
     JLabel label3;
     JPanel panel;
     String name;
-    double bold = getBolddimension();
+    double bold = getBoldDimension();
 
     /**
      * Public constructor
@@ -346,7 +346,7 @@ public class PopUp {
     }
 
     /**
-     * Method that sets the popup messages for unplayed turn
+     * Method that sets the popup messages for not played turn
      */
 
     private void setDisconnectionTime(){

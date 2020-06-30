@@ -14,7 +14,7 @@ import java.util.List;
 
 import static it.polimi.ingsw.utils.ConstantsContainer.*;
 import static it.polimi.ingsw.view.client.gui.BackgroundButton.backgroundButton;
-import static it.polimi.ingsw.view.client.gui.Board.getBolddimension;
+import static it.polimi.ingsw.view.client.gui.Board.getBoldDimension;
 import static it.polimi.ingsw.view.client.gui.Gui.*;
 
 /**
@@ -32,19 +32,19 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
     Dimension labelSize = new Dimension();
     MyButton backButton = new MyButton(1);
     JInternalFrame intFrame;
-    JLabel lblue;
-    JLabel lbluePress;
-    JLabel lpurple;
-    JLabel lpurplePress;
-    JLabel lwhite;
-    JLabel lwhitePress;
+    JLabel lBlue;
+    JLabel lBluePress;
+    JLabel lPurple;
+    JLabel lPurplePress;
+    JLabel lWhite;
+    JLabel lWhitePress;
     transient MP3 click;
-    double bold = getBolddimension();
+    double bold = getBoldDimension();
 
     /**
      * Public constructor
-     * @param istance Reference to the client GUI class
-     * @param istance2 Reference to the Board class instanced by the GUI
+     * @param instance Reference to the client GUI class
+     * @param instance2 Reference to the Board class instanced by the GUI
      * @param frame Reference to the JInternalFrame where the current JDesktopPane ChallengerChoiceFirstPlayer will be inserted
      * @param dimensionFrame Size of the JInternalFrame
      * @param numberOfPlayer Number of Players in play
@@ -52,10 +52,10 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
      * @throws IOException if the loading of the inscription or the button pictures was not successful
      */
 
-    public ChallengerChoiceFirstPlayer(Gui istance, Board istance2, JInternalFrame frame, Dimension dimensionFrame, Integer numberOfPlayer, List<Player> players) throws IOException {
+    public ChallengerChoiceFirstPlayer(Gui instance, Board instance2, JInternalFrame frame, Dimension dimensionFrame, Integer numberOfPlayer, List<Player> players) throws IOException {
 
-        gui = istance;
-        board = istance2;
+        gui = instance;
+        board = instance2;
         frameSize.setSize(dimensionFrame);
         intFrame = frame;
         labelSize.setSize(frameSize.width * 30/100, frameSize.height * 10/100);
@@ -63,12 +63,12 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
         setLayout(null);
         click = new MP3(MUSIC + "Click.mp3");
 
-        lblue = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_blue.png", 100, 100, labelSize.width, labelSize.height);
-        lbluePress = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_blue_press.png", 100, 100, labelSize.width, labelSize.height);
-        lpurple = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_purple.png", 100, 100, labelSize.width, labelSize.height);
-        lpurplePress = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_purple_press.png", 100, 100, labelSize.width, labelSize.height);
-        lwhite = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_white.png", 100, 100, labelSize.width, labelSize.height);
-        lwhitePress = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_white_press.png", 100, 100, labelSize.width, labelSize.height);
+        lBlue = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_blue.png", 100, 100, labelSize.width, labelSize.height);
+        lBluePress = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_blue_press.png", 100, 100, labelSize.width, labelSize.height);
+        lPurple = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_purple.png", 100, 100, labelSize.width, labelSize.height);
+        lPurplePress = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_purple_press.png", 100, 100, labelSize.width, labelSize.height);
+        lWhite = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_white.png", 100, 100, labelSize.width, labelSize.height);
+        lWhitePress = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_white_press.png", 100, 100, labelSize.width, labelSize.height);
         JLabel namePlayer1 = new JLabel(players.get(0).getNickName());
         JLabel namePlayer2 = new JLabel(players.get(1).getNickName());
         JLabel namePlayer3;
@@ -161,13 +161,13 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
             if (player.getNickName().equalsIgnoreCase(buttonPlayer.getName())){
 
                 if(player.getColor().equals(Color.BLUE)){
-                    buttonPlayer.setIcon(lblue.getIcon());
+                    buttonPlayer.setIcon(lBlue.getIcon());
                 }
                 else if(player.getColor().equals(Color.WHITE)){
-                    buttonPlayer.setIcon(lwhite.getIcon());
+                    buttonPlayer.setIcon(lWhite.getIcon());
                 }
                 else {
-                    buttonPlayer.setIcon(lpurple.getIcon());
+                    buttonPlayer.setIcon(lPurple.getIcon());
                 }
             }
         }
@@ -200,13 +200,13 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
             for (Player player : board.allPlayer){
                 if (player.getNickName().equalsIgnoreCase(c.getName())){
                     if(player.getColor().toString().equalsIgnoreCase("BLUE")){
-                        c.setIcon(lbluePress.getIcon());
+                        c.setIcon(lBluePress.getIcon());
                     }
                     else if(player.getColor().toString().equalsIgnoreCase("WHITE")){
-                        c.setIcon(lwhitePress.getIcon());
+                        c.setIcon(lWhitePress.getIcon());
                     }
                     else {
-                        c.setIcon(lpurplePress.getIcon());
+                        c.setIcon(lPurplePress.getIcon());
                     }
                 }
             }
@@ -219,13 +219,13 @@ public class ChallengerChoiceFirstPlayer extends JDesktopPane{
             for (Player player : board.allPlayer){
                 if (player.getNickName().equalsIgnoreCase(c.getName())){
                     if(player.getColor().toString().equalsIgnoreCase("BLUE")){
-                        c.setIcon(lblue.getIcon());
+                        c.setIcon(lBlue.getIcon());
                     }
                     else if(player.getColor().toString().equalsIgnoreCase("WHITE")){
-                        c.setIcon(lwhite.getIcon());
+                        c.setIcon(lWhite.getIcon());
                     }
                     else {
-                        c.setIcon(lpurple.getIcon());
+                        c.setIcon(lPurple.getIcon());
                     }
                 }
             }

@@ -32,7 +32,6 @@ public class ChallengerChoiceCards extends JDesktopPane{
     JInternalFrame guiIntFrame;
     JButton buttonBackground = new JButton();
     JLabel cover =new JLabel();
-    JLabel label =new JLabel();
     private int count = 0;
     private int chosen = 0;
     private final int numberPlayers;
@@ -41,7 +40,7 @@ public class ChallengerChoiceCards extends JDesktopPane{
     MyButton back = new MyButton(1);
     private final List<String> cardsChosen = new ArrayList<>();
     private final List<JButton> godList = new ArrayList<>();
-    transient ButtonGodsList costructor;
+    transient ButtonGodsList constructor;
     transient MP3 click;
 
     /**
@@ -50,7 +49,7 @@ public class ChallengerChoiceCards extends JDesktopPane{
      * @param instance2 Reference to the Board class instanced by the GUI
      * @param frame Reference to the JInternalFrame where the current JDesktopPane ChallengerChoiceCards will be inserted
      * @param dimensionFrame Size of the JInternalFrame
-     * @param numberOfPlayer Number of Players in play
+     * @param numberOfPlayer Number of Players in game
      * @throws IOException if the loading of the inscription or the descriptions of the gods was not successful
      */
 
@@ -66,10 +65,10 @@ public class ChallengerChoiceCards extends JDesktopPane{
         size30x10.setSize(frameSize.width * 30 / 100, frameSize.height * 10 / 100);
         click = new MP3(MUSIC + "Click.mp3");
 
-        final int xconst = frameSize.width * 9/100;
-        final int yconst = frameSize.height * 24/100;
+        final int xConst = frameSize.width * 9/100;
+        final int yConst = frameSize.height * 24/100;
 
-        costructor = new ButtonGodsList(frameSize, godList);
+        constructor = new ButtonGodsList(frameSize, godList);
 
         intFrame = internalAndBackgroundSetter(this, intFrameSize, buttonBackground);
 
@@ -81,15 +80,15 @@ public class ChallengerChoiceCards extends JDesktopPane{
         setButtonStyle(godList, intFrame, frameSize, intFrameSize, buttonBackground, cover, false, 1);
         buttonStyle();
 
-        JLabel choise;
+        JLabel choice;
         if (numberOfPlayer == 2){
-            choise = ImageHandler.setImage(TEXT + "choose_2_gods.png", 100, 100, size30x10.width, size30x10.height);
+            choice = ImageHandler.setImage(TEXT + "choose_2_gods.png", 100, 100, size30x10.width, size30x10.height);
         }
         else{
-            choise = ImageHandler.setImage(TEXT + "choose_3_gods.png", 100, 100, size30x10.width, size30x10.height);
+            choice = ImageHandler.setImage(TEXT + "choose_3_gods.png", 100, 100, size30x10.width, size30x10.height);
         }
-        choise.setBounds(((frameSize.width * 50/100) - (size30x10.width / 2)), frameSize.height * 10/100, size30x10.width, size30x10.height);
-        add(choise);
+        choice.setBounds(((frameSize.width * 50/100) - (size30x10.width / 2)), frameSize.height * 10/100, size30x10.width, size30x10.height);
+        add(choice);
 
         confirm.setBounds((int) (frameSize.width * 31.5/ 100), (frameSize.height * 81 / 100), (int) (getD().getWidth() * 13 / 100), (int) (getD().getHeight() * 5 / 100));
         add(confirm);
@@ -100,10 +99,10 @@ public class ChallengerChoiceCards extends JDesktopPane{
 
 
         if(numberOfPlayer == 2){
-            addForTwo(xconst, yconst, yconst);
+            addForTwo(xConst, yConst, yConst);
         }
         else{
-            addForThree(chronus, xconst, yconst, yconst);
+            addForThree(chronus, xConst, yConst, yConst);
         }
 
         JButton backBack = backgroundButton(0);
@@ -139,10 +138,10 @@ public class ChallengerChoiceCards extends JDesktopPane{
      * Method for placing cards if it's a game for two players
      * @param x Position x of the first card in the window
      * @param y Position y of the first card in the window
-     * @param yconst Constant of the y position of the first card in the window
+     * @param yConst Constant of the y position of the first card in the window
      */
 
-     private void addForTwo(int x, int y, int yconst){
+     private void addForTwo(int x, int y, int yConst){
          for (JButton button : godList){
             if(count == 0){
                 buttonPositioning(button, x, y);
@@ -154,7 +153,7 @@ public class ChallengerChoiceCards extends JDesktopPane{
                 count++;
             }
              else{
-                if (y == yconst){
+                if (y == yConst){
 
                     x = - frameSize.width * 3/100;
                     y = frameSize.height * 49/100;
@@ -170,10 +169,10 @@ public class ChallengerChoiceCards extends JDesktopPane{
      * @param chronus JButton of the god to be excluded in positioning
      * @param x Position x of the first card in the window
      * @param y Position y of the first card in the window
-     * @param yconst Constant of the y position of the first card in the window
+     * @param yConst Constant of the y position of the first card in the window
      */
 
-     private void addForThree(JButton chronus, int x, int y, int yconst){
+     private void addForThree(JButton chronus, int x, int y, int yConst){
          for (JButton button : godList){
              if(count == 0){
                 buttonPositioning(button, x, y);
@@ -185,7 +184,7 @@ public class ChallengerChoiceCards extends JDesktopPane{
                 count++;
             }
             else if(!button.getName().equalsIgnoreCase(chronus.getName())){
-                if (y == yconst){
+                if (y == yConst){
 
                     x = frameSize.width * 3/100;
                     y = frameSize.height * 49/100;

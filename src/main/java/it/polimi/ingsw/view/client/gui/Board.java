@@ -84,12 +84,12 @@ public class Board {
     JButton buttonChooseFirst = new JButton();
     JButton buttonChoosePower = new JButton();
     JButton buttonChat = new JButton();
-    JButton buttonEndturn = new JButton();
+    JButton buttonEndTurn = new JButton();
     JButton buttonMultiUse = new JButton();
     JButton buttonExit = new JButton();
     JButton backgroundFrameChat = new JButton();
     JButton backgroundFrameBuildings = new JButton();
-    JButton sfondoFramePower = new JButton();
+    JButton backgroundFramePower = new JButton();
     JButton tutorial = new JButton();
     JButton tutorial1 = new JButton();
     JButton tutorial2 = new JButton();
@@ -172,14 +172,14 @@ public class Board {
     JLabel lButtonChooseCards;
     JLabel lButtonChooseCardsPress;
     JLabel labelChooseFirst = new JLabel("Choose the first player");
-    JLabel lbuttonChooseFirst;
-    JLabel lbuttonChooseFirstPress;
+    JLabel lButtonChooseFirst;
+    JLabel lButtonChooseFirstPress;
     JLabel labelChoosePower = new JLabel("Choose your Power");
     JLabel lButtonChoosePower;
     JLabel lButtonChoosePowerPress;
     JLabel labelConfirmPlace = new JLabel("Confirm your positions");
     JLabel labelSeePower = new JLabel("See your power");
-    JLabel labelEndturn = new JLabel("End Turn");
+    JLabel labelEndTurn = new JLabel("End Turn");
     JLabel labelChooseWorker = new JLabel("Choose the worker");
     JLabel labelMove = new JLabel("Move");
     JLabel labelBuild = new JLabel("Build");
@@ -187,10 +187,10 @@ public class Board {
     JLabel lLvl2 = new JLabel("Lvl2");
     JLabel lLvl3 = new JLabel("Lvl3");
     JLabel lDome = new JLabel("Dome");
-    JLabel lbuttonEndturn;
-    JLabel lbuttonEndturnPress;
+    JLabel lButtonEndTurn;
+    JLabel lButtonEndTurnPress;
     JLabel border;
-    JLabel lwinner = null;
+    JLabel lWinner = null;
     JLabel lLoser1 = null;
     JLabel lLoser2 = null;
     JLabel lGlow;
@@ -230,7 +230,7 @@ public class Board {
     List<Integer> availableWorkersPositions = new ArrayList<>();
     List<Integer> availableMovePositions = new ArrayList<>();
     List<Integer> availableBuildPositions = new ArrayList<>();
-    int workerChoosen = 0;
+    int workerChosen = 0;
     int tileWorkerChosen = 0;
     Color selectWorkerBorder = Color.CYAN;
     Color selectedWorkerBorder = Color.RED;
@@ -240,12 +240,12 @@ public class Board {
     Color chooseTile = Color.YELLOW;
     int worker1 = 0;
     int worker2 = 0;
-    Response responce = null;
+    Response response = null;
     List<JLabel> myLabels = new ArrayList<>();
     List<JLabel> opponents1Labels = new ArrayList<>();
     List<JLabel> opponents2Labels = new ArrayList<>();
     boolean chatOpen = false;
-    int tileBuildChoosen = 0;
+    int tileBuildChosen = 0;
     private static final double BOLDDIMENSION = (25 * screenSize.getHeight() / 1080);
     List<String> constraint = new ArrayList<>();
     private static final MP3 click = new MP3(MUSIC + "Click.mp3");
@@ -261,7 +261,7 @@ public class Board {
      * Public constructor for the board
      * @param instance Reference to the client GUI class
      * @param screenSize Size of the screen
-     * @param numberOfPlayer Number of the Players in game
+     * @param numberOfPlayer Number of Players in game
      * @param players List of all the Players in game
      * @param players2 List of all the Players in game
      * @param nickname Name of the Player of the client
@@ -358,9 +358,9 @@ public class Board {
         lButtonChat = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_chat.png", 100, 100, frameSize.width * 5/100, frameSize.height * 7/100);
         lButtonChatPing = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_chat_ping.png", 100, 100, frameSize.width * 5/100, frameSize.height * 7/100);
         lButtonChooseCards = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_choose_cards.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
-        lbuttonChooseFirst = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_choose_first.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
+        lButtonChooseFirst = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_choose_first.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
         lButtonChoosePower = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_power.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
-        lbuttonEndturn = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_endturn.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
+        lButtonEndTurn = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_endturn.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
         lButtonBuildPress = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_build_press.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
         lButtonMovePress = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_move_press.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
         lButtonPowerPress = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_power_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
@@ -368,9 +368,9 @@ public class Board {
         lButtonChatPress = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_chat_press.png", 100, 100, frameSize.width * 5/100, frameSize.height * 7/100);
         lButtonChatPressPing = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_chat_press_ping.png", 100, 100, frameSize.width * 5/100, frameSize.height * 7/100);
         lButtonChooseCardsPress = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_choose_cards_press.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
-        lbuttonChooseFirstPress = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_choose_first_press.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
+        lButtonChooseFirstPress = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_choose_first_press.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
         lButtonChoosePowerPress = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_power_press.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
-        lbuttonEndturnPress = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_endturn_press.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
+        lButtonEndTurnPress = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_endturn_press.png", 100, 100, buttonSize7x7.width, buttonSize7x7.height);
         border = ImageHandler.setImage(LOSEBORDER, 100, 100, frameSize.width * 50/100, frameSize.height * 80/100);
         lGlow = ImageHandler.setImage(PODIUM + "glow.png", 100, 100, frameSize.width * 15/100, frameSize.height * 35/100);
         lTutorial = ImageHandler.setImage(RESOURCES_GRAPHICS + "tutorial.png", 100, 100, frameSize.width, frameSize.height);
@@ -393,25 +393,25 @@ public class Board {
         windowPower = new JWindow();
         windowPower.setBounds((int)(frameSize.width * 35.5/100), (frameSize.height * 37/100), internalFrameSize40x45.width, internalFrameSize40x45.height);
 
-        setInternalFrames(internalFrameChallenger1);
+        setDimensionInternalFrames(internalFrameChallenger1);
         BasicInternalFrameUI bi = (BasicInternalFrameUI) internalFrameChallenger1.getUI();
         bi.setNorthPane(null);
-        setInternalFrames(internalFrameChallenger2);
+        setDimensionInternalFrames(internalFrameChallenger2);
         BasicInternalFrameUI bi2 = (BasicInternalFrameUI) internalFrameChallenger2.getUI();
         bi2.setNorthPane(null);
-        setInternalFrames(internalFrameChooseCards);
+        setDimensionInternalFrames(internalFrameChooseCards);
         BasicInternalFrameUI bi3 = (BasicInternalFrameUI) internalFrameChooseCards.getUI();
         bi3.setNorthPane(null);
-        setInternalFrames(internalFramePlaceWorkers);
+        setDimensionInternalFrames(internalFramePlaceWorkers);
         BasicInternalFrameUI bi4 = (BasicInternalFrameUI) internalFrameChooseCards.getUI();
         bi4.setNorthPane(null);
-        setInternalFrames(internalFrameStartTurn);
+        setDimensionInternalFrames(internalFrameStartTurn);
         BasicInternalFrameUI bi5 = (BasicInternalFrameUI) internalFrameStartTurn.getUI();
         bi5.setNorthPane(null);
-        setInternalFrames(internalFrameUpdateBoard);
+        setDimensionInternalFrames(internalFrameUpdateBoard);
         BasicInternalFrameUI bi6 = (BasicInternalFrameUI) internalFrameUpdateBoard.getUI();
         bi6.setNorthPane(null);
-        setInternalFrames(internalFrameConstraint);
+        setDimensionInternalFrames(internalFrameConstraint);
         BasicInternalFrameUI bi7 = (BasicInternalFrameUI) internalFrameConstraint.getUI();
         bi7.setNorthPane(null);
 
@@ -629,8 +629,8 @@ public class Board {
         chatStyleButtons(backgroundFrameBuildings, coverBuildings);
         frameBuildings.getContentPane().add(backgroundFrameBuildings);
 
-        chatStyleButtons(sfondoFramePower, background);
-        windowPower.getContentPane().add(sfondoFramePower);
+        chatStyleButtons(backgroundFramePower, background);
+        windowPower.getContentPane().add(backgroundFramePower);
 
 
         resetPlayer();
@@ -664,7 +664,7 @@ public class Board {
                 labelChooseCards.setBounds((int) (frameSize.width * 82.5/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
                 labelChooseFirst.setBounds((frameSize.width * 80/100), (int) (frameSize.height * 27.5/100), size20x5.width, size20x5.height);
                 labelChoosePower.setBounds((frameSize.width * 81/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
-                labelEndturn.setBounds((int) (frameSize.width * 84.25/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
+                labelEndTurn.setBounds((int) (frameSize.width * 84.25/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
                 labelSeePower.setBounds((int) (frameSize.width * 78.75/100), (int) (frameSize.height * 52.75/100), size20x5.width, size20x5.height);
                 labelConfirmPlace.setBounds((frameSize.width * 80/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
                 labelChooseWorker.setBounds((frameSize.width * 81/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
@@ -753,7 +753,7 @@ public class Board {
                 labelChooseCards.setBounds((frameSize.width * 83/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
                 labelChooseFirst.setBounds((int) (frameSize.width * 80.5/100), (int) (frameSize.height * 27.5/100), size20x5.width, size20x5.height);
                 labelChoosePower.setBounds((int) (frameSize.width * 81.5/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
-                labelEndturn.setBounds((int) (frameSize.width * 84.5/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
+                labelEndTurn.setBounds((int) (frameSize.width * 84.5/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
                 labelSeePower.setBounds((int) (frameSize.width * 79.25/100), (int) (frameSize.height * 52.75/100), size20x5.width, size20x5.height);
                 labelConfirmPlace.setBounds((int) (frameSize.width * 80.5/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
                 labelChooseWorker.setBounds((int) (frameSize.width * 81.5/100), (int) (frameSize.height * 15.5/100), size20x5.width, size20x5.height);
@@ -899,7 +899,7 @@ public class Board {
         labelChooseFirst.setVisible(false);
         desktopPane.add(labelChooseFirst);
         buttonChooseFirst.setBounds((frameSize.width * 84/100), (frameSize.height * 34/100), buttonSize7x7.width, buttonSize7x7.height);
-        consoleStyleButtons(buttonChooseFirst, lbuttonChooseFirst);
+        consoleStyleButtons(buttonChooseFirst, lButtonChooseFirst);
 
         labelChoosePower.setFont(felixNormal);
         labelChoosePower.setVisible(false);
@@ -920,12 +920,12 @@ public class Board {
         desktopPane.add(labelChooseWorker);
 
 
-        labelEndturn.setFont(felixNormal);
-        labelEndturn.setVisible(false);
-        desktopPane.add(labelEndturn);
-        buttonEndturn.setBounds((frameSize.width * 84/100), (frameSize.height * 22/100), buttonSize7x7.width, buttonSize7x7.height);
-        consoleStyleButtons(buttonEndturn, lbuttonEndturn);
-        buttonEndturn.addActionListener(new EndTurn());
+        labelEndTurn.setFont(felixNormal);
+        labelEndTurn.setVisible(false);
+        desktopPane.add(labelEndTurn);
+        buttonEndTurn.setBounds((frameSize.width * 84/100), (frameSize.height * 22/100), buttonSize7x7.width, buttonSize7x7.height);
+        consoleStyleButtons(buttonEndTurn, lButtonEndTurn);
+        buttonEndTurn.addActionListener(new EndTurn());
 
 
 
@@ -1137,13 +1137,13 @@ public class Board {
 
     /**
      * Method that set the dimension of the JInternalFrame provided
-     * @param i JInternalFrame provided
+     * @param intFrame JInternalFrame provided
      */
 
-    private void setInternalFrames(JInternalFrame i){
-        i.setPreferredSize(sideSize);
-        i.setBounds(((frameSize.width * 50/100) - (internalFrameSize90x90.width * 50/100)), ((frameSize.height * 46/100) - (internalFrameSize90x90.height * 50/100)), internalFrameSize90x90.width, internalFrameSize90x90.height);
-        internalFrameSetUp(i);
+    private void setDimensionInternalFrames(JInternalFrame intFrame){
+        intFrame.setPreferredSize(sideSize);
+        intFrame.setBounds(((frameSize.width * 50/100) - (internalFrameSize90x90.width * 50/100)), ((frameSize.height * 46/100) - (internalFrameSize90x90.height * 50/100)), internalFrameSize90x90.width, internalFrameSize90x90.height);
+        internalFrameSetUp(intFrame);
     }
 
     /**
@@ -1217,7 +1217,7 @@ public class Board {
     }
 
     /**
-     * Method that add the ColorBorder MouseListener to the boards buttons
+     * Method that add the ColorBorder MouseListener to the board buttons
      */
 
     private void addColorBorderToMap(){
@@ -1237,7 +1237,7 @@ public class Board {
     }
 
     /**
-     * Method that remove the ColorBorder MouseListener to the boards buttons
+     * Method that remove the ColorBorder MouseListener to the board buttons
      */
 
     private void removeColorBorderToMap(){
@@ -1258,7 +1258,7 @@ public class Board {
     }
 
     /**
-     * Method that reset the presence of Players in the Board
+     * Method that reset the presence of Players on the Board
      */
 
     private void resetPlayer(){
@@ -1268,7 +1268,7 @@ public class Board {
     }
 
     /**
-     * Method that reset the presence of the client Workers
+     * Method that reset the presence of the client Workers on the Board
      */
 
     private void resetMyWorkers(){
@@ -1413,13 +1413,13 @@ public class Board {
             labelChooseCards.setVisible(false);
             buttonChooseFirst.setVisible(false);
             labelChooseFirst.setVisible(false);
-            setVisibleEndturn(true);
+            setVisibleEndTurn(true);
         }
     }
 
     /**
      * Method that visualize the phase message Choose your god
-     * @param cards List of god that can be selected
+     * @param cards List of gods that can be selected
      * @param name Name of the Player that is actually choosing
      * @param bool Boolean saying if the client Player is the one who has to choose
      */
@@ -1468,7 +1468,7 @@ public class Board {
     }
 
     /**
-     * Method that communicate the god chosen by the Player
+     * Method that communicate the god chosen by the client Player
      */
 
     public void callCardChoiceResponse(){
@@ -1487,7 +1487,7 @@ public class Board {
                 LOGGER.severe(e.getMessage());
             }
             leftGod.setIcon(coverLeftGod.getIcon());
-            setVisibleEndturn(true);
+            setVisibleEndTurn(true);
         }
     }
 
@@ -1521,7 +1521,7 @@ public class Board {
     }
 
     /**
-     * Class that implements ActionListener that visualize the JInternalFrame that that show the god chosen
+     * Class that implements ActionListener that visualize the JInternalFrame that show the god chosen
      */
 
     private class ShowYourPower implements ActionListener{
@@ -1537,15 +1537,15 @@ public class Board {
             c.setIcon(lButtonPowerPress.getIcon());
             background = new JLabel(coverBackground.getIcon());
             windowPower.getContentPane().removeAll();
-            chatStyleButtons(sfondoFramePower, background);
-            windowPower.getContentPane().add(sfondoFramePower);
+            chatStyleButtons(backgroundFramePower, background);
+            windowPower.getContentPane().add(backgroundFramePower);
             c.addActionListener(new HidePower());
             windowPower.setVisible(true);
         }
     }
 
     /**
-     * Class that implements ActionListener that hide the JInternalFrame that that show the god chosen
+     * Class that implements ActionListener that hide the JInternalFrame that show the god chosen
      */
 
     private class HidePower implements  ActionListener{
@@ -1596,7 +1596,7 @@ public class Board {
     }
 
     /**
-     * Method that add the PlaceWorker ActionListener to the boards buttons
+     * Method that add the PlaceWorker ActionListener to the board buttons
      */
 
     private void addPlaceMove(){
@@ -1710,7 +1710,7 @@ public class Board {
             labelConfirmPlace.setVisible(false);
             eliminateActionClass(buttonMultiUse, ConfirmPlace.class);
             removePlaceWorker();
-            setVisibleEndturn(true);
+            setVisibleEndTurn(true);
         }
 
         private List<Integer> modifiedTiles(){
@@ -1777,7 +1777,7 @@ public class Board {
     }
 
     /**
-     * Class that extends MouseAdapter to show the description of the Opponent god as the mouse cursor moves over the opponentButton
+     * Class that extends MouseAdapter that show the description of the Opponent god as the mouse cursor moves over the opponentButton
      */
 
     private class SeeEnemyPower extends MouseAdapter {
@@ -1791,8 +1791,8 @@ public class Board {
             }
             background = new JLabel(coverBackground.getIcon());
             windowPower.getContentPane().removeAll();
-            chatStyleButtons(sfondoFramePower, background);
-            windowPower.getContentPane().add(sfondoFramePower);
+            chatStyleButtons(backgroundFramePower, background);
+            windowPower.getContentPane().add(backgroundFramePower);
             windowPower.setVisible(true);
         }
         @Override
@@ -1822,7 +1822,7 @@ public class Board {
             yourTurn.play();
             labelChooseWorker.setVisible(true);
             buttonMultiUse.setVisible(true);
-            buttonMultiUse.addActionListener(new AvaiableWorkers());
+            buttonMultiUse.addActionListener(new AvailableWorkers());
             addColorBorderToMap();
         }
         else{
@@ -1843,7 +1843,7 @@ public class Board {
      * Class that implements ActionListener that show which worker you can choose on the Board
      */
 
-    private class AvaiableWorkers implements ActionListener{
+    private class AvailableWorkers implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
             if (!availableMovePositions.isEmpty()){
@@ -1900,7 +1900,7 @@ public class Board {
             mapButtons[pos].setBorderPainted(true);
             labelChooseWorker.setVisible(false);
             buttonMultiUse.setVisible(false);
-            workerChoosen = mapMyWorkers[pos];
+            workerChosen = mapMyWorkers[pos];
             tileWorkerChosen = pos;
             availableWorkersPositions.clear();
         }
@@ -1916,7 +1916,7 @@ public class Board {
         setVisibleBuild(true);
         setEnableMove(false);
         setEnableBuild(false);
-        setEnableEndturn(false);
+        setEnableEndTurn(false);
         for (MessageType mess : actions){
             switch (mess){
                 case BUILDWORKER:
@@ -1932,7 +1932,7 @@ public class Board {
                     break;
 
                 case ENDTURN:
-                    setEnableEndturn(true);
+                    setEnableEndTurn(true);
                     break;
                 default:
             }
@@ -1969,7 +1969,7 @@ public class Board {
         public void actionPerformed(ActionEvent e) {
             place.play();
             JButton c = (JButton) e.getSource();
-            responce = gui.moveWorker(Integer.parseInt(c.getName()) + 1);
+            response = gui.moveWorker(Integer.parseInt(c.getName()) + 1);
             for (Integer x : availableMovePositions){
                 eliminateActionClass(mapButtons[x - 1], Move.class);
                 mapButtons[x - 1].setBorderPainted(false);
@@ -1979,8 +1979,8 @@ public class Board {
             setVisibleChoose(false);
             setVisibleMove(false);
             setVisibleBuild(false);
-            setVisibleEndturn(true);
-            gui.mapNextAction(responce);
+            setVisibleEndTurn(true);
+            gui.mapNextAction(response);
         }
     }
 
@@ -2027,7 +2027,7 @@ public class Board {
     }
 
     /**
-     * Method that display the modification on the Board
+     * Method that display the modifications on the Board
      * @param squares Positions modified
      * @param isMe Boolean saying if the client Player is the one who has modified the Board
      */
@@ -2088,9 +2088,9 @@ public class Board {
     }
 
     /**
-     * Method that set the icon in the position provided with the icon list provided according to the Building in that position
+     * Method that set the icon in the position provided with the icons Player list provided according to the Building in that position
      * @param square Position provided
-     * @param list Icon list provided
+     * @param list Icons Player list provided
      */
 
     private void setPlayerIconToMap(Square square, List<JLabel> list){
@@ -2145,7 +2145,7 @@ public class Board {
         @Override
         public void actionPerformed(ActionEvent e) {
             gui.endTurn();
-            setVisibleEndturn(false);
+            setVisibleEndTurn(false);
             setVisibleChoose(false);
             setVisibleMove(false);
             setVisibleBuild(false);
@@ -2158,9 +2158,9 @@ public class Board {
      * @param bool Boolean saying to visualize or hide the button
      */
 
-    private void setVisibleEndturn(boolean bool){
-        labelEndturn.setVisible(bool);
-        buttonEndturn.setVisible(bool);
+    private void setVisibleEndTurn(boolean bool){
+        labelEndTurn.setVisible(bool);
+        buttonEndTurn.setVisible(bool);
     }
 
     /**
@@ -2198,8 +2198,8 @@ public class Board {
      * @param bool Boolean saying to enable or disable the button
      */
 
-    private void setEnableEndturn(boolean bool){
-        buttonEndturn.setEnabled(bool);
+    private void setEnableEndTurn(boolean bool){
+        buttonEndTurn.setEnabled(bool);
     }
 
     /**
@@ -2291,7 +2291,7 @@ public class Board {
         try {
             if (winnerBool) {
                 border = ImageHandler.setImage(PODIUM + "win_border.png", 100, 100, frameSize.width * 50/100, frameSize.height * 80/100);
-                lwinner = ImageHandler.setImage(PODIUM + mePlayer.getPower().getName() + PNG, 100, 100, frameSize.width * 30/100, frameSize.height * 50/100);
+                lWinner = ImageHandler.setImage(PODIUM + mePlayer.getPower().getName() + PNG, 100, 100, frameSize.width * 30/100, frameSize.height * 50/100);
                 lLoser1 = ImageHandler.setImage(PODIUM + opponent1.getName() + PNG, 100, 100, frameSize.width * 30/100, frameSize.height * 50/100);
                 if (numberOfPlayers == 3){
                     lLoser2 = ImageHandler.setImage(PODIUM + opponent2.getName() + PNG, 100, 100, frameSize.width * 30/100, frameSize.height * 50/100);
@@ -2300,7 +2300,7 @@ public class Board {
             }
             else {
                 border = ImageHandler.setImage(LOSEBORDER, 100, 100, frameSize.width * 50/100, frameSize.height * 80/100);
-                lwinner = ImageHandler.setImage(PODIUM + opponent1.getName() + PNG, 100, 100, frameSize.width * 30/100, frameSize.height * 50/100);
+                lWinner = ImageHandler.setImage(PODIUM + opponent1.getName() + PNG, 100, 100, frameSize.width * 30/100, frameSize.height * 50/100);
                 lLoser1 = ImageHandler.setImage(PODIUM + mePlayer.getPower().getName() + PNG, 100, 100, frameSize.width * 30/100, frameSize.height * 50/100);
                 if (numberOfPlayers == 3){
                     lLoser2 = ImageHandler.setImage(PODIUM + opponent2.getName() + PNG, 100, 100, frameSize.width * 30/100, frameSize.height * 50/100);
@@ -2311,7 +2311,7 @@ public class Board {
             LOGGER.severe(ioException.getMessage());
         }
         winLose.setIcon(border.getIcon());
-        winner.setIcon(lwinner.getIcon());
+        winner.setIcon(lWinner.getIcon());
         loser1.setIcon(lLoser1.getIcon());
 
 
@@ -2349,7 +2349,7 @@ public class Board {
     }
 
     /**
-     * Method that change the JInternalFrame for the visualization of the power if was activated/deactivated a limitation for other god
+     * Method that change the JInternalFrame for the visualization of the power if was activated/deactivated a limitation caused by other god
      * @param name Name of the god that activated the limitation
      * @param isEliminated Boolean saying if the limitation is deleted or added
      */
@@ -2452,8 +2452,8 @@ public class Board {
         eliminateAllActionClass(buttonPower);
         eliminateAllMouseClass(buttonMultiUse);
         eliminateAllActionClass(buttonMultiUse);
-        eliminateAllMouseClass(buttonEndturn);
-        eliminateAllActionClass(buttonEndturn);
+        eliminateAllMouseClass(buttonEndTurn);
+        eliminateAllActionClass(buttonEndTurn);
         eliminateAllMouseClass(buttonMove);
         eliminateAllActionClass(buttonMove);
         eliminateAllMouseClass(buttonBuild);
@@ -2473,7 +2473,7 @@ public class Board {
     }
 
     /**
-     * Class that implements ActionListener that visualize the buildable position of the chosen worker
+     * Class that implements ActionListener that visualize the buildable positions of the chosen worker
      */
 
     private class AddBuildLvl implements ActionListener{
@@ -2517,7 +2517,7 @@ public class Board {
         public void actionPerformed(ActionEvent e) {
             JButton c = (JButton) e.getSource();
             removeBuildLvl();
-            tileBuildChoosen = Integer.parseInt(c.getName());
+            tileBuildChosen = Integer.parseInt(c.getName());
             frameBuildings.setVisible(true);
             if (gui.getLevel(Integer.parseInt(c.getName()) + 1) == 0){
                 buttonLvl1.addActionListener(new BuildLvl1());
@@ -2568,20 +2568,20 @@ public class Board {
     }
 
     /**
-     * Class that implements ActionListener that communicate and build the First level build in the selected position
+     * Class that implements ActionListener that communicate to the server and build the First level build in the selected position
      */
 
     private class BuildLvl1 implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
             build.play();
-            responce = gui.buildWorker(tileBuildChoosen + 1, Building.LVL1);
+            response = gui.buildWorker(tileBuildChosen + 1, Building.LVL1);
 
-            if (mePlayer.getPower().getName().equalsIgnoreCase("zeus") && mapMyWorkers[tileBuildChoosen] != 0){
-                mapButtons[tileBuildChoosen].setIcon(myLabels.get(1).getIcon());
+            if (mePlayer.getPower().getName().equalsIgnoreCase("zeus") && mapMyWorkers[tileBuildChosen] != 0){
+                mapButtons[tileBuildChosen].setIcon(myLabels.get(1).getIcon());
             }
             else {
-                mapButtons[tileBuildChoosen].setIcon(lvl1.getIcon());
+                mapButtons[tileBuildChosen].setIcon(lvl1.getIcon());
             }
 
             frameBuildings.setVisible(false);
@@ -2589,28 +2589,28 @@ public class Board {
             setVisibleChoose(false);
             setVisibleMove(false);
             setVisibleBuild(false);
-            setVisibleEndturn(true);
+            setVisibleEndTurn(true);
             removeBuildBorder(availableBuildPositions);
             removeBuildLvl();
-            gui.mapNextAction(responce);
+            gui.mapNextAction(response);
         }
     }
 
     /**
-     * Class that implements ActionListener that communicate and build the Second level build in the selected position
+     * Class that implements ActionListener that communicate to the server and build the Second level build in the selected position
      */
 
     private class BuildLvl2 implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
             build.play();
-            responce = gui.buildWorker(tileBuildChoosen + 1, Building.LVL2);
+            response = gui.buildWorker(tileBuildChosen + 1, Building.LVL2);
 
-            if (mePlayer.getPower().getName().equalsIgnoreCase("zeus") && mapMyWorkers[tileBuildChoosen] != 0){
-                mapButtons[tileBuildChoosen].setIcon(myLabels.get(2).getIcon());
+            if (mePlayer.getPower().getName().equalsIgnoreCase("zeus") && mapMyWorkers[tileBuildChosen] != 0){
+                mapButtons[tileBuildChosen].setIcon(myLabels.get(2).getIcon());
             }
             else {
-                mapButtons[tileBuildChoosen].setIcon(lvl2.getIcon());
+                mapButtons[tileBuildChosen].setIcon(lvl2.getIcon());
             }
 
 
@@ -2619,28 +2619,28 @@ public class Board {
             setVisibleChoose(false);
             setVisibleMove(false);
             setVisibleBuild(false);
-            setVisibleEndturn(true);
+            setVisibleEndTurn(true);
             removeBuildBorder(availableBuildPositions);
             removeBuildLvl();
-            gui.mapNextAction(responce);
+            gui.mapNextAction(response);
         }
     }
 
     /**
-     * Class that implements ActionListener that communicate and build the Third level build in the selected position
+     * Class that implements ActionListener that communicate to the server and build the Third level build in the selected position
      */
 
     private class BuildLvl3 implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
             build.play();
-            responce = gui.buildWorker(tileBuildChoosen + 1, Building.LVL3);
+            response = gui.buildWorker(tileBuildChosen + 1, Building.LVL3);
 
-            if (mePlayer.getPower().getName().equalsIgnoreCase("zeus") && mapMyWorkers[tileBuildChoosen] != 0){
-                mapButtons[tileBuildChoosen].setIcon(myLabels.get(3).getIcon());
+            if (mePlayer.getPower().getName().equalsIgnoreCase("zeus") && mapMyWorkers[tileBuildChosen] != 0){
+                mapButtons[tileBuildChosen].setIcon(myLabels.get(3).getIcon());
             }
             else {
-                mapButtons[tileBuildChoosen].setIcon(lvl3.getIcon());
+                mapButtons[tileBuildChosen].setIcon(lvl3.getIcon());
             }
 
             frameBuildings.setVisible(false);
@@ -2648,23 +2648,23 @@ public class Board {
             setVisibleChoose(false);
             setVisibleMove(false);
             setVisibleBuild(false);
-            setVisibleEndturn(true);
+            setVisibleEndTurn(true);
             removeBuildBorder(availableBuildPositions);
             removeBuildLvl();
-            gui.mapNextAction(responce);
+            gui.mapNextAction(response);
         }
     }
 
     /**
-     * Class that implements ActionListener that communicate and build the Dome build in the selected position
+     * Class that implements ActionListener that communicate to the server and build the Dome build in the selected position
      */
 
     private class BuildDome implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
             tower.play();
-            responce = gui.buildWorker(tileBuildChoosen + 1, Building.DOME);
-            mapButtons[tileBuildChoosen].setIcon(lvl3Dome.getIcon());
+            response = gui.buildWorker(tileBuildChosen + 1, Building.DOME);
+            mapButtons[tileBuildChosen].setIcon(lvl3Dome.getIcon());
 
 
             frameBuildings.setVisible(false);
@@ -2672,50 +2672,50 @@ public class Board {
             setVisibleChoose(false);
             setVisibleMove(false);
             setVisibleBuild(false);
-            setVisibleEndturn(true);
+            setVisibleEndTurn(true);
             removeBuildBorder(availableBuildPositions);
             removeBuildLvl();
-            gui.mapNextAction(responce);
+            gui.mapNextAction(response);
         }
     }
 
     /**
-     * Class that implements ActionListener that communicate and build the Dome at the current level build in the selected position
+     * Class that implements ActionListener that communicate to the server and build the Dome at the current level build in the selected position
      */
 
     private class BuildDomeAtlas implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (gui.getLevel(tileBuildChoosen + 1) == 3){
+            if (gui.getLevel(tileBuildChosen + 1) == 3){
                 tower.play();
             }
             else {
                 build.play();
             }
-            if (gui.getLevel(tileBuildChoosen + 1) == 0){
-                mapButtons[tileBuildChoosen].setIcon(dome.getIcon());
+            if (gui.getLevel(tileBuildChosen + 1) == 0){
+                mapButtons[tileBuildChosen].setIcon(dome.getIcon());
             }
-            else if (gui.getLevel(tileBuildChoosen + 1) == 1){
-                mapButtons[tileBuildChoosen].setIcon(lvl1Dome.getIcon());
+            else if (gui.getLevel(tileBuildChosen + 1) == 1){
+                mapButtons[tileBuildChosen].setIcon(lvl1Dome.getIcon());
             }
-            else if (gui.getLevel(tileBuildChoosen + 1) == 2){
-                mapButtons[tileBuildChoosen].setIcon(lvl2Dome.getIcon());
+            else if (gui.getLevel(tileBuildChosen + 1) == 2){
+                mapButtons[tileBuildChosen].setIcon(lvl2Dome.getIcon());
             }
-            else if (gui.getLevel(tileBuildChoosen + 1) == 3){
-                mapButtons[tileBuildChoosen].setIcon(lvl3Dome.getIcon());
+            else if (gui.getLevel(tileBuildChosen + 1) == 3){
+                mapButtons[tileBuildChosen].setIcon(lvl3Dome.getIcon());
             }
 
-            responce = gui.buildWorker(tileBuildChoosen + 1, Building.DOME);
+            response = gui.buildWorker(tileBuildChosen + 1, Building.DOME);
 
             frameBuildings.setVisible(false);
             enableLevels(false);
             setVisibleChoose(false);
             setVisibleMove(false);
             setVisibleBuild(false);
-            setVisibleEndturn(true);
+            setVisibleEndTurn(true);
             removeBuildBorder(availableBuildPositions);
             removeBuildLvl();
-            gui.mapNextAction(responce);
+            gui.mapNextAction(response);
         }
     }
 
@@ -2752,7 +2752,7 @@ public class Board {
      * @return BoldDimension
      */
 
-    public static double getBolddimension() {
+    public static double getBoldDimension() {
         return BOLDDIMENSION;
     }
 
@@ -2781,13 +2781,13 @@ public class Board {
                 buttonChooseCards.setIcon(lButtonChooseCardsPress.getIcon());
             }
             else if (buttonChooseFirst == c) {
-                buttonChooseFirst.setIcon(lbuttonChooseFirstPress.getIcon());
+                buttonChooseFirst.setIcon(lButtonChooseFirstPress.getIcon());
             }
             else if (buttonChoosePower == c) {
                 buttonChoosePower.setIcon(lButtonChoosePowerPress.getIcon());
             }
-            else if (buttonEndturn == c) {
-                buttonEndturn.setIcon(lbuttonEndturnPress.getIcon());
+            else if (buttonEndTurn == c) {
+                buttonEndTurn.setIcon(lButtonEndTurnPress.getIcon());
             }
 
         }
@@ -2812,13 +2812,13 @@ public class Board {
                 buttonChooseCards.setIcon(lButtonChooseCards.getIcon());
             }
             else if (buttonChooseFirst == c) {
-                buttonChooseFirst.setIcon(lbuttonChooseFirst.getIcon());
+                buttonChooseFirst.setIcon(lButtonChooseFirst.getIcon());
             }
             else if (buttonChoosePower == c) {
                 buttonChoosePower.setIcon(lButtonChoosePower.getIcon());
             }
-            else if (buttonEndturn == c) {
-                buttonEndturn.setIcon(lbuttonEndturn.getIcon());
+            else if (buttonEndTurn == c) {
+                buttonEndTurn.setIcon(lButtonEndTurn.getIcon());
             }
         }
     }

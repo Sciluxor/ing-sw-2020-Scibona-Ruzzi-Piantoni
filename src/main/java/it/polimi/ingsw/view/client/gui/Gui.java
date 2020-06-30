@@ -142,7 +142,7 @@ public class Gui extends ClientGameController {
      * Method that change from login to lobby pane
      */
 
-    public void logginToLobby(){
+    public void loginToLobby(){
         frame.remove(login);
         try {
             lobby = new LobbyGui(this, d, numberOfPlayers, players);

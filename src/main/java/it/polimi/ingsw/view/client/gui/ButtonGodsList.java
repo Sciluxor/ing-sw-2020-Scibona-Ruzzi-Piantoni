@@ -8,7 +8,7 @@ import java.util.List;
 import static it.polimi.ingsw.utils.ConstantsContainer.GODS;
 
 /**
- * Class for building the deck of cards as single JButtons
+ * Class for building the deck of cards as a List of single JButtons
  * @author Luigi Scibona
  * @version 1.0
  * @since 2020/06/13
@@ -26,7 +26,7 @@ public class ButtonGodsList {
     public ButtonGodsList(Dimension dimensionFrame, List<JButton> buttons) throws IOException {
 
         Dimension cardSize = new Dimension();
-        cardSize.setSize((int) (dimensionFrame.getWidth() * 9/100), (int) (dimensionFrame.getHeight() * 23.15/100)); //(9, 22)
+        cardSize.setSize((int) (dimensionFrame.getWidth() * 9/100), (int) (dimensionFrame.getHeight() * 23.15/100));
 
         JButton apollo = new JButton();
         apollo.setName("apollo");
@@ -72,34 +72,34 @@ public class ButtonGodsList {
         buttons.add(zeus);
 
 
-        JLabel lapollo = ImageHandler.setImage(GODS + "apollo.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel lartemis = ImageHandler.setImage(GODS + "artemis.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel lathena = ImageHandler.setImage(GODS + "athena.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel latlas = ImageHandler.setImage(GODS + "atlas.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel lchronus = ImageHandler.setImage(GODS + "chronus.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel ldemeter = ImageHandler.setImage(GODS + "demeter.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel lhepha = ImageHandler.setImage(GODS + "hephaestus.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel lhera = ImageHandler.setImage(GODS + "hera.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel lhestia = ImageHandler.setImage(GODS + "hestia.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel lhypnus = ImageHandler.setImage(GODS + "hypnus.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel lmino = ImageHandler.setImage(GODS + "minotaur.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel lpan = ImageHandler.setImage(GODS + "pan.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel lprome = ImageHandler.setImage(GODS + "prometheus.png", 100, 100, cardSize.width, cardSize.height);
-        JLabel lzeus = ImageHandler.setImage(GODS + "zeus.png", 100, 100, cardSize.width, cardSize.height);
+        JLabel lApollo = ImageHandler.setImage(GODS + "apollo.png", 100, 100, cardSize.width, cardSize.height);
+        JLabel lArtemis = ImageHandler.setImage(GODS + "artemis.png", 100, 100, cardSize.width, cardSize.height);
+        JLabel lAthena = ImageHandler.setImage(GODS + "athena.png", 100, 100, cardSize.width, cardSize.height);
+        JLabel lAtlas = ImageHandler.setImage(GODS + "atlas.png", 100, 100, cardSize.width, cardSize.height);
+        JLabel lChronus = ImageHandler.setImage(GODS + "chronus.png", 100, 100, cardSize.width, cardSize.height);
+        JLabel lDemeter = ImageHandler.setImage(GODS + "demeter.png", 100, 100, cardSize.width, cardSize.height);
+        JLabel lHepha = ImageHandler.setImage(GODS + "hephaestus.png", 100, 100, cardSize.width, cardSize.height);
+        JLabel lHera = ImageHandler.setImage(GODS + "hera.png", 100, 100, cardSize.width, cardSize.height);
+        JLabel lHestia = ImageHandler.setImage(GODS + "hestia.png", 100, 100, cardSize.width, cardSize.height);
+        JLabel lHypnus = ImageHandler.setImage(GODS + "hypnus.png", 100, 100, cardSize.width, cardSize.height);
+        JLabel lMino = ImageHandler.setImage(GODS + "minotaur.png", 100, 100, cardSize.width, cardSize.height);
+        JLabel lPan = ImageHandler.setImage(GODS + "pan.png", 100, 100, cardSize.width, cardSize.height);
+        JLabel lProme = ImageHandler.setImage(GODS + "prometheus.png", 100, 100, cardSize.width, cardSize.height);
+        JLabel lZeus = ImageHandler.setImage(GODS + "zeus.png", 100, 100, cardSize.width, cardSize.height);
 
-        apollo.setIcon(lapollo.getIcon());
-        artemis.setIcon(lartemis.getIcon());
-        athena.setIcon(lathena.getIcon());
-        atlas.setIcon(latlas.getIcon());
-        chronus.setIcon(lchronus.getIcon());
-        demeter.setIcon(ldemeter.getIcon());
-        hepha.setIcon(lhepha.getIcon());
-        hera.setIcon(lhera.getIcon());
-        hestia.setIcon(lhestia.getIcon());
-        hypnus.setIcon(lhypnus.getIcon());
-        mino.setIcon(lmino.getIcon());
-        pan.setIcon(lpan.getIcon());
-        prome.setIcon(lprome.getIcon());
-        zeus.setIcon(lzeus.getIcon());
+        apollo.setIcon(lApollo.getIcon());
+        artemis.setIcon(lArtemis.getIcon());
+        athena.setIcon(lAthena.getIcon());
+        atlas.setIcon(lAtlas.getIcon());
+        chronus.setIcon(lChronus.getIcon());
+        demeter.setIcon(lDemeter.getIcon());
+        hepha.setIcon(lHepha.getIcon());
+        hera.setIcon(lHera.getIcon());
+        hestia.setIcon(lHestia.getIcon());
+        hypnus.setIcon(lHypnus.getIcon());
+        mino.setIcon(lMino.getIcon());
+        pan.setIcon(lPan.getIcon());
+        prome.setIcon(lProme.getIcon());
+        zeus.setIcon(lZeus.getIcon());
     }
 }

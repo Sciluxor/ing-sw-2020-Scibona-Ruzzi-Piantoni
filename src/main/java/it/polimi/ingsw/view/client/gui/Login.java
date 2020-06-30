@@ -118,7 +118,7 @@ public class Login extends JPanel{
                 gui.setNumberOfPlayers((Integer.parseInt(numberPlayers.getText())));
                 try {
                     gui.openConnection(nickname.getText(), (Integer.parseInt(numberPlayers.getText())), address.getText(), (Integer.parseInt(port.getText())));
-                    gui.logginToLobby();
+                    gui.loginToLobby();
                 } catch (ConnectException connectException) {
                     LOGGER.severe(connectException.getMessage());
                     gui.backToLogin(true);
@@ -130,7 +130,7 @@ public class Login extends JPanel{
                     gui.setNamePlayer(nickname.getText());
                     gui.setNumberOfPlayers((Integer.parseInt(numberPlayers.getText())));
                     gui.newGame(nickname.getText(), (Integer.parseInt(numberPlayers.getText())));
-                    gui.logginToLobby();
+                    gui.loginToLobby();
                 }
             }
         }

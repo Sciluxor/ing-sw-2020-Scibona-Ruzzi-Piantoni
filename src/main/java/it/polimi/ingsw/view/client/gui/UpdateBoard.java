@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import static it.polimi.ingsw.utils.ConstantsContainer.TEXT;
-import static it.polimi.ingsw.view.client.gui.Board.getBolddimension;
+import static it.polimi.ingsw.view.client.gui.Board.getBoldDimension;
 import static it.polimi.ingsw.view.client.gui.Gui.*;
 import static it.polimi.ingsw.view.client.gui.GuiUtils.backAndCloseSetter;
 
@@ -27,7 +27,7 @@ public class UpdateBoard extends JDesktopPane {
     Dimension buttonSize = new Dimension();
     MyButton close = new MyButton(3);
     JInternalFrame intFrame;
-    double bold = getBolddimension();
+    double bold = getBoldDimension();
     String nameChoosing;
 
     /**

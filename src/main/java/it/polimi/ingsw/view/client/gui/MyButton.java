@@ -55,7 +55,7 @@ public class MyButton extends JButton{
             lkeep = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_keep.png", 100, 100, labelSize.width, labelSize.height);
             lkeepPress = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_keep_press.png", 100, 100, labelSize.width, labelSize.height);
             lcontinue = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_continue.png", 100, 100, labelSize.width, labelSize.height);
-            lcontinuePress = ImageHandler.setImage(RESOURCES_GRAPHICS + " button_continue_press.png", 100, 100, labelSize.width, labelSize.height);
+            lcontinuePress = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_continue_press.png", 100, 100, labelSize.width, labelSize.height);
         } catch (IOException e) {
             LOGGER.severe(e.getMessage());
         }
