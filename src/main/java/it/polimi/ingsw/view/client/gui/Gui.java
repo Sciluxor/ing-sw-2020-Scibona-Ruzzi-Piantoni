@@ -8,12 +8,15 @@ import it.polimi.ingsw.network.message.MessageType;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
 import static it.polimi.ingsw.utils.ConstantsContainer.MUSIC;
+import static it.polimi.ingsw.view.client.gui.GuiUtils.eliminateAllActionClass;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 /**
@@ -37,7 +40,7 @@ public class Gui extends ClientGameController {
     JPanel login = null;
     LobbyGui lobby = null;
     JPanel lobbyPanel = null;
-    Board board;
+    Board board = null;
     PopUp constructorPopUp = null;
     JFrame popUp = new JFrame();
     int panelInUse = 0;
@@ -221,7 +224,9 @@ public class Gui extends ClientGameController {
     public void nickUsed() {
         SwingUtilities.invokeLater(() -> {
             newPopUp();
+            lobby.backButton.setEnabled(false);
             popUp.setVisible(true);
+            popUp.setAlwaysOnTop(true);
             popUp.repaint();
             popUp.validate();
         });
@@ -233,6 +238,8 @@ public class Gui extends ClientGameController {
             popUp.remove(lobbyPanel);
             lobbyPanel = constructorPopUp.lobbyPopUp(1);
             popUp.add(lobbyPanel);
+            lobby.backButton.setEnabled(false);
+            popUp.setAlwaysOnTop(true);
             popUp.setVisible(true);
             popUp.repaint();
             popUp.validate();
@@ -242,10 +249,17 @@ public class Gui extends ClientGameController {
     @Override
     public void onPingDisconnection() {
         SwingUtilities.invokeLater(() -> {
-            this.lobby.backButton.setEnabled(false);
+            if (board != null){
+                board.eliminateAllFromAll();
+                eliminateAllActionClass(board.buttonChat);
+            }
+            else{
+                this.lobby.backButton.setEnabled(false);
+            }
             popUp.remove(lobbyPanel);
             lobbyPanel = constructorPopUp.lobbyPopUp(2);
             popUp.add(lobbyPanel);
+            popUp.setAlwaysOnTop(true);
             popUp.repaint();
             popUp.validate();
         });
@@ -258,6 +272,7 @@ public class Gui extends ClientGameController {
             lobbyPanel = constructorPopUp.lobbyPopUp(3);
             popUp.add(lobbyPanel);
             popUp.setVisible(true);
+            popUp.setAlwaysOnTop(true);
             popUp.repaint();
             popUp.validate();
         });
@@ -274,6 +289,7 @@ public class Gui extends ClientGameController {
             constructorPopUp = new PopUp(this, d, stopper);
             if (board != null) {
                 board.eliminateAllFromAll();
+                eliminateAllActionClass(board.buttonChat);
             }
             popUp.remove(lobbyPanel);
             if (isYourPlayer){
@@ -284,6 +300,7 @@ public class Gui extends ClientGameController {
             }
             popUp.add(lobbyPanel);
             popUp.setVisible(true);
+            popUp.setAlwaysOnTop(true);
             popUp.repaint();
             popUp.validate();
         });
@@ -364,6 +381,7 @@ public class Gui extends ClientGameController {
         SwingUtilities.invokeLater(() -> {
             constructorPopUp = new PopUp(this, d, stopper);
             board.eliminateAllFromAll();
+            eliminateAllActionClass(board.buttonChat);
             popUp.remove(lobbyPanel);
             if (board.getMyName().equalsIgnoreCase(stopper)){
                 lobbyPanel = constructorPopUp.lobbyPopUp(6);
@@ -373,6 +391,7 @@ public class Gui extends ClientGameController {
             }
             popUp.add(lobbyPanel);
             popUp.setVisible(true);
+            popUp.setAlwaysOnTop(true);
             popUp.repaint();
             popUp.validate();
         });
@@ -383,10 +402,12 @@ public class Gui extends ClientGameController {
         SwingUtilities.invokeLater(() -> {
             constructorPopUp = new PopUp(this, d, stopper);
             board.eliminateAllFromAll();
+            eliminateAllActionClass(board.buttonChat);
             popUp.remove(lobbyPanel);
             lobbyPanel = constructorPopUp.lobbyPopUp(4);
             popUp.add(lobbyPanel);
             popUp.setVisible(true);
+            popUp.setAlwaysOnTop(true);
             popUp.repaint();
             popUp.validate();
         });

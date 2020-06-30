@@ -843,6 +843,8 @@ public class Board {
             LOGGER.severe(e.getMessage());
         }
 
+        desktopPane.add(lLost);
+
         desktopPane.add(closeTutorial);
         desktopPane.add(continueTutorial);
         desktopPane.add(tutorial);
@@ -858,7 +860,7 @@ public class Board {
         if (numberOfPlayers == 3){
             desktopPane.add(opponent2);
         }
-        desktopPane.add(lLost);
+
         loopSound.playLoop();
 
         labelMove.setFont(felixNormal);
@@ -2236,7 +2238,7 @@ public class Board {
         try {
             if (isYourPlayer) {
                 border = ImageHandler.setImage(LOSEBORDER, 100, 100, frameSize.width * 50 / 100, frameSize.height * 80 / 100);
-                lLoser1 = ImageHandler.setImage(PODIUM + mePlayer.getPower().getName() + PNG, 100, 100, frameSize.width * 20/100, frameSize.height * 50/100);
+                lLoser1 = ImageHandler.setImage(PODIUM + mePlayer.getPower().getName() + PNG, 100, 100, frameSize.width * 30/100, frameSize.height * 50/100);
             }
             else {
                 border = ImageHandler.setImage(PODIUM + "lost_border.png", 100, 100, frameSize.width * 50 / 100, frameSize.height * 80 / 100);
@@ -2247,6 +2249,7 @@ public class Board {
         displayModifications(gui.getModifiedsquare(), false);
 
         if (isYourPlayer) {
+            eliminateAllFromAll();
             loopSound.stop();
             lose.play();
             winLose.setIcon(border.getIcon());
@@ -2263,7 +2266,7 @@ public class Board {
             winLose.setVisible(true);
             lLost.setText(name);
             lLost.setFont(felixBold);
-            lLost.setBounds((frameSize.width * 10/100), (frameSize.height * 10 / 100), frameSize.width * 50/100, frameSize.height * 5/100);
+            lLost.setBounds((int) (((double)frameSize.width * 49/100) - ((lLost.getText().length() * getBoldDimension()) / 2)), (frameSize.height * 50 / 100), frameSize.width * 50/100, frameSize.height * 5/100);
             lLost.setVisible(true);
             close.setBounds((frameSize.width * 48/100) - (buttonSize.width / 2), (int) (frameSize.height * 79.5 / 100), buttonSize.width, buttonSize.height);
             eliminateActionClass(close, Close.class);
@@ -2287,6 +2290,7 @@ public class Board {
         }
         newGame.addActionListener(new NewGameWin());
         eliminateAllFromAll();
+        eliminateAllActionClass(buttonChat);
         loopSound.stop();
         try {
             if (winnerBool) {
