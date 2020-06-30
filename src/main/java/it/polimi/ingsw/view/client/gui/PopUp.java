@@ -39,16 +39,16 @@ public class PopUp {
 
     /**
      * Public constructor
-     * @param istance2 Reference to the client GUI class
-     * @param d Main window size
+     * @param instance Reference to the client GUI class
+     * @param frameSize Main window size
      * @param stopper Parameter indicating the possible player causing an exception
      */
 
-    public PopUp(Gui istance2, Dimension d, String stopper){
+    public PopUp(Gui instance, Dimension frameSize, String stopper){
 
-        gui = istance2;
+        gui = instance;
         window = new JPanel();
-        intFrameSize.setSize(d.getWidth() * 55/100, d.getHeight() * 60/100);
+        intFrameSize.setSize(frameSize.getWidth() * 55/100, frameSize.getHeight() * 60/100);
         labelSize.setSize(intFrameSize.width * 55/100,intFrameSize.height * 20/100);
         buttonSize.setSize((getD().getWidth() * 13 / 100), (getD().getHeight() * 5 / 100));
         nickname = new JTextField(20);

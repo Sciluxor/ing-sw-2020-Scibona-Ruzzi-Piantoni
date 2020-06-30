@@ -7,7 +7,7 @@ import javafx.scene.media.MediaPlayer;
 import static it.polimi.ingsw.view.client.gui.Gui.LOGGER;
 
 /**
- * Class that handle the reproduction of sounds
+ * Class that handle the playing sounds
  * @author Luigi Scibona
  * @version 1.0
  * @since 2020/06/13

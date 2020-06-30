@@ -21,18 +21,18 @@ public class MyButton extends JButton{
 
     int type;
     Dimension labelSize = new Dimension(d.width * 13/100, d.height * 5/100);
-    JLabel lconfirm;
-    JLabel lconfirmPress;
-    JLabel lback;
-    JLabel lbackPress;
-    JLabel lnewGame;
-    JLabel lnewGamePress;
-    JLabel lclose;
-    JLabel lclosePress;
-    JLabel lkeep;
-    JLabel lkeepPress;
-    JLabel lcontinue;
-    JLabel lcontinuePress;
+    JLabel lConfirm;
+    JLabel lConfirmPress;
+    JLabel lBack;
+    JLabel lBackPress;
+    JLabel lNewGame;
+    JLabel lNewGamePress;
+    JLabel lClose;
+    JLabel lClosePress;
+    JLabel lKeep;
+    JLabel lKeepPress;
+    JLabel lContinue;
+    JLabel lContinuePress;
     transient MP3 click = new MP3(MUSIC + "Click.mp3");
 
     /**
@@ -44,18 +44,18 @@ public class MyButton extends JButton{
         type = n;
 
         try {
-            lconfirm = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_confirm.png", 100, 100, labelSize.width, labelSize.height);
-            lconfirmPress = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_confirm_press.png", 100, 100, labelSize.width, labelSize.height);
-            lback = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_back.png", 100, 100, labelSize.width, labelSize.height);
-            lbackPress = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_back_press.png", 100, 100, labelSize.width, labelSize.height);
-            lnewGame = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_newgame.png", 100, 100, labelSize.width, labelSize.height);
-            lnewGamePress = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_newgame_press.png", 100, 100, labelSize.width, labelSize.height);
-            lclose = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_close.png", 100, 100, labelSize.width, labelSize.height);
-            lclosePress = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_close_press.png", 100, 100, labelSize.width, labelSize.height);
-            lkeep = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_keep.png", 100, 100, labelSize.width, labelSize.height);
-            lkeepPress = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_keep_press.png", 100, 100, labelSize.width, labelSize.height);
-            lcontinue = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_continue.png", 100, 100, labelSize.width, labelSize.height);
-            lcontinuePress = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_continue_press.png", 100, 100, labelSize.width, labelSize.height);
+            lConfirm = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_confirm.png", 100, 100, labelSize.width, labelSize.height);
+            lConfirmPress = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_confirm_press.png", 100, 100, labelSize.width, labelSize.height);
+            lBack = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_back.png", 100, 100, labelSize.width, labelSize.height);
+            lBackPress = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_back_press.png", 100, 100, labelSize.width, labelSize.height);
+            lNewGame = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_newgame.png", 100, 100, labelSize.width, labelSize.height);
+            lNewGamePress = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_newgame_press.png", 100, 100, labelSize.width, labelSize.height);
+            lClose = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_close.png", 100, 100, labelSize.width, labelSize.height);
+            lClosePress = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_close_press.png", 100, 100, labelSize.width, labelSize.height);
+            lKeep = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_keep.png", 100, 100, labelSize.width, labelSize.height);
+            lKeepPress = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_keep_press.png", 100, 100, labelSize.width, labelSize.height);
+            lContinue = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_continue.png", 100, 100, labelSize.width, labelSize.height);
+            lContinuePress = ImageHandler.setImage(RESOURCES_GRAPHICS + "button_continue_press.png", 100, 100, labelSize.width, labelSize.height);
         } catch (IOException e) {
             LOGGER.severe(e.getMessage());
         }
@@ -68,27 +68,27 @@ public class MyButton extends JButton{
         addMouseListener(new ButtonPress());
         switch (type){
             case 0:
-                setIcon(lconfirm.getIcon());
+                setIcon(lConfirm.getIcon());
                 break;
 
             case 1:
-                setIcon(lback.getIcon());
+                setIcon(lBack.getIcon());
                 break;
 
             case 2:
-                setIcon(lnewGame.getIcon());
+                setIcon(lNewGame.getIcon());
                 break;
 
             case 3:
-                setIcon(lclose.getIcon());
+                setIcon(lClose.getIcon());
                 break;
 
             case 4:
-                setIcon(lkeep.getIcon());
+                setIcon(lKeep.getIcon());
                 break;
 
             case 5:
-                setIcon(lcontinue.getIcon());
+                setIcon(lContinue.getIcon());
                 break;
 
             default:
@@ -107,27 +107,27 @@ public class MyButton extends JButton{
             JButton c = (JButton)e.getSource();
             switch (type){
                 case 0:
-                    c.setIcon(lconfirmPress.getIcon());
+                    c.setIcon(lConfirmPress.getIcon());
                     break;
 
                 case 1:
-                    c.setIcon(lbackPress.getIcon());
+                    c.setIcon(lBackPress.getIcon());
                     break;
 
                 case 2:
-                    c.setIcon(lnewGamePress.getIcon());
+                    c.setIcon(lNewGamePress.getIcon());
                     break;
 
                 case 3:
-                    c.setIcon(lclosePress.getIcon());
+                    c.setIcon(lClosePress.getIcon());
                     break;
 
                 case 4:
-                    setIcon(lkeepPress.getIcon());
+                    setIcon(lKeepPress.getIcon());
                     break;
 
                 case 5:
-                    setIcon(lcontinuePress.getIcon());
+                    setIcon(lContinuePress.getIcon());
                     break;
 
                 default:
@@ -140,27 +140,27 @@ public class MyButton extends JButton{
             JButton c = (JButton)e.getSource();
             switch (type){
                 case 0:
-                    c.setIcon(lconfirm.getIcon());
+                    c.setIcon(lConfirm.getIcon());
                     break;
 
                 case 1:
-                    c.setIcon(lback.getIcon());
+                    c.setIcon(lBack.getIcon());
                     break;
 
                 case 2:
-                    c.setIcon(lnewGame.getIcon());
+                    c.setIcon(lNewGame.getIcon());
                     break;
 
                 case 3:
-                    c.setIcon(lclose.getIcon());
+                    c.setIcon(lClose.getIcon());
                     break;
 
                 case 4:
-                    setIcon(lkeep.getIcon());
+                    setIcon(lKeep.getIcon());
                     break;
 
                 case 5:
-                    setIcon(lcontinue.getIcon());
+                    setIcon(lContinue.getIcon());
                     break;
 
                 default:

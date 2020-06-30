@@ -28,16 +28,16 @@ public class StartTurn extends JDesktopPane{
 
     /**
      * Public constructor
-     * @param frame Reference to the JInternalFrame where the current JDesktopPane StartTurn will be inserted
-     * @param dimensionFrame Size of the JInternalFrame
+     * @param intFrame Reference to the JInternalFrame where the current JDesktopPane StartTurn will be inserted
+     * @param intFrameSize Size of the JInternalFrame
      * @param numberOfPanel Parameter indicating the JDesktopPane to be built based on who starts the turn
      * @param name Name of the Player who starts the turn
      * @throws IOException if the loading of the inscription was not successful
      */
 
-    public StartTurn(JInternalFrame frame, Dimension dimensionFrame, int numberOfPanel, String name) throws IOException {
-        frameSize.setSize(dimensionFrame);
-        intFrame = frame;
+    public StartTurn(JInternalFrame intFrame, Dimension intFrameSize, int numberOfPanel, String name) throws IOException {
+        frameSize.setSize(intFrameSize);
+        this.intFrame = intFrame;
         nameChoosing = name;
         buttonSize.setSize((getD().getWidth() * 13 / 100), (getD().getHeight() * 5 / 100));
         setPreferredSize(frameSize);

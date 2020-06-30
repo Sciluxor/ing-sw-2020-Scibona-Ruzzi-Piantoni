@@ -27,19 +27,19 @@ public class ShowPower extends MouseAdapter {
 
     /**
      * Public constructor
-     * @param frame JInternalFrame to set visible
-     * @param size Size of the main frame
-     * @param intSize Size of the JInternalFrame
+     * @param intFrame JInternalFrame to set visible
+     * @param frameSize Size of the main frame
+     * @param intFrameSize Size of the JInternalFrame
      * @param button Background button
      * @param cov Label of the cover
      * @param center Boolean that says if the button is centered vertically
      * @param type Type of ShowPower
      */
 
-    public ShowPower(JInternalFrame frame, Dimension size, Dimension intSize, JButton button, JLabel cov, boolean center, int type){
-        intFrame = frame;
-        frameSize = size;
-        intFrameSize = intSize;
+    public ShowPower(JInternalFrame intFrame, Dimension frameSize, Dimension intFrameSize, JButton button, JLabel cov, boolean center, int type){
+        this.intFrame = intFrame;
+        this.frameSize = frameSize;
+        this.intFrameSize = intFrameSize;
         buttonBackground = button;
         cover = cov;
         if (center){

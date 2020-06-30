@@ -32,19 +32,19 @@ public class UpdateBoard extends JDesktopPane {
 
     /**
      * Public constructor
-     * @param istance Reference to the Board class instanced by the GUI
-     * @param frame Reference to the JInternalFrame where the current JDesktopPane UpdateBoard will be inserted
-     * @param dimensionFrame Size of the JInternalFrame
+     * @param instance Reference to the Board class instanced by the GUI
+     * @param intFrame Reference to the JInternalFrame where the current JDesktopPane UpdateBoard will be inserted
+     * @param intFrameSize Size of the JInternalFrame
      * @param name Name of the Player who performed an action
      * @param type Type of action taken
      * @throws IOException if the loading of the inscription was not successful
      */
 
-    public UpdateBoard(Board istance, JInternalFrame frame, Dimension dimensionFrame, String name, MessageType type) throws IOException {
+    public UpdateBoard(Board instance, JInternalFrame intFrame, Dimension intFrameSize, String name, MessageType type) throws IOException {
 
-        frameSize.setSize(dimensionFrame);
-        intFrame = frame;
-        board = istance;
+        frameSize.setSize(intFrameSize);
+        this.intFrame = intFrame;
+        board = instance;
         nameChoosing = name;
         buttonSize.setSize((getD().getWidth() * 13 / 100), (getD().getHeight() * 5 / 100));
         setPreferredSize(frameSize);

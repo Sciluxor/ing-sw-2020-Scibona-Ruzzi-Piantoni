@@ -32,16 +32,16 @@ public class Login extends JPanel{
 
     /**
      * Public constructor
-     * @param istance Reference to the client GUI class
+     * @param instance Reference to the client GUI class
      * @param frame Size of the frame where the current JPanel Login will be inserted
      * @param connection Boolean saying if it's a first connection
      * @throws IOException if the loading of the inscription or the background was not successful
      */
 
-    public Login(Gui istance, Dimension frame, boolean connection) throws IOException {
+    public Login(Gui instance, Dimension frame, boolean connection) throws IOException {
 
         this.firstConnection = connection;
-        gui = istance;
+        gui = instance;
         frameSize.setSize(frame);
         setPreferredSize(frameSize);
         setLayout(null);
@@ -52,9 +52,9 @@ public class Login extends JPanel{
         address = new JTextField(20);
 
         JLabel cover = ImageHandler.setImage(RESOURCES_GRAPHICS + "background_login.png", 100, 100, frameSize.width, frameSize.height);
-        JLabel sfondo = new JLabel(cover.getIcon());
+        JLabel background = new JLabel(cover.getIcon());
         JButton back = new JButton();
-        back.setIcon(sfondo.getIcon());
+        back.setIcon(background.getIcon());
         back.setBounds(0, 0, frameSize.width, frameSize.height);
         back.setOpaque(false);
         back.setContentAreaFilled(false);
@@ -63,8 +63,8 @@ public class Login extends JPanel{
         JLabel santoriniLabel = ImageHandler.setImage(TEXT + "Santorini_HD.png", 100, 100, frameSize.width * 30/100,frameSize.height*20/100);
         JLabel nicknameLabel = ImageHandler.setImage(TEXT + "nickname.png", 97, 100, frameSize.width * 15/100,frameSize.height * 5/100);
         JLabel numberPlayersLabel = ImageHandler.setImage(TEXT + "number_of_players.png", 97, 100, frameSize.width * 20/100,frameSize.height * 5/100);
-        JLabel portlabel = ImageHandler.setImage(TEXT + "port.png", 97, 100, frameSize.width * 5/100,frameSize.height * 5/100);
-        JLabel addresslabel = ImageHandler.setImage(TEXT + "address.png", 97, 100, frameSize.width * 10/100,frameSize.height * 5/100);
+        JLabel portLabel = ImageHandler.setImage(TEXT + "port.png", 97, 100, frameSize.width * 5/100,frameSize.height * 5/100);
+        JLabel addressLabel = ImageHandler.setImage(TEXT + "address.png", 97, 100, frameSize.width * 10/100,frameSize.height * 5/100);
 
 
         santoriniLabel.setBounds(frameSize.width * 35/100 , frameSize.height * 7/100, frameSize.width * 30/100,frameSize.height*20/100);
@@ -91,14 +91,14 @@ public class Login extends JPanel{
         port.setText("4700");
         add(port);
         add(port);
-        portlabel.setBounds((int) (frameSize.width * 34.5/100), (frameSize.height * 54/100), frameSize.width * 5/100,frameSize.height * 5/100);
-        add(portlabel);
+        portLabel.setBounds((int) (frameSize.width * 34.5/100), (frameSize.height * 54/100), frameSize.width * 5/100,frameSize.height * 5/100);
+        add(portLabel);
 
         address.setBounds((frameSize.width * 40/100), (frameSize.height * 65/100), frameSize.width * 20/100,frameSize.height * 3/100);
         address.setText("54.237.47.88");
         add(address);
-        addresslabel.setBounds((int) (frameSize.width * 29.5/100), (frameSize.height * 64/100), frameSize.width * 10/100,frameSize.height * 5/100);
-        add(addresslabel);
+        addressLabel.setBounds((int) (frameSize.width * 29.5/100), (frameSize.height * 64/100), frameSize.width * 10/100,frameSize.height * 5/100);
+        add(addressLabel);
         }
 
         add(back);

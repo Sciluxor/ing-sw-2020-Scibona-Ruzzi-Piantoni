@@ -22,27 +22,27 @@ public class WaitChallenger extends JDesktopPane{
     Dimension frameSize = new Dimension();
     Dimension buttonSize = new Dimension();
     MyButton close = new MyButton(3);
-    JInternalFrame intFrame;
+    JInternalFrame frame;
     String nameChoosing;
-    double posx;
+    double posX;
 
     /**
      * Public constructor
-     * @param frame Reference to the JInternalFrame where the current JDesktopPane WaitChallenger will be inserted
-     * @param dimensionFrame Size of the JInternalFrame
+     * @param intFrame Reference to the JInternalFrame where the current JDesktopPane WaitChallenger will be inserted
+     * @param intFrameSize Size of the JInternalFrame
      * @param name Name of the Player designated as a Challenger
      * @throws IOException if the loading of the inscription was not successful
      */
 
-    public WaitChallenger(JInternalFrame frame, Dimension dimensionFrame, String name) throws IOException {
+    public WaitChallenger(JInternalFrame intFrame, Dimension intFrameSize, String name) throws IOException {
 
-        frameSize.setSize(dimensionFrame);
-        intFrame = frame;
+        frameSize.setSize(intFrameSize);
+        this.frame = intFrame;
         buttonSize.setSize((getD().getWidth() * 13 / 100), (getD().getHeight() * 5 / 100));
         setPreferredSize(frameSize);
         setLayout(null);
         nameChoosing = name;
-        posx = (double) nameChoosing.length() / 2;
+        posX = (double) nameChoosing.length() / 2;
 
         JLabel label = ImageHandler.setImage(TEXT + "wait_for.png", 99, 99, frameSize.width * 25/100, frameSize.height * 20/100);
         JLabel label2 = ImageHandler.setImage(TEXT + "as_challenger_to_choose_the_gods.png", 99, 99, frameSize.width * 85/100, frameSize.height * 22/100);
@@ -72,7 +72,7 @@ public class WaitChallenger extends JDesktopPane{
     private class Close implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            intFrame.setVisible(false);
+            frame.setVisible(false);
         }
     }
 }

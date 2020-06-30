@@ -27,17 +27,17 @@ public class YouHaveBeenChosen extends JDesktopPane {
 
     /**
      * Public constructor
-     * @param istance Reference to the Board class instanced by the GUI
-     * @param frame Reference to the JInternalFrame where the current JDesktopPane YouHaveBeenChosen will be inserted
-     * @param dimensionFrame Size of the JInternalFrame
+     * @param instance Reference to the Board class instanced by the GUI
+     * @param intFrame Reference to the JInternalFrame where the current JDesktopPane YouHaveBeenChosen will be inserted
+     * @param intFrameSize Size of the JInternalFrame
      * @throws IOException if the loading of the inscription was not successful
      */
 
-    public YouHaveBeenChosen(Board istance, JInternalFrame frame, Dimension dimensionFrame) throws IOException {
+    public YouHaveBeenChosen(Board instance, JInternalFrame intFrame, Dimension intFrameSize) throws IOException {
 
-        frameSize.setSize(dimensionFrame);
-        intFrame = frame;
-        board = istance;
+        frameSize.setSize(intFrameSize);
+        this.intFrame = intFrame;
+        board = instance;
         buttonSize.setSize((getD().getWidth() * 13 / 100), (getD().getHeight() * 5 / 100));
         setPreferredSize(frameSize);
         setLayout(null);

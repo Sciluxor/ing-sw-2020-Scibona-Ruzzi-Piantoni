@@ -11,7 +11,7 @@ import static it.polimi.ingsw.view.client.gui.Gui.getD;
 import static it.polimi.ingsw.view.client.gui.GuiUtils.backAndCloseSetter;
 
 /**
- * Class that extends JDesktopPane to build the pane for actions out of its turn
+ * Class that extends JDesktopPane to build the pane for actions out of client turn
  * @author Luigi Scibona
  * @version 1.0
  * @since 2020/06/13

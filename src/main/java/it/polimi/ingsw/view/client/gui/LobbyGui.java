@@ -30,7 +30,7 @@ public class LobbyGui{
     private final JDesktopPane pane;
     MyButton backButton;
     MyButton confirm;
-    JLabel lnumber;
+    JLabel lNumber;
     JLabel nicknameLabel;
     JTextField nickname = new JTextField(20);
     Style colorStyle;
@@ -91,27 +91,23 @@ public class LobbyGui{
         numberDoc = numberPane.getStyledDocument();
 
 
-
-
         wait.setBounds(frameSize.width * 35/100, frameSize.height * 10/100, frameSize.width * 30/100, frameSize.height * 10/100);
         pane.add(wait);
 
 
-
         if (num == 2){
-            lnumber = ImageHandler.setImage(TEXT + "2.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
+            lNumber = ImageHandler.setImage(TEXT + "2.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
         }
         else {
-            lnumber = ImageHandler.setImage(TEXT + "3.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
+            lNumber = ImageHandler.setImage(TEXT + "3.png", 100, 100, frameSize.width * 5/100, frameSize.height * 5/100);
         }
-
 
 
         of.setBounds(frameSize.width * 47/100, frameSize.height * 20/100, frameSize.width * 5/100, frameSize.height * 5/100);
         of.setFont(Gui.getFelixBold());
         pane.add(of);
-        lnumber.setBounds(frameSize.width * 52/100, frameSize.height * 20/100, frameSize.width * 5/100, frameSize.height * 5/100);
-        pane.add(lnumber);
+        lNumber.setBounds(frameSize.width * 52/100, frameSize.height * 20/100, frameSize.width * 5/100, frameSize.height * 5/100);
+        pane.add(lNumber);
 
 
         textPane.setBounds((frameSize.width * 30/100), frameSize.height * 43/100, frameSize.width * 40/100, frameSize.height * 20/100);
@@ -155,7 +151,7 @@ public class LobbyGui{
     }
 
     /**
-     * Method to print the current players in the lobby
+     * Method to print the current Players in the lobby
      * @param players List of current Players in the lobby
      */
 
@@ -228,6 +224,4 @@ public class LobbyGui{
     public JDesktopPane getPane() {
         return pane;
     }
-
-
 }
