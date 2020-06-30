@@ -38,8 +38,8 @@ The following documentation includes the documents created for the design of the
 
 ### UML
 The following class diagrams represent the first, the initial model according to which the game should have been implemented, the second instead contains the diagrams of the final product.
-- [UML Iniziali]()
-- [UML Finali]()
+- [Initial UML](https://github.com/Sciluxor/ing-sw-2020-Scibona-Ruzzi-Piantoni/blob/master/Deliverables/UML/Initial%20UML.jpg)
+- [Final UML]()
 
 ### JavaDoc
 The following documentation includes a description of the classes and methods used and can be consulted at the following address: [Javadoc]()
@@ -50,7 +50,7 @@ As for the coverage of the tests as reported by IntelliJ are:
 - __controller__ 100% classes, 96% method, 96% line
 
 ### Jars
-The following jars have been used for the delivery of the project, they allow the launch of the game according to the functionalities described in the introduction. Details for how to launch the system will be defined in the section called Executing jars. The folder where the client and server software is located is located at the following address: [Jars](https://github.com/Sciluxor/ing-sw-2020-Scibona-Ruzzi-Piantoni/tree/master/Jars).
+The following jars have been used for the delivery of the project, they allow the launch of the game according to the functionalities described in the introduction. Details for how to launch the system will be defined in the section called Executing jars. The folder where the client and server software is located is located at the following address: [Jars](https://github.com/Sciluxor/ing-sw-2020-Scibona-Ruzzi-Piantoni/tree/master/Deliverables/Jars).
 
 ## Execution of the JARs
 ### Client
