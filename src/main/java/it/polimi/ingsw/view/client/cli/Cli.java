@@ -37,16 +37,6 @@ public class Cli extends ClientGameController {
     private Player myPlayerOnServer;
     private String myPower;
 
-    private static final String END_TURN_STRING = "endTurn";
-    private static final String UP_AND_DOWN_STRING = "up&down";
-    private static final String PLAYER_STRING = "PLAYER ";
-    private static final String NO_KEYBOARD_CAUGHT = "NO KEYBOARD CAUGHT";
-    private static final String END_TURN_CASE = "END TURN";
-    private static final String SELECT_WORKER_CASE = "SELECT WORKER";
-    private static final String CHAT_CASE = "CHAT";
-    private static final String RAW_STRING = "raw";
-    private static final String SANE_STRING = "sane";
-
     private Map<String, Card> deck = CardLoader.loadCards();
     private List<String> deckOrdered = new ArrayList<>();
     private List<String> selectedCards = new ArrayList<>();

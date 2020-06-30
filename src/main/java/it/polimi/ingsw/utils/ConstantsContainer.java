@@ -2,7 +2,7 @@ package it.polimi.ingsw.utils;
 
 /**
  * Utility class that contains all the constant of the game
- * @author Alessandro Ruzzi
+ * @author Alessandro Ruzzi, Luigi Scibona, Edoardo Piantoni
  * @version 1.0
  * @since 2020/06/27
  */
@@ -54,4 +54,15 @@ public class ConstantsContainer {
     public static final String GODS = "resources/Graphics/gods/";
     public static final String DESCRIPTION = "_description.png";
     public static final String INSERTFAILED = "InsertString Failed";
+
+    //Cli
+    public static final String END_TURN_STRING = "endTurn";
+    public static final String UP_AND_DOWN_STRING = "up&down";
+    public static final String PLAYER_STRING = "PLAYER ";
+    public static final String NO_KEYBOARD_CAUGHT = "NO KEYBOARD CAUGHT";
+    public static final String END_TURN_CASE = "END TURN";
+    public static final String SELECT_WORKER_CASE = "SELECT WORKER";
+    public static final String CHAT_CASE = "CHAT";
+    public static final String RAW_STRING = "raw";
+    public static final String SANE_STRING = "sane";
 }
