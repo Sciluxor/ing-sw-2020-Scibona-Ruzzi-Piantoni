@@ -197,7 +197,7 @@ public class Board {
     JLabel lTutorial;
     JLabel lTutorial1;
     JLabel lTutorial2;
-    JLabel llost = new JLabel();
+    JLabel lLost = new JLabel();
     Dimension frameSize = new Dimension();
     Dimension boardSize = new Dimension();
     Dimension bottomSize = new Dimension();
@@ -858,7 +858,7 @@ public class Board {
         if (numberOfPlayers == 3){
             desktopPane.add(opponent2);
         }
-        desktopPane.add(llost);
+        desktopPane.add(lLost);
         loopSound.playLoop();
 
         labelMove.setFont(felixNormal);
@@ -2261,10 +2261,10 @@ public class Board {
         else {
             winLose.setIcon(border.getIcon());
             winLose.setVisible(true);
-            llost = new JLabel(name);
-            llost.setFont(felixBold);
-            llost.setBounds((frameSize.width * 10/100), (frameSize.height * 10 / 100), frameSize.width * 50/100, frameSize.height * 5/100);
-            llost.setVisible(true);
+            lLost.setText(name);
+            lLost.setFont(felixBold);
+            lLost.setBounds((frameSize.width * 10/100), (frameSize.height * 10 / 100), frameSize.width * 50/100, frameSize.height * 5/100);
+            lLost.setVisible(true);
             close.setBounds((frameSize.width * 48/100) - (buttonSize.width / 2), (int) (frameSize.height * 79.5 / 100), buttonSize.width, buttonSize.height);
             eliminateActionClass(close, Close.class);
             close.setVisible(true);
@@ -3001,7 +3001,7 @@ public class Board {
             eliminateActionClass(close, CloseLost.class);
             close.setBounds(((frameSize.width * 60/100) - (buttonSize.width / 2)), (int) (frameSize.height * 79.5 / 100), buttonSize.width, buttonSize.height);
             close.setVisible(false);
-            llost.setVisible(false);
+            lLost.setVisible(false);
             close.addActionListener(new Close());
         }
     }
