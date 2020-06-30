@@ -48,13 +48,13 @@
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-swing</artifactId>
-      <version>15-ea+5</version>
+      <version>11.0.2</version>
     </dependency>
 
     <dependency>
     <groupId>org.openjfx</groupId>
     <artifactId>javafx-media</artifactId>
-    <version>15-ea+5</version>
+    <version>11.0.2</version>
     </dependency>
 
     <dependency>
@@ -73,7 +73,7 @@
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-fxml</artifactId>
-      <version>15-ea+5</version>
+      <version>11.0.2</version>
       <scope>provided</scope>
     </dependency>
 
@@ -87,7 +87,7 @@
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-graphics</artifactId>
-      <version>15-ea+5</version>
+      <version>11.0.2</version>
       <classifier>win</classifier>
     </dependency>
 
