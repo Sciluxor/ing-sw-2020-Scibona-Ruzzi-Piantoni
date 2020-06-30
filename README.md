@@ -39,22 +39,22 @@ The following documentation includes the documents created for the design of the
 ### UML
 The following class diagrams represent the first, the initial model according to which the game should have been implemented, the second instead contains the diagrams of the final product.
 - [Initial UML](https://github.com/Sciluxor/ing-sw-2020-Scibona-Ruzzi-Piantoni/blob/master/Deliverables/UML/Initial%20UML.jpg)
-- [Final UML]()
+- [Final UML](https://github.com/Sciluxor/ing-sw-2020-Scibona-Ruzzi-Piantoni/tree/master/Deliverables/UML/Final%20UML)
 
 ### JavaDoc
-The following documentation includes a description of the classes and methods used and can be consulted at the following address: [Javadoc]()
+The following documentation includes a description of the classes and methods used and can be consulted at the following address: [Javadoc](https://github.com/Sciluxor/ing-sw-2020-Scibona-Ruzzi-Piantoni/blob/master/Deliverables/JavaDoc/index.html)
 
 ### Coverage
-As for the coverage of the tests as reported by IntelliJ are:
-- __model__ 100% classes, 96% method, 92% line
-- __controller__ 100% classes, 96% method, 96% line
+As for the [coverage](https://github.com/Sciluxor/ing-sw-2020-Scibona-Ruzzi-Piantoni/blob/master/Deliverables/Coverage%20Report/index.html) of the tests as reported by IntelliJ are:
+- __model__ 100% classes, 96% method, 96% line
+- __controller__ 100% classes, 95% method, 92% line
 
 ### Jars
 The following jars have been used for the delivery of the project, they allow the launch of the game according to the functionalities described in the introduction. Details for how to launch the system will be defined in the section called Executing jars. The folder where the client and server software is located is located at the following address: [Jars](https://github.com/Sciluxor/ing-sw-2020-Scibona-Ruzzi-Piantoni/tree/master/Deliverables/Jars).
 
 ## Execution of the JARs
 ### Client
-The client is executed by launching the desired jar to play from the command line or graphical interface. The following sections describe how to run the client in one way or another.
+The client runs by launching the desired jar to play from the command line or graphical interface. The following sections describe how to run the client in one way or another.
 
 ### CLI
 For a better command-line gaming experience it is necessary to launch the client with a terminal that supports UTF-8 encoding and ANSI escapes. To launch the CLI client type the following command:
@@ -69,7 +69,7 @@ java -jar Client_GUI-jar-with-dependencies.jar
 ```
 
 ### Server
-By default the server will be accessible through port 4700 and at address 127.0.0.1 To launch the server enter the following command:
+By default, the server will be accessible through port 4700 and at address 127.0.0.1 To launch the server enter the following command:
 ```
 java -jar Server-jar-with-dependencies.jar
 ```
