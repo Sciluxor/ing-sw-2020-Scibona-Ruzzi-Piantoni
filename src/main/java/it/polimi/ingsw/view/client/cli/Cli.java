@@ -1051,7 +1051,7 @@ public class Cli extends ClientGameController {
     @Override
     public void nickUsed() {
         clearShell();
-        printRed("NICKNAME ALREADY USED. PLEASE, REINSERT A NEW NICKNAME: ");
+        printRed("NICKNAME ALREADY USED. PLEASE, ");
         setNickName();
         updateNickName(getNickName());
     }

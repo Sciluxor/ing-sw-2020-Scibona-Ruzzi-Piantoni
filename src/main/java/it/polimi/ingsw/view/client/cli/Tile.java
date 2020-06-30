@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.client.cli;
 import it.polimi.ingsw.model.map.Building;
 
 import static it.polimi.ingsw.utils.CliUtils.printErr;
+import static it.polimi.ingsw.utils.ConstantsContainer.*;
 
 /**
  * Class that define and implement the single tile's object
@@ -286,7 +287,7 @@ public class Tile {
      */
 
     private void setAvailableBuilding () {
-        if (buildingLevel < 4 && buildingType != Building.DOME) {
+        if (buildingLevel < MAXBUILDINGLEVEL && buildingType != Building.DOME) {
             switch (buildingType) {
                 case GROUND:
                     availableBuilding = Building.LVL1;
