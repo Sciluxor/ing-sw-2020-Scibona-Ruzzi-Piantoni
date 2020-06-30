@@ -467,6 +467,16 @@ public class Cli extends ClientGameController {
     }
 
     /**
+     * Method used to clear shell and print some info and the chat
+     */
+
+    private void printOnUpdate() {
+        clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
+        printWaitForOtherPlayers(numberOfPlayers);
+        printChat(previousChatMessage);
+    }
+
+    /**
      * Method that handle the login (setting the nickname, the number of players, the port and the IP address)
      */
 
@@ -1149,15 +1159,16 @@ public class Cli extends ClientGameController {
 
             santoriniMap.setTileHasPlayer(square.hasPlayer(), square.getTile() - 1, playerColor);
         }
+
+        printOnUpdate();
+
     }
 
     @Override
     public void updateBoard(String nick, List<Square> squares, MessageType type) {
         updateModification(squares);
 
-        clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
-        printWaitForOtherPlayers(numberOfPlayers);
-        printChat(previousChatMessage);
+        printOnUpdate();
     }
 
     @Override
@@ -1168,16 +1179,21 @@ public class Cli extends ClientGameController {
             checkRestart(false);
         }
         else {
-            printRed(LOSER + "\nLOSERS:\n");
+            Player winner = null;
+            printRed(LOSER);
+            printRed("LOSERS: ");
             for (Player player : actualPlayers) {
                 if(!player.getNickName().equalsIgnoreCase(nick)) {
                     printRed("> [");
-                } else {
-                    printRed("THE WINNER IS: [");
-                }
-                printPlayer(player);
-                printRed("]\n");
+                    printPlayer(player);
+                    printRed("]\n");
+                } else
+                    winner = player;
             }
+            printRed("THE WINNER IS: [");
+            if(winner != null)
+                printPlayer(winner);
+            printRed("]\n");
             checkRestart(true);
         }
     }
@@ -1283,6 +1299,7 @@ public class Cli extends ClientGameController {
         handlePreviousChatMessage(playerOnChat, message);
 
         clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
+        printWaitingStartTurn(numberOfPlayers);
         printChat(previousChatMessage);
     }
 

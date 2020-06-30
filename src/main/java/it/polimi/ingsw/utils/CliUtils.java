@@ -35,7 +35,7 @@ public class CliUtils {
             "    ╲     ╱  │     │  │     │    ╲       ╲ ╱       ╱  │  │╲     │     ╲   ╱     \n" +
             "      ╲ ╱    │     │  │     │      ╲     ╱ ╲     ╱    │  │  ╲   │      │ │      \n" +
             "        │    ╵_____╵  ╵_____╵        ╲ ╱     ╲ ╱      │  │    ╲ │     ╱___╲     \n" +
-            "                                                                                " + Color.RESET;
+            "                                                                                \n" + Color.RESET;
 
     public static final String LOSER = Color.BACKGROUND_WHITE +
             "                                                                                        \n" +
@@ -43,7 +43,7 @@ public class CliUtils {
             "    ╲     ╱  │     │  │     │    │      │     │ │       │             ___________       \n" +
             "      ╲ ╱    │     │  │     │    │      │     │ ╵─────╷ │──          ╱   __│__   ╲      \n" +
             "        │    ╵_____╵  ╵_____╵    ╵_____ ╵_____╵  _____╵ ╵_____     ╱_______________╲    \n" +
-            "                                                                                        " + Color.RESET;
+            "                                                                                        \n" + Color.RESET;
 
     private static final String CLEAR_CONSOLE = "\033[H\033[2J";
 
