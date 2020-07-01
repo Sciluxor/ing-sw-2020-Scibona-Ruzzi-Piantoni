@@ -8,8 +8,6 @@ import it.polimi.ingsw.network.message.MessageType;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowFocusListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -225,10 +223,7 @@ public class Gui extends ClientGameController {
         SwingUtilities.invokeLater(() -> {
             newPopUp();
             lobby.backButton.setEnabled(false);
-            popUp.setVisible(true);
-            popUp.setAlwaysOnTop(true);
-            popUp.repaint();
-            popUp.validate();
+            popUpOnTop();
         });
     }
 
@@ -239,10 +234,7 @@ public class Gui extends ClientGameController {
             lobbyPanel = constructorPopUp.lobbyPopUp(1);
             popUp.add(lobbyPanel);
             lobby.backButton.setEnabled(false);
-            popUp.setAlwaysOnTop(true);
-            popUp.setVisible(true);
-            popUp.repaint();
-            popUp.validate();
+            popUpOnTop();
         });
     }
 
@@ -259,9 +251,7 @@ public class Gui extends ClientGameController {
             popUp.remove(lobbyPanel);
             lobbyPanel = constructorPopUp.lobbyPopUp(2);
             popUp.add(lobbyPanel);
-            popUp.setAlwaysOnTop(true);
-            popUp.repaint();
-            popUp.validate();
+            popUpOnTop();
         });
     }
 
@@ -271,10 +261,7 @@ public class Gui extends ClientGameController {
             popUp.remove(lobbyPanel);
             lobbyPanel = constructorPopUp.lobbyPopUp(3);
             popUp.add(lobbyPanel);
-            popUp.setVisible(true);
-            popUp.setAlwaysOnTop(true);
-            popUp.repaint();
-            popUp.validate();
+            popUpOnTop();
         });
     }
 
@@ -299,10 +286,7 @@ public class Gui extends ClientGameController {
                 lobbyPanel = constructorPopUp.lobbyPopUp(8);
             }
             popUp.add(lobbyPanel);
-            popUp.setVisible(true);
-            popUp.setAlwaysOnTop(true);
-            popUp.repaint();
-            popUp.validate();
+            popUpOnTop();
         });
     }
 
@@ -390,10 +374,7 @@ public class Gui extends ClientGameController {
                 lobbyPanel = constructorPopUp.lobbyPopUp(5);
             }
             popUp.add(lobbyPanel);
-            popUp.setVisible(true);
-            popUp.setAlwaysOnTop(true);
-            popUp.repaint();
-            popUp.validate();
+            popUpOnTop();
         });
     }
 
@@ -406,15 +387,19 @@ public class Gui extends ClientGameController {
             popUp.remove(lobbyPanel);
             lobbyPanel = constructorPopUp.lobbyPopUp(4);
             popUp.add(lobbyPanel);
-            popUp.setVisible(true);
-            popUp.setAlwaysOnTop(true);
-            popUp.repaint();
-            popUp.validate();
+            popUpOnTop();
         });
     }
 
     @Override
     public void startTurn(String nick, boolean isYourPlayer) {
         SwingUtilities.invokeLater(() -> board.startTurn(nick, isYourPlayer));
+    }
+
+    private void popUpOnTop(){
+        popUp.setVisible(true);
+        popUp.setAlwaysOnTop(true);
+        popUp.repaint();
+        popUp.validate();
     }
 }
