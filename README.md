@@ -89,4 +89,4 @@ java -jar Server-jar-with-dependencies.jar
 ## Game tips
 That's the login, here you can choose your nickname (between 4 and 13 characters), the number of player, the port and the address to access the server.
 
-<img src="https://github.com/Sciluxor/ing-sw-2020-Scibona-Ruzzi-Piantoni/blob/master/wiki-assets/login.png" width="600" alt="Login" align="center" /></a>
+![alt text](img src="https://github.com/Sciluxor/ing-sw-2020-Scibona-Ruzzi-Piantoni/blob/master/wiki-assets/login.png")
