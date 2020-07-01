@@ -145,7 +145,7 @@ public class LobbyGui{
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            gui.backToLogin(false);
+            gui.backToLogin(false, false);
             gui.onBackCommand();
         }
     }

@@ -35,10 +35,11 @@ public class Login extends JPanel{
      * @param instance Reference to the client GUI class
      * @param frame Size of the frame where the current JPanel Login will be inserted
      * @param connection Boolean saying if it's a first connection
+     * @param error Boolean saying if it's a reconnection after an error connection
      * @throws IOException if the loading of the inscription or the background was not successful
      */
 
-    public Login(Gui instance, Dimension frame, boolean connection) throws IOException {
+    public Login(Gui instance, Dimension frame, boolean connection, boolean error) throws IOException {
 
         this.firstConnection = connection;
         gui = instance;
@@ -75,7 +76,11 @@ public class Login extends JPanel{
         add(confirm);
 
         nickname.setBounds((frameSize.width * 40/100), (frameSize.height * 35/100), frameSize.width * 20/100,frameSize.height * 3/100);
-        nickname.setText("Nickname");
+        if (error){
+            nickname.setText("Failed to connect. Try again");
+        }else {
+            nickname.setText("Nickname");
+        }
         add(nickname);
         nicknameLabel.setBounds((int) (frameSize.width * 24.5/100), (frameSize.height * 34/100), frameSize.width * 15/100,frameSize.height * 5/100);
         add(nicknameLabel);
@@ -115,13 +120,14 @@ public class Login extends JPanel{
             if (!nickname.getText().equals("") && nickname.getText().length() >= ConstantsContainer.MIN_LENGHT_NICK &&  nickname.getText().length() <= ConstantsContainer.MAX_LENGHT_NICK &&
                     !numberPlayers.getText().equals("") && (numberPlayers.getText().equals("2") || numberPlayers.getText().equals("3")) && firstConnection){
                 gui.setNamePlayer(nickname.getText());
+                nickname.setText("Connecting to Server");
                 gui.setNumberOfPlayers((Integer.parseInt(numberPlayers.getText())));
                 try {
                     gui.openConnection(nickname.getText(), (Integer.parseInt(numberPlayers.getText())), address.getText(), (Integer.parseInt(port.getText())));
                     gui.loginToLobby();
                 } catch (ConnectException connectException) {
                     LOGGER.severe(connectException.getMessage());
-                    gui.backToLogin(true);
+                    gui.backToLogin(true, true);
                 }
             }
             else{
@@ -132,6 +138,12 @@ public class Login extends JPanel{
                     gui.newGame(nickname.getText(), (Integer.parseInt(numberPlayers.getText())));
                     gui.loginToLobby();
                 }
+            }
+            if (nickname.getText().length() < ConstantsContainer.MIN_LENGHT_NICK ||  nickname.getText().length() > ConstantsContainer.MAX_LENGHT_NICK){
+                nickname.setText("Choose a nick between 4 and 13 characters");
+            }
+            if (!numberPlayers.getText().equals("2") && !numberPlayers.getText().equals("3")){
+                numberPlayers.setText("Choose between 2 or 3");
             }
         }
     }

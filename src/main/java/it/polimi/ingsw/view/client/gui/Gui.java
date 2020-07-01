@@ -88,7 +88,7 @@ public class Gui extends ClientGameController {
 
 
         try {
-            login = new Login(this, d, true);
+            login = new Login(this, d, true, false);
         } catch (IOException e) {
             LOGGER.severe(e.getMessage());
         }
@@ -196,14 +196,15 @@ public class Gui extends ClientGameController {
     /**
      * Method that brings back to the login
      * @param bool Boolean saying if it's a first connection
+     * @param bool2 Boolean saying if it's a reconnection after an error connection
      */
 
-    public void backToLogin(boolean bool){
+    public void backToLogin(boolean bool, boolean bool2){
         sound.playLoop();
         frame.getContentPane().removeAll();
         panelInUse = 0;
         try {
-            login = new Login(this, d, bool);
+            login = new Login(this, d, bool, bool2);
         } catch (IOException e) {
             LOGGER.severe(e.getMessage());
         }

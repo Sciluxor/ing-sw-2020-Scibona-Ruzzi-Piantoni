@@ -416,7 +416,7 @@ public class PopUp {
     private class NewGame implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            gui.backToLogin(true);
+            gui.backToLogin(true, false);
             gui.popUp.dispose();
             gui.popUp.getContentPane().removeAll();
             gui.newPopUp();
@@ -431,7 +431,7 @@ public class PopUp {
     private class NewGameTurnTimer implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            gui.backToLogin(false);
+            gui.backToLogin(false, false);
             stopAll();
         }
     }
@@ -443,7 +443,7 @@ public class PopUp {
     private class NewGameEndGameDiscon implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            gui.backToLogin(true);
+            gui.backToLogin(true, false);
             stopAll();
         }
     }
@@ -473,7 +473,7 @@ public class PopUp {
             gui.popUp.dispose();
             gui.popUp.getContentPane().removeAll();
             gui.newPopUp();
-            gui.backToLogin(false);
+            gui.backToLogin(false, false);
             gui.frame.setVisible(true);
             gui.lobby.backButton.setEnabled(true);
         }
