@@ -496,7 +496,8 @@ public class Cli extends ClientGameController {
      */
 
     private void checkRestart(boolean loser) {
-        setSaneTerminalModeIfIsRaw();
+        setTerminalMode(SANE_STRING);
+
         printRed("DO YOU WANT TO START NEW GAME? (use arrows to select one of the option)\n  [YES]\n  [NO]\n");
         int keyboard = getArrowUpDown();
         boolean goOut = false;
@@ -715,16 +716,6 @@ public class Cli extends ClientGameController {
 
         Pair<Player, String> playerChatMessage = new Pair<>(player, chatMessage);
         previousChatMessage.add(playerChatMessage);
-    }
-
-    /**
-     * Method used to set sane terminal mode if the terminal mode was raw
-     */
-
-    private void setSaneTerminalModeIfIsRaw() {
-        if(getTerminalMode().equalsIgnoreCase(RAW_STRING)) {
-            setTerminalMode(SANE_STRING);
-        }
     }
 
     //----- MAP & TILES -----
@@ -1143,7 +1134,7 @@ public class Cli extends ClientGameController {
     }
 
     @Override
-    public synchronized void placeWorker(String challengerNick, boolean isYourPlayer) {
+    public void placeWorker(String challengerNick, boolean isYourPlayer) {
 
         if (isYourPlayer) {
 
@@ -1270,42 +1261,42 @@ public class Cli extends ClientGameController {
 
     @Override
     public void onTurnTimerEnded(String stopper) {
-        setSaneTerminalModeIfIsRaw();
+        setTerminalMode(SANE_STRING);
         printRed("\nTIMER IS ENDED...");
         System.exit(-1);
     }
 
     @Override
     public void onStoppedGame(String stopper) {
-        setSaneTerminalModeIfIsRaw();
+        setTerminalMode(SANE_STRING);
         printRed("\nGAME IS STOPPED...\n");
         checkRestart(false);
     }
 
     @Override
     public void onLobbyDisconnection() {
-        setSaneTerminalModeIfIsRaw();
+        setTerminalMode(SANE_STRING);
         printRed("\nYOU ARE DISCONNECTED FROM THE LOBBY...");
         quitFromGame(-1);
     }
 
     @Override
     public void onPingDisconnection() {
-        setSaneTerminalModeIfIsRaw();
+        setTerminalMode(SANE_STRING);
         printRed("\nPING DISCONNECTION...");
         quitFromGame(-1);
     }
 
     @Override
     public void onEndGameDisconnection() {
-        setSaneTerminalModeIfIsRaw();
+        setTerminalMode(SANE_STRING);
         printRed("\nDISCONNECTED FROM THE GAME...");
         quitFromGame(-1);
     }
 
     @Override
     public void newChatMessage(String nick, String message) {
-        setSaneTerminalModeIfIsRaw();
+        setTerminalMode(SANE_STRING);
 
         setNewChatMessage(true);
         Player playerOnChat = getPlayerFromNickName(opponents, nick);
@@ -1319,7 +1310,8 @@ public class Cli extends ClientGameController {
 
     @Override
     public void onErrorMessage(String stopper, boolean isYourPlayer) {
-        setSaneTerminalModeIfIsRaw();
+        setTerminalMode(SANE_STRING);
+
         printRed("\nERROR MESSAGE...");
         if(isYourPlayer)
             quitFromGame(-2);
@@ -1329,7 +1321,7 @@ public class Cli extends ClientGameController {
 
     @Override
     public void notYourTurn() {
-        setSaneTerminalModeIfIsRaw();
+        setTerminalMode(SANE_STRING);
         printRed("\nIT'S NOT YOUR TURN...");
     }
 

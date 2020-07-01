@@ -47,7 +47,7 @@ public class CliUtils {
 
     private static final String CLEAR_CONSOLE = "\033[H\033[2J";
 
-    private static boolean debug = true;
+    private static boolean debug = false;
     private static boolean newChatMessage = false;
     private static Player lastPlayerOnChat;
     private static String lastChatMessage;
