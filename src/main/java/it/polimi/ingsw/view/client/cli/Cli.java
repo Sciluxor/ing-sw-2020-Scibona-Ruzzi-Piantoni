@@ -40,8 +40,8 @@ public class Cli extends ClientGameController {
     private Map<String, Card> deck = CardLoader.loadCards();
     private List<String> deckOrdered = new ArrayList<>();
     private List<String> selectedCards = new ArrayList<>();
-    private static List<Player> opponents = new ArrayList<>();
-    private static List<Player> actualPlayers = new ArrayList<>();
+    private List<Player> opponents = new ArrayList<>();
+    private List<Player> actualPlayers = new ArrayList<>();
     private List<String> availableActions = new ArrayList<>();
     private List<String> constraints = new ArrayList<>();
     private List<Pair<Player, String>> previousChatMessage = new ArrayList<>();
@@ -418,8 +418,8 @@ public class Cli extends ClientGameController {
      * @param actualPlayers List of Player currently in the game
      */
 
-    public static void setActualPlayers(List<Player> actualPlayers) {
-        Cli.actualPlayers = actualPlayers;
+    public void setActualPlayers(List<Player> actualPlayers) {
+        this.actualPlayers = actualPlayers;
     }
 
     //----- USEFUL FUNCTIONS -----
@@ -456,16 +456,16 @@ public class Cli extends ClientGameController {
      */
 
     private void resetAttributes() {
-        this.santoriniMap = new SantoriniMap();
-        this.tileNumber = new int[2];
-        this.deck = CardLoader.loadCards();
-        this.deckOrdered = new ArrayList<>();
-        this.selectedCards = new ArrayList<>();
-        this.opponents = new ArrayList<>();
-        this.actualPlayers = new ArrayList<>();
-        this.availableActions = new ArrayList<>();
-        this.constraints = new ArrayList<>();
-        this.previousChatMessage = new ArrayList<>();
+        santoriniMap = new SantoriniMap();
+        tileNumber = new int[2];
+        deck = CardLoader.loadCards();
+        deckOrdered = new ArrayList<>();
+        selectedCards = new ArrayList<>();
+        opponents = new ArrayList<>();
+        actualPlayers = new ArrayList<>();
+        availableActions = new ArrayList<>();
+        constraints = new ArrayList<>();
+        previousChatMessage = new ArrayList<>();
 
         resetChat();
     }
