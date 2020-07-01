@@ -491,8 +491,10 @@ public class Cli extends ClientGameController {
         setAddress();
     }
 
+
     /**
      * Method used to check if user wants to play another game or not
+     * @param loser boolean that is True if this player has lost
      */
 
     private void checkRestart(boolean loser) {
