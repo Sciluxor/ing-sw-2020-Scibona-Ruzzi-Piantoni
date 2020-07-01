@@ -90,11 +90,13 @@ java -jar Server-jar-with-dependencies.jar
 ### Login
 That's the login, here you can choose your nickname (between 4 and 13 characters), the number of player, the port and the address to access the server.
 
+<sub>**Login**</sub>
 <img src="https://github.com/Sciluxor/ing-sw-2020-Scibona-Ruzzi-Piantoni/blob/master/wiki-assets/login.png" width="800" alt="Login" align="center" /></a>
 
 ### Lobby
 That's the lobby, here you wait the other players.
 
+<sub>**Lobby**</sub>
 <img src="https://github.com/Sciluxor/ing-sw-2020-Scibona-Ruzzi-Piantoni/blob/master/wiki-assets/lobby.png" width="800" alt="Lobby" align="center" /></a>
 
 ### Challenger choices
