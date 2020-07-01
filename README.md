@@ -76,7 +76,7 @@ java -jar Client_GUI-jar-with-dependencies.jar
 ```
 
 ### Server
-By default, the server will be accessible through port 4700 and at address 127.0.0.1 To launch the server enter the following command:
+By default, the server will be accessible through port 4700. To launch the server enter the following command:
 ```
 java -jar Server-jar-with-dependencies.jar
 ```
