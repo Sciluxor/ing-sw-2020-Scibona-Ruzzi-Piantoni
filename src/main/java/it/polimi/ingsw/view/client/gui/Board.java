@@ -2913,7 +2913,7 @@ public class Board {
         @Override
         public void actionPerformed(ActionEvent e) {
             f.dispose();
-            gui.backToLogin(false);
+            gui.backToLogin(false, false);
             gui.frame.setVisible(true);
             loopSound.stop();
         }
@@ -2927,7 +2927,7 @@ public class Board {
         @Override
         public void actionPerformed(ActionEvent e) {
             f.dispose();
-            gui.backToLogin(false);
+            gui.backToLogin(false, false);
             gui.frame.setVisible(true);
             gui.handleLoseExit();
             loopSound.stop();
