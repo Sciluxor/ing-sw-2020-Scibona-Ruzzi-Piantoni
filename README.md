@@ -55,7 +55,7 @@ As for the [coverage](https://github.com/Sciluxor/ing-sw-2020-Scibona-Ruzzi-Pian
 - __controller__ 100% classes, 95% method, 92% line
 
 ## Jars
-The following jars have been used for the delivery of the project, they allow the launch of the game according to the functionalities described in the introduction. Details for how to launch the system will be defined in the section called Executing jars. The folder where the client and server software is located at the following address: [Jars](https://github.com/Sciluxor/ing-sw-2020-Scibona-Ruzzi-Piantoni/tree/master/Deliverables/Jars).
+The following jars have been used for the delivery of the project, they allow the launch of the game according to the functionalities described in the introduction. Details for how to launch the system will be defined in the section called Executing jars. The folder where there are the client and server software is at the following address: [Jars](https://github.com/Sciluxor/ing-sw-2020-Scibona-Ruzzi-Piantoni/tree/master/Deliverables/Jars).
 
 ### JARs generation
 To generate tha Jars we used the Maven plugin with  ```
@@ -93,12 +93,12 @@ That's the login, here you can choose your nickname (between 4 and 13 characters
 <img src="https://github.com/Sciluxor/ing-sw-2020-Scibona-Ruzzi-Piantoni/blob/master/wiki-assets/login.png" width="800" alt="Login" align="center" /></a>
 
 ### Lobby
-That's the lobby, here you wait the other players
+That's the lobby, here you wait the other players.
 
 <img src="https://github.com/Sciluxor/ing-sw-2020-Scibona-Ruzzi-Piantoni/blob/master/wiki-assets/lobby.png" width="800" alt="Lobby" align="center" /></a>
 
 ### Challenger choices
-As Challenger, you will have to choice the gods to play and the first player that start the game
+As Challenger, you will have to choose the gods, and the first player that start the game. During the gods choice you can pass your mouse over a card to read the power, and you can change your previous choices by clicking on the card you want to change. 
 
 <sub>**Gods choice**</sub>
 <img src="https://github.com/Sciluxor/ing-sw-2020-Scibona-Ruzzi-Piantoni/blob/master/wiki-assets/choose_gods.png" width="800" alt="Choose Gods" align="center" /></a>
@@ -119,13 +119,13 @@ On your turn, first of all you have to choose one of your worker. By clicking on
 <img src="https://github.com/Sciluxor/ing-sw-2020-Scibona-Ruzzi-Piantoni/blob/master/wiki-assets/choose_worker.png" width="800" alt="Choose Worker" align="center" /></a>
 
 ### Actions
-After you choose a worker, clicking on the action buttons you will see where you can make those actions by a white border on every square. You can switch between the actions until, you click on the map for the move and on the back button on the console for the build.
+After you choose a worker, clicking on the action buttons you will see where you can make those actions by a white border on every square. You can switch between the actions until, you click on the map for the move, or you click on the back button on the console for the build.
 
 <sub>**Actions**</sub>
 <img src="https://github.com/Sciluxor/ing-sw-2020-Scibona-Ruzzi-Piantoni/blob/master/wiki-assets/actions.png" width="800" alt="Actions" align="center" /></a>
 
 ### Update
-During the opponents turns you will receive updates on their actions. In particular their actions will be marked on the map with a orange border.
+During the opponents turns you will receive updates of their actions. In particular their actions will be marked on the map with a orange border.
 
 <sub>**Update**</sub>
 <img src="https://github.com/Sciluxor/ing-sw-2020-Scibona-Ruzzi-Piantoni/blob/master/wiki-assets/update.png" width="800" alt="Update" align="center" /></a>
