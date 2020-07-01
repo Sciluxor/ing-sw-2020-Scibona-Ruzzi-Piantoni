@@ -396,6 +396,10 @@ public class Gui extends ClientGameController {
         SwingUtilities.invokeLater(() -> board.startTurn(nick, isYourPlayer));
     }
 
+    /**
+     * Method that set the PopUp to stay on top of all the windows
+     */
+
     private void popUpOnTop(){
         popUp.setVisible(true);
         popUp.setAlwaysOnTop(true);
