@@ -87,7 +87,45 @@ java -jar Server-jar-with-dependencies.jar
 ```
 
 ## Game tips
+### Login
 That's the login, here you can choose your nickname (between 4 and 13 characters), the number of player, the port and the address to access the server.
 
-
 <img src="https://github.com/Sciluxor/ing-sw-2020-Scibona-Ruzzi-Piantoni/blob/master/wiki-assets/login.png" width="800" alt="Login" align="center" /></a>
+
+### Lobby
+That's the lobby, here you wait the other players
+
+<img src="https://github.com/Sciluxor/ing-sw-2020-Scibona-Ruzzi-Piantoni/blob/master/wiki-assets/lobby.png" width="800" alt="Lobby" align="center" /></a>
+
+### Challenger choices
+As Challenger, you will have to choice the gods to play and the first player that start the game
+
+<sub>**Gods choice**</sub>
+<img src="https://github.com/Sciluxor/ing-sw-2020-Scibona-Ruzzi-Piantoni/blob/master/wiki-assets/choose_gods.png" width="800" alt="Choose Gods" align="center" /></a>
+
+<sub>**First player choice**</sub>
+<img src="https://github.com/Sciluxor/ing-sw-2020-Scibona-Ruzzi-Piantoni/blob/master/wiki-assets/choose_first.png" width="800" alt="Choose First Player" align="center" /></a>
+
+### Place workers
+After choosing your power you will have to place your workers on the map. You can change the position of the ones placed before by clicking again on it.
+
+<sub>**Place workers**</sub>
+<img src="https://github.com/Sciluxor/ing-sw-2020-Scibona-Ruzzi-Piantoni/blob/master/wiki-assets/place_worker.png" width="800" alt="Place Worker" align="center" /></a>
+
+### Choose worker
+On your turn, first of all you have to choose one of your worker. By clicking on the button, the workers you can choose will be displayed with a blue border. You can change your choice by clicking again on the choose button until you make an action (Move or Build).
+
+<sub>**Choose worker**</sub>
+<img src="https://github.com/Sciluxor/ing-sw-2020-Scibona-Ruzzi-Piantoni/blob/master/wiki-assets/choose_worker.png" width="800" alt="Choose Worker" align="center" /></a>
+
+### Actions
+After you choose a worker, clicking on the action buttons you will see where you can make those actions by a white border on every square. You can switch between the actions until, you click on the map for the move and on the back button on the console for the build.
+
+<sub>**Actions**</sub>
+<img src="https://github.com/Sciluxor/ing-sw-2020-Scibona-Ruzzi-Piantoni/blob/master/wiki-assets/actions.png" width="800" alt="Actions" align="center" /></a>
+
+### Update
+During the opponents turns you will receive updates on their actions. In particular their actions will be marked on the map with a orange border.
+
+<sub>**Update**</sub>
+<img src="https://github.com/Sciluxor/ing-sw-2020-Scibona-Ruzzi-Piantoni/blob/master/wiki-assets/update.png" width="800" alt="Update" align="center" /></a>
