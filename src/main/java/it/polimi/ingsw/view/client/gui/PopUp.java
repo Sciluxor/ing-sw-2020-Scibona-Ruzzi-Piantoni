@@ -452,7 +452,7 @@ public class PopUp {
      * Method that close the board and the popUp
      */
 
-    public void stopAll(){
+    private void stopAll(){
         gui.board.f.dispose();
         gui.frame.setVisible(true);
         gui.popUp.dispose();
