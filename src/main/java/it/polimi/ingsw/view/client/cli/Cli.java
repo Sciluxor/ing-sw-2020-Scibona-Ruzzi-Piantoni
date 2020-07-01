@@ -456,16 +456,16 @@ public class Cli extends ClientGameController {
      */
 
     private void resetAttributes() {
-        santoriniMap = new SantoriniMap();
-        tileNumber = new int[2];
-        deck = CardLoader.loadCards();
-        deckOrdered = new ArrayList<>();
-        selectedCards = new ArrayList<>();
-        opponents = new ArrayList<>();
-        actualPlayers = new ArrayList<>();
-        availableActions = new ArrayList<>();
-        constraints = new ArrayList<>();
-        previousChatMessage = new ArrayList<>();
+        this.santoriniMap = new SantoriniMap();
+        this.tileNumber = new int[2];
+        this.deck = CardLoader.loadCards();
+        this.deckOrdered = new ArrayList<>();
+        this.selectedCards = new ArrayList<>();
+        this.opponents = new ArrayList<>();
+        this.actualPlayers = new ArrayList<>();
+        this.availableActions = new ArrayList<>();
+        this.constraints = new ArrayList<>();
+        this.previousChatMessage = new ArrayList<>();
 
         resetChat();
     }
