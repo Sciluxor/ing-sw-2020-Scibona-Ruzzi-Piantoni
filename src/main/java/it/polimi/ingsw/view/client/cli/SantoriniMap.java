@@ -193,7 +193,6 @@ public class SantoriniMap {
      */
 
     public boolean checkOccupiedTile(int tileNumber) {
-        //return availableTiles.contains(tileNumber);
         return this.tile[tileNumber].isHasPlayer();
     }
 
