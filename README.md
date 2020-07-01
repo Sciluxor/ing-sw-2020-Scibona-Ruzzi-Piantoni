@@ -49,8 +49,15 @@ As for the [coverage](https://github.com/Sciluxor/ing-sw-2020-Scibona-Ruzzi-Pian
 - __model__ 100% classes, 96% method, 96% line
 - __controller__ 100% classes, 95% method, 92% line
 
-### Jars
-The following jars have been used for the delivery of the project, they allow the launch of the game according to the functionalities described in the introduction. Details for how to launch the system will be defined in the section called Executing jars. The folder where the client and server software is located is located at the following address: [Jars](https://github.com/Sciluxor/ing-sw-2020-Scibona-Ruzzi-Piantoni/tree/master/Deliverables/Jars).
+## Jars
+The following jars have been used for the delivery of the project, they allow the launch of the game according to the functionalities described in the introduction. Details for how to launch the system will be defined in the section called Executing jars. The folder where the client and server software is located at the following address: [Jars](https://github.com/Sciluxor/ing-sw-2020-Scibona-Ruzzi-Piantoni/tree/master/Deliverables/Jars).
+
+### JARs generation
+To generate tha Jars we used the Maven plugin with  ```
+                                                    maven install
+                                                    ```. 
+They are created in the target folder with the names Client_CLI-jar-with-dependencies.jar, Client_GUI-jar-with-dependencies.jar and Server-jar-with-dependencies.jar and must be moved to the Jars folder.
+
 
 ## Execution of the JARs
 ### Client
