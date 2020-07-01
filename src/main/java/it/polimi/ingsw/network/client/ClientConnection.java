@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ConnectException;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.Timer;
 
@@ -96,7 +97,8 @@ public class ClientConnection implements ConnectionInterface,Runnable {
 
     public void connectToServer(int numberOfPlayer) throws ConnectException {
         try{
-            clientSocket = new Socket(address, port);
+            clientSocket = new Socket();
+            clientSocket.connect(new InetSocketAddress(address, port), 5000);
             clientSocket.setTcpNoDelay(true);
             out = new ObjectOutputStream(clientSocket.getOutputStream());
             in = new ObjectInputStream(clientSocket.getInputStream());
