@@ -123,7 +123,7 @@ public class PopUp {
 
             case 3:
                 setDisconnection();
-                button1.addActionListener(new NewGameEndGame());
+                button1.addActionListener(new NewGameEndGameDiscon());
 
                 setBack();
                 break;
@@ -356,7 +356,7 @@ public class PopUp {
 
         setButtonsForDisconnection();
 
-        button1.addActionListener(new NewGameEndGame());
+        button1.addActionListener(new NewGameTurnTimer());
         button2.addActionListener(new Close());
     }
 
@@ -425,19 +425,38 @@ public class PopUp {
     }
 
     /**
-     * Class that extends ActionListener to return to login for a new game after the end of a game
+     * Class that extends ActionListener to return to login for a new game after the end of timer turn
      */
 
-    private class NewGameEndGame implements ActionListener {
+    private class NewGameTurnTimer implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            gui.board.f.dispose();
             gui.backToLogin(false);
-            gui.frame.setVisible(true);
-            gui.popUp.dispose();
-            gui.board.stopMusic();
-
+            stopAll();
         }
+    }
+
+    /**
+     * Class that extends ActionListener to return to login for a new game after the end of the game
+     */
+
+    private class NewGameEndGameDiscon implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            gui.backToLogin(true);
+            stopAll();
+        }
+    }
+
+    /**
+     * Method that close the board and the popUp
+     */
+
+    public void stopAll(){
+        gui.board.f.dispose();
+        gui.frame.setVisible(true);
+        gui.popUp.dispose();
+        gui.board.stopMusic();
     }
 
     /**
