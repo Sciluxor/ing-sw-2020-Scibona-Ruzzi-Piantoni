@@ -43,7 +43,7 @@ The following documentation includes the documents created for the design of the
 
 ### UML
 The following class diagrams represent the first, the initial model according to which the game should have been implemented, the second instead contains the diagrams of the final product.
-- [Initial UML](https://github.com/Sciluxor/ing-sw-2020-Scibona-Ruzzi-Piantoni/blob/master/Deliverables/UML/Initial%20UML.jpg)
+- [Initial UML](https://github.com/Sciluxor/ing-sw-2020-Scibona-Ruzzi-Piantoni/blob/master/Deliverables/UML/Initial_UML.jpg)
 - [Final UML](https://github.com/Sciluxor/ing-sw-2020-Scibona-Ruzzi-Piantoni/tree/master/Deliverables/UML/Final%20UML)
 
 ### JavaDoc
