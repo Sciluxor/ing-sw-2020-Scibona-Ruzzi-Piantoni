@@ -120,7 +120,6 @@ public class Login extends JPanel{
             if (!nickname.getText().equals("") && nickname.getText().length() >= ConstantsContainer.MIN_LENGHT_NICK &&  nickname.getText().length() <= ConstantsContainer.MAX_LENGHT_NICK &&
                     !numberPlayers.getText().equals("") && (numberPlayers.getText().equals("2") || numberPlayers.getText().equals("3")) && firstConnection){
                 gui.setNamePlayer(nickname.getText());
-                nickname.setText("Connecting to Server");
                 gui.setNumberOfPlayers((Integer.parseInt(numberPlayers.getText())));
                 try {
                     gui.openConnection(nickname.getText(), (Integer.parseInt(numberPlayers.getText())), address.getText(), (Integer.parseInt(port.getText())));
