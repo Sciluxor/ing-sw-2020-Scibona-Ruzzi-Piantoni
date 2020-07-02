@@ -576,6 +576,7 @@ public abstract class ClientGameController implements Runnable, FunctionListener
                     eventQueue.add(this::onLobbyDisconnection);
                 break;
             case PINGFAIL:
+            case SERVERSTOPPED:
                 eventQueue.add(this::onPingDisconnection);
                 break;
             default:

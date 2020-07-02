@@ -195,6 +195,7 @@ public class ClientConnection implements ConnectionInterface,Runnable {
             } catch (IOException e) {
                 stopPingTimer();
                 closeConnection();
+                clientController.handleDisconnection(new Message(ConstantsContainer.USERDIDDEF,ConstantsContainer.NICKDEF, MessageType.DISCONNECTION, MessageSubType.PINGFAIL));
                 ClientGameController.LOGGER.info("App Disconnected");
             } catch (ClassNotFoundException e) {
                 ClientGameController.LOGGER.severe(e.getMessage());
