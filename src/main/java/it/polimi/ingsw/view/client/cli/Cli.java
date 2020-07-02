@@ -260,15 +260,10 @@ public class Cli extends ClientGameController {
         int tile = selectAvailableTileWithArrows();
         santoriniMap.resetAvailableTiles();
 
-        if(santoriniMap.checkOccupiedTile(tile)) {
-            santoriniMap.setTileHasPlayer(true, tileNumber[selectedWorker - 1], santoriniMap.getPlayerColorFromTile(tile));
-        } else {
-            santoriniMap.setTileHasPlayer(false, tileNumber[selectedWorker - 1], null);
-        }
-        santoriniMap.setTileHasPlayer(true, tile, myPlayerColor);
-
         fromServerResponse = moveWorker(tile+1);
-        tileNumber[selectedWorker-1] = tile;
+
+        updateModification(getModifiedsquare());
+        clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
 
         printDebug("MOVEWORKER: " + (tile+1));
 
@@ -309,7 +304,7 @@ public class Cli extends ClientGameController {
         fromServerResponse = buildWorker((tile+1), santoriniMap.getTileBuilding(tile));
         printDebug("BUILDWORKER: " + (tile+1) +  " " + availableBuildings.get(selectedBuildingType));
 
-        santoriniMap.printMap();
+        clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
         new Thread(() -> mapNextAction(fromServerResponse)).start();
     }
 

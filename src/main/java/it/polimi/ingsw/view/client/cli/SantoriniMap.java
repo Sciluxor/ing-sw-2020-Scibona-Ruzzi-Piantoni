@@ -197,16 +197,6 @@ public class SantoriniMap {
     }
 
     /**
-     * Method used to get color of the player in the tile
-     * @param tileNumber Tile to control
-     * @return color Color of the player occupying the cell
-     */
-
-    public Color getPlayerColorFromTile(int tileNumber) {
-        return this.tile[tileNumber].getPlayerColor();
-    }
-
-    /**
      * Method that update the strings corresponding to a tile with the corresponding building type
      * @param buildingType Type of the building of the tile
      * @param tileNumber Tile number to update type of building
