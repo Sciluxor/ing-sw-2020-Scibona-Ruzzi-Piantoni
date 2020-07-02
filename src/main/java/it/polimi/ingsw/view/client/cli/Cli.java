@@ -1009,11 +1009,7 @@ public class Cli extends ClientGameController {
 
         if (counter == 1)
             firstPosition = true;
-        /*else if (getNumberOfPlayers() == 3 && counter == 13) {
-            lastPosition = true;
-        } else if (getNumberOfPlayers() != 3 && counter == 14) {
-            lastPosition = true;
-        }*/
+
         if(counter == deckOrdered.size())
             lastPosition = true;
 
