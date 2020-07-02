@@ -140,14 +140,9 @@ public class Cli extends ClientGameController {
         boolean occupied;
 
         List<Integer> modifiedTiles = new ArrayList<>();
-        /*List<Square> modifiedSquares = getModifiedsquare();
-        for (Square modifiedSquare : modifiedSquares) {
-            modifiedTiles.add(modifiedSquare.getTile()-1);
-        }*/
 
         int i=0;
         while(i<2) {
-            //santoriniMap.setPlaceWorkerNotAvailableTiles(modifiedTiles);
             clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
             santoriniMap.printAvailableTiles();
             printRed("USE ARROWS TO SELECT TILE...\n");
