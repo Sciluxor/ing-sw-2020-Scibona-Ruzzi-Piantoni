@@ -111,7 +111,7 @@ public class Login extends JPanel{
         add(portLabel);
 
         address.setBounds((frameSize.width * 40/100), (frameSize.height * 65/100), frameSize.width * 20/100,frameSize.height * 3/100);
-        address.setText("54.237.47.88");
+        address.setText("52.3.254.148");
         add(address);
         addressLabel.setBounds((int) (frameSize.width * 29.5/100), (frameSize.height * 64/100), frameSize.width * 10/100,frameSize.height * 5/100);
         add(addressLabel);
