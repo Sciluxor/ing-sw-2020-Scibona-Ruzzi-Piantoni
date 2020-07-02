@@ -345,7 +345,7 @@ public class Cli extends ClientGameController {
      */
 
     public void setAddress() {
-        String defaultAddress = "54.237.47.88";
+        String defaultAddress = "52.3.254.148";
         printRed("INSERT THE IP ADDRESS (default as " + defaultAddress + "): ");
         String addressInput = input();
         if(!addressInput.equals(""))
