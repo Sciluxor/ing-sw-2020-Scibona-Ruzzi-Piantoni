@@ -28,6 +28,7 @@ public class Login extends JPanel{
     JTextField port;
     JTextField address;
     MyButton confirm;
+    JButton loading = new JButton();
     boolean firstConnection;
 
     /**
@@ -51,6 +52,16 @@ public class Login extends JPanel{
         numberPlayers = new JTextField(20);
         port = new JTextField(20);
         address = new JTextField(20);
+
+        JLabel label = ImageHandler.setImage(RESOURCES_GRAPHICS + "loading.png", 100, 100, frameSize.width, frameSize.height);
+        loading.setBounds(0,0, frameSize.width, frameSize.height);
+        loading.setFocusPainted(false);
+        loading.setBorderPainted(false);
+        loading.setOpaque(false);
+        loading.setContentAreaFilled(false);
+        loading.setIcon(label.getIcon());
+        loading.setVisible(false);
+        add(loading);
 
         JLabel cover = ImageHandler.setImage(RESOURCES_GRAPHICS + "background_login.png", 100, 100, frameSize.width, frameSize.height);
         JLabel background = new JLabel(cover.getIcon());
@@ -121,13 +132,10 @@ public class Login extends JPanel{
                     !numberPlayers.getText().equals("") && (numberPlayers.getText().equals("2") || numberPlayers.getText().equals("3")) && firstConnection){
                 gui.setNamePlayer(nickname.getText());
                 gui.setNumberOfPlayers((Integer.parseInt(numberPlayers.getText())));
-                try {
-                    gui.openConnection(nickname.getText(), (Integer.parseInt(numberPlayers.getText())), address.getText(), (Integer.parseInt(port.getText())));
-                    gui.loginToLobby();
-                } catch (ConnectException connectException) {
-                    LOGGER.severe(connectException.getMessage());
-                    gui.backToLogin(true, true);
-                }
+
+                loading.setVisible(true);
+
+                SwingUtilities.invokeLater(this::connect);
             }
             else{
                 if (!nickname.getText().equals("") && nickname.getText().length() >= ConstantsContainer.MIN_LENGHT_NICK &&  nickname.getText().length() <= ConstantsContainer.MAX_LENGHT_NICK &&
@@ -143,6 +151,15 @@ public class Login extends JPanel{
             }
             if (!numberPlayers.getText().equals("2") && !numberPlayers.getText().equals("3")){
                 numberPlayers.setText("Choose between 2 or 3");
+            }
+        }
+        private void connect(){
+            try {
+                gui.openConnection(nickname.getText(), (Integer.parseInt(numberPlayers.getText())), address.getText(), (Integer.parseInt(port.getText())));
+                gui.loginToLobby();
+            } catch (ConnectException connectException) {
+                LOGGER.severe(connectException.getMessage());
+                gui.backToLogin(true, true);
             }
         }
     }

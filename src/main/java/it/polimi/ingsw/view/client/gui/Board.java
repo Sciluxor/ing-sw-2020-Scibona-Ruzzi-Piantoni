@@ -2246,6 +2246,7 @@ public class Board {
         } catch (IOException e) {
             LOGGER.severe(e.getMessage());
         }
+
         displayModifications(gui.getModifiedsquare(), false);
 
         if (isYourPlayer) {
