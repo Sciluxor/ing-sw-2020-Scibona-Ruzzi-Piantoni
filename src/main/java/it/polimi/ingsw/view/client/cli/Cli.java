@@ -140,14 +140,14 @@ public class Cli extends ClientGameController {
         boolean occupied;
 
         List<Integer> modifiedTiles = new ArrayList<>();
-        List<Square> modifiedSquares = getModifiedsquare();
+        /*List<Square> modifiedSquares = getModifiedsquare();
         for (Square modifiedSquare : modifiedSquares) {
             modifiedTiles.add(modifiedSquare.getTile()-1);
-        }
+        }*/
 
         int i=0;
         while(i<2) {
-            santoriniMap.setPlaceWorkerNotAvailableTiles(modifiedTiles);
+            //santoriniMap.setPlaceWorkerNotAvailableTiles(modifiedTiles);
             clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
             santoriniMap.printAvailableTiles();
             printRed("USE ARROWS TO SELECT TILE...\n");
@@ -1156,14 +1156,17 @@ public class Cli extends ClientGameController {
     @Override
     public void updatePlacedWorkers(List<Square> squares) {
         printDebug("HERE UPDATE");
+        List<Integer> modifiedTiles = new ArrayList<>();
         for (Square square : squares) {
             Color playerColor = null;
             if (square.hasPlayer())
                 playerColor = getColorCliFromPlayer(square.getPlayer().getColor());
 
             santoriniMap.setTileHasPlayer(square.hasPlayer(), square.getTile() - 1, playerColor);
+            modifiedTiles.add(square.getTile()-1);
         }
 
+        santoriniMap.setPlaceWorkerNotAvailableTiles(modifiedTiles);
         printOnUpdate();
 
     }
@@ -1205,16 +1208,20 @@ public class Cli extends ClientGameController {
     @Override
     public void notifyLose(String nick, boolean isYourPlayer) {
         clearShell();
+        Player player = getPlayerFromNickName(actualPlayers, nick);
         if(isYourPlayer) {
             printRed(LOSER);
             loser = true;
             checkRestart();
         } else {
             printRed("PLAYER [");
-            printPlayer(getPlayerFromNickName(actualPlayers, nick));
+            printPlayer(player);
             printRed("] HAS BEEN ELIMINATED\n");
         }
+
+        opponents.remove(player);
         updateModification(getModifiedsquare());
+
     }
 
     @Override
