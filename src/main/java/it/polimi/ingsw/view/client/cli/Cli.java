@@ -997,17 +997,25 @@ public class Cli extends ClientGameController {
         return selectedCard;
     }
 
+    /**
+     * Method used to get an array of booleans that represents if the card selected is at the beginning or at the end of the deckOrdered array
+     * @param counter Int value represents the card selected in the deckOrdered
+     * @return boolean array
+     */
+
     private boolean[] getFirstOrLastPosition(int counter) {
         boolean firstPosition = false;
         boolean lastPosition = false;
 
         if (counter == 1)
             firstPosition = true;
-        else if (getNumberOfPlayers() == 3 && counter == 13) {
+        /*else if (getNumberOfPlayers() == 3 && counter == 13) {
             lastPosition = true;
         } else if (getNumberOfPlayers() != 3 && counter == 14) {
             lastPosition = true;
-        }
+        }*/
+        if(counter == deckOrdered.size())
+            lastPosition = true;
 
         boolean[] position = new boolean[2];
         position[0] = firstPosition;
