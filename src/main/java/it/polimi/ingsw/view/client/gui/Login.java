@@ -78,10 +78,8 @@ public class Login extends JPanel{
         JLabel portLabel = ImageHandler.setImage(TEXT + "port.png", 97, 100, frameSize.width * 5/100,frameSize.height * 5/100);
         JLabel addressLabel = ImageHandler.setImage(TEXT + "address.png", 97, 100, frameSize.width * 10/100,frameSize.height * 5/100);
 
-
         santoriniLabel.setBounds(frameSize.width * 35/100 , frameSize.height * 7/100, frameSize.width * 30/100,frameSize.height*20/100);
         add(santoriniLabel);
-
 
         confirm = new MyButton(0);
         add(confirm);
@@ -111,12 +109,11 @@ public class Login extends JPanel{
         add(portLabel);
 
         address.setBounds((frameSize.width * 40/100), (frameSize.height * 65/100), frameSize.width * 20/100,frameSize.height * 3/100);
-        address.setText("54.237.47.88");
+        address.setText("52.3.254.148");
         add(address);
         addressLabel.setBounds((int) (frameSize.width * 29.5/100), (frameSize.height * 64/100), frameSize.width * 10/100,frameSize.height * 5/100);
         add(addressLabel);
         }
-
         add(back);
         confirm.addActionListener(new Send());
     }
@@ -134,7 +131,6 @@ public class Login extends JPanel{
                 gui.setNumberOfPlayers((Integer.parseInt(numberPlayers.getText())));
 
                 loading.setVisible(true);
-
                 SwingUtilities.invokeLater(this::connect);
             }
             else{

@@ -103,7 +103,7 @@ public class Minotaur extends Card {
         int pushingTile = possibleSquare.getCanAccess().get(directions);
         if (pushingTile != 0){
             Square pushingSquare = gameMap.getMap().get(pushingTile - 1);
-            return !pushingSquare.hasPlayer() && pushingSquare.getBuildingLevel() != 4;
+            return !pushingSquare.hasPlayer() && pushingSquare.getBuildingLevel() != 4 && !pushingSquare.getBuilding().equals(Building.DOME);
         }
         return  false;
     }
