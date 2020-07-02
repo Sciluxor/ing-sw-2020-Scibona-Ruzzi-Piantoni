@@ -173,11 +173,13 @@ public class Cli extends ClientGameController {
                 i--;
             } else {
                 modifiedTiles.add(tileNumber[i]);
+                santoriniMap.setPlaceWorkerNotAvailableTiles(modifiedTiles);
             }
             i++;
+
         }
 
-        santoriniMap.setPlaceWorkerNotAvailableTiles(modifiedTiles);
+
 
         printDebug("LOCAL TILE NUMBER: " + Arrays.toString(tileNumber) + "\nSENDED TILE NUMBER: " + (tileNumber[0]+1) +  " "  + (tileNumber[1]+1));
 
@@ -474,8 +476,9 @@ public class Cli extends ClientGameController {
         clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
         if(!loser) {
             printWaitForOtherPlayers(numberOfPlayers);
+            printChat(previousChatMessage);
         }
-        printChat(previousChatMessage);
+
     }
 
     /**
@@ -1353,7 +1356,8 @@ public class Cli extends ClientGameController {
                 printWaitingStartTurn(numberOfPlayers);
             }
             printWhoIsStartHisTurn(getPlayerFromNickName(opponents, nick));
-            printChat(previousChatMessage);
+            if(!loser)
+                printChat(previousChatMessage);
 
         }
     }
