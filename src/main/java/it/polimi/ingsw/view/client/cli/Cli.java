@@ -36,6 +36,7 @@ public class Cli extends ClientGameController {
     private int selectedWorker;
     private Player myPlayerOnServer;
     private String myPower;
+    private boolean loser = false;
 
     private Map<String, Card> deck = CardLoader.loadCards();
     private List<String> deckOrdered = new ArrayList<>();
@@ -471,7 +472,9 @@ public class Cli extends ClientGameController {
 
     private void printOnUpdate() {
         clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
-        printWaitForOtherPlayers(numberOfPlayers);
+        if(!loser) {
+            printWaitForOtherPlayers(numberOfPlayers);
+        }
         printChat(previousChatMessage);
     }
 
@@ -489,10 +492,9 @@ public class Cli extends ClientGameController {
 
     /**
      * Method used to check if user wants to play another game or not
-     * @param loser boolean that is True if this player has lost
      */
 
-    private void checkRestart(boolean loser) {
+    private void checkRestart() {
         setTerminalMode(SANE_STRING);
 
         printRed("DO YOU WANT TO START NEW GAME? (use arrows to select one of the option)\n  [YES]\n  [NO]\n");
@@ -1176,10 +1178,8 @@ public class Cli extends ClientGameController {
     @Override
     public void notifyWin(String nick) {
         clearShell();
-        if(nick.equalsIgnoreCase(getNickName())) {
+        if(nick.equalsIgnoreCase(getNickName()))
             printRed(WINNER);
-            checkRestart(false);
-        }
         else {
             Player winner = null;
             printRed(LOSER);
@@ -1196,8 +1196,10 @@ public class Cli extends ClientGameController {
             if(winner != null)
                 printPlayer(winner);
             printRed("]\n");
-            checkRestart(true);
+
         }
+
+        checkRestart();
     }
 
     @Override
@@ -1205,12 +1207,14 @@ public class Cli extends ClientGameController {
         clearShell();
         if(isYourPlayer) {
             printRed(LOSER);
-            checkRestart(true);
+            loser = true;
+            checkRestart();
         } else {
             printRed("PLAYER [");
             printPlayer(getPlayerFromNickName(actualPlayers, nick));
             printRed("] HAS BEEN ELIMINATED\n");
         }
+        updateModification(getModifiedsquare());
     }
 
     @Override
@@ -1267,7 +1271,7 @@ public class Cli extends ClientGameController {
     public void onStoppedGame(String stopper) {
         setTerminalMode(SANE_STRING);
         printRed("\nGAME IS STOPPED...\n");
-        checkRestart(false);
+        checkRestart();
     }
 
     @Override
@@ -1313,7 +1317,7 @@ public class Cli extends ClientGameController {
         if(isYourPlayer)
             quitFromGame(-2);
         else
-            checkRestart(false);
+            checkRestart();
     }
 
     @Override
@@ -1337,10 +1341,11 @@ public class Cli extends ClientGameController {
         } else {
 
             clearAndPrintInfo(opponents, myPlayerOnServer, deck, constraints, santoriniMap);
-            printRed("IT'S NOT YOUR TURN! ");
-            printPlayer(getPlayerFromNickName(opponents, nick));
-            printRed(" IS STARTING HIS TURN!\n");
-            printWaitingStartTurn(numberOfPlayers);
+            if(!loser) {
+                printRed("IT'S NOT YOUR TURN! ");
+                printWaitingStartTurn(numberOfPlayers);
+            }
+            printWhoIsStartHisTurn(getPlayerFromNickName(opponents, nick));
             printChat(previousChatMessage);
 
         }

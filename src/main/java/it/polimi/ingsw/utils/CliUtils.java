@@ -185,6 +185,16 @@ public class CliUtils {
             printRed("WAITING FOR OTHER PLAYERS START THEM TURN\n");
     }
 
+    /**
+     * Method used to print the nick of the player that is starting the turn
+     * @param player Player's object that is starting the turn
+     */
+
+    public static void printWhoIsStartHisTurn(Player player) {
+        printPlayer(player);
+        printRed(" IS STARTING HIS TURN!\n");
+    }
+
     //------------ GENERIC -------------------------
 
     /**
@@ -462,15 +472,6 @@ public class CliUtils {
                 Thread.currentThread().interrupt();
             }
         }
-    }
-
-    /**
-     * Method used to get current terminal mode
-     * @return terminalMode Current value of terminal mode
-     */
-
-    public static String getTerminalMode() {
-        return terminalMode;
     }
 
     /**
