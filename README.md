@@ -121,7 +121,7 @@ On your turn, first of all you have to choose one of your worker. By clicking on
 <img src="https://github.com/Sciluxor/ing-sw-2020-Scibona-Ruzzi-Piantoni/blob/master/wiki-assets/choose_worker.png" width="800" alt="Choose Worker" align="center" /></a>
 
 ### Actions
-After you choose a worker, clicking on the action buttons you will see where you can make those actions by a white border on every square. You can switch between the actions until, you click on the map for the move, or you click on the back button on the console for the build.
+After you choose a worker, clicking on the action buttons you will see where you can make those actions by a white border on every square. You can switch between the actions until, you click on the map for the move, or you click on the building button on the console for the build.
 
 <sub>**Actions**</sub>
 <img src="https://github.com/Sciluxor/ing-sw-2020-Scibona-Ruzzi-Piantoni/blob/master/wiki-assets/actions.png" width="800" alt="Actions" align="center" /></a>
